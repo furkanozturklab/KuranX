@@ -1,0 +1,30 @@
+﻿<Application x:Class="KuranX.App.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:KuranX.App"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             StartupUri="Core/Windows/AdminScreen.xaml">
+
+    <Application.Resources>
+
+        <ResourceDictionary>
+
+            <FontFamily x:Key="PoppinsSemiBold">pack://application:,,,/Resource/Fonts/Poppins-SemiBold.ttf#Poppins</FontFamily>
+            <FontFamily x:Key="PoppinsMedium">pack://application:,,,/Resource/Fonts/Poppins-Medium.ttf#Poppins</FontFamily>
+            <FontFamily x:Key="PoppinsRegular">pack://application:,,,/Resource/Fonts/Poppins-Regular.ttf#Poppins</FontFamily>
+            <FontFamily x:Key="ArabicaNormal">pack://application:,,,/Resource/Fonts/arabica.ttf#Arabica</FontFamily>
+            <FontFamily x:Key="XBZarRegular">pack://application:,,,/Resource/Fonts/XBZar.ttf#XBZar</FontFamily>
+            <FontFamily x:Key="XBZarBold">pack://application:,,,/Resource/Fonts/XBZarBd.ttf#XBZar</FontFamily>
+            <FontFamily x:Key="HusrevRegular">pack://application:,,,/Resource/Fonts/Husrev.ttf#Husrev</FontFamily>
+
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Core/ResourceXaml/defaultDesign.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="pack://application:,,,/Core/ResourceXaml/splashDesign.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="pack://application:,,,/Core/ResourceXaml/loginDesign.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="pack://application:,,,/Core/ResourceXaml/homeDesign.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="pack://application:,,,/Core/ResourceXaml/ayetlerPageDesing.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="pack://application:,,,/Core/ResourceXaml/versePanelDesing.xaml"></ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

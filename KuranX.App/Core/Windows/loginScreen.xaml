@@ -1,0 +1,27 @@
+﻿<Window x:Class="KuranX.App.Core.Windows.loginScreen"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:KuranX.App.Core.Windows"
+         mc:Ignorable="d"
+        Title="LoginScreen" Height="500" Width="800" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None" Loaded="LoginScreenWindow_Loaded">
+
+    <Grid x:Name="mainGrid" Width="800" Height="500" Margin="0,0,0,0">
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="400" />
+            <ColumnDefinition Width="400" />
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="0" x:Name="leftGrid" Width="400" Height="500">
+            <Grid.Background>
+                <ImageBrush ImageSource="/Resource/Images/Background/loginLeftPlan.png" />
+            </Grid.Background>
+        </Grid>
+
+        <Grid Grid.Column="1" x:Name="rightGrid" Width="400" Height="500"  Background="#FFFAFAFA">
+            <Frame NavigationUIVisibility="Hidden" x:Name="loginFrame" Content="Frame" />
+        </Grid>
+    </Grid>
+</Window>

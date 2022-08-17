@@ -1,0 +1,192 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+    <Platforms>AnyCPU;x86</Platforms>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+
+
+  <ItemGroup>
+    <None Remove="Resource\Fonts\arabica.ttf" />
+    <None Remove="Resource\Fonts\XBZar.ttf" />
+    <None Remove="Resource\Fonts\XBZarBd.ttf" />
+    <None Remove="Resource\Fonts\XBZarBdIt.ttf" />
+    <None Remove="Resource\Fonts\XBZarIt.ttf" />
+    <None Remove="Resource\Images\Background\loginLeftPlan.png" />
+    <None Remove="Resource\Images\Background\splashScreenBack.png" />
+    <None Remove="Resource\Images\Gif\Infinity800.gif" />
+    <None Remove="Resource\Images\Gif\Spinner800.gif" />
+    <None Remove="Resource\Images\Icon\ayetSubject_r.png" />
+    <None Remove="Resource\Images\Icon\ayetSubject_rb.png" />
+    <None Remove="Resource\Images\Icon\conclusion_r.png" />
+    <None Remove="Resource\Images\Icon\conclusion_rb.png" />
+    <None Remove="Resource\Images\Icon\email_r.png" />
+    <None Remove="Resource\Images\Icon\email_rb.png" />
+    <None Remove="Resource\Images\Icon\favorite_r.png" />
+    <None Remove="Resource\Images\Icon\favorite_rb.png" />
+    <None Remove="Resource\Images\Icon\koran_r.png" />
+    <None Remove="Resource\Images\Icon\koran_rb.png" />
+    <None Remove="Resource\Images\Icon\library_r.png" />
+    <None Remove="Resource\Images\Icon\library_rb.png" />
+    <None Remove="Resource\Images\Icon\notes_r.png" />
+    <None Remove="Resource\Images\Icon\notes_rb.png" />
+    <None Remove="Resource\Images\Icon\padlock_r.png" />
+    <None Remove="Resource\Images\Icon\padlock_rb.png" />
+    <None Remove="Resource\Images\Icon\reminders_r.png" />
+    <None Remove="Resource\Images\Icon\reminders_rb.png" />
+    <None Remove="Resource\Images\Icon\tick_b.png" />
+    <None Remove="Resource\Images\Other\defaultProfileImage.png" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Resource Include="Resource\Fonts\XBZar.ttf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Fonts\XBZarBd.ttf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Fonts\XBZarBdIt.ttf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Fonts\XBZarIt.ttf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Resource Include="Resource\Fonts\arabica.ttf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Images\Gif\Infinity800.gif">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MahApps.Metro.IconPacks" Version="4.11.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.7">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="MySql.Data" Version="8.0.30" />
+    <PackageReference Include="WpfAnimatedGif" Version="2.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resource\Images\Background\loginLeftPlan.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Images\Background\splashScreenBack.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Images\Gif\Spinner800.gif">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Images\Icon\ayetSubject_r.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Images\Icon\ayetSubject_rb.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Images\Icon\conclusion_r.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Images\Icon\conclusion_rb.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Images\Icon\email_r.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Images\Icon\email_rb.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Images\Icon\favorite_r.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Images\Icon\favorite_rb.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Images\Icon\koran_r.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Images\Icon\koran_rb.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Images\Icon\library_r.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Images\Icon\library_rb.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Images\Icon\notes_r.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Images\Icon\notes_rb.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Images\Icon\padlock_r.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Images\Icon\padlock_rb.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Images\Icon\reminders_r.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Images\Icon\reminders_rb.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Images\Icon\tick_b.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Images\Other\defaultProfileImage.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+ 
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resource\Fonts\Poppins-Black.ttf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Fonts\Poppins-Bold.ttf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Fonts\Poppins-ExtraBold.ttf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Fonts\Poppins-ExtraLight.ttf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Fonts\Poppins-Light.ttf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Fonts\Poppins-Medium.ttf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Fonts\Poppins-Regular.ttf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Fonts\Poppins-SemiBold.ttf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Fonts\Poppins-Thin.ttf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Core\Control\" />
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+
+
+  
+</Project>

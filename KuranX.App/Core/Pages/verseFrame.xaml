@@ -1,0 +1,176 @@
+﻿<Page x:Class="KuranX.App.Core.Pages.verseFrame"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
+      xmlns:local="clr-namespace:KuranX.App.Core.Pages"
+      xmlns:gif="http://wpfanimatedgif.codeplex.com"
+
+      mc:Ignorable="d"
+      d:DesignHeight="708" d:DesignWidth="1115" d:MaxHeight="708" d:MaxWidth="1270" d:MinWidth="1115"
+      Title="VerseFrame" Background="#FAFAFA">
+
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="110" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="408" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="90" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Vertical" VerticalAlignment="Center">
+            <Border Style="{DynamicResource versesTab}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="600" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="15,0,0,0" Grid.Column="0">
+                        <TextBlock Text="Fatiha" FontFamily="{DynamicResource PoppinsMedium}" Foreground="#1C1E2F" FontSize="26" />
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Mekke" Style="{DynamicResource versesTabAlt}" />
+                            <TextBlock Text="7" Style="{DynamicResource versesTabAlt}" />
+                            <TextBlock Text="Ayet" Style="{DynamicResource versesTabAlt}" />
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Column="0" Orientation="Vertical" Margin="0,0,20,0">
+                                <Border Padding="15,0,15,0" BorderBrush="#E1E3E6" BorderThickness="0,0,0,1">
+                                    <TextBlock Text="İNİŞ SIRASI" FontFamily="{DynamicResource PoppinsMedium}" Foreground="#1C1E2F" />
+                                </Border>
+
+                                <TextBlock  Text="1" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsMedium}" />
+                            </StackPanel>
+
+                            <StackPanel  Grid.Column="1" Orientation="Vertical">
+                                <Border Padding="15,0,15,0" BorderBrush="#E1E3E6" BorderThickness="0,0,0,1">
+                                    <TextBlock Text="MUSHAF SIRASI" FontFamily="{DynamicResource PoppinsMedium}" Foreground="#1C1E2F" />
+                                </Border>
+                                <TextBlock Text="1" HorizontalAlignment="Center" VerticalAlignment="Center"  Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsMedium}" />
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,25,0">
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="54" />
+                                <ColumnDefinition Width="54" />
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                                <Border Style="{DynamicResource versesTabSearchBorder}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBox Style="{DynamicResource versesTabSearchText}" />
+                                        <Button Style="{DynamicResource versesTabSearchButton}" Click="Button_Click" />
+                                    </StackPanel>
+                                </Border>
+                            </StackPanel>
+
+                            <Button Style="{DynamicResource versesTabActionButtonInfo}" Grid.Column="1" Tag="CommentAltExclamation" />
+
+                            <Button Style="{DynamicResource versesTabActionButtonReset}" Grid.Column="2" Tag="RefreshMD" />
+                        </Grid>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <CheckBox  x:Name="mark" Style="{DynamicResource versesActionMainTabButtonMark}" Uid="İşaretle" Tag="Bookmarks" />
+            <CheckBox  x:Name="bell" Style="{DynamicResource versesActionMainTabButtonBell}" Uid="Bu Ayeti Hatırlat" Tag="Bell" />
+            <CheckBox  x:Name="note" Style="{DynamicResource versesActionMainTabButtonNote}" Uid="Not Al" Tag="ClipboardNotes" />
+            <CheckBox  x:Name="check" Style="{DynamicResource versesActionMainTabButtonCheck}" Uid="Okudum" Tag="Check" />
+
+            <CheckBox  x:Name="feedback" Style="{DynamicResource versesActionMainTabButtonFeed}" Uid="Düşünceleriniz Paylaşın" Tag="Send" />
+        </StackPanel>
+
+        <StackPanel Grid.Row="2">
+
+            <Border Style="{DynamicResource defaultBorderShadowEffect}" Margin="25,5,25,5">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" MaxHeight="100" />
+                        <RowDefinition Height="250" />
+                        <RowDefinition Height="50" />
+                    </Grid.RowDefinitions>
+
+                    <Border Grid.Column="0" Grid.Row="0" Margin="15 0 15 0" BorderThickness="0,0,0,1" BorderBrush="#E1E3E6" Padding="15,10,10,0">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Orientation="Vertical" Grid.Column="0" HorizontalAlignment="Left" Margin="10,0,10,0">
+                                <TextBlock FontFamily="{DynamicResource PoppinsMedium}" Margin="15 5 30 5" TextTrimming="CharacterEllipsis" Text="Bismillâhir rahmânir rahîm. Bismillâhir rahmânir rahîm. Bismillâhir rahmânir rahîm." FontSize="22" Foreground="#FF1C1E2F" />
+                                <Button FontFamily="{DynamicResource PoppinsSemiBold}" Width="150" Content="Tamamını Göster" Background="{x:Null}" BorderThickness="0,0,0,0" BorderBrush="{x:Null}" Margin="0,5,0,5" />
+                            </StackPanel>
+
+                            <StackPanel Orientation="Vertical" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0,10,0">
+                                <TextBlock Margin="15 5 30 5" TextTrimming="CharacterEllipsis" Text=" المَغضُوبِ عَلَيهِمْ وَلاَالضَّالِّينَ الضَّالِّينَ " FontSize="22" Foreground="#FF1C1E2F" FontFamily="XB Zar" />
+                                <Button FontFamily="{DynamicResource PoppinsSemiBold}" Width="150" Content="Tamamını Göster" Background="{x:Null}" BorderThickness="0,0,0,0" BorderBrush="{x:Null}" Margin="0,5,0,5" />
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+
+                    <Border Grid.Row="1" Margin="10,10,10,10" Padding="10,10,10,10">
+                        <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                            <TextBlock FontFamily="{DynamicResource PoppinsRegular}" FontSize="14" TextWrapping="Wrap" Text="Kur'an'ı okuyup anlamaya ve yaşamaya çalışırken, şeytanın aklımı karıştırmasından âlemlerin Rabbi ve ilahı Rahmân ve Rahîm olan Allah'a sığınırım. (Eûzübillâhimineşşeytânirracîm Bismillâhirrahmânirrahîm)" />
+                        </ScrollViewer>
+                    </Border>
+
+                    <Border Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="20,0,20,0">
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Orientation="Horizontal" Grid.Column="0">
+                                <TextBlock Text="Yorumlayan" FontFamily="{DynamicResource PoppinsMedium}" FontSize="14" Foreground="#1C1E2F" />
+                                <ComboBox x:Name="yorumcuCombobox"  Style="{DynamicResource ResourceKey=ayetlerNavCombobox}" SelectedIndex="0" Margin="10,0,0,0">
+                                    <ComboBoxItem  Content="Mehmet Beki" Name="Hepsi" />
+                                </ComboBox>
+                            </StackPanel>
+                            <StackPanel Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                <Border Style="{DynamicResource defaultBorderShadowEffect}">
+                                    <Button Content="Yorumu Getir" FontFamily="{DynamicResource PoppinsRegular}" Background="{x:Null}" BorderThickness="0,0,0,0" BorderBrush="{x:Null}" Padding="10,5,10,5"></Button>
+                                </Border>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </Border>
+        </StackPanel>
+
+        <StackPanel Grid.Row="3" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+
+            <Button Style="{DynamicResource versesNavButtonNext}" Tag="AngleLeft" />
+            <CheckBox Style="{DynamicResource versesNavButtonV}" Uid="1" />
+            <CheckBox Style="{DynamicResource versesNavButtonV}" Uid="2" />
+            <CheckBox Style="{DynamicResource versesNavButtonV}" Uid="3" />
+            <CheckBox Style="{DynamicResource versesNavButtonV}" Uid="4" />
+            <CheckBox Style="{DynamicResource versesNavButtonV}" Uid="5" />
+            <CheckBox Style="{DynamicResource versesNavButtonV}" Uid="6" />
+            <CheckBox Style="{DynamicResource versesNavButtonV}" Uid="7" />
+            <Button Style="{DynamicResource versesNavButtonNext}" Tag="AngleRight" />
+        </StackPanel>
+    </Grid>
+</Page>

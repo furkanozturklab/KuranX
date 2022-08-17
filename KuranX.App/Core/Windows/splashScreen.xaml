@@ -1,0 +1,61 @@
+﻿<Window x:Class="KuranX.App.Core.Windows.splashScreen"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:KuranX.App.Core.Windows"
+        mc:Ignorable="d"
+        Title="SplashScreen" Height="600" Width="800" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" WindowStyle="None" AllowsTransparency="True" Background="Transparent" Loaded="splashScreenWindow_Loaded">
+
+    <Window.Triggers>
+
+        <EventTrigger RoutedEvent="Loaded">
+            <BeginStoryboard>
+                <Storyboard>
+                    <DoubleAnimation From="0" To="1" Duration="0:0:2" Storyboard.TargetProperty="Opacity" />
+                </Storyboard>
+            </BeginStoryboard>
+        </EventTrigger>
+    </Window.Triggers>
+    <Grid x:Name="splashBack">
+        <Grid.Background>
+            <ImageBrush ImageSource="/Resource/Images/Background/splashScreenBack.png" />
+        </Grid.Background>
+
+        <Grid.RowDefinitions>
+
+            <RowDefinition Height="540"></RowDefinition>
+            <RowDefinition Height="50"></RowDefinition>
+            <RowDefinition Height="10"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Border Width="800" Height="500" VerticalAlignment="Bottom" Grid.Row="0">
+
+            <StackPanel Width="800" Height="530">
+                <TextBlock Style="{StaticResource ResourceKey=splashScreenTextBlock}" Text="&quot; Allah'ın ismi ile Rahmân Rahîm olan &quot;" />
+                <TextBlock Style="{StaticResource ResourceKey=splashScreenTextBlock}" Text="&quot; Alem için uyarıcı olsun diye &#x0d; kuluna furkân'ı kur'an'ı indiren &#x0d; Allah yüceler yücesidir &quot;" />
+                <TextBlock Style="{StaticResource ResourceKey=splashScreenTextBlock}" Text="&quot; Ey iman edenler Allah'a karşı &#x0d; takvalı duyarlı olursanız &#x0d; sizin için furkân yaratır  &#x0d; sizden günahlarınızı örter &#x0d; ve sizi bağışlar &#x0d; Allah büyük lütüf sahibidir  &quot;" />
+                <TextBlock Style="{StaticResource ResourceKey=splashScreenTextBlock}" Text="&quot; Sen &#x0d; Sana vahyedilen Kur'an'a &#x0d; sımsıkı sarıl &#x0d; Elbette sen doğru yoldasın  &quot;" />
+                <TextBlock Style="{StaticResource ResourceKey=splashScreenTextBlock}" Text="&quot; Hamd hakkıyla değerlendirmek &#x0d; Âlem Rabbi Allah'a mahsustur &quot;" />
+                <TextBlock Style="{StaticResource ResourceKey=splashScreenTextBlock}" Text="&quot; Fatiha 1 - Furkân 1 - Enfaz 29 - Zuhruf 43 - Fatiha 2    &quot;" />
+            </StackPanel>
+        </Border>
+
+        <Border Width="800" Height="50" VerticalAlignment="Bottom" Grid.Row="1">
+
+            <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <TextBlock Style="{StaticResource ResourceKey=splashScreenCountdownText}" Grid.Row="0" Text="Lütfen Bekleyin" />
+                <TextBlock x:Name="timerCount" Style="{StaticResource ResourceKey=splashScreenCountdownText}" Grid.Row="1" Text="30" FontSize="16"  Margin="0" />
+            </Grid>
+        </Border>
+
+        <Border Width="800" Height="10" VerticalAlignment="Bottom" Grid.Row="2">
+            <ProgressBar x:Name="loadingProgress" Style="{StaticResource ResourceKey=splashScreenProgressBar}" />
+        </Border>
+    </Grid>
+</Window>

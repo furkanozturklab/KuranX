@@ -1,0 +1,46 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <!-- ROOT STYLE -->
+
+    <sys:Double x:Key="inputWidth">260</sys:Double>
+    <sys:Double x:Key="inputHeight">41</sys:Double>
+    <sys:Double x:Key="icon16">16</sys:Double>
+    <sys:Double x:Key="icon18">18</sys:Double>
+    <sys:Double x:Key="icon20">20</sys:Double>
+    <sys:Double x:Key="icon24">24</sys:Double>
+    <SolidColorBrush x:Key="inputBoxBg" Color="#FFEDEDED" />
+    <SolidColorBrush x:Key="baseForegroundColor" Color="#FF000000" />
+    <SolidColorBrush x:Key="secondForegroundColor" Color="#FF383C41" />
+
+    <Style TargetType="Grid" x:Key="gridOffset">
+        <Setter Property="Margin" Value="0 30" />
+    </Style>
+
+    <!-- ROOT STYLE -->
+
+    <!-- Mixed Style -->
+
+    <Style TargetType="TextBlock" x:Key="copyright_txt">
+        <Setter Property="Text" Value="Copyright @ 2022 All rights reserved" />
+        <Setter Property="VerticalAlignment" Value="Bottom" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="Margin" Value="0 0 0 10" />
+        <Setter Property="FontFamily" Value="Poppins Medium" />
+        <Setter Property="FontSize" Value="9" />
+        <Setter Property="Foreground" Value="{DynamicResource secondForegroundColor }" />
+    </Style>
+
+    <!-- TOP NAVIGATION BAR -->
+
+    <Style TargetType="Border" x:Key="rightPanelBorder">
+        <Setter Property="Background" Value="#FAFAFA" />
+        <Setter Property="BorderBrush" Value="#E1E3E6" />
+        <Setter Property="BorderThickness" Value="1,0,0,0" />
+        <Setter Property="Margin" Value="0" />
+    </Style>
+    <!-- TOP NAVIGATION BAR -->
+
+    <!-- Mixed Style -->
+</ResourceDictionary>

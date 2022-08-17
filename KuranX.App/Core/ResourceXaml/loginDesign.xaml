@@ -1,0 +1,274 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <sys:Double x:Key="inputWidth">260</sys:Double>
+    <sys:Double x:Key="inputHeight">41</sys:Double>
+    <sys:Double x:Key="icon16">16</sys:Double>
+    <sys:Double x:Key="icon18">18</sys:Double>
+    <sys:Double x:Key="icon20">20</sys:Double>
+    <sys:Double x:Key="icon24">24</sys:Double>
+    <SolidColorBrush x:Key="inputBoxBg" Color="#FFEDEDED" />
+    <SolidColorBrush x:Key="baseForegroundColor" Color="#FF000000" />
+    <SolidColorBrush x:Key="secondForegroundColor" Color="#FF383C41" />
+
+    <!-- // LOGİN PANEL  -->
+
+    <Style TargetType="TextBlock" x:Key="lgfrm_headerText">
+
+        <Setter Property="FontFamily" Value="{StaticResource PoppinsSemiBold}" />
+        <Setter Property="Foreground" Value="#1C1E2F" />
+        <Setter Property="FontSize" Value="24" />
+        <Setter Property="Margin" Value="0 100 0 0" />
+        <Setter Property="TextWrapping" Value="NoWrap" />
+        <Setter Property="TextAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Width" Value="{StaticResource inputWidth}" />
+        <Setter Property="Height" Value="{StaticResource inputHeight}" />
+    </Style>
+
+    <!-- Input Box -->
+
+    <Style TargetType="Border" x:Key="lgfrm_inputBox">
+        <Setter Property="Margin" Value="0 10" />
+        <Setter Property="Background" Value="{StaticResource inputBoxBg}" />
+        <Setter Property="Width" Value="{StaticResource inputWidth}" />
+        <Setter Property="Height" Value="{StaticResource inputHeight}" />
+        <Setter Property="CornerRadius" Value="5" />
+    </Style>
+
+    <Style TargetType="TextBlock" x:Key="lgfrm_inputTextHint">
+        <Setter Property="Foreground" Value="#FF999999" />
+        <Setter Property="Grid.Column" Value="1" />
+        <Setter Property="Panel.ZIndex" Value="1" />
+        <Setter Property="Padding" Value="48 13 0 0" />
+        <Setter Property="FontFamily" Value="{StaticResource PoppinsMedium}" />
+        <Setter Property="FontSize" Value="10" />
+    </Style>
+
+    <Style TargetType="TextBox" x:Key="lgfrm_userEmailInput">
+
+        <Setter Property="Foreground" Value="#000000" />
+        <Setter Property="Width" Value="{StaticResource inputWidth}" />
+        <Setter Property="Grid.Column" Value="1" />
+        <Setter Property="FontSize" Value="10" />
+        <Setter Property="FontFamily" Value="{StaticResource PoppinsMedium}" />
+        <Setter Property="Background" Value="{x:Null}" />
+        <Setter Property="BorderBrush" Value="{x:Null}" />
+        <Setter Property="Padding" Value="45 12 0 0" />
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TextBox}">
+                    <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+                        <ScrollViewer x:Name="PART_ContentHost" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsFocused" Value="true">
+                            <Setter Property="Foreground" Value="{StaticResource baseForegroundColor}" />
+                            <Setter Property="BorderBrush" TargetName="border" Value="#80F0433A" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="PasswordBox" x:Key="lgfrm_userPswInput">
+
+        <Setter Property="Foreground" Value="#000000" />
+        <Setter Property="Width" Value="{StaticResource inputWidth}" />
+        <Setter Property="Grid.Column" Value="1" />
+        <Setter Property="FontSize" Value="10" />
+        <Setter Property="FontFamily" Value="{StaticResource PoppinsMedium}" />
+        <Setter Property="Background" Value="{x:Null}" />
+        <Setter Property="BorderBrush" Value="{x:Null}" />
+        <Setter Property="Padding" Value="45 12 0 0" />
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type PasswordBox}">
+                    <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+                        <ScrollViewer x:Name="PART_ContentHost" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden" />
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsFocused" Value="true">
+                            <Setter Property="Foreground" Value="{StaticResource baseForegroundColor}" />
+                            <Setter Property="BorderBrush" TargetName="border" Value="#80F0433A" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="Image" x:Key="lgfrm_inputBoxIcon">
+        <Setter Property="Width" Value="{StaticResource icon18}" />
+        <Setter Property="Height" Value="{StaticResource icon18}" />
+        <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality" />
+        <Setter Property="Grid.Column" Value="1" />
+        <Setter Property="Panel.ZIndex" Value="1" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="Margin" Value="15 0 0 0" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+    </Style>
+
+    <Style TargetType="TextBlock" x:Key="lgfrm_returnMessage">
+        <Setter Property="Width" Value="{StaticResource inputWidth}" />
+        <Setter Property="Margin" Value="0,-10,0,0" />
+        <Setter Property="Padding" Value="5,2,5,2" />
+        <Setter Property="Foreground" Value="#F0433A" />
+        <Setter Property="FontFamily" Value="{StaticResource PoppinsSemiBold}" />
+        <Setter Property="FontSize" Value="9" />
+        <Setter Property="Visibility" Value="Hidden" />
+    </Style>
+
+    <!-- Input Box -->
+
+    <!-- LOGİN PANEL ACTİONS STACKPANEL -->
+
+    <!-- BASE -->
+
+    <Style TargetType="StackPanel" x:Key="lgfrm_loginActions">
+
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="Margin" Value="0 10" />
+        <Setter Property="Width" Value="260" />
+        <Setter Property="Height" Value="auto" />
+        <Setter Property="Orientation" Value="Vertical" />
+    </Style>
+
+    <!-- BASE -->
+
+    <!-- Items -->
+
+    <Style TargetType="Border" x:Key="lgfrm_rememberMeCheck">
+
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Padding" Value="10 0 0 0" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+    </Style>
+
+    <Style TargetType="Border" x:Key="lgfrm_rememberMeCheckbox">
+
+        <Setter Property="Width" Value="14" />
+        <Setter Property="Height" Value="14" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="Background" Value="#383C41" />
+        <Setter Property="CornerRadius" Value="15" />
+    </Style>
+
+    <Style TargetType="Image" x:Key="lgfrm_rememberMeCheckImage">
+        <Setter Property="Width" Value="7" />
+        <Setter Property="Height" Value="7" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality" />
+    </Style>
+
+    <Style TargetType="TextBlock" x:Key="lgfrm_rememberMeText">
+
+        <Setter Property="Text" Value="Beni Unutma" />
+        <Setter Property="FontFamily" Value="{StaticResource PoppinsMedium}" />
+        <Setter Property="FontSize" Value="10" />
+        <Setter Property="Padding" Value="5 1 0 0" />
+        <Setter Property="Foreground" Value="#383C41" />
+    </Style>
+
+    <!-- terms of use -->
+
+    <Style TargetType="Border" x:Key="lgfrm_termsOfUseMeCheck">
+
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Padding" Value="10 0 0 0" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+    </Style>
+
+    <Style TargetType="Border" x:Key="lgfrm_termsOfUseCheckbox">
+
+        <Setter Property="Width" Value="14" />
+        <Setter Property="Height" Value="14" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="Background" Value="#383C41" />
+        <Setter Property="CornerRadius" Value="15" />
+    </Style>
+
+    <Style TargetType="Image" x:Key="lgfrm_termsOfUseCheckImage">
+        <Setter Property="Width" Value="7" />
+        <Setter Property="Height" Value="7" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+    </Style>
+
+    <Style TargetType="TextBlock" x:Key="lgfrm_termsOfUseText">
+
+        <Setter Property="Text" Value="Kullanım şartlarını ve kişisel verilerimin işlenmesini kabul ediyorum." />
+        <Setter Property="FontFamily" Value="{StaticResource PoppinsMedium}" />
+        <Setter Property="FontSize" Value="10" />
+        <Setter Property="Padding" Value="5 1 0 0" />
+        <Setter Property="Margin" Value="0,0,0,-14" />
+        <Setter Property="Foreground" Value="#383C41" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+    <!-- terms of use -->
+
+    <Style TargetType="TextBlock" x:Key="lgfrm_forgotMyPassword">
+
+        <Setter Property="Text" Value="Şifremi Unuttum" />
+        <Setter Property="FontFamily" Value="{StaticResource PoppinsMedium}" />
+        <Setter Property="FontSize" Value="10" />
+        <Setter Property="Padding" Value="5 1 0 0" />
+        <Setter Property="Foreground" Value="#383C41" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Style.Triggers>
+            <Trigger Property ="IsMouseOver" Value="True">
+                <Setter Property= "Foreground" Value="#F0433A" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style TargetType="Button" x:Key="lgfrm_acitonsButton">
+
+        <Setter Property="Margin" Value="15 5" />
+        <Setter Property="Width" Value="100" />
+        <Setter Property="Height" Value="30" />
+        <Setter Property="FontFamily" Value="{StaticResource PoppinsMedium}" />
+        <Setter Property="FontSize" Value="10" />
+        <Setter Property="Background" Value="{x:Null}" />
+        <Setter Property="Foreground" Value="#FF383C41" />
+        <Setter Property="BorderBrush" Value="#E1E3E6" />
+        <Setter Property="Cursor" Value="Hand" />
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border Background="{TemplateBinding Background}" BorderBrush="#E1E3E6" BorderThickness="1">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Style.Resources>
+            <Style TargetType="Border">
+                <Setter Property="CornerRadius" Value="6" />
+            </Style>
+        </Style.Resources>
+
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#820333" />
+                <Setter Property="Foreground" Value="#fff" />
+                <Setter Property="BorderBrush" Value="{x:Null}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- Items -->
+
+    <!-- // LOGİN PANEL  -->
+</ResourceDictionary>
