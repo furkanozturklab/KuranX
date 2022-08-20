@@ -11,29 +11,60 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KuranX.App.Migrations
 {
     [DbContext(typeof(AyetContext))]
-    [Migration("20220813104823_TestV1")]
-    partial class TestV1
+    [Migration("20220819055600_testv3")]
+    partial class testv3
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.7");
 
+            modelBuilder.Entity("KuranX.App.Core.Classes.Sure", b =>
+                {
+                    b.Property<int?>("sureId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("DeskLanding")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("DeskMushaf")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("LandingLocation")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("NumberOfVerses")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("sureId");
+
+                    b.ToTable("Sure");
+                });
+
             modelBuilder.Entity("KuranX.App.Core.Classes.User", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER")
                         .HasColumnName("user_id");
 
                     b.Property<string>("AvatarUrl")
-                        .IsRequired()
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT")
                         .HasDefaultValue("default")
                         .HasColumnName("user_avatarUrl");
 
-                    b.Property<DateTime>("CreateDate")
+                    b.Property<DateTime?>("CreateDate")
                         .HasColumnType("TEXT")
                         .HasColumnName("user_createDate");
 
@@ -43,32 +74,28 @@ namespace KuranX.App.Migrations
                         .HasColumnName("user_email");
 
                     b.Property<string>("FirstName")
-                        .IsRequired()
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT")
                         .HasDefaultValue("First Name")
                         .HasColumnName("user_fisrtName");
 
                     b.Property<string>("LastName")
-                        .IsRequired()
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT")
                         .HasDefaultValue("Last Name")
                         .HasColumnName("user_lastName");
 
                     b.Property<string>("Password")
-                        .IsRequired()
                         .HasColumnType("TEXT")
                         .HasColumnName("user_password");
 
                     b.Property<string>("ScreetQuestion")
-                        .IsRequired()
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT")
                         .HasDefaultValue("Screet Question")
                         .HasColumnName("user_screetQuestion");
 
-                    b.Property<DateTime>("UpdateDate")
+                    b.Property<DateTime?>("UpdateDate")
                         .HasColumnType("TEXT")
                         .HasColumnName("user_updateDate");
 
@@ -77,40 +104,33 @@ namespace KuranX.App.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("KuranX.App.Core.Classes.Verses", b =>
+            modelBuilder.Entity("KuranX.App.Core.Classes.Verse", b =>
                 {
-                    b.Property<int>("versesId")
+                    b.Property<int?>("VerseId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("DeskLanding")
+                    b.Property<int?>("RelativeDesk")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("DeskMushaf")
+                    b.Property<int?>("SureId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("LandingLocation")
-                        .IsRequired()
+                    b.Property<string>("VerseArabic")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
+                    b.Property<string>("VerseCheck")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("NumberOfVerses")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
+                    b.Property<string>("VerseDesc")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("versesId");
+                    b.Property<string>("VerseTr")
+                        .HasColumnType("TEXT");
 
-                    b.ToTable("Verses");
+                    b.HasKey("VerseId");
+
+                    b.ToTable("Verse");
                 });
 #pragma warning restore 612, 618
         }

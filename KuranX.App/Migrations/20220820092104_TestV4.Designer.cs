@@ -11,13 +11,68 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KuranX.App.Migrations
 {
     [DbContext(typeof(AyetContext))]
-    [Migration("20220816095839_TestV3")]
-    partial class TestV3
+    [Migration("20220820092104_TestV4")]
+    partial class TestV4
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.7");
+
+            modelBuilder.Entity("KuranX.App.Core.Classes.Interpreter", b =>
+                {
+                    b.Property<int?>("interpreterId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("interpreterDetail")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("interpreterWriter")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("sureId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("versesId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("interpreterId");
+
+                    b.ToTable("Interpreter");
+                });
+
+            modelBuilder.Entity("KuranX.App.Core.Classes.Sure", b =>
+                {
+                    b.Property<int?>("sureId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("DeskLanding")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("DeskMushaf")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("LandingLocation")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("NumberOfVerses")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("sureId");
+
+                    b.ToTable("Sure");
+                });
 
             modelBuilder.Entity("KuranX.App.Core.Classes.User", b =>
                 {
@@ -87,14 +142,11 @@ namespace KuranX.App.Migrations
                     b.Property<string>("VerseArabic")
                         .HasColumnType("TEXT");
 
-                    b.Property<bool?>("VerseCheck")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("VerseCheck")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("VerseDesc")
                         .HasColumnType("TEXT");
-
-                    b.Property<int?>("VerseDesk")
-                        .HasColumnType("INTEGER");
 
                     b.Property<string>("VerseTr")
                         .HasColumnType("TEXT");
@@ -102,38 +154,6 @@ namespace KuranX.App.Migrations
                     b.HasKey("VerseId");
 
                     b.ToTable("Verse");
-                });
-
-            modelBuilder.Entity("KuranX.App.Core.Classes.Verses", b =>
-                {
-                    b.Property<int?>("versesId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int?>("DeskLanding")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("DeskMushaf")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("LandingLocation")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int?>("NumberOfVerses")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Status")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("versesId");
-
-                    b.ToTable("Verses");
                 });
 #pragma warning restore 612, 618
         }

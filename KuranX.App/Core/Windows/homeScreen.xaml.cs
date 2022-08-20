@@ -57,12 +57,18 @@ namespace KuranX.App.Core.Windows
         {
             //homeFrame.Content = new versesFrame();
 
-            homeFrame.Content = new verseFrame("1");
+            homeFrame.Content = new verseFrame(1);
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            AdminScreen adm = new AdminScreen();
+            adm.Show();
         }
     }
 }

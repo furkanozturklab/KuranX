@@ -4,21 +4,21 @@
 
 namespace KuranX.App.Migrations
 {
-    public partial class TestV3 : Migration
+    public partial class Testv4_hotfix2 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<bool>(
-                name: "VerseCheck",
+            migrationBuilder.AddColumn<string>(
+                name: "Status",
                 table: "Verse",
-                type: "INTEGER",
+                type: "TEXT",
                 nullable: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "VerseCheck",
+                name: "Status",
                 table: "Verse");
         }
     }

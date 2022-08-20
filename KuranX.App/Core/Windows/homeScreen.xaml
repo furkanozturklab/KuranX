@@ -122,6 +122,7 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="42" />
                         <ColumnDefinition Width="42" />
+                        <ColumnDefinition Width="42" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
 
@@ -129,7 +130,9 @@
 
                     <Button Style="{DynamicResource ResourceKey=hmwnd_leftFeedbackButton}" Grid.Column="1" />
 
-                    <TextBlock Style="{StaticResource ResourceKey=hmwnd_leftVersionText}" Grid.Column="2" />
+                    <Button Style="{DynamicResource ResourceKey=hmwnd_leftAdminButton}" Grid.Column="2" Click="Button_Click_1" />
+
+                    <TextBlock Style="{StaticResource ResourceKey=hmwnd_leftVersionText}" Grid.Column="3" />
                 </Grid>
             </Border>
         </Grid>

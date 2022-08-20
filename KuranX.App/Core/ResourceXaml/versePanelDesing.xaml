@@ -143,24 +143,26 @@
     </Style>
 
     <Style x:Key="versesActionMainTabButton" TargetType="CheckBox">
-        <Setter Property="SnapsToDevicePixels" Value="true" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="BorderThickness" Value="0,0,0,0" />
         <Setter Property="BorderBrush" Value="{x:Null}" />
+        <Setter Property="Height" Value="Auto" />
         <Setter Property="Background" Value="#FFF" />
         <Setter Property="Foreground"  Value="#1C1E2F" />
-        <Setter Property="Margin" Value="20 0 20 0" />
+        <Setter Property="Margin" Value="30 0 30 0" />
     </Style>
 
     <Style x:Key="versesActionMainTabButtonMark" TargetType="CheckBox" BasedOn="{StaticResource versesActionMainTabButton}">
-
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate>
-                    <Border x:Name="target1" Padding="15,5,15,5" Style="{DynamicResource defaultBorderShadowEffect}" Background="{TemplateBinding Background}">
+                    <Border x:Name="target1" Padding="20,5,20,5" Style="{DynamicResource defaultBorderShadowEffect}" Background="{TemplateBinding Background}">
                         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal">
                             <Icon:PackIconBootstrapIcons x:Name="target3"  Kind="{Binding Path=Tag, RelativeSource={RelativeSource TemplatedParent}}" Margin="0,0,5,0" Foreground="{TemplateBinding Foreground}" Width="14" Height="14" VerticalAlignment="Center"  HorizontalAlignment="Center" />
-                            <TextBlock x:Name="target2" Text="{Binding Path=Uid, RelativeSource={RelativeSource TemplatedParent}}" FontFamily="{DynamicResource PoppinsRegular}" Foreground="{TemplateBinding Foreground}" />
+                            <TextBlock x:Name="target2" Text="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}}" FontFamily="{DynamicResource PoppinsRegular}" Foreground="{TemplateBinding Foreground}" />
                         </StackPanel>
                     </Border>
                     <ControlTemplate.Triggers>
@@ -188,14 +190,15 @@
     </Style>
 
     <Style x:Key="versesActionMainTabButtonBell" TargetType="CheckBox" BasedOn="{StaticResource versesActionMainTabButton}">
-
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate>
                     <Border x:Name="target1" Padding="15,5,15,5" Style="{DynamicResource defaultBorderShadowEffect}" Background="{TemplateBinding Background}">
                         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal">
                             <Icon:PackIconFeatherIcons  x:Name="target3"  Kind="{Binding Path=Tag, RelativeSource={RelativeSource TemplatedParent}}" Margin="0,0,5,0" Foreground="{TemplateBinding Foreground}" Width="14" Height="14" VerticalAlignment="Center"  HorizontalAlignment="Center" />
-                            <TextBlock x:Name="target2" Text="{Binding Path=Uid, RelativeSource={RelativeSource TemplatedParent}}" FontFamily="{DynamicResource PoppinsRegular}" Foreground="{TemplateBinding Foreground}" />
+                            <TextBlock x:Name="target2" Text="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}}" FontFamily="{DynamicResource PoppinsRegular}" Foreground="{TemplateBinding Foreground}" />
                         </StackPanel>
                     </Border>
                     <ControlTemplate.Triggers>
@@ -223,14 +226,15 @@
     </Style>
 
     <Style x:Key="versesActionMainTabButtonNote" TargetType="CheckBox" BasedOn="{StaticResource versesActionMainTabButton}">
-
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate>
                     <Border x:Name="target1" Padding="15,5,15,5" Style="{DynamicResource defaultBorderShadowEffect}" Background="{TemplateBinding Background}">
                         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal">
                             <Icon:PackIconUnicons  x:Name="target3"  Kind="{Binding Path=Tag, RelativeSource={RelativeSource TemplatedParent}}" Margin="0,0,5,0" Foreground="{TemplateBinding Foreground}" Width="14" Height="14" VerticalAlignment="Center"  HorizontalAlignment="Center" />
-                            <TextBlock x:Name="target2" Text="{Binding Path=Uid, RelativeSource={RelativeSource TemplatedParent}}" FontFamily="{DynamicResource PoppinsRegular}" Foreground="{TemplateBinding Foreground}" />
+                            <TextBlock x:Name="target2" Text="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}}" FontFamily="{DynamicResource PoppinsRegular}" Foreground="{TemplateBinding Foreground}" />
                         </StackPanel>
                     </Border>
                     <ControlTemplate.Triggers>
@@ -258,14 +262,15 @@
     </Style>
 
     <Style x:Key="versesActionMainTabButtonCheck" TargetType="CheckBox" BasedOn="{StaticResource versesActionMainTabButton}">
-
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate>
                     <Border x:Name="target1" Padding="15,5,15,5" Style="{DynamicResource defaultBorderShadowEffect}" Background="{TemplateBinding Background}">
                         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal">
                             <Icon:PackIconMaterial  x:Name="target3"  Kind="{Binding Path=Tag, RelativeSource={RelativeSource TemplatedParent}}" Margin="0,0,5,0" Foreground="{TemplateBinding Foreground}" Width="14" Height="14" VerticalAlignment="Center"  HorizontalAlignment="Center" />
-                            <TextBlock x:Name="target2" Text="{Binding Path=Uid, RelativeSource={RelativeSource TemplatedParent}}" FontFamily="{DynamicResource PoppinsRegular}" Foreground="{TemplateBinding Foreground}" />
+                            <TextBlock x:Name="target2" Text="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}}" FontFamily="{DynamicResource PoppinsRegular}" Foreground="{TemplateBinding Foreground}" />
                         </StackPanel>
                     </Border>
                     <ControlTemplate.Triggers>
@@ -293,14 +298,15 @@
     </Style>
 
     <Style x:Key="versesActionMainTabButtonFav" TargetType="CheckBox" BasedOn="{StaticResource versesActionMainTabButton}">
-
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate>
                     <Border x:Name="target1" Padding="15,5,15,5" Style="{DynamicResource defaultBorderShadowEffect}" Background="{TemplateBinding Background}">
                         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal">
                             <Icon:PackIconForkAwesome  x:Name="target3"  Kind="{Binding Path=Tag, RelativeSource={RelativeSource TemplatedParent}}" Margin="0,0,5,0" Foreground="{TemplateBinding Foreground}" Width="14" Height="14" VerticalAlignment="Center"  HorizontalAlignment="Center" />
-                            <TextBlock x:Name="target2" Text="{Binding Path=Uid, RelativeSource={RelativeSource TemplatedParent}}" FontFamily="{DynamicResource PoppinsRegular}" Foreground="{TemplateBinding Foreground}" />
+                            <TextBlock x:Name="target2" Text="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}}" FontFamily="{DynamicResource PoppinsRegular}" Foreground="{TemplateBinding Foreground}" />
                         </StackPanel>
                     </Border>
                     <ControlTemplate.Triggers>
@@ -328,14 +334,15 @@
     </Style>
 
     <Style x:Key="versesActionMainTabButtonFeed" TargetType="CheckBox" BasedOn="{StaticResource versesActionMainTabButton}">
-
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate>
                     <Border x:Name="target1" Padding="15,5,15,5" Style="{DynamicResource defaultBorderShadowEffect}" Background="{TemplateBinding Background}">
                         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal">
                             <Icon:PackIconFeatherIcons x:Name="target3"  Kind="{Binding Path=Tag, RelativeSource={RelativeSource TemplatedParent}}" Margin="0,0,5,0" Foreground="{TemplateBinding Foreground}" Width="14" Height="14" VerticalAlignment="Center"  HorizontalAlignment="Center" />
-                            <TextBlock x:Name="target2" Text="{Binding Path=Uid, RelativeSource={RelativeSource TemplatedParent}}" FontFamily="{DynamicResource PoppinsRegular}" Foreground="{TemplateBinding Foreground}" />
+                            <TextBlock x:Name="target2" Text="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}}" FontFamily="{DynamicResource PoppinsRegular}" Foreground="{TemplateBinding Foreground}" />
                         </StackPanel>
                     </Border>
                     <ControlTemplate.Triggers>
@@ -363,20 +370,21 @@
     </Style>
 
     <Style x:Key="versesNavContent" TargetType="Button">
-        <Setter Property="SnapsToDevicePixels" Value="true" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="BorderThickness" Value="0,0,0,0" />
         <Setter Property="BorderBrush" Value="{x:Null}" />
         <Setter Property="Background" Value="#FFF" />
         <Setter Property="Foreground"  Value="#1C1E2F" />
-        <Setter Property="Margin" Value="20 0 20 0" />
     </Style>
 
     <Style x:Key="versesNavButtonNext" TargetType="Button" BasedOn="{StaticResource versesNavContent}">
+        <Setter Property="SnapsToDevicePixels" Value="true" />
+        <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate>
-                    <Border x:Name="target1" Padding="15,5,15,5" Style="{DynamicResource defaultBorderShadowEffect}" Background="{TemplateBinding Background}">
+                    <Border x:Name="target1" Padding="15,5,15,5" Style="{DynamicResource defaultBorderShadowEffect}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True" UseLayoutRounding="True">
                         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal">
                             <Icon:PackIconForkAwesome  x:Name="target3"  Kind="{Binding Path=Tag, RelativeSource={RelativeSource TemplatedParent}}"  Foreground="{TemplateBinding Foreground}" Width="14" Height="14" VerticalAlignment="Center"  HorizontalAlignment="Center" />
                         </StackPanel>
@@ -391,17 +399,64 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Background" Value="#FFE4E6EF" />
+                <Setter Property="Cursor" Value="No" />
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
-    <Style x:Key="versesNavButtonV" TargetType="CheckBox" BasedOn="{StaticResource versesActionMainTabButton}">
-
+    <Style x:Key="versesNavButton" TargetType="Button" BasedOn="{StaticResource versesNavContent}">
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate>
-                    <Border x:Name="target1" Padding="25,5,25,5" Style="{DynamicResource defaultBorderShadowEffect}" Background="{TemplateBinding Background}">
+                    <Border x:Name="target1" Padding="15,5,15,5" Style="{DynamicResource defaultBorderShadowEffect}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True" UseLayoutRounding="True">
                         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal">
-                            <TextBlock x:Name="target2" Text="{Binding Path=Uid, RelativeSource={RelativeSource TemplatedParent}}" FontFamily="{DynamicResource PoppinsRegular}" Foreground="{TemplateBinding Foreground}" />
-                            <TextBlock x:Name="target3" Text=" Ayet" FontFamily="{DynamicResource PoppinsRegular}" Foreground="{TemplateBinding Foreground}" />
+                            <TextBlock x:Name="target3" Text="{Binding Path=Uid, RelativeSource={RelativeSource TemplatedParent}}" FontFamily="{DynamicResource PoppinsRegular}" Foreground="{TemplateBinding Foreground}" />
+                        </StackPanel>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="target1" Property="Background" Value="#0D6EFD" />
+                            <Setter TargetName="target3" Property="Foreground" Value="#FFFFFF" />
+                            <Setter Property="Cursor" Value="Hand" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Background" Value="#FFE4E6EF" />
+                <Setter Property="Cursor" Value="No" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="versesActionMainBottomButton" TargetType="CheckBox">
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="UseLayoutRounding" Value="True" />
+        <Setter Property="BorderThickness" Value="0,0,0,0" />
+        <Setter Property="BorderBrush" Value="{x:Null}" />
+
+        <Setter Property="Margin" Value="10 0 10 0" />
+    </Style>
+
+    <Style x:Key="versesNavButtonV" TargetType="CheckBox" BasedOn="{StaticResource versesActionMainBottomButton}">
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="UseLayoutRounding" Value="True" />
+        <Setter Property="Background" Value="#F0433A" />
+        <Setter Property="Foreground"  Value="#FFFFFF" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Border x:Name="target1" Padding="25,5,25,5" Style="{DynamicResource defaultBorderShadowEffect}" Background="{Binding Path=Tag,RelativeSource={RelativeSource TemplatedParent}}" SnapsToDevicePixels="True" UseLayoutRounding="True">
+                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal">
+                            <TextBlock x:Name="target2" Text="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}}" FontFamily="{DynamicResource PoppinsMedium}" Foreground="{TemplateBinding Foreground}" />
+                            <TextBlock x:Name="target3" Text=" Ayet" FontFamily="{DynamicResource PoppinsMedium}" Foreground="{TemplateBinding Foreground}" />
                         </StackPanel>
                     </Border>
                     <ControlTemplate.Triggers>
@@ -418,7 +473,7 @@
 
         <Style.Triggers>
             <Trigger Property="IsChecked" Value="True">
-                <Setter Property="Background" Value="#F0433A" />
+                <Setter Property="Background" Value="#66E21F" />
                 <Setter Property="Foreground" Value="#FFFFFF" />
             </Trigger>
             <Trigger Property="IsChecked" Value="False">
@@ -428,16 +483,134 @@
         </Style.Triggers>
     </Style>
 
+    <Style x:Key="verseNavButtonItemsControl" TargetType="ItemsControl">
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="UseLayoutRounding" Value="True" />
+        <Setter Property="Height" Value="30" />
+    </Style>
+
+    <Style x:Key="versesAllShowButton" TargetType="Button">
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="UseLayoutRounding" Value="True" />
+        <Setter Property="Width" Value="Auto" />
+        <Setter Property="Background" Value="{x:Null}" />
+        <Setter Property="BorderThickness" Value="0 0 0 0" />
+        <Setter Property="Margin" Value="0,5,0,5" />
+        <Setter Property="BorderBrush" Value="{x:Null}" />
+        <Setter Property="Foreground" Value="#1C1E2F" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Border HorizontalAlignment="Center" VerticalAlignment="Center" SnapsToDevicePixels="True" UseLayoutRounding="True">
+                        <TextBlock TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Path=Tag ,RelativeSource={RelativeSource TemplatedParent}}" FontFamily="{DynamicResource PoppinsMedium}" Foreground="{TemplateBinding Foreground}" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Foreground" Value="#F0433A" />
+                <Setter Property="Cursor" Value="Hand" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="verseBottomItemsControlBtn" TargetType="Button">
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="UseLayoutRounding" Value="True" />
+        <Setter Property="MaxWidth" Value="210" />
+        <Setter Property="Height" Value="Auto" />
+
+        <Setter Property="BorderThickness" Value="0,0,0,0" />
+        <Setter Property="BorderBrush" Value="{x:Null}" />
+        <Setter Property="Background" Value="#FFF" />
+        <Setter Property="Foreground"  Value="#1C1E2F" />
+        <Setter Property="Margin" Value="40 0 40 0" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Border Background="{TemplateBinding Background}" Style="{DynamicResource defaultBorderShadowEffect}" Padding="20 10 20 10" SnapsToDevicePixels="True" UseLayoutRounding="True">
+                        <StackPanel Orientation="Horizontal">
+                            <Icon:PackIconJamIcons Kind="{Binding Path=Tag,RelativeSource={RelativeSource TemplatedParent}}" VerticalAlignment="Center" Width="22" Height="22" />
+                            <TextBlock Text="{Binding Path=Content,RelativeSource={RelativeSource TemplatedParent}}" FontSize="12" Width="210" MaxWidth="210" FontFamily="{DynamicResource PoppinsSemiBold}" TextWrapping="Wrap" Margin="10 0 0 0" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                        </StackPanel>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#F0433A" />
+                <Setter Property="Foreground" Value="#FFF" />
+                <Setter Property="Cursor" Value="Hand" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
     <Style x:Key="{x:Type ScrollBar}" TargetType="{x:Type ScrollBar}">
         <Setter Property="Stylus.IsFlicksEnabled" Value="True" />
         <Style.Triggers>
             <Trigger Property="Orientation" Value="Horizontal">
-                <Setter Property="Height" Value="3" />
-                <Setter Property="MinHeight" Value="3" />
+                <Setter Property="Height" Value="4" />
+                <Setter Property="MinHeight" Value="4" />
             </Trigger>
             <Trigger Property="Orientation" Value="Vertical">
-                <Setter Property="Width" Value="3" />
-                <Setter Property="MinWidth" Value="3" />
+                <Setter Property="Width" Value="4" />
+                <Setter Property="MinWidth" Value="4" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="popupTemp" TargetType="Popup">
+
+        <Setter Property="Grid.Row" Value="5" />
+        <Setter Property="Panel.ZIndex" Value="10" />
+        <Setter Property="Width" Value="280" />
+        <Setter Property="Height" Value="60" />
+        <Setter Property="PlacementTarget" Value="{Binding ElementName=vb7}" />
+        <Setter Property="VerticalOffset" Value="10" />
+        <Setter Property="HorizontalOffset" Value="-50" />
+        <Setter Property="AllowsTransparency" Value="True" />
+    </Style>
+
+    <Style x:Key="currentText" TargetType="Button">
+        <Setter Property="Background" Value="{x:Null}" />
+        <Setter Property="BorderBrush" Value="{x:Null}" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Path=Content,RelativeSource={RelativeSource TemplatedParent}}" FontFamily="{DynamicResource PoppinsMedium}" FontSize="14" Foreground="#1C1E2F" />
+                        <TextBlock Text="{Binding Path=Tag,RelativeSource={RelativeSource TemplatedParent}}" FontFamily="{DynamicResource PoppinsMedium}" FontSize="14" Margin="5 0 0 0" Foreground="#1C1E2F" />
+                    </StackPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="backInterpreter" TargetType="Button">
+        <Setter Property="Background" Value="{x:Null}" />
+        <Setter Property="BorderBrush" Value="{x:Null}" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Margin" Value="0 0 10 0" />
+        <Setter Property="Foreground" Value="#1C1E2F" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Path=Tag,RelativeSource={RelativeSource TemplatedParent}}" FontFamily="{DynamicResource PoppinsMedium}" FontSize="14" Margin="5 0 0 0" Foreground="{TemplateBinding Foreground}" />
+                    </StackPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Foreground" Value="#F0433A" />
+                <Setter Property="Cursor" Value="Hand" />
             </Trigger>
         </Style.Triggers>
     </Style>

@@ -41,7 +41,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception err)
             {
-                Debug.WriteLine(err.Message.ToString());
+                Debug.WriteLine(err.Message);
             }
         }
 
@@ -57,9 +57,9 @@ namespace KuranX.App.Core.Windows
                 {
                     while (rdr.Read())
                     {
-                        var Verse = new Verses();
+                        var Verse = new Sure();
 
-                        Verse.versesId = (int)rdr[0];
+                        Verse.sureId = (int)rdr[0];
                         Verse.Name = (string)rdr[1];
                         Verse.NumberOfVerses = (int)rdr[2];
                         Verse.DeskLanding = (int)rdr[3];
@@ -68,7 +68,7 @@ namespace KuranX.App.Core.Windows
                         Verse.Description = (string)rdr[6];
                         Verse.Status = "#ADB5BD";
 
-                        entitydb.Verses.Add(Verse);
+                        entitydb.Sure.Add(Verse);
 
                         Debug.WriteLine("VERİ EKLENDİ");
                     }
@@ -78,7 +78,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception err)
             {
-                Debug.WriteLine(err.Message.ToString());
+                Debug.WriteLine(err.Message);
             }
         }
 
@@ -100,14 +100,17 @@ namespace KuranX.App.Core.Windows
                     {
                         var newVe = new Verse();
 
+                        int ch = (int)rdr[2];
+                        ch++;
+
                         newVe.SureId = (int)rdr[0];
                         newVe.VerseId = (int)rdr[1];
-                        newVe.RelativeDesk = (int)rdr[2];
-                        newVe.VerseDesk = (int)rdr[3];
+                        newVe.RelativeDesk = ch;
+                        newVe.Status = "#FFFFFF";
                         newVe.VerseArabic = (string)rdr[4];
                         newVe.VerseTr = (string)rdr[5];
                         newVe.VerseDesc = (string)rdr[6];
-                        newVe.VerseCheck = false;
+                        newVe.VerseCheck = "false";
 
                         entitydb.Verse.Add(newVe);
 
@@ -119,12 +122,50 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception err)
             {
+                Debug.Write(err.Message);
             }
+        }
+
+        private void add_interpreter(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                string sql = "select * from interpreter;";
+                MySqlCommand cmd = new MySqlCommand(sql, connection);
+                MySqlDataReader rdr = cmd.ExecuteReader();
+
+                using (var entitydb = new AyetContext())
+                {
+                    while (rdr.Read())
+                    {
+                        var newIn = new Interpreter();
+
+                        newIn.interpreterId = (int)rdr[0];
+                        newIn.sureId = (int)rdr[4];
+                        newIn.verseId = (int)rdr[1];
+                        newIn.interpreterWriter = (string)rdr[2];
+                        newIn.interpreterDetail = (string)rdr[3];
+
+                        entitydb.Interpreter.Add(newIn);
+                        Debug.WriteLine("VERİ EKLENDİ");
+                    }
+
+                    entitydb.SaveChanges();
+                }
+            }
+            catch (Exception err)
+            {
+                Debug.Write(err.Message);
+            }
+        }
+
+        private void fixed_verse(object sender, RoutedEventArgs e)
+        {
         }
 
         private void test_click(object sender, RoutedEventArgs e)
         {
-            List<Verses> VersesList;
+            List<Sure> VersesList;
 
             land = "Mekke";
             DeskType = "Mushaf Sırası";
@@ -135,11 +176,11 @@ namespace KuranX.App.Core.Windows
                 {
                     if (DeskType == "İniş Sırası")
                     {
-                        VersesList = (List<Verses>)entitydb.Verses.Where(p => p.LandingLocation == land).OrderBy(p => p.DeskLanding).ToList();
+                        VersesList = (List<Sure>)entitydb.Sure.Where(p => p.LandingLocation == land).OrderBy(p => p.DeskLanding).ToList();
                     }
                     else
                     {
-                        VersesList = (List<Verses>)entitydb.Verses.Where(p => p.LandingLocation == land).OrderBy(p => p.DeskMushaf).ToList();
+                        VersesList = (List<Sure>)entitydb.Sure.Where(p => p.LandingLocation == land).OrderBy(p => p.DeskMushaf).ToList();
                     }
 
                     foreach (var item in VersesList)
@@ -151,11 +192,11 @@ namespace KuranX.App.Core.Windows
                 {
                     if (DeskType == "İniş Sırası")
                     {
-                        VersesList = (List<Verses>)entitydb.Verses.OrderBy(p => p.DeskLanding).ToList();
+                        VersesList = (List<Sure>)entitydb.Sure.OrderBy(p => p.DeskLanding).ToList();
                     }
                     else
                     {
-                        VersesList = (List<Verses>)entitydb.Verses.OrderBy(p => p.DeskMushaf).ToList();
+                        VersesList = (List<Sure>)entitydb.Sure.OrderBy(p => p.DeskMushaf).ToList();
                     }
 
                     foreach (var item in VersesList)

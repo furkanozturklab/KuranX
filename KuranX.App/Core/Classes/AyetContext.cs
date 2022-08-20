@@ -11,8 +11,9 @@ namespace KuranX.App.Core.Classes
     public class AyetContext : DbContext
     {
         public DbSet<User> Users { get; set; }
-        public DbSet<Verses> Verses { get; set; }
+        public DbSet<Sure> Sure { get; set; }
         public DbSet<Verse> Verse { get; set; }
+        public DbSet<Interpreter> Interpreter { get; set; }
 
         public string DbPath { get; }
 

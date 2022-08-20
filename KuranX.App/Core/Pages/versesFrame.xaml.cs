@@ -15,7 +15,7 @@ namespace KuranX.App.Core.Pages
     /// </summary>
     public partial class versesFrame : Page
     {
-        private List<Verses> verses = new List<Verses>();
+        private List<Sure> verses = new List<Sure>();
         private int NowPage, CurrentSkip;
         private Task PageItemLoadTask;
         private string Landing, DeskType, VersesStatus;
@@ -51,7 +51,7 @@ namespace KuranX.App.Core.Pages
         {
             using (var entitydb = new AyetContext())
             {
-                List<Verses> VersesList;
+                List<Sure> VersesList;
                 decimal totalCount;
 
                 int i = 0;
@@ -69,82 +69,82 @@ namespace KuranX.App.Core.Pages
                 {
                     // TÜMÜ
 
-                    totalCount = decimal.Parse(entitydb.Verses.ToList().Count().ToString());
+                    totalCount = decimal.Parse(entitydb.Sure.ToList().Count().ToString());
 
                     if (Landing != "Hepsi")
                     {
                         if (DeskType == "İnişe Göre")
                         {
                             Debug.WriteLine("bende ");
-                            VersesList = (List<Verses>)entitydb.Verses.Where(p => p.LandingLocation == Landing).OrderBy(p => p.DeskLanding).Skip(CurrentSkip).Take(15).ToList();
+                            VersesList = (List<Sure>)entitydb.Sure.Where(p => p.LandingLocation == Landing).OrderBy(p => p.DeskLanding).Skip(CurrentSkip).Take(15).ToList();
                         }
                         else
                         {
-                            VersesList = (List<Verses>)entitydb.Verses.Where(p => p.LandingLocation == Landing).OrderBy(p => p.DeskMushaf).Skip(CurrentSkip).Take(15).ToList();
+                            VersesList = (List<Sure>)entitydb.Sure.Where(p => p.LandingLocation == Landing).OrderBy(p => p.DeskMushaf).Skip(CurrentSkip).Take(15).ToList();
                         }
                     }
                     else
                     {
                         if (DeskType == "İnişe Göre")
                         {
-                            VersesList = (List<Verses>)entitydb.Verses.OrderBy(p => p.DeskLanding).Skip(CurrentSkip).Take(15).ToList();
+                            VersesList = (List<Sure>)entitydb.Sure.OrderBy(p => p.DeskLanding).Skip(CurrentSkip).Take(15).ToList();
                         }
                         else
                         {
-                            VersesList = (List<Verses>)entitydb.Verses.OrderBy(p => p.DeskMushaf).Skip(CurrentSkip).Take(15).ToList();
+                            VersesList = (List<Sure>)entitydb.Sure.OrderBy(p => p.DeskMushaf).Skip(CurrentSkip).Take(15).ToList();
                         }
                     }
                 }
                 else if (VersesStatus == "Read")
                 {
-                    totalCount = decimal.Parse(entitydb.Verses.Where(p => p.Status == "#66E21F").ToList().Count().ToString());
+                    totalCount = decimal.Parse(entitydb.Sure.Where(p => p.Status == "#66E21F").ToList().Count().ToString());
 
                     if (Landing != "Hepsi")
                     {
                         if (DeskType == "İnişe Göre")
                         {
-                            VersesList = (List<Verses>)entitydb.Verses.Where(p => p.LandingLocation == Landing).Where(p => p.Status == "#66E21F").OrderBy(p => p.DeskLanding).Skip(CurrentSkip).Take(15).ToList();
+                            VersesList = (List<Sure>)entitydb.Sure.Where(p => p.LandingLocation == Landing).Where(p => p.Status == "#66E21F").OrderBy(p => p.DeskLanding).Skip(CurrentSkip).Take(15).ToList();
                         }
                         else
                         {
-                            VersesList = (List<Verses>)entitydb.Verses.Where(p => p.LandingLocation == Landing).Where(p => p.Status == "#66E21F").OrderBy(p => p.DeskMushaf).Skip(CurrentSkip).Take(15).ToList();
+                            VersesList = (List<Sure>)entitydb.Sure.Where(p => p.LandingLocation == Landing).Where(p => p.Status == "#66E21F").OrderBy(p => p.DeskMushaf).Skip(CurrentSkip).Take(15).ToList();
                         }
                     }
                     else
                     {
                         if (DeskType == "İnişe Göre")
                         {
-                            VersesList = (List<Verses>)entitydb.Verses.Where(p => p.Status == "#66E21F").OrderBy(p => p.DeskLanding).Skip(CurrentSkip).Take(15).ToList();
+                            VersesList = (List<Sure>)entitydb.Sure.Where(p => p.Status == "#66E21F").OrderBy(p => p.DeskLanding).Skip(CurrentSkip).Take(15).ToList();
                         }
                         else
                         {
-                            VersesList = (List<Verses>)entitydb.Verses.Where(p => p.Status == "#66E21F").OrderBy(p => p.DeskMushaf).Skip(CurrentSkip).Take(15).ToList();
+                            VersesList = (List<Sure>)entitydb.Sure.Where(p => p.Status == "#66E21F").OrderBy(p => p.DeskMushaf).Skip(CurrentSkip).Take(15).ToList();
                         }
                     }
                 }
                 else
                 {
-                    totalCount = decimal.Parse(entitydb.Verses.Where(p => p.Status == "#ADB5BD").ToList().Count().ToString());
+                    totalCount = decimal.Parse(entitydb.Sure.Where(p => p.Status == "#ADB5BD").ToList().Count().ToString());
                     if (Landing != "Hepsi")
                     {
                         if (DeskType == "İnişe Göre")
                         {
-                            VersesList = (List<Verses>)entitydb.Verses.Where(p => p.LandingLocation == Landing).Where(p => p.Status == "#ADB5BD").OrderBy(p => p.DeskLanding).Skip(CurrentSkip).Take(15).ToList();
+                            VersesList = (List<Sure>)entitydb.Sure.Where(p => p.LandingLocation == Landing).Where(p => p.Status == "#ADB5BD").OrderBy(p => p.DeskLanding).Skip(CurrentSkip).Take(15).ToList();
                         }
                         else
                         {
-                            VersesList = (List<Verses>)entitydb.Verses.Where(p => p.LandingLocation == Landing).Where(p => p.Status == "#ADB5BD").OrderBy(p => p.DeskMushaf).Skip(CurrentSkip).Take(15).ToList();
+                            VersesList = (List<Sure>)entitydb.Sure.Where(p => p.LandingLocation == Landing).Where(p => p.Status == "#ADB5BD").OrderBy(p => p.DeskMushaf).Skip(CurrentSkip).Take(15).ToList();
                         }
                     }
                     else
                     {
                         if (DeskType == "İnişe Göre")
                         {
-                            VersesList = (List<Verses>)entitydb.Verses.Where(p => p.Status == "#ADB5BD").OrderBy(p => p.DeskLanding).Skip(CurrentSkip).Take(15).ToList();
+                            VersesList = (List<Sure>)entitydb.Sure.Where(p => p.Status == "#ADB5BD").OrderBy(p => p.DeskLanding).Skip(CurrentSkip).Take(15).ToList();
                         }
                         else
                         {
-                            VersesList = (List<Verses>)entitydb.Verses.Where(p => p.Status == "#ADB5BD").OrderBy(p => p.DeskMushaf).Skip(CurrentSkip).Take(15).ToList();
+                            VersesList = (List<Sure>)entitydb.Sure.Where(p => p.Status == "#ADB5BD").OrderBy(p => p.DeskMushaf).Skip(CurrentSkip).Take(15).ToList();
                         }
                     }
                 }
@@ -311,7 +311,7 @@ namespace KuranX.App.Core.Pages
             Button getContent = sender as Button;
             MessageBox.Show(getContent.Tag.ToString());
 
-            verseFrame verseFrame = new verseFrame(getContent.Tag.ToString());
+            verseFrame verseFrame = new verseFrame(int.Parse(getContent.Tag.ToString()));
 
             NavigationService.Navigate(verseFrame, UriKind.Relative);
         }

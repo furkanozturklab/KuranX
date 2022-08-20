@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace KuranX.App.Core.Classes
 {
-    public class Verses
+    public class Sure
     {
-        public int? versesId { get; set; }
+        public int? sureId { get; set; }
         public string? Name { get; set; }
         public int? NumberOfVerses { get; set; }
         public string? LandingLocation { get; set; }

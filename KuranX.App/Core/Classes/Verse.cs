@@ -11,10 +11,11 @@ namespace KuranX.App.Core.Classes
         public int? SureId { get; set; }
         public int? VerseId { get; set; }
         public int? RelativeDesk { get; set; }
-        public int? VerseDesk { get; set; }
+
         public string? VerseArabic { get; set; }
         public string? VerseTr { get; set; }
         public string? VerseDesc { get; set; }
-        public Boolean? VerseCheck { get; set; }
+        public string? VerseCheck { get; set; }
+        public string? Status { get; set; }
     }
 }
