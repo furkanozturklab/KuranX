@@ -13,6 +13,7 @@ namespace KuranX.App.Core.Windows
         public homeScreen()
         {
             InitializeComponent();
+            App.mainframe = (Frame)this.FindName("homeFrame");
         }
 
         private void enterFullScreenIcon_Click(object sender,
@@ -55,9 +56,9 @@ namespace KuranX.App.Core.Windows
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            //homeFrame.Content = new versesFrame();
+            //App.mainframe.Content = new versesFrame();
 
-            homeFrame.Content = new verseFrame(1);
+            App.mainframe.Content = new verseFrame(9);
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

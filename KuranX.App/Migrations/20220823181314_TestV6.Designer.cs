@@ -3,6 +3,7 @@ using System;
 using KuranX.App.Core.Classes;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KuranX.App.Migrations
 {
     [DbContext(typeof(AyetContext))]
-    partial class AyetContextModelSnapshot : ModelSnapshot
+    [Migration("20220823181314_TestV6")]
+    partial class TestV6
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.7");
@@ -26,10 +28,11 @@ namespace KuranX.App.Migrations
                     b.Property<DateTime>("Created")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("IntegrityName")
+                    b.Property<string>("IntergrityName")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("IntegrityNote")
+                    b.Property<string>("InterityNote")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("Modify")
@@ -41,10 +44,10 @@ namespace KuranX.App.Migrations
                     b.Property<int?>("connectVerseId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("connectedSureId")
+                    b.Property<int>("connectedSureId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("connectedVerseId")
+                    b.Property<int>("connectedVerseId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("IntegrityId");

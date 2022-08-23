@@ -309,11 +309,13 @@ namespace KuranX.App.Core.Pages
         private void versesPageOpen(object sender, RoutedEventArgs e)
         {
             Button getContent = sender as Button;
-            MessageBox.Show(getContent.Tag.ToString());
 
+            App.mainframe.Content = new verseFrame(Int16.Parse(getContent.Tag.ToString()));
+
+            /*
             verseFrame verseFrame = new verseFrame(int.Parse(getContent.Tag.ToString()));
-
             NavigationService.Navigate(verseFrame, UriKind.Relative);
+            */
         }
     }
 }

@@ -142,7 +142,7 @@
         <Setter Property="Margin" Value="0,0,5,0" />
     </Style>
 
-    <Style x:Key="versesActionMainTabButton" TargetType="CheckBox">
+    <Style x:Key="versesActionMainTabCheckBox" TargetType="CheckBox">
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="BorderThickness" Value="0,0,0,0" />
@@ -150,10 +150,21 @@
         <Setter Property="Height" Value="Auto" />
         <Setter Property="Background" Value="#FFF" />
         <Setter Property="Foreground"  Value="#1C1E2F" />
-        <Setter Property="Margin" Value="30 0 30 0" />
+        <Setter Property="Margin" Value="20 0 20 0" />
     </Style>
 
-    <Style x:Key="versesActionMainTabButtonMark" TargetType="CheckBox" BasedOn="{StaticResource versesActionMainTabButton}">
+    <Style x:Key="versesActionMainTabButton" TargetType="Button">
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="UseLayoutRounding" Value="True" />
+        <Setter Property="BorderThickness" Value="0,0,0,0" />
+        <Setter Property="BorderBrush" Value="{x:Null}" />
+        <Setter Property="Height" Value="Auto" />
+        <Setter Property="Background" Value="#FFF" />
+        <Setter Property="Foreground"  Value="#1C1E2F" />
+        <Setter Property="Margin" Value="20 0 20 0" />
+    </Style>
+
+    <Style x:Key="versesActionMainTabButtonMark" TargetType="CheckBox" BasedOn="{StaticResource versesActionMainTabCheckBox}">
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="Template">
@@ -189,7 +200,7 @@
         </Style.Triggers>
     </Style>
 
-    <Style x:Key="versesActionMainTabButtonBell" TargetType="CheckBox" BasedOn="{StaticResource versesActionMainTabButton}">
+    <Style x:Key="versesActionMainTabButtonBell" TargetType="CheckBox" BasedOn="{StaticResource versesActionMainTabCheckBox}">
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="Template">
@@ -225,7 +236,7 @@
         </Style.Triggers>
     </Style>
 
-    <Style x:Key="versesActionMainTabButtonNote" TargetType="CheckBox" BasedOn="{StaticResource versesActionMainTabButton}">
+    <Style x:Key="versesActionMainTabButtonNote" TargetType="Button" BasedOn="{StaticResource versesActionMainTabButton}">
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="Template">
@@ -248,20 +259,9 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-
-        <Style.Triggers>
-            <Trigger Property="IsChecked" Value="True">
-                <Setter Property="Background" Value="#6610f2" />
-                <Setter Property="Foreground" Value="#FFFFFF" />
-            </Trigger>
-            <Trigger Property="IsChecked" Value="False">
-                <Setter Property="Background" Value="#FFFFFF" />
-                <Setter Property="Foreground" Value="#1C1E2F" />
-            </Trigger>
-        </Style.Triggers>
     </Style>
 
-    <Style x:Key="versesActionMainTabButtonCheck" TargetType="CheckBox" BasedOn="{StaticResource versesActionMainTabButton}">
+    <Style x:Key="versesActionMainTabButtonCheck" TargetType="CheckBox" BasedOn="{StaticResource versesActionMainTabCheckBox}">
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="Template">
@@ -297,7 +297,7 @@
         </Style.Triggers>
     </Style>
 
-    <Style x:Key="versesActionMainTabButtonFav" TargetType="CheckBox" BasedOn="{StaticResource versesActionMainTabButton}">
+    <Style x:Key="versesActionMainTabButtonFav" TargetType="CheckBox" BasedOn="{StaticResource versesActionMainTabCheckBox}">
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="Template">
@@ -333,7 +333,32 @@
         </Style.Triggers>
     </Style>
 
-    <Style x:Key="versesActionMainTabButtonFeed" TargetType="CheckBox" BasedOn="{StaticResource versesActionMainTabButton}">
+    <Style x:Key="versesActionMainTabButtonDesc" TargetType="Button" BasedOn="{StaticResource versesActionMainTabButton}">
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="UseLayoutRounding" Value="True" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Border x:Name="target1" Padding="15,5,15,5" Style="{DynamicResource defaultBorderShadowEffect}" Background="{TemplateBinding Background}">
+                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal">
+                            <Icon:PackIconUnicons x:Name="target3"  Kind="{Binding Path=Uid, RelativeSource={RelativeSource TemplatedParent}}" Margin="0,0,5,0" Foreground="{TemplateBinding Foreground}" Width="14" Height="14" VerticalAlignment="Center"  HorizontalAlignment="Center" />
+                            <TextBlock x:Name="target2" Text="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}}" FontFamily="{DynamicResource PoppinsRegular}" Foreground="{TemplateBinding Foreground}" />
+                        </StackPanel>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="target1" Property="Background" Value="#d63384" />
+                            <Setter TargetName="target2" Property="Foreground" Value="#FFFFFF" />
+                            <Setter TargetName="target3" Property="Foreground" Value="#FFFFFF" />
+                            <Setter Property="Cursor" Value="Hand" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="versesActionMainTabButtonFeed" TargetType="Button" BasedOn="{StaticResource versesActionMainTabButton}">
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="Template">
@@ -356,17 +381,6 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-
-        <Style.Triggers>
-            <Trigger Property="IsChecked" Value="True">
-                <Setter Property="Background" Value="#0dcaf0" />
-                <Setter Property="Foreground" Value="#FFFFFF" />
-            </Trigger>
-            <Trigger Property="IsChecked" Value="False">
-                <Setter Property="Background" Value="#FFFFFF" />
-                <Setter Property="Foreground" Value="#1C1E2F" />
-            </Trigger>
-        </Style.Triggers>
     </Style>
 
     <Style x:Key="versesNavContent" TargetType="Button">
@@ -520,20 +534,20 @@
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="MaxWidth" Value="210" />
-        <Setter Property="Height" Value="Auto" />
-
+        <Setter Property="Height" Value="50" />
+        <Setter Property="Width" Value="Auto" />
         <Setter Property="BorderThickness" Value="0,0,0,0" />
         <Setter Property="BorderBrush" Value="{x:Null}" />
         <Setter Property="Background" Value="#FFF" />
         <Setter Property="Foreground"  Value="#1C1E2F" />
-        <Setter Property="Margin" Value="40 0 40 0" />
+        <Setter Property="Margin" Value="30 0 30 0" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate>
-                    <Border Background="{TemplateBinding Background}" Style="{DynamicResource defaultBorderShadowEffect}" Padding="20 10 20 10" SnapsToDevicePixels="True" UseLayoutRounding="True">
+                    <Border Background="{TemplateBinding Background}" Style="{DynamicResource defaultBorderShadowEffect}" Padding="20 5 20 5" SnapsToDevicePixels="True" UseLayoutRounding="True">
                         <StackPanel Orientation="Horizontal">
                             <Icon:PackIconJamIcons Kind="{Binding Path=Tag,RelativeSource={RelativeSource TemplatedParent}}" VerticalAlignment="Center" Width="22" Height="22" />
-                            <TextBlock Text="{Binding Path=Content,RelativeSource={RelativeSource TemplatedParent}}" FontSize="12" Width="210" MaxWidth="210" FontFamily="{DynamicResource PoppinsSemiBold}" TextWrapping="Wrap" Margin="10 0 0 0" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                            <TextBlock Text="{Binding Path=Content,RelativeSource={RelativeSource TemplatedParent}}" FontSize="12" Width="Auto" MaxWidth="210" FontFamily="{DynamicResource PoppinsSemiBold}" TextWrapping="Wrap" Margin="10 0 0 0" VerticalAlignment="Center" HorizontalAlignment="Center" />
                         </StackPanel>
                     </Border>
                 </ControlTemplate>
@@ -561,18 +575,6 @@
                 <Setter Property="MinWidth" Value="4" />
             </Trigger>
         </Style.Triggers>
-    </Style>
-
-    <Style x:Key="popupTemp" TargetType="Popup">
-
-        <Setter Property="Grid.Row" Value="5" />
-        <Setter Property="Panel.ZIndex" Value="10" />
-        <Setter Property="Width" Value="280" />
-        <Setter Property="Height" Value="60" />
-        <Setter Property="PlacementTarget" Value="{Binding ElementName=vb7}" />
-        <Setter Property="VerticalOffset" Value="10" />
-        <Setter Property="HorizontalOffset" Value="-50" />
-        <Setter Property="AllowsTransparency" Value="True" />
     </Style>
 
     <Style x:Key="currentText" TargetType="Button">

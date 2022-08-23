@@ -14,6 +14,8 @@ namespace KuranX.App.Core.Classes
         public DbSet<Sure> Sure { get; set; }
         public DbSet<Verse> Verse { get; set; }
         public DbSet<Interpreter> Interpreter { get; set; }
+        public DbSet<Notes> Notes { get; set; }
+        public DbSet<Integrity> Integrity { get; set; }
 
         public string DbPath { get; }
 

@@ -3,6 +3,7 @@ using System;
 using KuranX.App.Core.Classes;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,47 +11,13 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KuranX.App.Migrations
 {
     [DbContext(typeof(AyetContext))]
-    partial class AyetContextModelSnapshot : ModelSnapshot
+    [Migration("20220822183811_TestV5-hotfix1")]
+    partial class TestV5hotfix1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.7");
-
-            modelBuilder.Entity("KuranX.App.Core.Classes.Integrity", b =>
-                {
-                    b.Property<int>("IntegrityId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("IntegrityName")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("IntegrityNote")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("Modify")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int?>("connectSureId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("connectVerseId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("connectedSureId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("connectedVerseId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("IntegrityId");
-
-                    b.ToTable("Integrity");
-                });
 
             modelBuilder.Entity("KuranX.App.Core.Classes.Interpreter", b =>
                 {

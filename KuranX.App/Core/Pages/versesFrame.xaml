@@ -126,7 +126,7 @@
                                                             <TextBlock Text=" Ayet" Style="{DynamicResource versescounttext}" />
                                                         </StackPanel>
                                                     </StackPanel>
-                                                    <Button Style="{DynamicResource ayetItemsButton}" Grid.Column="1"  Tag="{Binding versesId}" Click="versesPageOpen" />
+                                                    <Button Style="{DynamicResource ayetItemsButton}" Grid.Column="1"  Tag="{Binding sureId}" Click="versesPageOpen" />
                                                 </Grid>
                                             </StackPanel>
                                         </Grid>
@@ -176,7 +176,7 @@
                                                             <TextBlock Text=" Ayet" Style="{DynamicResource versescounttext}" />
                                                         </StackPanel>
                                                     </StackPanel>
-                                                    <Button Style="{DynamicResource ayetItemsButton}" Grid.Column="1"  Tag="{Binding versesId}" Click="versesPageOpen" />
+                                                    <Button Style="{DynamicResource ayetItemsButton}" Grid.Column="1"  Tag="{Binding sureId}" Click="versesPageOpen" />
                                                 </Grid>
                                             </StackPanel>
                                         </Grid>
@@ -226,7 +226,7 @@
                                                             <TextBlock Text=" Ayet" Style="{DynamicResource versescounttext}" />
                                                         </StackPanel>
                                                     </StackPanel>
-                                                    <Button Style="{DynamicResource ayetItemsButton}" Grid.Column="1"  Tag="{Binding versesId}" Click="versesPageOpen" />
+                                                    <Button Style="{DynamicResource ayetItemsButton}" Grid.Column="1"  Tag="{Binding sureId}" Click="versesPageOpen" />
                                                 </Grid>
                                             </StackPanel>
                                         </Grid>
@@ -276,7 +276,7 @@
                                                             <TextBlock Text=" Ayet" Style="{DynamicResource versescounttext}" />
                                                         </StackPanel>
                                                     </StackPanel>
-                                                    <Button Style="{DynamicResource ayetItemsButton}" Grid.Column="1"  Tag="{Binding versesId}" Click="versesPageOpen" />
+                                                    <Button Style="{DynamicResource ayetItemsButton}" Grid.Column="1"  Tag="{Binding sureId}" Click="versesPageOpen" />
                                                 </Grid>
                                             </StackPanel>
                                         </Grid>
@@ -326,7 +326,7 @@
                                                             <TextBlock Text=" Ayet" Style="{DynamicResource versescounttext}" />
                                                         </StackPanel>
                                                     </StackPanel>
-                                                    <Button Style="{DynamicResource ayetItemsButton}" Grid.Column="1"  Tag="{Binding versesId}" Click="versesPageOpen" />
+                                                    <Button Style="{DynamicResource ayetItemsButton}" Grid.Column="1"  Tag="{Binding sureId}" Click="versesPageOpen" />
                                                 </Grid>
                                             </StackPanel>
                                         </Grid>
@@ -376,7 +376,7 @@
                                                             <TextBlock Text=" Ayet" Style="{DynamicResource versescounttext}" />
                                                         </StackPanel>
                                                     </StackPanel>
-                                                    <Button Style="{DynamicResource ayetItemsButton}" Grid.Column="1"  Tag="{Binding versesId}" Click="versesPageOpen" />
+                                                    <Button Style="{DynamicResource ayetItemsButton}" Grid.Column="1"  Tag="{Binding sureId}" Click="versesPageOpen" />
                                                 </Grid>
                                             </StackPanel>
                                         </Grid>
@@ -426,7 +426,7 @@
                                                             <TextBlock Text=" Ayet" Style="{DynamicResource versescounttext}" />
                                                         </StackPanel>
                                                     </StackPanel>
-                                                    <Button Style="{DynamicResource ayetItemsButton}" Grid.Column="1"  Tag="{Binding versesId}" Click="versesPageOpen" />
+                                                    <Button Style="{DynamicResource ayetItemsButton}" Grid.Column="1"  Tag="{Binding sureId}" Click="versesPageOpen" />
                                                 </Grid>
                                             </StackPanel>
                                         </Grid>
@@ -476,7 +476,7 @@
                                                             <TextBlock Text=" Ayet" Style="{DynamicResource versescounttext}" />
                                                         </StackPanel>
                                                     </StackPanel>
-                                                    <Button Style="{DynamicResource ayetItemsButton}" Grid.Column="1"  Tag="{Binding versesId}" Click="versesPageOpen" />
+                                                    <Button Style="{DynamicResource ayetItemsButton}" Grid.Column="1"  Tag="{Binding sureId}" Click="versesPageOpen" />
                                                 </Grid>
                                             </StackPanel>
                                         </Grid>
@@ -526,7 +526,7 @@
                                                             <TextBlock Text=" Ayet" Style="{DynamicResource versescounttext}" />
                                                         </StackPanel>
                                                     </StackPanel>
-                                                    <Button Style="{DynamicResource ayetItemsButton}" Grid.Column="1"  Tag="{Binding versesId}" Click="versesPageOpen" />
+                                                    <Button Style="{DynamicResource ayetItemsButton}" Grid.Column="1"  Tag="{Binding sureId}" Click="versesPageOpen" />
                                                 </Grid>
                                             </StackPanel>
                                         </Grid>
@@ -576,7 +576,7 @@
                                                             <TextBlock Text=" Ayet" Style="{DynamicResource versescounttext}" />
                                                         </StackPanel>
                                                     </StackPanel>
-                                                    <Button Style="{DynamicResource ayetItemsButton}" Grid.Column="1"  Tag="{Binding versesId}" Click="versesPageOpen" />
+                                                    <Button Style="{DynamicResource ayetItemsButton}" Grid.Column="1"  Tag="{Binding sureId}" Click="versesPageOpen" />
                                                 </Grid>
                                             </StackPanel>
                                         </Grid>
@@ -626,7 +626,7 @@
                                                             <TextBlock Text=" Ayet" Style="{DynamicResource versescounttext}" />
                                                         </StackPanel>
                                                     </StackPanel>
-                                                    <Button Style="{DynamicResource ayetItemsButton}" Grid.Column="1"  Tag="{Binding versesId}" Click="versesPageOpen" />
+                                                    <Button Style="{DynamicResource ayetItemsButton}" Grid.Column="1"  Tag="{Binding sureId}" Click="versesPageOpen" />
                                                 </Grid>
                                             </StackPanel>
                                         </Grid>
@@ -676,7 +676,7 @@
                                                             <TextBlock Text=" Ayet" Style="{DynamicResource versescounttext}" />
                                                         </StackPanel>
                                                     </StackPanel>
-                                                    <Button Style="{DynamicResource ayetItemsButton}" Grid.Column="1"  Tag="{Binding versesId}" Click="versesPageOpen" />
+                                                    <Button Style="{DynamicResource ayetItemsButton}" Grid.Column="1"  Tag="{Binding sureId}" Click="versesPageOpen" />
                                                 </Grid>
                                             </StackPanel>
                                         </Grid>
@@ -726,7 +726,7 @@
                                                             <TextBlock Text=" Ayet" Style="{DynamicResource versescounttext}" />
                                                         </StackPanel>
                                                     </StackPanel>
-                                                    <Button Style="{DynamicResource ayetItemsButton}" Grid.Column="1"  Tag="{Binding versesId}" Click="versesPageOpen" />
+                                                    <Button Style="{DynamicResource ayetItemsButton}" Grid.Column="1"  Tag="{Binding sureId}" Click="versesPageOpen" />
                                                 </Grid>
                                             </StackPanel>
                                         </Grid>
@@ -776,7 +776,7 @@
                                                             <TextBlock Text=" Ayet" Style="{DynamicResource versescounttext}" />
                                                         </StackPanel>
                                                     </StackPanel>
-                                                    <Button Style="{DynamicResource ayetItemsButton}" Grid.Column="1"  Tag="{Binding versesId}" Click="versesPageOpen" />
+                                                    <Button Style="{DynamicResource ayetItemsButton}" Grid.Column="1"  Tag="{Binding sureId}" Click="versesPageOpen" />
                                                 </Grid>
                                             </StackPanel>
                                         </Grid>
@@ -826,7 +826,7 @@
                                                             <TextBlock Text=" Ayet" Style="{DynamicResource versescounttext}" />
                                                         </StackPanel>
                                                     </StackPanel>
-                                                    <Button Style="{DynamicResource ayetItemsButton}" Grid.Column="1"  Tag="{Binding versesId}" Click="versesPageOpen" />
+                                                    <Button Style="{DynamicResource ayetItemsButton}" Grid.Column="1"  Tag="{Binding sureId}" Click="versesPageOpen" />
                                                 </Grid>
                                             </StackPanel>
                                         </Grid>
