@@ -16,6 +16,9 @@ namespace KuranX.App.Core.Classes
         public DbSet<Interpreter> Interpreter { get; set; }
         public DbSet<Notes> Notes { get; set; }
         public DbSet<Integrity> Integrity { get; set; }
+        public DbSet<Subject> Subject { get; set; }
+        public DbSet<SubjectItems> SubjectItems { get; set; }
+        public DbSet<Words> Words { get; set; }
 
         public string DbPath { get; }
 

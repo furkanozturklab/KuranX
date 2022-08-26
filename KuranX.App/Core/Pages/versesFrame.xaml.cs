@@ -19,7 +19,6 @@ namespace KuranX.App.Core.Pages
         private int NowPage, CurrentSkip;
         private Task PageItemLoadTask;
         private string Landing, DeskType, VersesStatus;
-        private List<ItemsControl> itemsList = new List<ItemsControl>();
         private bool tempCheck = false, tempCheck1 = false;
 
         public versesFrame()
@@ -30,21 +29,6 @@ namespace KuranX.App.Core.Pages
             NowPage = 1;
             CurrentSkip = 0;
             VersesStatus = "All";
-            itemsList.Add(aIcontrol1);
-            itemsList.Add(aIcontrol2);
-            itemsList.Add(aIcontrol3);
-            itemsList.Add(aIcontrol4);
-            itemsList.Add(aIcontrol5);
-            itemsList.Add(aIcontrol6);
-            itemsList.Add(aIcontrol7);
-            itemsList.Add(aIcontrol8);
-            itemsList.Add(aIcontrol9);
-            itemsList.Add(aIcontrol10);
-            itemsList.Add(aIcontrol11);
-            itemsList.Add(aIcontrol12);
-            itemsList.Add(aIcontrol13);
-            itemsList.Add(aIcontrol14);
-            itemsList.Add(aIcontrol15);
         }
 
         private void loadVerses()
@@ -54,28 +38,26 @@ namespace KuranX.App.Core.Pages
                 List<Sure> VersesList;
                 decimal totalCount;
 
-                int i = 0;
-
-                for (int x = 0; x < 15; x++)
+                // ItemsSourceClear
+                for (int x = 1; x < 16; x++)
                 {
-                    itemsList[x].Dispatcher.Invoke(() =>
+                    this.Dispatcher.Invoke(() =>
                     {
-                        itemsList[x].ItemsSource = null;
-                        itemsList[x].Items.Clear();
+                        ItemsControl itemslist = (ItemsControl)this.FindName("aIcontrol" + x);
+                        //itemslist.Items.Clear();
+                        itemslist.ItemsSource = null;
                     });
                 }
 
                 if (VersesStatus == "All")
                 {
                     // TÜMÜ
-
                     totalCount = decimal.Parse(entitydb.Sure.ToList().Count().ToString());
 
                     if (Landing != "Hepsi")
                     {
                         if (DeskType == "İnişe Göre")
                         {
-                            Debug.WriteLine("bende ");
                             VersesList = (List<Sure>)entitydb.Sure.Where(p => p.LandingLocation == Landing).OrderBy(p => p.DeskLanding).Skip(CurrentSkip).Take(15).ToList();
                         }
                         else
@@ -97,6 +79,8 @@ namespace KuranX.App.Core.Pages
                 }
                 else if (VersesStatus == "Read")
                 {
+                    // OKUDUKLARIM
+
                     totalCount = decimal.Parse(entitydb.Sure.Where(p => p.Status == "#66E21F").ToList().Count().ToString());
 
                     if (Landing != "Hepsi")
@@ -124,6 +108,7 @@ namespace KuranX.App.Core.Pages
                 }
                 else
                 {
+                    // Okumadıklarım
                     totalCount = decimal.Parse(entitydb.Sure.Where(p => p.Status == "#ADB5BD").ToList().Count().ToString());
                     if (Landing != "Hepsi")
                     {
@@ -153,15 +138,17 @@ namespace KuranX.App.Core.Pages
 
                 if (VersesList.Count() != 0)
                 {
+                    int x = 1;
                     foreach (var item in VersesList)
                     {
-                        verses.Add(item);
-                        itemsList[i].Dispatcher.Invoke(() =>
+                        this.Dispatcher.Invoke(() =>
                         {
-                            itemsList[i].ItemsSource = verses;
+                            verses.Add(item);
+                            ItemsControl itemslist = (ItemsControl)this.FindName("aIcontrol" + x);
+                            itemslist.ItemsSource = verses;
+                            verses.Clear();
+                            x++;
                         });
-                        verses.Clear();
-                        i++;
                     }
 
                     totalCount = Math.Ceiling(totalCount / 15);
@@ -194,7 +181,6 @@ namespace KuranX.App.Core.Pages
                     });
                 }
                 else
-
                 {
                     nowPageStatus.Dispatcher.Invoke(() =>
                     {
@@ -207,6 +193,19 @@ namespace KuranX.App.Core.Pages
                     previusPageButton.Dispatcher.Invoke(() =>
                     {
                         previusPageButton.IsEnabled = false;
+                    });
+
+                    allCheck.Dispatcher.Invoke(() =>
+                    {
+                        allCheck.IsEnabled = true;
+                    });
+                    readCheck.Dispatcher.Invoke(() =>
+                    {
+                        readCheck.IsEnabled = true;
+                    });
+                    noraedCheck.Dispatcher.Invoke(() =>
+                    {
+                        noraedCheck.IsEnabled = true;
                     });
                 }
 

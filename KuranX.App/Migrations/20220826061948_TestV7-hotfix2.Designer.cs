@@ -3,6 +3,7 @@ using System;
 using KuranX.App.Core.Classes;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KuranX.App.Migrations
 {
     [DbContext(typeof(AyetContext))]
-    partial class AyetContextModelSnapshot : ModelSnapshot
+    [Migration("20220826061948_TestV7-hotfix2")]
+    partial class TestV7hotfix2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.7");
@@ -274,29 +276,6 @@ namespace KuranX.App.Migrations
                     b.HasKey("VerseId");
 
                     b.ToTable("Verse");
-                });
-
-            modelBuilder.Entity("KuranX.App.Core.Classes.Words", b =>
-                {
-                    b.Property<int>("WordsId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("SureId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("VerseId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("WordRe")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("WordText")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("WordsId");
-
-                    b.ToTable("Words");
                 });
 #pragma warning restore 612, 618
         }

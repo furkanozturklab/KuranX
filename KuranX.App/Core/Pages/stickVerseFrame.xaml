@@ -168,6 +168,46 @@
             </Border>
         </Popup>
 
+        <Popup x:Name="wordDetailPopup" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="500" Height="600" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+            <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="480" Height="580">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50" />
+                        <RowDefinition Height="530" />
+                    </Grid.RowDefinitions>
+                    <Border  Grid.Row="0" Style="{DynamicResource headerBorderTemp}">
+                        <TextBlock Text="Kelime Kökleri" Style="{DynamicResource popupHeaderText}" />
+                    </Border>
+                    <Grid Grid.Row="1">
+                        <Grid>
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="56" />
+                            </Grid.RowDefinitions>
+
+                            <ScrollViewer Grid.ColumnSpan="2" Grid.Row="0" Padding="20">
+                                <StackPanel x:Name="wordsAllShowPopupStackPanel">
+                                    <StackPanel Orientation="Horizontal">
+                                        <StackPanel Margin="10 0 10 0">
+                                            <TextBlock  Style="{DynamicResource wordHeader}" Text="KÖK" />
+                                            <Separator Style="{DynamicResource dynamicItemShowSperator}" Width="200" />
+                                        </StackPanel>
+                                        <StackPanel Margin="10 0 10 0">
+                                            <TextBlock Style="{DynamicResource wordHeader}" Text="ANLAMI" />
+                                            <Separator Style="{DynamicResource dynamicItemShowSperator}" Width="200" />
+                                        </StackPanel>
+                                    </StackPanel>
+                                </StackPanel>
+                            </ScrollViewer>
+
+                            <Button Grid.Column="1" Grid.Row="4" Style="{DynamicResource selectConnectAyet}" Content="Vazgeç" Tag="Close" Uid="wordDetailPopup" Click="popupClosed_Click" />
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </Border>
+        </Popup>
+
         <ItemsControl Grid.Row="0"  x:Name="verseHeader" VerticalAlignment="Center">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
@@ -215,16 +255,8 @@
                                             <ColumnDefinition Width="54" />
                                             <ColumnDefinition Width="54" />
                                         </Grid.ColumnDefinitions>
-                                        <StackPanel Grid.Column="0" VerticalAlignment="Center">
-                                            <Border Style="{DynamicResource versesTabSearchBorder}">
-                                                <StackPanel Orientation="Horizontal">
-                                                    <TextBox Style="{DynamicResource versesTabSearchText}" />
-                                                    <Button Style="{DynamicResource versesTabSearchButton}" />
-                                                </StackPanel>
-                                            </Border>
-                                        </StackPanel>
+
                                         <Button x:Name="showDescPopup" Style="{DynamicResource versesTabActionButtonInfo}" Grid.Column="1" Tag="CommentAltExclamation" Content="{Binding Description}" Click="showDescPopup_Click" />
-                                        <Button Style="{DynamicResource versesTabActionButtonReset}" Grid.Column="2" Tag="RefreshMD" />
                                     </Grid>
                                 </StackPanel>
                             </Grid>
@@ -237,14 +269,6 @@
         <ItemsControl x:Name="controlNavPanelItemscontrol" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel  Orientation="Horizontal">
-                        <CheckBox x:Name="markButton" Style="{DynamicResource versesActionMainTabButtonMark}" Uid="{Binding VerseId}" Content="İşaretle" Tag="Bookmarks" />
-                        <CheckBox x:Name="bellButton" Style="{DynamicResource versesActionMainTabButtonBell}" Uid="{Binding VerseId}" Content="Bu Ayeti Hatırlat" Tag="Bell" />
-                        <Button x:Name="noteButton" Style="{DynamicResource versesActionMainTabButtonNote}" Uid="{Binding VerseId}" Content="Not Al" Tag="ClipboardNotes" />
-                        <CheckBox x:Name="checkButton" Style="{DynamicResource versesActionMainTabButtonCheck}" IsChecked="{Binding VerseCheck}" Uid="{Binding VerseId}" Content="Okudum" Tag="Check" Click="check_Click" />
-                        <Button x:Name="descButton" Style="{DynamicResource versesActionMainTabButtonDesc}" Tag="{Binding VerseDesc}" Content="Ayet Açıklaması" Uid="Info" Click="descButton_Click" />
-                        <Button x:Name="feedbackButton" Style="{DynamicResource versesActionMainTabButtonFeed}" Uid="{Binding VerseId}" Content="Düşünceleriniz Paylaşın" Tag="Send" />
-                    </StackPanel>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
@@ -325,6 +349,7 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
                             <StackPanel Orientation="Horizontal" Grid.Column="0">
                                 <TextBlock Text="Yorumlayan" FontFamily="{DynamicResource PoppinsMedium}" FontSize="14" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" />
@@ -374,10 +399,15 @@
                                     <ComboBoxItem  Content="Yaşar Nuri Öztürk" />
                                 </ComboBox>
                             </StackPanel>
-                            <StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center">
+
+                            <StackPanel Orientation="Horizontal" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
                                 <Button Style="{DynamicResource currentText}" x:Name="CurrentVerse" Tag="" Content="Seçili Ayet" />
                             </StackPanel>
-                            <StackPanel x:Name="backInterpreter" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="Collapsed">
+
+                            <StackPanel Orientation="Horizontal" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right">
+                                <Button Style="{DynamicResource wordOpenText}" x:Name="wordText" Tag="Kelime Kökleri" Click="wordText_Click" />
+                            </StackPanel>
+                            <StackPanel x:Name="backInterpreter" Grid.Column="3" HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="Collapsed">
                                 <Button Style="{DynamicResource backInterpreter}" x:Name="BackInterpreter" Tag="Yorumu Getir" Click="backFullTextLoad" />
                             </StackPanel>
                         </Grid>

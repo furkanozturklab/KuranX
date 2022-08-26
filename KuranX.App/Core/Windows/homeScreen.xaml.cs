@@ -58,12 +58,29 @@ namespace KuranX.App.Core.Windows
         {
             //App.mainframe.Content = new versesFrame();
 
-            App.mainframe.Content = new verseFrame(9);
+            App.mainframe.Content = new verseFrame(2);
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+        private void navEnter_Click(object sender, RoutedEventArgs e)
+        {
+            var btn_nav = sender as Button;
+
+            switch (btn_nav.Uid)
+            {
+                case "nav_verses":
+                    App.mainframe.Content = new versesFrame();
+                    break;
+
+                default:
+                    App.mainframe.Content = new TestFrame();
+
+                    break;
+            }
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)

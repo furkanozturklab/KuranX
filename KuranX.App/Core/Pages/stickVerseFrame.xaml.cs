@@ -128,6 +128,35 @@ namespace KuranX.App.Core.Pages
             }
         }
 
+        private void wordText_Click(object sender, RoutedEventArgs e)
+        {
+            wordDetailPopup.IsOpen = true;
+
+            using (var entitydb = new AyetContext())
+            {
+                var dWords = entitydb.Words.Where(p => p.SureId == dSure[0].sureId).Where(p => p.VerseId == dVerse[0].RelativeDesk).ToList();
+
+                foreach (var item in dWords)
+                {
+                    StackPanel itemsStack = new StackPanel();
+                    TextBlock text = new TextBlock();
+                    TextBlock re = new TextBlock();
+
+                    itemsStack.Style = (Style)FindResource("wordStack");
+                    text.Style = (Style)FindResource("wordDetail");
+                    re.Style = (Style)FindResource("wordDetail");
+
+                    text.Text = item.WordText;
+                    re.Text = item.WordRe;
+
+                    itemsStack.Children.Add(text);
+                    itemsStack.Children.Add(re);
+
+                    wordsAllShowPopupStackPanel.Children.Add(itemsStack);
+                }
+            }
+        }
+
         public void popuploadVerse()
         {
             using (var entitydb = new AyetContext())

@@ -2,22 +2,15 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Windows.Threading;
 using KuranX.App.Core.Classes;
-using KuranX.App.Core.Windows;
 
 namespace KuranX.App.Core.Pages
 {
@@ -32,10 +25,8 @@ namespace KuranX.App.Core.Pages
         private List<Verse> dVerse, dVerseNav, tempVerses = new List<Verse>();
         private List<Integrity> tempInteg = new List<Integrity>();
         private List<Interpreter> dInterpreter = new List<Interpreter>();
-        private List<ItemsControl> controlitemsList = new List<ItemsControl>();
         private Task PageItemLoadTask;
         private CheckBox chk;
-        private ComboBoxItem cmbtmp = new ComboBoxItem();
         private DispatcherTimer timeSpan = new DispatcherTimer(DispatcherPriority.Render);
         private string InterpreterWrite, verseName;
         public int activeSure, activeVerse, tempDataInt = 0, lastVerse = 0, getpopupRelativeId;
@@ -45,13 +36,6 @@ namespace KuranX.App.Core.Pages
         public verseFrame()
         {
             InitializeComponent();
-            controlitemsList.Add(vb1);
-            controlitemsList.Add(vb2);
-            controlitemsList.Add(vb3);
-            controlitemsList.Add(vb4);
-            controlitemsList.Add(vb5);
-            controlitemsList.Add(vb6);
-            controlitemsList.Add(vb7);
         }
 
         public verseFrame(int data) : this()
@@ -93,31 +77,36 @@ namespace KuranX.App.Core.Pages
         {
             using (var entitydb = new AyetContext())
             {
-                dVerseNav = (List<Verse>)entitydb.Verse.Where(p => p.SureId == activeSure).Select(p => new Verse() { VerseId = p.VerseId, RelativeDesk = p.RelativeDesk, Status = p.Status, VerseCheck = p.VerseCheck }).Skip(lastVerse).Take(8).ToList();
-                int i = 0;
+                if (lastVerse < 7) lastVerse = 0;
 
-                for (int x = 0; x < 7; x++)
+                dVerseNav = (List<Verse>)entitydb.Verse.Where(p => p.SureId == dSure[0].sureId).Select(p => new Verse() { VerseId = p.VerseId, RelativeDesk = p.RelativeDesk, Status = p.Status, VerseCheck = p.VerseCheck }).Skip(lastVerse).Take(8).ToList();
+
+                int i = 1;
+                for (int x = 1; x < 8; x++)
                 {
-                    controlitemsList[x].Dispatcher.Invoke(() =>
+                    this.Dispatcher.Invoke(() =>
                     {
-                        controlitemsList[x].ItemsSource = null;
-                        controlitemsList[x].Items.Clear();
+                        ItemsControl itemslist = (ItemsControl)this.FindName("vb" + x);
+                        //itemslist.Items.Clear();
+                        itemslist.ItemsSource = null;
                     });
                 }
 
                 foreach (var item in dVerseNav)
                 {
-                    tempVerses.Add(item);
-
-                    controlitemsList[i].Dispatcher.Invoke(() =>
+                    this.Dispatcher.Invoke(() =>
                     {
-                        controlitemsList[i].ItemsSource = tempVerses;
+                        tempVerses.Add(item);
+                        ItemsControl itemslist = (ItemsControl)this.FindName("vb" + i);
+                        itemslist.ItemsSource = tempVerses;
+                        tempVerses.Clear();
+                        i++;
                     });
 
-                    tempVerses.Clear();
-                    i++;
-                    if (i == 7) break; // 7 den fazla varmı kontrol etmek için koydum
+                    if (i == 8) break; // 7 den fazla varmı kontrol etmek için koydum
                 }
+
+                Debug.WriteLine(lastVerse);
 
                 NavUpdatePrev.Dispatcher.Invoke(() =>
                 {
@@ -128,7 +117,7 @@ namespace KuranX.App.Core.Pages
                 NavUpdateNext.Dispatcher.Invoke(() =>
                 {
                     if (dVerseNav.Count() <= 7) NavUpdateNext.IsEnabled = false;
-                    if (lastVerse == 0 && dVerseNav.Count() > 7) NavUpdateNext.IsEnabled = true;
+                    if (dVerseNav.Count() > 7) NavUpdateNext.IsEnabled = true;
                 });
             }
         }
@@ -169,7 +158,10 @@ namespace KuranX.App.Core.Pages
 
                 lastVerse = getpopupRelativeId;
                 lastVerse--;
-                if (dVerse[0].RelativeDesk > 7) singleLoadVerse();
+                if (dVerse[0].RelativeDesk >= 8)
+                {
+                    singleLoadVerse();
+                }
             }
         }
 
@@ -213,29 +205,30 @@ namespace KuranX.App.Core.Pages
                     controlNavPanelItemscontrol.ItemsSource = dVerse;
                 });
 
-                int i = 0;
+                int i = 1;
 
-                for (int x = 0; x < 7; x++)
+                for (int x = 1; x < 8; x++)
                 {
-                    controlitemsList[x].Dispatcher.Invoke(() =>
+                    this.Dispatcher.Invoke(() =>
                     {
-                        controlitemsList[x].ItemsSource = null;
-                        controlitemsList[x].Items.Clear();
+                        ItemsControl itemslist = (ItemsControl)this.FindName("vb" + x);
+                        //itemslist.Items.Clear();
+                        itemslist.ItemsSource = null;
                     });
                 }
 
                 foreach (var item in dVerseNav)
                 {
-                    tempVerses.Add(item);
-
-                    controlitemsList[i].Dispatcher.Invoke(() =>
+                    this.Dispatcher.Invoke(() =>
                     {
-                        controlitemsList[i].ItemsSource = tempVerses;
+                        tempVerses.Add(item);
+                        ItemsControl itemslist = (ItemsControl)this.FindName("vb" + i);
+                        itemslist.ItemsSource = tempVerses;
+                        tempVerses.Clear();
+                        i++;
                     });
 
-                    tempVerses.Clear();
-                    i++;
-                    if (i == 7) break; // 7 den fazla varmı kontrol etmek için koydum
+                    if (i == 8) break; // 7 den fazla varmı kontrol etmek için koydum
                 }
             }
             Thread.Sleep(200);
@@ -276,6 +269,15 @@ namespace KuranX.App.Core.Pages
                 int i = 1;
                 foreach (var item in dInteg)
                 {
+                    if (i == 8)
+                    {
+                        allShowMeaningButton.Dispatcher.Invoke(() =>
+                        {
+                            allShowMeaningButton.Visibility = Visibility.Visible;
+                        });
+
+                        break;
+                    }
                     this.Dispatcher.Invoke(() =>
                     {
                         ItemsControl dControlTemp = (ItemsControl)this.FindName("mvc" + i);
@@ -559,6 +561,51 @@ namespace KuranX.App.Core.Pages
             feedPoint[3] = i;
         }
 
+        private void subjectColorPick_Click(object sender, RoutedEventArgs e)
+        {
+            CheckBox chk;
+
+            foreach (object item in subjectColorStack.Children)
+            {
+                chk = null;
+                if (item is FrameworkElement)
+                {
+                    chk = ((CheckBox?)(item as FrameworkElement));
+
+                    chk.IsChecked = false;
+                }
+            }
+
+            chk = sender as CheckBox;
+
+            chk.IsChecked = true;
+
+            subjectpreviewColor.Background = new BrushConverter().ConvertFromString(chk.Tag.ToString()) as SolidColorBrush;
+        }
+
+        private void subjectFolderHeader_KeyUp(object sender, KeyEventArgs e)
+        {
+            subjectpreviewName.Text = subjectFolderHeader.Text;
+        }
+
+        private void subjectFolderLoad()
+        {
+            using (var entitydb = new AyetContext())
+            {
+                var dSubjectFolder = entitydb.Subject.ToList();
+
+                selectedSubjectFolder.Items.Clear();
+                foreach (var item in dSubjectFolder)
+                {
+                    var cmbitem = new ComboBoxItem();
+
+                    cmbitem.Content = item.SubjectName;
+                    cmbitem.Uid = item.SubjectId.ToString();
+                    selectedSubjectFolder.Items.Add(cmbitem);
+                }
+            }
+        }
+
         // ---------- EVENTLAR ---------- //
 
         // -------------------------- ALL TEXT SHOW HİDE -------------------------- //
@@ -603,6 +650,7 @@ namespace KuranX.App.Core.Pages
         {
             if (lastVerse >= 7)
             {
+                NavUpdatePrev.IsEnabled = false;
                 lastVerse -= 7;
                 PageItemLoadTask.Dispose();
                 PageItemLoadTask = new Task(singleLoadVerse);
@@ -612,6 +660,7 @@ namespace KuranX.App.Core.Pages
 
         private void bottomNavUpdateNext(object sender, EventArgs e)
         {
+            NavUpdateNext.IsEnabled = false;
             lastVerse += 7;
             PageItemLoadTask.Dispose();
             PageItemLoadTask = new Task(singleLoadVerse);
@@ -632,7 +681,6 @@ namespace KuranX.App.Core.Pages
             tempDataInt = activeVerse;
             tempDataInt--;
 
-            PageItemLoadTask.Dispose();
             PageItemLoadTask = new Task(loadVerse);
             PageItemLoadTask.Start();
         }
@@ -728,11 +776,52 @@ namespace KuranX.App.Core.Pages
                 var dSure = entitydb.Sure.Where(p => p.sureId == dInteg.connectSureId).Select(p => new Sure() { Name = p.Name }).FirstOrDefault();
                 var dCSure = entitydb.Sure.Where(p => p.sureId == dInteg.connectedSureId).Select(p => new Sure() { Name = p.Name }).FirstOrDefault();
                 meaningOpenDetailText.Text = dInteg.IntegrityNote;
-
-                meaningOpenDetailTextConnect.Text = dSure.Name + " Suresini " + dInteg.connectVerseId.ToString() + " Ayeti İçin " + dCSure.Name + dInteg.connectedVerseId + " Ayeti ile Eşleştirilmiş";
+                meaningDetailTextHeader.Text = dInteg.IntegrityName;
+                meaningOpenDetailTextConnect.Text = dSure.Name + " Suresini " + dInteg.connectVerseId.ToString() + " Ayeti İçin " + dCSure.Name + " " + dInteg.connectedVerseId + " Ayeti ile Eşleştirilmiş";
             }
 
             meainingConnectDetailText.IsOpen = true;
+        }
+
+        private void openAddSubjectPopup_Click(object sender, RoutedEventArgs e)
+        {
+            addSubjectPopup.IsOpen = true;
+            selectedSubject.Text = dSure[0].Name + " > " + dVerse[0].RelativeDesk.ToString();
+            subjectFolderLoad();
+        }
+
+        private void newSubjectFolder_Click(object sender, RoutedEventArgs e)
+        {
+            addFolderSubjectPopup.IsOpen = true;
+        }
+
+        private void wordText_Click(object sender, RoutedEventArgs e)
+        {
+            wordDetailPopup.IsOpen = true;
+
+            using (var entitydb = new AyetContext())
+            {
+                var dWords = entitydb.Words.Where(p => p.SureId == dSure[0].sureId).Where(p => p.VerseId == dVerse[0].RelativeDesk).ToList();
+
+                foreach (var item in dWords)
+                {
+                    StackPanel itemsStack = new StackPanel();
+                    TextBlock text = new TextBlock();
+                    TextBlock re = new TextBlock();
+
+                    itemsStack.Style = (Style)FindResource("wordStack");
+                    text.Style = (Style)FindResource("wordDetail");
+                    re.Style = (Style)FindResource("wordDetail");
+
+                    text.Text = item.WordText;
+                    re.Text = item.WordRe;
+
+                    itemsStack.Children.Add(text);
+                    itemsStack.Children.Add(re);
+
+                    wordsAllShowPopupStackPanel.Children.Add(itemsStack);
+                }
+            }
         }
 
         // --------------------------  POPUP -------------------------- //
@@ -792,6 +881,78 @@ namespace KuranX.App.Core.Pages
             meainingConnectDetailText.IsOpen = false;
         }
 
+        private void allShowMeaningButton_Click(object sender, RoutedEventArgs e)
+        {
+            meainingAllShowPopup.IsOpen = true;
+
+            using (var entitydb = new AyetContext())
+            {
+                var dInteg = entitydb.Integrity.Where(p => p.connectSureId == dSure[0].sureId).ToList();
+
+                foreach (var item in dInteg)
+                {
+                    StackPanel itemsStack = new StackPanel();
+                    TextBlock headerText = new TextBlock();
+                    TextBlock noteText = new TextBlock();
+                    Button allshowButton = new Button();
+                    Separator sp = new Separator();
+
+                    itemsStack.Style = (Style)FindResource("dynamicItemStackpanel");
+                    headerText.Style = (Style)FindResource("dynamicItemTextHeader");
+                    noteText.Style = (Style)FindResource("dynamicItemTextNote");
+                    allshowButton.Style = (Style)FindResource("dynamicItemShowButton");
+                    sp.Style = (Style)FindResource("dynamicItemShowSperator");
+
+                    headerText.Text = item.IntegrityName.ToString();
+                    noteText.Text = item.IntegrityNote.ToString();
+                    allshowButton.Uid = item.IntegrityId.ToString();
+
+                    allshowButton.Click += meaningDetailPopup_Click;
+
+                    itemsStack.Children.Add(headerText);
+                    itemsStack.Children.Add(noteText);
+                    itemsStack.Children.Add(allshowButton);
+                    itemsStack.Children.Add(sp);
+
+                    meainingAllShowPopupStackPanel.Children.Add(itemsStack);
+                }
+            }
+        }
+
+        private void addfolderSubject_Click(object sender, RoutedEventArgs e)
+        {
+            if (subjectFolderHeader.Text.Length >= 8)
+            {
+                using (var entitydb = new AyetContext())
+                {
+                    var dControl = entitydb.Subject.Where(p => p.SubjectName == subjectpreviewName.Text).ToList();
+
+                    if (dControl.Count == 0)
+                    {
+                        var dSubjectFolder = new Subject { SubjectName = subjectpreviewName.Text, SubjectColor = subjectpreviewColor.Background.ToString(), Created = DateTime.Now, Modify = DateTime.Now };
+                        entitydb.Subject.Add(dSubjectFolder);
+                        entitydb.SaveChanges();
+                        succsessFunc("Konu Başlığı ", " Yeni konu başlığı oluşturuldu artık ayetleri ekleye bilirsiniz.", 3);
+
+                        subjectpreviewName.Text = "";
+                        subjectFolderHeader.Text = "";
+                        addFolderSubjectPopup.IsOpen = false;
+                        subjectFolderLoad();
+                    }
+                    else
+                    {
+                        alertFunc("Konu Başlığı Oluşturulamadı ", " Daha önce aynı isimde bir konu zaten mevcut lütfen kontrol ediniz.", 3);
+                    }
+                }
+            }
+            else
+            {
+                subjectFolderHeader.Focus();
+                subjectHeaderFolderErrorMesssage.Visibility = Visibility.Visible;
+                subjectHeaderFolderErrorMesssage.Content = "Konu başlığının uzunluğu minimum 8 karakter olmalı";
+            }
+        }
+
         private void popupMeiningSureId_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (tempCheck3)
@@ -800,6 +961,41 @@ namespace KuranX.App.Core.Pages
                 attachSureVerseCountText.Text = $"Secilebilecek Ayet Sayısı {item.Tag}";
             }
             else tempCheck3 = true;
+        }
+
+        private void addSubject_Click(object sender, RoutedEventArgs e)
+        {
+            using (var entitydb = new AyetContext())
+            {
+                var item = selectedSubjectFolder.SelectedItem as ComboBoxItem;
+
+                Debug.WriteLine(item);
+
+                if (item != null)
+                {
+                    var dControl = entitydb.SubjectItems.Where(p => p.SureId == dSure[0].sureId).Where(p => p.VerseId == dVerse[0].RelativeDesk).Where(p => p.SubjectId == Int16.Parse(item.Uid)).ToList();
+
+                    Debug.WriteLine("Kontorl:" + dControl.Count.ToString());
+
+                    if (dControl.Count != 0)
+                    {
+                        alertFunc("Ayet Ekleme Başarısız", "Bu ayet Daha Önceden Eklenmiş Yeniden Ekleyemezsiniz.", 3);
+                    }
+                    else
+                    {
+                        var dSubjectItem = new SubjectItems { SubjectId = Int16.Parse(item.Uid), SubjectNotesId = 0, SureId = dSure[0].sureId, VerseId = dVerse[0].RelativeDesk, Created = DateTime.Now, Modify = DateTime.Now };
+                        entitydb.SubjectItems.Add(dSubjectItem);
+                        entitydb.SaveChanges();
+                        succsessFunc("Ayet Ekleme Başarılı", "Seçmiş olduğunuz konuya ayet eklendi.", 3);
+                    }
+                }
+                else
+                {
+                    popupaddsubjectError.Visibility = Visibility.Visible;
+                    popupaddsubjectError.Text = "Lütfen Konuyu Seçiniz";
+                    selectedSubjectFolder.Focus();
+                }
+            }
         }
 
         private void addNoteButton_Click(object sender, RoutedEventArgs e)
@@ -870,6 +1066,9 @@ namespace KuranX.App.Core.Pages
                             meaningName.Text = "";
                             meaningConnectNote.Text = "";
                             meaningAddPopup.IsOpen = false;
+
+                            PageItemLoadTask = new Task(loadMeaning);
+                            PageItemLoadTask.Start();
                         }
                     }
                     else
@@ -918,6 +1117,11 @@ namespace KuranX.App.Core.Pages
             meaningDetailAddPopupHeaderError.Visibility = Visibility.Hidden;
         }
 
+        private void subjectFolderHeader_KeyDown(object sender, KeyEventArgs e)
+        {
+            subjectHeaderFolderErrorMesssage.Visibility = Visibility.Hidden;
+        }
+
         private void popupClosed_Click(object sender, RoutedEventArgs e)
         {
             Button btntemp = sender as Button;
@@ -929,6 +1133,8 @@ namespace KuranX.App.Core.Pages
             meaningConnectNote.Text = "";
             noteName.Text = "";
             noteDetail.Text = "";
+            subjectFolderHeader.Text = "";
+            subjectpreviewName.Text = "";
             popuptemp.IsOpen = false;
         }
     }

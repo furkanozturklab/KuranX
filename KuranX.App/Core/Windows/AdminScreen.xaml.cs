@@ -163,6 +163,40 @@ namespace KuranX.App.Core.Windows
         {
         }
 
+        private void add_word(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                string sql = "select * from word;";
+                MySqlCommand cmd = new MySqlCommand(sql, connection);
+                MySqlDataReader rdr = cmd.ExecuteReader();
+
+                using (var entitydb = new AyetContext())
+                {
+                    while (rdr.Read())
+                    {
+                        var newWe = new Words();
+
+                        newWe.VerseId = (int)rdr[1];
+
+                        newWe.WordText = (string)rdr[2];
+                        newWe.WordRe = (string)rdr[3];
+                        newWe.SureId = (int)rdr[4];
+
+                        entitydb.Words.Add(newWe);
+
+                        Debug.WriteLine("VERİ EKLENDİ");
+                    }
+
+                    entitydb.SaveChanges();
+                }
+            }
+            catch (Exception err)
+            {
+                Debug.Write(err.Message);
+            }
+        }
+
         private void test_click(object sender, RoutedEventArgs e)
         {
             List<Sure> VersesList;

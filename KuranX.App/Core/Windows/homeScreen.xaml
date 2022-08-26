@@ -106,14 +106,14 @@
             <Border x:Name="hmwnd_leftMenuContent" Style="{DynamicResource ResourceKey=hmwnd_leftMenuContent}" UseLayoutRounding="True">
 
                 <StackPanel Orientation="Vertical" x:Name="menuButton">
-                    <Button Style="{DynamicResource hmwnd_menuButton}" Tag="/resource/images/icon/koran_rb.png" Content="Ayetler" />
-                    <Button Style="{DynamicResource hmwnd_menuButton}" Tag="/resource/images/icon/koran_rb.png" Content="Tesfir Oku" />
-                    <Button Style="{DynamicResource hmwnd_menuButton}" Tag="/resource/images/icon/ayetSubject_rb.png" Content="Ayet Konularım" />
-                    <Button Style="{DynamicResource hmwnd_menuButton}" Tag="/resource/images/icon/library_rb.png" Content="Kütüphane" />
-                    <Button Style="{DynamicResource hmwnd_menuButton}" Tag="/resource/images/icon/notes_rb.png" Content="Notlar" />
-                    <Button Style="{DynamicResource hmwnd_menuButton}" Tag="/resource/images/icon/favorite_rb.png" Content="Favoriler" />
-                    <Button Style="{DynamicResource hmwnd_menuButton}" Tag="/resource/images/icon/reminders_rb.png" Content="Hatırlatıcı" />
-                    <Button Style="{DynamicResource hmwnd_menuButton}" Tag="/resource/images/icon/conclusion_rb.png" Content="Sonuc" />
+                    <Button Uid="nav_verses" Style="{DynamicResource hmwnd_menuButton}" Tag="/resource/images/icon/koran_rb.png" Content="Ayetler" Click="navEnter_Click" />
+                    <Button Uid="nav_tesfir" Style="{DynamicResource hmwnd_menuButton}" Tag="/resource/images/icon/koran_rb.png" Content="Tesfir Oku" Click="navEnter_Click" />
+                    <Button Uid="nav_subject" Style="{DynamicResource hmwnd_menuButton}" Tag="/resource/images/icon/ayetSubject_rb.png" Content="Ayet Konularım" Click="navEnter_Click" />
+                    <Button Uid="nav_library" Style="{DynamicResource hmwnd_menuButton}" Tag="/resource/images/icon/library_rb.png" Content="Kütüphane" Click="navEnter_Click" />
+                    <Button Uid="nav_notes" Style="{DynamicResource hmwnd_menuButton}" Tag="/resource/images/icon/notes_rb.png" Content="Notlar" Click="navEnter_Click" />
+                    <!--  <Button Style="{DynamicResource hmwnd_menuButton}" Tag="/resource/images/icon/favorite_rb.png" Content="Favoriler" />-->
+                    <Button Uid="nav_reminder" Style="{DynamicResource hmwnd_menuButton}" Tag="/resource/images/icon/reminders_rb.png" Content="Hatırlatıcı" Click="navEnter_Click" />
+                    <Button Uid="nav_result" Style="{DynamicResource hmwnd_menuButton}" Tag="/resource/images/icon/conclusion_rb.png" Content="Sonuc" Click="navEnter_Click" />
                 </StackPanel>
             </Border>
 
