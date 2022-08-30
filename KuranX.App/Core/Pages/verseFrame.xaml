@@ -15,10 +15,10 @@
 
         <Grid.RowDefinitions>
             <RowDefinition Height="100" />
-            <RowDefinition Height="70" />
-            <RowDefinition Height="388" />
+            <RowDefinition Height="65" />
+            <RowDefinition Height="398" />
             <RowDefinition Height="50" />
-            <RowDefinition Height="100" />
+            <RowDefinition Height="95" />
         </Grid.RowDefinitions>
 
         <Grid x:Name="pageloadinGifContent"  Grid.RowSpan="5" Background="#FAFAFA" Panel.ZIndex="10">
@@ -1064,7 +1064,7 @@
 
                             <ScrollViewer Grid.ColumnSpan="2" Grid.Row="0" Padding="20">
                                 <StackPanel x:Name="wordsAllShowPopupStackPanel">
-                                    <StackPanel Orientation="Horizontal">
+                                    <StackPanel Orientation="Horizontal" x:Name="staticWordHeader">
                                         <StackPanel Margin="10 0 10 0">
                                             <TextBlock  Style="{DynamicResource wordHeader}" Text="KÖK" />
                                             <Separator Style="{DynamicResource dynamicItemShowSperator}" Width="200" />
@@ -1073,6 +1073,8 @@
                                             <TextBlock Style="{DynamicResource wordHeader}" Text="ANLAMI" />
                                             <Separator Style="{DynamicResource dynamicItemShowSperator}" Width="200" />
                                         </StackPanel>
+                                    </StackPanel>
+                                    <StackPanel x:Name="dynamicWordDetail">
                                     </StackPanel>
                                 </StackPanel>
                             </ScrollViewer>
@@ -1136,7 +1138,8 @@
                                             <ColumnDefinition Width="54" />
                                         </Grid.ColumnDefinitions>
                                         <StackPanel Grid.Column="0" VerticalAlignment="Center">
-                                            <Border Style="{DynamicResource versesTabSearchBorder}">
+
+                                            <Border Style="{DynamicResource versesTabSearchBorder}" Visibility="Hidden">
                                                 <StackPanel Orientation="Horizontal">
                                                     <TextBox Style="{DynamicResource versesTabSearchText}" />
                                                     <Button Style="{DynamicResource versesTabSearchButton}" />
@@ -1158,17 +1161,19 @@
 
         <!-- Top Nav  -->
 
-        <ItemsControl x:Name="controlNavPanelItemscontrol" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+        <ItemsControl x:Name="controlNavPanelItemscontrol" Grid.Row="1" VerticalAlignment="Center" SnapsToDevicePixels="True" UseLayoutRounding="True">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel  Orientation="Horizontal">
-                        <CheckBox x:Name="markButton" Style="{DynamicResource versesActionMainTabButtonMark}" Uid="{Binding VerseId}" Content="İşaretle" Tag="Bookmarks" />
-                        <CheckBox x:Name="bellButton" Style="{DynamicResource versesActionMainTabButtonBell}" Uid="{Binding VerseId}" Content="Bu Ayeti Hatırlat" Tag="Bell" />
-                        <Button x:Name="noteButton" Style="{DynamicResource versesActionMainTabButtonNote}" Uid="{Binding VerseId}" Content="Not Al" Tag="ClipboardNotes" Click="noteButton_Click" />
-                        <CheckBox x:Name="checkButton" Style="{DynamicResource versesActionMainTabButtonCheck}" IsChecked="{Binding VerseCheck}" Uid="{Binding VerseId}" Content="Okudum" Tag="Check" Click="check_Click" />
-                        <Button x:Name="descButton" Style="{DynamicResource versesActionMainTabButtonDesc}" Tag="{Binding VerseDesc}" Content="Ayet Açıklaması" Uid="Info" Click="descButton_Click" />
-                        <Button x:Name="feedbackButton" Style="{DynamicResource versesActionMainTabButtonFeed}" Uid="{Binding VerseId}" Content="Düşünceleriniz Paylaşın" Tag="Send" Click="feedbackButton_Click" />
-                    </StackPanel>
+                    <Border VerticalAlignment="Center" HorizontalAlignment="Center" SnapsToDevicePixels="True" UseLayoutRounding="True">
+                        <StackPanel Orientation="Horizontal"  VerticalAlignment="Center">
+                            <CheckBox x:Name="markButton" Content="İşaretle" Tag="Bookmarks" Style="{DynamicResource versesActionMainTabButtonMark}" IsChecked="{Binding MarkCheck}" Uid="{Binding VerseId}" Click="markButton_Click" />
+                            <CheckBox x:Name="bellButton" Content="Bu Ayeti Hatırlat" Tag="Bell" Style="{DynamicResource versesActionMainTabButtonBell}" IsChecked="{Binding RememberCheck}" Uid="{Binding VerseId}" />
+                            <Button   x:Name="noteButton" Content="Not Al" Tag="ClipboardNotes" Style="{DynamicResource versesActionMainTabButtonNote}" Uid="{Binding VerseId}" Click="noteButton_Click" />
+                            <CheckBox x:Name="checkButton" Content="Okudum" Tag="Check" Style="{DynamicResource versesActionMainTabButtonCheck}" IsChecked="{Binding VerseCheck}" Uid="{Binding VerseId}" Click="check_Click" />
+                            <Button   x:Name="descButton" Content="Ayet Açıklaması" Tag="ClipboardNotes"  Style="{DynamicResource versesActionMainTabButtonDesc}" Uid="{Binding VerseDesc}" Click="descButton_Click" />
+                            <Button   x:Name="feedbackButton" Content="Düşünceleriniz Paylaşın" Tag="Send"  Style="{DynamicResource versesActionMainTabButtonFeed}" Uid="{Binding VerseId}" Click="feedbackButton_Click" />
+                        </StackPanel>
+                    </Border>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>

@@ -85,14 +85,14 @@
                         <Button x:Name="leftHeaderButtonsProfile" Style="{DynamicResource ResourceKey=hmwnd_leftHeaderButtons}" Grid.Column="0">
                             <StackPanel Orientation="Horizontal">
                                 <Icon:PackIconFontAwesome x:Name="leftHeaderButtonsProfileIcon" Kind="UserAltSolid" Width="10" Height="10"  VerticalAlignment="Center" />
-                                <TextBlock Text="Profili Görüntüle" Margin="5 0,0,0"></TextBlock>
+                                <TextBlock Text="Profil" Margin="5 0,0,0" />
                             </StackPanel>
                         </Button>
 
                         <Button x:Name="leftHeaderButtonsHelp" Style="{DynamicResource ResourceKey=hmwnd_leftHeaderButtons}" Grid.Column="1">
                             <StackPanel Orientation="Horizontal">
                                 <Icon:PackIconBootstrapIcons Kind="Question" Width="10" Height="10"  VerticalAlignment="Center" HorizontalAlignment="Center" />
-                                <TextBlock Text="Yardım" Margin="5 0,0,0"></TextBlock>
+                                <TextBlock Text="Yardım" Margin="5 0,0,0" />
                             </StackPanel>
                         </Button>
                     </StackPanel>
@@ -117,22 +117,23 @@
                 </StackPanel>
             </Border>
 
-            <Border Grid.Row="2">
+            <Border Grid.Row="2" Padding="5 0 5 0">
+
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="42" />
-                        <ColumnDefinition Width="42" />
-                        <ColumnDefinition Width="42" />
+                        <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
 
-                    <Button Style="{DynamicResource ResourceKey=hmwnd_leftSettingButton}" Grid.Column="0" />
+                    <StackPanel Grid.Column="0" Orientation="Horizontal"  VerticalAlignment="Center" HorizontalAlignment="Left">
+                        <Button Style="{DynamicResource hmwnd_leftSetting}" />
+                        <Button Style="{DynamicResource hmwnd_leftFeed}" />
+                        <Button Style="{DynamicResource hmwnd_leftAdmin}" Click="adminOpen_Click" />
+                    </StackPanel>
 
-                    <Button Style="{DynamicResource ResourceKey=hmwnd_leftFeedbackButton}" Grid.Column="1" />
-
-                    <Button Style="{DynamicResource ResourceKey=hmwnd_leftAdminButton}" Grid.Column="2" Click="Button_Click_1" />
-
-                    <TextBlock Style="{StaticResource ResourceKey=hmwnd_leftVersionText}" Grid.Column="3" />
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
+                        <TextBlock  Text="Version 0.1.0" Style="{DynamicResource hmwnd_leftVersionText}" />
+                    </StackPanel>
                 </Grid>
             </Border>
         </Grid>
@@ -151,10 +152,7 @@
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
                         <StackPanel Orientation="Horizontal" Grid.Column="0" Margin="25,0,0,0" HorizontalAlignment="Left">
-
-                            <Button Style="{DynamicResource ResourceKey=navigationItemsIcon}" Tag="/resource/images/icon/koran_rb.png" />
-                            <Icon:PackIconEvaIcons Kind="ArrowIosForward" Style="{DynamicResource ResourceKey=navigationSperator}" />
-                            <TextBlock Text="Ayetler" Style="{DynamicResource ResourceKey=navigationLocationText}" />
+                            <TextBlock x:Name="UserLocationText" Text="" Style="{DynamicResource ResourceKey=navigationLocationText}" />
                         </StackPanel>
 
                         <StackPanel Grid.Column="1">
@@ -172,7 +170,7 @@
                                     </StackPanel>
                                 </Border>
 
-                                <Button Grid.Column="1" Style="{DynamicResource ResourceKey=appclosedButton}"  Content="close" Click="Button_Click" />
+                                <Button Grid.Column="1" Style="{DynamicResource ResourceKey=appclosedButton}"  Content="close" Click="appClosed_Click" />
 
                                 <TextBlock Text="Demo" Style="{DynamicResource ResourceKey=demoText}" Panel.ZIndex="10"  Grid.Column="2" Margin="0,0,-30,0">
                                     <TextBlock.RenderTransform>

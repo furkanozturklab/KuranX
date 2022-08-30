@@ -15,14 +15,13 @@
             <FontFamily x:Key="ArabicaNormal">pack://application:,,,/Resource/Fonts/arabica.ttf#Arabica</FontFamily>
             <FontFamily x:Key="XBZarRegular">pack://application:,,,/Resource/Fonts/XBZar.ttf#XBZar</FontFamily>
             <FontFamily x:Key="XBZarBold">pack://application:,,,/Resource/Fonts/XBZarBd.ttf#XBZar</FontFamily>
-            <FontFamily x:Key="HusrevRegular">pack://application:,,,/Resource/Fonts/Husrev.ttf#Husrev</FontFamily>
 
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/Core/ResourceXaml/defaultDesign.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="pack://application:,,,/Core/ResourceXaml/splashDesign.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="pack://application:,,,/Core/ResourceXaml/loginDesign.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="pack://application:,,,/Core/ResourceXaml/homeDesign.xaml"></ResourceDictionary>
-                <ResourceDictionary Source="pack://application:,,,/Core/ResourceXaml/ayetlerPageDesing.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="pack://application:,,,/Core/ResourceXaml/verseMainPage.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="pack://application:,,,/Core/ResourceXaml/versePanelDesing.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="pack://application:,,,/Core/ResourceXaml/popupDesing.xaml"></ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>

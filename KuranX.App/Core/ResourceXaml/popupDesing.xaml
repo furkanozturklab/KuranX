@@ -349,6 +349,14 @@
 
     <!-- DynamicStyle -->
 
+    <Style x:Key="popupDefaultTextBoxTextBlock" TargetType="TextBlock">
+
+        <Setter Property="FontFamily" Value="{DynamicResource PoppinsSemiBold}" />
+        <Setter Property="Foreground" Value="#1C1E2F" />
+        <Setter Property="FontSize" Value="10" />
+        <Setter Property="TextAlignment" Value="Center" />
+    </Style>
+
     <Style x:Key="dynamicItemStackpanel" TargetType="StackPanel">
 
         <Setter Property="Orientation" Value="Vertical" />

@@ -69,13 +69,13 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
-                    <Icon:PackIconBootstrapIcons x:Name="ArIcon" Kind="ArrowsFullscreen" Width="16" Height="16" />
+                    <TextBlock VerticalAlignment="Center" Width="16" Height="16">       <Icon:PackIconBootstrapIcons x:Name="ArIcon" Kind="ArrowsFullscreen" Width="16" Height="16" /></TextBlock>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Foreground" Value="#820333" />
+                <Setter Property="Foreground" Value="#F0433A" />
                 <Setter Property="Cursor" Value="Hand" />
             </Trigger>
         </Style.Triggers>
@@ -86,13 +86,13 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
-                    <Icon:PackIconBootstrapIcons x:Name="ArIcon" Kind="FullscreenExit" Width="16" Height="16" />
+                    <TextBlock VerticalAlignment="Center" Width="16" Height="16"><Icon:PackIconBootstrapIcons x:Name="ArIcon" Kind="FullscreenExit" Width="16" Height="16" /></TextBlock>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Foreground" Value="#820333" />
+                <Setter Property="Foreground" Value="#F0433A" />
                 <Setter Property="Cursor" Value="Hand" />
             </Trigger>
         </Style.Triggers>
@@ -151,8 +151,8 @@
         <Setter Property="Opacity" Value="1" />
         <Setter Property="Height" Value="30" />
         <Setter Property="Width" Value="110" />
-        <Setter Property="FontFamily" Value="{DynamicResource PoppinsMedium}" />
-        <Setter Property="FontSize" Value="9" />
+        <Setter Property="FontFamily" Value="{DynamicResource PoppinsSemiBold}" />
+        <Setter Property="FontSize" Value="11" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
@@ -241,7 +241,6 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Opacity" Value="1" />
@@ -264,28 +263,19 @@
             </Setter.Value>
         </Setter>
     </Style>
-
     <!-- LEFT CONTENT MENU -->
 
     <!-- LEFT Setting MENU -->
 
-    <Style TargetType="Button" x:Key="hmwnd_leftSettingButton">
-        <Setter Property="VerticalAlignment" Value="Center" />
-        <Setter Property="HorizontalAlignment" Value="Center" />
-        <Setter Property="Width" Value="32" />
-        <Setter Property="Height" Value="32" />
+    <Style x:Key="hmwnd_leftButton" TargetType="Button">
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="Width" Value="24" />
+        <Setter Property="Height" Value="24" />
+        <Setter Property="Margin" Value="0 0 15 0" />
         <Setter Property="Opacity" Value="0.60" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Foreground" Value="#383C41" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="Button">
-                    <StackPanel>
-                        <Icon:PackIconVaadinIcons Kind="CogOutline" Width="24" Height="24" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                    </StackPanel>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
+        <Setter Property="BorderThickness" Value="0" />
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Opacity" Value="1" />
@@ -294,66 +284,49 @@
         </Style.Triggers>
     </Style>
 
-    <Style TargetType="Button" x:Key="hmwnd_leftFeedbackButton">
-
-        <Setter Property="VerticalAlignment" Value="Center" />
-        <Setter Property="HorizontalAlignment" Value="Center" />
-        <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Foreground" Value="#383C41" />
-        <Setter Property="Width" Value="32" />
-        <Setter Property="Height" Value="32" />
-        <Setter Property="Opacity" Value="0.60" />
+    <Style x:Key="hmwnd_leftSetting" TargetType="Button" BasedOn="{StaticResource hmwnd_leftButton}">
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="Button">
-                    <StackPanel>
-                        <Icon:PackIconCodicons Kind="Feedback" Width="24" Height="24" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                    </StackPanel>
+                <ControlTemplate>
+                    <TextBlock Width="24" Height="24">
+                        <Icon:PackIconVaadinIcons Kind="CogOutline" Width="24" Height="24"  HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </TextBlock>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        <Style.Triggers>
-            <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Opacity" Value="1" />
-                <Setter Property="Cursor" Value="Hand" />
-            </Trigger>
-        </Style.Triggers>
     </Style>
 
-    <Style TargetType="Button" x:Key="hmwnd_leftAdminButton">
-
-        <Setter Property="VerticalAlignment" Value="Center" />
-        <Setter Property="HorizontalAlignment" Value="Center" />
-        <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Foreground" Value="#383C41" />
-        <Setter Property="Width" Value="32" />
-        <Setter Property="Height" Value="32" />
-        <Setter Property="Opacity" Value="0.60" />
+    <Style x:Key="hmwnd_leftFeed" TargetType="Button" BasedOn="{StaticResource hmwnd_leftButton}">
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="Button">
-                    <StackPanel>
-                        <Icon:PackIconFontAwesome Kind="UserShieldSolid" Width="24" Height="24" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                    </StackPanel>
+                <ControlTemplate>
+                    <TextBlock Width="24" Height="24">
+                        <Icon:PackIconCodicons Kind="Feedback" Width="24" Height="24"  HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </TextBlock>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        <Style.Triggers>
-            <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Opacity" Value="1" />
-                <Setter Property="Cursor" Value="Hand" />
-            </Trigger>
-        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="hmwnd_leftAdmin" TargetType="Button" BasedOn="{StaticResource hmwnd_leftButton}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <TextBlock Width="24" Height="24">
+                        <Icon:PackIconFontAwesome Kind="UserShieldSolid" Width="24" Height="24"  HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </TextBlock>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 
     <Style TargetType="TextBlock" x:Key="hmwnd_leftVersionText">
-        <Setter Property="Grid.Column" Value="2" />
-        <Setter Property="Text" Value="version 0.0.1" />
+
         <Setter Property="VerticalAlignment" Value="Bottom" />
         <Setter Property="HorizontalAlignment" Value="Right" />
-        <Setter Property="Margin" Value="0,0,10,5" />
-        <Setter Property="FontFamily" Value="{StaticResource PoppinsMedium}" />
-        <Setter Property="FontSize" Value="9" />
+        <Setter Property="FontFamily" Value="{DynamicResource PoppinsMedium}" />
+        <Setter Property="FontSize" Value="11" />
+        <Setter Property="Margin" Value="0 0 5 0" />
         <Setter Property="Foreground" Value="#FF383C41" />
     </Style>
 
@@ -385,7 +358,9 @@
 
             <Setter.Value>
                 <ControlTemplate>
-                    <Icon:PackIconVaadinIcons Kind="CloseBig" Width="24" Height="24" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    <TextBlock VerticalAlignment="Center" Height="24" Width="24">
+                          <Icon:PackIconVaadinIcons Kind="CloseBig" Width="24" Height="24" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    </TextBlock>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

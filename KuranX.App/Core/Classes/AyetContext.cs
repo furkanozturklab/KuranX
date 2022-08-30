@@ -34,7 +34,7 @@ namespace KuranX.App.Core.Classes
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>()
-                .Property(u => u.Id)
+                .Property(u => u.UserId)
                 .HasColumnName("user_id");
             modelBuilder.Entity<User>()
                 .Property(u => u.Email)
@@ -65,6 +65,24 @@ namespace KuranX.App.Core.Classes
                 .Property(u => u.AvatarUrl)
                 .HasColumnName("user_avatarUrl")
                 .HasDefaultValue("default");
+
+            modelBuilder.Entity<Sure>()
+                .Property(u => u.UserCheckCount)
+                .HasDefaultValue(0);
+
+            modelBuilder.Entity<Sure>()
+                .Property(u => u.UserLastRelativeVerse)
+                .HasDefaultValue(1);
+
+            modelBuilder.Entity<Verse>()
+                .Property(u => u.RememberCheck)
+                .HasDefaultValue("false");
+            modelBuilder.Entity<Verse>()
+                .Property(u => u.MarkCheck)
+                .HasDefaultValue("false");
+            modelBuilder.Entity<Verse>()
+                .Property(u => u.VerseCheck)
+                .HasDefaultValue("false");
         }
     }
 }

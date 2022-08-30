@@ -104,7 +104,9 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate>
-                    <Icon:PackIconUnicons Kind="{Binding Path=Tag, RelativeSource={RelativeSource TemplatedParent}}" Foreground="{TemplateBinding Foreground}" Width="16" Height="16" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    <TextBlock Width="24" Height="24"   VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center">
+                       <Icon:PackIconUnicons Margin="0 4 0 0"  Kind="{Binding Path=Tag, RelativeSource={RelativeSource TemplatedParent}}" Foreground="{TemplateBinding Foreground}" Width="16" Height="16" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    </TextBlock>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -123,7 +125,9 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate>
-                    <Icon:PackIconIonicons Kind="{Binding Path=Tag, RelativeSource={RelativeSource TemplatedParent}}" Foreground="{TemplateBinding Foreground}" Width="16" Height="16" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    <TextBlock Width="24" Height="24"  VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center">
+                    <Icon:PackIconIonicons Margin="0 4 0 0" Kind="{Binding Path=Tag, RelativeSource={RelativeSource TemplatedParent}}" Foreground="{TemplateBinding Foreground}" Width="16" Height="16" />
+                    </TextBlock>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -147,10 +151,11 @@
         <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="BorderThickness" Value="0,0,0,0" />
         <Setter Property="BorderBrush" Value="{x:Null}" />
-        <Setter Property="Height" Value="Auto" />
+        <Setter Property="Margin" Value="0 0 25 0" />
         <Setter Property="Background" Value="#FFF" />
         <Setter Property="Foreground"  Value="#1C1E2F" />
-        <Setter Property="Margin" Value="20 0 20 0" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="UseLayoutRounding" Value="True" />
     </Style>
 
     <Style x:Key="versesActionMainTabButton" TargetType="Button">
@@ -158,29 +163,29 @@
         <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="BorderThickness" Value="0,0,0,0" />
         <Setter Property="BorderBrush" Value="{x:Null}" />
-        <Setter Property="Height" Value="Auto" />
         <Setter Property="Background" Value="#FFF" />
+        <Setter Property="Margin" Value="0 0 25 0" />
         <Setter Property="Foreground"  Value="#1C1E2F" />
-        <Setter Property="Margin" Value="20 0 20 0" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="UseLayoutRounding" Value="True" />
     </Style>
 
     <Style x:Key="versesActionMainTabButtonMark" TargetType="CheckBox" BasedOn="{StaticResource versesActionMainTabCheckBox}">
-        <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate>
-                    <Border x:Name="target1" Padding="20,5,20,5" Style="{DynamicResource defaultBorderShadowEffect}" Background="{TemplateBinding Background}">
+                    <Border x:Name="bg_temp" Padding="20,5,20,5" Style="{DynamicResource defaultBorderShadowEffect}" Background="{TemplateBinding Background}">
                         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal">
-                            <Icon:PackIconBootstrapIcons x:Name="target3"  Kind="{Binding Path=Tag, RelativeSource={RelativeSource TemplatedParent}}" Margin="0,0,5,0" Foreground="{TemplateBinding Foreground}" Width="14" Height="14" VerticalAlignment="Center"  HorizontalAlignment="Center" />
-                            <TextBlock x:Name="target2" Text="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}}" FontFamily="{DynamicResource PoppinsRegular}" Foreground="{TemplateBinding Foreground}" />
+                            <Icon:PackIconBootstrapIcons x:Name="ic_temp" Kind="{Binding Path=Tag, RelativeSource={RelativeSource TemplatedParent}}" Foreground="{TemplateBinding Foreground}" Margin="0,0,5,0" Width="14" Height="14" VerticalAlignment="Center"  HorizontalAlignment="Center" />
+                            <TextBlock x:Name="txt_temp" Text="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}}" FontFamily="{DynamicResource PoppinsRegular}" Foreground="{TemplateBinding Foreground}" />
                         </StackPanel>
                     </Border>
+
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="target1" Property="Background" Value="#0D6EFD" />
-                            <Setter TargetName="target2" Property="Foreground" Value="#FFFFFF" />
-                            <Setter TargetName="target3" Property="Foreground" Value="#FFFFFF" />
+                            <Setter TargetName="bg_temp" Property="Background" Value="#0D6EFD" />
+                            <Setter TargetName="ic_temp" Property="Foreground" Value="#FFFFFF" />
+                            <Setter TargetName="txt_temp" Property="Foreground" Value="#FFFFFF" />
                             <Setter Property="Cursor" Value="Hand" />
                         </Trigger>
                     </ControlTemplate.Triggers>
@@ -189,6 +194,7 @@
         </Setter>
 
         <Style.Triggers>
+
             <Trigger Property="IsChecked" Value="True">
                 <Setter Property="Background" Value="#0D6EFD" />
                 <Setter Property="Foreground" Value="#FFFFFF" />
@@ -201,22 +207,21 @@
     </Style>
 
     <Style x:Key="versesActionMainTabButtonBell" TargetType="CheckBox" BasedOn="{StaticResource versesActionMainTabCheckBox}">
-        <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate>
-                    <Border x:Name="target1" Padding="15,5,15,5" Style="{DynamicResource defaultBorderShadowEffect}" Background="{TemplateBinding Background}">
+                    <Border x:Name="bg_temp" Padding="20,5,20,5" Style="{DynamicResource defaultBorderShadowEffect}" Background="{TemplateBinding Background}">
                         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal">
-                            <Icon:PackIconFeatherIcons  x:Name="target3"  Kind="{Binding Path=Tag, RelativeSource={RelativeSource TemplatedParent}}" Margin="0,0,5,0" Foreground="{TemplateBinding Foreground}" Width="14" Height="14" VerticalAlignment="Center"  HorizontalAlignment="Center" />
-                            <TextBlock x:Name="target2" Text="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}}" FontFamily="{DynamicResource PoppinsRegular}" Foreground="{TemplateBinding Foreground}" />
+                            <Icon:PackIconFeatherIcons x:Name="ic_temp" Kind="{Binding Path=Tag, RelativeSource={RelativeSource TemplatedParent}}" Foreground="{TemplateBinding Foreground}" Margin="0,0,5,0" Width="14" Height="14" VerticalAlignment="Center"  HorizontalAlignment="Center" />
+                            <TextBlock x:Name="txt_temp" Text="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}}" FontFamily="{DynamicResource PoppinsRegular}" Foreground="{TemplateBinding Foreground}" />
                         </StackPanel>
                     </Border>
+
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="target1" Property="Background" Value="#FD7E14" />
-                            <Setter TargetName="target2" Property="Foreground" Value="#FFFFFF" />
-                            <Setter TargetName="target3" Property="Foreground" Value="#FFFFFF" />
+                            <Setter TargetName="bg_temp" Property="Background" Value="#FD7E14" />
+                            <Setter TargetName="ic_temp" Property="Foreground" Value="#FFFFFF" />
+                            <Setter TargetName="txt_temp" Property="Foreground" Value="#FFFFFF" />
                             <Setter Property="Cursor" Value="Hand" />
                         </Trigger>
                     </ControlTemplate.Triggers>
@@ -225,6 +230,7 @@
         </Setter>
 
         <Style.Triggers>
+
             <Trigger Property="IsChecked" Value="True">
                 <Setter Property="Background" Value="#FD7E14" />
                 <Setter Property="Foreground" Value="#FFFFFF" />
@@ -237,22 +243,21 @@
     </Style>
 
     <Style x:Key="versesActionMainTabButtonNote" TargetType="Button" BasedOn="{StaticResource versesActionMainTabButton}">
-        <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate>
-                    <Border x:Name="target1" Padding="15,5,15,5" Style="{DynamicResource defaultBorderShadowEffect}" Background="{TemplateBinding Background}">
+                    <Border x:Name="bg_temp" Padding="20,5,20,5" Style="{DynamicResource defaultBorderShadowEffect}" Background="{TemplateBinding Background}">
                         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal">
-                            <Icon:PackIconUnicons  x:Name="target3"  Kind="{Binding Path=Tag, RelativeSource={RelativeSource TemplatedParent}}" Margin="0,0,5,0" Foreground="{TemplateBinding Foreground}" Width="14" Height="14" VerticalAlignment="Center"  HorizontalAlignment="Center" />
-                            <TextBlock x:Name="target2" Text="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}}" FontFamily="{DynamicResource PoppinsRegular}" Foreground="{TemplateBinding Foreground}" />
+                            <Icon:PackIconUnicons x:Name="ic_temp" Kind="{Binding Path=Tag, RelativeSource={RelativeSource TemplatedParent}}" Foreground="{TemplateBinding Foreground}" Margin="0,0,5,0" Width="14" Height="14" VerticalAlignment="Center"  HorizontalAlignment="Center" />
+                            <TextBlock x:Name="txt_temp" Text="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}}" FontFamily="{DynamicResource PoppinsRegular}" Foreground="{TemplateBinding Foreground}" />
                         </StackPanel>
                     </Border>
+
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="target1" Property="Background" Value="#6610f2" />
-                            <Setter TargetName="target2" Property="Foreground" Value="#FFFFFF" />
-                            <Setter TargetName="target3" Property="Foreground" Value="#FFFFFF" />
+                            <Setter TargetName="bg_temp" Property="Background" Value="#6610f2" />
+                            <Setter TargetName="ic_temp" Property="Foreground" Value="#FFFFFF" />
+                            <Setter TargetName="txt_temp" Property="Foreground" Value="#FFFFFF" />
                             <Setter Property="Cursor" Value="Hand" />
                         </Trigger>
                     </ControlTemplate.Triggers>
@@ -262,22 +267,21 @@
     </Style>
 
     <Style x:Key="versesActionMainTabButtonCheck" TargetType="CheckBox" BasedOn="{StaticResource versesActionMainTabCheckBox}">
-        <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate>
-                    <Border x:Name="target1" Padding="15,5,15,5" Style="{DynamicResource defaultBorderShadowEffect}" Background="{TemplateBinding Background}">
+                    <Border x:Name="bg_temp" Padding="20,5,20,5" Style="{DynamicResource defaultBorderShadowEffect}" Background="{TemplateBinding Background}">
                         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal">
-                            <Icon:PackIconMaterial  x:Name="target3"  Kind="{Binding Path=Tag, RelativeSource={RelativeSource TemplatedParent}}" Margin="0,0,5,0" Foreground="{TemplateBinding Foreground}" Width="14" Height="14" VerticalAlignment="Center"  HorizontalAlignment="Center" />
-                            <TextBlock x:Name="target2" Text="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}}" FontFamily="{DynamicResource PoppinsRegular}" Foreground="{TemplateBinding Foreground}" />
+                            <Icon:PackIconMaterial x:Name="ic_temp" Kind="{Binding Path=Tag, RelativeSource={RelativeSource TemplatedParent}}" Foreground="{TemplateBinding Foreground}" Margin="0,0,5,0" Width="14" Height="14" VerticalAlignment="Center"  HorizontalAlignment="Center" />
+                            <TextBlock x:Name="txt_temp" Text="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}}" FontFamily="{DynamicResource PoppinsRegular}" Foreground="{TemplateBinding Foreground}" />
                         </StackPanel>
                     </Border>
+
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="target1" Property="Background" Value="#66E21F" />
-                            <Setter TargetName="target2" Property="Foreground" Value="#FFFFFF" />
-                            <Setter TargetName="target3" Property="Foreground" Value="#FFFFFF" />
+                            <Setter TargetName="bg_temp" Property="Background" Value="#66E21F" />
+                            <Setter TargetName="ic_temp" Property="Foreground" Value="#FFFFFF" />
+                            <Setter TargetName="txt_temp" Property="Foreground" Value="#FFFFFF" />
                             <Setter Property="Cursor" Value="Hand" />
                         </Trigger>
                     </ControlTemplate.Triggers>
@@ -286,6 +290,7 @@
         </Setter>
 
         <Style.Triggers>
+
             <Trigger Property="IsChecked" Value="True">
                 <Setter Property="Background" Value="#66E21F" />
                 <Setter Property="Foreground" Value="#FFFFFF" />
@@ -297,59 +302,22 @@
         </Style.Triggers>
     </Style>
 
-    <Style x:Key="versesActionMainTabButtonFav" TargetType="CheckBox" BasedOn="{StaticResource versesActionMainTabCheckBox}">
-        <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="UseLayoutRounding" Value="True" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate>
-                    <Border x:Name="target1" Padding="15,5,15,5" Style="{DynamicResource defaultBorderShadowEffect}" Background="{TemplateBinding Background}">
-                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal">
-                            <Icon:PackIconForkAwesome  x:Name="target3"  Kind="{Binding Path=Tag, RelativeSource={RelativeSource TemplatedParent}}" Margin="0,0,5,0" Foreground="{TemplateBinding Foreground}" Width="14" Height="14" VerticalAlignment="Center"  HorizontalAlignment="Center" />
-                            <TextBlock x:Name="target2" Text="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}}" FontFamily="{DynamicResource PoppinsRegular}" Foreground="{TemplateBinding Foreground}" />
-                        </StackPanel>
-                    </Border>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="target1" Property="Background" Value="#FD7E14" />
-                            <Setter TargetName="target2" Property="Foreground" Value="#FFFFFF" />
-                            <Setter TargetName="target3" Property="Foreground" Value="#FFFFFF" />
-                            <Setter Property="Cursor" Value="Hand" />
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-
-        <Style.Triggers>
-            <Trigger Property="IsChecked" Value="True">
-                <Setter Property="Background" Value="#FD7E14" />
-                <Setter Property="Foreground" Value="#FFFFFF" />
-            </Trigger>
-            <Trigger Property="IsChecked" Value="False">
-                <Setter Property="Background" Value="#FFFFFF" />
-                <Setter Property="Foreground" Value="#1C1E2F" />
-            </Trigger>
-        </Style.Triggers>
-    </Style>
-
     <Style x:Key="versesActionMainTabButtonDesc" TargetType="Button" BasedOn="{StaticResource versesActionMainTabButton}">
-        <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate>
-                    <Border x:Name="target1" Padding="15,5,15,5" Style="{DynamicResource defaultBorderShadowEffect}" Background="{TemplateBinding Background}">
+                    <Border x:Name="bg_temp" Padding="20,5,20,5" Style="{DynamicResource defaultBorderShadowEffect}" Background="{TemplateBinding Background}">
                         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal">
-                            <Icon:PackIconUnicons x:Name="target3"  Kind="{Binding Path=Uid, RelativeSource={RelativeSource TemplatedParent}}" Margin="0,0,5,0" Foreground="{TemplateBinding Foreground}" Width="14" Height="14" VerticalAlignment="Center"  HorizontalAlignment="Center" />
-                            <TextBlock x:Name="target2" Text="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}}" FontFamily="{DynamicResource PoppinsRegular}" Foreground="{TemplateBinding Foreground}" />
+                            <Icon:PackIconUnicons x:Name="ic_temp" Kind="{Binding Path=Tag, RelativeSource={RelativeSource TemplatedParent}}" Foreground="{TemplateBinding Foreground}" Margin="0,0,5,0" Width="14" Height="14" VerticalAlignment="Center"  HorizontalAlignment="Center" />
+                            <TextBlock x:Name="txt_temp" Text="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}}" FontFamily="{DynamicResource PoppinsRegular}" Foreground="{TemplateBinding Foreground}" />
                         </StackPanel>
                     </Border>
+
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="target1" Property="Background" Value="#d63384" />
-                            <Setter TargetName="target2" Property="Foreground" Value="#FFFFFF" />
-                            <Setter TargetName="target3" Property="Foreground" Value="#FFFFFF" />
+                            <Setter TargetName="bg_temp" Property="Background" Value="#d63384" />
+                            <Setter TargetName="ic_temp" Property="Foreground" Value="#FFFFFF" />
+                            <Setter TargetName="txt_temp" Property="Foreground" Value="#FFFFFF" />
                             <Setter Property="Cursor" Value="Hand" />
                         </Trigger>
                     </ControlTemplate.Triggers>
@@ -359,22 +327,21 @@
     </Style>
 
     <Style x:Key="versesActionMainTabButtonFeed" TargetType="Button" BasedOn="{StaticResource versesActionMainTabButton}">
-        <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate>
-                    <Border x:Name="target1" Padding="15,5,15,5" Style="{DynamicResource defaultBorderShadowEffect}" Background="{TemplateBinding Background}">
+                    <Border x:Name="bg_temp" Padding="20,5,20,5" Style="{DynamicResource defaultBorderShadowEffect}" Background="{TemplateBinding Background}">
                         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal">
-                            <Icon:PackIconFeatherIcons x:Name="target3"  Kind="{Binding Path=Tag, RelativeSource={RelativeSource TemplatedParent}}" Margin="0,0,5,0" Foreground="{TemplateBinding Foreground}" Width="14" Height="14" VerticalAlignment="Center"  HorizontalAlignment="Center" />
-                            <TextBlock x:Name="target2" Text="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}}" FontFamily="{DynamicResource PoppinsRegular}" Foreground="{TemplateBinding Foreground}" />
+                            <Icon:PackIconFeatherIcons x:Name="ic_temp" Kind="{Binding Path=Tag, RelativeSource={RelativeSource TemplatedParent}}" Foreground="{TemplateBinding Foreground}" Margin="0,0,5,0" Width="14" Height="14" VerticalAlignment="Center"  HorizontalAlignment="Center" />
+                            <TextBlock x:Name="txt_temp" Text="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}}" FontFamily="{DynamicResource PoppinsRegular}" Foreground="{TemplateBinding Foreground}" />
                         </StackPanel>
                     </Border>
+
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="target1" Property="Background" Value="#0dcaf0" />
-                            <Setter TargetName="target2" Property="Foreground" Value="#FFFFFF" />
-                            <Setter TargetName="target3" Property="Foreground" Value="#FFFFFF" />
+                            <Setter TargetName="bg_temp" Property="Background" Value="#0dcaf0" />
+                            <Setter TargetName="ic_temp" Property="Foreground" Value="#FFFFFF" />
+                            <Setter TargetName="txt_temp" Property="Foreground" Value="#FFFFFF" />
                             <Setter Property="Cursor" Value="Hand" />
                         </Trigger>
                     </ControlTemplate.Triggers>

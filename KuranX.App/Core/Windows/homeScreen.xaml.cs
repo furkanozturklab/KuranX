@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using KuranX.App.Core.Pages;
 
 namespace KuranX.App.Core.Windows
@@ -10,10 +11,14 @@ namespace KuranX.App.Core.Windows
     /// </summary>
     public partial class homeScreen : Window
     {
+        public static TextBlock locationTxt;
+
         public homeScreen()
         {
             InitializeComponent();
             App.mainframe = (Frame)this.FindName("homeFrame");
+            locationTxt = (TextBlock)this.FindName("UserLocationText");
+            locationTxt.Text = "Ayetler";
         }
 
         private void enterFullScreenIcon_Click(object sender,
@@ -58,10 +63,10 @@ namespace KuranX.App.Core.Windows
         {
             //App.mainframe.Content = new versesFrame();
 
-            App.mainframe.Content = new verseFrame(2);
+            App.mainframe.Content = new verseFrame(1, 1);
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void appClosed_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
@@ -69,6 +74,10 @@ namespace KuranX.App.Core.Windows
         private void navEnter_Click(object sender, RoutedEventArgs e)
         {
             var btn_nav = sender as Button;
+
+            foreach (object item in menuButton.Children)
+            {
+            }
 
             switch (btn_nav.Uid)
             {
@@ -83,7 +92,7 @@ namespace KuranX.App.Core.Windows
             }
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private void adminOpen_Click(object sender, RoutedEventArgs e)
         {
             AdminScreen adm = new AdminScreen();
             adm.Show();

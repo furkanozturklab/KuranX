@@ -11,6 +11,8 @@ namespace KuranX.App.Core.Classes
         public int? sureId { get; set; }
         public string? Name { get; set; }
         public int? NumberOfVerses { get; set; }
+        public int? UserCheckCount { get; set; }
+        public int? UserLastRelativeVerse { get; set; }
         public string? LandingLocation { get; set; }
         public int? DeskLanding { get; set; }
         public int? DeskMushaf { get; set; }

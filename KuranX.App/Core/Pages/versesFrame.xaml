@@ -14,8 +14,8 @@
     </Page.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="120" />
-            <RowDefinition Height="503" />
+            <RowDefinition Height="110" />
+            <RowDefinition Height="513" />
             <RowDefinition Height="85" />
         </Grid.RowDefinitions>
 
@@ -23,15 +23,143 @@
             <Image gif:ImageBehavior.AnimatedSource="/Resource/Images/Gif/Spinner800.gif" Width="250" Height="250"  RenderOptions.BitmapScalingMode="HighQuality" />
         </Grid>
 
+        <!-- POPUP -->
+        <Popup x:Name="fastopenVerse" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="300" Height="260" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+            <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="280" Height="240">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50" />
+                        <RowDefinition Height="190" />
+                    </Grid.RowDefinitions>
+                    <Border  Grid.Row="0" Style="{DynamicResource headerBorderTemp}">
+                        <TextBlock Text="Hızlı Git" Style="{DynamicResource popupHeaderText}" />
+                    </Border>
+                    <Grid Grid.Row="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="50" />
+                        </Grid.RowDefinitions>
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Width="280" Grid.Row="0">
+                            <TextBlock Text="Ayet " FontFamily="{DynamicResource PoppinsMedium}" FontSize="14" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            <TextBox Style="{DynamicResource popupDefaulTextBox}" x:Name="popupRelativeId">
+                                <TextBox.Resources>
+                                    <Style TargetType="{x:Type Border}">
+                                        <Setter Property="CornerRadius" Value="5" />
+                                    </Style>
+                                </TextBox.Resources>
+                            </TextBox>
+                            <StackPanel Orientation="Vertical" Width="Auto" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <TextBlock Style="{DynamicResource popupDefaultTextBoxTextBlock}" x:Name="fastopenVerseInfo" Text="Fatiha Süresini 7 Ayeti Mevcut" Margin="0 2 0 2" />
+                                <TextBlock Style="{DynamicResource popupDefaultTextBoxTextBlock}" x:Name="fastopenVerseError" Text="Gitmek İstenilen Ayet Sırasını Giriniz" />
+                            </StackPanel>
+                        </StackPanel>
+                        <Grid Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="0">
+                                <Button x:Name="fastLoadVerse" Style="{DynamicResource popupDefaultButtonBstrp}" Tag="ArrowRight" Content="Git" HorizontalAlignment="Center" Click="fastLoadVerse_Click" />
+                                <Button  Style="{DynamicResource popupDefaultButtonClosed}" Tag="CloseBig" Content="Vazgeç" Uid="fastopenVerse" HorizontalAlignment="Center" Click="popupClosed_Click" />
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </Border>
+        </Popup>
+
+        <Popup x:Name="alph" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="460" Height="200" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+            <Border  Style="{DynamicResource defaultBorderShadowEffect}" Width="440" Height="180">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="90" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Border Grid.Column="0" Background="#F0433A" CornerRadius="5 0 0 5"></Border>
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Icon:PackIconOcticons Kind="Alert" Width="48" Height="48" Foreground="#F0433A" />
+                        </StackPanel>
+                        <Border Grid.Column="2"  Padding="10 0 10 0">
+                            <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <TextBlock x:Name="alertPopupHeader" Text="" FontSize="22" Margin="0,0,0,12" Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsSemiBold}" />
+                                <TextBlock x:Name="alertPopupDetail" Text="" TextWrapping="Wrap"  Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsMedium}" />
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                </Grid>
+            </Border>
+        </Popup>
+
+        <Popup x:Name="inph" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="460" Height="200" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+
+            <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="440" Height="180">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="90" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Border Grid.Column="0" Background="#0D6EFD" CornerRadius="5 0 0 5"></Border>
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Icon:PackIconUnicons Kind="Info" Width="48" Height="48" Foreground="#0D6EFD" />
+                        </StackPanel>
+                        <Border Grid.Column="2"  Padding="10 0 10 0">
+                            <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <TextBlock x:Name="infoPopupHeader" Text="" FontSize="22" Margin="0,0,0,12" Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsSemiBold}" />
+                                <TextBlock x:Name="infoPopupDetail" Text="" TextWrapping="Wrap"  Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsMedium}" />
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                </Grid>
+            </Border>
+        </Popup>
+
+        <Popup x:Name="scph" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="460" Height="200" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+            <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="440" Height="180">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="90" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Border Grid.Column="0" Background="#66E21F" CornerRadius="5 0 0 5"></Border>
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Icon:PackIconIonicons Kind="CheckmarkMD" Width="48" Height="48" Foreground="#66E21F" />
+                        </StackPanel>
+                        <Border Grid.Column="2"  Padding="10 0 10 0">
+                            <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <TextBlock x:Name="successPopupHeader" Text="" FontSize="22" Margin="0,0,0,12" Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsSemiBold}" />
+                                <TextBlock x:Name="successPopupDetail" Text="" TextWrapping="Wrap"  Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsMedium}" />
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                </Grid>
+            </Border>
+        </Popup>
+
+        <!-- POPUP -->
+
         <Grid Grid.Row="0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="60" />
-                <RowDefinition Height="60" />
-            </Grid.RowDefinitions>
 
-            <Button Style="{DynamicResource ResourceKey=wheristayButton}"  Grid.Row="0" />
+            <Button IsEnabled="False" x:Name="gotoMarkLocation" Style="{DynamicResource wheristayButton}" VerticalAlignment="Top" Click="gotoMarkLocation_Click" />
 
-            <Border Grid.Row="1" Height="60" VerticalAlignment="Top" BorderThickness="0,0,0,2" BorderBrush="#FFACACAC">
+            <Border Grid.Row="1" Height="60"  BorderThickness="0,0,0,2" BorderBrush="#FFACACAC" VerticalAlignment="Bottom">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
@@ -48,7 +176,6 @@
 
                     <Border Grid.Column="1">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-
                             <StackPanel Margin="0,0,25,0">
                                 <TextBlock Text="İndiği Yer" Style="{DynamicResource ResourceKey=ayetlerNavComboboxHeaderText}" />
                                 <ComboBox x:Name="landingCombobox" Margin="0 5 0 0" Style="{DynamicResource ResourceKey=ayetlerNavCombobox}" SelectedIndex="0" SelectionChanged="landingCombobox_SelectionChanged">
@@ -89,47 +216,38 @@
                 <ItemsControl x:Name="aIcontrol1" Grid.Column="0" Grid.Row="0">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Border Grid.Column="1" Grid.Row="0" Padding="10">
-                                <Border Background="#ffffff" CornerRadius="5">
+                            <Border Padding="10">
+                                <Border Background="#FFF" Style="{DynamicResource defaultBorderShadowEffect}">
                                     <StackPanel Orientation="Vertical">
                                         <Border Background="{Binding Status}" Height="12" CornerRadius="5 5 0 0" />
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*" />
-                                            </Grid.ColumnDefinitions>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="58" />
-                                                <RowDefinition Height="77" />
-                                            </Grid.RowDefinitions>
-
-                                            <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" Width="203">
-                                                <StackPanel Width="70" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                        <StackPanel Orientation="Horizontal" Height="67" Width="203">
+                                            <Border Width="93" Padding="10 5 5 5">
+                                                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Left">
                                                     <TextBlock Text="{Binding DeskLanding}" Style="{DynamicResource versesDeskLanding}" />
                                                 </StackPanel>
-                                                <StackPanel Width="130" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                                    <TextBlock Text="{Binding LandingLocation}" Style="{DynamicResource versesLanding}" />
-                                                    <TextBlock Text="{Binding Description}"  Style="{DynamicResource versesDesc}" />
+                                            </Border>
+                                            <Border Width="110" Padding="0 10 0 5">
+                                                <StackPanel  Orientation="Vertical" HorizontalAlignment="Right">
+                                                    <TextBlock Width="110" Text="{Binding LandingLocation}" Style="{DynamicResource versesLanding}" />
+                                                    <TextBlock Width="110" Text="{Binding Description}" Style="{DynamicResource versesDesc}" />
                                                 </StackPanel>
-                                            </StackPanel>
-                                            <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
-
-                                                <Grid>
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="160" />
-                                                        <ColumnDefinition Width="43" />
-                                                    </Grid.ColumnDefinitions>
-
-                                                    <StackPanel Width="160" Grid.Column="0" VerticalAlignment="Bottom" Margin="0,10,0,0">
-                                                        <TextBlock Text="{Binding Name}" Style="{DynamicResource versesName}" />
-                                                        <StackPanel Orientation="Horizontal" Margin="15,0,0,10">
-                                                            <TextBlock Text="{Binding NumberOfVerses}" Style="{DynamicResource versescounttext}" />
-                                                            <TextBlock Text=" Ayet" Style="{DynamicResource versescounttext}" />
-                                                        </StackPanel>
+                                            </Border>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" Height="68" Width="203">
+                                            <StackPanel Width="140" VerticalAlignment="Center">
+                                                <TextBlock  Text="{Binding Name}" Style="{DynamicResource versesName}" />
+                                                <Border Padding="10 0 5 0">
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="{Binding NumberOfVerses}" Style="{DynamicResource versescounttext}" />
+                                                        <TextBlock Text=" Ayet" Style="{DynamicResource versescounttext}" />
                                                     </StackPanel>
-                                                    <Button Style="{DynamicResource ayetItemsButton}" Grid.Column="1"  Tag="{Binding sureId}" Click="versesPageOpen" />
-                                                </Grid>
+                                                </Border>
                                             </StackPanel>
-                                        </Grid>
+                                            <StackPanel Width="63" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                <Button Style="{DynamicResource ayetItemsButtonFast}" Content="{Binding Name}" Uid="{Binding NumberOfVerses}" Tag="{Binding sureId}" Click="versesFastPopupOpen" />
+                                                <Button Style="{DynamicResource ayetItemsButtonFull}" Content="BoxArrowInRight" Tag="{Binding sureId}" Click="versesPageOpen" />
+                                            </StackPanel>
+                                        </StackPanel>
                                     </StackPanel>
                                 </Border>
                             </Border>
@@ -139,47 +257,38 @@
                 <ItemsControl x:Name="aIcontrol2" Grid.Column="1" Grid.Row="0">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Border Grid.Column="1" Grid.Row="0" Padding="10">
-                                <Border Background="#ffffff" CornerRadius="5">
+                            <Border Padding="10">
+                                <Border Background="#FFF" Style="{DynamicResource defaultBorderShadowEffect}">
                                     <StackPanel Orientation="Vertical">
                                         <Border Background="{Binding Status}" Height="12" CornerRadius="5 5 0 0" />
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*" />
-                                            </Grid.ColumnDefinitions>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="58" />
-                                                <RowDefinition Height="77" />
-                                            </Grid.RowDefinitions>
-
-                                            <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" Width="203">
-                                                <StackPanel Width="70" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                        <StackPanel Orientation="Horizontal" Height="67" Width="203">
+                                            <Border Width="93" Padding="10 5 5 5">
+                                                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Left">
                                                     <TextBlock Text="{Binding DeskLanding}" Style="{DynamicResource versesDeskLanding}" />
                                                 </StackPanel>
-                                                <StackPanel Width="130" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                                    <TextBlock Text="{Binding LandingLocation}" Style="{DynamicResource versesLanding}" />
-                                                    <TextBlock Text="{Binding Description}"  Style="{DynamicResource versesDesc}" />
+                                            </Border>
+                                            <Border Width="110" Padding="0 10 0 5">
+                                                <StackPanel  Orientation="Vertical" HorizontalAlignment="Right">
+                                                    <TextBlock Width="120" Text="{Binding LandingLocation}" Style="{DynamicResource versesLanding}" />
+                                                    <TextBlock Width="120" Text="{Binding Description}" Style="{DynamicResource versesDesc}" />
                                                 </StackPanel>
-                                            </StackPanel>
-                                            <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
-
-                                                <Grid>
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="160" />
-                                                        <ColumnDefinition Width="43" />
-                                                    </Grid.ColumnDefinitions>
-
-                                                    <StackPanel Width="160" Grid.Column="0" VerticalAlignment="Bottom" Margin="0,10,0,0">
-                                                        <TextBlock Text="{Binding Name}" Style="{DynamicResource versesName}" />
-                                                        <StackPanel Orientation="Horizontal" Margin="15,0,0,10">
-                                                            <TextBlock Text="{Binding NumberOfVerses}" Style="{DynamicResource versescounttext}" />
-                                                            <TextBlock Text=" Ayet" Style="{DynamicResource versescounttext}" />
-                                                        </StackPanel>
+                                            </Border>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" Height="68" Width="203">
+                                            <StackPanel Width="140" VerticalAlignment="Center">
+                                                <TextBlock  Text="{Binding Name}" Style="{DynamicResource versesName}" />
+                                                <Border Padding="10 0 5 0">
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="{Binding NumberOfVerses}" Style="{DynamicResource versescounttext}" />
+                                                        <TextBlock Text=" Ayet" Style="{DynamicResource versescounttext}" />
                                                     </StackPanel>
-                                                    <Button Style="{DynamicResource ayetItemsButton}" Grid.Column="1"  Tag="{Binding sureId}" Click="versesPageOpen" />
-                                                </Grid>
+                                                </Border>
                                             </StackPanel>
-                                        </Grid>
+                                            <StackPanel Width="63" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                <Button Style="{DynamicResource ayetItemsButtonFast}" Content="{Binding Name}" Uid="{Binding NumberOfVerses}" Tag="{Binding sureId}" Click="versesFastPopupOpen" />
+                                                <Button Style="{DynamicResource ayetItemsButtonFull}" Content="BoxArrowInRight" Tag="{Binding sureId}" Click="versesPageOpen" />
+                                            </StackPanel>
+                                        </StackPanel>
                                     </StackPanel>
                                 </Border>
                             </Border>
@@ -189,47 +298,38 @@
                 <ItemsControl x:Name="aIcontrol3" Grid.Column="2" Grid.Row="0">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Border Grid.Column="1" Grid.Row="0" Padding="10">
-                                <Border Background="#ffffff" CornerRadius="5">
+                            <Border Padding="10">
+                                <Border Background="#FFF" Style="{DynamicResource defaultBorderShadowEffect}">
                                     <StackPanel Orientation="Vertical">
                                         <Border Background="{Binding Status}" Height="12" CornerRadius="5 5 0 0" />
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*" />
-                                            </Grid.ColumnDefinitions>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="58" />
-                                                <RowDefinition Height="77" />
-                                            </Grid.RowDefinitions>
-
-                                            <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" Width="203">
-                                                <StackPanel Width="70" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                        <StackPanel Orientation="Horizontal" Height="67" Width="203">
+                                            <Border Width="93" Padding="10 5 5 5">
+                                                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Left">
                                                     <TextBlock Text="{Binding DeskLanding}" Style="{DynamicResource versesDeskLanding}" />
                                                 </StackPanel>
-                                                <StackPanel Width="130" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                                    <TextBlock Text="{Binding LandingLocation}" Style="{DynamicResource versesLanding}" />
-                                                    <TextBlock Text="{Binding Description}"  Style="{DynamicResource versesDesc}" />
+                                            </Border>
+                                            <Border Width="110" Padding="0 10 0 5">
+                                                <StackPanel  Orientation="Vertical" HorizontalAlignment="Right">
+                                                    <TextBlock Width="120" Text="{Binding LandingLocation}" Style="{DynamicResource versesLanding}" />
+                                                    <TextBlock Width="120" Text="{Binding Description}" Style="{DynamicResource versesDesc}" />
                                                 </StackPanel>
-                                            </StackPanel>
-                                            <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
-
-                                                <Grid>
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="160" />
-                                                        <ColumnDefinition Width="43" />
-                                                    </Grid.ColumnDefinitions>
-
-                                                    <StackPanel Width="160" Grid.Column="0" VerticalAlignment="Bottom" Margin="0,10,0,0">
-                                                        <TextBlock Text="{Binding Name}" Style="{DynamicResource versesName}" />
-                                                        <StackPanel Orientation="Horizontal" Margin="15,0,0,10">
-                                                            <TextBlock Text="{Binding NumberOfVerses}" Style="{DynamicResource versescounttext}" />
-                                                            <TextBlock Text=" Ayet" Style="{DynamicResource versescounttext}" />
-                                                        </StackPanel>
+                                            </Border>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" Height="68" Width="203">
+                                            <StackPanel Width="140" VerticalAlignment="Center">
+                                                <TextBlock  Text="{Binding Name}" Style="{DynamicResource versesName}" />
+                                                <Border Padding="10 0 5 0">
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="{Binding NumberOfVerses}" Style="{DynamicResource versescounttext}" />
+                                                        <TextBlock Text=" Ayet" Style="{DynamicResource versescounttext}" />
                                                     </StackPanel>
-                                                    <Button Style="{DynamicResource ayetItemsButton}" Grid.Column="1"  Tag="{Binding sureId}" Click="versesPageOpen" />
-                                                </Grid>
+                                                </Border>
                                             </StackPanel>
-                                        </Grid>
+                                            <StackPanel Width="63" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                <Button Style="{DynamicResource ayetItemsButtonFast}" Content="{Binding Name}" Uid="{Binding NumberOfVerses}" Tag="{Binding sureId}" Click="versesFastPopupOpen" />
+                                                <Button Style="{DynamicResource ayetItemsButtonFull}" Content="BoxArrowInRight" Tag="{Binding sureId}" Click="versesPageOpen" />
+                                            </StackPanel>
+                                        </StackPanel>
                                     </StackPanel>
                                 </Border>
                             </Border>
@@ -239,47 +339,38 @@
                 <ItemsControl x:Name="aIcontrol4" Grid.Column="3" Grid.Row="0">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Border Grid.Column="1" Grid.Row="0" Padding="10">
-                                <Border Background="#ffffff" CornerRadius="5">
+                            <Border Padding="10">
+                                <Border Background="#FFF" Style="{DynamicResource defaultBorderShadowEffect}">
                                     <StackPanel Orientation="Vertical">
                                         <Border Background="{Binding Status}" Height="12" CornerRadius="5 5 0 0" />
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*" />
-                                            </Grid.ColumnDefinitions>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="58" />
-                                                <RowDefinition Height="77" />
-                                            </Grid.RowDefinitions>
-
-                                            <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" Width="203">
-                                                <StackPanel Width="70" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                        <StackPanel Orientation="Horizontal" Height="67" Width="203">
+                                            <Border Width="93" Padding="10 5 5 5">
+                                                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Left">
                                                     <TextBlock Text="{Binding DeskLanding}" Style="{DynamicResource versesDeskLanding}" />
                                                 </StackPanel>
-                                                <StackPanel Width="130" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                                    <TextBlock Text="{Binding LandingLocation}" Style="{DynamicResource versesLanding}" />
-                                                    <TextBlock Text="{Binding Description}"  Style="{DynamicResource versesDesc}" />
+                                            </Border>
+                                            <Border Width="110" Padding="0 10 0 5">
+                                                <StackPanel  Orientation="Vertical" HorizontalAlignment="Right">
+                                                    <TextBlock Width="120" Text="{Binding LandingLocation}" Style="{DynamicResource versesLanding}" />
+                                                    <TextBlock Width="120" Text="{Binding Description}" Style="{DynamicResource versesDesc}" />
                                                 </StackPanel>
-                                            </StackPanel>
-                                            <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
-
-                                                <Grid>
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="160" />
-                                                        <ColumnDefinition Width="43" />
-                                                    </Grid.ColumnDefinitions>
-
-                                                    <StackPanel Width="160" Grid.Column="0" VerticalAlignment="Bottom" Margin="0,10,0,0">
-                                                        <TextBlock Text="{Binding Name}" Style="{DynamicResource versesName}" />
-                                                        <StackPanel Orientation="Horizontal" Margin="15,0,0,10">
-                                                            <TextBlock Text="{Binding NumberOfVerses}" Style="{DynamicResource versescounttext}" />
-                                                            <TextBlock Text=" Ayet" Style="{DynamicResource versescounttext}" />
-                                                        </StackPanel>
+                                            </Border>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" Height="68" Width="203">
+                                            <StackPanel Width="140" VerticalAlignment="Center">
+                                                <TextBlock  Text="{Binding Name}" Style="{DynamicResource versesName}" />
+                                                <Border Padding="10 0 5 0">
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="{Binding NumberOfVerses}" Style="{DynamicResource versescounttext}" />
+                                                        <TextBlock Text=" Ayet" Style="{DynamicResource versescounttext}" />
                                                     </StackPanel>
-                                                    <Button Style="{DynamicResource ayetItemsButton}" Grid.Column="1"  Tag="{Binding sureId}" Click="versesPageOpen" />
-                                                </Grid>
+                                                </Border>
                                             </StackPanel>
-                                        </Grid>
+                                            <StackPanel Width="63" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                <Button Style="{DynamicResource ayetItemsButtonFast}" Content="{Binding Name}" Uid="{Binding NumberOfVerses}" Tag="{Binding sureId}" Click="versesFastPopupOpen" />
+                                                <Button Style="{DynamicResource ayetItemsButtonFull}" Content="BoxArrowInRight" Tag="{Binding sureId}" Click="versesPageOpen" />
+                                            </StackPanel>
+                                        </StackPanel>
                                     </StackPanel>
                                 </Border>
                             </Border>
@@ -289,47 +380,38 @@
                 <ItemsControl x:Name="aIcontrol5" Grid.Column="4" Grid.Row="0">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Border Grid.Column="1" Grid.Row="0" Padding="10">
-                                <Border Background="#ffffff" CornerRadius="5">
+                            <Border Padding="10">
+                                <Border Background="#FFF" Style="{DynamicResource defaultBorderShadowEffect}">
                                     <StackPanel Orientation="Vertical">
                                         <Border Background="{Binding Status}" Height="12" CornerRadius="5 5 0 0" />
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*" />
-                                            </Grid.ColumnDefinitions>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="58" />
-                                                <RowDefinition Height="77" />
-                                            </Grid.RowDefinitions>
-
-                                            <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" Width="203">
-                                                <StackPanel Width="70" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                        <StackPanel Orientation="Horizontal" Height="67" Width="203">
+                                            <Border Width="93" Padding="10 5 5 5">
+                                                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Left">
                                                     <TextBlock Text="{Binding DeskLanding}" Style="{DynamicResource versesDeskLanding}" />
                                                 </StackPanel>
-                                                <StackPanel Width="130" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                                    <TextBlock Text="{Binding LandingLocation}" Style="{DynamicResource versesLanding}" />
-                                                    <TextBlock Text="{Binding Description}"  Style="{DynamicResource versesDesc}" />
+                                            </Border>
+                                            <Border Width="110" Padding="0 10 0 5">
+                                                <StackPanel  Orientation="Vertical" HorizontalAlignment="Right">
+                                                    <TextBlock Width="120" Text="{Binding LandingLocation}" Style="{DynamicResource versesLanding}" />
+                                                    <TextBlock Width="120" Text="{Binding Description}" Style="{DynamicResource versesDesc}" />
                                                 </StackPanel>
-                                            </StackPanel>
-                                            <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
-
-                                                <Grid>
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="160" />
-                                                        <ColumnDefinition Width="43" />
-                                                    </Grid.ColumnDefinitions>
-
-                                                    <StackPanel Width="160" Grid.Column="0" VerticalAlignment="Bottom" Margin="0,10,0,0">
-                                                        <TextBlock Text="{Binding Name}" Style="{DynamicResource versesName}" />
-                                                        <StackPanel Orientation="Horizontal" Margin="15,0,0,10">
-                                                            <TextBlock Text="{Binding NumberOfVerses}" Style="{DynamicResource versescounttext}" />
-                                                            <TextBlock Text=" Ayet" Style="{DynamicResource versescounttext}" />
-                                                        </StackPanel>
+                                            </Border>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" Height="68" Width="203">
+                                            <StackPanel Width="140" VerticalAlignment="Center">
+                                                <TextBlock  Text="{Binding Name}" Style="{DynamicResource versesName}" />
+                                                <Border Padding="10 0 5 0">
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="{Binding NumberOfVerses}" Style="{DynamicResource versescounttext}" />
+                                                        <TextBlock Text=" Ayet" Style="{DynamicResource versescounttext}" />
                                                     </StackPanel>
-                                                    <Button Style="{DynamicResource ayetItemsButton}" Grid.Column="1"  Tag="{Binding sureId}" Click="versesPageOpen" />
-                                                </Grid>
+                                                </Border>
                                             </StackPanel>
-                                        </Grid>
+                                            <StackPanel Width="63" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                <Button Style="{DynamicResource ayetItemsButtonFast}" Content="{Binding Name}" Uid="{Binding NumberOfVerses}" Tag="{Binding sureId}" Click="versesFastPopupOpen" />
+                                                <Button Style="{DynamicResource ayetItemsButtonFull}" Content="BoxArrowInRight" Tag="{Binding sureId}" Click="versesPageOpen" />
+                                            </StackPanel>
+                                        </StackPanel>
                                     </StackPanel>
                                 </Border>
                             </Border>
@@ -339,47 +421,38 @@
                 <ItemsControl x:Name="aIcontrol6" Grid.Column="0" Grid.Row="1">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Border Grid.Column="1" Grid.Row="0" Padding="10">
-                                <Border Background="#ffffff" CornerRadius="5">
+                            <Border Padding="10">
+                                <Border Background="#FFF" Style="{DynamicResource defaultBorderShadowEffect}">
                                     <StackPanel Orientation="Vertical">
                                         <Border Background="{Binding Status}" Height="12" CornerRadius="5 5 0 0" />
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*" />
-                                            </Grid.ColumnDefinitions>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="58" />
-                                                <RowDefinition Height="77" />
-                                            </Grid.RowDefinitions>
-
-                                            <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" Width="203">
-                                                <StackPanel Width="70" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                        <StackPanel Orientation="Horizontal" Height="67" Width="203">
+                                            <Border Width="93" Padding="10 5 5 5">
+                                                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Left">
                                                     <TextBlock Text="{Binding DeskLanding}" Style="{DynamicResource versesDeskLanding}" />
                                                 </StackPanel>
-                                                <StackPanel Width="130" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                                    <TextBlock Text="{Binding LandingLocation}" Style="{DynamicResource versesLanding}" />
-                                                    <TextBlock Text="{Binding Description}"  Style="{DynamicResource versesDesc}" />
+                                            </Border>
+                                            <Border Width="110" Padding="0 10 0 5">
+                                                <StackPanel  Orientation="Vertical" HorizontalAlignment="Right">
+                                                    <TextBlock Width="120" Text="{Binding LandingLocation}" Style="{DynamicResource versesLanding}" />
+                                                    <TextBlock Width="120" Text="{Binding Description}" Style="{DynamicResource versesDesc}" />
                                                 </StackPanel>
-                                            </StackPanel>
-                                            <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
-
-                                                <Grid>
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="160" />
-                                                        <ColumnDefinition Width="43" />
-                                                    </Grid.ColumnDefinitions>
-
-                                                    <StackPanel Width="160" Grid.Column="0" VerticalAlignment="Bottom" Margin="0,10,0,0">
-                                                        <TextBlock Text="{Binding Name}" Style="{DynamicResource versesName}" />
-                                                        <StackPanel Orientation="Horizontal" Margin="15,0,0,10">
-                                                            <TextBlock Text="{Binding NumberOfVerses}" Style="{DynamicResource versescounttext}" />
-                                                            <TextBlock Text=" Ayet" Style="{DynamicResource versescounttext}" />
-                                                        </StackPanel>
+                                            </Border>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" Height="68" Width="203">
+                                            <StackPanel Width="140" VerticalAlignment="Center">
+                                                <TextBlock  Text="{Binding Name}" Style="{DynamicResource versesName}" />
+                                                <Border Padding="10 0 5 0">
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="{Binding NumberOfVerses}" Style="{DynamicResource versescounttext}" />
+                                                        <TextBlock Text=" Ayet" Style="{DynamicResource versescounttext}" />
                                                     </StackPanel>
-                                                    <Button Style="{DynamicResource ayetItemsButton}" Grid.Column="1"  Tag="{Binding sureId}" Click="versesPageOpen" />
-                                                </Grid>
+                                                </Border>
                                             </StackPanel>
-                                        </Grid>
+                                            <StackPanel Width="63" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                <Button Style="{DynamicResource ayetItemsButtonFast}" Content="{Binding Name}" Uid="{Binding NumberOfVerses}" Tag="{Binding sureId}" Click="versesFastPopupOpen" />
+                                                <Button Style="{DynamicResource ayetItemsButtonFull}" Content="BoxArrowInRight" Tag="{Binding sureId}" Click="versesPageOpen" />
+                                            </StackPanel>
+                                        </StackPanel>
                                     </StackPanel>
                                 </Border>
                             </Border>
@@ -389,47 +462,38 @@
                 <ItemsControl x:Name="aIcontrol7" Grid.Column="1" Grid.Row="1">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Border Grid.Column="1" Grid.Row="0" Padding="10">
-                                <Border Background="#ffffff" CornerRadius="5">
+                            <Border Padding="10">
+                                <Border Background="#FFF" Style="{DynamicResource defaultBorderShadowEffect}">
                                     <StackPanel Orientation="Vertical">
                                         <Border Background="{Binding Status}" Height="12" CornerRadius="5 5 0 0" />
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*" />
-                                            </Grid.ColumnDefinitions>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="58" />
-                                                <RowDefinition Height="77" />
-                                            </Grid.RowDefinitions>
-
-                                            <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" Width="203">
-                                                <StackPanel Width="70" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                        <StackPanel Orientation="Horizontal" Height="67" Width="203">
+                                            <Border Width="93" Padding="10 5 5 5">
+                                                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Left">
                                                     <TextBlock Text="{Binding DeskLanding}" Style="{DynamicResource versesDeskLanding}" />
                                                 </StackPanel>
-                                                <StackPanel Width="130" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                                    <TextBlock Text="{Binding LandingLocation}" Style="{DynamicResource versesLanding}" />
-                                                    <TextBlock Text="{Binding Description}"  Style="{DynamicResource versesDesc}" />
+                                            </Border>
+                                            <Border Width="110" Padding="0 10 0 5">
+                                                <StackPanel  Orientation="Vertical" HorizontalAlignment="Right">
+                                                    <TextBlock Width="120" Text="{Binding LandingLocation}" Style="{DynamicResource versesLanding}" />
+                                                    <TextBlock Width="120" Text="{Binding Description}" Style="{DynamicResource versesDesc}" />
                                                 </StackPanel>
-                                            </StackPanel>
-                                            <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
-
-                                                <Grid>
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="160" />
-                                                        <ColumnDefinition Width="43" />
-                                                    </Grid.ColumnDefinitions>
-
-                                                    <StackPanel Width="160" Grid.Column="0" VerticalAlignment="Bottom" Margin="0,10,0,0">
-                                                        <TextBlock Text="{Binding Name}" Style="{DynamicResource versesName}" />
-                                                        <StackPanel Orientation="Horizontal" Margin="15,0,0,10">
-                                                            <TextBlock Text="{Binding NumberOfVerses}" Style="{DynamicResource versescounttext}" />
-                                                            <TextBlock Text=" Ayet" Style="{DynamicResource versescounttext}" />
-                                                        </StackPanel>
+                                            </Border>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" Height="68" Width="203">
+                                            <StackPanel Width="140" VerticalAlignment="Center">
+                                                <TextBlock  Text="{Binding Name}" Style="{DynamicResource versesName}" />
+                                                <Border Padding="10 0 5 0">
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="{Binding NumberOfVerses}" Style="{DynamicResource versescounttext}" />
+                                                        <TextBlock Text=" Ayet" Style="{DynamicResource versescounttext}" />
                                                     </StackPanel>
-                                                    <Button Style="{DynamicResource ayetItemsButton}" Grid.Column="1"  Tag="{Binding sureId}" Click="versesPageOpen" />
-                                                </Grid>
+                                                </Border>
                                             </StackPanel>
-                                        </Grid>
+                                            <StackPanel Width="63" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                <Button Style="{DynamicResource ayetItemsButtonFast}" Content="{Binding Name}" Uid="{Binding NumberOfVerses}" Tag="{Binding sureId}" Click="versesFastPopupOpen" />
+                                                <Button Style="{DynamicResource ayetItemsButtonFull}" Content="BoxArrowInRight" Tag="{Binding sureId}" Click="versesPageOpen" />
+                                            </StackPanel>
+                                        </StackPanel>
                                     </StackPanel>
                                 </Border>
                             </Border>
@@ -439,47 +503,38 @@
                 <ItemsControl x:Name="aIcontrol8" Grid.Column="2" Grid.Row="1">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Border Grid.Column="1" Grid.Row="0" Padding="10">
-                                <Border Background="#ffffff" CornerRadius="5">
+                            <Border Padding="10">
+                                <Border Background="#FFF" Style="{DynamicResource defaultBorderShadowEffect}">
                                     <StackPanel Orientation="Vertical">
                                         <Border Background="{Binding Status}" Height="12" CornerRadius="5 5 0 0" />
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*" />
-                                            </Grid.ColumnDefinitions>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="58" />
-                                                <RowDefinition Height="77" />
-                                            </Grid.RowDefinitions>
-
-                                            <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" Width="203">
-                                                <StackPanel Width="70" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                        <StackPanel Orientation="Horizontal" Height="67" Width="203">
+                                            <Border Width="93" Padding="10 5 5 5">
+                                                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Left">
                                                     <TextBlock Text="{Binding DeskLanding}" Style="{DynamicResource versesDeskLanding}" />
                                                 </StackPanel>
-                                                <StackPanel Width="130" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                                    <TextBlock Text="{Binding LandingLocation}" Style="{DynamicResource versesLanding}" />
-                                                    <TextBlock Text="{Binding Description}"  Style="{DynamicResource versesDesc}" />
+                                            </Border>
+                                            <Border Width="110" Padding="0 10 0 5">
+                                                <StackPanel  Orientation="Vertical" HorizontalAlignment="Right">
+                                                    <TextBlock Width="120" Text="{Binding LandingLocation}" Style="{DynamicResource versesLanding}" />
+                                                    <TextBlock Width="120" Text="{Binding Description}" Style="{DynamicResource versesDesc}" />
                                                 </StackPanel>
-                                            </StackPanel>
-                                            <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
-
-                                                <Grid>
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="160" />
-                                                        <ColumnDefinition Width="43" />
-                                                    </Grid.ColumnDefinitions>
-
-                                                    <StackPanel Width="160" Grid.Column="0" VerticalAlignment="Bottom" Margin="0,10,0,0">
-                                                        <TextBlock Text="{Binding Name}" Style="{DynamicResource versesName}" />
-                                                        <StackPanel Orientation="Horizontal" Margin="15,0,0,10">
-                                                            <TextBlock Text="{Binding NumberOfVerses}" Style="{DynamicResource versescounttext}" />
-                                                            <TextBlock Text=" Ayet" Style="{DynamicResource versescounttext}" />
-                                                        </StackPanel>
+                                            </Border>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" Height="68" Width="203">
+                                            <StackPanel Width="140" VerticalAlignment="Center">
+                                                <TextBlock  Text="{Binding Name}" Style="{DynamicResource versesName}" />
+                                                <Border Padding="10 0 5 0">
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="{Binding NumberOfVerses}" Style="{DynamicResource versescounttext}" />
+                                                        <TextBlock Text=" Ayet" Style="{DynamicResource versescounttext}" />
                                                     </StackPanel>
-                                                    <Button Style="{DynamicResource ayetItemsButton}" Grid.Column="1"  Tag="{Binding sureId}" Click="versesPageOpen" />
-                                                </Grid>
+                                                </Border>
                                             </StackPanel>
-                                        </Grid>
+                                            <StackPanel Width="63" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                <Button Style="{DynamicResource ayetItemsButtonFast}" Content="{Binding Name}" Uid="{Binding NumberOfVerses}" Tag="{Binding sureId}" Click="versesFastPopupOpen" />
+                                                <Button Style="{DynamicResource ayetItemsButtonFull}" Content="BoxArrowInRight" Tag="{Binding sureId}" Click="versesPageOpen" />
+                                            </StackPanel>
+                                        </StackPanel>
                                     </StackPanel>
                                 </Border>
                             </Border>
@@ -489,47 +544,38 @@
                 <ItemsControl x:Name="aIcontrol9" Grid.Column="3" Grid.Row="1">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Border Grid.Column="1" Grid.Row="0" Padding="10">
-                                <Border Background="#ffffff" CornerRadius="5">
+                            <Border Padding="10">
+                                <Border Background="#FFF" Style="{DynamicResource defaultBorderShadowEffect}">
                                     <StackPanel Orientation="Vertical">
                                         <Border Background="{Binding Status}" Height="12" CornerRadius="5 5 0 0" />
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*" />
-                                            </Grid.ColumnDefinitions>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="58" />
-                                                <RowDefinition Height="77" />
-                                            </Grid.RowDefinitions>
-
-                                            <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" Width="203">
-                                                <StackPanel Width="70" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                        <StackPanel Orientation="Horizontal" Height="67" Width="203">
+                                            <Border Width="93" Padding="10 5 5 5">
+                                                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Left">
                                                     <TextBlock Text="{Binding DeskLanding}" Style="{DynamicResource versesDeskLanding}" />
                                                 </StackPanel>
-                                                <StackPanel Width="130" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                                    <TextBlock Text="{Binding LandingLocation}" Style="{DynamicResource versesLanding}" />
-                                                    <TextBlock Text="{Binding Description}"  Style="{DynamicResource versesDesc}" />
+                                            </Border>
+                                            <Border Width="110" Padding="0 10 0 5">
+                                                <StackPanel  Orientation="Vertical" HorizontalAlignment="Right">
+                                                    <TextBlock Width="120" Text="{Binding LandingLocation}" Style="{DynamicResource versesLanding}" />
+                                                    <TextBlock Width="120" Text="{Binding Description}" Style="{DynamicResource versesDesc}" />
                                                 </StackPanel>
-                                            </StackPanel>
-                                            <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
-
-                                                <Grid>
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="160" />
-                                                        <ColumnDefinition Width="43" />
-                                                    </Grid.ColumnDefinitions>
-
-                                                    <StackPanel Width="160" Grid.Column="0" VerticalAlignment="Bottom" Margin="0,10,0,0">
-                                                        <TextBlock Text="{Binding Name}" Style="{DynamicResource versesName}" />
-                                                        <StackPanel Orientation="Horizontal" Margin="15,0,0,10">
-                                                            <TextBlock Text="{Binding NumberOfVerses}" Style="{DynamicResource versescounttext}" />
-                                                            <TextBlock Text=" Ayet" Style="{DynamicResource versescounttext}" />
-                                                        </StackPanel>
+                                            </Border>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" Height="68" Width="203">
+                                            <StackPanel Width="140" VerticalAlignment="Center">
+                                                <TextBlock  Text="{Binding Name}" Style="{DynamicResource versesName}" />
+                                                <Border Padding="10 0 5 0">
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="{Binding NumberOfVerses}" Style="{DynamicResource versescounttext}" />
+                                                        <TextBlock Text=" Ayet" Style="{DynamicResource versescounttext}" />
                                                     </StackPanel>
-                                                    <Button Style="{DynamicResource ayetItemsButton}" Grid.Column="1"  Tag="{Binding sureId}" Click="versesPageOpen" />
-                                                </Grid>
+                                                </Border>
                                             </StackPanel>
-                                        </Grid>
+                                            <StackPanel Width="63" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                <Button Style="{DynamicResource ayetItemsButtonFast}" Content="{Binding Name}" Uid="{Binding NumberOfVerses}" Tag="{Binding sureId}" Click="versesFastPopupOpen" />
+                                                <Button Style="{DynamicResource ayetItemsButtonFull}" Content="BoxArrowInRight" Tag="{Binding sureId}" Click="versesPageOpen" />
+                                            </StackPanel>
+                                        </StackPanel>
                                     </StackPanel>
                                 </Border>
                             </Border>
@@ -539,47 +585,38 @@
                 <ItemsControl x:Name="aIcontrol10" Grid.Column="4" Grid.Row="1">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Border Grid.Column="1" Grid.Row="0" Padding="10">
-                                <Border Background="#ffffff" CornerRadius="5">
+                            <Border Padding="10">
+                                <Border Background="#FFF" Style="{DynamicResource defaultBorderShadowEffect}">
                                     <StackPanel Orientation="Vertical">
                                         <Border Background="{Binding Status}" Height="12" CornerRadius="5 5 0 0" />
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*" />
-                                            </Grid.ColumnDefinitions>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="58" />
-                                                <RowDefinition Height="77" />
-                                            </Grid.RowDefinitions>
-
-                                            <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" Width="203">
-                                                <StackPanel Width="70" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                        <StackPanel Orientation="Horizontal" Height="67" Width="203">
+                                            <Border Width="93" Padding="10 5 5 5">
+                                                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Left">
                                                     <TextBlock Text="{Binding DeskLanding}" Style="{DynamicResource versesDeskLanding}" />
                                                 </StackPanel>
-                                                <StackPanel Width="130" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                                    <TextBlock Text="{Binding LandingLocation}" Style="{DynamicResource versesLanding}" />
-                                                    <TextBlock Text="{Binding Description}"  Style="{DynamicResource versesDesc}" />
+                                            </Border>
+                                            <Border Width="110" Padding="0 10 0 5">
+                                                <StackPanel  Orientation="Vertical" HorizontalAlignment="Right">
+                                                    <TextBlock Width="120" Text="{Binding LandingLocation}" Style="{DynamicResource versesLanding}" />
+                                                    <TextBlock Width="120" Text="{Binding Description}" Style="{DynamicResource versesDesc}" />
                                                 </StackPanel>
-                                            </StackPanel>
-                                            <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
-
-                                                <Grid>
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="160" />
-                                                        <ColumnDefinition Width="43" />
-                                                    </Grid.ColumnDefinitions>
-
-                                                    <StackPanel Width="160" Grid.Column="0" VerticalAlignment="Bottom" Margin="0,10,0,0">
-                                                        <TextBlock Text="{Binding Name}" Style="{DynamicResource versesName}" />
-                                                        <StackPanel Orientation="Horizontal" Margin="15,0,0,10">
-                                                            <TextBlock Text="{Binding NumberOfVerses}" Style="{DynamicResource versescounttext}" />
-                                                            <TextBlock Text=" Ayet" Style="{DynamicResource versescounttext}" />
-                                                        </StackPanel>
+                                            </Border>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" Height="68" Width="203">
+                                            <StackPanel Width="140" VerticalAlignment="Center">
+                                                <TextBlock  Text="{Binding Name}" Style="{DynamicResource versesName}" />
+                                                <Border Padding="10 0 5 0">
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="{Binding NumberOfVerses}" Style="{DynamicResource versescounttext}" />
+                                                        <TextBlock Text=" Ayet" Style="{DynamicResource versescounttext}" />
                                                     </StackPanel>
-                                                    <Button Style="{DynamicResource ayetItemsButton}" Grid.Column="1"  Tag="{Binding sureId}" Click="versesPageOpen" />
-                                                </Grid>
+                                                </Border>
                                             </StackPanel>
-                                        </Grid>
+                                            <StackPanel Width="63" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                <Button Style="{DynamicResource ayetItemsButtonFast}" Content="{Binding Name}" Uid="{Binding NumberOfVerses}" Tag="{Binding sureId}" Click="versesFastPopupOpen" />
+                                                <Button Style="{DynamicResource ayetItemsButtonFull}" Content="BoxArrowInRight" Tag="{Binding sureId}" Click="versesPageOpen" />
+                                            </StackPanel>
+                                        </StackPanel>
                                     </StackPanel>
                                 </Border>
                             </Border>
@@ -589,47 +626,38 @@
                 <ItemsControl x:Name="aIcontrol11" Grid.Column="0" Grid.Row="2">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Border Grid.Column="1" Grid.Row="0" Padding="10">
-                                <Border Background="#ffffff" CornerRadius="5">
+                            <Border Padding="10">
+                                <Border Background="#FFF" Style="{DynamicResource defaultBorderShadowEffect}">
                                     <StackPanel Orientation="Vertical">
                                         <Border Background="{Binding Status}" Height="12" CornerRadius="5 5 0 0" />
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*" />
-                                            </Grid.ColumnDefinitions>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="58" />
-                                                <RowDefinition Height="77" />
-                                            </Grid.RowDefinitions>
-
-                                            <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" Width="203">
-                                                <StackPanel Width="70" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                        <StackPanel Orientation="Horizontal" Height="67" Width="203">
+                                            <Border Width="93" Padding="10 5 5 5">
+                                                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Left">
                                                     <TextBlock Text="{Binding DeskLanding}" Style="{DynamicResource versesDeskLanding}" />
                                                 </StackPanel>
-                                                <StackPanel Width="130" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                                    <TextBlock Text="{Binding LandingLocation}" Style="{DynamicResource versesLanding}" />
-                                                    <TextBlock Text="{Binding Description}"  Style="{DynamicResource versesDesc}" />
+                                            </Border>
+                                            <Border Width="110" Padding="0 10 0 5">
+                                                <StackPanel  Orientation="Vertical" HorizontalAlignment="Right">
+                                                    <TextBlock Width="120" Text="{Binding LandingLocation}" Style="{DynamicResource versesLanding}" />
+                                                    <TextBlock Width="120" Text="{Binding Description}" Style="{DynamicResource versesDesc}" />
                                                 </StackPanel>
-                                            </StackPanel>
-                                            <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
-
-                                                <Grid>
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="160" />
-                                                        <ColumnDefinition Width="43" />
-                                                    </Grid.ColumnDefinitions>
-
-                                                    <StackPanel Width="160" Grid.Column="0" VerticalAlignment="Bottom" Margin="0,10,0,0">
-                                                        <TextBlock Text="{Binding Name}" Style="{DynamicResource versesName}" />
-                                                        <StackPanel Orientation="Horizontal" Margin="15,0,0,10">
-                                                            <TextBlock Text="{Binding NumberOfVerses}" Style="{DynamicResource versescounttext}" />
-                                                            <TextBlock Text=" Ayet" Style="{DynamicResource versescounttext}" />
-                                                        </StackPanel>
+                                            </Border>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" Height="68" Width="203">
+                                            <StackPanel Width="140" VerticalAlignment="Center">
+                                                <TextBlock  Text="{Binding Name}" Style="{DynamicResource versesName}" />
+                                                <Border Padding="10 0 5 0">
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="{Binding NumberOfVerses}" Style="{DynamicResource versescounttext}" />
+                                                        <TextBlock Text=" Ayet" Style="{DynamicResource versescounttext}" />
                                                     </StackPanel>
-                                                    <Button Style="{DynamicResource ayetItemsButton}" Grid.Column="1"  Tag="{Binding sureId}" Click="versesPageOpen" />
-                                                </Grid>
+                                                </Border>
                                             </StackPanel>
-                                        </Grid>
+                                            <StackPanel Width="63" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                <Button Style="{DynamicResource ayetItemsButtonFast}" Content="{Binding Name}" Uid="{Binding NumberOfVerses}" Tag="{Binding sureId}" Click="versesFastPopupOpen" />
+                                                <Button Style="{DynamicResource ayetItemsButtonFull}" Content="BoxArrowInRight" Tag="{Binding sureId}" Click="versesPageOpen" />
+                                            </StackPanel>
+                                        </StackPanel>
                                     </StackPanel>
                                 </Border>
                             </Border>
@@ -639,47 +667,38 @@
                 <ItemsControl x:Name="aIcontrol12" Grid.Column="1" Grid.Row="2">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Border Grid.Column="1" Grid.Row="0" Padding="10">
-                                <Border Background="#ffffff" CornerRadius="5">
+                            <Border Padding="10">
+                                <Border Background="#FFF" Style="{DynamicResource defaultBorderShadowEffect}">
                                     <StackPanel Orientation="Vertical">
                                         <Border Background="{Binding Status}" Height="12" CornerRadius="5 5 0 0" />
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*" />
-                                            </Grid.ColumnDefinitions>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="58" />
-                                                <RowDefinition Height="77" />
-                                            </Grid.RowDefinitions>
-
-                                            <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" Width="203">
-                                                <StackPanel Width="70" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                        <StackPanel Orientation="Horizontal" Height="67" Width="203">
+                                            <Border Width="93" Padding="10 5 5 5">
+                                                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Left">
                                                     <TextBlock Text="{Binding DeskLanding}" Style="{DynamicResource versesDeskLanding}" />
                                                 </StackPanel>
-                                                <StackPanel Width="130" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                                    <TextBlock Text="{Binding LandingLocation}" Style="{DynamicResource versesLanding}" />
-                                                    <TextBlock Text="{Binding Description}"  Style="{DynamicResource versesDesc}" />
+                                            </Border>
+                                            <Border Width="110" Padding="0 10 0 5">
+                                                <StackPanel  Orientation="Vertical" HorizontalAlignment="Right">
+                                                    <TextBlock Width="120" Text="{Binding LandingLocation}" Style="{DynamicResource versesLanding}" />
+                                                    <TextBlock Width="120" Text="{Binding Description}" Style="{DynamicResource versesDesc}" />
                                                 </StackPanel>
-                                            </StackPanel>
-                                            <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
-
-                                                <Grid>
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="160" />
-                                                        <ColumnDefinition Width="43" />
-                                                    </Grid.ColumnDefinitions>
-
-                                                    <StackPanel Width="160" Grid.Column="0" VerticalAlignment="Bottom" Margin="0,10,0,0">
-                                                        <TextBlock Text="{Binding Name}" Style="{DynamicResource versesName}" />
-                                                        <StackPanel Orientation="Horizontal" Margin="15,0,0,10">
-                                                            <TextBlock Text="{Binding NumberOfVerses}" Style="{DynamicResource versescounttext}" />
-                                                            <TextBlock Text=" Ayet" Style="{DynamicResource versescounttext}" />
-                                                        </StackPanel>
+                                            </Border>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" Height="68" Width="203">
+                                            <StackPanel Width="140" VerticalAlignment="Center">
+                                                <TextBlock  Text="{Binding Name}" Style="{DynamicResource versesName}" />
+                                                <Border Padding="10 0 5 0">
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="{Binding NumberOfVerses}" Style="{DynamicResource versescounttext}" />
+                                                        <TextBlock Text=" Ayet" Style="{DynamicResource versescounttext}" />
                                                     </StackPanel>
-                                                    <Button Style="{DynamicResource ayetItemsButton}" Grid.Column="1"  Tag="{Binding sureId}" Click="versesPageOpen" />
-                                                </Grid>
+                                                </Border>
                                             </StackPanel>
-                                        </Grid>
+                                            <StackPanel Width="63" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                <Button Style="{DynamicResource ayetItemsButtonFast}" Content="{Binding Name}" Uid="{Binding NumberOfVerses}" Tag="{Binding sureId}" Click="versesFastPopupOpen" />
+                                                <Button Style="{DynamicResource ayetItemsButtonFull}" Content="BoxArrowInRight" Tag="{Binding sureId}" Click="versesPageOpen" />
+                                            </StackPanel>
+                                        </StackPanel>
                                     </StackPanel>
                                 </Border>
                             </Border>
@@ -689,47 +708,38 @@
                 <ItemsControl x:Name="aIcontrol13" Grid.Column="2" Grid.Row="2">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Border Grid.Column="1" Grid.Row="0" Padding="10">
-                                <Border Background="#ffffff" CornerRadius="5">
+                            <Border Padding="10">
+                                <Border Background="#FFF" Style="{DynamicResource defaultBorderShadowEffect}">
                                     <StackPanel Orientation="Vertical">
                                         <Border Background="{Binding Status}" Height="12" CornerRadius="5 5 0 0" />
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*" />
-                                            </Grid.ColumnDefinitions>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="58" />
-                                                <RowDefinition Height="77" />
-                                            </Grid.RowDefinitions>
-
-                                            <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" Width="203">
-                                                <StackPanel Width="70" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                        <StackPanel Orientation="Horizontal" Height="67" Width="203">
+                                            <Border Width="93" Padding="10 5 5 5">
+                                                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Left">
                                                     <TextBlock Text="{Binding DeskLanding}" Style="{DynamicResource versesDeskLanding}" />
                                                 </StackPanel>
-                                                <StackPanel Width="130" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                                    <TextBlock Text="{Binding LandingLocation}" Style="{DynamicResource versesLanding}" />
-                                                    <TextBlock Text="{Binding Description}"  Style="{DynamicResource versesDesc}" />
+                                            </Border>
+                                            <Border Width="110" Padding="0 10 0 5">
+                                                <StackPanel  Orientation="Vertical" HorizontalAlignment="Right">
+                                                    <TextBlock Width="120" Text="{Binding LandingLocation}" Style="{DynamicResource versesLanding}" />
+                                                    <TextBlock Width="120" Text="{Binding Description}" Style="{DynamicResource versesDesc}" />
                                                 </StackPanel>
-                                            </StackPanel>
-                                            <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
-
-                                                <Grid>
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="160" />
-                                                        <ColumnDefinition Width="43" />
-                                                    </Grid.ColumnDefinitions>
-
-                                                    <StackPanel Width="160" Grid.Column="0" VerticalAlignment="Bottom" Margin="0,10,0,0">
-                                                        <TextBlock Text="{Binding Name}" Style="{DynamicResource versesName}" />
-                                                        <StackPanel Orientation="Horizontal" Margin="15,0,0,10">
-                                                            <TextBlock Text="{Binding NumberOfVerses}" Style="{DynamicResource versescounttext}" />
-                                                            <TextBlock Text=" Ayet" Style="{DynamicResource versescounttext}" />
-                                                        </StackPanel>
+                                            </Border>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" Height="68" Width="203">
+                                            <StackPanel Width="140" VerticalAlignment="Center">
+                                                <TextBlock  Text="{Binding Name}" Style="{DynamicResource versesName}" />
+                                                <Border Padding="10 0 5 0">
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="{Binding NumberOfVerses}" Style="{DynamicResource versescounttext}" />
+                                                        <TextBlock Text=" Ayet" Style="{DynamicResource versescounttext}" />
                                                     </StackPanel>
-                                                    <Button Style="{DynamicResource ayetItemsButton}" Grid.Column="1"  Tag="{Binding sureId}" Click="versesPageOpen" />
-                                                </Grid>
+                                                </Border>
                                             </StackPanel>
-                                        </Grid>
+                                            <StackPanel Width="63" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                <Button Style="{DynamicResource ayetItemsButtonFast}" Content="{Binding Name}" Uid="{Binding NumberOfVerses}" Tag="{Binding sureId}" Click="versesFastPopupOpen" />
+                                                <Button Style="{DynamicResource ayetItemsButtonFull}" Content="BoxArrowInRight" Tag="{Binding sureId}" Click="versesPageOpen" />
+                                            </StackPanel>
+                                        </StackPanel>
                                     </StackPanel>
                                 </Border>
                             </Border>
@@ -739,47 +749,38 @@
                 <ItemsControl x:Name="aIcontrol14" Grid.Column="3" Grid.Row="2">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Border Grid.Column="1" Grid.Row="0" Padding="10">
-                                <Border Background="#ffffff" CornerRadius="5">
+                            <Border Padding="10">
+                                <Border Background="#FFF" Style="{DynamicResource defaultBorderShadowEffect}">
                                     <StackPanel Orientation="Vertical">
                                         <Border Background="{Binding Status}" Height="12" CornerRadius="5 5 0 0" />
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*" />
-                                            </Grid.ColumnDefinitions>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="58" />
-                                                <RowDefinition Height="77" />
-                                            </Grid.RowDefinitions>
-
-                                            <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" Width="203">
-                                                <StackPanel Width="70" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                        <StackPanel Orientation="Horizontal" Height="67" Width="203">
+                                            <Border Width="93" Padding="10 5 5 5">
+                                                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Left">
                                                     <TextBlock Text="{Binding DeskLanding}" Style="{DynamicResource versesDeskLanding}" />
                                                 </StackPanel>
-                                                <StackPanel Width="130" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                                    <TextBlock Text="{Binding LandingLocation}" Style="{DynamicResource versesLanding}" />
-                                                    <TextBlock Text="{Binding Description}"  Style="{DynamicResource versesDesc}" />
+                                            </Border>
+                                            <Border Width="110" Padding="0 10 0 5">
+                                                <StackPanel  Orientation="Vertical" HorizontalAlignment="Right">
+                                                    <TextBlock Width="120" Text="{Binding LandingLocation}" Style="{DynamicResource versesLanding}" />
+                                                    <TextBlock Width="120" Text="{Binding Description}" Style="{DynamicResource versesDesc}" />
                                                 </StackPanel>
-                                            </StackPanel>
-                                            <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
-
-                                                <Grid>
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="160" />
-                                                        <ColumnDefinition Width="43" />
-                                                    </Grid.ColumnDefinitions>
-
-                                                    <StackPanel Width="160" Grid.Column="0" VerticalAlignment="Bottom" Margin="0,10,0,0">
-                                                        <TextBlock Text="{Binding Name}" Style="{DynamicResource versesName}" />
-                                                        <StackPanel Orientation="Horizontal" Margin="15,0,0,10">
-                                                            <TextBlock Text="{Binding NumberOfVerses}" Style="{DynamicResource versescounttext}" />
-                                                            <TextBlock Text=" Ayet" Style="{DynamicResource versescounttext}" />
-                                                        </StackPanel>
+                                            </Border>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" Height="68" Width="203">
+                                            <StackPanel Width="140" VerticalAlignment="Center">
+                                                <TextBlock  Text="{Binding Name}" Style="{DynamicResource versesName}" />
+                                                <Border Padding="10 0 5 0">
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="{Binding NumberOfVerses}" Style="{DynamicResource versescounttext}" />
+                                                        <TextBlock Text=" Ayet" Style="{DynamicResource versescounttext}" />
                                                     </StackPanel>
-                                                    <Button Style="{DynamicResource ayetItemsButton}" Grid.Column="1"  Tag="{Binding sureId}" Click="versesPageOpen" />
-                                                </Grid>
+                                                </Border>
                                             </StackPanel>
-                                        </Grid>
+                                            <StackPanel Width="63" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                <Button Style="{DynamicResource ayetItemsButtonFast}" Content="{Binding Name}" Uid="{Binding NumberOfVerses}" Tag="{Binding sureId}" Click="versesFastPopupOpen" />
+                                                <Button Style="{DynamicResource ayetItemsButtonFull}" Content="BoxArrowInRight" Tag="{Binding sureId}" Click="versesPageOpen" />
+                                            </StackPanel>
+                                        </StackPanel>
                                     </StackPanel>
                                 </Border>
                             </Border>
@@ -789,47 +790,38 @@
                 <ItemsControl x:Name="aIcontrol15" Grid.Column="4" Grid.Row="2">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Border Grid.Column="1" Grid.Row="0" Padding="10">
-                                <Border Background="#ffffff" CornerRadius="5">
+                            <Border Padding="10">
+                                <Border Background="#FFF" Style="{DynamicResource defaultBorderShadowEffect}">
                                     <StackPanel Orientation="Vertical">
                                         <Border Background="{Binding Status}" Height="12" CornerRadius="5 5 0 0" />
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*" />
-                                            </Grid.ColumnDefinitions>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="58" />
-                                                <RowDefinition Height="77" />
-                                            </Grid.RowDefinitions>
-
-                                            <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" Width="203">
-                                                <StackPanel Width="70" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                        <StackPanel Orientation="Horizontal" Height="67" Width="203">
+                                            <Border Width="93" Padding="10 5 5 5">
+                                                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Left">
                                                     <TextBlock Text="{Binding DeskLanding}" Style="{DynamicResource versesDeskLanding}" />
                                                 </StackPanel>
-                                                <StackPanel Width="130" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                                    <TextBlock Text="{Binding LandingLocation}" Style="{DynamicResource versesLanding}" />
-                                                    <TextBlock Text="{Binding Description}"  Style="{DynamicResource versesDesc}" />
+                                            </Border>
+                                            <Border Width="110" Padding="0 10 0 5">
+                                                <StackPanel  Orientation="Vertical" HorizontalAlignment="Right">
+                                                    <TextBlock Width="120" Text="{Binding LandingLocation}" Style="{DynamicResource versesLanding}" />
+                                                    <TextBlock Width="120" Text="{Binding Description}" Style="{DynamicResource versesDesc}" />
                                                 </StackPanel>
-                                            </StackPanel>
-                                            <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
-
-                                                <Grid>
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="160" />
-                                                        <ColumnDefinition Width="43" />
-                                                    </Grid.ColumnDefinitions>
-
-                                                    <StackPanel Width="160" Grid.Column="0" VerticalAlignment="Bottom" Margin="0,10,0,0">
-                                                        <TextBlock Text="{Binding Name}" Style="{DynamicResource versesName}" />
-                                                        <StackPanel Orientation="Horizontal" Margin="15,0,0,10">
-                                                            <TextBlock Text="{Binding NumberOfVerses}" Style="{DynamicResource versescounttext}" />
-                                                            <TextBlock Text=" Ayet" Style="{DynamicResource versescounttext}" />
-                                                        </StackPanel>
+                                            </Border>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" Height="68" Width="203">
+                                            <StackPanel Width="140" VerticalAlignment="Center">
+                                                <TextBlock  Text="{Binding Name}" Style="{DynamicResource versesName}" />
+                                                <Border Padding="10 0 5 0">
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="{Binding NumberOfVerses}" Style="{DynamicResource versescounttext}" />
+                                                        <TextBlock Text=" Ayet" Style="{DynamicResource versescounttext}" />
                                                     </StackPanel>
-                                                    <Button Style="{DynamicResource ayetItemsButton}" Grid.Column="1"  Tag="{Binding sureId}" Click="versesPageOpen" />
-                                                </Grid>
+                                                </Border>
                                             </StackPanel>
-                                        </Grid>
+                                            <StackPanel Width="63" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                <Button Style="{DynamicResource ayetItemsButtonFast}" Content="{Binding Name}" Uid="{Binding NumberOfVerses}" Tag="{Binding sureId}" Click="versesFastPopupOpen" />
+                                                <Button Style="{DynamicResource ayetItemsButtonFull}" Content="BoxArrowInRight" Tag="{Binding sureId}" Click="versesPageOpen" />
+                                            </StackPanel>
+                                        </StackPanel>
                                     </StackPanel>
                                 </Border>
                             </Border>
@@ -857,10 +849,12 @@
                     <TextBlock Style="{DynamicResource ResourceKey=ayetlerInfoStatusText}" Text="Okudukların" />
                 </StackPanel>
 
+                <!--
                 <StackPanel Style="{DynamicResource ResourceKey=ayetlerInfoStatusBoxConent}">
                     <Border Style="{DynamicResource  ResourceKey=ayetlerInfoStatusRectangle}" Background="#FFFCA600" />
                     <TextBlock Style="{DynamicResource ResourceKey=ayetlerInfoStatusText}" Text="Favorilerim" />
                 </StackPanel>
+                -->
 
                 <StackPanel Style="{DynamicResource ResourceKey=ayetlerInfoStatusBoxConent}">
                     <Border Style="{DynamicResource  ResourceKey=ayetlerInfoStatusRectangle}" Background="#FF0D6EFD" />
