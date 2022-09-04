@@ -300,7 +300,7 @@
 
     <Style TargetType="Button" x:Key="controlItemButtonTemp">
         <Setter Property="VerticalAlignment" Value="Center" />
-        <Setter Property="Width" Value="120" />
+        <Setter Property="Width" Value="160" />
         <Setter Property="Height" Value="30" />
         <Setter Property="FontFamily" Value="{DynamicResource PoppinsMedium}" />
     </Style>
@@ -311,7 +311,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate>
-                    <Border x:Name="controlButtonBorder" Width="120" Height="30" Background="#FFF" CornerRadius="5" BorderThickness="1" BorderBrush="#E1E3E6" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <Border x:Name="controlButtonBorder" Width="160" Height="30" Background="#FFF" CornerRadius="5" BorderThickness="1" BorderBrush="#E1E3E6" VerticalAlignment="Center" HorizontalAlignment="Center">
                         <Border.Effect>
                             <DropShadowEffect BlurRadius="25" Opacity="0.16"  ShadowDepth="2" Direction="-75" Color="Black" />
                         </Border.Effect>
@@ -345,7 +345,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate>
-                    <Border x:Name="controlButtonBorder" Width="120" Height="30" Background="#FFF" CornerRadius="5" BorderThickness="1" BorderBrush="#E1E3E6" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <Border x:Name="controlButtonBorder" Width="160" Height="30" Background="#FFF" CornerRadius="5" BorderThickness="1" BorderBrush="#E1E3E6" VerticalAlignment="Center" HorizontalAlignment="Center">
                         <Border.Effect>
                             <DropShadowEffect BlurRadius="25" Opacity="0.16"  ShadowDepth="2" Direction="-75" Color="Black" />
                         </Border.Effect>
@@ -397,6 +397,22 @@
                         <TextBlock Foreground="#1C1E2F" FontSize="10" FontFamily="{DynamicResource PoppinsSemiBold}" TextAlignment="Center" Margin="0 -15 0 0" Text="{Binding Path=Content , RelativeSource={RelativeSource TemplatedParent }}" />
                         <Border BorderBrush="#ACACAC" CornerRadius="5" BorderThickness="1" Height="30" Width="50">
                             <Icon:PackIconMaterial Kind="{Binding Path=Tag, RelativeSource={RelativeSource TemplatedParent}}" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#1C1E2F" />
+                        </Border>
+                    </StackPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="Button" x:Key="ayetlerControlItemOtherButtonCount" BasedOn="{StaticResource controlItemButtonTemp}">
+        <Setter Property="Width" Value="50" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <StackPanel>
+                        <TextBlock Foreground="#1C1E2F" FontSize="10" FontFamily="{DynamicResource PoppinsSemiBold}" TextAlignment="Center" Margin="0 -15 0 0" Text="{Binding Path=Content , RelativeSource={RelativeSource TemplatedParent }}" />
+                        <Border BorderBrush="#ACACAC" CornerRadius="5" BorderThickness="1" Height="30" Width="50">
+                            <TextBlock Text="{Binding Path=Tag, RelativeSource={RelativeSource TemplatedParent}}" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#1C1E2F" />
                         </Border>
                     </StackPanel>
                 </ControlTemplate>
@@ -498,7 +514,7 @@
 
     <Style x:Key="versesDesc" TargetType="TextBlock">
         <Setter Property="Foreground" Value="#FF7B7B7B" />
-        <Setter Property="FontSize" Value="12" />
+        <Setter Property="FontSize" Value="10" />
         <Setter Property="HorizontalAlignment" Value="Right" />
         <Setter Property="TextAlignment" Value="Right" />
         <Setter Property="TextWrapping" Value="Wrap" />

@@ -19,6 +19,9 @@
     <None Remove="Resource\Images\Background\loginLeftPlan.png" />
     <None Remove="Resource\Images\Background\splashScreenBack.png" />
     <None Remove="Resource\Images\Gif\Infinity800.gif" />
+    <None Remove="Resource\Images\Gif\NavSpin500.gif" />
+    <None Remove="Resource\Images\Gif\Pulse300.gif" />
+    <None Remove="Resource\Images\Gif\Pulse50.gif" />
     <None Remove="Resource\Images\Gif\Spinner800.gif" />
     <None Remove="Resource\Images\Icon\ayetSubject_r.png" />
     <None Remove="Resource\Images\Icon\ayetSubject_rb.png" />
@@ -84,6 +87,15 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resource\Images\Background\splashScreenBack.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Images\Gif\NavSpin500.gif">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Images\Gif\Pulse300.gif">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Images\Gif\Pulse50.gif">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resource\Images\Gif\Spinner800.gif">

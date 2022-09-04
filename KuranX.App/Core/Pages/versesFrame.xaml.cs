@@ -25,15 +25,15 @@ namespace KuranX.App.Core.Pages
         private bool tempCheck = false, tempCheck1 = false;
         private DispatcherTimer timeSpan = new DispatcherTimer(DispatcherPriority.Render);
 
-        public versesFrame()
+        public versesFrame(int nowPageD, int CurrentSkipD)
         {
             try
             {
                 InitializeComponent();
                 nextpageButton.IsEnabled = false;
                 previusPageButton.IsEnabled = false;
-                NowPage = 1;
-                CurrentSkip = 0;
+                NowPage = nowPageD;
+                CurrentSkip = CurrentSkipD;
                 VersesStatus = "All";
             }
             catch (Exception ex)
@@ -157,6 +157,10 @@ namespace KuranX.App.Core.Pages
                             this.Dispatcher.Invoke(() =>
                             {
                                 verses.Add(item);
+
+                                if (App.currentDesktype == "DeskLanding") verses[0].DeskList = verses[0].DeskLanding;
+                                else if (App.currentDesktype == "DeskMushaf") verses[0].DeskList = verses[0].DeskMushaf;
+
                                 ItemsControl itemslist = (ItemsControl)this.FindName("aIcontrol" + x);
                                 itemslist.ItemsSource = verses;
                                 verses.Clear();
@@ -260,6 +264,16 @@ namespace KuranX.App.Core.Pages
                 DeskType = item.Content.ToString();
                 if (tempCheck)
                 {
+                    switch (item.Content)
+                    {
+                        case "İnişe Göre":
+                            App.currentDesktype = "DeskLanding";
+                            break;
+
+                        case "Mushafa Göre":
+                            App.currentDesktype = "DeskMushaf";
+                            break;
+                    }
                     ChangeStatusPage();
                     NowPage = 1;
                     CurrentSkip = 0;
@@ -376,6 +390,9 @@ namespace KuranX.App.Core.Pages
                 ChangeStatusPage();
                 NowPage++;
                 CurrentSkip += 15;
+
+                App.currentVersesPageD[0] = NowPage;
+                App.currentVersesPageD[1] = CurrentSkip;
                 PageItemLoadTask = new Task(loadVerses);
                 PageItemLoadTask.Start();
             }
@@ -405,6 +422,9 @@ namespace KuranX.App.Core.Pages
                 ChangeStatusPage();
                 NowPage--;
                 CurrentSkip -= 15;
+
+                App.currentVersesPageD[0] = NowPage;
+                App.currentVersesPageD[1] = CurrentSkip;
                 PageItemLoadTask = new Task(loadVerses);
                 PageItemLoadTask.Start();
             }

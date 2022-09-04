@@ -10,15 +10,15 @@ namespace KuranX.App.Core.Classes
 {
     public class AyetContext : DbContext
     {
-        public DbSet<User> Users { get; set; }
-        public DbSet<Sure> Sure { get; set; }
-        public DbSet<Verse> Verse { get; set; }
-        public DbSet<Interpreter> Interpreter { get; set; }
-        public DbSet<Notes> Notes { get; set; }
-        public DbSet<Integrity> Integrity { get; set; }
-        public DbSet<Subject> Subject { get; set; }
-        public DbSet<SubjectItems> SubjectItems { get; set; }
-        public DbSet<Words> Words { get; set; }
+        public DbSet<User>? Users { get; set; }
+        public DbSet<Sure>? Sure { get; set; }
+        public DbSet<Verse>? Verse { get; set; }
+        public DbSet<Interpreter>? Interpreter { get; set; }
+        public DbSet<Notes>? Notes { get; set; }
+        public DbSet<Integrity>? Integrity { get; set; }
+        public DbSet<Subject>? Subject { get; set; }
+        public DbSet<SubjectItems>? SubjectItems { get; set; }
+        public DbSet<Words>? Words { get; set; }
 
         public string DbPath { get; }
 
@@ -71,6 +71,10 @@ namespace KuranX.App.Core.Classes
                 .HasDefaultValue(0);
 
             modelBuilder.Entity<Sure>()
+                .Property(u => u.DeskList)
+                .HasDefaultValue(0);
+
+            modelBuilder.Entity<Sure>()
                 .Property(u => u.UserLastRelativeVerse)
                 .HasDefaultValue(1);
 
@@ -83,6 +87,19 @@ namespace KuranX.App.Core.Classes
             modelBuilder.Entity<Verse>()
                 .Property(u => u.VerseCheck)
                 .HasDefaultValue("false");
+
+            modelBuilder.Entity<Notes>()
+                .Property(u => u.SureId)
+                .HasDefaultValue(0);
+            modelBuilder.Entity<Notes>()
+                .Property(u => u.VerseId)
+                .HasDefaultValue(0);
+            modelBuilder.Entity<Notes>()
+               .Property(u => u.SubjectId)
+               .HasDefaultValue(0);
+            modelBuilder.Entity<Notes>()
+                .Property(u => u.NoteStatus)
+                .HasDefaultValue("#ADB5BD");
         }
     }
 }

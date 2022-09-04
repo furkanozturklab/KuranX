@@ -4,6 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="clr-namespace:KuranX.App.Core.Pages"
+       xmlns:gif="http://wpfanimatedgif.codeplex.com"
       mc:Ignorable="d"
       d:DesignHeight="708" d:DesignWidth="1115" d:MaxHeight="708" d:MaxWidth="1270" d:MinWidth="1115"
       Title="TestFrame" Background="#FAFAFA">
@@ -12,90 +13,24 @@
 
         <Label>------------- TEST PAGE -------------</Label>
 
-        <StackPanel Orientation="Vertical" VerticalAlignment="Center">
-            <Border Style="{DynamicResource versesTab}">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50" />
+                <ColumnDefinition Width="50" />
+                <ColumnDefinition Width="840" />
+                <ColumnDefinition Width="50" />
+                <ColumnDefinition Width="50" />
+            </Grid.ColumnDefinitions>
 
-                    <ItemsControl Grid.Column="0" VerticalAlignment="Center" x:Name="verseHeader">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="*" />
-                                    </Grid.ColumnDefinitions>
-                                    <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="15,0,0,0" Grid.Column="0">
-                                        <TextBlock Text="{Binding Name}" FontFamily="{DynamicResource PoppinsMedium}" Foreground="#1C1E2F" FontSize="26" />
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="{Binding LandingLocation}" Style="{DynamicResource versesTabAlt}" />
-                                            <TextBlock Text="{Binding NumberOfVerses}" Style="{DynamicResource versesTabAlt}" />
-                                            <TextBlock Text="Ayet" Style="{DynamicResource versesTabAlt}" />
-                                        </StackPanel>
-                                    </StackPanel>
-                                    <StackPanel Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center">
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*" />
-                                                <ColumnDefinition Width="*" />
-                                            </Grid.ColumnDefinitions>
-                                            <StackPanel Grid.Column="0" Orientation="Vertical" Margin="0,0,20,0">
-                                                <Border Padding="15,0,15,0" BorderBrush="#E1E3E6" BorderThickness="0,0,0,1">
-                                                    <TextBlock Text="İNİŞ SIRASI" FontFamily="{DynamicResource PoppinsMedium}" Foreground="#1C1E2F" />
-                                                </Border>
-                                                <TextBlock  Text="{Binding DeskLanding}" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsMedium}" />
-                                            </StackPanel>
-                                            <StackPanel  Grid.Column="1" Orientation="Vertical">
-                                                <Border Padding="15,0,15,0" BorderBrush="#E1E3E6" BorderThickness="0,0,0,1">
-                                                    <TextBlock Text="MUSHAF SIRASI" FontFamily="{DynamicResource PoppinsMedium}" Foreground="#1C1E2F" />
-                                                </Border>
-                                                <TextBlock Text="{Binding DeskMushaf}" HorizontalAlignment="Center" VerticalAlignment="Center"  Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsMedium}" />
-                                            </StackPanel>
-                                        </Grid>
-                                    </StackPanel>
-                                </Grid>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-
-                    <ItemsControl Grid.Column="1" VerticalAlignment="Center" Margin="20 0 0 0" x:Name="backVerseLocation">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" />
-                                    </Grid.ColumnDefinitions>
-
-                                    <StackPanel Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center">
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*" />
-                                                <ColumnDefinition Width="*" />
-                                            </Grid.ColumnDefinitions>
-                                            <StackPanel Grid.Column="0" Orientation="Vertical" Margin="0,0,20,0">
-                                                <Border Padding="15,0,15,0" BorderBrush="#E1E3E6" BorderThickness="0,0,0,1">
-                                                    <TextBlock Text="Gelinen Sure" FontFamily="{DynamicResource PoppinsMedium}" Foreground="#1C1E2F" />
-                                                </Border>
-                                                <TextBlock  Text="{Binding DeskLanding}" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsMedium}" />
-                                            </StackPanel>
-                                            <StackPanel  Grid.Column="1" Orientation="Vertical">
-                                                <Border Padding="15,0,15,0" BorderBrush="#E1E3E6" BorderThickness="0,0,0,1">
-                                                    <TextBlock Text="Gelinen Ayet" FontFamily="{DynamicResource PoppinsMedium}" Foreground="#1C1E2F" />
-                                                </Border>
-                                                <TextBlock Text="{Binding DeskMushaf}" HorizontalAlignment="Center" VerticalAlignment="Center"  Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsMedium}" />
-                                            </StackPanel>
-                                        </Grid>
-                                    </StackPanel>
-                                </Grid>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </Grid>
+            <Button Grid.Column="0" x:Name="NavUpdatePrev" Style="{DynamicResource versesNavButtonNext}" Tag="AngleDoubleLeft" Height="30" />
+            <Button Grid.Column="1" x:Name="NavUpdatePrevSingle" Style="{DynamicResource versesNavButtonNext}" Tag="AngleLeft" Height="30" />
+            <Border Grid.Column="2" Background="#FFF"  Height="30" Panel.ZIndex="2" CornerRadius="5">
+                <Image gif:ImageBehavior.AnimatedSource="/Resource/Images/Gif/Pulse300.gif" Width="50"  RenderOptions.BitmapScalingMode="HighQuality" Margin="395,0,395,0" />
             </Border>
-        </StackPanel>
+            <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Center">
+            </StackPanel>
+            <Button Grid.Column="3" x:Name="NavUpdateNextSingle" Style="{DynamicResource versesNavButtonNext}" Tag="AngleRight" Height="30" />
+            <Button Grid.Column="4" x:Name="NavUpdateNext" Style="{DynamicResource versesNavButtonNext}" Tag="AngleDoubleRight" Height="30" />
+        </Grid>
     </Grid>
 </Page>

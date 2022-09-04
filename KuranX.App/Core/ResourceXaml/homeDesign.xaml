@@ -27,6 +27,7 @@
         <Setter Property="HorizontalAlignment" Value="Left" />
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="TextAlignment" Value="Center" />
+        <Setter Property="Margin" Value="5 0 0 0" />
     </Style>
 
     <Style TargetType="TextBlock" x:Key="hmwnd_leftHeaderTexth2" BasedOn="{StaticResource hmwnd_leftHeaderTexth1}">
@@ -65,7 +66,7 @@
 
     <Style TargetType="Button" x:Key="enterfullscreenIcon" BasedOn="{StaticResource extendedIcon}">
         <Setter Property="VerticalAlignment" Value="Center" />
-
+        <Setter Property="Margin" Value="5 0 0 0" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
@@ -83,6 +84,7 @@
 
     <Style TargetType="Button" x:Key="exitfullscreenIcon" BasedOn="{StaticResource extendedIcon}">
         <Setter Property="Visibility" Value="Collapsed" />
+        <Setter Property="Margin" Value="5 0 0 0" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
@@ -151,7 +153,7 @@
         <Setter Property="Opacity" Value="1" />
         <Setter Property="Height" Value="30" />
         <Setter Property="Width" Value="110" />
-        <Setter Property="FontFamily" Value="{DynamicResource PoppinsSemiBold}" />
+        <Setter Property="FontFamily" Value="{DynamicResource PoppinsMedium}" />
         <Setter Property="FontSize" Value="11" />
         <Setter Property="Template">
             <Setter.Value>

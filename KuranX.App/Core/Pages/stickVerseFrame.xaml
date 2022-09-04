@@ -24,6 +24,91 @@
             <Image gif:ImageBehavior.AnimatedSource="/Resource/Images/Gif/Spinner800.gif" Width="250" Height="250"  RenderOptions.BitmapScalingMode="HighQuality" />
         </Grid>
 
+        <Popup x:Name="alph" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="460" Height="200" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+            <Border  Style="{DynamicResource defaultBorderShadowEffect}" Width="440" Height="180">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="90" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Border Grid.Column="0" Background="#F0433A" CornerRadius="5 0 0 5"></Border>
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Icon:PackIconOcticons Kind="Alert" Width="48" Height="48" Foreground="#F0433A" />
+                        </StackPanel>
+                        <Border Grid.Column="2"  Padding="10 0 10 0">
+                            <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <TextBlock x:Name="alertPopupHeader" Text="" FontSize="22" Margin="0,0,0,12" Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsSemiBold}" />
+                                <TextBlock x:Name="alertPopupDetail" Text="" TextWrapping="Wrap"  Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsMedium}" />
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                </Grid>
+            </Border>
+        </Popup>
+
+        <Popup x:Name="inph" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="460" Height="200" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+
+            <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="440" Height="180">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="90" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Border Grid.Column="0" Background="#0D6EFD" CornerRadius="5 0 0 5"></Border>
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Icon:PackIconUnicons Kind="Info" Width="48" Height="48" Foreground="#0D6EFD" />
+                        </StackPanel>
+                        <Border Grid.Column="2"  Padding="10 0 10 0">
+                            <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <TextBlock x:Name="infoPopupHeader" Text="" FontSize="22" Margin="0,0,0,12" Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsSemiBold}" />
+                                <TextBlock x:Name="infoPopupDetail" Text="" TextWrapping="Wrap"  Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsMedium}" />
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                </Grid>
+            </Border>
+        </Popup>
+
+        <Popup x:Name="scph" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="460" Height="200" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+            <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="440" Height="180">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="90" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Border Grid.Column="0" Background="#66E21F" CornerRadius="5 0 0 5"></Border>
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Icon:PackIconIonicons Kind="CheckmarkMD" Width="48" Height="48" Foreground="#66E21F" />
+                        </StackPanel>
+                        <Border Grid.Column="2"  Padding="10 0 10 0">
+                            <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <TextBlock x:Name="successPopupHeader" Text="" FontSize="22" Margin="0,0,0,12" Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsSemiBold}" />
+                                <TextBlock x:Name="successPopupDetail" Text="" TextWrapping="Wrap"  Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsMedium}" />
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                </Grid>
+            </Border>
+        </Popup>
+
         <Popup x:Name="versePagePopup" Style="{DynamicResource popupTemp}">
 
             <StackPanel Orientation="Horizontal" Background="Transparent">
@@ -159,7 +244,7 @@
                             </Grid.ColumnDefinitions>
 
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="0">
-                                <Button x:Name="loadNewVersePopup" Style="{DynamicResource popupDefaultButtonBstrp}" Tag="ArrowRight" Content="Git" HorizontalAlignment="Center" Click="nextSure_Click" />
+                                <Button x:Name="loadNewVersePopup" Style="{DynamicResource popupDefaultButtonBstrp}" Tag="ArrowRight" Content="Git" HorizontalAlignment="Center" />
                                 <Button  Style="{DynamicResource popupDefaultButtonClosed}" Tag="CloseBig" Content="Vazgeç" Uid="loadChangeVerseFramePopup" HorizontalAlignment="Center" Click="popupClosed_Click" />
                             </StackPanel>
                         </Grid>
@@ -262,7 +347,7 @@
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
 
-                        <StackPanel Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center">
+                        <StackPanel Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" x:Name="navInfo" Visibility="Visible">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
@@ -511,6 +596,7 @@
         <ItemsControl Grid.Row="4" x:Name="verseBottomButtonItemsControl" Padding="0,15,0,0" Margin="0,5,0,15">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" SnapsToDevicePixels="True" UseLayoutRounding="True">
                 <Button x:Name="openNextVersePopup" Style="{DynamicResource verseBottomItemsControlBtn}" Content="Geri Dön" Tag="ArrowLeft" Click="openNextVersePopup_Click" />
+                <Button x:Name="openVerseNumberPopup" Style="{DynamicResource verseBottomItemsControlBtnGo}" Content="Ayete Git" Tag="DiagonalArrowRightUp" Click="openVerseNumberPopup_Click" />
             </StackPanel>
         </ItemsControl>
     </Grid>

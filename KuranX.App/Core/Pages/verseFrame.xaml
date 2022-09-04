@@ -200,15 +200,15 @@
             </Border>
         </Popup>
 
-        <Popup x:Name="loadChangeVerseFramePopup" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="300" Height="300" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
-            <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="280" Height="280">
+        <Popup x:Name="loadChangeVerseFramePopup" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="300" Height="320" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+            <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="280" Height="300">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="50" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
                     <Border  Grid.Row="0" Style="{DynamicResource headerBorderTemp}">
-                        <TextBlock Text="Ayete Git" Style="{DynamicResource popupHeaderText}" />
+                        <TextBlock Text="Sure Git" Style="{DynamicResource popupHeaderText}" />
                     </Border>
                     <Grid Grid.Row="1">
                         <Grid.RowDefinitions>
@@ -783,7 +783,7 @@
                         <RowDefinition Height="280" />
                     </Grid.RowDefinitions>
                     <Border  Grid.Row="0" Style="{DynamicResource headerBorderTemp}">
-                        <TextBlock Text="Bağlantılı Aytler" Style="{DynamicResource popupHeaderText}" />
+                        <TextBlock Text="Bağlantılı Ayetler" Style="{DynamicResource popupHeaderText}" />
                     </Border>
                     <Grid Grid.Row="1">
                         <Grid>
@@ -1097,9 +1097,9 @@
                         <Border Style="{DynamicResource versesTab}">
                             <Grid>
                                 <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="180" />
                                     <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="600" />
+                                    <ColumnDefinition Width="300" />
                                 </Grid.ColumnDefinitions>
                                 <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="15,0,0,0" Grid.Column="0">
                                     <TextBlock Text="{Binding Name}" FontFamily="{DynamicResource PoppinsMedium}" Foreground="#1C1E2F" FontSize="26" />
@@ -1114,6 +1114,7 @@
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*" />
                                             <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="*" />
                                         </Grid.ColumnDefinitions>
                                         <StackPanel Grid.Column="0" Orientation="Vertical" Margin="0,0,20,0">
                                             <Border Padding="15,0,15,0" BorderBrush="#E1E3E6" BorderThickness="0,0,0,1">
@@ -1121,11 +1122,18 @@
                                             </Border>
                                             <TextBlock  Text="{Binding DeskLanding}" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsMedium}" />
                                         </StackPanel>
-                                        <StackPanel  Grid.Column="1" Orientation="Vertical">
+                                        <StackPanel  Grid.Column="1" Orientation="Vertical" Margin="0,0,20,0">
                                             <Border Padding="15,0,15,0" BorderBrush="#E1E3E6" BorderThickness="0,0,0,1">
                                                 <TextBlock Text="MUSHAF SIRASI" FontFamily="{DynamicResource PoppinsMedium}" Foreground="#1C1E2F" />
                                             </Border>
                                             <TextBlock Text="{Binding DeskMushaf}" HorizontalAlignment="Center" VerticalAlignment="Center"  Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsMedium}" />
+                                        </StackPanel>
+
+                                        <StackPanel  Grid.Column="2" Orientation="Vertical">
+                                            <Border Padding="15,0,15,0" BorderBrush="#E1E3E6" BorderThickness="0,0,0,1">
+                                                <TextBlock Text="ANLAMI" FontFamily="{DynamicResource PoppinsMedium}" Foreground="#1C1E2F" TextAlignment="Center" />
+                                            </Border>
+                                            <TextBlock Text="{Binding Description}" HorizontalAlignment="Center" VerticalAlignment="Center"  Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsMedium}" />
                                         </StackPanel>
                                     </Grid>
                                 </StackPanel>
@@ -1170,7 +1178,7 @@
                             <CheckBox x:Name="bellButton" Content="Bu Ayeti Hatırlat" Tag="Bell" Style="{DynamicResource versesActionMainTabButtonBell}" IsChecked="{Binding RememberCheck}" Uid="{Binding VerseId}" />
                             <Button   x:Name="noteButton" Content="Not Al" Tag="ClipboardNotes" Style="{DynamicResource versesActionMainTabButtonNote}" Uid="{Binding VerseId}" Click="noteButton_Click" />
                             <CheckBox x:Name="checkButton" Content="Okudum" Tag="Check" Style="{DynamicResource versesActionMainTabButtonCheck}" IsChecked="{Binding VerseCheck}" Uid="{Binding VerseId}" Click="check_Click" />
-                            <Button   x:Name="descButton" Content="Ayet Açıklaması" Tag="ClipboardNotes"  Style="{DynamicResource versesActionMainTabButtonDesc}" Uid="{Binding VerseDesc}" Click="descButton_Click" />
+                            <Button   x:Name="descButton" Content="Ayetin Kısa Tefsiri" Tag="ClipboardNotes"  Style="{DynamicResource versesActionMainTabButtonDesc}" Uid="{Binding VerseDesc}" Click="descButton_Click" />
                             <Button   x:Name="feedbackButton" Content="Düşünceleriniz Paylaşın" Tag="Send"  Style="{DynamicResource versesActionMainTabButtonFeed}" Uid="{Binding VerseId}" Click="feedbackButton_Click" />
                         </StackPanel>
                     </Border>
@@ -1208,11 +1216,11 @@
                                             <ColumnDefinition Width="*" />
                                         </Grid.ColumnDefinitions>
                                         <StackPanel Orientation="Vertical" Grid.Column="0" HorizontalAlignment="Left" Margin="10,0,10,0">
-                                            <TextBlock Margin="15 5 30 5" TextTrimming="CharacterEllipsis" Text="{Binding VerseTr}" VerticalAlignment="Center" FontSize="22" Foreground="#FF1C1E2F" FontFamily="{DynamicResource PoppinsMedium}" />
+                                            <TextBlock Margin="15 5 30 5" TextTrimming="CharacterEllipsis" Text="{Binding VerseTr}" VerticalAlignment="Center" FontSize="24" Foreground="#FF1C1E2F" FontFamily="{DynamicResource PoppinsMedium}" />
                                             <Button Visibility="Visible" x:Name="fulltextTr" Style="{DynamicResource versesAllShowButton}" Tag="Tamamını Göster"  Click="trFullTextLoad" />
                                         </StackPanel>
                                         <StackPanel Orientation="Vertical" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0,10,0">
-                                            <TextBlock Margin="15 5 30 5" TextTrimming="CharacterEllipsis" Text="{Binding VerseArabic}" FontSize="22" Foreground="#FF1C1E2F" FontFamily="XB Zar" />
+                                            <TextBlock Margin="15 5 30 5" TextTrimming="CharacterEllipsis" Text="{Binding VerseArabic}" FontSize="24" Foreground="#FF1C1E2F" FontFamily="XB Zar" />
                                             <Button Visibility="Visible" x:Name="fulltextArabic" Style="{DynamicResource versesAllShowButton}" Tag="Tamamını Göster"  Click="arabicFullTextLoad" />
                                         </StackPanel>
                                     </Grid>
@@ -1232,7 +1240,7 @@
                                 <ItemsControl x:Name="versesFullTextData">
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
-                                            <TextBlock  Height="Auto" FontFamily="{DynamicResource PoppinsRegular}" FontSize="14" TextWrapping="Wrap" Text="{Binding interpreterDetail}" />
+                                            <TextBlock  Height="Auto" FontFamily="{DynamicResource PoppinsRegular}" FontSize="20" TextWrapping="Wrap" Text="{Binding interpreterDetail}" />
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>
@@ -1240,7 +1248,7 @@
 
                             <ScrollViewer x:Name="versesTrDataExtends" Visibility="Collapsed" Grid.Row="0" CanContentScroll="True"  HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Visible" Padding="10">
 
-                                <TextBlock Height="Auto" x:Name="versesTrDataExtendsText" FontSize="14" TextWrapping="Wrap" FontFamily="{DynamicResource PoppinsMedium}" />
+                                <TextBlock Height="Auto" x:Name="versesTrDataExtendsText" FontSize="20" TextWrapping="Wrap" FontFamily="{DynamicResource PoppinsMedium}" />
                             </ScrollViewer>
 
                             <ScrollViewer x:Name="versesArDataExtends" Visibility="Collapsed" Grid.Row="0" CanContentScroll="True"   HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Visible" Padding="10">
@@ -1328,17 +1336,25 @@
 
         <!-- Verse Nav  -->
 
-        <StackPanel Grid.Row="3"  Orientation="Horizontal" HorizontalAlignment="Center" SnapsToDevicePixels="True" UseLayoutRounding="True">
+        <Border x:Name="navLoadGif" Grid.Row="3" Background="Transparent"  Height="50" Panel.ZIndex="2" CornerRadius="5" Visibility="Collapsed">
+            <Image gif:ImageBehavior.AnimatedSource="/Resource/Images/Gif/NavSpin500.gif" Width="50"  RenderOptions.BitmapScalingMode="HighQuality" Margin="395,0,395,0" />
+        </Border>
+
+        <StackPanel Grid.Row="3"  x:Name="navContenStack"  Orientation="Horizontal" HorizontalAlignment="Center" SnapsToDevicePixels="True" UseLayoutRounding="True" Style="{DynamicResource stackpanelUseAniEffect}">
 
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="70" />
-                    <ColumnDefinition Width="900" />
-                    <ColumnDefinition Width="70" />
+                    <ColumnDefinition Width="60" />
+                    <ColumnDefinition Width="60" />
+                    <ColumnDefinition Width="845" />
+                    <ColumnDefinition Width="60" />
+                    <ColumnDefinition Width="60" />
                 </Grid.ColumnDefinitions>
 
-                <Button Grid.Column="0" x:Name="NavUpdatePrev" Style="{DynamicResource versesNavButtonNext}" Tag="AngleLeft" Height="30" Click="bottomNavUpdatePrev" />
-                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Grid.Column="0" x:Name="NavUpdatePrev" Style="{DynamicResource versesNavButtonNext}" Tag="AngleDoubleLeft" Height="30" Click="bottomNavUpdatePrev" />
+                <Button Grid.Column="1" x:Name="NavUpdatePrevSingle" Style="{DynamicResource versesNavButtonNext}" Tag="AngleLeft" Height="30" Click="NavUpdatePrevSingle_Click" />
+
+                <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Center" Visibility="Visible">
                     <ItemsControl Style="{DynamicResource verseNavButtonItemsControl}" x:Name="vb1" Grid.Column="1">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
@@ -1395,7 +1411,8 @@
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
                 </StackPanel>
-                <Button Grid.Column="2" x:Name="NavUpdateNext" Style="{DynamicResource versesNavButtonNext}" Tag="AngleRight" Height="30"  Click="bottomNavUpdateNext" />
+                <Button Grid.Column="3" x:Name="NavUpdateNextSingle" Style="{DynamicResource versesNavButtonNext}" Tag="AngleRight" Height="30" Click="NavUpdateNextSingle_Click" />
+                <Button Grid.Column="4" x:Name="NavUpdateNext" Style="{DynamicResource versesNavButtonNext}" Tag="AngleDoubleRight" Height="30"  Click="bottomNavUpdateNext" />
             </Grid>
         </StackPanel>
 
@@ -1404,10 +1421,11 @@
         <!-- Bottom Nav  -->
         <ItemsControl Grid.Row="4" x:Name="verseBottomButtonItemsControl" Padding="0,15,0,0" Margin="0,5,0,15">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" SnapsToDevicePixels="True" UseLayoutRounding="True">
-                <Button x:Name="openMeaningPopup" Style="{DynamicResource verseBottomItemsControlBtn}" Content="ANLAM BÜTÜNLÜĞÜ &#x0a;BAĞLANTILI AYETLER" Tag="Link" Click="openMeaningPopup_Click" />
-                <Button x:Name="openAddSubjectPopup" Style="{DynamicResource verseBottomItemsControlBtn}" Content="BU AYETİ &#x0a; KONULARIMA EKLE" Tag="Plus" Click="openAddSubjectPopup_Click" />
-                <Button x:Name="openNextVersePopup" Style="{DynamicResource verseBottomItemsControlBtn}" Content="SURE ARA" Tag="Search" Click="openNextVersePopup_Click" />
-                <Button x:Name="openVerseNumberPopup" Style="{DynamicResource verseBottomItemsControlBtn}" Content="Ayete Git" Tag="ArrowRight" Click="openVerseNumberPopup_Click" />
+                <Button x:Name="backVersesFrame" Style="{DynamicResource verseBottomItemsControlBtn}" Content="Geri Dön" Tag="ArrowLeft" Click="backVersesFrame_Click" />
+                <Button x:Name="openMeaningPopup" Style="{DynamicResource verseBottomItemsControlBtn}" Content="Anlam Bütünlüğü &#x0a; Bağlantılı Ayetler" Tag="Link" Click="openMeaningPopup_Click" />
+                <Button x:Name="openAddSubjectPopup" Style="{DynamicResource verseBottomItemsControlBtn}" Content="Bu Ayeti &#x0a; Konularıma Ekle" Tag="Plus" Click="openAddSubjectPopup_Click" />
+                <Button x:Name="openNextVersePopup" Style="{DynamicResource verseBottomItemsControlBtn}" Content="Sure Ara" Tag="Search" Click="openNextVersePopup_Click" />
+                <Button x:Name="openVerseNumberPopup" Style="{DynamicResource verseBottomItemsControlBtnGo}" Content="Ayete Git" Tag="DiagonalArrowRightUp" Click="openVerseNumberPopup_Click" />
             </StackPanel>
         </ItemsControl>
 

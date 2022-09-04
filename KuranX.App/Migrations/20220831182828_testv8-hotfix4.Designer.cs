@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KuranX.App.Migrations
 {
     [DbContext(typeof(AyetContext))]
-    [Migration("20220830093131_TestV8-Hofix3")]
-    partial class TestV8Hofix3
+    [Migration("20220831182828_testv8-hotfix4")]
+    partial class testv8hotfix4
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -146,6 +146,9 @@ namespace KuranX.App.Migrations
 
                     b.Property<int?>("SubjectId")
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("SubjectName")
+                        .HasColumnType("TEXT");
 
                     b.Property<int?>("SubjectNotesId")
                         .HasColumnType("INTEGER");

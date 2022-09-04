@@ -3,6 +3,7 @@ using System;
 using KuranX.App.Core.Classes;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KuranX.App.Migrations
 {
     [DbContext(typeof(AyetContext))]
-    partial class AyetContextModelSnapshot : ModelSnapshot
+    [Migration("20220903042650_testv8-hotfix5")]
+    partial class testv8hotfix5
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.7");
@@ -101,11 +103,6 @@ namespace KuranX.App.Migrations
                         .HasColumnType("TEXT")
                         .HasDefaultValue("#ADB5BD");
 
-                    b.Property<int?>("SubjectId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER")
-                        .HasDefaultValue(0);
-
                     b.Property<int?>("SureId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER")
@@ -187,11 +184,6 @@ namespace KuranX.App.Migrations
 
                     b.Property<int?>("DeskLanding")
                         .HasColumnType("INTEGER");
-
-                    b.Property<int?>("DeskList")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER")
-                        .HasDefaultValue(0);
 
                     b.Property<int?>("DeskMushaf")
                         .HasColumnType("INTEGER");

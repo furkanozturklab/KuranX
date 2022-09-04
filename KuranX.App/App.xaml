@@ -24,6 +24,7 @@
                 <ResourceDictionary Source="pack://application:,,,/Core/ResourceXaml/verseMainPage.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="pack://application:,,,/Core/ResourceXaml/versePanelDesing.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="pack://application:,,,/Core/ResourceXaml/popupDesing.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="pack://application:,,,/Core/ResourceXaml/subjectDesing.xaml"></ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

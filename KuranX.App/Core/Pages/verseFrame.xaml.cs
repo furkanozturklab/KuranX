@@ -23,15 +23,15 @@ namespace KuranX.App.Core.Pages
 
     public partial class verseFrame : Page
     {
-        private List<Sure> dSure = new List<Sure>();
-        private List<Verse> dVerse, dVerseNav, tempVerses = new List<Verse>();
-        private List<Integrity> tempInteg = new List<Integrity>();
-        private List<Interpreter> dInterpreter = new List<Interpreter>();
-        private Task PageItemLoadTask;
-        private CheckBox chk;
-        private DispatcherTimer timeSpan = new DispatcherTimer(DispatcherPriority.Render);
+        private List<Sure>? dSure = new List<Sure>();
+        private List<Verse>? dVerse, dVerseNav, tempVerses = new List<Verse>();
+        private List<Integrity>? tempInteg = new List<Integrity>();
+        private List<Interpreter>? dInterpreter = new List<Interpreter>();
+        private Task? PageItemLoadTask;
+        private CheckBox? chk;
+        private DispatcherTimer? timeSpan = new DispatcherTimer(DispatcherPriority.Render);
         private string InterpreterWrite, verseName;
-        public int activeSure, activeVerse, tempDataInt = 0, lastVerse = 0, getpopupRelativeId, relativeDeskV;
+        public int activeSure, activeVerse, tempDataInt = 0, lastVerse = 0, getpopupRelativeId, relativeDeskV, singlerelativeDesk = 1, singlenextnavcontrol = 1;
         public int[] feedPoint = new int[4];
         private bool tempCheck = false, tempCheck2, tempCheck3;
 
@@ -52,6 +52,7 @@ namespace KuranX.App.Core.Pages
             try
             {
                 relativeDeskV = relativeDeskTemp;
+                singlerelativeDesk = relativeDeskTemp;
 
                 activeSure = data;
                 activeVerse = 1;
@@ -73,6 +74,9 @@ namespace KuranX.App.Core.Pages
 
                     dVerse = (List<Verse>)entitydb.Verse.Where(p => p.SureId == activeSure).Where(p => p.VerseId == activeVerse).ToList();
                     dInterpreter = (List<Interpreter>)entitydb.Interpreter.Where(p => p.verseId == tempDataInt).Where(p => p.sureId == activeSure).Where(p => p.interpreterWriter == InterpreterWrite).ToList();
+
+                    if (dSure[0].Name == "Fâtiha" && App.currentDesktype == "DeskLanding") NavUpdatePrevSingle.IsEnabled = false;
+                    if (dSure[0].Name == "Mâide" && App.currentDesktype == "DeskMushaf") NavUpdatePrevSingle.IsEnabled = false;
                 }
             }
             catch (Exception ex)
@@ -106,6 +110,16 @@ namespace KuranX.App.Core.Pages
         {
             try
             {
+                navLoadGif.Dispatcher.Invoke(() =>
+                {
+                    navLoadGif.Visibility = Visibility.Visible;
+                });
+
+                navContenStack.Dispatcher.Invoke(() =>
+                {
+                    navContenStack.Visibility = Visibility.Hidden;
+                });
+
                 using (var entitydb = new AyetContext())
                 {
                     if (lastVerse < 7) lastVerse = 0;
@@ -147,6 +161,17 @@ namespace KuranX.App.Core.Pages
                     {
                         if (dVerseNav.Count() <= 7) NavUpdateNext.IsEnabled = false;
                         if (dVerseNav.Count() > 7) NavUpdateNext.IsEnabled = true;
+                    });
+
+                    Thread.Sleep(200);
+                    navLoadGif.Dispatcher.Invoke(() =>
+                    {
+                        navLoadGif.Visibility = Visibility.Collapsed;
+                    });
+
+                    navContenStack.Dispatcher.Invoke(() =>
+                    {
+                        navContenStack.Visibility = Visibility.Visible;
                     });
                 }
             }
@@ -198,6 +223,8 @@ namespace KuranX.App.Core.Pages
                     {
                         singleLoadVerse();
                     }
+
+                    singlerelativeDesk = (int)dVerse[0].RelativeDesk;
                 }
             }
             catch (Exception ex)
@@ -223,6 +250,61 @@ namespace KuranX.App.Core.Pages
             catch (Exception ex)
             {
                 App.logWriter("LoadEvent", ex);
+            }
+        }
+
+        public void dloadVerse()
+        {
+            using (var entitydb = new AyetContext())
+            {
+                dInterpreter = (List<Interpreter>)entitydb.Interpreter.Where(p => p.verseId == tempDataInt).Where(p => p.sureId == activeSure).Where(p => p.interpreterWriter == InterpreterWrite).ToList();
+                dVerse = (List<Verse>)entitydb.Verse.Where(p => p.SureId == activeSure).Where(p => p.RelativeDesk == singlerelativeDesk).ToList();
+
+                versesFullTextData.Dispatcher.Invoke(() =>
+                {
+                    versesFullTextData.ItemsSource = dInterpreter;
+                });
+
+                versesTextData.Dispatcher.Invoke(() =>
+                {
+                    versesTextData.ItemsSource = dVerse;
+                });
+
+                int i = 1;
+
+                for (int x = 1; x < 8; x++)
+                {
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        ItemsControl itemslist = (ItemsControl)this.FindName("vb" + x);
+                        //itemslist.Items.Clear();
+                        itemslist.ItemsSource = null;
+                    });
+                }
+
+                foreach (var item in dVerseNav)
+                {
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        tempVerses.Add(item);
+                        ItemsControl itemslist = (ItemsControl)this.FindName("vb" + i);
+                        itemslist.ItemsSource = tempVerses;
+                        tempVerses.Clear();
+                        i++;
+                    });
+
+                    if (i == 8) break; // 7 den fazla varmı kontrol etmek için koydum
+                }
+                Thread.Sleep(200);
+                CurrentVerse.Dispatcher.Invoke(() =>
+                {
+                    CurrentVerse.Tag = dVerse[0].RelativeDesk.ToString();
+                });
+
+                verseDetailLoadingGif.Dispatcher.Invoke(() =>
+                {
+                    verseDetailLoadingGif.Visibility = Visibility.Collapsed;
+                });
             }
         }
 
@@ -295,8 +377,14 @@ namespace KuranX.App.Core.Pages
 
                 NavUpdatePrev.Dispatcher.Invoke(() =>
                 {
-                    if (lastVerse == 0) NavUpdatePrev.IsEnabled = false;
-                    else NavUpdatePrev.IsEnabled = true;
+                    if (lastVerse == 0)
+                    {
+                        NavUpdatePrev.IsEnabled = false;
+                    }
+                    else
+                    {
+                        NavUpdatePrev.IsEnabled = true;
+                    }
                 });
 
                 NavUpdateNext.Dispatcher.Invoke(() =>
@@ -314,6 +402,8 @@ namespace KuranX.App.Core.Pages
                 {
                     homeScreen.locationTxt.Text = "Ayetler >" + " " + dSure[0].Name;
                 });
+
+                singlerelativeDesk = (int)dVerse[0].RelativeDesk;
             }
             catch (Exception ex)
             {
@@ -894,17 +984,123 @@ namespace KuranX.App.Core.Pages
             }
         }
 
+        private void NavUpdateNextSingle_Click(object sender, RoutedEventArgs e)
+        {
+            if (dSure[0].Name == "Nâs" && singlerelativeDesk == 6) NavUpdateNext.IsEnabled = false;
+
+            if (dSure[0].NumberOfVerses > singlerelativeDesk)
+            {
+                singlerelativeDesk++;
+                NavUpdatePrevSingle.IsEnabled = true;
+
+                verseDetailLoadingGif.Visibility = Visibility.Visible;
+                PageItemLoadTask = new Task(dloadVerse);
+                PageItemLoadTask.Start();
+
+                lastVerse++;
+
+                if (singlerelativeDesk == 8)
+                {
+                    lastVerse = 7;
+                }
+
+                PageItemLoadTask = new Task(singleLoadVerse);
+                PageItemLoadTask.Start();
+            }
+            else
+            {
+                if (App.currentDesktype == "DeskMushaf")
+                {
+                    int xc = 0;
+                    using (var entitydb = new AyetContext())
+                    {
+                        var listx = entitydb.Sure.OrderBy(p => p.DeskMushaf);
+
+                        foreach (var item in listx)
+                        {
+                            xc++;
+                            if (dSure[0].Name == item.Name) break;
+                        }
+
+                        xc++;
+                        var listxc = entitydb.Sure.OrderBy(p => p.DeskMushaf).Where(p => p.DeskMushaf == xc).FirstOrDefault();
+
+                        Debug.WriteLine(listxc.sureId);
+                        App.mainframe.Content = new verseFrame((int)listxc.sureId, 1);
+                    }
+                }
+                else
+                {
+                    App.mainframe.Content = new verseFrame((int)++dSure[0].sureId, 1);
+                }
+            }
+        }
+
+        private void NavUpdatePrevSingle_Click(object sender, RoutedEventArgs e)
+        {
+            singlerelativeDesk--;
+            if (singlerelativeDesk == -1) singlerelativeDesk = 0;
+
+            if (singlerelativeDesk == 0)
+            {
+                if (App.currentDesktype == "DeskMushaf")
+                {
+                    int xc = 0;
+                    using (var entitydb = new AyetContext())
+                    {
+                        var listx = entitydb.Sure.OrderBy(p => p.DeskMushaf);
+
+                        foreach (var item in listx)
+                        {
+                            xc++;
+                            if (dSure[0].Name == item.Name) break;
+                        }
+
+                        xc--;
+                        var listxc = entitydb.Sure.OrderBy(p => p.DeskMushaf).Where(p => p.DeskMushaf == xc).FirstOrDefault();
+
+                        Debug.WriteLine(listxc.sureId);
+                        App.mainframe.Content = new verseFrame((int)listxc.sureId, 1);
+                    }
+                }
+                else
+                {
+                    App.mainframe.Content = new verseFrame((int)--dSure[0].sureId, 1);
+                }
+            }
+            else
+            {
+                if (dSure[0].Name == "Fâtiha" && singlerelativeDesk == 1 && App.currentDesktype == "DeskLanding") NavUpdatePrevSingle.IsEnabled = false;
+                if (dSure[0].Name == "Mâide" && singlerelativeDesk == 1 && App.currentDesktype == "DeskMushaf") NavUpdatePrevSingle.IsEnabled = false;
+
+                if (lastVerse != 0)
+                {
+                    lastVerse--;
+                    PageItemLoadTask = new Task(singleLoadVerse);
+                    PageItemLoadTask.Start();
+                }
+                if (singlerelativeDesk != 0)
+                {
+                    verseDetailLoadingGif.Visibility = Visibility.Visible;
+                    PageItemLoadTask = new Task(dloadVerse);
+                    PageItemLoadTask.Start();
+                }
+            }
+        }
+
         private void activeVerseSelected(object sender, EventArgs e)
         {
             try
             {
                 chk = sender as CheckBox;
+                //if (lastCurrentBtn != null) lastCurrentBtn.Style = (Style)FindResource("versesNavButtonV");
                 FullTextClear();
                 versesFullTextData.Visibility = Visibility.Visible;
                 backInterpreter.Visibility = Visibility.Collapsed;
 
                 if (chk.IsChecked.ToString() == "True") chk.IsChecked = false;
                 else { chk.IsChecked = true; }
+
                 verseDetailLoadingGif.Visibility = Visibility.Visible;
                 activeVerse = Int16.Parse(chk.Uid);
                 tempDataInt = activeVerse;
@@ -1021,7 +1217,7 @@ namespace KuranX.App.Core.Pages
             {
                 Button contentb = sender as Button;
                 textDesc.Text = contentb.Uid.ToString();
-                popupHeaderTextDesc.Text = verseName + " Suresinin " + dVerse[0].RelativeDesk + " Ayetinin Açıklaması";
+                popupHeaderTextDesc.Text = verseName + " Suresinin " + dVerse[0].RelativeDesk + " Ayetinin Kısa Tefsiri";
                 descVersePopup.IsOpen = true;
             }
             catch (Exception ex)
@@ -1350,6 +1546,12 @@ namespace KuranX.App.Core.Pages
             }
         }
 
+        private void backVersesFrame_Click(object sender, RoutedEventArgs e)
+        {
+            App.mainframe.Content = new versesFrame(App.currentVersesPageD[0], App.currentVersesPageD[1]);
+            //NavigationService.GoBack();
+        }
+
         private void addSubject_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -1368,10 +1570,11 @@ namespace KuranX.App.Core.Pages
                         }
                         else
                         {
-                            var dSubjectItem = new SubjectItems { SubjectId = Int16.Parse(item.Uid), SubjectNotesId = 0, SureId = dSure[0].sureId, VerseId = dVerse[0].RelativeDesk, Created = DateTime.Now, Modify = DateTime.Now };
+                            var dSubjectItem = new SubjectItems { SubjectId = Int16.Parse(item.Uid), SubjectNotesId = 0, SureId = dSure[0].sureId, VerseId = dVerse[0].RelativeDesk, Created = DateTime.Now, Modify = DateTime.Now, SubjectName = dSure[0].Name + " Suresinin " + dVerse[0].RelativeDesk.ToString() + " Ayeti" };
                             entitydb.SubjectItems.Add(dSubjectItem);
                             entitydb.SaveChanges();
                             succsessFunc("Ayet Ekleme Başarılı", "Seçmiş olduğunuz konuya ayet eklendi.", 3);
+                            Debug.WriteLine("Acc-Check");
                         }
                     }
                     else
@@ -1435,7 +1638,7 @@ namespace KuranX.App.Core.Pages
 
                 if (Int16.Parse(item.Tag.ToString()) >= Int16.Parse(popupNextVerseId.Text))
                 {
-                    App.mainframe.Content = new stickVerseFrame(Int16.Parse(popupNextVerseId.Text), Int16.Parse(item.Uid.ToString()), dSure[0].Name, dVerse[0].RelativeDesk.Value);
+                    App.mainframe.Content = new stickVerseFrame(Int16.Parse(popupNextVerseId.Text), Int16.Parse(item.Uid.ToString()), dSure[0].Name, dVerse[0].RelativeDesk.Value.ToString(), "Visible");
                     popupNextVerseId.Text = "1";
                 }
                 else

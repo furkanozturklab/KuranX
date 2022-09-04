@@ -15,7 +15,9 @@ namespace KuranX.App
     /// </summary>
     public partial class App : Application
     {
-        public static Frame mainframe;
+        public static Frame? mainframe;
+        public static string currentDesktype = "DeskLanding";
+        public static int[] currentVersesPageD = new int[2];
 
         public static void logWriter(string type, Exception exe)
         {

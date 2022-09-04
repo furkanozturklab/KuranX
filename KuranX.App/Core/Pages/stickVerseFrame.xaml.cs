@@ -50,12 +50,27 @@ namespace KuranX.App.Core.Pages
             }
         }
 
-        public stickVerseFrame(int verseId, int sureId, string CurrentSure, int CurrentVerseId) : this()
+        public stickVerseFrame(int verseId, int sureId, string CurrentSure, string CurrentVerseId, string navInfoStatus) : this()
         {
             try
             {
                 activeSure = sureId;
                 activeVerse = verseId;
+
+                switch (navInfoStatus)
+                {
+                    case "Visible":
+                        navInfo.Visibility = Visibility.Visible;
+                        break;
+
+                    case "Hidden":
+                        navInfo.Visibility = Visibility.Hidden;
+                        break;
+
+                    case "Collapsed":
+                        navInfo.Visibility = Visibility.Collapsed;
+                        break;
+                }
 
                 val1.Text = CurrentSure;
                 val2.Text = CurrentVerseId.ToString();
@@ -66,6 +81,7 @@ namespace KuranX.App.Core.Pages
                     lastVerse--;
                 }
                 else lastVerse = 0;
+
                 controlitemsList.Add(vb1);
                 controlitemsList.Add(vb2);
                 controlitemsList.Add(vb3);
@@ -80,9 +96,12 @@ namespace KuranX.App.Core.Pages
                     dVerseNav = (List<Verse>)entitydb.Verse.Where(p => p.SureId == activeSure).Select(p => new Verse() { VerseId = p.VerseId, RelativeDesk = p.RelativeDesk, Status = p.Status, VerseCheck = p.VerseCheck }).Skip(lastVerse).Take(8).ToList();
 
                     verseName = dSure[0].Name;
-                    activeVerse = (int)dVerseNav[0].VerseId;
                     tempDataInt = activeVerse;
                     tempDataInt--;
+
+                    if (activeVerse >= 8) activeVerse = (int)dVerseNav[0].VerseId;
+                    else activeVerse = (int)dVerseNav[tempDataInt].VerseId;
+
                     CurrentVerse.Tag = dVerseNav[0].RelativeDesk.ToString();
 
                     dVerse = (List<Verse>)entitydb.Verse.Where(p => p.SureId == activeSure).Where(p => p.VerseId == activeVerse).ToList();
@@ -114,30 +133,33 @@ namespace KuranX.App.Core.Pages
             {
                 using (var entitydb = new AyetContext())
                 {
-                    dVerseNav = (List<Verse>)entitydb.Verse.Where(p => p.SureId == activeSure).Select(p => new Verse() { VerseId = p.VerseId, RelativeDesk = p.RelativeDesk, Status = p.Status, VerseCheck = p.VerseCheck }).Skip(lastVerse).Take(8).ToList();
-                    int i = 0;
+                    if (lastVerse < 7) lastVerse = 0;
 
-                    for (int x = 0; x < 7; x++)
+                    dVerseNav = (List<Verse>)entitydb.Verse.Where(p => p.SureId == dSure[0].sureId).Select(p => new Verse() { VerseId = p.VerseId, RelativeDesk = p.RelativeDesk, Status = p.Status, VerseCheck = p.VerseCheck }).Skip(lastVerse).Take(8).ToList();
+
+                    int i = 1;
+                    for (int x = 1; x < 8; x++)
                     {
-                        controlitemsList[x].Dispatcher.Invoke(() =>
+                        this.Dispatcher.Invoke(() =>
                         {
-                            controlitemsList[x].ItemsSource = null;
-                            controlitemsList[x].Items.Clear();
+                            ItemsControl itemslist = (ItemsControl)this.FindName("vb" + x);
+                            //itemslist.Items.Clear();
+                            itemslist.ItemsSource = null;
                         });
                     }
 
                     foreach (var item in dVerseNav)
                     {
-                        tempVerses.Add(item);
-
-                        controlitemsList[i].Dispatcher.Invoke(() =>
+                        this.Dispatcher.Invoke(() =>
                         {
-                            controlitemsList[i].ItemsSource = tempVerses;
+                            tempVerses.Add(item);
+                            ItemsControl itemslist = (ItemsControl)this.FindName("vb" + i);
+                            itemslist.ItemsSource = tempVerses;
+                            tempVerses.Clear();
+                            i++;
                         });
 
-                        tempVerses.Clear();
-                        i++;
-                        if (i == 7) break; // 7 den fazla varmı kontrol etmek için koydum
+                        if (i == 8) break; // 7 den fazla varmı kontrol etmek için koydum
                     }
 
                     NavUpdatePrev.Dispatcher.Invoke(() =>
@@ -149,7 +171,7 @@ namespace KuranX.App.Core.Pages
                     NavUpdateNext.Dispatcher.Invoke(() =>
                     {
                         if (dVerseNav.Count() <= 7) NavUpdateNext.IsEnabled = false;
-                        if (lastVerse == 0 && dVerseNav.Count() > 7) NavUpdateNext.IsEnabled = true;
+                        if (dVerseNav.Count() > 7) NavUpdateNext.IsEnabled = true;
                     });
                 }
             }
@@ -233,7 +255,10 @@ namespace KuranX.App.Core.Pages
 
                     lastVerse = getpopupRelativeId;
                     lastVerse--;
-                    singleLoadVerse();
+                    if (dVerse[0].RelativeDesk >= 8)
+                    {
+                        singleLoadVerse();
+                    }
                 }
             }
             catch (Exception ex)
@@ -291,29 +316,30 @@ namespace KuranX.App.Core.Pages
                         controlNavPanelItemscontrol.ItemsSource = dVerse;
                     });
 
-                    int i = 0;
+                    int i = 1;
 
-                    for (int x = 0; x < 7; x++)
+                    for (int x = 1; x < 8; x++)
                     {
-                        controlitemsList[x].Dispatcher.Invoke(() =>
+                        this.Dispatcher.Invoke(() =>
                         {
-                            controlitemsList[x].ItemsSource = null;
-                            controlitemsList[x].Items.Clear();
+                            ItemsControl itemslist = (ItemsControl)this.FindName("vb" + x);
+                            //itemslist.Items.Clear();
+                            itemslist.ItemsSource = null;
                         });
                     }
 
                     foreach (var item in dVerseNav)
                     {
-                        tempVerses.Add(item);
-
-                        controlitemsList[i].Dispatcher.Invoke(() =>
+                        this.Dispatcher.Invoke(() =>
                         {
-                            controlitemsList[i].ItemsSource = tempVerses;
+                            tempVerses.Add(item);
+                            ItemsControl itemslist = (ItemsControl)this.FindName("vb" + i);
+                            itemslist.ItemsSource = tempVerses;
+                            tempVerses.Clear();
+                            i++;
                         });
 
-                        tempVerses.Clear();
-                        i++;
-                        if (i == 7) break; // 7 den fazla varmı kontrol etmek için koydum
+                        if (i == 8) break; // 7 den fazla varmı kontrol etmek için koydum
                     }
                 }
                 Thread.Sleep(200);
@@ -343,6 +369,11 @@ namespace KuranX.App.Core.Pages
                 CurrentVerse.Dispatcher.Invoke(() =>
                 {
                     CurrentVerse.Tag = dVerse[0].RelativeDesk.ToString();
+                });
+
+                homeScreen.locationTxt.Dispatcher.Invoke(() =>
+                {
+                    homeScreen.locationTxt.Text = "Ayetler >" + " " + dSure[0].Name;
                 });
             }
             catch (Exception ex)
@@ -469,7 +500,6 @@ namespace KuranX.App.Core.Pages
 
                 if (tempCheck)
                 {
-                    MessageBox.Show("Active");
                     PageItemLoadTask.Dispose();
                     PageItemLoadTask = new Task(loadInterpreter);
                     PageItemLoadTask.Start();
@@ -532,14 +562,37 @@ namespace KuranX.App.Core.Pages
                 if (dSure[0].NumberOfVerses >= Int16.Parse(popupRelativeId.Text.ToString()))
                 {
                     getpopupRelativeId = Int16.Parse(popupRelativeId.Text.ToString());
+                    popupRelativeId.Text = "";
                     PageItemLoadTask.Dispose();
                     PageItemLoadTask = new Task(popuploadVerse);
                     PageItemLoadTask.Start();
                 }
                 else
                 {
-                    MessageBox.Show("Ayet Sayısını Geçtiniz Gidile Bilecek Son Ayet Sayısı : " + dSure[0].NumberOfVerses.ToString() + "Lütfen Tekrar Deneyiniz.");
+                    alertFunc("Ayet Mevcut Değil", "Ayet Sayısını Geçtiniz Gidile Bilecek Son Ayet Sayısı : " + dSure[0].NumberOfVerses.ToString() + " Lütfen Tekrar Deneyiniz.", 3);
                 }
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("PopupAction", ex);
+            }
+        }
+
+        private void alertFunc(string header, string detail, int timespan)
+        {
+            try
+            {
+                alertPopupHeader.Text = header;
+                alertPopupDetail.Text = detail;
+                alph.IsOpen = true;
+
+                timeSpan.Interval = TimeSpan.FromSeconds(timespan);
+                timeSpan.Start();
+                timeSpan.Tick += delegate
+                {
+                    alph.IsOpen = false;
+                    timeSpan.Stop();
+                };
             }
             catch (Exception ex)
             {

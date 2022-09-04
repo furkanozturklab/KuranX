@@ -16,6 +16,10 @@ namespace KuranX.App.Core.Windows
         public homeScreen()
         {
             InitializeComponent();
+
+            App.currentVersesPageD[0] = 1;
+            App.currentVersesPageD[1] = 0;
+
             App.mainframe = (Frame)this.FindName("homeFrame");
             locationTxt = (TextBlock)this.FindName("UserLocationText");
             locationTxt.Text = "Ayetler";
@@ -61,9 +65,17 @@ namespace KuranX.App.Core.Windows
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            //App.mainframe.Content = new versesFrame();
+            App.mainframe.Content = new versesFrame(App.currentVersesPageD[0], App.currentVersesPageD[1]);
 
-            App.mainframe.Content = new verseFrame(1, 1);
+            //App.mainframe.Content = new verseFrame(1, 1);
+
+            //App.mainframe.Content = new SubjectFrame();
+
+            //App.mainframe.Content = new SubjectItemsFrame();
+
+            //App.mainframe.Content = new SubjectItem();
+
+            // App.mainframe.Content = new SubjectItemFrame(13, "Fâtiha Suresinin 1 Ayeti", "Meltdown", "31.08.2022 19:54:27");
         }
 
         private void appClosed_Click(object sender, RoutedEventArgs e)
@@ -82,7 +94,11 @@ namespace KuranX.App.Core.Windows
             switch (btn_nav.Uid)
             {
                 case "nav_verses":
-                    App.mainframe.Content = new versesFrame();
+                    App.mainframe.Content = new versesFrame(App.currentVersesPageD[0], App.currentVersesPageD[1]);
+                    break;
+
+                case "nav_subject":
+                    App.mainframe.Content = new SubjectFrame();
                     break;
 
                 default:

@@ -16,6 +16,7 @@ namespace KuranX.App.Core.Classes
         public string? LandingLocation { get; set; }
         public int? DeskLanding { get; set; }
         public int? DeskMushaf { get; set; }
+        public int? DeskList { get; set; }
         public string? Status { get; set; }
         public string? Description { get; set; }
     }

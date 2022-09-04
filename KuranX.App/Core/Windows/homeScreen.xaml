@@ -107,8 +107,8 @@
 
                 <StackPanel Orientation="Vertical" x:Name="menuButton">
                     <Button Uid="nav_verses" Style="{DynamicResource hmwnd_menuButton}" Tag="/resource/images/icon/koran_rb.png" Content="Ayetler" Click="navEnter_Click" />
-                    <Button Uid="nav_tesfir" Style="{DynamicResource hmwnd_menuButton}" Tag="/resource/images/icon/koran_rb.png" Content="Tesfir Oku" Click="navEnter_Click" />
-                    <Button Uid="nav_subject" Style="{DynamicResource hmwnd_menuButton}" Tag="/resource/images/icon/ayetSubject_rb.png" Content="Ayet Konularım" Click="navEnter_Click" />
+                    <!--<Button Uid="nav_tesfir" Style="{DynamicResource hmwnd_menuButton}" Tag="/resource/images/icon/koran_rb.png" Content="Tesfir Oku" Click="navEnter_Click" />-->
+                    <Button Uid="nav_subject" Style="{DynamicResource hmwnd_menuButton}" Tag="/resource/images/icon/ayetSubject_rb.png" Content="Konularım" Click="navEnter_Click" />
                     <Button Uid="nav_library" Style="{DynamicResource hmwnd_menuButton}" Tag="/resource/images/icon/library_rb.png" Content="Kütüphane" Click="navEnter_Click" />
                     <Button Uid="nav_notes" Style="{DynamicResource hmwnd_menuButton}" Tag="/resource/images/icon/notes_rb.png" Content="Notlar" Click="navEnter_Click" />
                     <!--  <Button Style="{DynamicResource hmwnd_menuButton}" Tag="/resource/images/icon/favorite_rb.png" Content="Favoriler" />-->

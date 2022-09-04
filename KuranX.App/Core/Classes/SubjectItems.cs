@@ -13,6 +13,7 @@ namespace KuranX.App.Core.Classes
         public int? SureId { get; set; }
         public int? VerseId { get; set; }
         public int? SubjectNotesId { get; set; }
+        public string? SubjectName { get; set; }
         public DateTime Created { get; set; } = DateTime.Now;
         public DateTime Modify { get; set; } = DateTime.Now;
     }
