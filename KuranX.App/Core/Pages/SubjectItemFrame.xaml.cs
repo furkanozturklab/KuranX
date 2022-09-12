@@ -26,8 +26,8 @@ namespace KuranX.App.Core.Pages
     {
         private List<SubjectItems> dSubjectItems = new List<SubjectItems>();
         private List<Verse> dVerseItems = new List<Verse>();
+        private List<Notes> dTempNotes = new List<Notes>();
         private DispatcherTimer timeSpan = new DispatcherTimer(DispatcherPriority.Render);
-
         private int currentSubjectItemsId;
 
         public SubjectItemFrame()
@@ -107,7 +107,33 @@ namespace KuranX.App.Core.Pages
 
         private void noteButton_Click(object sender, RoutedEventArgs e)
         {
-            addNewConnect.IsOpen = true;
+            using (var entitydb = new AyetContext())
+            {
+                addNewConnect.IsOpen = true;
+
+                var dNotes = (List<Notes>)entitydb.Notes.Where(p => p.SubjectId == currentSubjectItemsId).ToList();
+                int i = 1;
+                foreach (var item in dNotes)
+                {
+                    if (i == 8)
+                    {
+                        allShowNoteButton.Dispatcher.Invoke(() =>
+                        {
+                            allShowNoteButton.Visibility = Visibility.Visible;
+                        });
+
+                        break;
+                    }
+
+                    ItemsControl dControlTemp = (ItemsControl)this.FindName("mvc" + i);
+
+                    dTempNotes.Add(item);
+                    dControlTemp.ItemsSource = dTempNotes;
+                    dTempNotes.Clear();
+
+                    i++;
+                }
+            }
         }
 
         private void noteDetailPopup_Click(object sender, RoutedEventArgs e)
@@ -115,10 +141,31 @@ namespace KuranX.App.Core.Pages
             try
             {
                 Button? tmpbutton = sender as Button;
+                noteConnectDetailText.IsOpen = true;
+
+                using (var entitydb = new AyetContext())
+                {
+                    var dnotes = entitydb.Notes.Where(p => p.NotesId == int.Parse(tmpbutton.Uid)).Select(p => new Notes() { NoteHeader = p.NoteHeader, NoteDetail = p.NoteDetail }).FirstOrDefault();
+
+                    meaningDetailTextHeader.Text = dnotes.NoteHeader;
+                    noteOpenDetailText.Text = dnotes.NoteDetail;
+                }
             }
             catch (Exception ex)
             {
                 App.logWriter("Other", ex);
+            }
+        }
+
+        private void noteOpenDetailTextBack_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                noteConnectDetailText.IsOpen = false;
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("PopupAction", ex);
             }
         }
 
@@ -128,7 +175,6 @@ namespace KuranX.App.Core.Pages
             {
                 Button? btntemp = sender as Button;
                 var popuptemp = (Popup)this.FindName(btntemp.Uid);
-
                 popuptemp.IsOpen = false;
             }
             catch (Exception ex)
@@ -139,7 +185,6 @@ namespace KuranX.App.Core.Pages
 
         private void noteSubjectAddButtonP_Click(object sender, RoutedEventArgs e)
         {
-            Debug.WriteLine("Open");
             noteAddPopup.IsOpen = true;
         }
 
@@ -284,6 +329,60 @@ namespace KuranX.App.Core.Pages
         private void openVerseButton_Click(object sender, RoutedEventArgs e)
         {
             App.mainframe.Content = new stickVerseFrame((int)dSubjectItems[0].VerseId, (int)dSubjectItems[0].SureId, "0", "0", "Hidden");
+        }
+
+        private void allShowNoteButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                notesAllShowPopup.IsOpen = true;
+
+                using (var entitydb = new AyetContext())
+                {
+                    var dInteg = entitydb.Notes.Where(p => p.SubjectId == currentSubjectItemsId).ToList();
+
+                    foreach (var item in dInteg)
+                    {
+                        StackPanel itemsStack = new StackPanel();
+                        TextBlock headerText = new TextBlock();
+                        TextBlock noteText = new TextBlock();
+                        Button allshowButton = new Button();
+                        Separator sp = new Separator();
+
+                        itemsStack.Style = (Style)FindResource("dynamicItemStackpanel");
+                        headerText.Style = (Style)FindResource("dynamicItemTextHeader");
+                        noteText.Style = (Style)FindResource("dynamicItemTextNote");
+                        allshowButton.Style = (Style)FindResource("dynamicItemShowButton");
+                        sp.Style = (Style)FindResource("dynamicItemShowSperator");
+
+                        headerText.Text = item.NoteHeader.ToString();
+                        noteText.Text = item.NoteDetail.ToString();
+                        allshowButton.Uid = item.NotesId.ToString();
+                        allshowButton.Content = item.NoteDetail.ToString();
+
+                        allshowButton.Click += notesDetailPopup_Click;
+
+                        itemsStack.Children.Add(headerText);
+                        itemsStack.Children.Add(noteText);
+                        itemsStack.Children.Add(allshowButton);
+                        itemsStack.Children.Add(sp);
+
+                        notesAllShowPopupStackPanel.Children.Add(itemsStack);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("PopupAction", ex);
+            }
+        }
+
+        private void notesDetailPopup_Click(object sender, RoutedEventArgs e)
+        {
+            noteConnectDetailText.IsOpen = true;
+
+            Button btn = sender as Button;
+            noteOpenDetailText.Text = btn.Content.ToString();
         }
     }
 }

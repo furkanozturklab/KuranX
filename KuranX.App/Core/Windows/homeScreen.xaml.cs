@@ -11,8 +11,6 @@ namespace KuranX.App.Core.Windows
     /// </summary>
     public partial class homeScreen : Window
     {
-        public static TextBlock locationTxt;
-
         public homeScreen()
         {
             InitializeComponent();
@@ -21,8 +19,8 @@ namespace KuranX.App.Core.Windows
             App.currentVersesPageD[1] = 0;
 
             App.mainframe = (Frame)this.FindName("homeFrame");
-            locationTxt = (TextBlock)this.FindName("UserLocationText");
-            locationTxt.Text = "Ayetler";
+            App.locationTxt = (TextBlock)this.FindName("UserLocationText");
+            App.locationTxt.Text = "Ayetler";
         }
 
         private void enterFullScreenIcon_Click(object sender,
@@ -65,7 +63,9 @@ namespace KuranX.App.Core.Windows
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            App.mainframe.Content = new versesFrame(App.currentVersesPageD[0], App.currentVersesPageD[1]);
+            App.locationTxt.Text = "AnaSayfa";
+
+            App.mainframe.Content = new versesFrame(App.currentVersesPageD[0], App.currentVersesPageD[1], "Hepsi");
 
             //App.mainframe.Content = new verseFrame(1, 1);
 
@@ -75,7 +75,7 @@ namespace KuranX.App.Core.Windows
 
             //App.mainframe.Content = new SubjectItem();
 
-            // App.mainframe.Content = new SubjectItemFrame(13, "Fâtiha Suresinin 1 Ayeti", "Meltdown", "31.08.2022 19:54:27");
+            //App.mainframe.Content = new SubjectItemFrame(13, "Fâtiha Suresinin 1 Ayeti", "Meltdown", "31.08.2022 19:54:27");
         }
 
         private void appClosed_Click(object sender, RoutedEventArgs e)
@@ -94,7 +94,8 @@ namespace KuranX.App.Core.Windows
             switch (btn_nav.Uid)
             {
                 case "nav_verses":
-                    App.mainframe.Content = new versesFrame(App.currentVersesPageD[0], App.currentVersesPageD[1]);
+                    App.currentDesktype = "DeskLanding";
+                    App.mainframe.Content = new versesFrame(1, 0, "Hepsi");
                     break;
 
                 case "nav_subject":

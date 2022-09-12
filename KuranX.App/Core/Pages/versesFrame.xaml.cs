@@ -21,20 +21,43 @@ namespace KuranX.App.Core.Pages
         private List<Sure> verses = new List<Sure>();
         private int NowPage, CurrentSkip, tempRelativeVerseId, tempSureId;
         private Task PageItemLoadTask;
-        private string Landing, DeskType, VersesStatus;
+        private string Landing, VersesStatus;
         private bool tempCheck = false, tempCheck1 = false;
         private DispatcherTimer timeSpan = new DispatcherTimer(DispatcherPriority.Render);
 
-        public versesFrame(int nowPageD, int CurrentSkipD)
+        public versesFrame(int nowPageD, int CurrentSkipD, string LandingD)
         {
             try
             {
                 InitializeComponent();
-                nextpageButton.IsEnabled = false;
-                previusPageButton.IsEnabled = false;
+
                 NowPage = nowPageD;
                 CurrentSkip = CurrentSkipD;
+                Landing = LandingD;
+
+                if (Landing != "Hepsi") deskingStack.Visibility = Visibility.Hidden;
+
+                switch (Landing)
+                {
+                    case "Hepsi":
+                        landingCombobox.SelectedIndex = 0;
+
+                        break;
+
+                    case "Mekke":
+                        landingCombobox.SelectedIndex = 1;
+
+                        break;
+
+                    case "Medine":
+                        landingCombobox.SelectedIndex = 2;
+
+                        break;
+                }
+
                 VersesStatus = "All";
+                nextpageButton.IsEnabled = false;
+                previusPageButton.IsEnabled = false;
             }
             catch (Exception ex)
             {
@@ -42,14 +65,56 @@ namespace KuranX.App.Core.Pages
             }
         }
 
+        public void controlDisable()
+        {
+            this.Dispatcher.Invoke(() =>
+            {
+                allCheck.IsEnabled = false;
+                readCheck.IsEnabled = false;
+                noraedCheck.IsEnabled = false;
+                gotoMarkLocation.IsEnabled = false;
+                previusPageButton.IsEnabled = false;
+                nextpageButton.IsEnabled = false;
+                landingCombobox.IsEnabled = false;
+                deskingCombobox.IsEnabled = false;
+
+                loadinGifContent.Visibility = Visibility.Visible;
+                loadingPanel.Visibility = Visibility.Hidden;
+            });
+        }
+
+        public void controlActive()
+        {
+            this.Dispatcher.Invoke(() =>
+            {
+                allCheck.IsEnabled = true;
+                readCheck.IsEnabled = true;
+                noraedCheck.IsEnabled = true;
+                gotoMarkLocation.IsEnabled = true;
+                landingCombobox.IsEnabled = true;
+                deskingCombobox.IsEnabled = true;
+
+                loadinGifContent.Visibility = Visibility.Collapsed;
+                loadingPanel.Visibility = Visibility.Visible;
+            });
+        }
+
         private void loadVerses()
         {
             try
             {
+                controlDisable();
+
                 using (var entitydb = new AyetContext())
                 {
                     List<Sure> VersesList;
                     decimal totalCount;
+
+                    deskingCombobox.Dispatcher.Invoke(() =>
+                    {
+                        if (App.currentDesktype == "DeskLanding") deskingCombobox.SelectedIndex = 0;
+                        else deskingCombobox.SelectedIndex = 1;
+                    });
 
                     // ItemsSourceClear
                     for (int x = 1; x < 16; x++)
@@ -57,30 +122,34 @@ namespace KuranX.App.Core.Pages
                         this.Dispatcher.Invoke(() =>
                         {
                             ItemsControl itemslist = (ItemsControl)this.FindName("aIcontrol" + x);
-                            //itemslist.Items.Clear();
                             itemslist.ItemsSource = null;
                         });
                     }
 
+                    // Filter
                     if (VersesStatus == "All")
                     {
                         // TÜMÜ
-                        totalCount = decimal.Parse(entitydb.Sure.ToList().Count().ToString());
 
                         if (Landing != "Hepsi")
                         {
-                            if (DeskType == "İnişe Göre")
+                            totalCount = decimal.Parse(entitydb.Sure.Where(p => p.LandingLocation == Landing).ToList().Count().ToString());
+
+                            if (App.currentDesktype == "DeskLanding")
                             {
-                                VersesList = (List<Sure>)entitydb.Sure.Where(p => p.LandingLocation == Landing).OrderBy(p => p.DeskLanding).Skip(CurrentSkip).Take(15).ToList();
+                                if (App.currentLanding == "Hepsi") VersesList = (List<Sure>)entitydb.Sure.Where(p => p.LandingLocation == Landing).OrderBy(p => p.DeskLanding).Skip(CurrentSkip).Take(15).ToList();
+                                else VersesList = (List<Sure>)entitydb.Sure.Where(p => p.LandingLocation == App.currentLanding).OrderBy(p => p.DeskLanding).Skip(CurrentSkip).Take(15).ToList();
                             }
                             else
                             {
-                                VersesList = (List<Sure>)entitydb.Sure.Where(p => p.LandingLocation == Landing).OrderBy(p => p.DeskMushaf).Skip(CurrentSkip).Take(15).ToList();
+                                if (App.currentLanding == "Hepsi") VersesList = (List<Sure>)entitydb.Sure.Where(p => p.LandingLocation == Landing).OrderBy(p => p.DeskMushaf).Skip(CurrentSkip).Take(15).ToList();
+                                else VersesList = (List<Sure>)entitydb.Sure.Where(p => p.LandingLocation == App.currentLanding).OrderBy(p => p.DeskMushaf).Skip(CurrentSkip).Take(15).ToList();
                             }
                         }
                         else
                         {
-                            if (DeskType == "İnişe Göre")
+                            totalCount = decimal.Parse(entitydb.Sure.ToList().Count().ToString());
+                            if (App.currentDesktype == "DeskLanding")
                             {
                                 VersesList = (List<Sure>)entitydb.Sure.OrderBy(p => p.DeskLanding).Skip(CurrentSkip).Take(15).ToList();
                             }
@@ -94,11 +163,10 @@ namespace KuranX.App.Core.Pages
                     {
                         // OKUDUKLARIM
 
-                        totalCount = decimal.Parse(entitydb.Sure.Where(p => p.Status == "#66E21F").ToList().Count().ToString());
-
                         if (Landing != "Hepsi")
                         {
-                            if (DeskType == "İnişe Göre")
+                            totalCount = decimal.Parse(entitydb.Sure.Where(p => p.LandingLocation == Landing).ToList().Count().ToString());
+                            if (App.currentDesktype == "DeskLanding")
                             {
                                 VersesList = (List<Sure>)entitydb.Sure.Where(p => p.LandingLocation == Landing).Where(p => p.Status == "#66E21F").OrderBy(p => p.DeskLanding).Skip(CurrentSkip).Take(15).ToList();
                             }
@@ -109,7 +177,9 @@ namespace KuranX.App.Core.Pages
                         }
                         else
                         {
-                            if (DeskType == "İnişe Göre")
+                            totalCount = decimal.Parse(entitydb.Sure.Where(p => p.Status == "#66E21F").ToList().Count().ToString());
+
+                            if (App.currentDesktype == "DeskLanding")
                             {
                                 VersesList = (List<Sure>)entitydb.Sure.Where(p => p.Status == "#66E21F").OrderBy(p => p.DeskLanding).Skip(CurrentSkip).Take(15).ToList();
                             }
@@ -122,10 +192,11 @@ namespace KuranX.App.Core.Pages
                     else
                     {
                         // Okumadıklarım
-                        totalCount = decimal.Parse(entitydb.Sure.Where(p => p.Status == "#ADB5BD").ToList().Count().ToString());
+
                         if (Landing != "Hepsi")
                         {
-                            if (DeskType == "İnişe Göre")
+                            totalCount = decimal.Parse(entitydb.Sure.Where(p => p.LandingLocation == Landing).ToList().Count().ToString());
+                            if (App.currentDesktype == "DeskLanding")
                             {
                                 VersesList = (List<Sure>)entitydb.Sure.Where(p => p.LandingLocation == Landing).Where(p => p.Status == "#ADB5BD").OrderBy(p => p.DeskLanding).Skip(CurrentSkip).Take(15).ToList();
                             }
@@ -136,7 +207,9 @@ namespace KuranX.App.Core.Pages
                         }
                         else
                         {
-                            if (DeskType == "İnişe Göre")
+                            totalCount = decimal.Parse(entitydb.Sure.Where(p => p.Status == "#ADB5BD").ToList().Count().ToString());
+
+                            if (App.currentDesktype == "DeskLanding")
                             {
                                 VersesList = (List<Sure>)entitydb.Sure.Where(p => p.Status == "#ADB5BD").OrderBy(p => p.DeskLanding).Skip(CurrentSkip).Take(15).ToList();
                             }
@@ -178,23 +251,12 @@ namespace KuranX.App.Core.Pages
                         nextpageButton.Dispatcher.Invoke(() =>
                         {
                             if (NowPage != totalCount) nextpageButton.IsEnabled = true;
+                            else if (NowPage == totalCount) nextpageButton.IsEnabled = false;
                         });
                         previusPageButton.Dispatcher.Invoke(() =>
                         {
                             if (NowPage != 1) previusPageButton.IsEnabled = true;
-                        });
-
-                        allCheck.Dispatcher.Invoke(() =>
-                        {
-                            allCheck.IsEnabled = true;
-                        });
-                        readCheck.Dispatcher.Invoke(() =>
-                        {
-                            readCheck.IsEnabled = true;
-                        });
-                        noraedCheck.Dispatcher.Invoke(() =>
-                        {
-                            noraedCheck.IsEnabled = true;
+                            else if (NowPage == 1) previusPageButton.IsEnabled = false;
                         });
                     }
                     else
@@ -211,30 +273,9 @@ namespace KuranX.App.Core.Pages
                         {
                             previusPageButton.IsEnabled = false;
                         });
-
-                        allCheck.Dispatcher.Invoke(() =>
-                        {
-                            allCheck.IsEnabled = true;
-                        });
-                        readCheck.Dispatcher.Invoke(() =>
-                        {
-                            readCheck.IsEnabled = true;
-                        });
-                        noraedCheck.Dispatcher.Invoke(() =>
-                        {
-                            noraedCheck.IsEnabled = true;
-                        });
                     }
 
-                    loadinGifContent.Dispatcher.Invoke(() =>
-                    {
-                        loadinGifContent.Visibility = Visibility.Collapsed;
-                    });
-
-                    gotoMarkLocation.Dispatcher.Invoke(() =>
-                    {
-                        gotoMarkLocation.IsEnabled = true;
-                    });
+                    controlActive();
                 }
             }
             catch (Exception ex)
@@ -247,6 +288,7 @@ namespace KuranX.App.Core.Pages
         {
             try
             {
+                controlDisable();
                 PageItemLoadTask = new Task(loadVerses);
                 PageItemLoadTask.Start();
             }
@@ -260,10 +302,10 @@ namespace KuranX.App.Core.Pages
         {
             try
             {
-                var item = deskingCombobox.SelectedItem as ComboBoxItem;
-                DeskType = item.Content.ToString();
                 if (tempCheck)
                 {
+                    var item = deskingCombobox.SelectedItem as ComboBoxItem;
+
                     switch (item.Content)
                     {
                         case "İnişe Göre":
@@ -275,8 +317,7 @@ namespace KuranX.App.Core.Pages
                             break;
                     }
                     ChangeStatusPage();
-                    NowPage = 1;
-                    CurrentSkip = 0;
+
                     PageItemLoadTask = new Task(loadVerses);
                     PageItemLoadTask.Start();
                 }
@@ -292,15 +333,14 @@ namespace KuranX.App.Core.Pages
         {
             try
             {
-                allCheck.IsChecked = false;
-                readCheck.IsChecked = false;
-                noraedCheck.IsChecked = false;
                 RadioButton checkedval = sender as RadioButton;
                 checkedval.IsChecked = true;
                 NowPage = 1;
                 CurrentSkip = 0;
                 ChangeStatusPage();
                 VersesStatus = checkedval.Tag.ToString();
+
+                App.currentLanding = (string)checkedval.Tag;
                 PageItemLoadTask = new Task(loadVerses);
                 PageItemLoadTask.Start();
             }
@@ -314,17 +354,28 @@ namespace KuranX.App.Core.Pages
         {
             try
             {
-                var item = landingCombobox.SelectedItem as ComboBoxItem;
-                Landing = item.Content.ToString();
-                if (tempCheck1)
+                if (App.selectedBlock)
                 {
-                    ChangeStatusPage();
-                    NowPage = 1;
-                    CurrentSkip = 0;
-                    PageItemLoadTask = new Task(loadVerses);
-                    PageItemLoadTask.Start();
+                    var item = landingCombobox.SelectedItem as ComboBoxItem;
+                    App.currentLanding = (string)item.Content;
+                    Landing = item.Content.ToString();
+                    if (tempCheck1)
+                    {
+                        if (Landing != "Hepsi") deskingStack.Visibility = Visibility.Hidden;
+                        else deskingStack.Visibility = Visibility.Visible;
+
+                        ChangeStatusPage();
+                        NowPage = 1;
+                        CurrentSkip = 0;
+                        PageItemLoadTask = new Task(loadVerses);
+                        PageItemLoadTask.Start();
+                    }
+                    else tempCheck1 = true;
                 }
-                else tempCheck1 = true;
+                else
+                {
+                    App.selectedBlock = true;
+                }
             }
             catch (Exception ex)
             {
@@ -336,13 +387,6 @@ namespace KuranX.App.Core.Pages
         {
             try
             {
-                nextpageButton.IsEnabled = false;
-                previusPageButton.IsEnabled = false;
-                allCheck.IsEnabled = false;
-                readCheck.IsEnabled = false;
-                noraedCheck.IsEnabled = false;
-                PageItemLoadTask.Dispose();
-                loadinGifContent.Visibility = Visibility.Visible;
             }
             catch (Exception ex)
             {
@@ -391,6 +435,9 @@ namespace KuranX.App.Core.Pages
                 NowPage++;
                 CurrentSkip += 15;
 
+                previusPageButton.IsEnabled = false;
+                nextpageButton.IsEnabled = false;
+
                 App.currentVersesPageD[0] = NowPage;
                 App.currentVersesPageD[1] = CurrentSkip;
                 PageItemLoadTask = new Task(loadVerses);
@@ -422,6 +469,9 @@ namespace KuranX.App.Core.Pages
                 ChangeStatusPage();
                 NowPage--;
                 CurrentSkip -= 15;
+
+                previusPageButton.IsEnabled = false;
+                nextpageButton.IsEnabled = false;
 
                 App.currentVersesPageD[0] = NowPage;
                 App.currentVersesPageD[1] = CurrentSkip;

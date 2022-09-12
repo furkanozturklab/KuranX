@@ -114,6 +114,7 @@
                     <!--  <Button Style="{DynamicResource hmwnd_menuButton}" Tag="/resource/images/icon/favorite_rb.png" Content="Favoriler" />-->
                     <Button Uid="nav_reminder" Style="{DynamicResource hmwnd_menuButton}" Tag="/resource/images/icon/reminders_rb.png" Content="Hatırlatıcı" Click="navEnter_Click" />
                     <Button Uid="nav_result" Style="{DynamicResource hmwnd_menuButton}" Tag="/resource/images/icon/conclusion_rb.png" Content="Sonuc" Click="navEnter_Click" />
+                    <Button Uid="nav_result" Style="{DynamicResource hmwnd_menuButton}" Tag="/resource/images/icon/conclusion_rb.png" Content="Kullanıcı Yardımı" Click="navEnter_Click" />
                 </StackPanel>
             </Border>
 

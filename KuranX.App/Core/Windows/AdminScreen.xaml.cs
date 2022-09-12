@@ -62,8 +62,15 @@ namespace KuranX.App.Core.Windows
                         Verse.sureId = (int)rdr[0];
                         Verse.Name = (string)rdr[1];
                         Verse.NumberOfVerses = (int)rdr[2];
-                        Verse.DeskLanding = (int)rdr[3];
-                        Verse.DeskMushaf = (int)rdr[4];
+
+                        // DB DEN YANLIŞ YER YÜZÜNDEN LANDİNG VE MUSHAF KARIŞMIŞ
+
+                        Debug.WriteLine((int)rdr[4]);
+
+                        Verse.DeskLanding = (int)rdr[4];
+                        Verse.DeskMushaf = (int)rdr[3];
+
+                        // DB DEN YANLIŞ YER YÜZÜNDEN LANDİNG VE MUSHAF KARIŞMIŞ
                         Verse.LandingLocation = (string)rdr[5];
                         Verse.Description = (string)rdr[6];
                         Verse.Status = "#ADB5BD";

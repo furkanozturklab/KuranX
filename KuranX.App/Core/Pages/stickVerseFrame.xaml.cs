@@ -29,10 +29,8 @@ namespace KuranX.App.Core.Pages
         private List<Sure> dSure = new List<Sure>();
         private List<Verse> dVerse, dVerseNav, tempVerses = new List<Verse>();
         private List<Interpreter> dInterpreter = new List<Interpreter>();
-        private List<ItemsControl> controlitemsList = new List<ItemsControl>();
         private Task PageItemLoadTask;
         private CheckBox chk;
-        private ComboBoxItem cmbtmp = new ComboBoxItem();
         private DispatcherTimer timeSpan = new DispatcherTimer(DispatcherPriority.Render);
         private string InterpreterWrite, verseName;
         public int activeSure, activeVerse, tempDataInt = 0, lastVerse, getpopupRelativeId;
@@ -82,30 +80,24 @@ namespace KuranX.App.Core.Pages
                 }
                 else lastVerse = 0;
 
-                controlitemsList.Add(vb1);
-                controlitemsList.Add(vb2);
-                controlitemsList.Add(vb3);
-                controlitemsList.Add(vb4);
-                controlitemsList.Add(vb5);
-                controlitemsList.Add(vb6);
-                controlitemsList.Add(vb7);
-
                 using (var entitydb = new AyetContext())
                 {
                     dSure = (List<Sure>)entitydb.Sure.Where(p => p.sureId == activeSure).ToList();
                     dVerseNav = (List<Verse>)entitydb.Verse.Where(p => p.SureId == activeSure).Select(p => new Verse() { VerseId = p.VerseId, RelativeDesk = p.RelativeDesk, Status = p.Status, VerseCheck = p.VerseCheck }).Skip(lastVerse).Take(8).ToList();
 
+                    if (activeVerse >= 8) activeVerse = (int)dVerseNav[0].VerseId;
+                    else activeVerse = (int)dVerseNav[tempDataInt].VerseId;
+
                     verseName = dSure[0].Name;
                     tempDataInt = activeVerse;
                     tempDataInt--;
 
-                    if (activeVerse >= 8) activeVerse = (int)dVerseNav[0].VerseId;
-                    else activeVerse = (int)dVerseNav[tempDataInt].VerseId;
-
                     CurrentVerse.Tag = dVerseNav[0].RelativeDesk.ToString();
 
                     dVerse = (List<Verse>)entitydb.Verse.Where(p => p.SureId == activeSure).Where(p => p.VerseId == activeVerse).ToList();
-                    dInterpreter = (List<Interpreter>)entitydb.Interpreter.Where(p => p.verseId == tempDataInt).Where(p => p.sureId == activeSure).Where(p => p.interpreterWriter == InterpreterWrite).ToList();
+                    dInterpreter = (List<Interpreter>)entitydb.Interpreter.Where(p => p.verseId == activeVerse).Where(p => p.sureId == activeSure).Where(p => p.interpreterWriter == InterpreterWrite).ToList();
+
+                    Debug.WriteLine(dInterpreter[0].interpreterWriter);
                 }
             }
             catch (Exception ex)
@@ -189,8 +181,9 @@ namespace KuranX.App.Core.Pages
 
                 using (var entitydb = new AyetContext())
                 {
-                    var dWords = entitydb.Words.Where(p => p.SureId == dSure[0].sureId).Where(p => p.VerseId == dVerse[0].RelativeDesk).ToList();
+                    var dWords = entitydb.Words.Where(p => p.SureId == dSure[0].sureId).Where(p => p.VerseId == dVerse[0].VerseId).ToList();
 
+                    dynamicWordDetail.Children.Clear();
                     foreach (var item in dWords)
                     {
                         StackPanel itemsStack = new StackPanel();
@@ -207,7 +200,7 @@ namespace KuranX.App.Core.Pages
                         itemsStack.Children.Add(text);
                         itemsStack.Children.Add(re);
 
-                        wordsAllShowPopupStackPanel.Children.Add(itemsStack);
+                        dynamicWordDetail.Children.Add(itemsStack);
                     }
                 }
             }
@@ -371,9 +364,9 @@ namespace KuranX.App.Core.Pages
                     CurrentVerse.Tag = dVerse[0].RelativeDesk.ToString();
                 });
 
-                homeScreen.locationTxt.Dispatcher.Invoke(() =>
+                App.locationTxt.Dispatcher.Invoke(() =>
                 {
-                    homeScreen.locationTxt.Text = "Ayetler >" + " " + dSure[0].Name;
+                    App.locationTxt.Text = "Ayetler >" + " " + dSure[0].Name;
                 });
             }
             catch (Exception ex)

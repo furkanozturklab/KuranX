@@ -17,7 +17,10 @@ namespace KuranX.App
     {
         public static Frame? mainframe;
         public static string currentDesktype = "DeskLanding";
+        public static string currentLanding = "Hepsi";
         public static int[] currentVersesPageD = new int[2];
+        public static TextBlock locationTxt;
+        public static bool selectedBlock = true;
 
         public static void logWriter(string type, Exception exe)
         {

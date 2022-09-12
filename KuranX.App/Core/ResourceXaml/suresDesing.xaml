@@ -541,4 +541,19 @@
 
         <Setter Property="FontFamily" Value="{DynamicResource PoppinsSemiBold}" />
     </Style>
+
+    <Style x:Key="loadingPanel" TargetType="Grid">
+        <Style.Triggers>
+            <Trigger Property="Visibility" Value="Visible">
+                <Trigger.EnterActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                             From="0.0" To="1.0" Duration="0:0:0.4" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.EnterActions>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
 </ResourceDictionary>

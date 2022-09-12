@@ -19,7 +19,7 @@
             <RowDefinition Height="85" />
         </Grid.RowDefinitions>
 
-        <Grid x:Name="loadinGifContent"  Grid.Row="1" Background="#FAFAFA" Panel.ZIndex="5">
+        <Grid x:Name="loadinGifContent" Grid.Row="1" Background="#FAFAFA" Panel.ZIndex="5">
             <Image gif:ImageBehavior.AnimatedSource="/Resource/Images/Gif/Spinner800.gif" Width="250" Height="250"  RenderOptions.BitmapScalingMode="HighQuality" />
         </Grid>
 
@@ -157,7 +157,7 @@
 
         <Grid Grid.Row="0">
 
-            <Button IsEnabled="False" x:Name="gotoMarkLocation" Style="{DynamicResource wheristayButton}" VerticalAlignment="Top" Click="gotoMarkLocation_Click" />
+            <Button x:Name="gotoMarkLocation" Style="{DynamicResource wheristayButton}" VerticalAlignment="Top" Click="gotoMarkLocation_Click" />
 
             <Border Grid.Row="1" Height="60"  BorderThickness="0,0,0,2" BorderBrush="#FFACACAC" VerticalAlignment="Bottom">
                 <Grid>
@@ -185,7 +185,7 @@
                                 </ComboBox>
                             </StackPanel>
 
-                            <StackPanel Margin="0,0,25,0">
+                            <StackPanel Margin="0,0,25,0" x:Name="deskingStack">
                                 <TextBlock Text="Okuma Sırası" Style="{DynamicResource ResourceKey=ayetlerNavComboboxHeaderText}" />
                                 <ComboBox x:Name="deskingCombobox" Margin="0 5 0 0" Style="{DynamicResource ResourceKey=ayetlerNavCombobox}" SelectedIndex="0" SelectionChanged="deskingCombobox_SelectionChanged">
                                     <ComboBoxItem Style="{DynamicResource ResourceKey=ayetlerNavComboboxItems}" Content="İnişe Göre" />
@@ -198,7 +198,7 @@
             </Border>
         </Grid>
 
-        <Grid Grid.Row="1">
+        <Grid x:Name="loadingPanel" Grid.Row="1" Style="{DynamicResource loadingPanel}">
             <Grid x:Name="gelicek">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />

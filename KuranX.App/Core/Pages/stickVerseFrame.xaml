@@ -273,7 +273,7 @@
 
                             <ScrollViewer Grid.ColumnSpan="2" Grid.Row="0" Padding="20">
                                 <StackPanel x:Name="wordsAllShowPopupStackPanel">
-                                    <StackPanel Orientation="Horizontal">
+                                    <StackPanel Orientation="Horizontal" x:Name="staticWordHeader">
                                         <StackPanel Margin="10 0 10 0">
                                             <TextBlock  Style="{DynamicResource wordHeader}" Text="KÖK" />
                                             <Separator Style="{DynamicResource dynamicItemShowSperator}" Width="200" />
@@ -282,6 +282,8 @@
                                             <TextBlock Style="{DynamicResource wordHeader}" Text="ANLAMI" />
                                             <Separator Style="{DynamicResource dynamicItemShowSperator}" Width="200" />
                                         </StackPanel>
+                                    </StackPanel>
+                                    <StackPanel x:Name="dynamicWordDetail">
                                     </StackPanel>
                                 </StackPanel>
                             </ScrollViewer>
@@ -406,11 +408,11 @@
                                             <ColumnDefinition Width="*" />
                                         </Grid.ColumnDefinitions>
                                         <StackPanel Orientation="Vertical" Grid.Column="0" HorizontalAlignment="Left" Margin="10,0,10,0">
-                                            <TextBlock Margin="15 5 30 5" TextTrimming="CharacterEllipsis" Text="{Binding VerseTr}" VerticalAlignment="Center" FontSize="22" Foreground="#FF1C1E2F" FontFamily="{DynamicResource PoppinsMedium}" />
+                                            <TextBlock Margin="15 5 30 5" TextTrimming="CharacterEllipsis" Text="{Binding VerseTr}" VerticalAlignment="Center" FontSize="24" Foreground="#FF1C1E2F" FontFamily="{DynamicResource PoppinsMedium}" />
                                             <Button Visibility="Visible" x:Name="fulltextTr" Style="{DynamicResource versesAllShowButton}" Tag="Tamamını Göster"  Click="trFullTextLoad" />
                                         </StackPanel>
                                         <StackPanel Orientation="Vertical" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0,10,0">
-                                            <TextBlock Margin="15 5 30 5" TextTrimming="CharacterEllipsis" Text="{Binding VerseArabic}" FontSize="22" Foreground="#FF1C1E2F" FontFamily="XB Zar" />
+                                            <TextBlock Margin="15 5 30 5" TextTrimming="CharacterEllipsis" Text="{Binding VerseArabic}" FontSize="24" Foreground="#FF1C1E2F" FontFamily="XB Zar" />
                                             <Button Visibility="Visible" x:Name="fulltextArabic" Style="{DynamicResource versesAllShowButton}" Tag="Tamamını Göster"  Click="arabicFullTextLoad" />
                                         </StackPanel>
                                     </Grid>
@@ -430,7 +432,7 @@
                                 <ItemsControl x:Name="versesFullTextData">
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
-                                            <TextBlock  Height="Auto" FontFamily="{DynamicResource PoppinsRegular}" FontSize="14" TextWrapping="Wrap" Text="{Binding interpreterDetail}" />
+                                            <TextBlock  Height="Auto" FontFamily="{DynamicResource PoppinsRegular}" FontSize="20" TextWrapping="Wrap" Text="{Binding interpreterDetail}" />
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>
@@ -438,7 +440,7 @@
 
                             <ScrollViewer x:Name="versesTrDataExtends" Visibility="Collapsed" Grid.Row="0" CanContentScroll="True"  HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Visible" Padding="10">
 
-                                <TextBlock Height="Auto" x:Name="versesTrDataExtendsText" FontSize="14" TextWrapping="Wrap" FontFamily="{DynamicResource PoppinsMedium}" />
+                                <TextBlock Height="Auto" x:Name="versesTrDataExtendsText" FontSize="20" TextWrapping="Wrap" FontFamily="{DynamicResource PoppinsMedium}" />
                             </ScrollViewer>
 
                             <ScrollViewer x:Name="versesArDataExtends" Visibility="Collapsed" Grid.Row="0" CanContentScroll="True"   HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Visible" Padding="10">
