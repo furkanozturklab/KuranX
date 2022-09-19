@@ -1,0 +1,43 @@
+﻿<Page x:Class="KuranX.App.Core.Pages.LibraryF.libraryFrame"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="clr-namespace:KuranX.App.Core.Pages"
+       xmlns:gif="http://wpfanimatedgif.codeplex.com"
+      mc:Ignorable="d"
+      d:DesignHeight="708" d:DesignWidth="1115" d:MaxHeight="708" d:MaxWidth="1270" d:MinWidth="1115"
+      Title="LibraryFrame" Background="#FAFAFA">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="200" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" Style="{DynamicResource defaultBorderShadowEffect}" Width="350" Height="100">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Button Style="{DynamicResource libraryHeader}" Tag="/resource/images/icon/library_rbx.png" />
+            </StackPanel>
+        </Border>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Button x:Name="libFileOpenFrame" Grid.Row="0" Grid.Column="0" Style="{DynamicResource libraryItems}" Width="350" Height="100" Tag="#212529" Content="Yüklenenler" Click="libFileOpenFrame_Click" />
+
+            <Button Grid.Row="0" Grid.Column="1" Style="{DynamicResource libraryItems}" Width="350" Height="100" Tag="#6610F2" Content="Notlarım" />
+
+            <Button x:Name="libPublisherOpenFrame" Grid.Row="1" Grid.Column="0" Style="{DynamicResource libraryItems}" Width="350" Height="100" Tag="#FD7E14" Content="Editor Seçimi" Click="libPublisherOpenFrame_Click" />
+        </Grid>
+    </Grid>
+</Page>

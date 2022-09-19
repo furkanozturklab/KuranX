@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Media;
 using KuranX.App.Core.Pages;
 
 namespace KuranX.App.Core.Windows
@@ -65,17 +66,25 @@ namespace KuranX.App.Core.Windows
         {
             App.locationTxt.Text = "AnaSayfa";
 
-            App.mainframe.Content = new versesFrame(App.currentVersesPageD[0], App.currentVersesPageD[1], "Hepsi");
+            //App.mainframe.Content = new versesFrame(App.currentVersesPageD[0], App.currentVersesPageD[1], "Hepsi");
 
             //App.mainframe.Content = new verseFrame(1, 1);
 
-            //App.mainframe.Content = new SubjectFrame();
+            //App.mainframe.Content = new Pages.SubjectF.SubjectFrame();
 
             //App.mainframe.Content = new SubjectItemsFrame();
 
             //App.mainframe.Content = new SubjectItem();
 
-            //App.mainframe.Content = new SubjectItemFrame(13, "Fâtiha Suresinin 1 Ayeti", "Meltdown", "31.08.2022 19:54:27");
+            //App.mainframe.Content = new Pages.SubjectF.SubjectItemFrame(13, "Fâtiha Suresinin 1 Ayeti", "Meltdown", "31.08.2022 19:54:27", (SolidColorBrush)new BrushConverter().ConvertFrom("#FFFFC107"));
+
+            // App.mainframe.Content = new libraryFrame();
+
+            // App.mainframe.Content = new Pages.LibraryF.libraryFileItemsFrame();
+
+            App.mainframe.Content = new Pages.LibraryF.libraryPublisherItemsFrame();
+
+            // App.mainframe.Content = new Pages.LibraryF.libraryOpenFile();
         }
 
         private void appClosed_Click(object sender, RoutedEventArgs e)
@@ -95,11 +104,15 @@ namespace KuranX.App.Core.Windows
             {
                 case "nav_verses":
                     App.currentDesktype = "DeskLanding";
-                    App.mainframe.Content = new versesFrame(1, 0, "Hepsi");
+                    App.mainframe.Content = new Pages.VerseF.versesFrame(1, 0, "Hepsi");
                     break;
 
                 case "nav_subject":
-                    App.mainframe.Content = new SubjectFrame();
+                    App.mainframe.Content = new Pages.SubjectF.SubjectFrame();
+                    break;
+
+                case "nav_library":
+                    App.mainframe.Content = new Pages.LibraryF.libraryFrame();
                     break;
 
                 default:

@@ -3,6 +3,7 @@ using System;
 using KuranX.App.Core.Classes;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KuranX.App.Migrations
 {
     [DbContext(typeof(AyetContext))]
-    partial class AyetContextModelSnapshot : ModelSnapshot
+    [Migration("20220917174303_testv8-hotfix10")]
+    partial class testv8hotfix10
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.9");
@@ -107,14 +109,7 @@ namespace KuranX.App.Migrations
                         .HasDefaultValue("#ADB5BD");
 
                     b.Property<int?>("PdfFileId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER")
-                        .HasDefaultValue(0);
-
-                    b.Property<int?>("PdfPageId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER")
-                        .HasDefaultValue(1);
+                        .HasColumnType("INTEGER");
 
                     b.Property<int?>("SubjectId")
                         .ValueGeneratedOnAdd()
@@ -152,12 +147,6 @@ namespace KuranX.App.Migrations
                     b.Property<string>("FileSize")
                         .IsRequired()
                         .HasColumnType("TEXT");
-
-                    b.Property<string>("FileType")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT")
-                        .HasDefaultValue("User");
 
                     b.Property<string>("FileUrl")
                         .IsRequired()

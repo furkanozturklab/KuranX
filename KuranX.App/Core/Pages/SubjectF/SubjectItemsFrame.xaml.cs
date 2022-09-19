@@ -1,9 +1,11 @@
 ﻿using KuranX.App.Core.Classes;
+using Org.BouncyCastle.Crypto.Generators;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -16,8 +18,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using Ubiety.Dns.Core.Records;
 
-namespace KuranX.App.Core.Pages
+namespace KuranX.App.Core.Pages.SubjectF
 {
     /// <summary>
     /// Interaction logic for SubjectItemsFrame.xaml
@@ -29,6 +32,7 @@ namespace KuranX.App.Core.Pages
         private List<SubjectItems> tempsubjectitems = new List<SubjectItems>();
         private Task PageItemLoadTask;
         private string subjectFolder, dcreate;
+        private SolidColorBrush dbg;
         private bool tempcheck = false;
         private DispatcherTimer timeSpan = new DispatcherTimer(DispatcherPriority.Render);
 
@@ -37,15 +41,15 @@ namespace KuranX.App.Core.Pages
             InitializeComponent();
         }
 
-        public SubjectItemsFrame(int subjectId, string subjectName, string create) : this()
+        public SubjectItemsFrame(int subjectId, string subjectName, string create, string bgcolor) : this()
         {
             loadHeader.Text = subjectName;
             loadCreated.Text = create;
             loadSubjectId = subjectId;
             subjectFolder = subjectName;
             dcreate = create;
-
-            Debug.WriteLine(loadSubjectId);
+            dbg = (SolidColorBrush)new BrushConverter().ConvertFrom(bgcolor);
+            loadHeaderColor.Background = dbg;
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
@@ -65,6 +69,7 @@ namespace KuranX.App.Core.Pages
         {
             try
             {
+                loadAni();
                 using (var entity = new AyetContext())
                 {
                     dsubjectItems = entity.SubjectItems.Where(p => p.SubjectId == loadSubjectId).Skip(lastSubjectItems).Take(21).ToList();
@@ -94,28 +99,22 @@ namespace KuranX.App.Core.Pages
                         if (i == 21) break; // 12 den fazla varmı kontrol etmek için koydum
                     }
 
-                    previusPageButton.Dispatcher.Invoke(() =>
+                    this.Dispatcher.Invoke(() =>
                     {
                         if (lastSubjectItems == 0) previusPageButton.IsEnabled = false;
                         else previusPageButton.IsEnabled = true;
-                    });
 
-                    nextpageButton.Dispatcher.Invoke(() =>
-                    {
                         if (dsubjectItems.Count() <= 20) nextpageButton.IsEnabled = false;
                         if (lastSubjectItems == 0 && dsubjectItems.Count() > 20) nextpageButton.IsEnabled = true;
-                    });
 
-                    totalcountText.Dispatcher.Invoke(() =>
-                    {
                         totalcountText.Tag = totalcount.ToString();
-                    });
 
-                    nowPageStatus.Dispatcher.Invoke(() =>
-                    {
                         nowPageStatus.Tag = NowPage + " / " + Math.Ceiling(decimal.Parse(totalcount.ToString()) / 20).ToString();
                     });
                 }
+
+                Thread.Sleep(200);
+                loadAniComplated();
             }
             catch (Exception ex)
             {
@@ -139,18 +138,27 @@ namespace KuranX.App.Core.Pages
 
         private void backPage_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.GoBack();
+            try
+            {
+                NavigationService.GoBack();
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Navigation", ex);
+            }
         }
 
         private void subjectItemsOpen_Click(object sender, RoutedEventArgs e)
         {
-            var btn = sender as Button;
-
-            Debug.WriteLine(btn.Uid.ToString());
-            Debug.WriteLine(btn.Content.ToString());
-            Debug.WriteLine(subjectFolder);
-            Debug.WriteLine(dcreate);
-            App.mainframe.Content = new SubjectItemFrame(int.Parse(btn.Uid.ToString()), btn.Content.ToString(), subjectFolder, dcreate);
+            try
+            {
+                var btn = sender as Button;
+                App.mainframe.Content = new SubjectItemFrame(int.Parse(btn.Uid.ToString()), btn.Content.ToString(), subjectFolder, dcreate, dbg);
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Frame", ex);
+            }
         }
 
         private void addnewConnectSubject_Click(object sender, RoutedEventArgs e)
@@ -175,7 +183,7 @@ namespace KuranX.App.Core.Pages
                             entitydb.SubjectItems.Add(dSubjectItem);
                             entitydb.SaveChanges();
                             succsessFunc("Ayet Ekleme Başarılı", "Seçmiş olduğunuz konuya ayet eklendi.", 3);
-                            Debug.WriteLine("Acc-Check");
+
                             loadChangeVerseFramePopup.IsOpen = false;
                             popupNextVerseId.Text = "1";
                             PageItemLoadTask = new Task(loadSubjectItems);
@@ -249,11 +257,57 @@ namespace KuranX.App.Core.Pages
 
         private void subjectItemsDeleteBtn_Click(object sender, RoutedEventArgs e)
         {
-            deleteSubjectpopup.IsOpen = true;
+            try
+            {
+                deleteSubjectpopup.IsOpen = true;
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Popup", ex);
+            }
         }
 
         private void deleteSubjectPopupBtn_Click(object sender, RoutedEventArgs e)
         {
+            try
+            {
+                using (var entitydb = new AyetContext())
+                {
+                    entitydb.SubjectItems.RemoveRange(entitydb.SubjectItems.Where(p => p.SubjectId == loadSubjectId));
+                    entitydb.Notes.RemoveRange(entitydb.Notes.Where(p => p.SubjectId == loadSubjectId));
+                    entitydb.Subject.RemoveRange(entitydb.Subject.Where(p => p.SubjectId == loadSubjectId));
+                    entitydb.SaveChanges();
+                    voidgobacktimer();
+                }
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Remove", ex);
+            }
+        }
+
+        private void voidgobacktimer()
+        {
+            try
+            {
+                backPage.IsEnabled = false;
+                newConnect.IsEnabled = false;
+                previusPageButton.IsEnabled = false;
+                nextpageButton.IsEnabled = false;
+
+                timeSpan.Interval = TimeSpan.FromSeconds(3);
+                timeSpan.Start();
+                succsessFunc("Konu Silme Başarılı", "Konuya ait tüm notlar ve eklenen ayetlerle birlikte silindi. Konularıma yönlendiriliyorsunuz...", 3);
+                timeSpan.Tick += delegate
+                {
+                    timeSpan.Stop();
+                    NavigationService.GoBack();
+                };
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("TimeSpan", ex);
+            }
         }
 
         private void popupClosed_Click(object sender, RoutedEventArgs e)
@@ -334,6 +388,42 @@ namespace KuranX.App.Core.Pages
             catch (Exception ex)
             {
                 App.logWriter("Other", ex);
+            }
+        }
+
+        private void loadAni()
+        {
+            try
+            {
+                this.Dispatcher.Invoke(() =>
+                {
+                    backPage.IsEnabled = false;
+                    newConnect.IsEnabled = false;
+                    previusPageButton.IsEnabled = false;
+                    nextpageButton.IsEnabled = false;
+                    loadinGifContent.Visibility = Visibility.Visible;
+                });
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Animation", ex);
+            }
+        }
+
+        private void loadAniComplated()
+        {
+            try
+            {
+                this.Dispatcher.Invoke(() =>
+                {
+                    backPage.IsEnabled = true;
+                    newConnect.IsEnabled = true;
+                    loadinGifContent.Visibility = Visibility.Collapsed;
+                });
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Animation", ex);
             }
         }
     }

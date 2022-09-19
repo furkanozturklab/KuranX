@@ -11,7 +11,7 @@ using System.Windows.Threading;
 using KuranX.App.Core.Classes;
 using Ubiety.Dns.Core;
 
-namespace KuranX.App.Core.Pages
+namespace KuranX.App.Core.Pages.VerseF
 {
     /// <summary>
     /// Interaction logic for ayetlerFrame.xaml

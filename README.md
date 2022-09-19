@@ -17,28 +17,30 @@
 
 	* [ ] ⚠️ ---------------
 
-	* [x] ⚠️ ~~1-7 sure arada arası secememe rağmen ~~
-	* [x] ⚠️ ~~ayetlerde tek tek gitme de ekle ciftlilerde 7 7 git. ~~
-	* [x] ⚠️ ~~ayetlere tek tek giderken üst bar güncellenmiyor ~~
+	* [x] ⚠️ ~~1-7 sure arada arası secememe rağmen~~
+	* [x] ⚠️ ~~ayetlerde tek tek gitme de ekle ciftlilerde 7 7 git.~~
+	* [x] ⚠️ ~~ayetlere tek tek giderken üst bar güncellenmiyor~~
 	* [x] ⚠️ ~~yorumları ve tr arp kısımları font size büyüt~~
-	* [x] ⚠️ ~~top nav anasayfa dönünce düzgün çalışmıyor. "Acil değil" ~~
-	* [x] ⚠️ ~~Son ayette sonra next buttonu bir sonraki ayetin başına gecsin ~~
+	* [x] ⚠️ ~~top nav anasayfa dönünce düzgün çalışmıyor. "Acil değil"~~
+	* [x] ⚠️ ~~Son ayette sonra next buttonu bir sonraki ayetin başına gecsin~~
 	* [x] ⚠️ ~~ilk stick gidişte yorumlayanlar cıkmıyor.~~
 	* [x] ⚠️ ~~stickpanel font size değişmemiş bazı kısımlar düzeltilecek~~
 	* [x] ⚠️ ~~stickpanelde kelime kökleri~~
 	* [x] ⚠️ ~~mushaf sırasında geri dönünce sıra rakamları değişik atıyor.~~
 	* [x] ⚠️ ~~Versesframe de iniş yeri değiştiridildiğinde düzgün listeleme yapılmıyor~~
-	* [x] ⚠️ ~~Verse panelde geri giderken 1-7 arası üst bar güncellenmiyor tek tek giderken ~~
+	* [x] ⚠️ ~~Verse panelde geri giderken 1-7 arası üst bar güncellenmiyor tek tek giderken~~
 	* [x] ⚠️ ~~Loading Animasyonlar Yeniden düzenlenmesi lazım.~~
 	* [x] ⚠️ ~~Verse panelde tek tek gecince yorumlayanın yorumu değişmiyor ? "Değişiyor aynı şeyleri kontrol edicem "~~
     * [x] ⚠️ ~~Anlambütülüğü alınan ayetten başka ayetlerede link gösteriyor.~~
     * [x] ⚠️ ~~Anlambütünlüğünden secili ayete git bak.~~
     * [x] ⚠️ ~~Dispacher coğunu this.dispacher olarak güncellemeyi dene~~
-    * [x] ⚠️ ~~Mushaf sırasından geri dönünce tümü veri olmuyor. "Mushaf de değil hepsinde oluyor statick verileri kontrol edelim" ~~
+    * [x] ⚠️ ~~Mushaf sırasından geri dönünce tümü veri olmuyor. "Mushaf de değil hepsinde oluyor statick verileri kontrol edelim"~~
     * [x] ⚠️ ~~Örnek fatihada tümü okudum yaptığında >> buttonu aktif oluyor. Olmamalı~~
     * [x] ⚠️ ~~Verses panel InitializeComponent olunca selectchange çalışıyor böylece loadverse iki kez çalışıyor.~~
 	* [ ] ⚠️ Stickpanel versepanel ile revize edilecek eski yapıda kaldı çoğu yapı ve çalışma prensibi eksi.
     * [ ] ⚠️ infor ayetler arasındaki konular yazı header değiştir.
+    * [ ] ⚠️ Anlam bütünlüğü eklerken aynı isimde bütünlük eklene biliyor.
+    * [ ] ⚠️ Tamamını gösterde connect 1 yazıyor hayla
 
 
 ## Gelecek Güncellemeler:
@@ -48,6 +50,8 @@
 	* [ ] 🆕 kelime kökleri düzeltilecek "Acil değil" "Farklı bir kaynaktan alıcaz"
 	* [ ] 🆕 Görünümde liste yapmaya çalış.  "Acil değil" 
 	* [ ] 🆕 secili ayet kırmız kalsın.
+	* [ ] 🆕 Try catch bloklarında catch kısımlarına girerse new window oluşturup anasayfaya yönlendir kullanııcya uyarı ver.
+	* [ ] 🆕 Admin Ayarlarını acıp kapanıp acıla bilen buttonlar oluştur.
 
 
 ## KOD DÜZENLEMERİ:
@@ -64,13 +68,13 @@
 
 #### STATUS 
 
-> SON EKLENEN SORUN TARİHİ : 12.09.2022
+> SON EKLENEN SORUN TARİHİ : 18.09.2022
 >
-> SON ÇÖZÜLEN SORUN TARİHİ : 05.09.2022
+> SON ÇÖZÜLEN SORUN TARİHİ : 12.09.2022
 >
-> Toplam Çözülen Sorun : 8
+> Toplam Çözülen Sorun : 19
 >
-> SON GÜNCELLEME TARİHİ : 12.09.2022
+> SON GÜNCELLEME TARİHİ : 18⚠️.09.2022
 >
 > VERSİYON PUBLİC : 0.1.0  Alpha
 >

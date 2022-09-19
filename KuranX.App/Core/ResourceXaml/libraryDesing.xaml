@@ -1,0 +1,221 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                    xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Style TargetType="Image" x:Key="hmwnd_menuIcon">
+        <Setter Property="Width" Value="28" />
+        <Setter Property="Height" Value="28" />
+        <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality" />
+    </Style>
+
+    <Style x:Key="libraryHeader" TargetType="Button">
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <Image x:Name="menuIconItemCtrlTmp" Source="{Binding Path=Tag , RelativeSource={RelativeSource TemplatedParent}}" Style="{StaticResource ResourceKey=hmwnd_menuIcon}" />
+                        <TextBlock Text="Kütüphane" Margin="10 0 0 0" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#1C1E2F" FontSize="22" FontFamily="{DynamicResource PoppinsSemiBold}" />
+                    </StackPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="libraryItems" TargetType="Button">
+
+        <Setter Property="UseLayoutRounding" Value="True" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="Height" Value="100" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Border Style="{DynamicResource defaultBorderShadowEffect}" UseLayoutRounding="True" SnapsToDevicePixels="True" Width="350" Height="100">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="350" />
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Width="350" Grid.Column="0" Height="100" HorizontalAlignment="Left" Orientation="Horizontal" Panel.ZIndex="1">
+                                <Border x:Name="Uza" Panel.ZIndex="2" Width="10" Height="100" Background="{Binding Path=Tag , RelativeSource={RelativeSource TemplatedParent}}" CornerRadius="5 0 0 5" HorizontalAlignment="Left" />
+                            </StackPanel>
+                            <StackPanel Width="350" Grid.Column="0" Height="100" HorizontalAlignment="Left" Orientation="Horizontal" Panel.ZIndex="2">
+                                <TextBlock x:Name="ContentText" Width="280" TextAlignment="Center" Text="{Binding Path=Content , RelativeSource={RelativeSource TemplatedParent}}" Foreground="#1C1E2F" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="26" FontFamily="{DynamicResource PoppinsMedium}" />
+                                <Icon:PackIconEvaIcons x:Name="ContentTextArrow" Kind="ArrowForward" Width="40" Height="40"  Foreground="#1C1E2F" VerticalAlignment="Center" HorizontalAlignment="Right" />
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Foreground" Value="#FFF" TargetName="ContentText" />
+                            <Setter Property="Foreground" Value="#FFF" TargetName="ContentTextArrow" />
+                            <Setter Property="CornerRadius" Value="5" TargetName="Uza" />
+                            <Setter Property="Cursor" Value="Hand" />
+                        </Trigger>
+                        <EventTrigger RoutedEvent="Button.MouseEnter">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation From="10" To="350" Duration="0:0:0.3" Storyboard.TargetName="Uza" Storyboard.TargetProperty="(Border.Width)" />
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+
+                        <EventTrigger RoutedEvent="Button.MouseLeave">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation From="350" To="10" Duration="0:0:0.3" Storyboard.TargetName="Uza" Storyboard.TargetProperty="(Border.Width)" />
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="libraryFileHeader" TargetType="Button">
+        <Setter Property="UseLayoutRounding" Value="True" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="Width" Value="300" />
+        <Setter Property="Height" Value="90" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Border Width="300" Height="90" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Vertical">
+                            <Border Height="10" Background="{Binding Path=Uid, RelativeSource={RelativeSource TemplatedParent}}" Width="300" CornerRadius="5 5 0 0" />
+                            <StackPanel Orientation="Vertical" Margin="0 10 0 10" HorizontalAlignment="Center">
+                                <TextBlock Height="34" Text="{Binding Path=Tag, RelativeSource={RelativeSource TemplatedParent}}" Foreground="#1C1E2F" TextAlignment="Center" FontSize="22" FontFamily="{DynamicResource PoppinsSemiBold}" />
+                                <TextBlock Height="20" Text="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}}" Foreground="#7B7B7B" TextAlignment="Center" FontSize="14" FontFamily="{DynamicResource PoppinsRegular}" />
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="newFileButton" TargetType="Button">
+
+        <Setter Property="Width" Value="200" />
+        <Setter Property="Height" Value="40" />
+        <Setter Property="Margin" Value="0 15 0 10" />
+        <Setter Property="UseLayoutRounding" Value="True" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Border x:Name="borderFocus" Width="200" Height="40" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Icon:PackIconUnicons  x:Name="iconFocus"  Kind="FileImport" Foreground="#1C1E2F" Width="18" Height="18" />
+                            <TextBlock x:Name="textFocus" Text="Yeni Dosya Yükle" Margin="5 0 0 0" Foreground="#1C1E2F"  FontFamily="{DynamicResource PoppinsMedium}" FontSize="12" VerticalAlignment="Center"  HorizontalAlignment="Center" TextAlignment="Center" />
+                        </StackPanel>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#F0433A" TargetName="borderFocus" />
+                            <Setter Property="Foreground" Value="#ffffff" TargetName="iconFocus" />
+                            <Setter Property="Foreground" Value="#ffffff" TargetName="textFocus" />
+                            <Setter Property="Cursor" Value="Hand" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="borderFocus" Property="Background" Value="#FFE4E6EF" />
+                            <Setter Property="Cursor" Value="No" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="fileItemOpenIcon" TargetType="Button">
+
+        <Setter Property="Width" Value="24" />
+        <Setter Property="Height" Value="24" />
+        <Setter Property="Background" Value="{x:Null}" />
+        <Setter Property="BorderThickness" Value="0" />
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <TextBlock Width="20" Height="20">
+                        <Icon:PackIconCodicons  x:Name="txt_trg" Kind="{Binding Path=Tag, RelativeSource={RelativeSource TemplatedParent}}" Width="20" Height="20" Foreground="#1C1E2F" VerticalAlignment="Center"  HorizontalAlignment="Center" />
+                    </TextBlock>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="txt_trg" Property="Foreground" Value="#F0433A" />
+                            <Setter Property="Cursor" Value="Hand" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="fileTypeItemOpenIcon" TargetType="Button">
+
+        <Setter Property="Width" Value="24" />
+        <Setter Property="Height" Value="24" />
+        <Setter Property="Background" Value="{x:Null}" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="IsEnabled" Value="False" />
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <TextBlock Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <Icon:PackIconCodicons x:Name="txt_trg" Kind="FilePdf" Width="20" Height="20" Foreground="#1C1E2F" VerticalAlignment="Center"  HorizontalAlignment="Center" />
+                    </TextBlock>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="fileFolderHeader" TargetType="TextBlock">
+
+        <Setter Property="Width" Value="150" />
+        <Setter Property="TextWrapping" Value="NoWrap" />
+        <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+        <Setter Property="Foreground" Value="#1C1E2F" />
+        <Setter Property="FontFamily" Value="{DynamicResource PoppinsMedium}" />
+        <Setter Property="FontSize" Value="14" />
+    </Style>
+
+    <Style x:Key="fileFolderDate" TargetType="TextBlock">
+
+        <Setter Property="Width" Value="150" />
+        <Setter Property="Foreground" Value="#7B7B7B" />
+        <Setter Property="FontFamily" Value="{DynamicResource PoppinsRegular}" />
+        <Setter Property="FontSize" Value="10" />
+    </Style>
+
+    <Style x:Key="progressBarTemp" TargetType="ProgressBar">
+        <Setter Property="UseLayoutRounding" Value="True" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ProgressBar}">
+                    <Grid>
+                        <Border Name="PART_Track" CornerRadius="4" Background="#dbdbdb" BorderBrush="Transparent" BorderThickness="1" />
+                        <Border Name="PART_Indicator" CornerRadius="4" Background="#23d160" BorderBrush="Transparent"  BorderThickness="1" HorizontalAlignment="Left" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="loadFileIcon" TargetType="Button">
+        <Setter Property="UseLayoutRounding" Value="True" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Margin" Value="0 -10 0 0" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Icon:PackIconBootstrapIcons Kind="{Binding Path=Tag, RelativeSource={RelativeSource TemplatedParent}}" Foreground="{Binding Path=Uid, RelativeSource={RelativeSource TemplatedParent}}" RenderOptions.BitmapScalingMode="HighQuality" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

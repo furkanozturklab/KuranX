@@ -35,6 +35,7 @@
     <None Remove="Resource\Images\Icon\koran_rb.png" />
     <None Remove="Resource\Images\Icon\library_r.png" />
     <None Remove="Resource\Images\Icon\library_rb.png" />
+    <None Remove="Resource\Images\Icon\library_rbx.png" />
     <None Remove="Resource\Images\Icon\notes_r.png" />
     <None Remove="Resource\Images\Icon\notes_rb.png" />
     <None Remove="Resource\Images\Icon\padlock_r.png" />
@@ -42,6 +43,7 @@
     <None Remove="Resource\Images\Icon\reminders_r.png" />
     <None Remove="Resource\Images\Icon\reminders_rb.png" />
     <None Remove="Resource\Images\Icon\tick_b.png" />
+    <None Remove="Resource\Images\Ico\pdf.ico" />
     <None Remove="Resource\Images\Other\defaultProfileImage.png" />
   </ItemGroup>
 
@@ -72,9 +74,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="CefSharp.Wpf.NETCore" Version="105.3.330" />
     <PackageReference Include="MahApps.Metro.IconPacks" Version="4.11.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.7" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.7">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.9">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -137,6 +140,9 @@
     <Resource Include="Resource\Images\Icon\library_rb.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resource\Images\Icon\library_rbx.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resource\Images\Icon\notes_r.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
@@ -156,6 +162,9 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resource\Images\Icon\tick_b.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Images\Ico\pdf.ico">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resource\Images\Other\defaultProfileImage.png">
@@ -197,6 +206,33 @@
   <ItemGroup>
     <Folder Include="Core\Control\" />
     <Folder Include="Migrations\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Core\Pages\LibraryF\libraryOpenEditorFile.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Core\Pages\LibraryF\libraryPublisherItemsFrame.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Core\Windows\PdfEditorViewer.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Core\Pages\LibraryF\libraryOpenEditorFile.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Core\Pages\LibraryF\libraryPublisherItemsFrame.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Core\Windows\PdfEditorViewer.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
 
 

@@ -14,7 +14,7 @@ using System.Windows.Threading;
 using KuranX.App.Core.Classes;
 using KuranX.App.Core.Windows;
 
-namespace KuranX.App.Core.Pages
+namespace KuranX.App.Core.Pages.VerseF
 {
     /// <summary>
     /// Interaction logic for VerseFrame.xaml

@@ -28,7 +28,7 @@
         <Style.Resources>
             <VisualBrush x:Key="CueBannerBrush" AlignmentX="Left" AlignmentY="Center" Stretch="None">
                 <VisualBrush.Visual>
-                    <Label FontFamily="{DynamicResource PoppinsMedium}" Margin="5 0 0 0" Content="Konu Başlığı Ara" Foreground="#991C1E2F" />
+                    <Label x:Name="searchHint" FontFamily="{DynamicResource PoppinsMedium}" Margin="5 0 0 0" Content="Konu Başlığı Ara" Foreground="#991C1E2F" />
                 </VisualBrush.Visual>
             </VisualBrush>
         </Style.Resources>

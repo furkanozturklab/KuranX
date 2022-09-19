@@ -1,9 +1,11 @@
 ﻿using KuranX.App.Core.Classes;
+using Microsoft.Win32;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,7 +28,9 @@ namespace KuranX.App.Core.Windows
         protected string _connectedString;
         private MySqlConnection connection;
         private string land;
+        private Task? fileDialogTask;
         private string DeskType;
+        private OpenFileDialog openFileDialog = new OpenFileDialog();
 
         public AdminScreen()
         {
@@ -246,6 +250,96 @@ namespace KuranX.App.Core.Windows
                     }
                 }
             }
+        }
+
+        private void filedialogtask()
+        {
+            this.Dispatcher.Invoke(() =>
+            {
+                openFileDialog.Filter = "Pdf Files|*.pdf";
+                openFileDialog.CheckFileExists = true;
+                bool? response = openFileDialog.ShowDialog();
+
+                if (response == true)
+                {
+                    string fileS = string.Format("{0} {1}", (new FileInfo(openFileDialog.FileName).Length / 1.049e+6).ToString("0.0"), "Mb");
+                    var newSoruceLocation = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)) + @"\KuranX\Publisher\" + openFileDialog.FileName.Split(@"\").Last();
+
+                    using (var entitydb = new AyetContext())
+                    {
+                        string name = openFileDialog.FileName.Split(@"\").Last();
+                        var dControl = entitydb.PdfFile.Where(p => p.FileName == name).ToList();
+
+                        if (File.Exists(newSoruceLocation) && dControl.Count != 0)
+                        {
+                            MessageBox.Show("Eklenmiş Dosya");
+                        }
+                        else
+                        {
+                            File.Copy(openFileDialog.FileName, newSoruceLocation, true);
+
+                            var newFile = new PdfFile { FileName = openFileDialog.FileName.Split(@"\").Last(), FileUrl = newSoruceLocation, FileSize = fileS, Created = DateTime.Now, Modify = DateTime.Now, FileType = "Editor" };
+                            entitydb.PdfFile.Add(newFile);
+                            entitydb.SaveChanges();
+
+                            MessageBox.Show("Dosya Eklendi");
+                        }
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Dosya yükleme sırasında bir hata meydana geldi.");
+                }
+            });
+        }
+
+        private void editorFileUpdate_Click(object sender, RoutedEventArgs e)
+        {
+            fileDialogTask = new Task(filedialogtask);
+            fileDialogTask.Start();
+            /*
+            string path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\KuranX\Publisher";
+
+            var allFiles = Directory.GetFiles(path, "*.pdf*", SearchOption.AllDirectories);
+
+            totalcount = allFiles.Count();
+
+            for (int x = 1; x < 21; x++)
+            {
+                ItemsControl itemslist = (ItemsControl)this.FindName("pdf" + x);
+                itemslist.ItemsSource = null;
+            }
+            int i = 1;
+
+            foreach (var file in allFiles)
+            {
+                tempPdfFileitems = new List<PdfFile>()
+                            {
+                                new PdfFile()
+                                {
+                                    FileName = file.Split(@"\").Last(),
+                                    FileUrl = file,
+                                }
+                            };
+
+                ItemsControl itemslist = (ItemsControl)this.FindName("pdf" + i);
+                itemslist.ItemsSource = tempPdfFileitems;
+                tempPdfFileitems.Clear();
+                i++;
+
+                if (i == 21) break; // 12 den fazla varmı kontrol etmek için koydum
+
+                if (lastPdfItems == 0) previusPageButton.IsEnabled = false;
+                else previusPageButton.IsEnabled = true;
+
+                if (dPdfFile.Count() <= 20) nextpageButton.IsEnabled = false;
+                if (lastPdfItems == 0 && dPdfFile.Count() > 20) nextpageButton.IsEnabled = true;
+
+                totalcountText.Tag = totalcount.ToString();
+
+                nowPageStatus.Tag = NowPage + " / " + Math.Ceiling(decimal.Parse(totalcount.ToString()) / 20).ToString();
+            }
+            */
         }
     }
 }

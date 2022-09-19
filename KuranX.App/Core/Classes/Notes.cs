@@ -12,10 +12,13 @@ namespace KuranX.App.Core.Classes
         public int? VerseId { get; set; }
         public int? SureId { get; set; }
         public int? SubjectId { get; set; }
+        public int? PdfFileId { get; set; }
+        public int? PdfPageId { get; set; }
         public string? NoteHeader { get; set; }
         public string? NoteDetail { get; set; }
         public string? NoteLocation { get; set; }
         public string? NoteStatus { get; set; }
+        public string? NoteLibHeader { get; set; }
 
         public DateTime Created { get; set; } = DateTime.Now;
         public DateTime Modify { get; set; } = DateTime.Now;

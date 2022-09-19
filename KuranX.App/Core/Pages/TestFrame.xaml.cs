@@ -33,10 +33,5 @@ namespace KuranX.App.Core.Pages
 
             // popuptemp.IsOpen = false;
         }
-
-        private void comboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            MessageBox.Show("Selected");
-        }
     }
 }

@@ -19,6 +19,7 @@ namespace KuranX.App.Core.Classes
         public DbSet<Subject>? Subject { get; set; }
         public DbSet<SubjectItems>? SubjectItems { get; set; }
         public DbSet<Words>? Words { get; set; }
+        public DbSet<PdfFile> PdfFile { get; set; }
 
         public string DbPath { get; }
 
@@ -33,6 +34,7 @@ namespace KuranX.App.Core.Classes
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            //   USER
             modelBuilder.Entity<User>()
                 .Property(u => u.UserId)
                 .HasColumnName("user_id");
@@ -66,18 +68,18 @@ namespace KuranX.App.Core.Classes
                 .HasColumnName("user_avatarUrl")
                 .HasDefaultValue("default");
 
+            //   SURE
             modelBuilder.Entity<Sure>()
                 .Property(u => u.UserCheckCount)
                 .HasDefaultValue(0);
-
             modelBuilder.Entity<Sure>()
                 .Property(u => u.DeskList)
                 .HasDefaultValue(0);
-
             modelBuilder.Entity<Sure>()
                 .Property(u => u.UserLastRelativeVerse)
                 .HasDefaultValue(1);
 
+            //   VERSE
             modelBuilder.Entity<Verse>()
                 .Property(u => u.RememberCheck)
                 .HasDefaultValue("false");
@@ -88,6 +90,7 @@ namespace KuranX.App.Core.Classes
                 .Property(u => u.VerseCheck)
                 .HasDefaultValue("false");
 
+            //   NOTES
             modelBuilder.Entity<Notes>()
                 .Property(u => u.SureId)
                 .HasDefaultValue(0);
@@ -98,8 +101,22 @@ namespace KuranX.App.Core.Classes
                .Property(u => u.SubjectId)
                .HasDefaultValue(0);
             modelBuilder.Entity<Notes>()
+               .Property(u => u.PdfFileId)
+               .HasDefaultValue(0);
+            modelBuilder.Entity<Notes>()
+               .Property(u => u.PdfPageId)
+               .HasDefaultValue(1);
+            modelBuilder.Entity<Notes>()
+               .Property(u => u.NoteLibHeader)
+               .HasDefaultValue("Default");
+            modelBuilder.Entity<Notes>()
                 .Property(u => u.NoteStatus)
                 .HasDefaultValue("#ADB5BD");
+
+            // PDF
+            modelBuilder.Entity<PdfFile>()
+                .Property(u => u.FileType)
+                .HasDefaultValue("User");
         }
     }
 }

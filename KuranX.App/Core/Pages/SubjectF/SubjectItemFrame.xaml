@@ -1,4 +1,4 @@
-﻿<Page x:Class="KuranX.App.Core.Pages.SubjectItemFrame"
+﻿<Page x:Class="KuranX.App.Core.Pages.SubjectF.SubjectItemFrame"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -17,6 +17,10 @@
             <RowDefinition Height="80" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
+
+        <Grid x:Name="loadinGifContent"  Grid.Row="0" Grid.RowSpan="3" Background="#FAFAFA" Panel.ZIndex="5" Visibility="Visible">
+            <Image gif:ImageBehavior.AnimatedSource="/Resource/Images/Gif/Spinner800.gif" Width="250" Height="250"  RenderOptions.BitmapScalingMode="HighQuality" />
+        </Grid>
 
         <Popup x:Name="addNewConnect" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="500" Height="350" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
 
@@ -110,6 +114,51 @@
             </Border>
         </Popup>
 
+        <Popup x:Name="libSendNotePopup" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="400" Height="240" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+            <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="380" Height="220">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50" />
+                        <RowDefinition Height="170" />
+                    </Grid.RowDefinitions>
+                    <Border  Grid.Row="0" Style="{DynamicResource headerBorderTemp}">
+                        <TextBlock Text="Kütüphaneye Ekle" Style="{DynamicResource popupHeaderText}" />
+                    </Border>
+                    <Grid Grid.Row="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="50" />
+                        </Grid.RowDefinitions>
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Width="370" Grid.Row="0">
+                            <TextBlock Text="Başlık" FontFamily="{DynamicResource PoppinsSemiBold}" FontSize="14" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 0 0 0" />
+                            <TextBox Style="{DynamicResource popupDefaulTextBox}" Width="350" x:Name="libHeaderName" KeyDown="libHeaderName_KeyDown">
+                                <TextBox.Resources>
+                                    <Style TargetType="{x:Type Border}">
+                                        <Setter Property="CornerRadius" Value="5" />
+                                    </Style>
+                                </TextBox.Resources>
+                            </TextBox>
+                            <StackPanel Orientation="Horizontal" Width="Auto" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Label Visibility="Hidden" x:Name="libHeaderNameError" Style="{DynamicResource popupDefaultTextBoxLabel}" Content=" " />
+                            </StackPanel>
+                            <TextBlock Visibility="Collapsed" Text="" x:Name="valHeader" />
+                            <TextBlock Visibility="Collapsed" Text="" x:Name="valDetail" />
+                        </StackPanel>
+                        <Grid Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="0">
+                                <Button x:Name="sendlibbutton" Style="{DynamicResource popupDefaultButtonBstrp}" Tag="Archive" Content="Gönder" HorizontalAlignment="Center" Click="sendlibbutton_Click" />
+                                <Button  Style="{DynamicResource popupDefaultButtonClosed}" Tag="CloseBig" Content="Vazgeç" Uid="libSendNotePopup" HorizontalAlignment="Center" Click="popupClosed_Click" />
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </Border>
+        </Popup>
+
         <Popup x:Name="noteAddPopup" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="400" Height="440" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
 
             <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="380" Height="420">
@@ -191,7 +240,10 @@
                                 <TextBlock x:Name="noteOpenDetailText" Foreground="#383C41" FontFamily="{DynamicResource PoppinsMedium}" TextWrapping="Wrap" Grid.Row="0"  VerticalAlignment="Top" />
                             </ScrollViewer>
 
-                            <Button x:Name="noteOpenDetailTextBack" Grid.Row="2" Style="{DynamicResource selectConnectAyet}" Content="Geri Dön" Tag="ArrowBack" Uid="meainingConnect" Click="noteOpenDetailTextBack_Click" />
+                            <StackPanel Grid.Row="2" Orientation="Horizontal">
+                                <Button x:Name="noteOpenDetailTextBack"  Style="{DynamicResource selectConnectAyet}" Content="Geri Dön" Tag="ArrowBack" Uid="subjectNoteConnect" Click="noteOpenDetailTextBack_Click" />
+                                <Button x:Name="noteOpenDetailLibSend" Style="{DynamicResource selectConnectAyet}" Content="Kütüphaneye Gönder" Tag="ArrowForward" Uid="subjectNoteConnect" Click="noteOpenDetailLibSend_Click" />
+                            </StackPanel>
                         </Grid>
                     </Grid>
                 </Grid>
@@ -226,7 +278,7 @@
                             </ScrollViewer>
 
                             <Button Grid.Column="0" Grid.Row="4" Style="{DynamicResource selectConnectAyet}" Content="Yeni Not Al" Tag="Link2" Click="noteSubjectAddButtonP_Click" />
-                            <Button Grid.Column="1" Grid.Row="4" Style="{DynamicResource selectConnectAyet}" Content="Vazgeç" Tag="Close" Uid="notesAllShowPopup" Click="popupClosed_Click" />
+                            <Button Grid.Column="1" Grid.Row="4" Style="{DynamicResource selectConnectAyet}" Content="Geri Dön" Tag="ArrowBack" Uid="notesAllShowPopup" Click="popupClosed_Click" />
                         </Grid>
                     </Grid>
                 </Grid>
@@ -321,7 +373,7 @@
         <StackPanel Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center" SnapsToDevicePixels="True" UseLayoutRounding="True">
             <Border Width="350" Height="80" Style="{DynamicResource defaultBorderShadowEffect}">
                 <StackPanel Orientation="Horizontal">
-                    <Border Width="12" CornerRadius="5 0 0 5" Background="#66E21F" />
+                    <Border x:Name="loadBgColor" Width="12" CornerRadius="5 0 0 5" Background="#66E21F" />
                     <Border Width="250" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
                         <StackPanel Orientation="Vertical">
                             <TextBlock x:Name="loadHeader" Text="" FontSize="18" Style="{DynamicResource subjectFolderHeader}" />

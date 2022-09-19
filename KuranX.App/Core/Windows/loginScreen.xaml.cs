@@ -27,7 +27,7 @@ namespace KuranX.App.Core.Windows
 
         private void LoginScreenWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            loginFrame.Content = new loginFrame();
+            loginFrame.Content = new Pages.LoginF.loginFrame();
         }
     }
 }

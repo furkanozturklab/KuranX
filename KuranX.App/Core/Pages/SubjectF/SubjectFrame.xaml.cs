@@ -1,9 +1,9 @@
-﻿using KuranX.App.Core.Classes;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -17,7 +17,10 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 
-namespace KuranX.App.Core.Pages
+using KuranX.App.Core.Classes;
+using Microsoft.EntityFrameworkCore;
+
+namespace KuranX.App.Core.Pages.SubjectF
 {
     /// <summary>
     /// Interaction logic for SubjectFrame.xaml
@@ -27,9 +30,10 @@ namespace KuranX.App.Core.Pages
         private DispatcherTimer timeSpan = new DispatcherTimer(DispatcherPriority.Render);
         private List<Subject> dSubject = new List<Subject>();
         private List<Subject> tempSubject = new List<Subject>();
-
         private Task PageItemLoadTask;
         private int lastSubject = 0, totalcount, NowPage = 1;
+        private bool searchStatus = false;
+        private string searchTxt;
 
         public SubjectFrame()
         {
@@ -38,64 +42,90 @@ namespace KuranX.App.Core.Pages
 
         public void loadSubject()
         {
-            using (var entitydb = new AyetContext())
+            try
             {
-                dSubject = entitydb.Subject.Skip(lastSubject).Take(13).ToList();
-                totalcount = entitydb.Subject.Count();
-
-                for (int x = 1; x < 13; x++)
+                using (var entitydb = new AyetContext())
                 {
+                    loadingAni();
+                    if (searchStatus) dSubject = entitydb.Subject.Where(p => EF.Functions.Like(p.SubjectName, "%" + searchTxt + "%")).Skip(lastSubject).Take(13).ToList();
+                    else dSubject = entitydb.Subject.Skip(lastSubject).Take(13).ToList();
+
+                    totalcount = entitydb.Subject.Count();
+
+                    for (int x = 1; x < 13; x++)
+                    {
+                        this.Dispatcher.Invoke(() =>
+                        {
+                            ItemsControl itemslist = (ItemsControl)this.FindName("sb" + x);
+                            //itemslist.Items.Clear();
+                            itemslist.ItemsSource = null;
+                        });
+                    }
+                    int i = 1;
+
+                    foreach (var item in dSubject)
+                    {
+                        this.Dispatcher.Invoke(() =>
+                        {
+                            tempSubject.Add(item);
+                            ItemsControl itemslist = (ItemsControl)this.FindName("sb" + i);
+                            itemslist.ItemsSource = tempSubject;
+                            tempSubject.Clear();
+                            i++;
+                        });
+
+                        if (i == 13) break; // 12 den fazla varmı kontrol etmek için koydum
+                    }
+
                     this.Dispatcher.Invoke(() =>
                     {
-                        ItemsControl itemslist = (ItemsControl)this.FindName("sb" + x);
-                        //itemslist.Items.Clear();
-                        itemslist.ItemsSource = null;
+                        if (lastSubject == 0) previusPageButton.IsEnabled = false;
+                        else previusPageButton.IsEnabled = true;
+
+                        if (dSubject.Count() <= 12) nextpageButton.IsEnabled = false;
+                        if (lastSubject == 0 && dSubject.Count() > 12) nextpageButton.IsEnabled = true;
+
+                        totalcountText.Tag = totalcount.ToString();
+
+                        nowPageStatus.Tag = NowPage + " / " + Math.Ceiling(decimal.Parse(totalcount.ToString()) / 12).ToString();
                     });
+                    Thread.Sleep(200);
+                    loadingAniComplated();
                 }
-                int i = 1;
-
-                foreach (var item in dSubject)
-                {
-                    this.Dispatcher.Invoke(() =>
-                    {
-                        tempSubject.Add(item);
-                        ItemsControl itemslist = (ItemsControl)this.FindName("sb" + i);
-                        itemslist.ItemsSource = tempSubject;
-                        tempSubject.Clear();
-                        i++;
-                    });
-
-                    if (i == 13) break; // 12 den fazla varmı kontrol etmek için koydum
-                }
-
-                previusPageButton.Dispatcher.Invoke(() =>
-                {
-                    if (lastSubject == 0) previusPageButton.IsEnabled = false;
-                    else previusPageButton.IsEnabled = true;
-                });
-
-                nextpageButton.Dispatcher.Invoke(() =>
-                {
-                    if (dSubject.Count() <= 12) nextpageButton.IsEnabled = false;
-                    if (lastSubject == 0 && dSubject.Count() > 12) nextpageButton.IsEnabled = true;
-                });
-
-                totalcountText.Dispatcher.Invoke(() =>
-                {
-                    totalcountText.Tag = totalcount.ToString();
-                });
-
-                nowPageStatus.Dispatcher.Invoke(() =>
-                {
-                    nowPageStatus.Tag = NowPage + " / " + Math.Ceiling(decimal.Parse(totalcount.ToString()) / 12).ToString();
-                });
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Load", ex);
             }
         }
 
         private void openSubjectFolder_Click(object sender, RoutedEventArgs e)
         {
-            var btn = sender as Button;
-            App.mainframe.Content = new SubjectItemsFrame(int.Parse(btn.Uid), btn.Content.ToString(), btn.Tag.ToString());
+            try
+            {
+                var btn = sender as Button;
+                SearchData.Text = "";
+                loadinGifContent.Visibility = Visibility.Visible;
+                App.mainframe.Content = new SubjectItemsFrame(int.Parse(btn.Uid), (string)btn.Content, btn.Tag.ToString(), btn.Background.ToString());
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("opensubject", ex);
+            }
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Debug.WriteLine("TRİGER PAGE LOAD");
+                PageItemLoadTask = new Task(loadSubject);
+                PageItemLoadTask.Start();
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("LoadEvent", ex);
+            }
         }
 
         // ------------ POPUP OPEN ACTİONS  ------------ //
@@ -300,16 +330,70 @@ namespace KuranX.App.Core.Pages
             }
         }
 
-        private void Page_Loaded(object sender, RoutedEventArgs e)
+        private void SearchBtn_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                PageItemLoadTask = new Task(loadSubject);
-                PageItemLoadTask.Start();
+                if (SearchData.Text.Length >= 3)
+                {
+                    searchStatus = true;
+                    searchTxt = SearchData.Text;
+
+                    PageItemLoadTask = new Task(loadSubject);
+                    PageItemLoadTask.Start();
+                }
+                else
+                {
+                    if (SearchData.Text.Length == 0)
+                    {
+                        SearchData.Text = "";
+                        searchErrMsgTxt.Visibility = Visibility.Hidden;
+                        SearchBtn.Focus();
+                        searchStatus = false;
+                        PageItemLoadTask = new Task(loadSubject);
+                        PageItemLoadTask.Start();
+                    }
+                    else
+                    {
+                        searchErrMsgTxt.Visibility = Visibility.Visible;
+                        SearchData.Focus();
+                    }
+                }
             }
             catch (Exception ex)
             {
-                App.logWriter("LoadEvent", ex);
+                App.logWriter("SearchButton", ex);
+            }
+        }
+
+        private void SearchData_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            try
+            {
+                if (SearchData.Text.Length >= 3)
+                {
+                    searchErrMsgTxt.Visibility = Visibility.Hidden;
+                }
+                else
+                {
+                    searchErrMsgTxt.Visibility = Visibility.Visible;
+                }
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Search", ex);
+            }
+        }
+
+        private void SearchData_LostFocus(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                searchErrMsgTxt.Visibility = Visibility.Hidden;
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Search", ex);
             }
         }
 
@@ -345,6 +429,45 @@ namespace KuranX.App.Core.Pages
             catch (Exception ex)
             {
                 App.logWriter("LoadEvent", ex);
+            }
+        }
+
+        private void loadingAni()
+        {
+            try
+            {
+                this.Dispatcher.Invoke(() =>
+                {
+                    addSubjectButton.IsEnabled = false;
+                    nextpageButton.IsEnabled = false;
+                    previusPageButton.IsEnabled = false;
+                    nextpageButton.IsEnabled = false;
+                    SearchData.IsEnabled = false;
+                    SearchBtn.IsEnabled = false;
+                    loadinGifContent.Visibility = Visibility.Visible;
+                });
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Animation", ex);
+            }
+        }
+
+        private void loadingAniComplated()
+        {
+            try
+            {
+                this.Dispatcher.Invoke(() =>
+                {
+                    addSubjectButton.IsEnabled = true;
+                    SearchData.IsEnabled = true;
+                    SearchBtn.IsEnabled = true;
+                    loadinGifContent.Visibility = Visibility.Collapsed;
+                });
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Animation", ex);
             }
         }
     }

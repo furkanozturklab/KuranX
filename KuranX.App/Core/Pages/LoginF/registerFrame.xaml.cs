@@ -14,7 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using KuranX.App.Core.Classes;
 
-namespace KuranX.App.Core.Pages
+namespace KuranX.App.Core.Pages.LoginF
 {
     /// <summary>
     /// Interaction logic for registerFrame.xaml
