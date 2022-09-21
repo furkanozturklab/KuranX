@@ -66,7 +66,7 @@ namespace KuranX.App.Core.Windows
         {
             App.locationTxt.Text = "AnaSayfa";
 
-            //App.mainframe.Content = new versesFrame(App.currentVersesPageD[0], App.currentVersesPageD[1], "Hepsi");
+            //App.mainframe.Content = new Pages.VerseF.versesFrame(App.currentVersesPageD[0], App.currentVersesPageD[1], "Hepsi");
 
             //App.mainframe.Content = new verseFrame(1, 1);
 
@@ -78,13 +78,15 @@ namespace KuranX.App.Core.Windows
 
             //App.mainframe.Content = new Pages.SubjectF.SubjectItemFrame(13, "Fâtiha Suresinin 1 Ayeti", "Meltdown", "31.08.2022 19:54:27", (SolidColorBrush)new BrushConverter().ConvertFrom("#FFFFC107"));
 
-            // App.mainframe.Content = new libraryFrame();
+            App.mainframe.Content = new Pages.LibraryF.libraryFrame();
 
             // App.mainframe.Content = new Pages.LibraryF.libraryFileItemsFrame();
 
-            App.mainframe.Content = new Pages.LibraryF.libraryPublisherItemsFrame();
+            //App.mainframe.Content = new Pages.LibraryF.libraryPublisherItemsFrame();
 
             // App.mainframe.Content = new Pages.LibraryF.libraryOpenFile();
+
+            //App.mainframe.Content = new Pages.LibraryF.libraryNote();
         }
 
         private void appClosed_Click(object sender, RoutedEventArgs e)

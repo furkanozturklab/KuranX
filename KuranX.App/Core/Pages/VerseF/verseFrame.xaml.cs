@@ -30,7 +30,7 @@ namespace KuranX.App.Core.Pages.VerseF
         private Task? PageItemLoadTask;
         private CheckBox? chk;
         private DispatcherTimer? timeSpan = new DispatcherTimer(DispatcherPriority.Render);
-        private string InterpreterWrite, verseName;
+        private string InterpreterWrite, verseName, navLocation;
         public int activeSure, activeVerse, tempDataInt = 0, lastVerse = 0, getpopupRelativeId, relativeDeskV, singlerelativeDesk = 1, singlenextnavcontrol = 1;
         public int[] feedPoint = new int[4];
         private bool tempCheck = false, tempCheck2, tempCheck3;
@@ -48,13 +48,13 @@ namespace KuranX.App.Core.Pages.VerseF
             }
         }
 
-        public verseFrame(int data, int relativeDeskTemp) : this()
+        public verseFrame(int data, int relativeDeskTemp, string navLocation) : this()
         {
             try
             {
                 relativeDeskV = relativeDeskTemp;
                 singlerelativeDesk = relativeDeskTemp;
-
+                this.navLocation = navLocation;
                 activeSure = data;
                 activeVerse = 1;
 
@@ -986,12 +986,12 @@ namespace KuranX.App.Core.Pages.VerseF
                         xc++;
                         var listxc = entitydb.Sure.OrderBy(p => p.DeskMushaf).Where(p => p.DeskMushaf == xc).FirstOrDefault();
 
-                        App.mainframe.Content = new verseFrame((int)listxc.sureId, 1);
+                        App.mainframe.Content = new verseFrame((int)listxc.sureId, 1, "Verse");
                     }
                 }
                 else
                 {
-                    App.mainframe.Content = new verseFrame((int)++dSure[0].sureId, 1);
+                    App.mainframe.Content = new verseFrame((int)++dSure[0].sureId, 1, "Verse");
                 }
             }
         }
@@ -1016,7 +1016,7 @@ namespace KuranX.App.Core.Pages.VerseF
                         }
                         xc--;
                         var listxc = entitydb.Sure.OrderBy(p => p.DeskMushaf).Where(p => p.DeskMushaf == xc).FirstOrDefault();
-                        App.mainframe.Content = new verseFrame((int)listxc.sureId, (int)listxc.NumberOfVerses);
+                        App.mainframe.Content = new verseFrame((int)listxc.sureId, (int)listxc.NumberOfVerses, "Verse");
                     }
                 }
                 else
@@ -1026,7 +1026,7 @@ namespace KuranX.App.Core.Pages.VerseF
                         int selectedSure = (int)dSure[0].sureId;
                         selectedSure--;
                         var BeforeD = entitydb.Sure.Where(p => p.sureId == selectedSure).Select(p => new Sure() { NumberOfVerses = p.NumberOfVerses }).FirstOrDefault();
-                        App.mainframe.Content = new verseFrame((int)--dSure[0].sureId, (int)BeforeD.NumberOfVerses);
+                        App.mainframe.Content = new verseFrame((int)--dSure[0].sureId, (int)BeforeD.NumberOfVerses, "Verse");
                     }
                 }
             }
@@ -1515,8 +1515,12 @@ namespace KuranX.App.Core.Pages.VerseF
 
         private void backVersesFrame_Click(object sender, RoutedEventArgs e)
         {
-            App.selectedBlock = false;
-            App.mainframe.Content = new versesFrame(App.currentVersesPageD[0], App.currentVersesPageD[1], App.currentLanding);
+            if (navLocation == "Verse")
+            {
+                App.selectedBlock = false;
+                App.mainframe.Content = new versesFrame(App.currentVersesPageD[0], App.currentVersesPageD[1], App.currentLanding);
+            }
+            else NavigationService.GoBack();
         }
 
         private void addSubject_Click(object sender, RoutedEventArgs e)

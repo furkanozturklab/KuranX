@@ -1293,7 +1293,7 @@
                                 </Grid.ColumnDefinitions>
                                 <StackPanel Orientation="Horizontal" Grid.Column="0">
                                     <TextBlock Text="Yorumlayan" FontFamily="{DynamicResource PoppinsMedium}" FontSize="14" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                                    <ComboBox x:Name="interpreterWriterCombo"  Style="{DynamicResource ResourceKey=ayetlerNavCombobox}" SelectedIndex="0" Margin="10,0,0,0" SelectionChanged="interpreterWriterCombo_SelectionChanged" IsReadOnly="True">
+                                    <ComboBox x:Name="interpreterWriterCombo"  Style="{DynamicResource ResourceKey=ayetlerNavCombobox}" SelectedIndex="0" Margin="10,0,0,0" SelectionChanged="interpreterWriterCombo_SelectionChanged">
                                         <ComboBoxItem  Content="Mehmet Okuyan" />
                                         <ComboBoxItem  Content="Abdulbaki Gölpınarlı" />
                                         <ComboBoxItem  Content="Abdullah Parlıyan" />

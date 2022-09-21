@@ -37,5 +37,17 @@ namespace KuranX.App.Core.Pages.LibraryF
                 App.logWriter("FrameLoad", ex);
             }
         }
+
+        private void libNoteOpenFrame_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                App.mainframe.Content = new libraryNotesItems();
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("FrameLoad", ex);
+            }
+        }
     }
 }

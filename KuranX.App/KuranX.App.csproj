@@ -212,6 +212,9 @@
     <Compile Update="Core\Pages\LibraryF\libraryOpenEditorFile.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Core\Pages\LibraryF\libraryNotesItems.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Core\Pages\LibraryF\libraryPublisherItemsFrame.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -222,6 +225,10 @@
 
   <ItemGroup>
     <Page Update="Core\Pages\LibraryF\libraryOpenEditorFile.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Core\Pages\LibraryF\libraryNotesItems.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>

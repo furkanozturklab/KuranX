@@ -541,7 +541,7 @@ namespace KuranX.App.Core.Pages.LibraryF
         {
             try
             {
-                App.mainframe.Content = new verseFrame(tempSureID, tempVerseID);
+                App.mainframe.Content = new verseFrame(tempSureID, tempVerseID, "LibFile");
             }
             catch (Exception ex)
             {

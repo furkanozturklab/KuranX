@@ -403,7 +403,7 @@ namespace KuranX.App.Core.Pages.VerseF
                     var selectedS = entity.Sure.Where(p => p.Status == "#0D6EFD").FirstOrDefault();
                     if (selectedS != null)
                     {
-                        App.mainframe.Content = new verseFrame((int)selectedS.sureId, (int)selectedS.UserLastRelativeVerse);
+                        App.mainframe.Content = new verseFrame((int)selectedS.sureId, (int)selectedS.UserLastRelativeVerse, "Verse");
                     }
                     else
                     {
@@ -453,7 +453,7 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             if (tempRelativeVerseId >= Int16.Parse(popupRelativeId.Text))
             {
-                App.mainframe.Content = new verseFrame(tempSureId, Int16.Parse(popupRelativeId.Text));
+                App.mainframe.Content = new verseFrame(tempSureId, Int16.Parse(popupRelativeId.Text), "Verse");
             }
             else
             {
@@ -499,7 +499,7 @@ namespace KuranX.App.Core.Pages.VerseF
             try
             {
                 Button getContent = sender as Button;
-                App.mainframe.Content = new verseFrame(Int16.Parse(getContent.Tag.ToString()), 1);
+                App.mainframe.Content = new verseFrame(Int16.Parse(getContent.Tag.ToString()), 1, "Verse");
                 /*
                 verseFrame verseFrame = new verseFrame(int.Parse(getContent.Tag.ToString()));
                 NavigationService.Navigate(verseFrame, UriKind.Relative);

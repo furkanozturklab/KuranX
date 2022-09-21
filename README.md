@@ -41,6 +41,7 @@
     * [ ] ⚠️ infor ayetler arasındaki konular yazı header değiştir.
     * [ ] ⚠️ Anlam bütünlüğü eklerken aynı isimde bütünlük eklene biliyor.
     * [ ] ⚠️ Tamamını gösterde connect 1 yazıyor hayla
+    * [ ] Editor eklene pdf yüklediklerimde gözüküyor.
 
 
 ## Gelecek Güncellemeler:
@@ -52,6 +53,7 @@
 	* [ ] 🆕 secili ayet kırmız kalsın.
 	* [ ] 🆕 Try catch bloklarında catch kısımlarına girerse new window oluşturup anasayfaya yönlendir kullanııcya uyarı ver.
 	* [ ] 🆕 Admin Ayarlarını acıp kapanıp acıla bilen buttonlar oluştur.
+	* [ ] Anlam bütünlükleri Fatihadan bağlayınca Nisadada gözüksün
 
 
 ## KOD DÜZENLEMERİ:

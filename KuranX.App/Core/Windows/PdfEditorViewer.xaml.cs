@@ -154,7 +154,7 @@ namespace KuranX.App.Core.Windows
         {
             try
             {
-                App.mainframe.Content = new verseFrame(tempSureId, tempVersId);
+                App.mainframe.Content = new verseFrame(tempSureId, tempVersId, "LibEditor");
                 this.WindowState = WindowState.Minimized;
             }
             catch (Exception ex)

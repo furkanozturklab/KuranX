@@ -35,7 +35,7 @@
 
             <Button x:Name="libFileOpenFrame" Grid.Row="0" Grid.Column="0" Style="{DynamicResource libraryItems}" Width="350" Height="100" Tag="#212529" Content="Yüklenenler" Click="libFileOpenFrame_Click" />
 
-            <Button Grid.Row="0" Grid.Column="1" Style="{DynamicResource libraryItems}" Width="350" Height="100" Tag="#6610F2" Content="Notlarım" />
+            <Button x:Name="libNoteOpenFrame" Grid.Row="0" Grid.Column="1" Style="{DynamicResource libraryItems}" Width="350" Height="100" Tag="#6610F2" Content="Notlarım" Click="libNoteOpenFrame_Click" />
 
             <Button x:Name="libPublisherOpenFrame" Grid.Row="1" Grid.Column="0" Style="{DynamicResource libraryItems}" Width="350" Height="100" Tag="#FD7E14" Content="Editor Seçimi" Click="libPublisherOpenFrame_Click" />
         </Grid>
