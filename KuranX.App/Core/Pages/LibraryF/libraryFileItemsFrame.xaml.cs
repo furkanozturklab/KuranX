@@ -522,6 +522,10 @@ namespace KuranX.App.Core.Pages.LibraryF
                     SearchBtn.IsEnabled = true;
                     addfile.IsEnabled = true;
                     backPage.IsEnabled = true;
+
+                    loadHeaderAni.Visibility = Visibility.Visible;
+                    loadControlAni.Visibility = Visibility.Visible;
+                    loadDetailAni.Visibility = Visibility.Visible;
                     loadinGifContent.Visibility = Visibility.Collapsed;
                     loadinItemsGifContent.Visibility = Visibility.Collapsed;
                 });

@@ -14,9 +14,9 @@
     </Page.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="110" />
+            <RowDefinition Height="105" />
             <RowDefinition Height="513" />
-            <RowDefinition Height="85" />
+            <RowDefinition Height="90" />
         </Grid.RowDefinitions>
 
         <Grid x:Name="loadinGifContent" Grid.Row="1" Background="#FAFAFA" Panel.ZIndex="5">

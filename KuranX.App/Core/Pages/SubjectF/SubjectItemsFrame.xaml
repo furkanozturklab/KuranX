@@ -12,12 +12,12 @@
     <Grid>
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="120" />
+            <RowDefinition Height="115" />
             <RowDefinition Height="*" />
-            <RowDefinition Height="85" />
+            <RowDefinition Height="90" />
         </Grid.RowDefinitions>
 
-        <Grid x:Name="loadinGifContent"  Grid.Row="1" Background="#FAFAFA" Panel.ZIndex="5">
+        <Grid x:Name="loadinGifContent"  Grid.Row="1"  Background="#FAFAFA" Panel.ZIndex="5">
             <Image gif:ImageBehavior.AnimatedSource="/Resource/Images/Gif/Spinner800.gif" Width="250" Height="250"  RenderOptions.BitmapScalingMode="HighQuality" />
         </Grid>
 
@@ -309,23 +309,25 @@
             </Border>
         </Popup>
 
-        <Border Grid.Row="0" Width="350" Height="80" Style="{DynamicResource defaultBorderShadowEffect}">
-            <StackPanel Orientation="Horizontal">
+        <Border Grid.Row="0" Width="450" Height="110" UseLayoutRounding="True" SnapsToDevicePixels="True" Style="{DynamicResource aniEffectFadeBorder}" x:Name="loadHeaderBorder" Visibility="Hidden">
+            <Border Width="350" Height="80" Style="{DynamicResource defaultBorderShadowEffect}">
+                <StackPanel Orientation="Horizontal">
 
-                <Border x:Name="loadHeaderColor" Width="12" CornerRadius="5 0 0 5" Background="#66E21F" />
-                <Border Width="288" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                    <StackPanel Orientation="Vertical">
-                        <TextBlock x:Name="loadHeader" Text="" FontSize="18" Style="{DynamicResource subjectFolderHeader}" />
-                        <TextBlock x:Name="loadCreated" Text="" Style="{DynamicResource subjectFolderDate}" />
-                    </StackPanel>
-                </Border>
-                <Border Width="50">
-                    <Button x:Name="subjectItemsDeleteBtn" Style="{DynamicResource versesTabActionButtonReset}" Grid.Column="2" Tag="TrashMD" Click="subjectItemsDeleteBtn_Click" />
-                </Border>
-            </StackPanel>
+                    <Border x:Name="loadHeaderColor" Width="12" CornerRadius="5 0 0 5" Background="#66E21F" />
+                    <Border Width="288" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock x:Name="loadHeader" Text="" FontSize="18" Style="{DynamicResource subjectFolderHeader}" />
+                            <TextBlock x:Name="loadCreated" Text="" Style="{DynamicResource subjectFolderDate}" />
+                        </StackPanel>
+                    </Border>
+                    <Border Width="50">
+                        <Button x:Name="subjectItemsDeleteBtn" Style="{DynamicResource versesTabActionButtonReset}" Grid.Column="2" Tag="TrashMD" Click="subjectItemsDeleteBtn_Click" />
+                    </Border>
+                </StackPanel>
+            </Border>
         </Border>
 
-        <Border Grid.Row="1">
+        <Border Grid.Row="1" x:Name="loadBorder" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Visible">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="265" />

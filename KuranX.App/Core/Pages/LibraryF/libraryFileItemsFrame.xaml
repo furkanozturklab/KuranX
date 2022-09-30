@@ -18,7 +18,7 @@
             <RowDefinition Height="80" />
         </Grid.RowDefinitions>
 
-        <Grid x:Name="loadinGifContent"  Grid.Row="0" Grid.RowSpan="3" Background="#FAFAFA" Panel.ZIndex="7" Visibility="Hidden">
+        <Grid x:Name="loadinGifContent"  Grid.Row="0" Grid.RowSpan="3" Background="#FAFAFA" Panel.ZIndex="7" Visibility="Visible">
             <Image gif:ImageBehavior.AnimatedSource="/Resource/Images/Gif/Spinner800.gif" Width="250" Height="250"  RenderOptions.BitmapScalingMode="HighQuality" />
         </Grid>
 
@@ -168,7 +168,7 @@
             </Border>
         </Popup>
 
-        <StackPanel  Grid.Row="0" Orientation="Vertical" VerticalAlignment="Center" SnapsToDevicePixels="True" UseLayoutRounding="True">
+        <StackPanel  Grid.Row="0" Orientation="Vertical" VerticalAlignment="Center" SnapsToDevicePixels="True" UseLayoutRounding="True" x:Name="loadHeaderAni" Visibility="Hidden" Style="{DynamicResource aniEffectFadeStack}">
             <Button x:Name="totalFileCount" Style="{DynamicResource libraryFileHeader}" Content="" Tag="Yüklediklerim" Uid="#212529" />
             <!-- <Button x:Name="fileUploadButton" IsEnabled="False" Style="{DynamicResource newFileButton}" Click="fileUploadButton_Click" /> -->
             <StackPanel Grid.Column="0" VerticalAlignment="Center" Margin="0 10 0 0">
@@ -188,7 +188,7 @@
             <Image gif:ImageBehavior.AnimatedSource="/Resource/Images/Gif/Spinner800.gif" Width="250" Height="250"  RenderOptions.BitmapScalingMode="HighQuality" />
         </Grid>
 
-        <Border Grid.Row="1">
+        <Border Grid.Row="1" Style="{DynamicResource aniEffectFadeBorder}" x:Name="loadDetailAni" Visibility="Hidden">
 
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -747,7 +747,7 @@
             </Grid>
         </Border>
 
-        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Style="{DynamicResource aniEffectFadeStack}" Visibility="Hidden" x:Name="loadControlAni">
             <StackPanel Style="{DynamicResource ResourceKey=ayetlerControlBarStack}">
                 <StackPanel Style="{DynamicResource ResourceKey=ayetlerControlItems}">
                     <Button x:Name="backPage" IsEnabled="False" Style="{DynamicResource ayetlerControlItemPageButtonLeft}" Tag="ArrowLeft" Content="Kütüphaneye Geri Dön" Click="backPage_Click" />

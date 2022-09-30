@@ -137,6 +137,7 @@ namespace KuranX.App.Core.Pages.LibraryF
             {
                 noteAddPopup.IsOpen = true;
                 pdfConnectText.Text = currentFileName;
+                noteType.Text = "PDF Notu";
             }
             catch (Exception ex)
             {
@@ -529,6 +530,9 @@ namespace KuranX.App.Core.Pages.LibraryF
                 this.Dispatcher.Invoke(() =>
                 {
                     loadinGifContent.Visibility = Visibility.Collapsed;
+                    loadDetailAni.Visibility = Visibility.Visible;
+                    loadControlAni.Visibility = Visibility.Visible;
+                    loadHeaderAni.Visibility = Visibility.Visible;
                 });
             }
             catch (Exception ex)

@@ -18,6 +18,10 @@
             <RowDefinition Height="80" />
         </Grid.RowDefinitions>
 
+        <Grid x:Name="loadinGifContent"  Grid.Row="0" Grid.RowSpan="3" Background="#FAFAFA" Panel.ZIndex="7" Visibility="Visible">
+            <Image gif:ImageBehavior.AnimatedSource="/Resource/Images/Gif/Spinner800.gif" Width="250" Height="250"  RenderOptions.BitmapScalingMode="HighQuality" />
+        </Grid>
+
         <Grid x:Name="loadinItemsGifContent"  Grid.Row="1" Background="#FAFAFA" Panel.ZIndex="5" Visibility="Visible">
             <Image gif:ImageBehavior.AnimatedSource="/Resource/Images/Gif/Spinner800.gif" Width="250" Height="250"  RenderOptions.BitmapScalingMode="HighQuality" />
         </Grid>
@@ -107,7 +111,7 @@
             </Border>
         </Popup>
 
-        <StackPanel  Grid.Row="0" Orientation="Vertical" VerticalAlignment="Center" SnapsToDevicePixels="True" UseLayoutRounding="True">
+        <StackPanel  Grid.Row="0" Orientation="Vertical" VerticalAlignment="Center" SnapsToDevicePixels="True" UseLayoutRounding="True" x:Name="loadHeaderAni" Style="{DynamicResource aniEffectFadeStack}" Visibility="Hidden">
             <Button x:Name="totalFileCount" Style="{DynamicResource libraryFileHeader}" Content="" Tag="Editor Seçimi" Uid="#FD7E14" />
             <StackPanel Grid.Column="0" VerticalAlignment="Center" Margin="0 25 0 5">
                 <Border Style="{DynamicResource defaultTabSearchBorder}">
@@ -123,7 +127,7 @@
             <TextBlock Text="Editorun Eklediği Dosyalar" FontFamily="{DynamicResource PoppinsMedium}" FontSize="24" Foreground="#1C1E2F" Padding="30 5 30 5" />
         </StackPanel>
 
-        <Border Grid.Row="1">
+        <Border Grid.Row="1" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden" x:Name="loadDetailAni">
 
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -622,7 +626,7 @@
             </Grid>
         </Border>
 
-        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Style="{DynamicResource aniEffectFadeStack}" Visibility="Hidden" x:Name="loadControllAni">
             <StackPanel Style="{DynamicResource ResourceKey=ayetlerControlBarStack}">
                 <StackPanel Style="{DynamicResource ResourceKey=ayetlerControlItems}">
                     <Button x:Name="backPage" IsEnabled="False" Style="{DynamicResource ResourceKey=ayetlerControlItemPageButtonLeft}" Tag="ArrowLeft" Content="Kütüphaneye Geri Dön" Click="backPage_Click" />

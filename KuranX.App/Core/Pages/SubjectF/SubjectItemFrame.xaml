@@ -18,7 +18,7 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <Grid x:Name="loadinGifContent"  Grid.Row="0" Grid.RowSpan="3" Background="#FAFAFA" Panel.ZIndex="5" Visibility="Visible">
+        <Grid x:Name="loadinGifContent"  Grid.Row="0" Grid.RowSpan="3" Background="#FAFAFA" Panel.ZIndex="5" Visibility="Hidden">
             <Image gif:ImageBehavior.AnimatedSource="/Resource/Images/Gif/Spinner800.gif" Width="250" Height="250"  RenderOptions.BitmapScalingMode="HighQuality" />
         </Grid>
 
@@ -159,13 +159,13 @@
             </Border>
         </Popup>
 
-        <Popup x:Name="noteAddPopup" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="400" Height="440" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+        <Popup x:Name="noteAddPopup" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="400" Height="470" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
 
-            <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="380" Height="420">
+            <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="380" Height="450">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="50" />
-                        <RowDefinition Height="370" />
+                        <RowDefinition Height="400" />
                     </Grid.RowDefinitions>
                     <Border  Grid.Row="0" Style="{DynamicResource headerBorderTemp}">
                         <TextBlock Text="Yeni Not Al" Style="{DynamicResource popupHeaderText}" />
@@ -188,7 +188,16 @@
                                 <Label Visibility="Hidden" x:Name="noteAddPopupHeaderError" Style="{DynamicResource popupDefaultTextBoxLabel}" Content=" " />
                             </StackPanel>
 
-                            <TextBlock Text="Not" FontFamily="{DynamicResource PoppinsSemiBold}" FontSize="14" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,5,0,0" />
+                            <TextBlock Text="Not Türü" FontFamily="{DynamicResource PoppinsSemiBold}" FontSize="14" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 0 0 0" />
+                            <TextBox Style="{DynamicResource popupDefaulTextBox}" Width="350" x:Name="noteType" IsReadOnly="True">
+                                <TextBox.Resources>
+                                    <Style TargetType="{x:Type Border}">
+                                        <Setter Property="CornerRadius" Value="5" />
+                                    </Style>
+                                </TextBox.Resources>
+                            </TextBox>
+
+                            <TextBlock Text="Not" FontFamily="{DynamicResource PoppinsSemiBold}" FontSize="14" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 20 0 0" />
                             <TextBox TextWrapping="Wrap" AcceptsReturn="True" TextAlignment="Justify" KeyDown="noteDetail_KeyDown" VerticalScrollBarVisibility="Visible" Height="120" Style="{DynamicResource popupDefaulTextArea}" Width="350" x:Name="noteDetail">
                                 <TextBox.Resources>
                                     <Style TargetType="{x:Type Border}">
@@ -370,7 +379,7 @@
             </Border>
         </Popup>
 
-        <StackPanel Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center" SnapsToDevicePixels="True" UseLayoutRounding="True">
+        <StackPanel Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center" SnapsToDevicePixels="True" UseLayoutRounding="True" x:Name="loadHeaderAni" Style="{DynamicResource aniEffectFadeStack}" Visibility="Hidden">
             <Border Width="350" Height="80" Style="{DynamicResource defaultBorderShadowEffect}">
                 <StackPanel Orientation="Horizontal">
                     <Border x:Name="loadBgColor" Width="12" CornerRadius="5 0 0 5" Background="#66E21F" />
@@ -389,18 +398,24 @@
             </Border>
         </StackPanel>
 
-        <Border Grid.Row="1">
+        <Border Grid.Row="1" x:Name="loadControlAni" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
 
-            <Border VerticalAlignment="Center" HorizontalAlignment="Center" SnapsToDevicePixels="True" UseLayoutRounding="True">
-                <StackPanel Orientation="Horizontal"  VerticalAlignment="Center">
-                    <Button x:Name="backButton" Content="Geri Dön" Tag="ArrowLeft"  Style="{DynamicResource versesActionMainTabButtonFeed}" Click="backButton_Click" />
-                    <Button x:Name="noteButton" Content="Not Al-Oku" Tag="ClipboardNotes" Style="{DynamicResource versesActionMainTabButtonNote}" Click="noteButton_Click" />
-                    <Button x:Name="openVerseButton"  Content="Sureye Git" Tag="ArrowRight"  Style="{DynamicResource versesActionMainTabButtonSure}" Click="openVerseButton_Click" />
-                </StackPanel>
-            </Border>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Button x:Name="backButton" Grid.Column="1" Content="Geri Dön" Tag="ArrowLeft"  Style="{DynamicResource noteControlBackBtn}" Click="backButton_Click" />
+                <Button x:Name="noteButton" Grid.Column="2" Content="Not Al-Oku" Tag="JournalBookmark" Style="{DynamicResource noteControlBackNote}" Click="noteButton_Click" />
+                <Button x:Name="openVerseButton" Grid.Column="3" Content="Sureye Git" Tag="ArrowRight"  Style="{DynamicResource noteControlBackGo}" Click="openVerseButton_Click" />
+            </Grid>
         </Border>
 
-        <StackPanel Grid.Row="2" UseLayoutRounding="True" SnapsToDevicePixels="True">
+        <StackPanel Grid.Row="2" UseLayoutRounding="True" SnapsToDevicePixels="True" x:Name="loadDetailAni" Style="{DynamicResource aniEffectFadeStack}" Visibility="Hidden">
 
             <Border Style="{DynamicResource defaultBorderShadowEffect}" Margin="25,5,25,5">
                 <Grid>

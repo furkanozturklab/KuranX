@@ -65,6 +65,18 @@
         </Style.Triggers>
     </Style>
 
+    <Style x:Key="defaultBorderShadowEffect" TargetType="Border">
+        <Setter Property="SnapsToDevicePixels" Value="true" />
+        <Setter Property="UseLayoutRounding" Value="True" />
+        <Setter Property="Background" Value="#FFFFFF" />
+        <Setter Property="CornerRadius" Value="5 5 5 5" />
+        <Setter Property="Effect">
+            <Setter.Value>
+                <DropShadowEffect BlurRadius="15" Opacity="0.15"  ShadowDepth="1" Direction="-25" Color="Black" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style x:Key="defaultTabSearchBorder" TargetType="Border">
 
         <Setter Property="Width" Value="350" />
@@ -168,5 +180,60 @@
         <Setter Property="Panel.ZIndex" Value="4" />
         <Setter Property="Height" Value="572" />
         <Setter Property="Width" Value="816" />
+    </Style>
+
+    <Style x:Key="aniEffectFadeStack" TargetType="StackPanel">
+
+        <Style.Triggers>
+            <Trigger Property="Visibility" Value="Visible">
+                <Trigger.EnterActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                             From="0.0" To="1.0" Duration="0:0:0.5" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.EnterActions>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="aniEffectFadeGrid" TargetType="Grid">
+
+        <Style.Triggers>
+            <Trigger Property="Visibility" Value="Visible">
+                <Trigger.EnterActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                             From="0.0" To="1.0" Duration="0:0:0.5" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.EnterActions>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="aniEffectFadeBorder" TargetType="Border">
+
+        <Style.Triggers>
+            <Trigger Property="Visibility" Value="Visible">
+                <Trigger.EnterActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                             From="0.0" To="1.0" Duration="0:0:0.5" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.EnterActions>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="frameTab" TargetType="Border" BasedOn="{StaticResource defaultBorderShadowEffect}">
+
+        <Setter Property="Height" Value="80" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Margin" Value="5 0 5 0" />
     </Style>
 </ResourceDictionary>

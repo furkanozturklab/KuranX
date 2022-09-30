@@ -31,7 +31,7 @@ namespace KuranX.App.Core.Pages.VerseF
         private CheckBox? chk;
         private DispatcherTimer? timeSpan = new DispatcherTimer(DispatcherPriority.Render);
         private string InterpreterWrite, verseName, navLocation;
-        public int activeSure, activeVerse, tempDataInt = 0, lastVerse = 0, getpopupRelativeId, relativeDeskV, singlerelativeDesk = 1, singlenextnavcontrol = 1;
+        public int activeSure, activeVerse, relativeVerseDesk, tempDataInt = 0, lastVerse = 0, getpopupRelativeId, relativeDeskV, singlerelativeDesk = 1, singlenextnavcontrol = 1;
         public int[] feedPoint = new int[4];
         private bool tempCheck = false, tempCheck2, tempCheck3;
 
@@ -72,6 +72,7 @@ namespace KuranX.App.Core.Pages.VerseF
                     tempDataInt = activeVerse;
                     tempDataInt--;
                     CurrentVerse.Tag = dVerseNav[0].RelativeDesk.ToString();
+                    relativeVerseDesk = (int)dVerseNav[0].RelativeDesk;
 
                     dVerse = (List<Verse>)entitydb.Verse.Where(p => p.SureId == activeSure).Where(p => p.VerseId == activeVerse).ToList();
                     dInterpreter = (List<Interpreter>)entitydb.Interpreter.Where(p => p.verseId == tempDataInt).Where(p => p.sureId == activeSure).Where(p => p.interpreterWriter == InterpreterWrite).ToList();
@@ -185,6 +186,7 @@ namespace KuranX.App.Core.Pages.VerseF
                         versesFullTextData.ItemsSource = dInterpreter;
 
                         CurrentVerse.Tag = dVerse[0].RelativeDesk.ToString();
+                        relativeVerseDesk = (int)dVerse[0].RelativeDesk;
                     });
 
                     Thread.Sleep(200);
@@ -283,6 +285,7 @@ namespace KuranX.App.Core.Pages.VerseF
                 CurrentVerse.Dispatcher.Invoke(() =>
                 {
                     CurrentVerse.Tag = dVerse[0].RelativeDesk.ToString();
+                    relativeVerseDesk = (int)dVerse[0].RelativeDesk;
                 });
             }
             dloadAniComplated();
@@ -348,6 +351,7 @@ namespace KuranX.App.Core.Pages.VerseF
 
                     // CurrentVerse
                     CurrentVerse.Tag = dVerse[0].RelativeDesk.ToString();
+                    relativeVerseDesk = (int)dVerse[0].RelativeDesk;
 
                     // Location Nav Content
                     App.locationTxt.Text = "Ayetler >" + " " + dSure[0].Name;
@@ -1216,6 +1220,7 @@ namespace KuranX.App.Core.Pages.VerseF
             {
                 noteAddPopup.IsOpen = true;
                 noteConnectVerse.Text = dSure[0].Name + " > " + dVerse[0].RelativeDesk;
+                noteType.Text = "Ayet Notu";
             }
             catch (Exception ex)
             {
@@ -1583,7 +1588,9 @@ namespace KuranX.App.Core.Pages.VerseF
                     {
                         using (var entitydb = new AyetContext())
                         {
-                            var dNotes = new Notes { NoteHeader = noteName.Text, NoteDetail = noteDetail.Text, SureId = activeSure, VerseId = activeVerse, Modify = DateTime.Now, Created = DateTime.Now, NoteLocation = "Ayet" };
+                            Debug.WriteLine("active verse ıd : " + activeVerse);
+
+                            var dNotes = new Notes { NoteHeader = noteName.Text, NoteDetail = noteDetail.Text, SureId = activeSure, VerseId = relativeVerseDesk, Modify = DateTime.Now, Created = DateTime.Now, NoteLocation = "Ayet" };
                             entitydb.Notes.Add(dNotes);
                             entitydb.SaveChanges();
                             succsessFunc("Not Ekleme Başarılı", dSure[0].Name + " Surenin " + dVerse[0].RelativeDesk + " Ayetine Not Eklendiniz.", 3);

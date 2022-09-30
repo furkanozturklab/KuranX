@@ -69,7 +69,7 @@
         <Setter Property="Width" Value="24" />
         <Setter Property="Height" Value="22" />
         <Setter Property="Foreground" Value="#1C1E2F" />
-        <Setter Property="BorderThickness" Value="0,0,0,0" />
+        <Setter Property="BorderThickness" Value="0 0 0 0" />
         <Setter Property="BorderBrush" Value="{x:Null}" />
         <Setter Property="Background" Value="{x:Null}" />
         <Setter Property="Template">
@@ -154,8 +154,6 @@
         <Setter Property="Margin" Value="0 0 25 0" />
         <Setter Property="Background" Value="#FFF" />
         <Setter Property="Foreground"  Value="#1C1E2F" />
-        <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="UseLayoutRounding" Value="True" />
     </Style>
 
     <Style x:Key="versesActionMainTabButton" TargetType="Button">
@@ -166,8 +164,6 @@
         <Setter Property="Background" Value="#FFF" />
         <Setter Property="Margin" Value="12 0 12 0" />
         <Setter Property="Foreground"  Value="#1C1E2F" />
-        <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="UseLayoutRounding" Value="True" />
     </Style>
 
     <Style x:Key="versesActionMainTabButtonMark" TargetType="CheckBox" BasedOn="{StaticResource versesActionMainTabCheckBox}">
@@ -688,38 +684,6 @@
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Foreground" Value="#F0433A" />
                 <Setter Property="Cursor" Value="Hand" />
-            </Trigger>
-        </Style.Triggers>
-    </Style>
-
-    <Style x:Key="aniEffectFadeStack" TargetType="StackPanel">
-
-        <Style.Triggers>
-            <Trigger Property="Visibility" Value="Visible">
-                <Trigger.EnterActions>
-                    <BeginStoryboard>
-                        <Storyboard>
-                            <DoubleAnimation Storyboard.TargetProperty="Opacity"
-                             From="0.0" To="1.0" Duration="0:0:0.4" />
-                        </Storyboard>
-                    </BeginStoryboard>
-                </Trigger.EnterActions>
-            </Trigger>
-        </Style.Triggers>
-    </Style>
-
-    <Style x:Key="aniEffectFadeGrid" TargetType="Grid">
-
-        <Style.Triggers>
-            <Trigger Property="Visibility" Value="Visible">
-                <Trigger.EnterActions>
-                    <BeginStoryboard>
-                        <Storyboard>
-                            <DoubleAnimation Storyboard.TargetProperty="Opacity"
-                             From="0.0" To="1.0" Duration="0:0:0.4" />
-                        </Storyboard>
-                    </BeginStoryboard>
-                </Trigger.EnterActions>
             </Trigger>
         </Style.Triggers>
     </Style>

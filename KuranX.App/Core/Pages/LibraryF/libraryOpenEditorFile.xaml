@@ -481,35 +481,45 @@
             <Image gif:ImageBehavior.AnimatedSource="/Resource/Images/Gif/Spinner800.gif" Width="250" Height="250"  RenderOptions.BitmapScalingMode="HighQuality" />
         </Grid>
 
-        <Border Grid.Row="0" Width="350" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
-            <StackPanel Orientation="Horizontal">
+        <Border Grid.Row="0" Width="450" Height="80" Style="{DynamicResource aniEffectFadeBorder}" x:Name="loadHeaderAni" Visibility="Hidden">
+            <Border Width="350" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                <StackPanel Orientation="Horizontal">
 
-                <Border Width="12" CornerRadius="5 0 0 5" Background="#B30B00" />
-                <Border Width="288" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                    <StackPanel Orientation="Vertical">
-                        <TextBlock x:Name="loadHeader" Text="" FontSize="18" Style="{DynamicResource subjectFolderHeader}" />
-                        <TextBlock x:Name="loadCreated" Text="" Style="{DynamicResource subjectFolderDate}" />
-                    </StackPanel>
-                </Border>
-                <Border Width="50">
-                    <Button x:Name="subjectItemsDeleteBtn" Style="{DynamicResource versesTabActionButtonReset}" Grid.Column="2" Tag="TrashMD" />
-                </Border>
-            </StackPanel>
-        </Border>
-
-        <Border Grid.Row="1">
-
-            <Border VerticalAlignment="Center" HorizontalAlignment="Center" SnapsToDevicePixels="True" UseLayoutRounding="True">
-                <StackPanel Orientation="Horizontal"  VerticalAlignment="Center">
-                    <Button x:Name="backButton" Content="Geri Dön" Tag="ArrowLeft"  Style="{DynamicResource versesActionMainTabButtonFeed}" Click="backButton_Click" />
-                    <Button x:Name="noteButton" Content="Editor Notları" Tag="ClipboardNotes" Style="{DynamicResource versesActionMainTabButtonNote}" Click="noteButton_Click" />
-                    <Button x:Name="editorNote" Content="Editor Aldığı Notlar" Tag="ClipboardNotes" Style="{DynamicResource versesActionMainTabButtonNote}" Click="editorNote_Click" />
-                    <Button x:Name="openFileWindowButton"  Content="Pencerede Aç" Tag="ArrowRight"  Style="{DynamicResource versesActionMainTabButtonSure}" Click="openFileWindowButton_Click" />
+                    <Border Width="12" CornerRadius="5 0 0 5" Background="#B30B00" />
+                    <Border Width="288" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock x:Name="loadHeader" Text="" FontSize="18" Style="{DynamicResource subjectFolderHeader}" />
+                            <TextBlock x:Name="loadCreated" Text="" Style="{DynamicResource subjectFolderDate}" />
+                        </StackPanel>
+                    </Border>
+                    <Border Width="50">
+                        <Button x:Name="subjectItemsDeleteBtn" Style="{DynamicResource versesTabActionButtonReset}" Grid.Column="2" Tag="TrashMD" />
+                    </Border>
                 </StackPanel>
             </Border>
         </Border>
 
-        <Border Grid.Row="2" Padding="20">
+        <Border Grid.Row="1" Style="{DynamicResource aniEffectFadeBorder}" x:Name="loadControlAni" Visibility="Hidden">
+
+            <Grid>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Button x:Name="backButton" Grid.Column="1" Content="Geri Dön" Tag="ArrowLeft"  Style="{DynamicResource noteControlBackBtn}" Click="backButton_Click" />
+                <Button x:Name="noteButton" Grid.Column="2" Content="Not Al" Tag="JournalBookmark" Style="{DynamicResource noteControlBackNote}" Click="noteButton_Click" />
+                <Button x:Name="editorNote" Grid.Column="3" Content="Editor Notları" Tag="JournalBookmark" Style="{DynamicResource noteControlBackNote}" Click="editorNote_Click" />
+                <Button x:Name="openFileWindowButton" Grid.Column="4"  Content="Pencerede Aç" Tag="ArrowRight"  Style="{DynamicResource noteControlBackGo}" Click="openFileWindowButton_Click" />
+            </Grid>
+        </Border>
+
+        <Border Grid.Row="2" Padding="20" Style="{DynamicResource aniEffectFadeBorder}" x:Name="loadDetailAni" Visibility="Hidden">
             <cef:ChromiumWebBrowser x:Name="pdfviewer" Address="" Width="Auto" Height="Auto" />
         </Border>
     </Grid>

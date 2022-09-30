@@ -24,8 +24,7 @@ namespace KuranX.App.Core.Windows
             App.locationTxt.Text = "Ayetler";
         }
 
-        private void enterFullScreenIcon_Click(object sender,
-            RoutedEventArgs e)
+        private void enterFullScreenIcon_Click(object sender, RoutedEventArgs e)
         {
             leftHeaderButtonsProfile.Style = (Style)FindResource("hmwnd_leftHeaderButtonsActive");
             leftHeaderButtonsProfileIcon.Style = (Style)FindResource("IconFontHidden");
@@ -43,8 +42,7 @@ namespace KuranX.App.Core.Windows
             leftHeaderButtonsHelp.Visibility = Visibility.Collapsed;
         }
 
-        private void exitFullScreenIcon_Click(object sender,
-            RoutedEventArgs e)
+        private void exitFullScreenIcon_Click(object sender, RoutedEventArgs e)
         {
             leftHeaderButtonsProfile.Style = (Style)FindResource("hmwnd_leftHeaderButtons");
             leftHeaderButtonsProfileIcon.Style = null;
@@ -74,7 +72,7 @@ namespace KuranX.App.Core.Windows
 
             //App.mainframe.Content = new SubjectItemsFrame();
 
-            //App.mainframe.Content = new SubjectItem();
+            //App.mainframe.Content = new Pages.SubjectF.SubjectFrame();
 
             //App.mainframe.Content = new Pages.SubjectF.SubjectItemFrame(13, "Fâtiha Suresinin 1 Ayeti", "Meltdown", "31.08.2022 19:54:27", (SolidColorBrush)new BrushConverter().ConvertFrom("#FFFFC107"));
 
@@ -87,6 +85,10 @@ namespace KuranX.App.Core.Windows
             // App.mainframe.Content = new Pages.LibraryF.libraryOpenFile();
 
             //App.mainframe.Content = new Pages.LibraryF.libraryNote();
+
+            //App.mainframe.Content = new Pages.NoteF.NotesFrame();
+
+            //App.mainframe.Content = new Pages.NoteF.NoteItem(61);
         }
 
         private void appClosed_Click(object sender, RoutedEventArgs e)
@@ -115,6 +117,10 @@ namespace KuranX.App.Core.Windows
 
                 case "nav_library":
                     App.mainframe.Content = new Pages.LibraryF.libraryFrame();
+                    break;
+
+                case "nav_notes":
+                    App.mainframe.Content = new Pages.NoteF.NotesFrame();
                     break;
 
                 default:

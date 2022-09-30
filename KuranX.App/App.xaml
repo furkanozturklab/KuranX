@@ -28,6 +28,7 @@
                 <ResourceDictionary Source="pack://application:,,,/Core/ResourceXaml/suresDesing.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/Core/ResourceXaml/versesDesing.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/Core/ResourceXaml/libraryDesing.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Core/ResourceXaml/NotesDesing.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

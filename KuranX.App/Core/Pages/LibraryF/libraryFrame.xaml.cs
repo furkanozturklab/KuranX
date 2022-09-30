@@ -49,5 +49,19 @@ namespace KuranX.App.Core.Pages.LibraryF
                 App.logWriter("FrameLoad", ex);
             }
         }
+
+        private void loadAni()
+        {
+            this.Dispatcher.Invoke(() =>
+            {
+                loadControlAni.Visibility = Visibility.Visible;
+                loadHeaderAni.Visibility = Visibility.Visible;
+            });
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            loadAni();
+        }
     }
 }

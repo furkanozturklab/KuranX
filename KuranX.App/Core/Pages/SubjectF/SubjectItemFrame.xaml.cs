@@ -247,6 +247,7 @@ namespace KuranX.App.Core.Pages.SubjectF
             try
             {
                 noteAddPopup.IsOpen = true;
+                noteType.Text = "Konularım Notu";
             }
             catch (Exception ex)
             {
@@ -485,6 +486,9 @@ namespace KuranX.App.Core.Pages.SubjectF
             {
                 this.Dispatcher.Invoke(() =>
                 {
+                    loadHeaderAni.Visibility = Visibility.Hidden;
+                    loadDetailAni.Visibility = Visibility.Hidden;
+                    loadControlAni.Visibility = Visibility.Hidden;
                     loadinGifContent.Visibility = Visibility.Visible;
                 });
             }
@@ -500,6 +504,9 @@ namespace KuranX.App.Core.Pages.SubjectF
             {
                 this.Dispatcher.Invoke(() =>
                 {
+                    loadHeaderAni.Visibility = Visibility.Visible;
+                    loadDetailAni.Visibility = Visibility.Visible;
+                    loadControlAni.Visibility = Visibility.Visible;
                     loadinGifContent.Visibility = Visibility.Collapsed;
                 });
             }

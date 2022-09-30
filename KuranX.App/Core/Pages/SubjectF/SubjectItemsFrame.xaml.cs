@@ -154,6 +154,8 @@ namespace KuranX.App.Core.Pages.SubjectF
             {
                 var btn = sender as Button;
                 App.mainframe.Content = new SubjectItemFrame(int.Parse(btn.Uid.ToString()), btn.Content.ToString(), subjectFolder, dcreate, dbg);
+
+                loadBorder.Visibility = Visibility.Hidden;
             }
             catch (Exception ex)
             {
@@ -402,6 +404,7 @@ namespace KuranX.App.Core.Pages.SubjectF
                     previusPageButton.IsEnabled = false;
                     nextpageButton.IsEnabled = false;
                     loadinGifContent.Visibility = Visibility.Visible;
+                    loadBorder.Visibility = Visibility.Hidden;
                 });
             }
             catch (Exception ex)
@@ -419,6 +422,8 @@ namespace KuranX.App.Core.Pages.SubjectF
                     backPage.IsEnabled = true;
                     newConnect.IsEnabled = true;
                     loadinGifContent.Visibility = Visibility.Collapsed;
+                    loadBorder.Visibility = Visibility.Visible;
+                    loadHeaderBorder.Visibility = Visibility.Visible;
                 });
             }
             catch (Exception ex)

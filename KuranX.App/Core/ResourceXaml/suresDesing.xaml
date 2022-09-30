@@ -289,7 +289,7 @@
 
     <Style TargetType="StackPanel" x:Key="ayetlerControlBarStack">
         <Setter Property="Orientation" Value="Horizontal" />
-        <Setter Property="Height" Value="88" />
+        <Setter Property="Height" Value="80" />
     </Style>
 
     <Style TargetType="StackPanel" x:Key="ayetlerControlItems">

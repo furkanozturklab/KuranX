@@ -41,7 +41,8 @@
     * [ ] ⚠️ infor ayetler arasındaki konular yazı header değiştir.
     * [ ] ⚠️ Anlam bütünlüğü eklerken aynı isimde bütünlük eklene biliyor.
     * [ ] ⚠️ Tamamını gösterde connect 1 yazıyor hayla
-    * [ ] Editor eklene pdf yüklediklerimde gözüküyor.
+    * [ ] ⚠️ Editor eklene pdf yüklediklerimde gözüküyor.
+    * [ ] ⚠️ Note filtrelemede note sayısı değişmiyor kontrol et.
 
 
 ## Gelecek Güncellemeler:

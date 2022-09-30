@@ -445,6 +445,8 @@ namespace KuranX.App.Core.Pages.SubjectF
                     SearchData.IsEnabled = false;
                     SearchBtn.IsEnabled = false;
                     loadinGifContent.Visibility = Visibility.Visible;
+
+                    loadBorder.Visibility = Visibility.Hidden;
                 });
             }
             catch (Exception ex)
@@ -463,6 +465,8 @@ namespace KuranX.App.Core.Pages.SubjectF
                     SearchData.IsEnabled = true;
                     SearchBtn.IsEnabled = true;
                     loadinGifContent.Visibility = Visibility.Collapsed;
+                    loadBorderHeader.Visibility = Visibility.Visible;
+                    loadBorder.Visibility = Visibility.Visible;
                 });
             }
             catch (Exception ex)

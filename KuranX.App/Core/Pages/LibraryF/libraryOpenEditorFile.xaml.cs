@@ -556,6 +556,9 @@ namespace KuranX.App.Core.Pages.LibraryF
                 this.Dispatcher.Invoke(() =>
                 {
                     loadinGifContent.Visibility = Visibility.Collapsed;
+                    loadHeaderAni.Visibility = Visibility.Visible;
+                    loadControlAni.Visibility = Visibility.Visible;
+                    loadDetailAni.Visibility = Visibility.Visible;
                 });
             }
             catch (Exception ex)

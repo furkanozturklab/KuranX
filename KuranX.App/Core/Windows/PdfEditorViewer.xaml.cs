@@ -124,19 +124,6 @@ namespace KuranX.App.Core.Windows
             }
         }
 
-        private void button_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                Window ne = new homeScreen();
-                ne.Show();
-            }
-            catch (Exception ex)
-            {
-                App.logWriter("NewWindow", ex);
-            }
-        }
-
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             try

@@ -285,7 +285,7 @@ namespace KuranX.App.Core.Pages.LibraryF
             {
                 this.Dispatcher.Invoke(() =>
                 {
-                    loadinItemsGifContent.Visibility = Visibility.Visible;
+                    loadinGifContent.Visibility = Visibility.Visible;
                 });
             }
             catch (Exception ex)
@@ -300,7 +300,7 @@ namespace KuranX.App.Core.Pages.LibraryF
             {
                 this.Dispatcher.Invoke(() =>
                 {
-                    loadinItemsGifContent.Visibility = Visibility.Collapsed;
+                    loadinGifContent.Visibility = Visibility.Collapsed;
                 });
             }
             catch (Exception ex)

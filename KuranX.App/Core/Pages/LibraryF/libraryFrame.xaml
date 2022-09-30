@@ -7,7 +7,7 @@
        xmlns:gif="http://wpfanimatedgif.codeplex.com"
       mc:Ignorable="d"
       d:DesignHeight="708" d:DesignWidth="1115" d:MaxHeight="708" d:MaxWidth="1270" d:MinWidth="1115"
-      Title="LibraryFrame" Background="#FAFAFA">
+      Title="LibraryFrame" Background="#FAFAFA" Loaded="Page_Loaded">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -15,13 +15,15 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <Border Grid.Row="0" Style="{DynamicResource defaultBorderShadowEffect}" Width="350" Height="100">
-            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
-                <Button Style="{DynamicResource libraryHeader}" Tag="/resource/images/icon/library_rbx.png" />
-            </StackPanel>
+        <Border Grid.Row="0" Width="400" Height="150" x:Name="loadHeaderAni" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+            <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="350" Height="100">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <Button Style="{DynamicResource libraryHeader}" Tag="/resource/images/icon/library_rbx.png" />
+                </StackPanel>
+            </Border>
         </Border>
 
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="1" Style="{DynamicResource aniEffectFadeGrid}" Visibility="Hidden" x:Name="loadControlAni">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
