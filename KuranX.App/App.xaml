@@ -24,6 +24,7 @@
 
                 <ResourceDictionary Source="pack://application:,,,/Core/ResourceXaml/popupDesing.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/Core/ResourceXaml/subjectDesing.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Core/ResourceXaml/remiderDesign.xaml" />
 
                 <ResourceDictionary Source="pack://application:,,,/Core/ResourceXaml/suresDesing.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/Core/ResourceXaml/versesDesing.xaml" />

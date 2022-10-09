@@ -37,12 +37,23 @@
     * [x] ⚠️ ~~Mushaf sırasından geri dönünce tümü veri olmuyor. "Mushaf de değil hepsinde oluyor statick verileri kontrol edelim"~~
     * [x] ⚠️ ~~Örnek fatihada tümü okudum yaptığında >> buttonu aktif oluyor. Olmamalı~~
     * [x] ⚠️ ~~Verses panel InitializeComponent olunca selectchange çalışıyor böylece loadverse iki kez çalışıyor.~~
-	* [ ] ⚠️ Stickpanel versepanel ile revize edilecek eski yapıda kaldı çoğu yapı ve çalışma prensibi eksi.
+	* [x] ⚠️ Stickpanel versepanel ile revize edilecek eski yapıda kaldı çoğu yapı ve çalışma prensibi eksi.
+    * [x] ⚠️ Stikcyverse panel giderken sorunlar var
     * [ ] ⚠️ infor ayetler arasındaki konular yazı header değiştir.
-    * [ ] ⚠️ Anlam bütünlüğü eklerken aynı isimde bütünlük eklene biliyor.
-    * [ ] ⚠️ Tamamını gösterde connect 1 yazıyor hayla
+    * [x] ⚠️ Anlam bütünlüğü eklerken aynı isimde bütünlük eklene biliyor.
+    * [ ] ⚠️ Tamamını gösterde connect 1 yazıyor hayla. ? 
     * [ ] ⚠️ Editor eklene pdf yüklediklerimde gözüküyor.
-    * [ ] ⚠️ Note filtrelemede note sayısı değişmiyor kontrol et.
+    * [x] ⚠️ Note filtrelemede note sayısı değişmiyor kontrol et.
+    * [ ] ⚠️ Subject item girince tr/arp/arp yazılar doğru sekilde gelmiyor. -> bilerek yapmışım bir sor
+    * [ ] ⚠️ İiniş ve musaf sıraları yanlış wamp da doğru db de yerleri yanlış
+    * [ ] ⚠️ Son sureden sonra ileri git kapalı olmalı ama acık kontrol et.
+    * [ ] ⚠️ Pdf dosyası headerı bulanık ? / Pencere ac dikkatli bak 
+    * [ ] ⚠️ CefhSharp cok ram yiyor işin bitince kapatmam lazım
+    * [ ] ⚠️ Yorumcuyu değiştirdğimde yorumu getir aktif ise değiştiriyor ama biz göremiyoruz yorumcu değişince + yorumu getir click lenmiş gibi olmalı
+    * [x] ⚠️ Aynı not isim ile not eklene biliyor
+    * [x] ⚠️ Not alırken 3000 karakter sınırı olsun // AYET
+    * [ ] ⚠️ 
+
 
 
 ## Gelecek Güncellemeler:
@@ -54,7 +65,11 @@
 	* [ ] 🆕 secili ayet kırmız kalsın.
 	* [ ] 🆕 Try catch bloklarında catch kısımlarına girerse new window oluşturup anasayfaya yönlendir kullanııcya uyarı ver.
 	* [ ] 🆕 Admin Ayarlarını acıp kapanıp acıla bilen buttonlar oluştur.
-	* [ ] Anlam bütünlükleri Fatihadan bağlayınca Nisadada gözüksün
+	* [x] 🆕 Anlam bütünlükleri Fatihadan bağlayınca Nisadada gözüksün
+	* [ ] 🆕 Ayet okurken işaretlemeden cıkınca uyarı ver
+	* [ ] 🆕 Popupları haraket ettirmek ?
+	* [ ] 🆕 pdf de not alırken alınan sayfayı işaretleme
+	* [ ] 🆕 
 
 
 ## KOD DÜZENLEMERİ:
@@ -65,19 +80,20 @@
 
 ## KALİTE KONTROL:
 
+
 * ### PUBLİC
 	
 	* [ ] Testing phase has not started
 
 #### STATUS 
 
-> SON EKLENEN SORUN TARİHİ : 18.09.2022
+> SON EKLENEN SORUN TARİHİ : 09.10.2022
 >
-> SON ÇÖZÜLEN SORUN TARİHİ : 12.09.2022
+> SON ÇÖZÜLEN SORUN TARİHİ : 08.10.2022
 >
-> Toplam Çözülen Sorun : 19
+> Toplam Çözülen Sorun : 21
 >
-> SON GÜNCELLEME TARİHİ : 18⚠️.09.2022
+> SON GÜNCELLEME TARİHİ : 08.10.2022
 >
 > VERSİYON PUBLİC : 0.1.0  Alpha
 >

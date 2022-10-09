@@ -70,7 +70,9 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
-                    <TextBlock VerticalAlignment="Center" Width="16" Height="16">       <Icon:PackIconBootstrapIcons x:Name="ArIcon" Kind="ArrowsFullscreen" Width="16" Height="16" /></TextBlock>
+                    <TextBlock VerticalAlignment="Center" Width="16" Height="16">
+                    <Icon:PackIconBootstrapIcons x:Name="ArIcon" Kind="ArrowsFullscreen" Width="16" Height="16" />
+                    </TextBlock>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

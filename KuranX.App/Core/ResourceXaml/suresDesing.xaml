@@ -169,6 +169,7 @@
         <Setter Property="MinHeight" Value="25" />
         <Setter Property="Padding" Value="15 0 15 0" />
         <Setter Property="FontSize" Value="10" />
+        <Setter Property="IsReadOnly" Value="False" />
         <Setter Property="FontFamily" Value="{DynamicResource ResourceKey=PoppinsMedium}" />
         <Setter Property="Foreground" Value="#1C1E2F" />
         <Setter Property="Template">
@@ -200,8 +201,7 @@
                             Margin="0"
                             Focusable="True"
                             Background="Transparent"
-                            Visibility="Hidden"
-                            IsReadOnly="{TemplateBinding IsReadOnly}" />
+                            Visibility="Hidden" />
                         <Popup
                             Name="Popup"
                             Placement="Bottom"

@@ -77,6 +77,18 @@
         </Setter>
     </Style>
 
+    <Style x:Key="redBorderShadowEffect" TargetType="Border">
+        <Setter Property="SnapsToDevicePixels" Value="true" />
+        <Setter Property="UseLayoutRounding" Value="True" />
+        <Setter Property="Background" Value="#FFFFFF" />
+        <Setter Property="CornerRadius" Value="5 5 5 5" />
+        <Setter Property="Effect">
+            <Setter.Value>
+                <DropShadowEffect BlurRadius="15" Opacity="0.50"  ShadowDepth="1" Direction="-25" Color="Red" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style x:Key="defaultTabSearchBorder" TargetType="Border">
 
         <Setter Property="Width" Value="350" />

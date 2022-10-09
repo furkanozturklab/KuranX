@@ -387,7 +387,7 @@
             </Border>
         </Popup>
 
-        <Grid x:Name="loadinGifContent"  Grid.Row="0" Grid.RowSpan="3" Background="#FAFAFA" Panel.ZIndex="5" Visibility="Visible">
+        <Grid x:Name="loadinGifContent"  Grid.Row="0" Grid.RowSpan="3" Background="#FAFAFA" Panel.ZIndex="5" Visibility="Collapsed">
             <Image gif:ImageBehavior.AnimatedSource="/Resource/Images/Gif/Spinner800.gif" Width="250" Height="250"  RenderOptions.BitmapScalingMode="HighQuality" />
         </Grid>
 
@@ -409,7 +409,7 @@
             </Border>
         </Border>
 
-        <Border Grid.Row="1" x:Name="loadControlAni" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+        <Border Grid.Row="1" x:Name="loadControlAni" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Visible">
 
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -421,7 +421,7 @@
                 </Grid.ColumnDefinitions>
 
                 <Button x:Name="backButton" Grid.Column="1" Content="Geri Dön" Tag="ArrowLeft"  Style="{DynamicResource noteControlBackBtn}" Click="backButton_Click" />
-                <Button x:Name="noteButton" Grid.Column="2" Content="Not Al-Oku" Tag="JournalBookmark" Style="{DynamicResource noteControlBackNote}" Click="noteButton_Click" />
+                <Button x:Name="noteButton" Grid.Column="2" Content="Not Al-Oku" Tag="JournalBookmarkFill" Style="{DynamicResource noteControlBackNote}" Click="noteButton_Click" />
                 <Button x:Name="openFileWindowButton" Grid.Column="3"  Content="Pencerede Aç" Tag="ArrowRight"  Style="{DynamicResource noteControlBackGo}" Click="openFileWindowButton_Click" />
             </Grid>
         </Border>

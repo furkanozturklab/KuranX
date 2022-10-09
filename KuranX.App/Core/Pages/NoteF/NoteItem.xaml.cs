@@ -35,103 +35,165 @@ namespace KuranX.App.Core.Pages.NoteF
 
         public NoteItem()
         {
-            InitializeComponent();
+            try
+            {
+                InitializeComponent();
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("InitializeComponent", ex);
+            }
         }
 
         public NoteItem(int notesid) : this()
         {
-            selectedId = notesid;
+            try
+            {
+                selectedId = notesid;
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("InitializeComponent", ex);
+            }
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            loadTask = new Task(noteLoad);
-            loadTask.Start();
+            try
+            {
+                loadTask = new Task(noteLoad);
+                loadTask.Start();
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Page_Loaded", ex);
+            }
         }
 
         private void noteLoad()
         {
-            using (var entitydb = new AyetContext())
+            try
             {
-                loadAni();
-                dNotes = entitydb.Notes.Where(p => p.NotesId == selectedId).FirstOrDefault();
-
-                this.Dispatcher.Invoke(() =>
+                using (var entitydb = new AyetContext())
                 {
-                    gotoVerseButton.Visibility = Visibility.Collapsed;
-                    header.Text = dNotes.NoteHeader;
-                    create.Text = dNotes.Created.ToString();
-                    location.Text = dNotes.NoteLocation;
-                    noteDetail.Text = dNotes.NoteDetail;
+                    loadAni();
+                    dNotes = entitydb.Notes.Where(p => p.NotesId == selectedId).FirstOrDefault();
 
-                    // Sure Bağlanmış
-                    if (dNotes.SureId != 0)
+                    this.Dispatcher.Invoke(() =>
                     {
-                        gotoVerseButton.Visibility = Visibility.Visible;
-                        gotoVerseButton.Content = "Ayete Git";
+                        gotoVerseButton.IsEnabled = false;
+                        gotoVerseButton.Content = "Kullanıcı";
+                        gotoVerseButton.Tag = "People";
+                        header.Text = dNotes.NoteHeader;
+                        create.Text = dNotes.Created.ToString();
+                        location.Text = dNotes.NoteLocation;
+                        noteDetail.Text = dNotes.NoteDetail;
 
-                        var dSure = entitydb.Sure.Where(p => p.sureId == dNotes.SureId).FirstOrDefault();
+                        switch (dNotes.NoteLocation)
+                        {
+                            case "Konularım":
+                                noteType.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#FD7E14");
+                                break;
 
-                        infoText.Text = "Not Aldığınız Ayet " + Environment.NewLine + dSure.Name + " suresini " + dNotes.VerseId + " ayeti";
-                        cSr = (int)dSure.sureId;
-                        cVr = (int)dNotes.VerseId;
-                        gototype = "Verse";
-                    }
+                            case "Kütüphane":
+                                noteType.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#E33FA1");
+                                break;
 
-                    // PDF Bağlanmış
-                    if (dNotes.PdfFileId != 0)
-                    {
-                        gotoVerseButton.Visibility = Visibility.Visible;
-                        gotoVerseButton.Content = "Pdf e Git";
-                        var dPdf = entitydb.PdfFile.Where(p => p.PdfFileId == dNotes.PdfFileId).FirstOrDefault();
-                        infoText.Text = "Not Aldığınız Dosya " + Environment.NewLine + dPdf.FileName;
-                        cPd = (int)dNotes.PdfFileId;
-                        gototype = "Pdf";
-                    }
+                            case "Ayet":
+                                noteType.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#0DCAF0");
+                                break;
 
-                    // Konu Bağlanmış
-                    if (dNotes.SubjectId != 0)
-                    {
-                        gotoVerseButton.Visibility = Visibility.Visible;
-                        gotoVerseButton.Content = "Konuya Git";
-                        var dSubject = entitydb.SubjectItems.Where(p => p.SubjectItemsId == dNotes.SubjectId).FirstOrDefault();
-                        var dx = entitydb.Subject.Where(p => p.SubjectId == dSubject.SubjectId).FirstOrDefault();
-                        infoText.Text = "Not Aldığınız Konu" + Environment.NewLine + dx.SubjectName;
-                        cSb = (int)dNotes.SubjectId;
-                        gototype = "Subject";
-                    }
-                });
-                Thread.Sleep(200);
-                loadAniComplated();
+                            case "PDF":
+                                noteType.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#B30B00");
+                                break;
+
+                            default:
+                                noteType.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#ADB5BD");
+                                break;
+                        }
+
+                        // Sure Bağlanmış
+                        if (dNotes.SureId != 0)
+                        {
+                            gotoVerseButton.IsEnabled = true;
+                            gotoVerseButton.Content = "Ayete Git";
+                            gotoVerseButton.Tag = "ArrowRight";
+                            var dSure = entitydb.Sure.Where(p => p.sureId == dNotes.SureId).FirstOrDefault();
+
+                            infoText.Text = "Not Aldığınız Ayet " + Environment.NewLine + dSure.Name + " suresini " + dNotes.VerseId + " ayeti";
+                            cSr = (int)dSure.sureId;
+                            cVr = (int)dNotes.VerseId;
+                            gototype = "Verse";
+                        }
+
+                        // PDF Bağlanmış
+                        if (dNotes.PdfFileId != 0)
+                        {
+                            gotoVerseButton.IsEnabled = true;
+                            gotoVerseButton.Content = "Pdf e Git";
+                            gotoVerseButton.Tag = "ArrowRight";
+                            var dPdf = entitydb.PdfFile.Where(p => p.PdfFileId == dNotes.PdfFileId).FirstOrDefault();
+                            infoText.Text = "Not Aldığınız Dosya " + Environment.NewLine + dPdf.FileName;
+                            cPd = (int)dNotes.PdfFileId;
+                            gototype = "Pdf";
+                        }
+
+                        // Konu Bağlanmış
+                        if (dNotes.SubjectId != 0)
+                        {
+                            gotoVerseButton.IsEnabled = true;
+                            gotoVerseButton.Content = "Konuya Git";
+                            gotoVerseButton.Tag = "ArrowRight";
+                            var dSubject = entitydb.SubjectItems.Where(p => p.SubjectItemsId == dNotes.SubjectId).FirstOrDefault();
+                            var dx = entitydb.Subject.Where(p => p.SubjectId == dSubject.SubjectId).FirstOrDefault();
+                            infoText.Text = "Not Aldığınız Konu" + Environment.NewLine + dx.SubjectName;
+                            cSb = (int)dNotes.SubjectId;
+                            gototype = "Subject";
+                        }
+                    });
+                    Thread.Sleep(200);
+                    loadAniComplated();
+                }
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("noteLoad", ex);
             }
         }
 
         private void gotoVerseButton_Click(object sender, RoutedEventArgs e)
         {
-            switch (gototype)
+            try
             {
-                case "Verse":
+                switch (gototype)
+                {
+                    case "Verse":
 
-                    App.mainframe.Content = new verseFrame(cSr, cVr, "Notes");
+                        App.mainframe.Content = new verseFrame(cSr, cVr, "Notes");
 
-                    break;
+                        break;
 
-                case "Pdf":
-                    App.mainframe.Content = new libraryOpenFile(cPd);
-                    break;
+                    case "Pdf":
+                        App.mainframe.Content = new libraryOpenFile(cPd);
+                        break;
 
-                case "Subject":
+                    case "Subject":
 
-                    using (var entitydbsb = new AyetContext())
-                    {
-                        var dSubjectItems = entitydbsb.SubjectItems.Where(p => p.SubjectItemsId == cSb).FirstOrDefault();
+                        using (var entitydbsb = new AyetContext())
+                        {
+                            var dSubjectItems = entitydbsb.SubjectItems.Where(p => p.SubjectItemsId == cSb).FirstOrDefault();
 
-                        var dSubject = entitydbsb.Subject.Where(p => p.SubjectId == (int)dSubjectItems.SubjectId).FirstOrDefault();
+                            var dSubject = entitydbsb.Subject.Where(p => p.SubjectId == (int)dSubjectItems.SubjectId).FirstOrDefault();
 
-                        App.mainframe.Content = new SubjectF.SubjectItemFrame(cSb, dSubjectItems.SubjectName, dSubject.SubjectName, dSubjectItems.Created.ToString(), (SolidColorBrush)new BrushConverter().ConvertFrom(dSubject.SubjectColor));
-                    }
+                            App.mainframe.Content = new SubjectF.SubjectItemFrame(cSb, dSubjectItems.SubjectName, dSubject.SubjectName, dSubjectItems.Created.ToString(), (SolidColorBrush)new BrushConverter().ConvertFrom(dSubject.SubjectColor));
+                        }
 
-                    break;
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("gotoVerseButton_Click", ex);
             }
         }
 
@@ -146,52 +208,80 @@ namespace KuranX.App.Core.Pages.NoteF
             }
             catch (Exception ex)
             {
-                App.logWriter("Other", ex);
+                App.logWriter("popupClosed_Click", ex);
             }
         }
 
         private void printButton_Click(object sender, RoutedEventArgs e)
         {
-            Printer_Func(this);
+            try
+            {
+                Printer_Func(this);
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("printButton_Click", ex);
+            }
         }
 
         public void Printer_Func(FrameworkElement element)
         {
-            if (File.Exists("print_previw.xps") == true) File.Delete("print_previw.xps");
-            XpsDocument doc = new XpsDocument("print_previw.xps", FileAccess.ReadWrite);
+            try
+            {
+                if (File.Exists("print_previw.xps") == true) File.Delete("print_previw.xps");
+                XpsDocument doc = new XpsDocument("print_previw.xps", FileAccess.ReadWrite);
 
-            XpsDocumentWriter writer = XpsDocument.CreateXpsDocumentWriter(doc);
-            SerializerWriterCollator output_Document = writer.CreateVisualsCollator();
-            output_Document.BeginBatchWrite();
-            output_Document.Write(new NotePrinter(selectedId));
-            output_Document.EndBatchWrite();
+                XpsDocumentWriter writer = XpsDocument.CreateXpsDocumentWriter(doc);
+                SerializerWriterCollator output_Document = writer.CreateVisualsCollator();
+                output_Document.BeginBatchWrite();
+                output_Document.Write(new NotePrinter(selectedId));
+                output_Document.EndBatchWrite();
 
-            FixedDocumentSequence preview = doc.GetFixedDocumentSequence();
-            doc.Close();
+                FixedDocumentSequence preview = doc.GetFixedDocumentSequence();
+                doc.Close();
 
-            var dframe = new Frame();
-            var dpage = new NotePrinter();
-            var window = new Window();
-            dpage.Content = new DocumentViewer { Document = preview };
-            dframe.Content = dpage;
+                var dframe = new Frame();
+                var dpage = new NotePrinter();
+                var window = new Window();
+                dpage.Content = new DocumentViewer { Document = preview };
+                dframe.Content = dpage;
 
-            window.Content = dframe;
+                window.Content = dframe;
 
-            window.ShowDialog();
+                window.ShowDialog();
 
-            writer = null;
-            output_Document = null;
-            doc = null;
+                writer = null;
+                output_Document = null;
+                doc = null;
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Printer_Func", ex);
+            }
         }
 
         private void gotoBackButton_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.GoBack();
+            try
+            {
+                NavigationService.GoBack();
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("gotoBackButton_Click", ex);
+            }
         }
 
         private void deleteButton_Click(object sender, RoutedEventArgs e)
         {
-            deleteNotepopup.IsOpen = true;
+            try
+            {
+                deleteNotepopup.IsOpen = true;
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("deleteButton_Click", ex);
+            }
         }
 
         private void deleteNotePopupBtn_Click(object sender, RoutedEventArgs e)
@@ -214,7 +304,7 @@ namespace KuranX.App.Core.Pages.NoteF
             }
             catch (Exception ex)
             {
-                App.logWriter("Remove", ex);
+                App.logWriter("deleteNotePopupBtn_Click", ex);
             }
         }
 
@@ -233,7 +323,7 @@ namespace KuranX.App.Core.Pages.NoteF
             }
             catch (Exception ex)
             {
-                App.logWriter("TimeSpan", ex);
+                App.logWriter("voidgobacktimer", ex);
             }
         }
 
@@ -255,25 +345,39 @@ namespace KuranX.App.Core.Pages.NoteF
             }
             catch (Exception ex)
             {
-                App.logWriter("Other", ex);
+                App.logWriter("succsessFunc", ex);
             }
         }
 
         private void loadAni()
         {
-            this.Dispatcher.Invoke(() =>
+            try
+            {
+                this.Dispatcher.Invoke(() =>
             {
                 loadinGifContent.Visibility = Visibility.Visible;
             });
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("loadAni", ex);
+            }
         }
 
         private void loadAniComplated()
         {
-            this.Dispatcher.Invoke(() =>
+            try
+            {
+                this.Dispatcher.Invoke(() =>
             {
                 loadinGifContent.Visibility = Visibility.Collapsed;
                 loadBorder.Visibility = Visibility.Visible;
             });
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("loadAniComplated", ex);
+            }
         }
 
         private void noteDetail_TextChanged(object sender, TextChangedEventArgs e)
@@ -288,7 +392,7 @@ namespace KuranX.App.Core.Pages.NoteF
             }
             catch (Exception ex)
             {
-                App.logWriter("ChangeText", ex);
+                App.logWriter("noteDetail_TextChanged", ex);
             }
         }
 
@@ -306,7 +410,7 @@ namespace KuranX.App.Core.Pages.NoteF
             }
             catch (Exception ex)
             {
-                App.logWriter("Save", ex);
+                App.logWriter("saveButton_Click", ex);
             }
         }
     }

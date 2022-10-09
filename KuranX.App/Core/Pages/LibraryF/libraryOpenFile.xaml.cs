@@ -173,42 +173,51 @@ namespace KuranX.App.Core.Pages.LibraryF
                     {
                         noteAddPopupDetailError.Visibility = Visibility.Visible;
                         noteDetail.Focus();
-                        noteAddPopupDetailError.Content = "Not Başlığı Yeterince Uzun Değil. Min 8 Karakter Olmalıdır";
+                        noteAddPopupDetailError.Content = "Not İçeriği Yeterince Uzun Değil. Min 8 Karakter Olmalıdır";
                     }
                     else
                     {
-                        using (var entitydb = new AyetContext())
+                        if (noteDetail.Text.Length >= 3000)
                         {
-                            var dcontrol = entitydb.Notes.Where(p => p.NoteHeader == pdfNoteName.Text).Where(p => p.NoteLocation == "PDF").ToList();
-
-                            if (dcontrol.Count == 0)
-                            {
-                                Notes dNotes = new()
-                                {
-                                    NoteHeader = pdfNoteName.Text,
-                                    NoteDetail = noteDetail.Text,
-                                    PdfFileId = currentPdfId,
-                                    Modify = DateTime.Now,
-                                    Created = DateTime.Now,
-                                    NoteLocation = "PDF",
-                                    NoteStatus = "#6610F2"
-                                };
-                                entitydb.Notes.Add(dNotes);
-                                entitydb.SaveChanges();
-                                succsessFunc("Not Ekleme Başarılı", "Ayet Konularıma Not Eklendiniz.", 3);
-                                pdfNoteName.Text = "";
-                                noteDetail.Text = "";
-                                PageNotesLoadTask = new Task(noteConnect);
-                                PageNotesLoadTask.Start();
-                            }
-                            else
-                            {
-                                pdfNoteName.Text = "";
-                                noteDetail.Text = "";
-                                alertFunc("Ekleme Başarısız", "Bu Not Başlığı ile daha önceden Eklenmiştir.", 3);
-                            }
+                            noteAddPopupDetailError.Visibility = Visibility.Visible;
+                            noteDetail.Focus();
+                            noteAddPopupDetailError.Content = "Not İçeriği Maximum 3000 karakterden fazla olamaz.";
                         }
-                        noteAddPopup.IsOpen = false;
+                        else
+                        {
+                            using (var entitydb = new AyetContext())
+                            {
+                                var dcontrol = entitydb.Notes.Where(p => p.NoteHeader == pdfNoteName.Text).Where(p => p.NoteLocation == "PDF").ToList();
+
+                                if (dcontrol.Count == 0)
+                                {
+                                    Notes dNotes = new()
+                                    {
+                                        NoteHeader = pdfNoteName.Text,
+                                        NoteDetail = noteDetail.Text,
+                                        PdfFileId = currentPdfId,
+                                        Modify = DateTime.Now,
+                                        Created = DateTime.Now,
+                                        NoteLocation = "PDF",
+                                        NoteStatus = "#6610F2"
+                                    };
+                                    entitydb.Notes.Add(dNotes);
+                                    entitydb.SaveChanges();
+                                    succsessFunc("Not Ekleme Başarılı", "Ayet Konularıma Not Eklendiniz.", 3);
+                                    pdfNoteName.Text = "";
+                                    noteDetail.Text = "";
+                                    PageNotesLoadTask = new Task(noteConnect);
+                                    PageNotesLoadTask.Start();
+                                }
+                                else
+                                {
+                                    pdfNoteName.Text = "";
+                                    noteDetail.Text = "";
+                                    alertFunc("Ekleme Başarısız", "Bu Not Başlığı ile daha önceden Eklenmiştir.", 3);
+                                }
+                            }
+                            noteAddPopup.IsOpen = false;
+                        }
                     }
                 }
             }

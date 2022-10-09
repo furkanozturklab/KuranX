@@ -151,7 +151,7 @@
         <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="BorderThickness" Value="0,0,0,0" />
         <Setter Property="BorderBrush" Value="{x:Null}" />
-        <Setter Property="Margin" Value="0 0 25 0" />
+        <Setter Property="Margin" Value="10 0 10 0" />
         <Setter Property="Background" Value="#FFF" />
         <Setter Property="Foreground"  Value="#1C1E2F" />
     </Style>
@@ -161,12 +161,13 @@
         <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="BorderThickness" Value="0,0,0,0" />
         <Setter Property="BorderBrush" Value="{x:Null}" />
+        <Setter Property="Margin" Value="10 0 10 0" />
         <Setter Property="Background" Value="#FFF" />
-        <Setter Property="Margin" Value="12 0 12 0" />
         <Setter Property="Foreground"  Value="#1C1E2F" />
     </Style>
 
     <Style x:Key="versesActionMainTabButtonMark" TargetType="CheckBox" BasedOn="{StaticResource versesActionMainTabCheckBox}">
+
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate>
@@ -184,6 +185,10 @@
                             <Setter TargetName="txt_temp" Property="Foreground" Value="#FFFFFF" />
                             <Setter Property="Cursor" Value="Hand" />
                         </Trigger>
+
+                        <DataTrigger Binding="{Binding ElementName=markButton,Path=IsChecked}" Value="True">
+                            <Setter TargetName="ic_temp" Property="Kind" Value="BookmarksFill" />
+                        </DataTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
@@ -208,7 +213,7 @@
                 <ControlTemplate>
                     <Border x:Name="bg_temp" Padding="20,5,20,5" Style="{DynamicResource defaultBorderShadowEffect}" Background="{TemplateBinding Background}">
                         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal">
-                            <Icon:PackIconFeatherIcons x:Name="ic_temp" Kind="{Binding Path=Tag, RelativeSource={RelativeSource TemplatedParent}}" Foreground="{TemplateBinding Foreground}" Margin="0,0,5,0" Width="14" Height="14" VerticalAlignment="Center"  HorizontalAlignment="Center" />
+                            <Icon:PackIconBootstrapIcons x:Name="ic_temp" Kind="{Binding Path=Tag, RelativeSource={RelativeSource TemplatedParent}}" Foreground="{TemplateBinding Foreground}" Margin="0,0,5,0" Width="14" Height="14" VerticalAlignment="Center"  HorizontalAlignment="Center" />
                             <TextBlock x:Name="txt_temp" Text="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}}" FontFamily="{DynamicResource PoppinsRegular}" Foreground="{TemplateBinding Foreground}" />
                         </StackPanel>
                     </Border>
@@ -220,6 +225,10 @@
                             <Setter TargetName="txt_temp" Property="Foreground" Value="#FFFFFF" />
                             <Setter Property="Cursor" Value="Hand" />
                         </Trigger>
+
+                        <DataTrigger Binding="{Binding ElementName=bellButton,Path=IsChecked}" Value="True">
+                            <Setter TargetName="ic_temp" Property="Kind" Value="BellFill" />
+                        </DataTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
@@ -244,7 +253,7 @@
                 <ControlTemplate>
                     <Border x:Name="bg_temp" Padding="20,5,20,5" Style="{DynamicResource defaultBorderShadowEffect}" Background="{TemplateBinding Background}">
                         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal">
-                            <Icon:PackIconUnicons x:Name="ic_temp" Kind="{Binding Path=Tag, RelativeSource={RelativeSource TemplatedParent}}" Foreground="{TemplateBinding Foreground}" Margin="0,0,5,0" Width="14" Height="14" VerticalAlignment="Center"  HorizontalAlignment="Center" />
+                            <Icon:PackIconBootstrapIcons x:Name="ic_temp" Kind="{Binding Path=Tag, RelativeSource={RelativeSource TemplatedParent}}" Foreground="{TemplateBinding Foreground}" Margin="0,0,5,0" Width="14" Height="14" VerticalAlignment="Center"  HorizontalAlignment="Center" />
                             <TextBlock x:Name="txt_temp" Text="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}}" FontFamily="{DynamicResource PoppinsRegular}" Foreground="{TemplateBinding Foreground}" />
                         </StackPanel>
                     </Border>

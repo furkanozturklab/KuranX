@@ -295,44 +295,53 @@ namespace KuranX.App.Core.Pages.SubjectF
                     {
                         noteAddPopupDetailError.Visibility = Visibility.Visible;
                         noteDetail.Focus();
-                        noteAddPopupDetailError.Content = "Not Başlığı Yeterince Uzun Değil. Min 8 Karakter Olmalıdır";
+                        noteAddPopupDetailError.Content = "Not İçeriği Yeterince Uzun Değil. Min 8 Karakter Olmalıdır";
                     }
                     else
                     {
-                        using (var entitydb = new AyetContext())
+                        if (noteDetail.Text.Length >= 3000)
                         {
-                            var dcontrol = entitydb.Notes.Where(p => p.NoteHeader == noteName.Text).Where(p => p.NoteLocation == "Konularım").Where(p => p.VerseId == dVerseItems[0].RelativeDesk).Where(p => p.SureId == dVerseItems[0].SureId).ToList();
-
-                            if (dcontrol.Count == 0)
-                            {
-                                Notes dNotes = new()
-                                {
-                                    SubjectId = dSubjectItems[0].SubjectItemsId,
-                                    NoteHeader = noteName.Text,
-                                    NoteDetail = noteDetail.Text,
-                                    VerseId = dVerseItems[0].RelativeDesk,
-                                    SureId = dVerseItems[0].SureId,
-                                    Modify = DateTime.Now,
-                                    Created = DateTime.Now,
-                                    NoteLocation = "Konularım",
-                                    NoteStatus = "#6610F2"
-                                };
-                                entitydb.Notes.Add(dNotes);
-                                entitydb.SaveChanges();
-                                succsessFunc("Not Ekleme Başarılı", "Ayet Konularıma Not Eklendiniz.", 3);
-                                noteName.Text = "";
-                                noteDetail.Text = "";
-                                PageItemLoadTask = new Task(noteConnect);
-                                PageItemLoadTask.Start();
-                            }
-                            else
-                            {
-                                noteName.Text = "";
-                                noteDetail.Text = "";
-                                alertFunc("Ekleme Başarısız", "Bu Not Başlığı ile daha önceden Eklenmiştir.", 3);
-                            }
+                            noteAddPopupDetailError.Visibility = Visibility.Visible;
+                            noteDetail.Focus();
+                            noteAddPopupDetailError.Content = "Not İçeriği Maximum 3000 karakterden fazla olamaz.";
                         }
-                        noteAddPopup.IsOpen = false;
+                        else
+                        {
+                            using (var entitydb = new AyetContext())
+                            {
+                                var dcontrol = entitydb.Notes.Where(p => p.NoteHeader == noteName.Text).Where(p => p.NoteLocation == "Konularım").Where(p => p.VerseId == dVerseItems[0].RelativeDesk).Where(p => p.SureId == dVerseItems[0].SureId).ToList();
+
+                                if (dcontrol.Count == 0)
+                                {
+                                    Notes dNotes = new()
+                                    {
+                                        SubjectId = dSubjectItems[0].SubjectItemsId,
+                                        NoteHeader = noteName.Text,
+                                        NoteDetail = noteDetail.Text,
+                                        VerseId = dVerseItems[0].RelativeDesk,
+                                        SureId = dVerseItems[0].SureId,
+                                        Modify = DateTime.Now,
+                                        Created = DateTime.Now,
+                                        NoteLocation = "Konularım",
+                                        NoteStatus = "#6610F2"
+                                    };
+                                    entitydb.Notes.Add(dNotes);
+                                    entitydb.SaveChanges();
+                                    succsessFunc("Not Ekleme Başarılı", "Ayet Konularıma Not Eklendiniz.", 3);
+                                    noteName.Text = "";
+                                    noteDetail.Text = "";
+                                    PageItemLoadTask = new Task(noteConnect);
+                                    PageItemLoadTask.Start();
+                                }
+                                else
+                                {
+                                    noteName.Text = "";
+                                    noteDetail.Text = "";
+                                    alertFunc("Ekleme Başarısız", "Bu Not Başlığı ile daha önceden Eklenmiştir.", 3);
+                                }
+                            }
+                            noteAddPopup.IsOpen = false;
+                        }
                     }
                 }
             }
@@ -412,7 +421,10 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             try
             {
-                App.mainframe.Content = new VerseF.stickVerseFrame((int)dSubjectItems[0].VerseId, (int)dSubjectItems[0].SureId, "0", "0", "Hidden");
+                Debug.WriteLine((int)dSubjectItems[0].VerseId);
+                Debug.WriteLine((int)dSubjectItems[0].SureId);
+
+                App.mainframe.Content = new VerseF.stickVerseFrame((int)dSubjectItems[0].SureId, (int)dSubjectItems[0].VerseId, "0", "0", "Hidden");
             }
             catch (Exception ex)
             {

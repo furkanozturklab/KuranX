@@ -103,6 +103,10 @@
                             <Setter Property="Foreground" Value="#FFFFFF" TargetName="text" />
                             <Setter Property="Cursor" Value="Hand" />
                         </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="border" Property="Background" Value="#FFE4E6EF" />
+                            <Setter Property="Cursor" Value="No" />
+                        </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
@@ -125,6 +129,10 @@
                             <Setter Property="Foreground" Value="#FFFFFF" TargetName="icon" />
                             <Setter Property="Foreground" Value="#FFFFFF" TargetName="text" />
                             <Setter Property="Cursor" Value="Hand" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="border" Property="Background" Value="#FFE4E6EF" />
+                            <Setter Property="Cursor" Value="No" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -149,6 +157,10 @@
                             <Setter Property="Foreground" Value="#FFFFFF" TargetName="text" />
                             <Setter Property="Cursor" Value="Hand" />
                         </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="border" Property="Background" Value="#FFE4E6EF" />
+                            <Setter Property="Cursor" Value="No" />
+                        </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
@@ -172,6 +184,10 @@
                             <Setter Property="Foreground" Value="#FFFFFF" TargetName="text" />
                             <Setter Property="Cursor" Value="Hand" />
                         </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="border" Property="Background" Value="#FFE4E6EF" />
+                            <Setter Property="Cursor" Value="No" />
+                        </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
@@ -194,6 +210,10 @@
                             <Setter Property="Foreground" Value="#FFFFFF" TargetName="icon" />
                             <Setter Property="Foreground" Value="#FFFFFF" TargetName="text" />
                             <Setter Property="Cursor" Value="Hand" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="border" Property="Background" Value="#FFE4E6EF" />
+                            <Setter Property="Cursor" Value="No" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

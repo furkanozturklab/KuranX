@@ -88,13 +88,6 @@
                                 <TextBlock Text="Profil" Margin="5 0,0,0" />
                             </StackPanel>
                         </Button>
-
-                        <Button x:Name="leftHeaderButtonsHelp" Style="{DynamicResource ResourceKey=hmwnd_leftHeaderButtons}" Grid.Column="1">
-                            <StackPanel Orientation="Horizontal">
-                                <Icon:PackIconBootstrapIcons Kind="Question" Width="10" Height="10"  VerticalAlignment="Center" HorizontalAlignment="Center" />
-                                <TextBlock Text="Yardım" Margin="5 0,0,0" />
-                            </StackPanel>
-                        </Button>
                     </StackPanel>
 
                     <StackPanel Grid.Row="4" Height="10">
@@ -140,6 +133,22 @@
         </Grid>
 
         <Grid x:Name="rightgg"  Grid.Column="1"  Width="1116">
+
+            <Popup x:Name="lifeCyclerPopups" IsOpen="False" AllowsTransparency="True" Width="340" Height="90" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade" Placement="Top" VerticalOffset="50" HorizontalOffset="750" PlacementTarget="{Binding ElementName=homeFrame}">
+                <Border Style="{DynamicResource defaultBorderShadowEffect}" VerticalAlignment="Center" Height="70" Width="320">
+                    <StackPanel Height="70" Orientation="Horizontal" VerticalAlignment="Center">
+                        <Border x:Name="lifeCyclerPopupBorder" Width="10" Height="70" CornerRadius="5,0,0,5" />
+                        <StackPanel x:Name="lifeCyclerPopupsTxtStck" Orientation="Vertical" Width="270" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <TextBlock Text="" x:Name="lifeCyclerPopupsText" Style="{DynamicResource lifeCyclerPopupHeader}" VerticalAlignment="Center" TextAlignment="Center" HorizontalAlignment="Center" />
+                        </StackPanel>
+                        <StackPanel x:Name="lifeCyclerPopupsActStck" Width="40" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Button x:Name="lifePopupGoActionButton" Style="{DynamicResource lifeClosedPopup}" Margin="8 0 8 0" Uid="" Click="popupAction_Click" Tag="" />
+                            <Button x:Name="lifePopupGoDobuleActionButton" Style="{DynamicResource lifeDoubleActionPopup}" Margin="8 0 8 0" Uid="" Tag="" Click="popupActionDouble_Click" />
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+            </Popup>
+
             <Border x:Name="border" Style="{DynamicResource ResourceKey=rightPanelBorder}">
                 <Grid>
                     <Grid.RowDefinitions>

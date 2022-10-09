@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -18,22 +19,24 @@ namespace KuranX.App.Core.Pages.VerseF
 {
     /// <summary>
     /// Interaction logic for VerseFrame.xaml
+    /// Interaction logic for VerseFrame.xaml
     /// </summary>
     ///
 
     public partial class verseFrame : Page
     {
         private List<Sure>? dSure = new List<Sure>();
+
         private List<Verse>? dVerse, dVerseNav, tempVerses = new List<Verse>();
         private List<Integrity>? tempInteg = new List<Integrity>();
         private List<Interpreter>? dInterpreter = new List<Interpreter>();
-        private Task? PageItemLoadTask;
+        private Task? PageItemLoadTask, PageNotesLoadTask;
         private CheckBox? chk;
         private DispatcherTimer? timeSpan = new DispatcherTimer(DispatcherPriority.Render);
         private string InterpreterWrite, verseName, navLocation;
         public int activeSure, activeVerse, relativeVerseDesk, tempDataInt = 0, lastVerse = 0, getpopupRelativeId, relativeDeskV, singlerelativeDesk = 1, singlenextnavcontrol = 1;
         public int[] feedPoint = new int[4];
-        private bool tempCheck = false, tempCheck2, tempCheck3;
+        private bool tempCheck = false, tempCheck2, tempCheck3, remiderType = false;
 
         public verseFrame()
         {
@@ -48,14 +51,14 @@ namespace KuranX.App.Core.Pages.VerseF
             }
         }
 
-        public verseFrame(int data, int relativeDeskTemp, string navLocation) : this()
+        public verseFrame(int relativeSureTemp, int relativeDeskTemp, string navLocation) : this()
         {
             try
             {
                 relativeDeskV = relativeDeskTemp;
                 singlerelativeDesk = relativeDeskTemp;
                 this.navLocation = navLocation;
-                activeSure = data;
+                activeSure = relativeSureTemp;
                 activeVerse = 1;
 
                 if (relativeDeskTemp <= 7) lastVerse = 0;
@@ -101,13 +104,13 @@ namespace KuranX.App.Core.Pages.VerseF
             }
         }
 
-        public void specialLoad()
+        private void specialLoad()
         {
             singleLoadVerse();
             loadVerse();
         }
 
-        public void singleLoadVerse()
+        private void singleLoadVerse()
         {
             try
             {
@@ -115,9 +118,7 @@ namespace KuranX.App.Core.Pages.VerseF
                 using (var entitydb = new AyetContext())
                 {
                     if (lastVerse < 7) lastVerse = 0;
-
                     dVerseNav = (List<Verse>)entitydb.Verse.Where(p => p.SureId == dSure[0].sureId).Select(p => new Verse() { VerseId = p.VerseId, RelativeDesk = p.RelativeDesk, Status = p.Status, VerseCheck = p.VerseCheck }).Skip(lastVerse).Take(8).ToList();
-
                     int i = 1;
                     for (int x = 1; x < 8; x++)
                     {
@@ -128,7 +129,6 @@ namespace KuranX.App.Core.Pages.VerseF
                             itemslist.ItemsSource = null;
                         });
                     }
-
                     foreach (var item in dVerseNav)
                     {
                         this.Dispatcher.Invoke(() =>
@@ -373,7 +373,9 @@ namespace KuranX.App.Core.Pages.VerseF
             {
                 using (var entitydb = new AyetContext())
                 {
-                    var dInteg = (List<Integrity>)entitydb.Integrity.Where(p => p.connectSureId == dSure[0].sureId).Where(p => p.connectVerseId == dVerse[0].RelativeDesk).ToList();
+                    var dInteg = (List<Integrity>)entitydb.Integrity.Where(p => p.connectSureId == dSure[0].sureId && p.connectVerseId == dVerse[0].RelativeDesk || p.connectedSureId == dSure[0].sureId && p.connectedVerseId == dVerse[0].RelativeDesk).ToList();
+
+                    Debug.WriteLine(dInteg.Count);
 
                     int i = 1;
 
@@ -412,6 +414,19 @@ namespace KuranX.App.Core.Pages.VerseF
             catch (Exception ex)
             {
                 App.logWriter("LoadEvent", ex);
+            }
+        }
+
+        public void controlLoad()
+        {
+            using (var entitydb = new AyetContext())
+            {
+                dVerse = (List<Verse>)entitydb.Verse.Where(p => p.SureId == activeSure && p.VerseId == activeVerse).ToList();
+
+                this.Dispatcher.Invoke(() =>
+                {
+                    controlNavPanelItemscontrol.ItemsSource = dVerse;
+                });
             }
         }
 
@@ -1158,6 +1173,103 @@ namespace KuranX.App.Core.Pages.VerseF
             }
         }
 
+        private void bellButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var btn = sender as CheckBox;
+                bool control = btn.IsChecked.Value;
+                if (control == false)
+                {
+                    btn.IsChecked = true;
+                    remiderControlPopup.IsOpen = true;
+
+                    using (var entitydb = new AyetContext())
+                    {
+                        var dRemider = entitydb.Remider.Where(p => p.ConnectSureId == dSure[0].sureId && p.ConnectVerseId == dVerse[0].RelativeDesk).FirstOrDefault();
+
+                        if (dRemider != null)
+                        {
+                            remiderNameControl.Text = dRemider.RemiderName;
+
+                            if (dRemider.Status == "Wait")
+                            {
+                                TimeSpan tt = DateTime.Parse(dRemider.RemiderDate.ToString("d")) - DateTime.Parse(DateTime.Now.ToString("d"));
+                                remiderTimerControl.Text = "Hatırlatmaya Kalan Süre " + tt.TotalDays.ToString() + " Gün ";
+                            }
+                            else
+                            {
+                                string d = "";
+                                switch (dRemider.LoopType)
+                                {
+                                    case "day":
+                                        d = "Günlük";
+                                        break;
+
+                                    case "week":
+                                        d = "Haftalık";
+                                        break;
+
+                                    case "month":
+                                        d = "Aylık";
+                                        break;
+
+                                    case "years":
+                                        d = "Yıllık";
+                                        break;
+                                }
+                                remiderTimerControl.Text = "Hatırlatıcı " + d + "  olarak ayarlanmıştır. ";
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    btn.IsChecked = false;
+                    remiderAddPopup.IsOpen = true;
+                    remiderConnectVerse.Text = dSure[0].Name + " > " + dVerse[0].RelativeDesk;
+                }
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Other", ex);
+            }
+        }
+
+        private void remiderDeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                remiderDeleteConfirm.IsOpen = true;
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Other", ex);
+            }
+        }
+
+        private void deleteRemiderBtn_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                using (var entitydb = new AyetContext())
+                {
+                    entitydb.Remider.RemoveRange(entitydb.Remider.Where(p => p.ConnectVerseId == dVerse[0].RelativeDesk && p.ConnectSureId == dSure[0].sureId));
+                    entitydb.Verse.Where(p => p.VerseId == dVerse[0].RelativeDesk && p.SureId == dSure[0].sureId).FirstOrDefault().RemiderCheck = "false";
+                    entitydb.SaveChanges();
+                    remiderDeleteConfirm.IsOpen = false;
+                    remiderControlPopup.IsOpen = false;
+                    PageItemLoadTask = new Task(controlLoad);
+                    PageItemLoadTask.Start();
+                    succsessFunc("Hatırlatıcı Silindi ", " Hatırlatıcı Silindi yeniden hatırlatıcı oluştura bilirsiniz...", 3);
+                }
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Other", ex);
+            }
+        }
+
         private void showDescPopup_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -1218,13 +1330,139 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+                notesPopup.IsOpen = true;
+                PageNotesLoadTask = new Task(noteConnect);
+                PageNotesLoadTask.Start();
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Other", ex);
+            }
+        }
+
+        private void noteConnect()
+        {
+            try
+            {
+                using (var entitydb = new AyetContext())
+                {
+                    var dNotes = (List<Notes>)entitydb.Notes.Where(p => p.SureId == dSure[0].sureId && p.VerseId == dVerse[0].RelativeDesk && p.NoteLocation == "Ayet").ToList();
+                    Debug.WriteLine(dNotes.Count);
+                    List<Notes> dTempNotes = new List<Notes>();
+                    int i = 1;
+                    foreach (var item in dNotes)
+                    {
+                        if (i == 8)
+                        {
+                            allShowNoteButton.Dispatcher.Invoke(() =>
+                            {
+                                allShowNoteButton.Visibility = Visibility.Visible;
+                            });
+
+                            break;
+                        }
+
+                        this.Dispatcher.Invoke(() =>
+                        {
+                            ItemsControl dControlTemp = (ItemsControl)this.FindName("nd" + i);
+                            dTempNotes.Add(item);
+                            dControlTemp.ItemsSource = dTempNotes;
+                            dTempNotes.Clear();
+                        });
+
+                        i++;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("NoteConnect", ex);
+            }
+        }
+
+        private void noteDetailPopup_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var tmpbutton = sender as Button;
+                App.mainframe.Content = new Pages.NoteF.NoteItem(int.Parse(tmpbutton.Uid));
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Other", ex);
+            }
+        }
+
+        private void allShowNoteButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                notesAllShowPopup.IsOpen = true;
+
+                using (var entitydb = new AyetContext())
+                {
+                    var dInteg = entitydb.Notes.Where(p => p.SureId == dSure[0].sureId && p.VerseId == dVerse[0].RelativeDesk).ToList();
+
+                    foreach (var item in dInteg)
+                    {
+                        StackPanel itemsStack = new StackPanel();
+                        TextBlock headerText = new TextBlock();
+                        TextBlock noteText = new TextBlock();
+                        Button allshowButton = new Button();
+                        Separator sp = new Separator();
+
+                        itemsStack.Style = (Style)FindResource("dynamicItemStackpanel");
+                        headerText.Style = (Style)FindResource("dynamicItemTextHeader");
+                        noteText.Style = (Style)FindResource("dynamicItemTextNote");
+                        allshowButton.Style = (Style)FindResource("dynamicItemShowButton");
+                        sp.Style = (Style)FindResource("dynamicItemShowSperator");
+
+                        headerText.Text = item.NoteHeader.ToString();
+                        noteText.Text = item.NoteDetail.ToString();
+                        allshowButton.Uid = item.NotesId.ToString();
+                        allshowButton.Content = item.NoteDetail.ToString();
+
+                        allshowButton.Click += notesDetailPopup_Click;
+
+                        itemsStack.Children.Add(headerText);
+                        itemsStack.Children.Add(noteText);
+                        itemsStack.Children.Add(allshowButton);
+                        itemsStack.Children.Add(sp);
+
+                        notesAllShowPopupStackPanel.Children.Add(itemsStack);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("PopupAction", ex);
+            }
+        }
+
+        private void notesDetailPopup_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var tmpbutton = sender as Button;
+                App.mainframe.Content = new Pages.NoteF.NoteItem(int.Parse(tmpbutton.Uid));
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Other", ex);
+            }
+        }
+
+        private void noteSubjectAddButtonP_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
                 noteAddPopup.IsOpen = true;
                 noteConnectVerse.Text = dSure[0].Name + " > " + dVerse[0].RelativeDesk;
                 noteType.Text = "Ayet Notu";
             }
             catch (Exception ex)
             {
-                App.logWriter("Other", ex);
+                App.logWriter("NoteSubejct", ex);
             }
         }
 
@@ -1412,7 +1650,7 @@ namespace KuranX.App.Core.Pages.VerseF
 
         private void meaningOpenSure_Click(object sender, RoutedEventArgs e)
         {
-            App.mainframe.Content = new stickVerseFrame(int.Parse(meaningDTempVerseId.Text), int.Parse(meaningDTempSureId.Text), dSure[0].Name, dVerse[0].RelativeDesk.Value.ToString(), "Visible");
+            App.mainframe.Content = new stickVerseFrame(int.Parse(meaningDTempSureId.Text), int.Parse(meaningDTempVerseId.Text), dSure[0].Name, dVerse[0].RelativeDesk.Value.ToString(), "Visible");
         }
 
         private void allShowMeaningButton_Click(object sender, RoutedEventArgs e)
@@ -1423,7 +1661,7 @@ namespace KuranX.App.Core.Pages.VerseF
 
                 using (var entitydb = new AyetContext())
                 {
-                    var dInteg = entitydb.Integrity.Where(p => p.connectSureId == dSure[0].sureId).ToList();
+                    var dInteg = entitydb.Integrity.Where(p => p.connectSureId == dSure[0].sureId && p.connectVerseId == dVerse[0].RelativeDesk || p.connectedVerseId == dVerse[0].RelativeDesk && p.connectedSureId == dSure[0].sureId).ToList();
 
                     foreach (var item in dInteg)
                     {
@@ -1549,6 +1787,7 @@ namespace KuranX.App.Core.Pages.VerseF
                             var dSubjectItem = new SubjectItems { SubjectId = Int16.Parse(item.Uid), SubjectNotesId = 0, SureId = dSure[0].sureId, VerseId = dVerse[0].RelativeDesk, Created = DateTime.Now, Modify = DateTime.Now, SubjectName = dSure[0].Name + " Suresinin " + dVerse[0].RelativeDesk.ToString() + " Ayeti" };
                             entitydb.SubjectItems.Add(dSubjectItem);
                             entitydb.SaveChanges();
+                            addSubjectPopup.IsOpen = false;
                             succsessFunc("Ayet Ekleme Başarılı", "Seçmiş olduğunuz konuya ayet eklendi.", 3);
                         }
                     }
@@ -1582,22 +1821,39 @@ namespace KuranX.App.Core.Pages.VerseF
                     {
                         noteAddPopupDetailError.Visibility = Visibility.Visible;
                         noteDetail.Focus();
-                        noteAddPopupDetailError.Content = "Not Başlığı Yeterince Uzun Değil. Min 8 Karakter Olmalıdır";
+                        noteAddPopupDetailError.Content = "Not İçeriği Yeterince Uzun Değil. Min 8 Karakter Olmalıdır";
                     }
                     else
                     {
-                        using (var entitydb = new AyetContext())
+                        if (noteDetail.Text.Length >= 3000)
                         {
-                            Debug.WriteLine("active verse ıd : " + activeVerse);
-
-                            var dNotes = new Notes { NoteHeader = noteName.Text, NoteDetail = noteDetail.Text, SureId = activeSure, VerseId = relativeVerseDesk, Modify = DateTime.Now, Created = DateTime.Now, NoteLocation = "Ayet" };
-                            entitydb.Notes.Add(dNotes);
-                            entitydb.SaveChanges();
-                            succsessFunc("Not Ekleme Başarılı", dSure[0].Name + " Surenin " + dVerse[0].RelativeDesk + " Ayetine Not Eklendiniz.", 3);
-                            noteName.Text = "";
-                            noteDetail.Text = "";
+                            noteAddPopupDetailError.Visibility = Visibility.Visible;
+                            noteDetail.Focus();
+                            noteAddPopupDetailError.Content = "Not İçeriği 3000 Maximum karakterden fazla olamaz.";
                         }
-                        noteAddPopup.IsOpen = false;
+                        else
+                        {
+                            using (var entitydb = new AyetContext())
+                            {
+                                if (entitydb.Notes.Where(p => p.NoteHeader == noteName.Text && p.SureId == dSure[0].sureId && p.VerseId == dVerse[0].RelativeDesk).FirstOrDefault() != null)
+                                {
+                                    alertFunc("Not Ekleme Başarısız", "Aynı isimde not eklemiş olabilirsiniz lütfen kontrol edip yeniden deneyiniz.", 3);
+                                }
+                                else
+                                {
+                                    var dNotes = new Notes { NoteHeader = noteName.Text, NoteDetail = noteDetail.Text, SureId = activeSure, VerseId = relativeVerseDesk, Modify = DateTime.Now, Created = DateTime.Now, NoteLocation = "Ayet" };
+                                    entitydb.Notes.Add(dNotes);
+                                    entitydb.SaveChanges();
+                                    succsessFunc("Not Ekleme Başarılı", dSure[0].Name + " Surenin " + dVerse[0].RelativeDesk + " Ayetine Not Eklendiniz.", 3);
+                                    PageNotesLoadTask = new Task(noteConnect);
+                                    PageNotesLoadTask.Start();
+                                }
+
+                                noteName.Text = "";
+                                noteDetail.Text = "";
+                            }
+                            noteAddPopup.IsOpen = false;
+                        }
                     }
                 }
             }
@@ -1615,7 +1871,7 @@ namespace KuranX.App.Core.Pages.VerseF
 
                 if (Int16.Parse(item.Tag.ToString()) >= Int16.Parse(popupNextVerseId.Text))
                 {
-                    App.mainframe.Content = new stickVerseFrame(Int16.Parse(popupNextVerseId.Text), Int16.Parse(item.Uid.ToString()), dSure[0].Name, dVerse[0].RelativeDesk.Value.ToString(), "Visible");
+                    App.mainframe.Content = new stickVerseFrame(int.Parse(item.Uid.ToString()), int.Parse(popupNextVerseId.Text), dSure[0].Name, dVerse[0].RelativeDesk.Value.ToString(), "Visible");
                     popupNextVerseId.Text = "1";
                 }
                 else
@@ -1645,16 +1901,25 @@ namespace KuranX.App.Core.Pages.VerseF
                         {
                             using (var entitydb = new AyetContext())
                             {
-                                var dIntegrity = new Integrity { IntegrityName = meaningName.Text, connectSureId = dSure[0].sureId, connectVerseId = dVerse[0].RelativeDesk, connectedSureId = Int16.Parse(tmpcbxi.Uid), connectedVerseId = Int16.Parse(meaningConnectVerse.Text), Created = DateTime.Now, Modify = DateTime.Now, IntegrityNote = meaningConnectNote.Text };
-                                entitydb.Integrity.Add(dIntegrity);
-                                entitydb.SaveChanges();
-                                succsessFunc("Bağlantı Oluşturuldu.", "Yeni bağlantınız oluşturuldu.", 3);
-                                meaningName.Text = "";
-                                meaningConnectNote.Text = "";
-                                meaningAddPopup.IsOpen = false;
-
-                                PageItemLoadTask = new Task(loadMeaning);
-                                PageItemLoadTask.Start();
+                                if (entitydb.Integrity.Where(p => p.IntegrityName == meaningName.Text).FirstOrDefault() != null)
+                                {
+                                    alertFunc("Bağlantı Ekleme Başarısız", "Aynı isimli bağlantı eklemiş olabilirsiniz lütfen kontrol edip yeniden deneyiniz.", 3);
+                                    meaningName.Text = "";
+                                    meaningConnectNote.Text = "";
+                                    meaningAddPopup.IsOpen = false;
+                                }
+                                else
+                                {
+                                    var dIntegrity = new Integrity { IntegrityName = meaningName.Text, connectSureId = dSure[0].sureId, connectVerseId = dVerse[0].RelativeDesk, connectedSureId = Int16.Parse(tmpcbxi.Uid), connectedVerseId = Int16.Parse(meaningConnectVerse.Text), Created = DateTime.Now, Modify = DateTime.Now, IntegrityNote = meaningConnectNote.Text };
+                                    entitydb.Integrity.Add(dIntegrity);
+                                    entitydb.SaveChanges();
+                                    succsessFunc("Bağlantı Oluşturuldu.", "Yeni bağlantınız oluşturuldu.", 3);
+                                    meaningName.Text = "";
+                                    meaningConnectNote.Text = "";
+                                    meaningAddPopup.IsOpen = false;
+                                    PageItemLoadTask = new Task(loadMeaning);
+                                    PageItemLoadTask.Start();
+                                }
                             }
                         }
                         else
@@ -1684,6 +1949,158 @@ namespace KuranX.App.Core.Pages.VerseF
             }
         }
 
+        private void addRemiderButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (remiderName.Text.Length >= 5)
+                {
+                    if (remiderDetail.Text.Length >= 5)
+                    {
+                        if (remiderType == false)
+                        {
+                            if (remiderDay.SelectedDate != null)
+                            {
+                                using (var entitydb = new AyetContext())
+                                {
+                                    var dControl = entitydb.Remider.Where(p => p.ConnectSureId == dSure[0].sureId && p.ConnectVerseId == dVerse[0].RelativeDesk).ToList();
+
+                                    if (dControl.Count > 0)
+                                    {
+                                        alertFunc("Hatırlatıcı Oluşturulamadı.", "Yeni hatırlatıcınız oluşturulamadı daha önceden oluşturulmuş olabilir.", 3);
+                                        remiderAddPopup.IsOpen = false;
+                                        remiderName.Text = "";
+                                        remiderDetail.Text = "";
+                                        remiderDay.SelectedDate = null;
+                                    }
+                                    else
+                                    {
+                                        var newRemider = new Remider { ConnectSureId = (int)dSure[0].sureId, ConnectVerseId = (int)dVerse[0].RelativeDesk, RemiderDate = (DateTime)remiderDay.SelectedDate, RemiderDetail = remiderDetail.Text, RemiderName = remiderName.Text, Create = DateTime.Now, Priority = 1, LastAction = DateTime.Now, Status = "Run" };
+                                        entitydb.Verse.Where(p => p.SureId == (int)dSure[0].sureId && p.RelativeDesk == (int)dVerse[0].RelativeDesk).FirstOrDefault().RemiderCheck = "true";
+                                        entitydb.Remider.Add(newRemider);
+                                        entitydb.SaveChanges();
+                                        succsessFunc("Hatırlatıcı Oluşturuldu.", "Yeni hatırlatıcınız oluşturuldu", 3);
+
+                                        remiderAddPopup.IsOpen = false;
+                                        remiderName.Text = "";
+                                        remiderDetail.Text = "";
+                                        remiderDay.SelectedDate = null;
+
+                                        PageItemLoadTask = new Task(controlLoad);
+                                        PageItemLoadTask.Start();
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                remiderAddPopupDateError.Visibility = Visibility.Visible;
+                                remiderDay.Focus();
+                                remiderAddPopupDateError.Content = "Hatırlatıcı için gün secmelisiniz.";
+                            }
+                        }
+                        else
+                        {
+                            var ditem = loopSelectedType.SelectedItem as ComboBoxItem;
+
+                            if (ditem.Uid != "select")
+                            {
+                                using (var entitydb = new AyetContext())
+                                {
+                                    var dControl = entitydb.Remider.Where(p => p.ConnectSureId == dSure[0].sureId && p.ConnectVerseId == dVerse[0].RelativeDesk).ToList();
+
+                                    if (dControl.Count > 0)
+                                    {
+                                        alertFunc("Hatırlatıcı Oluşturulamadı.", "Yeni hatırlatıcınız oluşturulamadı daha önceden oluşturulmuş olabilir.", 3);
+                                        remiderAddPopup.IsOpen = false;
+                                        remiderName.Text = "";
+                                        remiderDetail.Text = "";
+                                        loopSelectedType.SelectedIndex = 0;
+                                    }
+                                    else
+                                    {
+                                        int pr = 0;
+                                        switch (ditem.Uid)
+                                        {
+                                            case "Gün":
+                                                pr = 2;
+                                                break;
+
+                                            case "Hafta":
+                                                pr = 3;
+                                                break;
+
+                                            case "Ay":
+                                                pr = 4;
+                                                break;
+
+                                            case "Yıl":
+                                                pr = 5;
+                                                break;
+                                        }
+                                        var newRemider = new Remider { ConnectSureId = (int)dSure[0].sureId, ConnectVerseId = (int)dVerse[0].RelativeDesk, RemiderDate = new DateTime(1, 1, 1, 0, 0, 0, 0), RemiderDetail = remiderDetail.Text, RemiderName = remiderName.Text, Create = DateTime.Now, LoopType = ditem.Uid.ToString(), Status = "Run", Priority = pr, LastAction = DateTime.Now };
+                                        entitydb.Verse.Where(p => p.SureId == (int)dSure[0].sureId && p.RelativeDesk == (int)dVerse[0].RelativeDesk).FirstOrDefault().RemiderCheck = "true";
+                                        entitydb.Remider.Add(newRemider);
+                                        entitydb.SaveChanges();
+                                        succsessFunc("Hatırlatıcı Oluşturuldu.", "Yeni hatırlatıcınız oluşturuldu", 3);
+
+                                        remiderAddPopup.IsOpen = false;
+                                        remiderName.Text = "";
+                                        remiderDetail.Text = "";
+                                        loopSelectedType.SelectedIndex = 0;
+
+                                        PageItemLoadTask = new Task(controlLoad);
+                                        PageItemLoadTask.Start();
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                remiderAddPopupDateError.Visibility = Visibility.Visible;
+                                loopSelectedType.Focus();
+                                remiderAddPopupDateError.Content = "Hatırlatma Aralığını Secmelisiniz.";
+                            }
+                        }
+                    }
+                    else
+                    {
+                        remiderAddPopupDetailError.Visibility = Visibility.Visible;
+                        remiderDetail.Focus();
+                        remiderAddPopupDetailError.Content = "Hatırlatıcı notu Yeterince Uzun Değil. Min 5 Karakter Olmalıdır";
+                    }
+                }
+                else
+                {
+                    remiderAddPopupHeaderError.Visibility = Visibility.Visible;
+                    remiderName.Focus();
+                    remiderAddPopupHeaderError.Content = "Hatırlatıcı İsmi Yeterince Uzun Değil. Min 5 Karakter Olmalıdır";
+                }
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("PopupAction", ex);
+            }
+        }
+
+        private void remiderTypeChangeButton_Click(object sender, RoutedEventArgs e)
+        {
+            Debug.WriteLine(loopType.Visibility.ToString());
+
+            if (loopType.Visibility.ToString() == "Hidden")
+            {
+                remiderType = true;
+                loopType.Visibility = Visibility.Visible;
+                dayType.Visibility = Visibility.Hidden;
+                remiderAddPopupDateError.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                remiderType = false;
+                loopType.Visibility = Visibility.Hidden;
+                dayType.Visibility = Visibility.Visible;
+                remiderAddPopupDateError.Visibility = Visibility.Hidden;
+            }
+        }
+
         // -------------------------- POPUP ACTİON -------------------------- //
 
         // Simple Clear Fonks //
@@ -1705,6 +2122,30 @@ namespace KuranX.App.Core.Pages.VerseF
             try
             {
                 noteAddPopupDetailError.Visibility = Visibility.Hidden;
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Other", ex);
+            }
+        }
+
+        private void remiderName_KeyDown(object sender, KeyEventArgs e)
+        {
+            try
+            {
+                remiderAddPopupHeaderError.Visibility = Visibility.Hidden;
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Other", ex);
+            }
+        }
+
+        private void remiderDetail_KeyDown(object sender, KeyEventArgs e)
+        {
+            try
+            {
+                remiderAddPopupDetailError.Visibility = Visibility.Hidden;
             }
             catch (Exception ex)
             {
@@ -1757,13 +2198,19 @@ namespace KuranX.App.Core.Pages.VerseF
 
                 FeedStarClear();
 
+                popuptemp.IsOpen = false;
+
                 meaningName.Text = "";
                 meaningConnectNote.Text = "";
                 noteName.Text = "";
                 noteDetail.Text = "";
                 subjectFolderHeader.Text = "";
                 subjectpreviewName.Text = "";
-                popuptemp.IsOpen = false;
+                remiderName.Text = "";
+                remiderDetail.Text = "";
+                remiderDay.SelectedDate = null;
+                remiderType = false;
+                remiderAddPopupDateError.Visibility = Visibility.Hidden;
             }
             catch (Exception ex)
             {

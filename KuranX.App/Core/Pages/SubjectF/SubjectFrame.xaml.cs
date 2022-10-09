@@ -118,7 +118,6 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             try
             {
-                Debug.WriteLine("TRİGER PAGE LOAD");
                 PageItemLoadTask = new Task(loadSubject);
                 PageItemLoadTask.Start();
             }

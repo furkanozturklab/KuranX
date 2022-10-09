@@ -20,6 +20,8 @@ namespace KuranX.App.Core.Classes
         public DbSet<SubjectItems>? SubjectItems { get; set; }
         public DbSet<Words>? Words { get; set; }
         public DbSet<PdfFile> PdfFile { get; set; }
+        public DbSet<Remider> Remider { get; set; }
+        public DbSet<Tasks> Tasks { get; set; }
 
         public string DbPath { get; }
 
@@ -81,7 +83,7 @@ namespace KuranX.App.Core.Classes
 
             //   VERSE
             modelBuilder.Entity<Verse>()
-                .Property(u => u.RememberCheck)
+                .Property(u => u.RemiderCheck)
                 .HasDefaultValue("false");
             modelBuilder.Entity<Verse>()
                 .Property(u => u.MarkCheck)
@@ -117,6 +119,19 @@ namespace KuranX.App.Core.Classes
             modelBuilder.Entity<PdfFile>()
                 .Property(u => u.FileType)
                 .HasDefaultValue("User");
+
+            // REMIDER
+
+            modelBuilder.Entity<Remider>()
+                .Property(u => u.LoopType)
+                .HasDefaultValue("False");
+
+            modelBuilder.Entity<Remider>()
+               .Property(u => u.Status)
+               .HasDefaultValue("Wait");
+            modelBuilder.Entity<Remider>()
+              .Property(u => u.Priority)
+              .HasDefaultValue(1);
         }
     }
 }

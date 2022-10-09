@@ -7,11 +7,23 @@
 
         <Setter Property="Grid.Row" Value="5" />
         <Setter Property="Panel.ZIndex" Value="10" />
-        <Setter Property="Width" Value="280" />
+        <Setter Property="Width" Value="340" />
         <Setter Property="Height" Value="60" />
         <Setter Property="PlacementTarget" Value="{Binding ElementName=vb7}" />
         <Setter Property="VerticalOffset" Value="10" />
         <Setter Property="HorizontalOffset" Value="-50" />
+        <Setter Property="AllowsTransparency" Value="True" />
+    </Style>
+
+    <Style x:Key="popupHomeTemp" TargetType="Popup">
+
+        <Setter Property="Grid.Row" Value="5" />
+        <Setter Property="Panel.ZIndex" Value="10" />
+        <Setter Property="Width" Value="360" />
+        <Setter Property="Height" Value="90" />
+        <Setter Property="HorizontalOffset" Value="750" />
+        <Setter Property="VerticalOffset" Value="-110" />
+        <Setter Property="PlacementTarget" Value="{Binding ElementName=homeFrame}" />
         <Setter Property="AllowsTransparency" Value="True" />
     </Style>
 
@@ -110,6 +122,20 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+    </Style>
+
+    <Style TargetType="DatePicker" x:Key="popupDefaulDateP">
+        <Setter Property="MinWidth" Value="150" />
+        <Setter Property="Width" Value="180" />
+        <Setter Property="MinHeight" Value="35" />
+        <Setter Property="Foreground" Value="#1C1E2F" />
+        <Setter Property="FontSize" Value="10" />
+        <Setter Property="FontFamily" Value="{DynamicResource PoppinsMedium}" />
+
+        <Setter Property="BorderBrush" Value="#ADB5BD" />
+        <Setter Property="Margin" Value="0 5 0 0" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Padding" Value="10 0 10 0" />
     </Style>
 
     <Style TargetType="TextBox" x:Key="popupDefaulTextArea">
@@ -225,6 +251,7 @@
         <Setter Property="Width" Value="100" />
         <Setter Property="Height" Value="30" />
         <Setter Property="Margin" Value="10 0 10 0" />
+        <Setter Property="Padding" Value="10 0 10 0" />
     </Style>
 
     <Style x:Key="popupDefaultButtonBstrp" TargetType="Button" BasedOn="{StaticResource popupDefaultButtonBase}">
@@ -273,6 +300,29 @@
         </Setter>
     </Style>
 
+    <Style x:Key="popupDefaultButtonDefault" TargetType="Button" BasedOn="{StaticResource popupDefaultButtonBase}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Border x:Name="borderTarget" CornerRadius="5" BorderBrush="#E1E3E6" BorderThickness="1">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Icon:PackIconBootstrapIcons Kind="{Binding Path=Tag, RelativeSource={RelativeSource TemplatedParent}}" Foreground="{TemplateBinding Foreground}" Width="12" Height="12" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                            <TextBlock Margin="5 0 0 0" Text="{Binding Path=Content,RelativeSource={RelativeSource TemplatedParent}}" Foreground="{TemplateBinding Foreground}" FontSize="12" FontFamily="{DynamicResource PoppinsMedium}" TextAlignment="Center" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="borderTarget" Property="Background" Value="#F0433A" />
+                            <Setter Property="Foreground" Value="#FFFFFF" />
+                            <Setter TargetName="borderTarget" Property="BorderThickness" Value="0" />
+                            <Setter Property="Cursor" Value="Hand" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style x:Key="popupDefaultButtonRest" TargetType="Button" BasedOn="{StaticResource popupDefaultButtonBase}">
         <Setter Property="Template">
             <Setter.Value>
@@ -280,6 +330,29 @@
                     <Border x:Name="borderTarget" CornerRadius="5" BorderBrush="#E1E3E6" BorderThickness="1">
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
                             <Icon:PackIconRadixIcons Kind="{Binding Path=Tag, RelativeSource={RelativeSource TemplatedParent}}" Foreground="{TemplateBinding Foreground}" Width="18" Height="18" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                            <TextBlock Margin="5 0 0 0" Text="{Binding Path=Content,RelativeSource={RelativeSource TemplatedParent}}" Foreground="{TemplateBinding Foreground}" FontSize="12" FontFamily="{DynamicResource PoppinsMedium}" TextAlignment="Center" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="borderTarget" Property="Background" Value="#F0433A" />
+                            <Setter Property="Foreground" Value="#FFFFFF" />
+                            <Setter TargetName="borderTarget" Property="BorderThickness" Value="0" />
+                            <Setter Property="Cursor" Value="Hand" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="popupDefaultButtonDelete" TargetType="Button" BasedOn="{StaticResource popupDefaultButtonBase}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Border x:Name="borderTarget" CornerRadius="5" BorderBrush="#E1E3E6" BorderThickness="1">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Icon:PackIconBootstrapIcons Kind="{Binding Path=Tag, RelativeSource={RelativeSource TemplatedParent}}" Foreground="{TemplateBinding Foreground}" Width="18" Height="18" VerticalAlignment="Center" HorizontalAlignment="Center" />
                             <TextBlock Margin="5 0 0 0" Text="{Binding Path=Content,RelativeSource={RelativeSource TemplatedParent}}" Foreground="{TemplateBinding Foreground}" FontSize="12" FontFamily="{DynamicResource PoppinsMedium}" TextAlignment="Center" VerticalAlignment="Center" />
                         </StackPanel>
                     </Border>
@@ -385,6 +458,56 @@
         </Style.Triggers>
     </Style>
 
+    <Style x:Key="lifeClosedPopup" TargetType="Button">
+
+        <Setter Property="Width" Value="24" />
+
+        <Setter Property="Height" Value="24" />
+        <Setter Property="Background" Value="{x:Null}" />
+        <Setter Property="BorderThickness" Value="0" />
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <TextBlock Width="24" Height="24">
+                        <Icon:PackIconBootstrapIcons x:Name="txt_trg" Kind="ArrowRight" Width="24" Height="24" Foreground="#1C1E2F" />
+                    </TextBlock>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="txt_trg" Property="Foreground" Value="#F0433A" />
+                            <Setter Property="Cursor" Value="Hand" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="lifeDoubleActionPopup" TargetType="Button">
+
+        <Setter Property="Width" Value="24" />
+
+        <Setter Property="Height" Value="24" />
+        <Setter Property="Background" Value="{x:Null}" />
+        <Setter Property="BorderThickness" Value="0" />
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <TextBlock Width="24" Height="24">
+                        <Icon:PackIconBootstrapIcons x:Name="txt_trg" Kind="BoxArrowInUpRight" Width="24" Height="24" Foreground="#1C1E2F" />
+                    </TextBlock>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="txt_trg" Property="Foreground" Value="#F0433A" />
+                            <Setter Property="Cursor" Value="Hand" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <!-- Button -->
 
     <!-- DynamicStyle -->
@@ -422,6 +545,40 @@
         <Setter Property="TextWrapping" Value="Wrap" />
         <Setter Property="TextTrimming" Value="CharacterEllipsis" />
         <Setter Property="Margin" Value="0 10 0 10" />
+    </Style>
+
+    <Style x:Key="lifeCyclerPopupHeader" TargetType="TextBlock">
+
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="Margin" Value="10 0 0 0" />
+        <Setter Property="Width" Value="230" />
+        <Setter Property="MaxHeight" Value="42" />
+        <Setter Property="FontFamily" Value="{DynamicResource PoppinsMedium}" />
+        <Setter Property="Foreground" Value="#1C1E2F" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+
+    <Style x:Key="lifeCyclerPopupAction" TargetType="TextBlock">
+
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="Margin" Value="10 0 0 0" />
+        <Setter Property="Width" Value="250" />
+        <Setter Property="FontFamily" Value="{DynamicResource PoppinsMedium}" />
+        <Setter Property="Foreground" Value="#7B7B7B" />
+        <Setter Property="FontSize" Value="10" />
+
+        <!--
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Foreground" Value="#F0433A" />
+                <Setter Property="Cursor" Value="Hand" />
+            </Trigger>
+        </Style.Triggers>
+        -->
     </Style>
 
     <Style x:Key="dynamicItemShowButton" TargetType="Button">
@@ -573,8 +730,7 @@
                             Margin="0"
                             Focusable="True"
                             Background="Transparent"
-                            Visibility="Hidden"
-                            IsReadOnly="{TemplateBinding IsReadOnly}" />
+                            Visibility="Hidden" />
                         <Popup
                             Name="Popup"
                             Placement="Bottom"
