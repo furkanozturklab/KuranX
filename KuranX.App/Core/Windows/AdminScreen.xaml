@@ -15,5 +15,7 @@
         <Button x:Name="addVerse_Copy1" Content="Verse Fixed" HorizontalAlignment="Left" Margin="169,90,0,0" VerticalAlignment="Top" Height="39" Width="124" Click="fixed_verse" />
         <Button x:Name="addWord" Content="Add Words" HorizontalAlignment="Left" Margin="32,217,0,0" VerticalAlignment="Top" Height="39" Width="124" Click="add_word" />
         <Button x:Name="editorFileUpdate" Content="Editor PDF Ekle" HorizontalAlignment="Left" Margin="549,43,0,0" VerticalAlignment="Top" Height="59" Width="220" Click="editorFileUpdate_Click" />
+        <Button x:Name="button" Content="get process" HorizontalAlignment="Left" Margin="428,217,0,0" VerticalAlignment="Top" Click="button_Click" />
+        <Button x:Name="resultCreate" Content="Result Create" HorizontalAlignment="Left" Margin="32,277,0,0" VerticalAlignment="Top" Height="51" Width="124" Click="resultCreate_Click" />
     </Grid>
 </Window>

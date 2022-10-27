@@ -46,8 +46,6 @@ namespace KuranX.App.Core.Windows
         {
             // APP LİFECYCLER MİSSİONS
 
-            Debug.WriteLine("APP LİFECYCLER MİSSİONS");
-
             using (var entitydb = new AyetContext())
             {
                 var dRemider = entitydb.Remider.Where(p => p.LastAction < DateTime.Now && p.Status == "Run").ToList();
@@ -140,7 +138,7 @@ namespace KuranX.App.Core.Windows
 
                     foreach (var item in TasksLoad)
                     {
-                        Thread.Sleep(50000); // 5 sn // 10 sn // 30 sn // 60 sn // 120 sn // 240 sn // Sırdaki göreve gecme süresi
+                        Thread.Sleep(5000); // 5 sn // 10 sn // 30 sn // 60 sn // 120 sn // 240 sn // Sırdaki göreve gecme süresi
                         var dRemider = entitydb.Remider.Where(p => p.RemiderId == item.MissonsId).FirstOrDefault();
 
                         if (dRemider != null)
@@ -230,31 +228,38 @@ namespace KuranX.App.Core.Windows
 
             //App.mainframe.Content = new Pages.VerseF.versesFrame(App.currentVersesPageD[0], App.currentVersesPageD[1], "Hepsi");
 
-            App.mainframe.Content = new Pages.VerseF.verseFrame(1, 1, "Other");
+            // App.mainframe.Content = new Pages.VerseF.verseFrame(1, 1, "Other");
 
-            //App.mainframe.Content = new Pages.SubjectF.SubjectFrame();
+            // App.mainframe.Content = new Pages.SubjectF.SubjectFrame();
 
-            //App.mainframe.Content = new SubjectItemsFrame();
+            // App.mainframe.Content = new SubjectItemsFrame();
 
-            //App.mainframe.Content = new Pages.SubjectF.SubjectFrame();
+            // App.mainframe.Content = new Pages.SubjectF.SubjectFrame();
 
-            //App.mainframe.Content = new Pages.SubjectF.SubjectItemFrame(13, "Fâtiha Suresinin 1 Ayeti", "Meltdown", "31.08.2022 19:54:27", (SolidColorBrush)new BrushConverter().ConvertFrom("#FFFFC107"));
+            // App.mainframe.Content = new Pages.SubjectF.SubjectItemFrame(13, "Fâtiha Suresinin 1 Ayeti", "Meltdown", "31.08.2022 19:54:27", (SolidColorBrush)new BrushConverter().ConvertFrom("#FFFFC107"));
 
-            // App.mainframe.Content = new Pages.LibraryF.libraryFrame();
+            //App.mainframe.Content = new Pages.LibraryF.libraryFrame();
 
             // App.mainframe.Content = new Pages.LibraryF.libraryFileItemsFrame();
 
-            //App.mainframe.Content = new Pages.LibraryF.libraryPublisherItemsFrame();
+            // App.mainframe.Content = new Pages.LibraryF.libraryPublisherItemsFrame();
 
             // App.mainframe.Content = new Pages.LibraryF.libraryOpenFile();
 
-            //App.mainframe.Content = new Pages.LibraryF.libraryNote();
+            // App.mainframe.Content = new Pages.LibraryF.libraryNote();
 
-            //App.mainframe.Content = new Pages.NoteF.NotesFrame();
+            // App.mainframe.Content = new Pages.NoteF.NotesFrame();
 
-            //App.mainframe.Content = new Pages.NoteF.NoteItem(61);
+            // App.mainframe.Content = new Pages.NoteF.NoteItem(61);
 
-            //App.mainframe.Content = new Pages.ReminderF.RemiderFrame();
+            // App.mainframe.Content = new Pages.ReminderF.RemiderFrame();
+
+            // App.mainframe.Content = new Pages.ResultF.ResultFrame();
+
+            App.mainframe.Content = new Pages.ResultF.ResultItem(1);
+
+            resultScreen rssc = new resultScreen(1);
+            rssc.Show();
         }
 
         private void appClosed_Click(object sender, RoutedEventArgs e)
@@ -293,6 +298,10 @@ namespace KuranX.App.Core.Windows
                     App.mainframe.Content = new Pages.ReminderF.RemiderFrame();
                     break;
 
+                case "nav_result":
+                    App.mainframe.Content = new Pages.ResultF.ResultFrame();
+                    break;
+
                 default:
                     App.mainframe.Content = new TestFrame();
 
@@ -313,7 +322,8 @@ namespace KuranX.App.Core.Windows
             using (var entitydb = new AyetContext())
             {
                 var dRemider = entitydb.Remider.Where(p => p.RemiderId == int.Parse(btn.Uid)).FirstOrDefault();
-                //if (dRemider != null && dRemider.ConnectSureId != 0) App.mainframe.Content = new Pages.VerseF.verseFrame(dRemider.ConnectSureId, dRemider.ConnectVerseId, "Remider");
+                if (dRemider != null && dRemider.ConnectSureId != 0) App.mainframe.Content = new Pages.ReminderF.RemiderItem(dRemider.RemiderId);
+                lifeCyclerPopups.IsOpen = false;
             }
         }
 
@@ -325,6 +335,7 @@ namespace KuranX.App.Core.Windows
             {
                 var dRemider = entitydb.Remider.Where(p => p.RemiderId == int.Parse(btn.Uid)).FirstOrDefault();
                 if (dRemider != null && dRemider.ConnectSureId != 0) App.mainframe.Content = new Pages.VerseF.verseFrame(dRemider.ConnectSureId, dRemider.ConnectVerseId, "Remider");
+                lifeCyclerPopups.IsOpen = false;
             }
         }
     }

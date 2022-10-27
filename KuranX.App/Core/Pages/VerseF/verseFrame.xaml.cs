@@ -214,6 +214,10 @@ namespace KuranX.App.Core.Pages.VerseF
 
                     versesFullTextData.Dispatcher.Invoke(() =>
                     {
+                        versesFullTextData.Visibility = Visibility.Visible;
+                        versesTrDataExtends.Visibility = Visibility.Collapsed;
+                        versesArDataExtends.Visibility = Visibility.Collapsed;
+                        backInterpreter.Visibility = Visibility.Collapsed;
                         versesFullTextData.ItemsSource = dInterpreter;
                     });
                 }
@@ -268,16 +272,21 @@ namespace KuranX.App.Core.Pages.VerseF
 
                 this.Dispatcher.Invoke(() =>
                 {
+                    Debug.WriteLine(dSure[0].Name);
+                    Debug.WriteLine(dVerse[0].RelativeDesk);
+
                     if (dSure[0].Name == "Fâtiha" && singlerelativeDesk == 1) NavUpdatePrevSingle.IsEnabled = false;
                     else NavUpdatePrevSingle.IsEnabled = true;
 
                     if (App.currentDesktype == "DeskMushaf")
                     {
                         if (dSure[0].Name == "Tevbe" && singlerelativeDesk == 129) NavUpdateNextSingle.IsEnabled = false;
+                        else NavUpdateNextSingle.IsEnabled = true;
                     }
                     else
                     {
                         if (dSure[0].Name == "Nâs" && singlerelativeDesk == 6) NavUpdateNextSingle.IsEnabled = false;
+                        else NavUpdateNextSingle.IsEnabled = true;
                     }
                 });
 
@@ -355,6 +364,23 @@ namespace KuranX.App.Core.Pages.VerseF
 
                     // Location Nav Content
                     App.locationTxt.Text = "Ayetler >" + " " + dSure[0].Name;
+
+                    Debug.WriteLine(dSure[0].Name);
+                    Debug.WriteLine(dVerse[0].RelativeDesk);
+
+                    if (dSure[0].Name == "Fâtiha" && dVerse[0].RelativeDesk == 1) NavUpdatePrevSingle.IsEnabled = false;
+                    else NavUpdatePrevSingle.IsEnabled = true;
+
+                    if (App.currentDesktype == "DeskMushaf")
+                    {
+                        if (dSure[0].Name == "Tevbe" && dVerse[0].RelativeDesk == 129) NavUpdateNextSingle.IsEnabled = false;
+                        else NavUpdateNextSingle.IsEnabled = true;
+                    }
+                    else
+                    {
+                        if (dSure[0].Name == "Nâs" && dVerse[0].RelativeDesk == 6) NavUpdateNextSingle.IsEnabled = false;
+                        else NavUpdateNextSingle.IsEnabled = true;
+                    }
                 });
 
                 singlerelativeDesk = (int)dVerse[0].RelativeDesk;
@@ -1385,7 +1411,7 @@ namespace KuranX.App.Core.Pages.VerseF
             try
             {
                 var tmpbutton = sender as Button;
-                App.mainframe.Content = new Pages.NoteF.NoteItem(int.Parse(tmpbutton.Uid));
+                App.mainframe.Content = new NoteF.NoteItem(int.Parse(tmpbutton.Uid), "Other");
             }
             catch (Exception ex)
             {
@@ -1444,7 +1470,7 @@ namespace KuranX.App.Core.Pages.VerseF
             try
             {
                 var tmpbutton = sender as Button;
-                App.mainframe.Content = new Pages.NoteF.NoteItem(int.Parse(tmpbutton.Uid));
+                App.mainframe.Content = new NoteF.NoteItem(int.Parse(tmpbutton.Uid), "Other");
             }
             catch (Exception ex)
             {

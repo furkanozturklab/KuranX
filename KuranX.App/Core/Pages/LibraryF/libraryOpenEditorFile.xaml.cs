@@ -33,6 +33,7 @@ namespace KuranX.App.Core.Pages.LibraryF
         private DispatcherTimer timeSpan = new DispatcherTimer(DispatcherPriority.Render);
         private Task? PageItemLoadTask, PageNotesLoadTask;
         private bool tempCheck3;
+        private PdfViewer pdviewer;
 
         public libraryOpenEditorFile()
         {
@@ -75,7 +76,8 @@ namespace KuranX.App.Core.Pages.LibraryF
         {
             try
             {
-                PdfViewer pdviewer = new PdfViewer(currentPdfUrl, currentFileName);
+                pdviewer = new PdfViewer(currentPdfUrl, currentFileName);
+
                 pdviewer.Show();
             }
             catch (Exception ex)

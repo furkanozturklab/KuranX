@@ -15,15 +15,15 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <Border Grid.Row="0" Width="400" Height="150" x:Name="loadHeaderAni" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+        <Border Grid.Row="0" Width="400" Height="150" x:Name="loadHeaderAni" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden" UseLayoutRounding="True" SnapsToDevicePixels="True">
             <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="350" Height="100">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
-                    <Button Style="{DynamicResource libraryHeader}" Tag="/resource/images/icon/library_rbx.png" />
+                    <Button Style="{DynamicResource libraryHeader}" Tag="/resource/images/icon/library_r.png" />
                 </StackPanel>
             </Border>
         </Border>
 
-        <Grid Grid.Row="1" Style="{DynamicResource aniEffectFadeGrid}" Visibility="Hidden" x:Name="loadControlAni">
+        <Grid Grid.Row="1" Style="{DynamicResource aniEffectFadeGrid}" Visibility="Visible" x:Name="loadControlAni">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
@@ -37,9 +37,9 @@
 
             <Button x:Name="libFileOpenFrame" Grid.Row="0" Grid.Column="0" Style="{DynamicResource libraryItems}" Width="350" Height="100" Tag="#212529" Content="Yüklenenler" Click="libFileOpenFrame_Click" />
 
-            <Button x:Name="libNoteOpenFrame" Grid.Row="0" Grid.Column="1" Style="{DynamicResource libraryItems}" Width="350" Height="100" Tag="#6610F2" Content="Notlarım" Click="libNoteOpenFrame_Click" />
+            <Button x:Name="libNoteOpenFrame" Grid.Row="0" Grid.Column="1" Style="{DynamicResource libraryItems}" Width="350" Height="100" Tag="#6610F2" Content="Kütüphane Notları" Click="libNoteOpenFrame_Click" />
 
-            <Button x:Name="libPublisherOpenFrame" Grid.Row="1" Grid.Column="0" Style="{DynamicResource libraryItems}" Width="350" Height="100" Tag="#FD7E14" Content="Editor Seçimi" Click="libPublisherOpenFrame_Click" />
+            <!-- <Button x:Name="libPublisherOpenFrame" Grid.Row="1" Grid.Column="0" Style="{DynamicResource libraryItems}" Width="350" Height="100" Tag="#FD7E14" Content="Editor Seçimi" Click="libPublisherOpenFrame_Click" /> -->
         </Grid>
     </Grid>
 </Page>

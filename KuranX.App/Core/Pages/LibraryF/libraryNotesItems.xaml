@@ -13,16 +13,16 @@
     <Grid>
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="230" />
+            <RowDefinition Height="115" />
             <RowDefinition Height="*" />
             <RowDefinition Height="80" />
         </Grid.RowDefinitions>
 
-        <Grid x:Name="loadinGifContent"  Grid.Row="0" Grid.RowSpan="3" Background="#FAFAFA" Panel.ZIndex="7" Visibility="Visible">
+        <Grid x:Name="loadinGifContent"  Grid.Row="0" Grid.RowSpan="3" Background="#FAFAFA" Panel.ZIndex="7" Visibility="Collapsed">
             <Image gif:ImageBehavior.AnimatedSource="/Resource/Images/Gif/Spinner800.gif" Width="250" Height="250"  RenderOptions.BitmapScalingMode="HighQuality" />
         </Grid>
 
-        <Grid x:Name="loadinItemsGifContent"  Grid.Row="1" Background="#FAFAFA" Panel.ZIndex="5" Visibility="Visible">
+        <Grid x:Name="loadinItemsGifContent"  Grid.Row="1" Background="#FAFAFA" Panel.ZIndex="5" Visibility="Collapsed">
             <Image gif:ImageBehavior.AnimatedSource="/Resource/Images/Gif/Spinner800.gif" Width="250" Height="250"  RenderOptions.BitmapScalingMode="HighQuality" />
         </Grid>
 
@@ -45,8 +45,8 @@
                         </StackPanel>
                         <Border Grid.Column="2"  Padding="10 0 10 0">
                             <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center">
-                                <TextBlock x:Name="alertPopupHeader" Text="" FontSize="22" Margin="0,0,0,12" Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsSemiBold}" />
-                                <TextBlock x:Name="alertPopupDetail" Text="" TextWrapping="Wrap"  Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsMedium}" />
+                                <TextBlock x:Name="alertPopupHeader" Text="" TextAlignment="Center" FontSize="22" Margin="0,0,0,12" Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsSemiBold}" />
+                                <TextBlock x:Name="alertPopupDetail" Text="" TextAlignment="Center" TextWrapping="Wrap"  Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsMedium}" />
                             </StackPanel>
                         </Border>
                     </Grid>
@@ -74,8 +74,8 @@
                         </StackPanel>
                         <Border Grid.Column="2"  Padding="10 0 10 0">
                             <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center">
-                                <TextBlock x:Name="infoPopupHeader" Text="" FontSize="22" Margin="0,0,0,12" Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsSemiBold}" />
-                                <TextBlock x:Name="infoPopupDetail" Text="" TextWrapping="Wrap"  Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsMedium}" />
+                                <TextBlock x:Name="infoPopupHeader" Text="" TextAlignment="Center" FontSize="22" Margin="0,0,0,12" Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsSemiBold}" />
+                                <TextBlock x:Name="infoPopupDetail" Text="" TextAlignment="Center" TextWrapping="Wrap"  Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsMedium}" />
                             </StackPanel>
                         </Border>
                     </Grid>
@@ -102,8 +102,8 @@
                         </StackPanel>
                         <Border Grid.Column="2"  Padding="10 0 10 0">
                             <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center">
-                                <TextBlock x:Name="successPopupHeader" Text="" FontSize="22" Margin="0,0,0,12" Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsSemiBold}" />
-                                <TextBlock x:Name="successPopupDetail" Text="" TextWrapping="Wrap"  Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsMedium}" />
+                                <TextBlock x:Name="successPopupHeader" Text="" TextAlignment="Center" FontSize="22" Margin="0,0,0,12" Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsSemiBold}" />
+                                <TextBlock x:Name="successPopupDetail" Text="" TextAlignment="Center" TextWrapping="Wrap"  Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsMedium}" />
                             </StackPanel>
                         </Border>
                     </Grid>
@@ -111,21 +111,75 @@
             </Border>
         </Popup>
 
-        <StackPanel  Grid.Row="0" Orientation="Vertical" VerticalAlignment="Center" SnapsToDevicePixels="True" UseLayoutRounding="True" Style="{DynamicResource aniEffectFadeStack}" Visibility="Hidden" x:Name="loadHeaderAni">
-            <Button x:Name="totalFileCount" Style="{DynamicResource libraryFileHeader}" Content="" Tag="Notlarım" Uid="#6610F2" />
-            <StackPanel Grid.Column="0" VerticalAlignment="Center" Margin="0 25 0 5">
-                <Border Style="{DynamicResource defaultTabSearchBorder}">
-                    <StackPanel Orientation="Horizontal">
+        <Popup x:Name="addFolderLibHeaderPopup" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="340" Height="410" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+            <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="320" Height="390">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50" />
+                        <RowDefinition Height="330" />
+                    </Grid.RowDefinitions>
+                    <Border  Grid.Row="0" Style="{DynamicResource headerBorderTemp}">
+                        <TextBlock Text="Kütüphane Başlığı Oluştur" Style="{DynamicResource popupHeaderText}" />
+                    </Border>
+                    <Grid Grid.Row="1">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="56" />
+                            </Grid.RowDefinitions>
+                            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Width="320" Grid.Row="0">
+                                <TextBlock Text="Kütüphane Başlığı" FontFamily="{DynamicResource PoppinsSemiBold}" FontSize="14" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0" />
+                                <TextBox Style="{DynamicResource popupDefaulTextBox}" Width="300" x:Name="libFolderHeader" KeyDown="libFolderHeader_KeyDown" KeyUp="libFolderHeader_KeyUp">
+                                    <TextBox.Resources>
+                                        <Style TargetType="{x:Type Border}">
+                                            <Setter Property="CornerRadius" Value="3" />
+                                        </Style>
+                                    </TextBox.Resources>
+                                </TextBox>
+                                <StackPanel Orientation="Horizontal" Width="Auto" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <Label Visibility="Hidden" x:Name="libHeaderFolderErrorMesssage" Style="{DynamicResource popupDefaultTextBoxLabel}" />
+                                </StackPanel>
 
-                        <TextBox x:Name="SearchData" Style="{DynamicResource defaultTabSearchText}" TextChanged="SearchData_TextChanged" LostFocus="SearchData_LostFocus" />
-                        <Button x:Name="SearchBtn" Style="{DynamicResource defaultTabSearchButton}" Click="SearchBtn_Click" />
-                    </StackPanel>
-                </Border>
-            </StackPanel>
-            <TextBlock x:Name="searchErrMsgTxt" Visibility="Hidden" TextAlignment="Center" Grid.Row="2" Text="Yeterince Uzun Değil Minimum 3 Karakter Olmalı" Margin="5 0 0 0" FontSize="10" Foreground="#DC3545" FontFamily="{DynamicResource PoppinsMedium}" />
+                                <TextBlock Text="Kütüphane Rengi" FontFamily="{DynamicResource PoppinsSemiBold}" FontSize="14" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0" />
+                                <StackPanel Orientation="Horizontal" Width="300" Margin="0 10 0 10" x:Name="libColorStack">
+                                    <CheckBox IsChecked="False" Style="{DynamicResource subjectHeaderColorSelected}" Tag="#66E21F" Uid="1" Click="libraryColorPick_Click" />
+                                    <CheckBox IsChecked="False" Style="{DynamicResource subjectHeaderColorSelected}" Tag="#DC3545" Uid="2" Click="libraryColorPick_Click" />
+                                    <CheckBox IsChecked="False" Style="{DynamicResource subjectHeaderColorSelected}" Tag="#0D6EFD" Uid="3" Click="libraryColorPick_Click" />
+                                    <CheckBox IsChecked="False" Style="{DynamicResource subjectHeaderColorSelected}" Tag="#6610F2" Uid="4" Click="libraryColorPick_Click" />
+                                    <CheckBox IsChecked="False" Style="{DynamicResource subjectHeaderColorSelected}" Tag="#FD7E14" Uid="5" Click="libraryColorPick_Click" />
+                                    <CheckBox IsChecked="False" Style="{DynamicResource subjectHeaderColorSelected}" Tag="#FFC107" Uid="6" Click="libraryColorPick_Click" />
+                                </StackPanel>
+
+                                <TextBlock Text="Önizleme" FontFamily="{DynamicResource PoppinsSemiBold}" FontSize="14" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 5 0 0" />
+
+                                <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="300" Height="50" Margin="0 20 0 20">
+                                    <StackPanel Height="50" Width="300" Orientation="Horizontal">
+                                        <Border x:Name="libpreviewColor" Width="10" Background="#66E21F" CornerRadius="5 0 0 5" />
+                                        <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                            <TextBlock Text="Önizleme" x:Name="libpreviewName" FontSize="14" Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsMedium}" VerticalAlignment="Center" Margin="10 0 0 0" />
+                                            <TextBlock Text="25.08.2022" FontSize="10" Foreground="#7B7B7B" FontFamily="{DynamicResource PoppinsRegular}" VerticalAlignment="Center" Margin="10 0 0 0" />
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Border>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="1">
+                                <Button x:Name="addfolderSubject" Style="{DynamicResource popupDefaultButtonBstrp}" Tag="FolderPlus" Content="Oluştur" HorizontalAlignment="Center" Click="addfolderLibraryHeader_Click" />
+                                <Button  Style="{DynamicResource popupDefaultButtonClosed}" Tag="CloseBig" Content="Vazgeç" Uid="addFolderLibHeaderPopup" HorizontalAlignment="Center" Click="popupClosed_Click" />
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </Border>
+        </Popup>
+
+        <StackPanel  Grid.Row="0" Orientation="Vertical" VerticalAlignment="Center" SnapsToDevicePixels="True" UseLayoutRounding="True" Style="{DynamicResource aniEffectFadeStack}" Visibility="Visible" x:Name="loadHeaderAni">
+            <Button x:Name="totalFileCount" Style="{DynamicResource libraryNoteHeader}" Tag="Kütüphane Başlıkları" Uid="#6610F2" />
         </StackPanel>
 
-        <Border Grid.Row="1" x:Name="loadDetailAni" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+        <Border Grid.Row="1" x:Name="loadDetailAni" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Visible">
 
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -135,29 +189,28 @@
                     <ColumnDefinition Width="265" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="74" />
-                    <RowDefinition Height="74" />
-                    <RowDefinition Height="74" />
-                    <RowDefinition Height="74" />
-                    <RowDefinition Height="74" />
+                    <RowDefinition Height="100" />
+                    <RowDefinition Height="100" />
+                    <RowDefinition Height="100" />
+                    <RowDefinition Height="100" />
+                    <RowDefinition Height="100" />
                 </Grid.RowDefinitions>
 
                 <Border Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="pdf1">
+                    <ItemsControl x:Name="lnt1">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
                                     <StackPanel Orientation="Horizontal">
-                                        <Border Width="215" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                            <StackPanel Orientation="Horizontal">
-                                                <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                    <TextBlock Text="{Binding NoteLibHeader}" FontSize="12" Style="{DynamicResource fileFolderHeader}" />
-                                                    <TextBlock Text="{Binding Created}" Style="{DynamicResource fileFolderDate}" />
-                                                </StackPanel>
+                                        <Border Width="12" CornerRadius="5 0 0 5" Background="{Binding LibraryColor}" />
+                                        <Border Width="195" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                            <StackPanel Orientation="Vertical">
+                                                <TextBlock Width="170" Text="{Binding LibraryName}" Style="{DynamicResource subjectFolderHeader}" />
+                                                <TextBlock Width="170" Text="{Binding Created}" Style="{DynamicResource subjectFolderDate}" />
                                             </StackPanel>
                                         </Border>
-                                        <Border Width="24" Height="24" Margin="0 0 10 0">
-                                            <Button Style="{DynamicResource fileItemOpenIcon}" Uid="{Binding NotesId}" Content="{Binding NoteLibHeader}" Tag="ArrowRight" Click="gotoNote_Click" />
+                                        <Border Width="38" Height="50">
+                                            <Button Style="{DynamicResource subjectFolderOpenIcon}" Uid="{Binding LibraryId}" Tag="{Binding Created}" Content="{Binding LibraryName}" Background="{Binding LibraryColor}" Click="openLibraryFolder_Click" />
                                         </Border>
                                     </StackPanel>
                                 </Border>
@@ -167,21 +220,20 @@
                 </Border>
 
                 <Border Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="pdf2">
+                    <ItemsControl x:Name="lnt2">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
                                     <StackPanel Orientation="Horizontal">
-                                        <Border Width="215" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                            <StackPanel Orientation="Horizontal">
-                                                <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                    <TextBlock Text="{Binding NoteLibHeader}" FontSize="12" Style="{DynamicResource fileFolderHeader}" />
-                                                    <TextBlock Text="{Binding Created}" Style="{DynamicResource fileFolderDate}" />
-                                                </StackPanel>
+                                        <Border Width="12" CornerRadius="5 0 0 5" Background="{Binding LibraryColor}" />
+                                        <Border Width="195" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                            <StackPanel Orientation="Vertical">
+                                                <TextBlock Width="170" Text="{Binding LibraryName}" Style="{DynamicResource subjectFolderHeader}" />
+                                                <TextBlock Width="170" Text="{Binding Created}" Style="{DynamicResource subjectFolderDate}" />
                                             </StackPanel>
                                         </Border>
-                                        <Border Width="24" Height="24" Margin="0 0 10 0">
-                                            <Button Style="{DynamicResource fileItemOpenIcon}" Uid="{Binding NotesId}" Content="{Binding NoteLibHeader}" Tag="ArrowRight" Click="gotoNote_Click" />
+                                        <Border Width="38" Height="50">
+                                            <Button Style="{DynamicResource subjectFolderOpenIcon}" Uid="{Binding LibraryId}" Tag="{Binding Created}" Content="{Binding LibraryName}" Background="{Binding LibraryColor}" Click="openLibraryFolder_Click" />
                                         </Border>
                                     </StackPanel>
                                 </Border>
@@ -191,21 +243,20 @@
                 </Border>
 
                 <Border Grid.Column="2" Grid.Row="0" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="pdf3">
+                    <ItemsControl x:Name="lnt3">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
                                     <StackPanel Orientation="Horizontal">
-                                        <Border Width="215" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                            <StackPanel Orientation="Horizontal">
-                                                <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                    <TextBlock Text="{Binding NoteLibHeader}" FontSize="12" Style="{DynamicResource fileFolderHeader}" />
-                                                    <TextBlock Text="{Binding Created}" Style="{DynamicResource fileFolderDate}" />
-                                                </StackPanel>
+                                        <Border Width="12" CornerRadius="5 0 0 5" Background="{Binding LibraryColor}" />
+                                        <Border Width="195" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                            <StackPanel Orientation="Vertical">
+                                                <TextBlock Width="170" Text="{Binding LibraryName}" Style="{DynamicResource subjectFolderHeader}" />
+                                                <TextBlock Width="170" Text="{Binding Created}" Style="{DynamicResource subjectFolderDate}" />
                                             </StackPanel>
                                         </Border>
-                                        <Border Width="24" Height="24" Margin="0 0 10 0">
-                                            <Button Style="{DynamicResource fileItemOpenIcon}" Uid="{Binding NotesId}" Content="{Binding NoteLibHeader}" Tag="ArrowRight" Click="gotoNote_Click" />
+                                        <Border Width="38" Height="50">
+                                            <Button Style="{DynamicResource subjectFolderOpenIcon}" Uid="{Binding LibraryId}" Tag="{Binding Created}" Content="{Binding LibraryName}" Background="{Binding LibraryColor}" Click="openLibraryFolder_Click" />
                                         </Border>
                                     </StackPanel>
                                 </Border>
@@ -215,21 +266,20 @@
                 </Border>
 
                 <Border Grid.Column="3" Grid.Row="0" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="pdf4">
+                    <ItemsControl x:Name="lnt4">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
                                     <StackPanel Orientation="Horizontal">
-                                        <Border Width="215" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                            <StackPanel Orientation="Horizontal">
-                                                <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                    <TextBlock Text="{Binding NoteLibHeader}" FontSize="12" Style="{DynamicResource fileFolderHeader}" />
-                                                    <TextBlock Text="{Binding Created}" Style="{DynamicResource fileFolderDate}" />
-                                                </StackPanel>
+                                        <Border Width="12" CornerRadius="5 0 0 5" Background="{Binding LibraryColor}" />
+                                        <Border Width="195" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                            <StackPanel Orientation="Vertical">
+                                                <TextBlock Width="170" Text="{Binding LibraryName}" Style="{DynamicResource subjectFolderHeader}" />
+                                                <TextBlock Width="170" Text="{Binding Created}" Style="{DynamicResource subjectFolderDate}" />
                                             </StackPanel>
                                         </Border>
-                                        <Border Width="24" Height="24" Margin="0 0 10 0">
-                                            <Button Style="{DynamicResource fileItemOpenIcon}" Uid="{Binding NotesId}" Content="{Binding NoteLibHeader}" Tag="ArrowRight" Click="gotoNote_Click" />
+                                        <Border Width="38" Height="50">
+                                            <Button Style="{DynamicResource subjectFolderOpenIcon}" Uid="{Binding LibraryId}" Tag="{Binding Created}" Content="{Binding LibraryName}" Background="{Binding LibraryColor}" Click="openLibraryFolder_Click" />
                                         </Border>
                                     </StackPanel>
                                 </Border>
@@ -239,21 +289,20 @@
                 </Border>
 
                 <Border Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="pdf5">
+                    <ItemsControl x:Name="lnt5">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
                                     <StackPanel Orientation="Horizontal">
-                                        <Border Width="215" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                            <StackPanel Orientation="Horizontal">
-                                                <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                    <TextBlock Text="{Binding NoteLibHeader}" FontSize="12" Style="{DynamicResource fileFolderHeader}" />
-                                                    <TextBlock Text="{Binding Created}" Style="{DynamicResource fileFolderDate}" />
-                                                </StackPanel>
+                                        <Border Width="12" CornerRadius="5 0 0 5" Background="{Binding LibraryColor}" />
+                                        <Border Width="195" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                            <StackPanel Orientation="Vertical">
+                                                <TextBlock Width="170" Text="{Binding LibraryName}" Style="{DynamicResource subjectFolderHeader}" />
+                                                <TextBlock Width="170" Text="{Binding Created}" Style="{DynamicResource subjectFolderDate}" />
                                             </StackPanel>
                                         </Border>
-                                        <Border Width="24" Height="24" Margin="0 0 10 0">
-                                            <Button Style="{DynamicResource fileItemOpenIcon}" Uid="{Binding NotesId}" Content="{Binding NoteLibHeader}" Tag="ArrowRight" Click="gotoNote_Click" />
+                                        <Border Width="38" Height="50">
+                                            <Button Style="{DynamicResource subjectFolderOpenIcon}" Uid="{Binding LibraryId}" Tag="{Binding Created}" Content="{Binding LibraryName}" Background="{Binding LibraryColor}" Click="openLibraryFolder_Click" />
                                         </Border>
                                     </StackPanel>
                                 </Border>
@@ -263,21 +312,20 @@
                 </Border>
 
                 <Border Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="pdf6">
+                    <ItemsControl x:Name="lnt6">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
                                     <StackPanel Orientation="Horizontal">
-                                        <Border Width="215" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                            <StackPanel Orientation="Horizontal">
-                                                <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                    <TextBlock Text="{Binding NoteLibHeader}" FontSize="12" Style="{DynamicResource fileFolderHeader}" />
-                                                    <TextBlock Text="{Binding Created}" Style="{DynamicResource fileFolderDate}" />
-                                                </StackPanel>
+                                        <Border Width="12" CornerRadius="5 0 0 5" Background="{Binding LibraryColor}" />
+                                        <Border Width="195" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                            <StackPanel Orientation="Vertical">
+                                                <TextBlock Width="170" Text="{Binding LibraryName}" Style="{DynamicResource subjectFolderHeader}" />
+                                                <TextBlock Width="170" Text="{Binding Created}" Style="{DynamicResource subjectFolderDate}" />
                                             </StackPanel>
                                         </Border>
-                                        <Border Width="24" Height="24" Margin="0 0 10 0">
-                                            <Button Style="{DynamicResource fileItemOpenIcon}" Uid="{Binding NotesId}" Content="{Binding NoteLibHeader}" Tag="ArrowRight" Click="gotoNote_Click" />
+                                        <Border Width="38" Height="50">
+                                            <Button Style="{DynamicResource subjectFolderOpenIcon}" Uid="{Binding LibraryId}" Tag="{Binding Created}" Content="{Binding LibraryName}" Background="{Binding LibraryColor}" Click="openLibraryFolder_Click" />
                                         </Border>
                                     </StackPanel>
                                 </Border>
@@ -287,21 +335,20 @@
                 </Border>
 
                 <Border Grid.Column="2" Grid.Row="1" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="pdf7">
+                    <ItemsControl x:Name="lnt7">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
                                     <StackPanel Orientation="Horizontal">
-                                        <Border Width="215" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                            <StackPanel Orientation="Horizontal">
-                                                <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                    <TextBlock Text="{Binding NoteLibHeader}" FontSize="12" Style="{DynamicResource fileFolderHeader}" />
-                                                    <TextBlock Text="{Binding Created}" Style="{DynamicResource fileFolderDate}" />
-                                                </StackPanel>
+                                        <Border Width="12" CornerRadius="5 0 0 5" Background="{Binding LibraryColor}" />
+                                        <Border Width="195" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                            <StackPanel Orientation="Vertical">
+                                                <TextBlock Width="170" Text="{Binding LibraryName}" Style="{DynamicResource subjectFolderHeader}" />
+                                                <TextBlock Width="170" Text="{Binding Created}" Style="{DynamicResource subjectFolderDate}" />
                                             </StackPanel>
                                         </Border>
-                                        <Border Width="24" Height="24" Margin="0 0 10 0">
-                                            <Button Style="{DynamicResource fileItemOpenIcon}" Uid="{Binding NotesId}" Content="{Binding NoteLibHeader}" Tag="ArrowRight" Click="gotoNote_Click" />
+                                        <Border Width="38" Height="50">
+                                            <Button Style="{DynamicResource subjectFolderOpenIcon}" Uid="{Binding LibraryId}" Tag="{Binding Created}" Content="{Binding LibraryName}" Background="{Binding LibraryColor}" Click="openLibraryFolder_Click" />
                                         </Border>
                                     </StackPanel>
                                 </Border>
@@ -311,21 +358,20 @@
                 </Border>
 
                 <Border Grid.Column="3" Grid.Row="1" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="pdf8">
+                    <ItemsControl x:Name="lnt8">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
                                     <StackPanel Orientation="Horizontal">
-                                        <Border Width="215" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                            <StackPanel Orientation="Horizontal">
-                                                <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                    <TextBlock Text="{Binding NoteLibHeader}" FontSize="12" Style="{DynamicResource fileFolderHeader}" />
-                                                    <TextBlock Text="{Binding Created}" Style="{DynamicResource fileFolderDate}" />
-                                                </StackPanel>
+                                        <Border Width="12" CornerRadius="5 0 0 5" Background="{Binding LibraryColor}" />
+                                        <Border Width="195" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                            <StackPanel Orientation="Vertical">
+                                                <TextBlock Width="170" Text="{Binding LibraryName}" Style="{DynamicResource subjectFolderHeader}" />
+                                                <TextBlock Width="170" Text="{Binding Created}" Style="{DynamicResource subjectFolderDate}" />
                                             </StackPanel>
                                         </Border>
-                                        <Border Width="24" Height="24" Margin="0 0 10 0">
-                                            <Button Style="{DynamicResource fileItemOpenIcon}" Uid="{Binding NotesId}" Content="{Binding NoteLibHeader}" Tag="ArrowRight" Click="gotoNote_Click" />
+                                        <Border Width="38" Height="50">
+                                            <Button Style="{DynamicResource subjectFolderOpenIcon}" Uid="{Binding LibraryId}" Tag="{Binding Created}" Content="{Binding LibraryName}" Background="{Binding LibraryColor}" Click="openLibraryFolder_Click" />
                                         </Border>
                                     </StackPanel>
                                 </Border>
@@ -335,21 +381,20 @@
                 </Border>
 
                 <Border Grid.Column="0" Grid.Row="2" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="pdf9">
+                    <ItemsControl x:Name="lnt9">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
                                     <StackPanel Orientation="Horizontal">
-                                        <Border Width="215" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                            <StackPanel Orientation="Horizontal">
-                                                <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                    <TextBlock Text="{Binding NoteLibHeader}" FontSize="12" Style="{DynamicResource fileFolderHeader}" />
-                                                    <TextBlock Text="{Binding Created}" Style="{DynamicResource fileFolderDate}" />
-                                                </StackPanel>
+                                        <Border Width="12" CornerRadius="5 0 0 5" Background="{Binding LibraryColor}" />
+                                        <Border Width="195" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                            <StackPanel Orientation="Vertical">
+                                                <TextBlock Width="170" Text="{Binding LibraryName}" Style="{DynamicResource subjectFolderHeader}" />
+                                                <TextBlock Width="170" Text="{Binding Created}" Style="{DynamicResource subjectFolderDate}" />
                                             </StackPanel>
                                         </Border>
-                                        <Border Width="24" Height="24" Margin="0 0 10 0">
-                                            <Button Style="{DynamicResource fileItemOpenIcon}" Uid="{Binding NotesId}" Content="{Binding NoteLibHeader}" Tag="ArrowRight" Click="gotoNote_Click" />
+                                        <Border Width="38" Height="50">
+                                            <Button Style="{DynamicResource subjectFolderOpenIcon}" Uid="{Binding LibraryId}" Tag="{Binding Created}" Content="{Binding LibraryName}" Background="{Binding LibraryColor}" Click="openLibraryFolder_Click" />
                                         </Border>
                                     </StackPanel>
                                 </Border>
@@ -359,21 +404,20 @@
                 </Border>
 
                 <Border Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="pdf10">
+                    <ItemsControl x:Name="lnt10">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
                                     <StackPanel Orientation="Horizontal">
-                                        <Border Width="215" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                            <StackPanel Orientation="Horizontal">
-                                                <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                    <TextBlock Text="{Binding NoteLibHeader}" FontSize="12" Style="{DynamicResource fileFolderHeader}" />
-                                                    <TextBlock Text="{Binding Created}" Style="{DynamicResource fileFolderDate}" />
-                                                </StackPanel>
+                                        <Border Width="12" CornerRadius="5 0 0 5" Background="{Binding LibraryColor}" />
+                                        <Border Width="195" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                            <StackPanel Orientation="Vertical">
+                                                <TextBlock Width="170" Text="{Binding LibraryName}" Style="{DynamicResource subjectFolderHeader}" />
+                                                <TextBlock Width="170" Text="{Binding Created}" Style="{DynamicResource subjectFolderDate}" />
                                             </StackPanel>
                                         </Border>
-                                        <Border Width="24" Height="24" Margin="0 0 10 0">
-                                            <Button Style="{DynamicResource fileItemOpenIcon}" Uid="{Binding NotesId}" Content="{Binding NoteLibHeader}" Tag="ArrowRight" Click="gotoNote_Click" />
+                                        <Border Width="38" Height="50">
+                                            <Button Style="{DynamicResource subjectFolderOpenIcon}" Uid="{Binding LibraryId}" Tag="{Binding Created}" Content="{Binding LibraryName}" Background="{Binding LibraryColor}" Click="openLibraryFolder_Click" />
                                         </Border>
                                     </StackPanel>
                                 </Border>
@@ -383,21 +427,20 @@
                 </Border>
 
                 <Border Grid.Column="2" Grid.Row="2" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="pdf11">
+                    <ItemsControl x:Name="lnt11">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
                                     <StackPanel Orientation="Horizontal">
-                                        <Border Width="215" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                            <StackPanel Orientation="Horizontal">
-                                                <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                    <TextBlock Text="{Binding NoteLibHeader}" FontSize="12" Style="{DynamicResource fileFolderHeader}" />
-                                                    <TextBlock Text="{Binding Created}" Style="{DynamicResource fileFolderDate}" />
-                                                </StackPanel>
+                                        <Border Width="12" CornerRadius="5 0 0 5" Background="{Binding LibraryColor}" />
+                                        <Border Width="195" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                            <StackPanel Orientation="Vertical">
+                                                <TextBlock Width="170" Text="{Binding LibraryName}" Style="{DynamicResource subjectFolderHeader}" />
+                                                <TextBlock Width="170" Text="{Binding Created}" Style="{DynamicResource subjectFolderDate}" />
                                             </StackPanel>
                                         </Border>
-                                        <Border Width="24" Height="24" Margin="0 0 10 0">
-                                            <Button Style="{DynamicResource fileItemOpenIcon}" Uid="{Binding NotesId}" Content="{Binding NoteLibHeader}" Tag="ArrowRight" Click="gotoNote_Click" />
+                                        <Border Width="38" Height="50">
+                                            <Button Style="{DynamicResource subjectFolderOpenIcon}" Uid="{Binding LibraryId}" Tag="{Binding Created}" Content="{Binding LibraryName}" Background="{Binding LibraryColor}" Click="openLibraryFolder_Click" />
                                         </Border>
                                     </StackPanel>
                                 </Border>
@@ -407,21 +450,20 @@
                 </Border>
 
                 <Border Grid.Column="3" Grid.Row="2" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="pdf12">
+                    <ItemsControl x:Name="lnt12">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
                                     <StackPanel Orientation="Horizontal">
-                                        <Border Width="215" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                            <StackPanel Orientation="Horizontal">
-                                                <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                    <TextBlock Text="{Binding NoteLibHeader}" FontSize="12" Style="{DynamicResource fileFolderHeader}" />
-                                                    <TextBlock Text="{Binding Created}" Style="{DynamicResource fileFolderDate}" />
-                                                </StackPanel>
+                                        <Border Width="12" CornerRadius="5 0 0 5" Background="{Binding LibraryColor}" />
+                                        <Border Width="195" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                            <StackPanel Orientation="Vertical">
+                                                <TextBlock Width="170" Text="{Binding LibraryName}" Style="{DynamicResource subjectFolderHeader}" />
+                                                <TextBlock Width="170" Text="{Binding Created}" Style="{DynamicResource subjectFolderDate}" />
                                             </StackPanel>
                                         </Border>
-                                        <Border Width="24" Height="24" Margin="0 0 10 0">
-                                            <Button Style="{DynamicResource fileItemOpenIcon}" Uid="{Binding NotesId}" Content="{Binding NoteLibHeader}" Tag="ArrowRight" Click="gotoNote_Click" />
+                                        <Border Width="38" Height="50">
+                                            <Button Style="{DynamicResource subjectFolderOpenIcon}" Uid="{Binding LibraryId}" Tag="{Binding Created}" Content="{Binding LibraryName}" Background="{Binding LibraryColor}" Click="openLibraryFolder_Click" />
                                         </Border>
                                     </StackPanel>
                                 </Border>
@@ -431,21 +473,20 @@
                 </Border>
 
                 <Border Grid.Column="0" Grid.Row="3" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="pdf13">
+                    <ItemsControl x:Name="lnt13">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
                                     <StackPanel Orientation="Horizontal">
-                                        <Border Width="215" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                            <StackPanel Orientation="Horizontal">
-                                                <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                    <TextBlock Text="{Binding NoteLibHeader}" FontSize="12" Style="{DynamicResource fileFolderHeader}" />
-                                                    <TextBlock Text="{Binding Created}" Style="{DynamicResource fileFolderDate}" />
-                                                </StackPanel>
+                                        <Border Width="12" CornerRadius="5 0 0 5" Background="{Binding LibraryColor}" />
+                                        <Border Width="195" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                            <StackPanel Orientation="Vertical">
+                                                <TextBlock Width="170" Text="{Binding LibraryName}" Style="{DynamicResource subjectFolderHeader}" />
+                                                <TextBlock Width="170" Text="{Binding Created}" Style="{DynamicResource subjectFolderDate}" />
                                             </StackPanel>
                                         </Border>
-                                        <Border Width="24" Height="24" Margin="0 0 10 0">
-                                            <Button Style="{DynamicResource fileItemOpenIcon}" Uid="{Binding NotesId}" Content="{Binding NoteLibHeader}" Tag="ArrowRight" Click="gotoNote_Click" />
+                                        <Border Width="38" Height="50">
+                                            <Button Style="{DynamicResource subjectFolderOpenIcon}" Uid="{Binding LibraryId}" Tag="{Binding Created}" Content="{Binding LibraryName}" Background="{Binding LibraryColor}" Click="openLibraryFolder_Click" />
                                         </Border>
                                     </StackPanel>
                                 </Border>
@@ -455,21 +496,20 @@
                 </Border>
 
                 <Border Grid.Column="1" Grid.Row="3" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="pdf14">
+                    <ItemsControl x:Name="lnt14">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
                                     <StackPanel Orientation="Horizontal">
-                                        <Border Width="215" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                            <StackPanel Orientation="Horizontal">
-                                                <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                    <TextBlock Text="{Binding NoteLibHeader}" FontSize="12" Style="{DynamicResource fileFolderHeader}" />
-                                                    <TextBlock Text="{Binding Created}" Style="{DynamicResource fileFolderDate}" />
-                                                </StackPanel>
+                                        <Border Width="12" CornerRadius="5 0 0 5" Background="{Binding LibraryColor}" />
+                                        <Border Width="195" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                            <StackPanel Orientation="Vertical">
+                                                <TextBlock Width="170" Text="{Binding LibraryName}" Style="{DynamicResource subjectFolderHeader}" />
+                                                <TextBlock Width="170" Text="{Binding Created}" Style="{DynamicResource subjectFolderDate}" />
                                             </StackPanel>
                                         </Border>
-                                        <Border Width="24" Height="24" Margin="0 0 10 0">
-                                            <Button Style="{DynamicResource fileItemOpenIcon}" Uid="{Binding NotesId}" Content="{Binding NoteLibHeader}" Tag="ArrowRight" Click="gotoNote_Click" />
+                                        <Border Width="38" Height="50">
+                                            <Button Style="{DynamicResource subjectFolderOpenIcon}" Uid="{Binding LibraryId}" Tag="{Binding Created}" Content="{Binding LibraryName}" Background="{Binding LibraryColor}" Click="openLibraryFolder_Click" />
                                         </Border>
                                     </StackPanel>
                                 </Border>
@@ -479,21 +519,20 @@
                 </Border>
 
                 <Border Grid.Column="2" Grid.Row="3" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="pdf15">
+                    <ItemsControl x:Name="lnt15">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
                                     <StackPanel Orientation="Horizontal">
-                                        <Border Width="215" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                            <StackPanel Orientation="Horizontal">
-                                                <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                    <TextBlock Text="{Binding NoteLibHeader}" FontSize="12" Style="{DynamicResource fileFolderHeader}" />
-                                                    <TextBlock Text="{Binding Created}" Style="{DynamicResource fileFolderDate}" />
-                                                </StackPanel>
+                                        <Border Width="12" CornerRadius="5 0 0 5" Background="{Binding LibraryColor}" />
+                                        <Border Width="195" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                            <StackPanel Orientation="Vertical">
+                                                <TextBlock Width="170" Text="{Binding LibraryName}" Style="{DynamicResource subjectFolderHeader}" />
+                                                <TextBlock Width="170" Text="{Binding Created}" Style="{DynamicResource subjectFolderDate}" />
                                             </StackPanel>
                                         </Border>
-                                        <Border Width="24" Height="24" Margin="0 0 10 0">
-                                            <Button Style="{DynamicResource fileItemOpenIcon}" Uid="{Binding NotesId}" Content="{Binding NoteLibHeader}" Tag="ArrowRight" Click="gotoNote_Click" />
+                                        <Border Width="38" Height="50">
+                                            <Button Style="{DynamicResource subjectFolderOpenIcon}" Uid="{Binding LibraryId}" Tag="{Binding Created}" Content="{Binding LibraryName}" Background="{Binding LibraryColor}" Click="openLibraryFolder_Click" />
                                         </Border>
                                     </StackPanel>
                                 </Border>
@@ -503,21 +542,20 @@
                 </Border>
 
                 <Border Grid.Column="3" Grid.Row="3" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="pdf16">
+                    <ItemsControl x:Name="lnt16">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
                                     <StackPanel Orientation="Horizontal">
-                                        <Border Width="215" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                            <StackPanel Orientation="Horizontal">
-                                                <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                    <TextBlock Text="{Binding NoteLibHeader}" FontSize="12" Style="{DynamicResource fileFolderHeader}" />
-                                                    <TextBlock Text="{Binding Created}" Style="{DynamicResource fileFolderDate}" />
-                                                </StackPanel>
+                                        <Border Width="12" CornerRadius="5 0 0 5" Background="{Binding LibraryColor}" />
+                                        <Border Width="195" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                            <StackPanel Orientation="Vertical">
+                                                <TextBlock Width="170" Text="{Binding LibraryName}" Style="{DynamicResource subjectFolderHeader}" />
+                                                <TextBlock Width="170" Text="{Binding Created}" Style="{DynamicResource subjectFolderDate}" />
                                             </StackPanel>
                                         </Border>
-                                        <Border Width="24" Height="24" Margin="0 0 10 0">
-                                            <Button Style="{DynamicResource fileItemOpenIcon}" Uid="{Binding NotesId}" Content="{Binding NoteLibHeader}" Tag="ArrowRight" Click="gotoNote_Click" />
+                                        <Border Width="38" Height="50">
+                                            <Button Style="{DynamicResource subjectFolderOpenIcon}" Uid="{Binding LibraryId}" Tag="{Binding Created}" Content="{Binding LibraryName}" Background="{Binding LibraryColor}" Click="openLibraryFolder_Click" />
                                         </Border>
                                     </StackPanel>
                                 </Border>
@@ -527,21 +565,20 @@
                 </Border>
 
                 <Border Grid.Column="0" Grid.Row="4" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="pdf17">
+                    <ItemsControl x:Name="lnt17">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
                                     <StackPanel Orientation="Horizontal">
-                                        <Border Width="215" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                            <StackPanel Orientation="Horizontal">
-                                                <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                    <TextBlock Text="{Binding NoteLibHeader}" FontSize="12" Style="{DynamicResource fileFolderHeader}" />
-                                                    <TextBlock Text="{Binding Created}" Style="{DynamicResource fileFolderDate}" />
-                                                </StackPanel>
+                                        <Border Width="12" CornerRadius="5 0 0 5" Background="{Binding LibraryColor}" />
+                                        <Border Width="195" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                            <StackPanel Orientation="Vertical">
+                                                <TextBlock Width="170" Text="{Binding LibraryName}" Style="{DynamicResource subjectFolderHeader}" />
+                                                <TextBlock Width="170" Text="{Binding Created}" Style="{DynamicResource subjectFolderDate}" />
                                             </StackPanel>
                                         </Border>
-                                        <Border Width="24" Height="24" Margin="0 0 10 0">
-                                            <Button Style="{DynamicResource fileItemOpenIcon}" Uid="{Binding NotesId}" Content="{Binding NoteLibHeader}" Tag="ArrowRight" Click="gotoNote_Click" />
+                                        <Border Width="38" Height="50">
+                                            <Button Style="{DynamicResource subjectFolderOpenIcon}" Uid="{Binding LibraryId}" Tag="{Binding Created}" Content="{Binding LibraryName}" Background="{Binding LibraryColor}" Click="openLibraryFolder_Click" />
                                         </Border>
                                     </StackPanel>
                                 </Border>
@@ -551,21 +588,20 @@
                 </Border>
 
                 <Border Grid.Column="1" Grid.Row="4" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="pdf18">
+                    <ItemsControl x:Name="lnt18">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
                                     <StackPanel Orientation="Horizontal">
-                                        <Border Width="215" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                            <StackPanel Orientation="Horizontal">
-                                                <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                    <TextBlock Text="{Binding NoteLibHeader}" FontSize="12" Style="{DynamicResource fileFolderHeader}" />
-                                                    <TextBlock Text="{Binding Created}" Style="{DynamicResource fileFolderDate}" />
-                                                </StackPanel>
+                                        <Border Width="12" CornerRadius="5 0 0 5" Background="{Binding LibraryColor}" />
+                                        <Border Width="195" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                            <StackPanel Orientation="Vertical">
+                                                <TextBlock Width="170" Text="{Binding LibraryName}" Style="{DynamicResource subjectFolderHeader}" />
+                                                <TextBlock Width="170" Text="{Binding Created}" Style="{DynamicResource subjectFolderDate}" />
                                             </StackPanel>
                                         </Border>
-                                        <Border Width="24" Height="24" Margin="0 0 10 0">
-                                            <Button Style="{DynamicResource fileItemOpenIcon}" Uid="{Binding NotesId}" Content="{Binding NoteLibHeader}" Tag="ArrowRight" Click="gotoNote_Click" />
+                                        <Border Width="38" Height="50">
+                                            <Button Style="{DynamicResource subjectFolderOpenIcon}" Uid="{Binding LibraryId}" Tag="{Binding Created}" Content="{Binding LibraryName}" Background="{Binding LibraryColor}" Click="openLibraryFolder_Click" />
                                         </Border>
                                     </StackPanel>
                                 </Border>
@@ -575,21 +611,20 @@
                 </Border>
 
                 <Border Grid.Column="2" Grid.Row="4" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="pdf19">
+                    <ItemsControl x:Name="lnt19" SnapsToDevicePixels="True" UseLayoutRounding="True">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
                                     <StackPanel Orientation="Horizontal">
-                                        <Border Width="215" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                            <StackPanel Orientation="Horizontal">
-                                                <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                    <TextBlock Text="{Binding NoteLibHeader}" FontSize="12" Style="{DynamicResource fileFolderHeader}" />
-                                                    <TextBlock Text="{Binding Created}" Style="{DynamicResource fileFolderDate}" />
-                                                </StackPanel>
+                                        <Border Width="12" CornerRadius="5 0 0 5" Background="{Binding LibraryColor}" />
+                                        <Border Width="195" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                            <StackPanel Orientation="Vertical">
+                                                <TextBlock Width="170" Text="{Binding LibraryName}" Style="{DynamicResource subjectFolderHeader}" />
+                                                <TextBlock Width="170" Text="{Binding Created}" Style="{DynamicResource subjectFolderDate}" />
                                             </StackPanel>
                                         </Border>
-                                        <Border Width="24" Height="24" Margin="0 0 10 0">
-                                            <Button Style="{DynamicResource fileItemOpenIcon}" Uid="{Binding NotesId}" Content="{Binding NoteLibHeader}" Tag="ArrowRight" Click="gotoNote_Click" />
+                                        <Border Width="38" Height="50">
+                                            <Button Style="{DynamicResource subjectFolderOpenIcon}" Uid="{Binding LibraryId}" Tag="{Binding Created}" Content="{Binding LibraryName}" Background="{Binding LibraryColor}" Click="openLibraryFolder_Click" />
                                         </Border>
                                     </StackPanel>
                                 </Border>
@@ -599,21 +634,20 @@
                 </Border>
 
                 <Border Grid.Column="3" Grid.Row="4" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="pdf20">
+                    <ItemsControl x:Name="lnt20">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
                                     <StackPanel Orientation="Horizontal">
-                                        <Border Width="215" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                            <StackPanel Orientation="Horizontal">
-                                                <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                    <TextBlock Text="{Binding NoteLibHeader}" FontSize="12" Style="{DynamicResource fileFolderHeader}" />
-                                                    <TextBlock Text="{Binding Created}" Style="{DynamicResource fileFolderDate}" />
-                                                </StackPanel>
+                                        <Border Width="12" CornerRadius="5 0 0 5" Background="{Binding LibraryColor}" />
+                                        <Border Width="195" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                            <StackPanel Orientation="Vertical">
+                                                <TextBlock Width="170" Text="{Binding LibraryName}" Style="{DynamicResource subjectFolderHeader}" />
+                                                <TextBlock Width="170" Text="{Binding Created}" Style="{DynamicResource subjectFolderDate}" />
                                             </StackPanel>
                                         </Border>
-                                        <Border Width="24" Height="24" Margin="0 0 10 0">
-                                            <Button Style="{DynamicResource fileItemOpenIcon}" Uid="{Binding NotesId}" Content="{Binding NoteLibHeader}" Tag="ArrowRight" Click="gotoNote_Click" />
+                                        <Border Width="38" Height="50">
+                                            <Button Style="{DynamicResource subjectFolderOpenIcon}" Uid="{Binding LibraryId}" Tag="{Binding Created}" Content="{Binding LibraryName}" Background="{Binding LibraryColor}" Click="openLibraryFolder_Click" />
                                         </Border>
                                     </StackPanel>
                                 </Border>
@@ -625,21 +659,24 @@
         </Border>
 
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Style="{DynamicResource aniEffectFadeStack}" Visibility="Hidden" x:Name="loadControlAni">
-            <StackPanel Style="{DynamicResource ResourceKey=ayetlerControlBarStack}">
-                <StackPanel Style="{DynamicResource ResourceKey=ayetlerControlItems}">
+            <StackPanel Orientation="Horizontal" Height="80">
+                <StackPanel Style="{DynamicResource frameItemsOffsetNav}">
                     <Button x:Name="backPage" IsEnabled="False" Style="{DynamicResource ResourceKey=ayetlerControlItemPageButtonLeft}" Tag="ArrowLeft" Content="Kütüphaneye Geri Dön" Click="backPage_Click" />
                 </StackPanel>
-                <StackPanel Style="{DynamicResource ResourceKey=ayetlerControlItems}">
-                    <Button x:Name="previusPageButton" IsEnabled="False" Style="{DynamicResource ResourceKey=ayetlerControlItemPageButtonLeft}" Tag="AngleLeft" Content="Önceki Sayfa" Click="previusPageButton_Click" />
+                <StackPanel Style="{DynamicResource frameItemsOffsetNav}">
+                    <Button IsEnabled="False" x:Name="newLibHeader" Style="{DynamicResource frameItemsControlNav}" Tag="Plus" Content="Yeni Kütüphane" Click="newLibHeader_Click" />
                 </StackPanel>
-                <StackPanel Style="{DynamicResource ResourceKey=ayetlerControlItems}">
-                    <Button x:Name="nowPageStatus" IsEnabled="False" Style="{DynamicResource ResourceKey=ayetlerControlItemOtherButton}" Tag="1 / 1" Content="Sayfa" />
+                <StackPanel Style="{DynamicResource frameItemsOffsetNav}">
+                    <Button IsEnabled="False" x:Name="previusPageButton" Style="{DynamicResource frameItemsControlNav}" Tag="AngleLeft" Content="Önceki Sayfa" Click="previusPageButton_Click" />
                 </StackPanel>
-                <StackPanel Style="{DynamicResource ResourceKey=ayetlerControlItems}">
-                    <Button x:Name="totalcountText" IsEnabled="False" Style="{DynamicResource ResourceKey=ayetlerControlItemOtherButtonCount}" Tag="-" Content="Dosya" />
+                <StackPanel Style="{DynamicResource frameItemsOffsetNav}">
+                    <Button IsEnabled="False" x:Name="nowPageStatus" Style="{DynamicResource frameItemsNumberNav}" Tag="1 / 1" Content="Sayfa" />
                 </StackPanel>
-                <StackPanel Style="{DynamicResource ResourceKey=ayetlerControlItems}">
-                    <Button x:Name="nextpageButton" IsEnabled="False" Style="{DynamicResource ResourceKey=ayetlerControlItemPageButtonRight}" Tag="AngleRight" Content="Sonraki Sayfa" Click="nextpageButton_Click" />
+                <StackPanel Style="{DynamicResource frameItemsOffsetNav}">
+                    <Button IsEnabled="False" x:Name="totalcountText" Style="{DynamicResource frameItemsNumberNav}" Tag="-" Content="Sonuc" />
+                </StackPanel>
+                <StackPanel Style="{DynamicResource frameItemsOffsetNav}">
+                    <Button IsEnabled="False" x:Name="nextpageButton" Style="{DynamicResource frameItemsControlNav}" Tag="AngleRight" Content="Sonraki Sayfa" Click="nextpageButton_Click" />
                 </StackPanel>
             </StackPanel>
         </StackPanel>

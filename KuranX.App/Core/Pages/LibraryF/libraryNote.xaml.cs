@@ -55,14 +55,14 @@ namespace KuranX.App.Core.Pages.LibraryF
                     {
                         if (dNotes != null)
                         {
-                            LibHeader.Text = dNotes.NoteLibHeader;
-                            header.Text = dNotes.NoteHeader;
+                            LibHeader.Text = "Düzeltilecek Lib";
+                            header.Text = "Kaynak Not : " + dNotes.NoteHeader;
                             create.Text = dNotes.Created.ToString();
                             noteDetail.Text = dNotes.NoteDetail;
                             tempCheck = true;
                             saveButton.IsEnabled = false;
 
-                            if (dNotes.SureId == 0) gotoVerseButton.Visibility = Visibility.Collapsed;
+                            if (dNotes.SureId == 0) gotoVerseButton.IsEnabled = false;
                         }
                         else
                         {

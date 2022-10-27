@@ -43,8 +43,8 @@ namespace KuranX.App.Core.Pages.LibraryF
                 loadAni();
                 using (var entitydb = new AyetContext())
                 {
-                    if (searchStatus) dPdfFile = entitydb.PdfFile.Where(p => EF.Functions.Like(p.FileName, "%" + searchTxt + "%")).Skip(lastPdfItems).Take(21).ToList();
-                    else dPdfFile = entitydb.PdfFile.Skip(lastPdfItems).Take(21).ToList();
+                    if (searchStatus) dPdfFile = entitydb.PdfFile.Where(p => EF.Functions.Like(p.FileName, "%" + searchTxt + "%") && p.FileType == "User").Skip(lastPdfItems).Take(21).ToList();
+                    else dPdfFile = entitydb.PdfFile.Where(p => p.FileType == "User").Skip(lastPdfItems).Take(21).ToList();
                     totalcount = entitydb.PdfFile.Count();
 
                     this.Dispatcher.Invoke(() =>

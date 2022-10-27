@@ -1,4 +1,5 @@
 ﻿using KuranX.App.Core.Classes;
+using MySqlX.XDevAPI.Common;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -26,7 +27,7 @@ namespace KuranX.App.Core.Pages.ReminderF
     public partial class RemiderFrame : Page
     {
         private List<Remider> dRemider, tempRemider = new List<Remider>();
-        private int totalcount, selectedId, NowPage = 1, lastRemider = 0;
+        private int selectedId, NowPage = 1, lastRemider = 0;
         private DispatcherTimer? timeSpan = new DispatcherTimer(DispatcherPriority.Render);
         private Task loadTask;
         private bool remiderType = false, filter = false;
@@ -47,7 +48,7 @@ namespace KuranX.App.Core.Pages.ReminderF
                 {
                     loadAni();
 
-                    totalcount = entitydb.Remider.Count();
+                    Decimal totalcount = entitydb.Remider.Count();
 
                     if (filter)
                     {
@@ -108,17 +109,35 @@ namespace KuranX.App.Core.Pages.ReminderF
                             if (i == 7) break; // 7 den fazla varmı kontrol etmek için koydum
                         }
 
-                        if (lastRemider == 0) previusPageButton.IsEnabled = false;
-                        else previusPageButton.IsEnabled = true;
+                        Thread.Sleep(200);
+                        this.Dispatcher.Invoke(() =>
+                        {
+                            totalcountText.Tag = totalcount.ToString();
 
-                        if (dRemider.Count() <= 6) nextpageButton.IsEnabled = false;
-                        if (lastRemider == 0 && dRemider.Count() > 6) nextpageButton.IsEnabled = true;
-
-                        totalcountText.Tag = totalcount.ToString();
-
-                        nowPageStatus.Tag = NowPage + " / " + Math.Ceiling(decimal.Parse(totalcount.ToString()) / 6).ToString();
+                            if (dRemider.Count() != 0)
+                            {
+                                totalcount = Math.Ceiling(totalcount / 6);
+                                nowPageStatus.Tag = NowPage + " / " + totalcount;
+                                nextpageButton.Dispatcher.Invoke(() =>
+                                {
+                                    if (NowPage != totalcount) nextpageButton.IsEnabled = true;
+                                    else if (NowPage == totalcount) nextpageButton.IsEnabled = false;
+                                });
+                                previusPageButton.Dispatcher.Invoke(() =>
+                                {
+                                    if (NowPage != 1) previusPageButton.IsEnabled = true;
+                                    else if (NowPage == 1) previusPageButton.IsEnabled = false;
+                                });
+                            }
+                            else
+                            {
+                                nowPageStatus.Tag = "-";
+                                nextpageButton.IsEnabled = false;
+                                previusPageButton.IsEnabled = false;
+                            }
+                        });
                     });
-                    Thread.Sleep(200);
+
                     loadAniComplated();
                 }
             }

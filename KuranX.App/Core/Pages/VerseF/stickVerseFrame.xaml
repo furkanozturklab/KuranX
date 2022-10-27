@@ -69,8 +69,8 @@
                             </StackPanel>
                             <Border Grid.Column="2"  Padding="10 0 10 0">
                                 <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center">
-                                    <TextBlock x:Name="alertPopupHeader" Text="" FontSize="22" Margin="0,0,0,12" Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsSemiBold}" />
-                                    <TextBlock x:Name="alertPopupDetail" Text="" TextWrapping="Wrap"  Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsMedium}" />
+                                    <TextBlock x:Name="alertPopupHeader" Text="" TextAlignment="Center" FontSize="22" Margin="0,0,0,12" Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsSemiBold}" />
+                                    <TextBlock x:Name="alertPopupDetail" Text="" TextAlignment="Center" TextWrapping="Wrap"  Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsMedium}" />
                                 </StackPanel>
                             </Border>
                         </Grid>
@@ -98,8 +98,8 @@
                             </StackPanel>
                             <Border Grid.Column="2"  Padding="10 0 10 0">
                                 <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center">
-                                    <TextBlock x:Name="infoPopupHeader" Text="" FontSize="22" Margin="0,0,0,12" Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsSemiBold}" />
-                                    <TextBlock x:Name="infoPopupDetail" Text="" TextWrapping="Wrap"  Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsMedium}" />
+                                    <TextBlock x:Name="infoPopupHeader" Text="" TextAlignment="Center" FontSize="22" Margin="0,0,0,12" Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsSemiBold}" />
+                                    <TextBlock x:Name="infoPopupDetail" Text="" TextAlignment="Center" TextWrapping="Wrap"  Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsMedium}" />
                                 </StackPanel>
                             </Border>
                         </Grid>
@@ -126,8 +126,8 @@
                             </StackPanel>
                             <Border Grid.Column="2"  Padding="10 0 10 0">
                                 <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center">
-                                    <TextBlock x:Name="successPopupHeader" Text="" FontSize="22" Margin="0,0,0,12" Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsSemiBold}" />
-                                    <TextBlock x:Name="successPopupDetail" Text="" TextWrapping="Wrap"  Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsMedium}" />
+                                    <TextBlock x:Name="successPopupHeader" Text="" TextAlignment="Center" FontSize="22" Margin="0,0,0,12" Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsSemiBold}" />
+                                    <TextBlock x:Name="successPopupDetail" Text="" TextAlignment="Center" TextWrapping="Wrap"  Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsMedium}" />
                                 </StackPanel>
                             </Border>
                         </Grid>

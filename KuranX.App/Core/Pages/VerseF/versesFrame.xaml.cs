@@ -22,7 +22,7 @@ namespace KuranX.App.Core.Pages.VerseF
         private int NowPage, CurrentSkip, tempRelativeVerseId, tempSureId;
         private Task PageItemLoadTask;
         private string Landing, VersesStatus;
-        private bool tempCheck = false, tempCheck1 = false;
+        private bool tempCheck = false, tempCheck1 = false, fastSureCheck = false;
         private DispatcherTimer timeSpan = new DispatcherTimer(DispatcherPriority.Render);
 
         public versesFrame(int nowPageD, int CurrentSkipD, string LandingD)
@@ -322,6 +322,23 @@ namespace KuranX.App.Core.Pages.VerseF
                     PageItemLoadTask.Start();
                 }
                 else tempCheck = true;
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("SelectEvent", ex);
+            }
+        }
+
+        private void fastsureCombobox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                if (fastSureCheck)
+                {
+                    var item = fastsureCombobox.SelectedItem as ComboBoxItem;
+                    if (item.Uid != "0") App.mainframe.Content = new verseFrame(int.Parse(item.Uid), 1, "Hepsi");
+                }
+                else fastSureCheck = true;
             }
             catch (Exception ex)
             {

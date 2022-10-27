@@ -28,7 +28,7 @@ namespace KuranX.App.Core.Windows
         protected string _connectedString;
         private MySqlConnection connection;
         private string land;
-        private Task? fileDialogTask;
+        private Task? fileDialogTask, processKillerTask;
         private string DeskType;
         private OpenFileDialog openFileDialog = new OpenFileDialog();
 
@@ -68,11 +68,11 @@ namespace KuranX.App.Core.Windows
                         Verse.NumberOfVerses = (int)rdr[2];
 
                         // DB DEN YANLIŞ YER YÜZÜNDEN LANDİNG VE MUSHAF KARIŞMIŞ
-
+                        // Düzelttim ama kontrol edilmesi lazım
                         Debug.WriteLine((int)rdr[4]);
 
-                        Verse.DeskLanding = (int)rdr[4];
-                        Verse.DeskMushaf = (int)rdr[3];
+                        Verse.DeskLanding = (int)rdr[3];
+                        Verse.DeskMushaf = (int)rdr[4];
 
                         // DB DEN YANLIŞ YER YÜZÜNDEN LANDİNG VE MUSHAF KARIŞMIŞ
                         Verse.LandingLocation = (string)rdr[5];
@@ -340,6 +340,35 @@ namespace KuranX.App.Core.Windows
                 nowPageStatus.Tag = NowPage + " / " + Math.Ceiling(decimal.Parse(totalcount.ToString()) / 20).ToString();
             }
             */
+        }
+
+        private void resultCreate_Click(object sender, RoutedEventArgs e)
+        {
+            string sql = "select * from sureler";
+            MySqlCommand cmd = new MySqlCommand(sql, connection);
+            MySqlDataReader rdr = cmd.ExecuteReader();
+
+            using (var entitydb = new AyetContext())
+            {
+                while (rdr.Read())
+                {
+                    var newWe = new Result();
+
+                    newWe.ResultName = rdr[1].ToString();
+
+                    entitydb.Results.Add(newWe);
+
+                    Debug.WriteLine("VERİ EKLENDİ");
+                }
+
+                entitydb.SaveChanges();
+            }
+        }
+
+        private void button_Click(object sender, RoutedEventArgs e)
+        {
+            processKillerTask = new Task(App.processKiller);
+            processKillerTask.Start();
         }
     }
 }

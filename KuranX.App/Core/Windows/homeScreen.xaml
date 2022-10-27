@@ -99,15 +99,13 @@
             <Border x:Name="hmwnd_leftMenuContent" Style="{DynamicResource ResourceKey=hmwnd_leftMenuContent}" UseLayoutRounding="True">
 
                 <StackPanel Orientation="Vertical" x:Name="menuButton">
-                    <Button Uid="nav_verses" Style="{DynamicResource hmwnd_menuButton}" Tag="/resource/images/icon/koran_rb.png" Content="Ayetler" Click="navEnter_Click" />
-                    <!--<Button Uid="nav_tesfir" Style="{DynamicResource hmwnd_menuButton}" Tag="/resource/images/icon/koran_rb.png" Content="Tesfir Oku" Click="navEnter_Click" />-->
-                    <Button Uid="nav_subject" Style="{DynamicResource hmwnd_menuButton}" Tag="/resource/images/icon/ayetSubject_rb.png" Content="Konularım" Click="navEnter_Click" />
-                    <Button Uid="nav_library" Style="{DynamicResource hmwnd_menuButton}" Tag="/resource/images/icon/library_rb.png" Content="Kütüphane" Click="navEnter_Click" />
-                    <Button Uid="nav_notes" Style="{DynamicResource hmwnd_menuButton}" Tag="/resource/images/icon/notes_rb.png" Content="Notlar" Click="navEnter_Click" />
-                    <!--  <Button Style="{DynamicResource hmwnd_menuButton}" Tag="/resource/images/icon/favorite_rb.png" Content="Favoriler" />-->
-                    <Button Uid="nav_reminder" Style="{DynamicResource hmwnd_menuButton}" Tag="/resource/images/icon/reminders_rb.png" Content="Hatırlatıcı" Click="navEnter_Click" />
-                    <Button Uid="nav_result" Style="{DynamicResource hmwnd_menuButton}" Tag="/resource/images/icon/conclusion_rb.png" Content="Sonuc" Click="navEnter_Click" />
-                    <Button Uid="nav_result" Style="{DynamicResource hmwnd_menuButton}" Tag="/resource/images/icon/conclusion_rb.png" Content="Kullanıcı Yardımı" Click="navEnter_Click" />
+                    <Button Uid="nav_verses" Style="{DynamicResource hmwnd_menuButton}" Tag="/resource/images/icon/verse_r.png" Content="Ayetler" Click="navEnter_Click" />
+                    <Button Uid="nav_subject" Style="{DynamicResource hmwnd_menuButton}" Tag="/resource/images/icon/subject_r.png" Content="Konularım" Click="navEnter_Click" />
+                    <Button Uid="nav_library" Style="{DynamicResource hmwnd_menuButton}" Tag="/resource/images/icon/library_r.png" Content="Kütüphane" Click="navEnter_Click" />
+                    <Button Uid="nav_notes" Style="{DynamicResource hmwnd_menuButton}" Tag="/resource/images/icon/notes_r.png" Content="Notlar" Click="navEnter_Click" />
+                    <Button Uid="nav_reminder" Style="{DynamicResource hmwnd_menuButton}" Tag="/resource/images/icon/remider_r.png" Content="Hatırlatıcı" Click="navEnter_Click" />
+                    <Button Uid="nav_result" Style="{DynamicResource hmwnd_menuButton}" Tag="/resource/images/icon/result_r.png" Content="Sonuc" Click="navEnter_Click" />
+                    <Button Uid="nav_help" Style="{DynamicResource hmwnd_menuButton}" Tag="/resource/images/icon/help_r.png" Content="Kullanıcı Yardımı" Click="navEnter_Click" />
                 </StackPanel>
             </Border>
 

@@ -5,6 +5,7 @@ using System.Data;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -46,6 +47,14 @@ namespace KuranX.App
                 config.AppSettings.Settings["TaskLastStatus"].Value = "UpdateWait";
                 ConfigurationManager.RefreshSection("appSettings");
                 config.Save(ConfigurationSaveMode.Modified);
+            }
+        }
+
+        public static void processKiller()
+        {
+            foreach (var item in Process.GetProcesses())
+            {
+                if (item.ProcessName == "CefSharp.BrowserSubprocess") item.Kill();
             }
         }
     }

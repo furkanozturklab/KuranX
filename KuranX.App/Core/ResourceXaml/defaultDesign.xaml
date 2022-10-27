@@ -16,6 +16,76 @@
     <SolidColorBrush x:Key="baseForegroundColor" Color="#FF000000" />
     <SolidColorBrush x:Key="secondForegroundColor" Color="#FF383C41" />
 
+    <!--Control colors.-->
+    <Color x:Key="WindowColor">#FFE8EDF9</Color>
+    <Color x:Key="ContentAreaColorLight">#FFC5CBF9</Color>
+    <Color x:Key="ContentAreaColorDark">#FF7381F9</Color>
+
+    <Color x:Key="DisabledControlLightColor">#FFE8EDF9</Color>
+    <Color x:Key="DisabledControlDarkColor">#FFC5CBF9</Color>
+    <Color x:Key="DisabledForegroundColor">#FF888888</Color>
+
+    <Color x:Key="SelectedBackgroundColor">#FFC5CBF9</Color>
+    <Color x:Key="SelectedUnfocusedColor">#FFDDDDDD</Color>
+
+    <Color x:Key="ControlLightColor">White</Color>
+    <Color x:Key="ControlMediumColor">#FF7381F9</Color>
+    <Color x:Key="ControlDarkColor">#FF211AA9</Color>
+
+    <Color x:Key="ControlMouseOverColor">#FF3843C4</Color>
+    <Color x:Key="ControlPressedColor">#FF211AA9</Color>
+
+    <Color x:Key="GlyphColor">#FF444444</Color>
+    <Color x:Key="GlyphMouseOver">sc#1, 0.004391443, 0.002428215, 0.242281124</Color>
+
+    <!--Border colors-->
+    <Color x:Key="BorderLightColor">#FFCCCCCC</Color>
+    <Color x:Key="BorderMediumColor">#FF888888</Color>
+    <Color x:Key="BorderDarkColor">#FF444444</Color>
+
+    <Color x:Key="PressedBorderLightColor">#FF888888</Color>
+    <Color x:Key="PressedBorderDarkColor">#FF444444</Color>
+
+    <Color x:Key="DisabledBorderLightColor">#FFAAAAAA</Color>
+    <Color x:Key="DisabledBorderDarkColor">#FF888888</Color>
+
+    <Color x:Key="DefaultBorderBrushDarkColor">Black</Color>
+
+    <!--Control-specific resources.-->
+    <Color x:Key="HeaderTopColor">#FFC5CBF9</Color>
+    <Color x:Key="DatagridCurrentCellBorderColor">Black</Color>
+    <Color x:Key="SliderTrackDarkColor">#FFC5CBF9</Color>
+
+    <Color x:Key="NavButtonFrameColor">#FF3843C4</Color>
+
+    <LinearGradientBrush x:Key="MenuPopupBrush"
+                     EndPoint="0.5,1"
+                     StartPoint="0.5,0">
+        <GradientStop Color="{DynamicResource ControlLightColor}"
+                Offset="0" />
+        <GradientStop Color="{DynamicResource ControlMediumColor}"
+                Offset="0.5" />
+        <GradientStop Color="{DynamicResource ControlLightColor}"
+                Offset="1" />
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="ProgressBarIndicatorAnimatedFill"
+                     StartPoint="0,0"
+                     EndPoint="1,0">
+        <LinearGradientBrush.GradientStops>
+            <GradientStopCollection>
+                <GradientStop Color="#000000FF"
+                    Offset="0" />
+                <GradientStop Color="#600000FF"
+                    Offset="0.4" />
+                <GradientStop Color="#600000FF"
+                    Offset="0.6" />
+                <GradientStop Color="#000000FF"
+                    Offset="1" />
+            </GradientStopCollection>
+        </LinearGradientBrush.GradientStops>
+    </LinearGradientBrush>
+
     <Style TargetType="Grid" x:Key="gridOffset">
         <Setter Property="Margin" Value="0 30" />
     </Style>
@@ -247,5 +317,125 @@
         <Setter Property="Height" Value="80" />
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="Margin" Value="5 0 5 0" />
+    </Style>
+
+    <Style TargetType="Button" x:Key="controlItemButtonTemp">
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Width" Value="160" />
+        <Setter Property="Height" Value="30" />
+        <Setter Property="SnapsToDevicePixels" Value="true" />
+        <Setter Property="UseLayoutRounding" Value="True" />
+        <Setter Property="FontFamily" Value="{DynamicResource PoppinsMedium}" />
+    </Style>
+
+    <Style TargetType="Button" x:Key="frameItemsControlNav" BasedOn="{StaticResource controlItemButtonTemp}">
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Border x:Name="controlButtonBorder" Width="160" Height="30" Background="#FFF" CornerRadius="5" BorderThickness="1" BorderBrush="#E1E3E6" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <Border.Effect>
+                            <DropShadowEffect BlurRadius="25" Opacity="0.16"  ShadowDepth="2" Direction="-75" Color="Black" />
+                        </Border.Effect>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Icon:PackIconForkAwesome x:Name="controlButtonIcon" VerticalAlignment="Center" Kind="{Binding Path=Tag, RelativeSource={RelativeSource TemplatedParent}}"  Width="10" Height="10" />
+                            <TextBlock x:Name="controlButtonText" Foreground="#1C1E2F" FontSize="12" FontFamily="{DynamicResource PoppinsMedium}" Text="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}}" Margin="5 0 0 0" />
+                        </StackPanel>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="BorderThickness" Value="0" TargetName="controlButtonBorder" />
+                            <Setter Property="Background" Value="#C9283E" TargetName="controlButtonBorder" />
+                            <Setter Property="Cursor" Value="Hand" />
+                            <Setter Property="Foreground" Value="#FFF" TargetName="controlButtonIcon" />
+                            <Setter Property="Foreground" Value="#FFF" TargetName="controlButtonText" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="controlButtonBorder" Property="Background" Value="#FFE4E6EF" />
+                            <Setter Property="Cursor" Value="No" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="Button" x:Key="frameItemsControlNavSpec" BasedOn="{StaticResource controlItemButtonTemp}">
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Border x:Name="controlButtonBorder" Width="160" Height="30" Background="#FFF" CornerRadius="5" BorderThickness="1" BorderBrush="#E1E3E6" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <Border.Effect>
+                            <DropShadowEffect BlurRadius="25" Opacity="0.16"  ShadowDepth="2" Direction="-75" Color="Black" />
+                        </Border.Effect>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Icon:PackIconBoxIcons  x:Name="controlButtonIcon" VerticalAlignment="Center" Kind="{Binding Path=Tag, RelativeSource={RelativeSource TemplatedParent}}"  Width="9" Height="9" />
+                            <TextBlock x:Name="controlButtonText" Foreground="#1C1E2F" FontSize="12" FontFamily="{DynamicResource PoppinsMedium}" Text="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}}" Margin="5 0 0 0" />
+                        </StackPanel>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="BorderThickness" Value="0" TargetName="controlButtonBorder" />
+                            <Setter Property="Background" Value="#C9283E" TargetName="controlButtonBorder" />
+                            <Setter Property="Cursor" Value="Hand" />
+                            <Setter Property="Foreground" Value="#FFF" TargetName="controlButtonIcon" />
+                            <Setter Property="Foreground" Value="#FFF" TargetName="controlButtonText" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="controlButtonBorder" Property="Background" Value="#FFE4E6EF" />
+                            <Setter Property="Cursor" Value="No" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="Button" x:Key="frameItemsNumberNav" BasedOn="{StaticResource controlItemButtonTemp}">
+        <Setter Property="Width" Value="50" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <StackPanel>
+                        <TextBlock Foreground="#1C1E2F" FontSize="10" FontFamily="{DynamicResource PoppinsSemiBold}" TextAlignment="Center" Margin="0 -15 0 0" Text="{Binding Path=Content , RelativeSource={RelativeSource TemplatedParent }}" />
+                        <Border BorderBrush="#ACACAC" CornerRadius="5" BorderThickness="1" Height="30" Width="50">
+                            <TextBlock FontFamily="{DynamicResource PoppinsSemiBold}" Text="{Binding Path=Tag, RelativeSource={RelativeSource TemplatedParent}}" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#1C1E2F" />
+                        </Border>
+                    </StackPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="StackPanel" x:Key="frameItemsOffsetNav">
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="Margin" Value="10 0 10 0" />
+    </Style>
+
+    <Style x:Key="{x:Type ToolTip}" TargetType="ToolTip">
+        <Setter Property="FontFamily" Value="{DynamicResource PoppinsRegular}" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="Margin" Value="0 10 0 10" />
+        <Setter Property="Foreground" Value="#1C1E2F" />
+        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="HasDropShadow" Value="True" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ToolTip">
+                    <Border Name="Border" BorderThickness="1" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" Style="{DynamicResource defaultBorderShadowEffect}" Padding="10 0 10 0">
+                        <ContentPresenter Margin="4" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="HasDropShadow"  Value="true">
+                            <Setter TargetName="Border" Property="CornerRadius" Value="4" />
+                            <Setter TargetName="Border" Property="SnapsToDevicePixels" Value="true" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 </ResourceDictionary>

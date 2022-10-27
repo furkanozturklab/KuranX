@@ -27,9 +27,9 @@ namespace KuranX.App.Core.Pages.SubjectF
     /// </summary>
     public partial class SubjectItemsFrame : Page
     {
-        private int loadSubjectId, lastSubjectItems = 0, totalcount, NowPage = 1;
-        private List<SubjectItems> dsubjectItems = new List<SubjectItems>();
-        private List<SubjectItems> tempsubjectitems = new List<SubjectItems>();
+        private int loadSubjectId, lastSubjectItems = 0, NowPage = 1;
+        private List<SubjectItems> dsubjectItems, tempsubjectitems = new List<SubjectItems>();
+
         private Task PageItemLoadTask;
         private string subjectFolder, dcreate;
         private SolidColorBrush dbg;
@@ -73,7 +73,7 @@ namespace KuranX.App.Core.Pages.SubjectF
                 using (var entity = new AyetContext())
                 {
                     dsubjectItems = entity.SubjectItems.Where(p => p.SubjectId == loadSubjectId).Skip(lastSubjectItems).Take(21).ToList();
-                    totalcount = entity.SubjectItems.Where(p => p.SubjectId == loadSubjectId).Count();
+                    Decimal totalcount = entity.SubjectItems.Where(p => p.SubjectId == loadSubjectId).Count();
                     for (int x = 1; x < 21; x++)
                     {
                         this.Dispatcher.Invoke(() =>
@@ -101,20 +101,34 @@ namespace KuranX.App.Core.Pages.SubjectF
 
                     this.Dispatcher.Invoke(() =>
                     {
-                        if (lastSubjectItems == 0) previusPageButton.IsEnabled = false;
-                        else previusPageButton.IsEnabled = true;
-
-                        if (dsubjectItems.Count() <= 20) nextpageButton.IsEnabled = false;
-                        if (lastSubjectItems == 0 && dsubjectItems.Count() > 20) nextpageButton.IsEnabled = true;
-
                         totalcountText.Tag = totalcount.ToString();
 
-                        nowPageStatus.Tag = NowPage + " / " + Math.Ceiling(decimal.Parse(totalcount.ToString()) / 20).ToString();
+                        if (dsubjectItems.Count() != 0)
+                        {
+                            totalcount = Math.Ceiling(totalcount / 20);
+                            nowPageStatus.Tag = NowPage + " / " + totalcount.ToString();
+                            nextpageButton.Dispatcher.Invoke(() =>
+                            {
+                                if (NowPage != totalcount) nextpageButton.IsEnabled = true;
+                                else if (NowPage == totalcount) nextpageButton.IsEnabled = false;
+                            });
+                            previusPageButton.Dispatcher.Invoke(() =>
+                            {
+                                if (NowPage != 1) previusPageButton.IsEnabled = true;
+                                else if (NowPage == 1) previusPageButton.IsEnabled = false;
+                            });
+                        }
+                        else
+                        {
+                            nowPageStatus.Tag = "-";
+                            nextpageButton.IsEnabled = false;
+                            previusPageButton.IsEnabled = false;
+                        }
                     });
-                }
 
-                Thread.Sleep(200);
-                loadAniComplated();
+                    Thread.Sleep(200);
+                    loadAniComplated();
+                }
             }
             catch (Exception ex)
             {
@@ -312,6 +326,38 @@ namespace KuranX.App.Core.Pages.SubjectF
             }
         }
 
+        private void sendResult_Click(object sender, RoutedEventArgs e)
+        {
+            sendResultItemsPopup.IsOpen = true;
+        }
+
+        private void connectResultControl_Click(object sender, RoutedEventArgs e)
+        {
+            using (var entitydb = new AyetContext())
+            {
+                var item = popupResultSureId.SelectedItem as ComboBoxItem;
+                var dResult = entitydb.Results.Where(p => p.ResultId == int.Parse(item.Uid)).FirstOrDefault();
+
+                if (entitydb.ResultItems.Where(p => p.ResultId == dResult.ResultId && p.ResultSubjectId == loadSubjectId).Count() == 0)
+                {
+                    dResult.ResultSubject = "true";
+                    var dTemp = new ResultItem { ResultId = dResult.ResultId, ResultSubjectId = loadSubjectId, SendTime = DateTime.Now };
+                    entitydb.ResultItems.Add(dTemp);
+                    entitydb.SaveChanges();
+                    sendResultItemsPopup.IsOpen = false;
+                    succsessFunc("Gönderme Başarılı", "Konu başlığı " + item.Content + " suresinin sonucuna gönderildi.", 3);
+                }
+                else
+                {
+                    sendResultItemsPopup.IsOpen = false;
+                    alertFunc("Gönderme Başarısız", "Konu başlığı " + item.Content + " suresinin sonucuna daha önceden eklenmiştir yeniden ekleyemezsiniz.", 3);
+                }
+                /*
+
+                */
+            }
+        }
+
         private void popupClosed_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -401,6 +447,7 @@ namespace KuranX.App.Core.Pages.SubjectF
                 {
                     backPage.IsEnabled = false;
                     newConnect.IsEnabled = false;
+                    sendResult.IsEnabled = false;
                     previusPageButton.IsEnabled = false;
                     nextpageButton.IsEnabled = false;
                     loadinGifContent.Visibility = Visibility.Visible;
@@ -421,6 +468,7 @@ namespace KuranX.App.Core.Pages.SubjectF
                 {
                     backPage.IsEnabled = true;
                     newConnect.IsEnabled = true;
+                    sendResult.IsEnabled = true;
                     loadinGifContent.Visibility = Visibility.Collapsed;
                     loadBorder.Visibility = Visibility.Visible;
                     loadHeaderBorder.Visibility = Visibility.Visible;

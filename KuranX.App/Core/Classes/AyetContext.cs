@@ -10,18 +10,21 @@ namespace KuranX.App.Core.Classes
 {
     public class AyetContext : DbContext
     {
-        public DbSet<User>? Users { get; set; }
-        public DbSet<Sure>? Sure { get; set; }
-        public DbSet<Verse>? Verse { get; set; }
-        public DbSet<Interpreter>? Interpreter { get; set; }
-        public DbSet<Notes>? Notes { get; set; }
-        public DbSet<Integrity>? Integrity { get; set; }
-        public DbSet<Subject>? Subject { get; set; }
-        public DbSet<SubjectItems>? SubjectItems { get; set; }
-        public DbSet<Words>? Words { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Sure> Sure { get; set; }
+        public DbSet<Verse> Verse { get; set; }
+        public DbSet<Interpreter> Interpreter { get; set; }
+        public DbSet<Notes> Notes { get; set; }
+        public DbSet<Integrity> Integrity { get; set; }
+        public DbSet<Subject> Subject { get; set; }
+        public DbSet<SubjectItems> SubjectItems { get; set; }
+        public DbSet<Words> Words { get; set; }
         public DbSet<PdfFile> PdfFile { get; set; }
         public DbSet<Remider> Remider { get; set; }
         public DbSet<Tasks> Tasks { get; set; }
+        public DbSet<Result> Results { get; set; }
+        public DbSet<ResultItem> ResultItems { get; set; }
+        public DbSet<Library> Librarys { get; set; }
 
         public string DbPath { get; }
 
@@ -106,11 +109,11 @@ namespace KuranX.App.Core.Classes
                .Property(u => u.PdfFileId)
                .HasDefaultValue(0);
             modelBuilder.Entity<Notes>()
+               .Property(u => u.LibraryId)
+               .HasDefaultValue(0);
+            modelBuilder.Entity<Notes>()
                .Property(u => u.PdfPageId)
                .HasDefaultValue(1);
-            modelBuilder.Entity<Notes>()
-               .Property(u => u.NoteLibHeader)
-               .HasDefaultValue("Default");
             modelBuilder.Entity<Notes>()
                 .Property(u => u.NoteStatus)
                 .HasDefaultValue("#ADB5BD");
@@ -132,6 +135,40 @@ namespace KuranX.App.Core.Classes
             modelBuilder.Entity<Remider>()
               .Property(u => u.Priority)
               .HasDefaultValue(1);
+
+            // RESULT
+            modelBuilder.Entity<Result>()
+                .Property(u => u.ResultNotes)
+                .HasDefaultValue("false");
+            modelBuilder.Entity<Result>()
+                .Property(u => u.ResultSubject)
+                .HasDefaultValue("false");
+            modelBuilder.Entity<Result>()
+                .Property(u => u.ResultLib)
+                .HasDefaultValue("false");
+            modelBuilder.Entity<Result>()
+                .Property(u => u.ResultVerse)
+                .HasDefaultValue("false");
+            modelBuilder.Entity<Result>()
+               .Property(u => u.ResultStatus)
+               .HasDefaultValue("#ADB5BD");
+            modelBuilder.Entity<Result>()
+                .Property(u => u.ResultFinallyNote)
+                .HasDefaultValue("Sonuç Metninizi buraya yaza bilirsiniz.");
+
+            // RESULT ITEMS
+            modelBuilder.Entity<ResultItem>()
+                .Property(u => u.ResultNoteId)
+                .HasDefaultValue(0);
+            modelBuilder.Entity<ResultItem>()
+                .Property(u => u.ResultLibId)
+                .HasDefaultValue(0);
+            modelBuilder.Entity<ResultItem>()
+                .Property(u => u.ResultSubjectId)
+                .HasDefaultValue(0);
+            modelBuilder.Entity<ResultItem>()
+                .Property(u => u.SendTime)
+                .HasDefaultValue(DateTime.Now);
         }
     }
 }

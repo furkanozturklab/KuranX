@@ -294,6 +294,119 @@
             </Border>
         </Popup>
 
+        <Popup x:Name="addLibPopup" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="340" Height="370" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+
+            <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="320" Height="350">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50" />
+                        <RowDefinition Height="300" />
+                    </Grid.RowDefinitions>
+                    <Border  Grid.Row="0" Style="{DynamicResource headerBorderTemp}">
+                        <TextBlock Text="Notu Kütüphaneye Ekle" Style="{DynamicResource popupHeaderText}" />
+                    </Border>
+                    <Grid Grid.Row="1">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="56" />
+                            </Grid.RowDefinitions>
+
+                            <StackPanel Orientation="Vertical" Margin="0 10 0 0" VerticalAlignment="Center">
+                                <TextBlock Text="Kütüphane Seç" FontFamily="{DynamicResource PoppinsMedium}" FontSize="14" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                <ComboBox Width="300" x:Name="selectedLibFolder"  Style="{DynamicResource popupCombobox}" SelectedIndex="0" IsReadOnly="True">
+                                </ComboBox>
+                                <TextBlock Margin="0,5,0,0" VerticalAlignment="Center" HorizontalAlignment="Center" x:Name="popupaddLibError" Style="{DynamicResource popupDefaultTextBoxTextblock}" />
+
+                                <Button FontSize="12"  Width="180" x:Name="newLibFolder" Style="{DynamicResource popupDefaultButtonBstrp}" Tag="Archive" Content="Yeni Konu Aç" HorizontalAlignment="Center" Margin="0 5 0 5" Click="newLibFolder_Click" />
+
+                                <TextBlock Text="Seçili Not" FontFamily="{DynamicResource PoppinsMedium}" FontSize="14" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 10 0 0" />
+                                <TextBox Style="{DynamicResource popupDefaulTextBox}" Width="300" x:Name="selectedLib" IsReadOnly="True">
+                                    <TextBox.Resources>
+                                        <Style TargetType="{x:Type Border}">
+                                            <Setter Property="CornerRadius" Value="3" />
+                                        </Style>
+                                    </TextBox.Resources>
+                                </TextBox>
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="1">
+                                <Button Width="120" x:Name="addLib" Style="{DynamicResource popupDefaultButtonBstrp}" Tag="FolderPlus" Content="Ekle" HorizontalAlignment="Center" Click="addLib_Click" />
+                                <Button Width="120" Style="{DynamicResource popupDefaultButtonClosed}" Tag="CloseBig" Content="Vazgeç" Uid="addLibPopup" HorizontalAlignment="Center" Click="popupClosed_Click" />
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </Border>
+        </Popup>
+
+        <Popup x:Name="addFolderLibHeaderPopup" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="340" Height="450" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+            <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="320" Height="430">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50" />
+                        <RowDefinition Height="380" />
+                    </Grid.RowDefinitions>
+                    <Border  Grid.Row="0" Style="{DynamicResource headerBorderTemp}">
+                        <TextBlock Text="Kütüphane Başlığı Oluştur" Style="{DynamicResource popupHeaderText}" />
+                    </Border>
+                    <Grid Grid.Row="1">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="56" />
+                            </Grid.RowDefinitions>
+                            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Width="320" Grid.Row="0">
+                                <TextBlock Text="Kütüphane Başlığı" FontFamily="{DynamicResource PoppinsSemiBold}" FontSize="14" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 5 0 5" />
+                                <TextBox Style="{DynamicResource popupDefaulTextBox}" Width="300" x:Name="libFolderHeader" KeyDown="libFolderHeader_KeyDown" KeyUp="libFolderHeader_KeyUp">
+                                    <TextBox.Resources>
+                                        <Style TargetType="{x:Type Border}">
+                                            <Setter Property="CornerRadius" Value="3" />
+                                        </Style>
+                                    </TextBox.Resources>
+                                </TextBox>
+                                <StackPanel Orientation="Horizontal" Width="Auto" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <Label Visibility="Visible" Content="" x:Name="libHeaderFolderErrorMesssage" Style="{DynamicResource popupDefaultTextBoxLabel}" Margin="0 2 0 2" />
+                                </StackPanel>
+
+                                <TextBlock Text="Kütüphane Rengi" FontFamily="{DynamicResource PoppinsSemiBold}" FontSize="14" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0" />
+                                <StackPanel Orientation="Horizontal" Width="300" Margin="0 10 0 10" x:Name="libColorStack">
+                                    <CheckBox IsChecked="False" Style="{DynamicResource subjectHeaderColorSelected}" Tag="#66E21F" Uid="1" Click="libraryColorPick_Click" />
+                                    <CheckBox IsChecked="False" Style="{DynamicResource subjectHeaderColorSelected}" Tag="#DC3545" Uid="2" Click="libraryColorPick_Click" />
+                                    <CheckBox IsChecked="False" Style="{DynamicResource subjectHeaderColorSelected}" Tag="#0D6EFD" Uid="3" Click="libraryColorPick_Click" />
+                                    <CheckBox IsChecked="False" Style="{DynamicResource subjectHeaderColorSelected}" Tag="#6610F2" Uid="4" Click="libraryColorPick_Click" />
+                                    <CheckBox IsChecked="False" Style="{DynamicResource subjectHeaderColorSelected}" Tag="#FD7E14" Uid="5" Click="libraryColorPick_Click" />
+                                    <CheckBox IsChecked="False" Style="{DynamicResource subjectHeaderColorSelected}" Tag="#FFC107" Uid="6" Click="libraryColorPick_Click" />
+                                </StackPanel>
+
+                                <TextBlock Text="Önizleme" FontFamily="{DynamicResource PoppinsSemiBold}" FontSize="14" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 10 0 0" />
+
+                                <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="300" Height="50" Margin="0 20 0 20">
+                                    <StackPanel Height="50" Width="300" Orientation="Horizontal">
+                                        <Border x:Name="libpreviewColor" Width="10" Background="#66E21F" CornerRadius="5 0 0 5" />
+                                        <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                            <TextBlock Text="Önizleme" x:Name="libpreviewName" FontSize="14" Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsMedium}" VerticalAlignment="Center" Margin="10 0 0 0" />
+                                            <TextBlock Text="25.08.2022" FontSize="10" Foreground="#7B7B7B" FontFamily="{DynamicResource PoppinsRegular}" VerticalAlignment="Center" Margin="10 0 0 0" />
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Border>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="1">
+                                <Button x:Name="addfolderSubject" Style="{DynamicResource popupDefaultButtonBstrp}" Tag="FolderPlus" Content="Oluştur" HorizontalAlignment="Center" Click="addfolderLibraryHeader_Click" />
+                                <Button  Style="{DynamicResource popupDefaultButtonClosed}" Tag="CloseBig" Content="Vazgeç" Uid="addFolderLibHeaderPopup" HorizontalAlignment="Center" Click="popupClosed_Click" />
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </Border>
+        </Popup>
+
         <Popup x:Name="alph" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="460" Height="200" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
             <Border  Style="{DynamicResource defaultBorderShadowEffect}" Width="440" Height="180">
                 <Grid>
@@ -313,8 +426,8 @@
                         </StackPanel>
                         <Border Grid.Column="2"  Padding="10 0 10 0">
                             <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center">
-                                <TextBlock x:Name="alertPopupHeader" Text="" FontSize="22" Margin="0,0,0,12" Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsSemiBold}" />
-                                <TextBlock x:Name="alertPopupDetail" Text="" TextWrapping="Wrap"  Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsMedium}" />
+                                <TextBlock x:Name="alertPopupHeader" Text="" TextAlignment="Center" FontSize="22" Margin="0,0,0,12" Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsSemiBold}" />
+                                <TextBlock x:Name="alertPopupDetail" Text="" TextAlignment="Center" TextWrapping="Wrap"  Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsMedium}" />
                             </StackPanel>
                         </Border>
                     </Grid>
@@ -342,8 +455,8 @@
                         </StackPanel>
                         <Border Grid.Column="2"  Padding="10 0 10 0">
                             <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center">
-                                <TextBlock x:Name="infoPopupHeader" Text="" FontSize="22" Margin="0,0,0,12" Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsSemiBold}" />
-                                <TextBlock x:Name="infoPopupDetail" Text="" TextWrapping="Wrap"  Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsMedium}" />
+                                <TextBlock x:Name="infoPopupHeader" Text="" TextAlignment="Center" FontSize="22" Margin="0,0,0,12" Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsSemiBold}" />
+                                <TextBlock x:Name="infoPopupDetail" Text="" TextAlignment="Center" TextWrapping="Wrap"  Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsMedium}" />
                             </StackPanel>
                         </Border>
                     </Grid>
@@ -370,8 +483,8 @@
                         </StackPanel>
                         <Border Grid.Column="2"  Padding="10 0 10 0">
                             <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center">
-                                <TextBlock x:Name="successPopupHeader" Text="" FontSize="22" Margin="0,0,0,12" Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsSemiBold}" />
-                                <TextBlock x:Name="successPopupDetail" Text="" TextWrapping="Wrap"  Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsMedium}" />
+                                <TextBlock x:Name="successPopupHeader" Text="" TextAlignment="Center" FontSize="22" Margin="0,0,0,12" Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsSemiBold}" />
+                                <TextBlock x:Name="successPopupDetail" Text="" TextAlignment="Center" TextWrapping="Wrap"  Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsMedium}" />
                             </StackPanel>
                         </Border>
                     </Grid>
@@ -379,11 +492,53 @@
             </Border>
         </Popup>
 
+        <Popup x:Name="wordDetailPopup" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="500" Height="600" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+            <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="480" Height="580">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50" />
+                        <RowDefinition Height="530" />
+                    </Grid.RowDefinitions>
+                    <Border  Grid.Row="0" Style="{DynamicResource headerBorderTemp}">
+                        <TextBlock Text="Kelime Kökleri" Style="{DynamicResource popupHeaderText}" />
+                    </Border>
+                    <Grid Grid.Row="1">
+                        <Grid>
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="56" />
+                            </Grid.RowDefinitions>
+
+                            <ScrollViewer Grid.ColumnSpan="2" Grid.Row="0" Padding="20">
+                                <StackPanel x:Name="wordsAllShowPopupStackPanel">
+                                    <StackPanel Orientation="Horizontal" x:Name="staticWordHeader">
+                                        <StackPanel Margin="10 0 10 0">
+                                            <TextBlock  Style="{DynamicResource wordHeader}" Text="KÖK" />
+                                            <Separator Style="{DynamicResource dynamicItemShowSperator}" Width="200" />
+                                        </StackPanel>
+                                        <StackPanel Margin="10 0 10 0">
+                                            <TextBlock Style="{DynamicResource wordHeader}" Text="ANLAMI" />
+                                            <Separator Style="{DynamicResource dynamicItemShowSperator}" Width="200" />
+                                        </StackPanel>
+                                    </StackPanel>
+                                    <StackPanel x:Name="dynamicWordDetail">
+                                    </StackPanel>
+                                </StackPanel>
+                            </ScrollViewer>
+
+                            <Button Grid.Column="1" Grid.Row="4" Style="{DynamicResource selectConnectAyet}" Content="Vazgeç" Tag="Close" Uid="wordDetailPopup" Click="popupClosed_Click" />
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </Border>
+        </Popup>
+
         <StackPanel Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center" SnapsToDevicePixels="True" UseLayoutRounding="True" x:Name="loadHeaderAni" Style="{DynamicResource aniEffectFadeStack}" Visibility="Hidden">
             <Border Width="350" Height="80" Style="{DynamicResource defaultBorderShadowEffect}">
-                <StackPanel Orientation="Horizontal">
-                    <Border x:Name="loadBgColor" Width="12" CornerRadius="5 0 0 5" />
-                    <Border Width="250" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
+                    <Border x:Name="loadBgColor" Height="80" Width="12" CornerRadius="5 0 0 5" />
+                    <Border Width="250" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 5 0 15" Padding="10 0 10 0">
                         <StackPanel Orientation="Vertical">
                             <TextBlock x:Name="loadHeader" Text="" FontSize="18" Style="{DynamicResource subjectFolderHeader}" />
                             <TextBlock x:Name="loadCreated" Text="" Style="{DynamicResource subjectFolderDate}" />
@@ -429,21 +584,26 @@
                     </Grid.RowDefinitions>
 
                     <Border Grid.Column="0" Grid.Row="0" Margin="15 0 15 0" BorderThickness="0,0,0,1" BorderBrush="#E1E3E6" Padding="15,10,10,0">
-
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <StackPanel Orientation="Vertical" Grid.Column="0" HorizontalAlignment="Left" Margin="10,0,10,0">
-                                <TextBlock x:Name="trData" Margin="15 5 30 5" TextTrimming="CharacterEllipsis" Text="{Binding VerseTr}" VerticalAlignment="Center" FontSize="22" Foreground="#FF1C1E2F" FontFamily="{DynamicResource PoppinsMedium}" />
-                                <Button Visibility="Visible" x:Name="fulltextTr" Style="{DynamicResource versesAllShowButton}" Tag="Tamamını Göster" Click="trFullTextLoad" />
-                            </StackPanel>
-                            <StackPanel Orientation="Vertical" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0,10,0">
-                                <TextBlock x:Name="arpData" Margin="15 5 30 5" TextTrimming="CharacterEllipsis" Text="{Binding VerseArabic}" FontSize="22" Foreground="#FF1C1E2F" FontFamily="XB Zar" />
-                                <Button Visibility="Visible" x:Name="fulltextArabic" Style="{DynamicResource versesAllShowButton}" Tag="Tamamını Göster" Click="arabicFullTextLoad" />
-                            </StackPanel>
-                        </Grid>
+                        <ItemsControl x:Name="versesTextData">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel Orientation="Vertical" Grid.Column="0" HorizontalAlignment="Left" Margin="10,0,10,0">
+                                            <TextBlock Margin="15 5 30 5" TextTrimming="CharacterEllipsis" Text="{Binding VerseTr}" VerticalAlignment="Center" FontSize="24" Foreground="#FF1C1E2F" FontFamily="{DynamicResource PoppinsMedium}" />
+                                            <Button Visibility="Visible" x:Name="fulltextTr" Style="{DynamicResource versesAllShowButton}" Tag="Tamamını Göster"  Click="trFullTextLoad" />
+                                        </StackPanel>
+                                        <StackPanel Orientation="Vertical" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0,10,0">
+                                            <TextBlock Margin="15 5 30 5" TextTrimming="CharacterEllipsis" Text="{Binding VerseArabic}" FontSize="24" Foreground="#FF1C1E2F" FontFamily="XB Zar" />
+                                            <Button Visibility="Visible" x:Name="fulltextArabic" Style="{DynamicResource versesAllShowButton}" Tag="Tamamını Göster"  Click="arabicFullTextLoad" />
+                                        </StackPanel>
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
                     </Border>
 
                     <Border Grid.Row="1" Margin="10,10,10,10" Padding="10,10,10,10">
@@ -457,7 +617,7 @@
                                 <ItemsControl x:Name="versesFullTextData">
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
-                                            <TextBlock  Height="Auto" FontFamily="{DynamicResource PoppinsRegular}" FontSize="14" TextWrapping="Wrap" Text="{Binding interpreterDetail}" />
+                                            <TextBlock  Height="Auto" FontFamily="{DynamicResource PoppinsRegular}" FontSize="20" TextWrapping="Wrap" Text="{Binding interpreterDetail}" />
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>
@@ -465,12 +625,80 @@
 
                             <ScrollViewer x:Name="versesTrDataExtends" Visibility="Collapsed" Grid.Row="0" CanContentScroll="True"  HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Visible" Padding="10">
 
-                                <TextBlock Height="Auto" x:Name="versesTrDataExtendsText" FontSize="14" TextWrapping="Wrap" FontFamily="{DynamicResource PoppinsMedium}" />
+                                <TextBlock Height="Auto" x:Name="versesTrDataExtendsText" FontSize="20" TextWrapping="Wrap" FontFamily="{DynamicResource PoppinsMedium}" />
                             </ScrollViewer>
 
                             <ScrollViewer x:Name="versesArDataExtends" Visibility="Collapsed" Grid.Row="0" CanContentScroll="True"   HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Visible" Padding="10">
+
                                 <TextBlock Height="Auto" x:Name="versesArDataExtendsText" FontSize="24" TextWrapping="Wrap" FontFamily="XB Zar" />
                             </ScrollViewer>
+                        </Grid>
+                    </Border>
+
+                    <Border Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="20,0,20,0">
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Orientation="Horizontal" Grid.Column="0">
+                                <TextBlock Text="Yorumlayan" FontFamily="{DynamicResource PoppinsMedium}" FontSize="14" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                <ComboBox x:Name="interpreterWriterCombo"  Style="{DynamicResource ayetlerNavCombobox}" SelectedIndex="0" Margin="10,0,0,0" SelectionChanged="interpreterWriterCombo_SelectionChanged">
+                                    <ComboBoxItem  Content="Mehmet Okuyan" />
+                                    <ComboBoxItem  Content="Abdulbaki Gölpınarlı" />
+                                    <ComboBoxItem  Content="Abdullah Parlıyan" />
+                                    <ComboBoxItem  Content="Adem Uğur" />
+                                    <ComboBoxItem  Content="Ahmed Hulusi" />
+                                    <ComboBoxItem  Content="Ahmet Tekin" />
+                                    <ComboBoxItem  Content="Ahmet Varol" />
+                                    <ComboBoxItem  Content="Ali Bulaç" />
+                                    <ComboBoxItem  Content="Ali Fikri Yavuz" />
+                                    <ComboBoxItem  Content="Ali Ünal" />
+                                    <ComboBoxItem  Content="Bayraktar Bayraklı" />
+                                    <ComboBoxItem  Content="Bekir Sadak" />
+                                    <ComboBoxItem  Content="Celal Yıldırım" />
+                                    <ComboBoxItem  Content="Cemal Külünkoğlu" />
+                                    <ComboBoxItem  Content="Diyanet İşleri (eski)" />
+                                    <ComboBoxItem  Content="Diyanet Vakfi" />
+                                    <ComboBoxItem  Content="Edip Yüksel" />
+                                    <ComboBoxItem  Content="Elmalılı Hamdi Yazır" />
+                                    <ComboBoxItem  Content="Erhan Aktaş" />
+                                    <ComboBoxItem  Content="Gültekin Onan" />
+                                    <ComboBoxItem  Content="Hakkı Yılmaz" />
+                                    <ComboBoxItem  Content="Harun Yıldırım" />
+                                    <ComboBoxItem  Content="Hasan Basri Çantay" />
+                                    <ComboBoxItem  Content="Hayrat Neşriyat" />
+                                    <ComboBoxItem  Content="İbni Kesir" />
+                                    <ComboBoxItem  Content="İskender Evrenosoğlu" />
+                                    <ComboBoxItem  Content="İstanbul Kuran Araştırmaları Grubu" />
+                                    <ComboBoxItem  Content="Kadri Çelik" />
+                                    <ComboBoxItem  Content="Mehmet Ali Eroğlu" />
+                                    <ComboBoxItem  Content="Muhammed Celal Şems" />
+                                    <ComboBoxItem  Content="Muhammed Esed" />
+                                    <ComboBoxItem  Content="Mustafa Çevik" />
+                                    <ComboBoxItem  Content="Mustafa İslamoğlu" />
+                                    <ComboBoxItem  Content="Ömer Nasuhi Bilmen" />
+                                    <ComboBoxItem  Content="Ömer Öngüt" />
+                                    <ComboBoxItem  Content="Şaban Piriş" />
+                                    <ComboBoxItem  Content="Sadık Türkmen" />
+                                    <ComboBoxItem  Content="Seyyid Kutub" />
+                                    <ComboBoxItem  Content="Suat Yıldırım" />
+                                    <ComboBoxItem  Content="Süleyman Ateş" />
+                                    <ComboBoxItem  Content="Tefhim-ul Kuran" />
+                                    <ComboBoxItem  Content="Ümit Şimşek" />
+                                    <ComboBoxItem  Content="Yaşar Nuri Öztürk" />
+                                </ComboBox>
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right">
+                                <Button Style="{DynamicResource wordOpenText}" x:Name="wordText" Tag="Kelime Kökleri" Click="wordText_Click" />
+                            </StackPanel>
+                            <StackPanel x:Name="backInterpreter" Grid.Column="3" HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="Collapsed">
+                                <Button Style="{DynamicResource backInterpreter}" x:Name="BackInterpreter" Tag="Yorumu Getir" Click="backFullTextLoad" />
+                            </StackPanel>
                         </Grid>
                     </Border>
                 </Grid>

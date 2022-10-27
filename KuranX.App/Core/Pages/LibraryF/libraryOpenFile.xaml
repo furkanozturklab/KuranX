@@ -14,7 +14,7 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="80" />
+            <RowDefinition Height="100" />
             <RowDefinition Height="50" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
@@ -38,8 +38,8 @@
                         </StackPanel>
                         <Border Grid.Column="2"  Padding="10 0 10 0">
                             <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center">
-                                <TextBlock x:Name="alertPopupHeader" Text="" FontSize="22" Margin="0,0,0,12" Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsSemiBold}" />
-                                <TextBlock x:Name="alertPopupDetail" Text="" TextWrapping="Wrap"  Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsMedium}" />
+                                <TextBlock x:Name="alertPopupHeader" Text="" TextAlignment="Center" FontSize="22" Margin="0,0,0,12" Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsSemiBold}" />
+                                <TextBlock x:Name="alertPopupDetail" Text="" TextAlignment="Center" TextWrapping="Wrap"  Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsMedium}" />
                             </StackPanel>
                         </Border>
                     </Grid>
@@ -67,8 +67,8 @@
                         </StackPanel>
                         <Border Grid.Column="2"  Padding="10 0 10 0">
                             <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center">
-                                <TextBlock x:Name="infoPopupHeader" Text="" FontSize="22" Margin="0,0,0,12" Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsSemiBold}" />
-                                <TextBlock x:Name="infoPopupDetail" Text="" TextWrapping="Wrap"  Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsMedium}" />
+                                <TextBlock x:Name="infoPopupHeader" Text="" TextAlignment="Center" FontSize="22" Margin="0,0,0,12" Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsSemiBold}" />
+                                <TextBlock x:Name="infoPopupDetail" Text="" TextAlignment="Center" TextWrapping="Wrap"  Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsMedium}" />
                             </StackPanel>
                         </Border>
                     </Grid>
@@ -95,8 +95,8 @@
                         </StackPanel>
                         <Border Grid.Column="2"  Padding="10 0 10 0">
                             <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center">
-                                <TextBlock x:Name="successPopupHeader" Text="" FontSize="22" Margin="0,0,0,12" Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsSemiBold}" />
-                                <TextBlock x:Name="successPopupDetail" Text="" TextWrapping="Wrap"  Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsMedium}" />
+                                <TextBlock x:Name="successPopupHeader" Text="" TextAlignment="Center" FontSize="22" Margin="0,0,0,12" Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsSemiBold}" />
+                                <TextBlock x:Name="successPopupDetail" Text="" TextAlignment="Center" TextWrapping="Wrap"  Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsMedium}" />
                             </StackPanel>
                         </Border>
                     </Grid>
@@ -352,6 +352,119 @@
             </Border>
         </Popup>
 
+        <Popup x:Name="addLibPopup" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="340" Height="370" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+
+            <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="320" Height="350">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50" />
+                        <RowDefinition Height="300" />
+                    </Grid.RowDefinitions>
+                    <Border  Grid.Row="0" Style="{DynamicResource headerBorderTemp}">
+                        <TextBlock Text="Notu Kütüphaneye Ekle" Style="{DynamicResource popupHeaderText}" />
+                    </Border>
+                    <Grid Grid.Row="1">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="56" />
+                            </Grid.RowDefinitions>
+
+                            <StackPanel Orientation="Vertical" Margin="0 10 0 0" VerticalAlignment="Center">
+                                <TextBlock Text="Kütüphane Seç" FontFamily="{DynamicResource PoppinsMedium}" FontSize="14" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                <ComboBox Width="300" x:Name="selectedLibFolder"  Style="{DynamicResource popupCombobox}" SelectedIndex="0" IsReadOnly="True">
+                                </ComboBox>
+                                <TextBlock Margin="0,5,0,0" VerticalAlignment="Center" HorizontalAlignment="Center" x:Name="popupaddLibError" Style="{DynamicResource popupDefaultTextBoxTextblock}" />
+
+                                <Button FontSize="12"  Width="180" x:Name="newLibFolder" Style="{DynamicResource popupDefaultButtonBstrp}" Tag="Archive" Content="Yeni Konu Aç" HorizontalAlignment="Center" Margin="0 5 0 5" Click="newLibFolder_Click" />
+
+                                <TextBlock Text="Seçili Not" FontFamily="{DynamicResource PoppinsMedium}" FontSize="14" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 10 0 0" />
+                                <TextBox Style="{DynamicResource popupDefaulTextBox}" Width="300" x:Name="selectedLib" IsReadOnly="True">
+                                    <TextBox.Resources>
+                                        <Style TargetType="{x:Type Border}">
+                                            <Setter Property="CornerRadius" Value="3" />
+                                        </Style>
+                                    </TextBox.Resources>
+                                </TextBox>
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="1">
+                                <Button Width="120" x:Name="addLib" Style="{DynamicResource popupDefaultButtonBstrp}" Tag="FolderPlus" Content="Ekle" HorizontalAlignment="Center" Click="addLib_Click" />
+                                <Button Width="120" Style="{DynamicResource popupDefaultButtonClosed}" Tag="CloseBig" Content="Vazgeç" Uid="addLibPopup" HorizontalAlignment="Center" Click="popupClosed_Click" />
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </Border>
+        </Popup>
+
+        <Popup x:Name="addFolderLibHeaderPopup" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="340" Height="450" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+            <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="320" Height="430">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50" />
+                        <RowDefinition Height="380" />
+                    </Grid.RowDefinitions>
+                    <Border  Grid.Row="0" Style="{DynamicResource headerBorderTemp}">
+                        <TextBlock Text="Kütüphane Başlığı Oluştur" Style="{DynamicResource popupHeaderText}" />
+                    </Border>
+                    <Grid Grid.Row="1">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="56" />
+                            </Grid.RowDefinitions>
+                            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Width="320" Grid.Row="0">
+                                <TextBlock Text="Kütüphane Başlığı" FontFamily="{DynamicResource PoppinsSemiBold}" FontSize="14" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 5 0 5" />
+                                <TextBox Style="{DynamicResource popupDefaulTextBox}" Width="300" x:Name="libFolderHeader" KeyDown="libFolderHeader_KeyDown" KeyUp="libFolderHeader_KeyUp">
+                                    <TextBox.Resources>
+                                        <Style TargetType="{x:Type Border}">
+                                            <Setter Property="CornerRadius" Value="3" />
+                                        </Style>
+                                    </TextBox.Resources>
+                                </TextBox>
+                                <StackPanel Orientation="Horizontal" Width="Auto" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <Label Visibility="Visible" Content="" x:Name="libHeaderFolderErrorMesssage" Style="{DynamicResource popupDefaultTextBoxLabel}" Margin="0 2 0 2" />
+                                </StackPanel>
+
+                                <TextBlock Text="Kütüphane Rengi" FontFamily="{DynamicResource PoppinsSemiBold}" FontSize="14" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0" />
+                                <StackPanel Orientation="Horizontal" Width="300" Margin="0 10 0 10" x:Name="libColorStack">
+                                    <CheckBox IsChecked="False" Style="{DynamicResource subjectHeaderColorSelected}" Tag="#66E21F" Uid="1" Click="libraryColorPick_Click" />
+                                    <CheckBox IsChecked="False" Style="{DynamicResource subjectHeaderColorSelected}" Tag="#DC3545" Uid="2" Click="libraryColorPick_Click" />
+                                    <CheckBox IsChecked="False" Style="{DynamicResource subjectHeaderColorSelected}" Tag="#0D6EFD" Uid="3" Click="libraryColorPick_Click" />
+                                    <CheckBox IsChecked="False" Style="{DynamicResource subjectHeaderColorSelected}" Tag="#6610F2" Uid="4" Click="libraryColorPick_Click" />
+                                    <CheckBox IsChecked="False" Style="{DynamicResource subjectHeaderColorSelected}" Tag="#FD7E14" Uid="5" Click="libraryColorPick_Click" />
+                                    <CheckBox IsChecked="False" Style="{DynamicResource subjectHeaderColorSelected}" Tag="#FFC107" Uid="6" Click="libraryColorPick_Click" />
+                                </StackPanel>
+
+                                <TextBlock Text="Önizleme" FontFamily="{DynamicResource PoppinsSemiBold}" FontSize="14" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 10 0 0" />
+
+                                <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="300" Height="50" Margin="0 20 0 20">
+                                    <StackPanel Height="50" Width="300" Orientation="Horizontal">
+                                        <Border x:Name="libpreviewColor" Width="10" Background="#66E21F" CornerRadius="5 0 0 5" />
+                                        <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                            <TextBlock Text="Önizleme" x:Name="libpreviewName" FontSize="14" Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsMedium}" VerticalAlignment="Center" Margin="10 0 0 0" />
+                                            <TextBlock Text="25.08.2022" FontSize="10" Foreground="#7B7B7B" FontFamily="{DynamicResource PoppinsRegular}" VerticalAlignment="Center" Margin="10 0 0 0" />
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Border>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="1">
+                                <Button x:Name="addfolderSubject" Style="{DynamicResource popupDefaultButtonBstrp}" Tag="FolderPlus" Content="Oluştur" HorizontalAlignment="Center" Click="addfolderLibraryHeader_Click" />
+                                <Button  Style="{DynamicResource popupDefaultButtonClosed}" Tag="CloseBig" Content="Vazgeç" Uid="addFolderLibHeaderPopup" HorizontalAlignment="Center" Click="popupClosed_Click" />
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </Border>
+        </Popup>
+
         <Popup x:Name="notesAllShowPopup" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="500" Height="600" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
 
             <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="480" Height="580">
@@ -391,8 +504,8 @@
             <Image gif:ImageBehavior.AnimatedSource="/Resource/Images/Gif/Spinner800.gif" Width="250" Height="250"  RenderOptions.BitmapScalingMode="HighQuality" />
         </Grid>
 
-        <Border Grid.Row="0" Height="80" Width="450" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden" x:Name="loadHeaderAni">
-            <Border Width="350" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+        <Border Grid.Row="0" Height="80" Width="450" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Visible" x:Name="loadHeaderAni" UseLayoutRounding="True" SnapsToDevicePixels="True">
+            <Border Width="350" Height="60" Style="{DynamicResource defaultBorderShadowEffect}">
                 <StackPanel Orientation="Horizontal">
 
                     <Border Width="12" CornerRadius="5 0 0 5" Background="#B30B00" />

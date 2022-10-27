@@ -183,6 +183,15 @@
         <Setter Property="FontSize" Value="10" />
     </Style>
 
+    <Style x:Key="popupDefaultTextBoxExtends" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{DynamicResource PoppinsSemiBold}" />
+        <Setter Property="Foreground" Value="#1C1E2F" />
+        <Setter Property="FontSize" Value="10" />
+        <Setter Property="Width" Value="250" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+        <Setter Property="TextAlignment" Value="Center" />
+    </Style>
+
     <!-- Label -->
 
     <!-- CheckBox -->

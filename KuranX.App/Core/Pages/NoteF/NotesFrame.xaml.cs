@@ -1,5 +1,6 @@
 ﻿using KuranX.App.Core.Classes;
 using Microsoft.EntityFrameworkCore;
+using MySqlX.XDevAPI.Common;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -40,7 +41,7 @@ namespace KuranX.App.Core.Pages.NoteF
         private bool searchStatus = false, filter;
         private string searchTxt, filterTxt;
         private List<Notes> dNotes, tempNotes = new List<Notes>();
-        private int lastNotesItem = 0, totalcount, selectedId, NowPage = 1;
+        private int lastNotesItem = 0, selectedId, NowPage = 1;
         private Task loadTask;
         private DispatcherTimer? timeSpan = new DispatcherTimer(DispatcherPriority.Render);
         private List<Dstack> dstack = new List<Dstack>();
@@ -55,7 +56,7 @@ namespace KuranX.App.Core.Pages.NoteF
             using (var entitydb = new AyetContext())
             {
                 loadAni();
-                totalcount = entitydb.Notes.Where(p => p.NoteLocation == "Konularım" || p.NoteLocation == "Kütüphane" || p.NoteLocation == "PDF" || p.NoteLocation == "Ayet" || p.NoteLocation == "Kullanıcı").Count();
+                decimal totalcount = entitydb.Notes.Where(p => p.NoteLocation == "Konularım" || p.NoteLocation == "Kütüphane" || p.NoteLocation == "PDF" || p.NoteLocation == "Ayet" || p.NoteLocation == "Kullanıcı").Count();
 
                 if (filter)
                 {
@@ -174,19 +175,37 @@ namespace KuranX.App.Core.Pages.NoteF
 
                         if (i == 25) break; // 29 den fazla varmı kontrol etmek için koydum
                     }
+                });
 
-                    if (lastNotesItem == 0) previusPageButton.IsEnabled = false;
-                    else previusPageButton.IsEnabled = true;
-
-                    if (dNotes.Count() <= 24) nextpageButton.IsEnabled = false;
-                    if (lastNotesItem == 0 && dNotes.Count() > 24) nextpageButton.IsEnabled = true;
-
+                Thread.Sleep(200);
+                this.Dispatcher.Invoke(() =>
+                {
                     totalcountText.Tag = totalcount.ToString();
 
-                    nowPageStatus.Tag = NowPage + " / " + Math.Ceiling(decimal.Parse(totalcount.ToString()) / 24).ToString();
+                    if (dNotes.Count() != 0)
+                    {
+                        totalcount = Math.Ceiling(totalcount / 24);
+                        nowPageStatus.Tag = NowPage + " / " + totalcount;
+                        nextpageButton.Dispatcher.Invoke(() =>
+                        {
+                            if (NowPage != totalcount) nextpageButton.IsEnabled = true;
+                            else if (NowPage == totalcount) nextpageButton.IsEnabled = false;
+                        });
+                        previusPageButton.Dispatcher.Invoke(() =>
+                        {
+                            if (NowPage != 1) previusPageButton.IsEnabled = true;
+                            else if (NowPage == 1) previusPageButton.IsEnabled = false;
+                        });
+                    }
+                    else
+                    {
+                        nowPageStatus.Tag = "-";
+                        nextpageButton.IsEnabled = false;
+                        previusPageButton.IsEnabled = false;
+                    }
                 });
             }
-            Thread.Sleep(200);
+
             loadAniComplated();
         }
 
@@ -286,7 +305,7 @@ namespace KuranX.App.Core.Pages.NoteF
         private void gotoNotes_Click(object sender, RoutedEventArgs e)
         {
             Button btn = sender as Button;
-            App.mainframe.Content = new NoteItem(int.Parse(btn.Uid));
+            App.mainframe.Content = new NoteItem(int.Parse(btn.Uid), "Other");
             listBorder.Visibility = Visibility.Collapsed;
             stackBorder.Visibility = Visibility.Collapsed;
         }
@@ -496,13 +515,11 @@ namespace KuranX.App.Core.Pages.NoteF
 
             if ((string)chk.Content == "Liste")
             {
-                Debug.WriteLine("Liste");
                 listBorder.Visibility = Visibility.Visible;
                 stackBorder.Visibility = Visibility.Collapsed;
             }
             else
             {
-                Debug.WriteLine("Yığın");
                 listBorder.Visibility = Visibility.Collapsed;
                 stackBorder.Visibility = Visibility.Visible;
             }

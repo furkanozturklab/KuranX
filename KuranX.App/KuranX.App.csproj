@@ -23,26 +23,53 @@
     <None Remove="Resource\Images\Gif\Pulse300.gif" />
     <None Remove="Resource\Images\Gif\Pulse50.gif" />
     <None Remove="Resource\Images\Gif\Spinner800.gif" />
-    <None Remove="Resource\Images\Icon\ayetSubject_r.png" />
-    <None Remove="Resource\Images\Icon\ayetSubject_rb.png" />
-    <None Remove="Resource\Images\Icon\conclusion_r.png" />
-    <None Remove="Resource\Images\Icon\conclusion_rb.png" />
     <None Remove="Resource\Images\Icon\email_r.png" />
     <None Remove="Resource\Images\Icon\email_rb.png" />
-    <None Remove="Resource\Images\Icon\favorite_r.png" />
-    <None Remove="Resource\Images\Icon\favorite_rb.png" />
-    <None Remove="Resource\Images\Icon\koran_r.png" />
-    <None Remove="Resource\Images\Icon\koran_rb.png" />
+    <None Remove="Resource\Images\Icon\help_r.png" />
+    <None Remove="Resource\Images\Icon\help_rb.png" />
+    <None Remove="Resource\Images\Icon\help_rbg.png" />
+    <None Remove="Resource\Images\Icon\help_rbo.png" />
+    <None Remove="Resource\Images\Icon\help_rbr.png" />
+    <None Remove="Resource\Images\Icon\help_rbx.png" />
     <None Remove="Resource\Images\Icon\library_r.png" />
     <None Remove="Resource\Images\Icon\library_rb.png" />
+    <None Remove="Resource\Images\Icon\library_rbg.png" />
+    <None Remove="Resource\Images\Icon\library_rbo.png" />
+    <None Remove="Resource\Images\Icon\library_rbr.png" />
     <None Remove="Resource\Images\Icon\library_rbx.png" />
     <None Remove="Resource\Images\Icon\notes_r.png" />
     <None Remove="Resource\Images\Icon\notes_rb.png" />
+    <None Remove="Resource\Images\Icon\notes_rbg.png" />
+    <None Remove="Resource\Images\Icon\notes_rbo.png" />
+    <None Remove="Resource\Images\Icon\notes_rbr.png" />
+    <None Remove="Resource\Images\Icon\notes_rbx.png" />
     <None Remove="Resource\Images\Icon\padlock_r.png" />
     <None Remove="Resource\Images\Icon\padlock_rb.png" />
-    <None Remove="Resource\Images\Icon\reminders_r.png" />
-    <None Remove="Resource\Images\Icon\reminders_rb.png" />
+    <None Remove="Resource\Images\Icon\remider_r.png" />
+    <None Remove="Resource\Images\Icon\remider_rb.png" />
+    <None Remove="Resource\Images\Icon\remider_rbg.png" />
+    <None Remove="Resource\Images\Icon\remider_rbo.png" />
+    <None Remove="Resource\Images\Icon\remider_rbr.png" />
+    <None Remove="Resource\Images\Icon\remider_rbx.png" />
+    <None Remove="Resource\Images\Icon\result_r.png" />
+    <None Remove="Resource\Images\Icon\result_rb.png" />
+    <None Remove="Resource\Images\Icon\result_rbg.png" />
+    <None Remove="Resource\Images\Icon\result_rbo.png" />
+    <None Remove="Resource\Images\Icon\result_rbr.png" />
+    <None Remove="Resource\Images\Icon\result_rbx.png" />
+    <None Remove="Resource\Images\Icon\subject_r.png" />
+    <None Remove="Resource\Images\Icon\subject_rb.png" />
+    <None Remove="Resource\Images\Icon\subject_rbg.png" />
+    <None Remove="Resource\Images\Icon\subject_rbo.png" />
+    <None Remove="Resource\Images\Icon\subject_rbr.png" />
+    <None Remove="Resource\Images\Icon\subject_rbx.png" />
     <None Remove="Resource\Images\Icon\tick_b.png" />
+    <None Remove="Resource\Images\Icon\verse_r.png" />
+    <None Remove="Resource\Images\Icon\verse_rb.png" />
+    <None Remove="Resource\Images\Icon\verse_rbg.png" />
+    <None Remove="Resource\Images\Icon\verse_rbo.png" />
+    <None Remove="Resource\Images\Icon\verse_rbr.png" />
+    <None Remove="Resource\Images\Icon\verse_rbx.png" />
     <None Remove="Resource\Images\Ico\pdf.ico" />
     <None Remove="Resource\Images\Other\defaultProfileImage.png" />
   </ItemGroup>
@@ -104,40 +131,43 @@
     <Resource Include="Resource\Images\Gif\Spinner800.gif">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Resource\Images\Icon\ayetSubject_r.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resource\Images\Icon\ayetSubject_rb.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resource\Images\Icon\conclusion_r.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resource\Images\Icon\conclusion_rb.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
     <Resource Include="Resource\Images\Icon\email_r.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resource\Images\Icon\email_rb.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Resource\Images\Icon\favorite_r.png">
+    <Resource Include="Resource\Images\Icon\help_r.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Resource\Images\Icon\favorite_rb.png">
+    <Resource Include="Resource\Images\Icon\help_rb.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Resource\Images\Icon\koran_r.png">
+    <Resource Include="Resource\Images\Icon\help_rbg.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Resource\Images\Icon\koran_rb.png">
+    <Resource Include="Resource\Images\Icon\help_rbo.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Images\Icon\help_rbr.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Images\Icon\help_rbx.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resource\Images\Icon\library_r.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resource\Images\Icon\library_rb.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Images\Icon\library_rbg.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Images\Icon\library_rbo.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Images\Icon\library_rbr.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resource\Images\Icon\library_rbx.png">
@@ -149,19 +179,97 @@
     <Resource Include="Resource\Images\Icon\notes_rb.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resource\Images\Icon\notes_rbg.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Images\Icon\notes_rbo.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Images\Icon\notes_rbr.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Images\Icon\notes_rbx.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resource\Images\Icon\padlock_r.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resource\Images\Icon\padlock_rb.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Resource\Images\Icon\reminders_r.png">
+    <Resource Include="Resource\Images\Icon\remider_r.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Resource\Images\Icon\reminders_rb.png">
+    <Resource Include="Resource\Images\Icon\remider_rb.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Images\Icon\remider_rbg.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Images\Icon\remider_rbo.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Images\Icon\remider_rbr.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Images\Icon\remider_rbx.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Images\Icon\result_r.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Images\Icon\result_rb.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Images\Icon\result_rbg.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Images\Icon\result_rbo.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Images\Icon\result_rbr.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Images\Icon\result_rbx.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Images\Icon\subject_r.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Images\Icon\subject_rb.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Images\Icon\subject_rbg.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Images\Icon\subject_rbo.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Images\Icon\subject_rbr.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Images\Icon\subject_rbx.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resource\Images\Icon\tick_b.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Images\Icon\verse_r.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Images\Icon\verse_rb.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Images\Icon\verse_rbg.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Images\Icon\verse_rbo.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Images\Icon\verse_rbr.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Images\Icon\verse_rbx.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resource\Images\Ico\pdf.ico">
@@ -218,6 +326,9 @@
     <Compile Update="Core\Pages\LibraryF\libraryPublisherItemsFrame.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Core\Pages\ResultF\ResultPrinter.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Core\Windows\PdfEditorViewer.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -233,6 +344,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Core\Pages\LibraryF\libraryPublisherItemsFrame.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Core\Pages\ResultF\ResultPrinter.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>

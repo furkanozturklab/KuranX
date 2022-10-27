@@ -102,8 +102,8 @@
                         </StackPanel>
                         <Border Grid.Column="2"  Padding="10 0 10 0">
                             <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center">
-                                <TextBlock x:Name="alertPopupHeader" Text="" FontSize="22" Margin="0,0,0,12" Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsSemiBold}" />
-                                <TextBlock x:Name="alertPopupDetail" Text="" TextWrapping="Wrap"  Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsMedium}" />
+                                <TextBlock x:Name="alertPopupHeader" Text="" TextAlignment="Center" FontSize="22" Margin="0,0,0,12" Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsSemiBold}" />
+                                <TextBlock x:Name="alertPopupDetail" Text="" TextAlignment="Center" TextWrapping="Wrap"  Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsMedium}" />
                             </StackPanel>
                         </Border>
                     </Grid>
@@ -131,8 +131,8 @@
                         </StackPanel>
                         <Border Grid.Column="2"  Padding="10 0 10 0">
                             <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center">
-                                <TextBlock x:Name="infoPopupHeader" Text="" FontSize="22" Margin="0,0,0,12" Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsSemiBold}" />
-                                <TextBlock x:Name="infoPopupDetail" Text="" TextWrapping="Wrap"  Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsMedium}" />
+                                <TextBlock x:Name="infoPopupHeader" Text="" TextAlignment="Center" FontSize="22" Margin="0,0,0,12" Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsSemiBold}" />
+                                <TextBlock x:Name="infoPopupDetail" Text="" TextAlignment="Center" TextWrapping="Wrap"  Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsMedium}" />
                             </StackPanel>
                         </Border>
                     </Grid>
@@ -159,8 +159,8 @@
                         </StackPanel>
                         <Border Grid.Column="2"  Padding="10 0 10 0">
                             <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center">
-                                <TextBlock x:Name="successPopupHeader" Text="" FontSize="22" Margin="0,0,0,12" Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsSemiBold}" />
-                                <TextBlock x:Name="successPopupDetail" Text="" TextWrapping="Wrap"  Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsMedium}" />
+                                <TextBlock x:Name="successPopupHeader" Text="" TextAlignment="Center" FontSize="22" Margin="0,0,0,12" Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsSemiBold}" />
+                                <TextBlock x:Name="successPopupDetail" Text="" TextAlignment="Center" TextWrapping="Wrap"  Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsMedium}" />
                             </StackPanel>
                         </Border>
                     </Grid>
@@ -748,24 +748,24 @@
         </Border>
 
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Style="{DynamicResource aniEffectFadeStack}" Visibility="Hidden" x:Name="loadControlAni">
-            <StackPanel Style="{DynamicResource ResourceKey=ayetlerControlBarStack}">
-                <StackPanel Style="{DynamicResource ResourceKey=ayetlerControlItems}">
-                    <Button x:Name="backPage" IsEnabled="False" Style="{DynamicResource ayetlerControlItemPageButtonLeft}" Tag="ArrowLeft" Content="Kütüphaneye Geri Dön" Click="backPage_Click" />
+            <StackPanel Orientation="Horizontal" Height="80">
+                <StackPanel Style="{DynamicResource frameItemsOffsetNav}">
+                    <Button x:Name="backPage" IsEnabled="False" Style="{DynamicResource frameItemsControlNav}" Tag="ArrowLeft" Content="Geri Dön" Click="backPage_Click" />
                 </StackPanel>
-                <StackPanel Style="{DynamicResource ResourceKey=ayetlerControlItems}">
-                    <Button x:Name="addfile" IsEnabled="False" Style="{DynamicResource ayetlerControlItemPageButtonLeft}" Tag="Upload" Content="Yeni Dosya Ekle" Click="fileUploadButton_Click" />
+                <StackPanel Style="{DynamicResource frameItemsOffsetNav}">
+                    <Button x:Name="addfile" IsEnabled="False" Style="{DynamicResource frameItemsControlNav}" Tag="Upload" Content="Yeni Dosya Ekle" Click="fileUploadButton_Click" />
                 </StackPanel>
-                <StackPanel Style="{DynamicResource ResourceKey=ayetlerControlItems}">
-                    <Button x:Name="previusPageButton" IsEnabled="False" Style="{DynamicResource ayetlerControlItemPageButtonLeft}" Tag="AngleLeft" Content="Önceki Sayfa" Click="previusPageButton_Click" />
+                <StackPanel Style="{DynamicResource frameItemsOffsetNav}">
+                    <Button x:Name="previusPageButton" IsEnabled="False"  Style="{DynamicResource frameItemsControlNav}" Tag="AngleLeft" Content="Önceki Sayfa" Click="previusPageButton_Click" />
                 </StackPanel>
-                <StackPanel Style="{DynamicResource ResourceKey=ayetlerControlItems}">
-                    <Button x:Name="nowPageStatus" IsEnabled="False" Style="{DynamicResource ayetlerControlItemOtherButton}" Tag="1 / 1" Content="Sayfa" />
+                <StackPanel Style="{DynamicResource frameItemsOffsetNav}">
+                    <Button x:Name="nowPageStatus" IsEnabled="False" Style="{DynamicResource frameItemsNumberNav}" Tag="1 / 1" Content="Sayfa" />
                 </StackPanel>
-                <StackPanel Style="{DynamicResource ResourceKey=ayetlerControlItems}">
-                    <Button x:Name="totalcountText" IsEnabled="False" Style="{DynamicResource ayetlerControlItemOtherButtonCount}" Tag="-" Content="Dosya" />
+                <StackPanel Style="{DynamicResource frameItemsOffsetNav}">
+                    <Button x:Name="totalcountText" IsEnabled="False"  Style="{DynamicResource frameItemsNumberNav}" Tag="-" Content="Sonuc" />
                 </StackPanel>
-                <StackPanel Style="{DynamicResource ResourceKey=ayetlerControlItems}">
-                    <Button x:Name="nextpageButton" IsEnabled="False" Style="{DynamicResource ayetlerControlItemPageButtonRight}" Tag="AngleRight" Content="Sonraki Sayfa" Click="nextpageButton_Click" />
+                <StackPanel Style="{DynamicResource frameItemsOffsetNav}">
+                    <Button x:Name="nextpageButton" IsEnabled="False"  Style="{DynamicResource frameItemsControlNav}" Tag="AngleRight" Content="Sonraki Sayfa" Click="nextpageButton_Click" />
                 </StackPanel>
             </StackPanel>
         </StackPanel>

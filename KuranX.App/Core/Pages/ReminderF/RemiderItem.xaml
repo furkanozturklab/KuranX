@@ -29,14 +29,14 @@
                             <ColumnDefinition Width="90" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <Border Grid.Column="0" Background="#F0433A" CornerRadius="5 0 0 5" />
+                        <Border Grid.Column="0" Background="#F0433A" CornerRadius="5 0 0 5"></Border>
                         <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
                             <Icon:PackIconOcticons Kind="Alert" Width="48" Height="48" Foreground="#F0433A" />
                         </StackPanel>
                         <Border Grid.Column="2"  Padding="10 0 10 0">
                             <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center">
-                                <TextBlock x:Name="alertPopupHeader" Text="" FontSize="22" Margin="0,0,0,12" Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsSemiBold}" />
-                                <TextBlock x:Name="alertPopupDetail" Text="" TextWrapping="Wrap"  Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsMedium}" />
+                                <TextBlock x:Name="alertPopupHeader" Text="" TextAlignment="Center" FontSize="22" Margin="0,0,0,12" Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsSemiBold}" />
+                                <TextBlock x:Name="alertPopupDetail" Text="" TextAlignment="Center" TextWrapping="Wrap"  Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsMedium}" />
                             </StackPanel>
                         </Border>
                     </Grid>
@@ -58,14 +58,14 @@
                             <ColumnDefinition Width="90" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <Border Grid.Column="0" Background="#0D6EFD" CornerRadius="5 0 0 5" />
+                        <Border Grid.Column="0" Background="#0D6EFD" CornerRadius="5 0 0 5"></Border>
                         <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
                             <Icon:PackIconUnicons Kind="Info" Width="48" Height="48" Foreground="#0D6EFD" />
                         </StackPanel>
                         <Border Grid.Column="2"  Padding="10 0 10 0">
                             <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center">
-                                <TextBlock x:Name="infoPopupHeader" Text="" FontSize="22" Margin="0,0,0,12" Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsSemiBold}" />
-                                <TextBlock x:Name="infoPopupDetail" Text="" TextWrapping="Wrap"  Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsMedium}" />
+                                <TextBlock x:Name="infoPopupHeader" Text="" TextAlignment="Center" FontSize="22" Margin="0,0,0,12" Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsSemiBold}" />
+                                <TextBlock x:Name="infoPopupDetail" Text="" TextAlignment="Center" TextWrapping="Wrap"  Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsMedium}" />
                             </StackPanel>
                         </Border>
                     </Grid>
@@ -86,14 +86,14 @@
                             <ColumnDefinition Width="90" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <Border Grid.Column="0" Background="#66E21F" CornerRadius="5 0 0 5" />
+                        <Border Grid.Column="0" Background="#66E21F" CornerRadius="5 0 0 5"></Border>
                         <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
                             <Icon:PackIconIonicons Kind="CheckmarkMD" Width="48" Height="48" Foreground="#66E21F" />
                         </StackPanel>
                         <Border Grid.Column="2"  Padding="10 0 10 0">
                             <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center">
-                                <TextBlock x:Name="successPopupHeader" Text="" FontSize="22" Margin="0,0,0,12" Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsSemiBold}" />
-                                <TextBlock x:Name="successPopupDetail" Text="" TextWrapping="Wrap"  Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsMedium}" />
+                                <TextBlock x:Name="successPopupHeader" Text="" TextAlignment="Center" FontSize="22" Margin="0,0,0,12" Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsSemiBold}" />
+                                <TextBlock x:Name="successPopupDetail" Text="" TextAlignment="Center" TextWrapping="Wrap"  Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsMedium}" />
                             </StackPanel>
                         </Border>
                     </Grid>

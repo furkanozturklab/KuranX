@@ -75,6 +75,29 @@ namespace KuranX.App.Migrations
                     b.ToTable("Interpreter");
                 });
 
+            modelBuilder.Entity("KuranX.App.Core.Classes.Library", b =>
+                {
+                    b.Property<int>("LibraryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("LibraryColor")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("LibraryName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("Modify")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("LibraryId");
+
+                    b.ToTable("Librarys");
+                });
+
             modelBuilder.Entity("KuranX.App.Core.Classes.Notes", b =>
                 {
                     b.Property<int>("NotesId")
@@ -84,6 +107,11 @@ namespace KuranX.App.Migrations
                     b.Property<DateTime>("Created")
                         .HasColumnType("TEXT");
 
+                    b.Property<int?>("LibraryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasDefaultValue(0);
+
                     b.Property<DateTime>("Modify")
                         .HasColumnType("TEXT");
 
@@ -92,11 +120,6 @@ namespace KuranX.App.Migrations
 
                     b.Property<string>("NoteHeader")
                         .HasColumnType("TEXT");
-
-                    b.Property<string>("NoteLibHeader")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT")
-                        .HasDefaultValue("Default");
 
                     b.Property<string>("NoteLocation")
                         .HasColumnType("TEXT");
@@ -220,6 +243,91 @@ namespace KuranX.App.Migrations
                     b.HasKey("RemiderId");
 
                     b.ToTable("Remider");
+                });
+
+            modelBuilder.Entity("KuranX.App.Core.Classes.Result", b =>
+                {
+                    b.Property<int>("ResultId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ResultFinallyNote")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT")
+                        .HasDefaultValue("Sonuç Metninizi buraya yaza bilirsiniz.");
+
+                    b.Property<string>("ResultLib")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT")
+                        .HasDefaultValue("false");
+
+                    b.Property<string>("ResultName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ResultNotes")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT")
+                        .HasDefaultValue("false");
+
+                    b.Property<string>("ResultStatus")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT")
+                        .HasDefaultValue("#ADB5BD");
+
+                    b.Property<string>("ResultSubject")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT")
+                        .HasDefaultValue("false");
+
+                    b.Property<string>("ResultVerse")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT")
+                        .HasDefaultValue("false");
+
+                    b.HasKey("ResultId");
+
+                    b.ToTable("Results");
+                });
+
+            modelBuilder.Entity("KuranX.App.Core.Classes.ResultItem", b =>
+                {
+                    b.Property<int>("ResultItemId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("ResultId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("ResultLibId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasDefaultValue(0);
+
+                    b.Property<int>("ResultNoteId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasDefaultValue(0);
+
+                    b.Property<int>("ResultSubjectId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasDefaultValue(0);
+
+                    b.Property<DateTime>("SendTime")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT")
+                        .HasDefaultValue(new DateTime(2022, 10, 27, 19, 9, 49, 542, DateTimeKind.Local).AddTicks(4888));
+
+                    b.HasKey("ResultItemId");
+
+                    b.ToTable("ResultItems");
                 });
 
             modelBuilder.Entity("KuranX.App.Core.Classes.Subject", b =>

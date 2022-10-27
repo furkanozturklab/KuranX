@@ -40,8 +40,8 @@
                                 <Border x:Name="Uza" Panel.ZIndex="2" Width="10" Height="100" Background="{Binding Path=Tag , RelativeSource={RelativeSource TemplatedParent}}" CornerRadius="5 0 0 5" HorizontalAlignment="Left" />
                             </StackPanel>
                             <StackPanel Width="350" Grid.Column="0" Height="100" HorizontalAlignment="Left" Orientation="Horizontal" Panel.ZIndex="2">
-                                <TextBlock x:Name="ContentText" Width="280" TextAlignment="Center" Text="{Binding Path=Content , RelativeSource={RelativeSource TemplatedParent}}" Foreground="#1C1E2F" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="26" FontFamily="{DynamicResource PoppinsMedium}" />
-                                <Icon:PackIconEvaIcons x:Name="ContentTextArrow" Kind="ArrowForward" Width="40" Height="40"  Foreground="#1C1E2F" VerticalAlignment="Center" HorizontalAlignment="Right" />
+                                <TextBlock x:Name="ContentText" Width="280" TextAlignment="Center" Text="{Binding Path=Content , RelativeSource={RelativeSource TemplatedParent}}" Foreground="#1C1E2F" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="24" FontFamily="{DynamicResource PoppinsMedium}" />
+                                <Icon:PackIconEvaIcons x:Name="ContentTextArrow" Kind="ArrowForward" Width="36" Height="36"  Foreground="#1C1E2F" VerticalAlignment="Center" HorizontalAlignment="Right" />
                             </StackPanel>
                         </Grid>
                     </Border>
@@ -88,6 +88,27 @@
                                 <TextBlock Height="34" Text="{Binding Path=Tag, RelativeSource={RelativeSource TemplatedParent}}" Foreground="#1C1E2F" TextAlignment="Center" FontSize="22" FontFamily="{DynamicResource PoppinsSemiBold}" />
                                 <TextBlock Height="20" Text="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}}" Foreground="#7B7B7B" TextAlignment="Center" FontSize="14" FontFamily="{DynamicResource PoppinsRegular}" />
                             </StackPanel>
+                        </StackPanel>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="libraryNoteHeader" TargetType="Button">
+        <Setter Property="UseLayoutRounding" Value="True" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="Width" Value="300" />
+        <Setter Property="Height" Value="90" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Border Width="300" Height="90" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Vertical">
+                            <Border Height="10" Background="{Binding Path=Uid, RelativeSource={RelativeSource TemplatedParent}}" Width="300" CornerRadius="5 5 0 0" />
+                            <Border Height="80"  HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <TextBlock Height="34" Text="{Binding Path=Tag, RelativeSource={RelativeSource TemplatedParent}}" Foreground="#1C1E2F" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="22" FontFamily="{DynamicResource PoppinsSemiBold}" />
+                            </Border>
                         </StackPanel>
                     </Border>
                 </ControlTemplate>

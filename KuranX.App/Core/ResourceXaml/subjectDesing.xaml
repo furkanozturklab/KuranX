@@ -161,9 +161,33 @@
         </Setter>
     </Style>
 
+    <Style x:Key="subjectItemOpenGoIcon" TargetType="Button">
+
+        <Setter Property="Width" Value="24" />
+        <Setter Property="Height" Value="24" />
+        <Setter Property="Background" Value="{x:Null}" />
+        <Setter Property="BorderThickness" Value="0" />
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <TextBlock Width="24" Height="24">
+                        <Icon:PackIconBootstrapIcons x:Name="txt_trg" Kind="ArrowRight" Width="24" Height="24" />
+                    </TextBlock>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="txt_trg" Property="Foreground" Value="#F0433A" />
+                            <Setter Property="Cursor" Value="Hand" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style x:Key="subjectFolderHeader" TargetType="TextBlock">
 
-        <Setter Property="Width" Value="230" />
+        <Setter Property="Width" Value="180" />
         <Setter Property="TextWrapping" Value="NoWrap" />
         <Setter Property="TextTrimming" Value="CharacterEllipsis" />
         <Setter Property="Foreground" Value="#1C1E2F" />
@@ -173,9 +197,17 @@
 
     <Style x:Key="subjectFolderDate" TargetType="TextBlock">
 
-        <Setter Property="Width" Value="230" />
+        <Setter Property="Width" Value="180" />
         <Setter Property="Foreground" Value="#7B7B7B" />
         <Setter Property="FontFamily" Value="{DynamicResource PoppinsRegular}" />
+        <Setter Property="FontSize" Value="10" />
+    </Style>
+
+    <Style x:Key="subjectFolderLoc" TargetType="TextBlock">
+
+        <Setter Property="Width" Value="180" />
+        <Setter Property="Foreground" Value="#F0433A" />
+        <Setter Property="FontFamily" Value="{DynamicResource PoppinsMedium}" />
         <Setter Property="FontSize" Value="10" />
     </Style>
 </ResourceDictionary>

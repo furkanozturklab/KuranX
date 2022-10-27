@@ -2,6 +2,7 @@
 using KuranX.App.Core.Windows;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -25,7 +26,7 @@ namespace KuranX.App.Core.Pages.LibraryF
     /// </summary>
     public partial class libraryOpenFile : Page
     {
-        public int currentPdfId;
+        public int currentPdfId, selectedNoteId;
         public string currentPdfUrl, currentFileName;
         private List<Notes> dTempNotes = new List<Notes>();
         private DispatcherTimer timeSpan = new DispatcherTimer(DispatcherPriority.Render);
@@ -117,8 +118,9 @@ namespace KuranX.App.Core.Pages.LibraryF
 
                 using (var entitydb = new AyetContext())
                 {
-                    var dnotes = entitydb.Notes.Where(p => p.NotesId == int.Parse(tmpbutton.Uid)).Select(p => new Notes() { NoteHeader = p.NoteHeader, NoteDetail = p.NoteDetail }).FirstOrDefault();
+                    var dnotes = entitydb.Notes.Where(p => p.NotesId == int.Parse(tmpbutton.Uid)).Select(p => new Notes() { NoteHeader = p.NoteHeader, NoteDetail = p.NoteDetail, NotesId = p.NotesId }).FirstOrDefault();
 
+                    selectedNoteId = dnotes.NotesId;
                     meaningDetailTextHeader.Text = dnotes.NoteHeader;
                     noteOpenDetailText.Text = dnotes.NoteDetail;
                     valDetail.Text = dnotes.NoteDetail;
@@ -335,6 +337,8 @@ namespace KuranX.App.Core.Pages.LibraryF
         {
             try
             {
+                Debug.WriteLine("DÜZELTİLECEK ALAN ! NOTELİBHEADER");
+                /*
                 if (libHeaderName.Text.Length <= 8)
                 {
                     libHeaderNameError.Visibility = Visibility.Visible;
@@ -373,6 +377,7 @@ namespace KuranX.App.Core.Pages.LibraryF
                     }
                     libSendNotePopup.IsOpen = false;
                 }
+                */
             }
             catch (Exception ex)
             {
@@ -445,11 +450,38 @@ namespace KuranX.App.Core.Pages.LibraryF
         {
             try
             {
-                libSendNotePopup.IsOpen = true;
+                addLibPopup.IsOpen = true;
+                selectedLib.Text = meaningDetailTextHeader.Text;
+                libFolderLoad();
             }
             catch (Exception ex)
             {
                 App.logWriter("PopupOpen", ex);
+            }
+        }
+
+        private void libFolderLoad()
+        {
+            try
+            {
+                using (var entitydb = new AyetContext())
+                {
+                    var dLibFolder = entitydb.Librarys.ToList();
+
+                    selectedLibFolder.Items.Clear();
+                    foreach (var item in dLibFolder)
+                    {
+                        var cmbitem = new ComboBoxItem();
+
+                        cmbitem.Content = item.LibraryName;
+                        cmbitem.Uid = item.LibraryId.ToString();
+                        selectedLibFolder.Items.Add(cmbitem);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("LoadEvent", ex);
             }
         }
 
@@ -517,6 +549,47 @@ namespace KuranX.App.Core.Pages.LibraryF
             }
         }
 
+        private void newLibFolder_Click(object sender, RoutedEventArgs e)
+        {
+            addFolderLibHeaderPopup.IsOpen = true;
+        }
+
+        private void addLib_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                using (var entitydb = new AyetContext())
+                {
+                    var item = selectedLibFolder.SelectedItem as ComboBoxItem;
+
+                    if (item != null)
+                    {
+                        if (entitydb.Notes.Where(p => p.NotesId == selectedNoteId && p.LibraryId != 0).Count() != 0)
+                        {
+                            alertFunc("Kütüphane Ekleme Başarısız", "Bu Not Daha Önceden Eklenmiş Yeniden Ekleyemezsiniz.", 3);
+                        }
+                        else
+                        {
+                            entitydb.Notes.Where(p => p.NotesId == selectedNoteId).FirstOrDefault().LibraryId = int.Parse(item.Uid);
+                            entitydb.SaveChanges();
+                            succsessFunc("Kütüphane Ekleme Başarılı", "Seçmiş olduğunuz not kütüphaneye eklendi.", 3);
+                            addLibPopup.IsOpen = false;
+                        }
+                    }
+                    else
+                    {
+                        popupaddLibError.Visibility = Visibility.Visible;
+                        popupaddLibError.Text = "Lütfen Konuyu Seçiniz";
+                        selectedLibFolder.Focus();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("PopupAction", ex);
+            }
+        }
+
         private void loadAni()
         {
             try
@@ -547,6 +620,99 @@ namespace KuranX.App.Core.Pages.LibraryF
             catch (Exception ex)
             {
                 App.logWriter("Animation", ex);
+            }
+        }
+
+        private void libFolderHeader_KeyDown(object sender, KeyEventArgs e)
+        {
+            try
+            {
+                libHeaderFolderErrorMesssage.Visibility = Visibility.Hidden;
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Other", ex);
+            }
+        }
+
+        private void libFolderHeader_KeyUp(object sender, KeyEventArgs e)
+        {
+            try
+            {
+                libpreviewName.Text = libFolderHeader.Text;
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Other", ex);
+            }
+        }
+
+        private void libraryColorPick_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                CheckBox chk;
+
+                foreach (object item in libColorStack.Children)
+                {
+                    chk = null;
+                    if (item is FrameworkElement)
+                    {
+                        chk = ((CheckBox?)(item as FrameworkElement));
+
+                        chk.IsChecked = false;
+                    }
+                }
+
+                chk = sender as CheckBox;
+
+                chk.IsChecked = true;
+
+                libpreviewColor.Background = new BrushConverter().ConvertFromString(chk.Tag.ToString()) as SolidColorBrush;
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Other", ex);
+            }
+        }
+
+        private void addfolderLibraryHeader_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (libFolderHeader.Text.Length >= 8)
+                {
+                    using (var entitydb = new AyetContext())
+                    {
+                        var dControl = entitydb.Librarys.Where(p => p.LibraryName == libpreviewName.Text).ToList();
+
+                        if (dControl.Count == 0)
+                        {
+                            var dLibFolder = new Library { LibraryName = libpreviewName.Text, LibraryColor = libpreviewColor.Background.ToString(), Created = DateTime.Now, Modify = DateTime.Now };
+                            entitydb.Librarys.Add(dLibFolder);
+                            entitydb.SaveChanges();
+                            succsessFunc("Kütphane Başlığı ", " Yeni kütüphane başlığı oluşturuldu artık veri ekleye bilirsiniz.", 3);
+                            libFolderLoad();
+                            libpreviewName.Text = "";
+                            libFolderHeader.Text = "";
+                            addFolderLibHeaderPopup.IsOpen = false;
+                        }
+                        else
+                        {
+                            alertFunc("Kütphane Başlığı Oluşturulamadı ", " Daha önce aynı isimde bir konu zaten mevcut lütfen kontrol ediniz.", 3);
+                        }
+                    }
+                }
+                else
+                {
+                    libFolderHeader.Focus();
+                    libHeaderFolderErrorMesssage.Visibility = Visibility.Visible;
+                    libHeaderFolderErrorMesssage.Content = "Kütphane başlığının uzunluğu minimum 8 karakter olmalı";
+                }
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("PopupAction", ex);
             }
         }
     }

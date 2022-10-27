@@ -19,6 +19,7 @@ using System.Windows.Threading;
 
 using KuranX.App.Core.Classes;
 using Microsoft.EntityFrameworkCore;
+using MySqlX.XDevAPI.Common;
 
 namespace KuranX.App.Core.Pages.SubjectF
 {
@@ -31,7 +32,7 @@ namespace KuranX.App.Core.Pages.SubjectF
         private List<Subject> dSubject = new List<Subject>();
         private List<Subject> tempSubject = new List<Subject>();
         private Task PageItemLoadTask;
-        private int lastSubject = 0, totalcount, NowPage = 1;
+        private int lastSubject = 0, NowPage = 1;
         private bool searchStatus = false;
         private string searchTxt;
 
@@ -50,7 +51,7 @@ namespace KuranX.App.Core.Pages.SubjectF
                     if (searchStatus) dSubject = entitydb.Subject.Where(p => EF.Functions.Like(p.SubjectName, "%" + searchTxt + "%")).Skip(lastSubject).Take(13).ToList();
                     else dSubject = entitydb.Subject.Skip(lastSubject).Take(13).ToList();
 
-                    totalcount = entitydb.Subject.Count();
+                    Decimal totalcount = entitydb.Subject.Count();
 
                     for (int x = 1; x < 13; x++)
                     {
@@ -77,19 +78,34 @@ namespace KuranX.App.Core.Pages.SubjectF
                         if (i == 13) break; // 12 den fazla varmı kontrol etmek için koydum
                     }
 
+                    Thread.Sleep(200);
                     this.Dispatcher.Invoke(() =>
                     {
-                        if (lastSubject == 0) previusPageButton.IsEnabled = false;
-                        else previusPageButton.IsEnabled = true;
-
-                        if (dSubject.Count() <= 12) nextpageButton.IsEnabled = false;
-                        if (lastSubject == 0 && dSubject.Count() > 12) nextpageButton.IsEnabled = true;
-
                         totalcountText.Tag = totalcount.ToString();
 
-                        nowPageStatus.Tag = NowPage + " / " + Math.Ceiling(decimal.Parse(totalcount.ToString()) / 12).ToString();
+                        if (dSubject.Count() != 0)
+                        {
+                            totalcount = Math.Ceiling(totalcount / 12);
+                            nowPageStatus.Tag = NowPage + " / " + totalcount.ToString();
+                            nextpageButton.Dispatcher.Invoke(() =>
+                            {
+                                if (NowPage != totalcount) nextpageButton.IsEnabled = true;
+                                else if (NowPage == totalcount) nextpageButton.IsEnabled = false;
+                            });
+                            previusPageButton.Dispatcher.Invoke(() =>
+                            {
+                                if (NowPage != 1) previusPageButton.IsEnabled = true;
+                                else if (NowPage == 1) previusPageButton.IsEnabled = false;
+                            });
+                        }
+                        else
+                        {
+                            nowPageStatus.Tag = "-";
+                            nextpageButton.IsEnabled = false;
+                            previusPageButton.IsEnabled = false;
+                        }
                     });
-                    Thread.Sleep(200);
+
                     loadingAniComplated();
                 }
             }
