@@ -99,41 +99,37 @@ namespace KuranX.App.Core.Windows
 
         private void add_verse(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                string sql = "select * from ayetler;";
-                MySqlCommand cmd = new MySqlCommand(sql, connection);
-                MySqlDataReader rdr = cmd.ExecuteReader();
+            string sql = "select * from ayetler;";
+            MySqlCommand cmd = new MySqlCommand(sql, connection);
+            MySqlDataReader rdr = cmd.ExecuteReader();
 
-                using (var entitydb = new AyetContext())
+            using (var entitydb = new AyetContext())
+            {
+                while (rdr.Read())
                 {
-                    while (rdr.Read())
-                    {
-                        var newVe = new Verse();
+                    Debug.WriteLine(rdr[1]);
 
-                        int ch = (int)rdr[2];
-                        ch++;
+                    var newVe = new Verse();
 
-                        newVe.SureId = (int)rdr[0];
-                        newVe.VerseId = (int)rdr[1];
-                        newVe.RelativeDesk = ch;
-                        newVe.Status = "#FFFFFF";
-                        newVe.VerseArabic = (string)rdr[4];
-                        newVe.VerseTr = (string)rdr[5];
-                        newVe.VerseDesc = (string)rdr[6];
-                        newVe.VerseCheck = "false";
+                    int ch = (int)rdr[2];
+                    ch++;
 
-                        entitydb.Verse.Add(newVe);
+                    newVe.SureId = (int)rdr[0];
+                    newVe.VerseId = (int)rdr[1];
+                    newVe.RelativeDesk = ch;
+                    newVe.Status = "#FFFFFF";
+                    newVe.VerseArabic = (string)rdr[4];
+                    newVe.VerseTr = (string)rdr[5];
+                    newVe.VerseDesc = (string)rdr[6];
+                    newVe.VerseCheck = "false";
+                    newVe.RemiderCheck = "false";
 
-                        Debug.WriteLine("VERİ EKLENDİ");
-                    }
+                    entitydb.Verse.Add(newVe);
 
-                    entitydb.SaveChanges();
+                    Debug.WriteLine("VERİ EKLENDİ");
                 }
-            }
-            catch (Exception err)
-            {
-                Debug.Write(err.Message);
+
+                entitydb.SaveChanges();
             }
         }
 
@@ -189,7 +185,6 @@ namespace KuranX.App.Core.Windows
                         var newWe = new Words();
 
                         newWe.VerseId = (int)rdr[1];
-
                         newWe.WordText = (string)rdr[2];
                         newWe.WordRe = (string)rdr[3];
                         newWe.SureId = (int)rdr[4];

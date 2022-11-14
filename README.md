@@ -56,11 +56,13 @@
     * [ ] ⚠️ Hatırlatıcılardaki sıralama sorunu var oder by date düzgün çalışmıyor 
     * [ ] ⚠️ Kütüphane ve konu oluşturda popup boyutları ve uyarı mesajlarında görsel hata
     * [ ] ⚠️ infor ayetler arasındaki konular yazı header değiştir. // NE YAZICAĞIMI HATIRLAMIYORUM   /// :: Ayetler arasındaki konular
-    * [ ] ⚠️ işaretle de birden fazla işaretleme kala biliyor .
-    * [ ] ⚠️ Okuduklarım da okunan tüm veriler gösterilmiyor.
-    * [ ] ⚠️ işaret değiştiğinde okunmuşdan okunamış olarak geçiyor düzeltmem lazım.
+    * [x] ⚠️ işaretle de birden fazla işaretleme kala biliyor .
+    * [x] ⚠️ Okuduklarım da okunan tüm veriler gösterilmiyor.
+    * [x] ⚠️ işaret değiştiğinde okunmuşdan okunamış olarak geçiyor düzeltmem lazım.
     * [ ] ⚠️ Not getirme kısımda 24 ıtemscontrol var 26 load yapmışım kontrol edilmesi lazım
     * [ ] ⚠️ Not frame de totalcount ve next previes page yapısı eski kalmış düzeltimeli
+    * [ ] ⚠️ Not başlığı sınır koymalımıyız ? 
+    * [ ] ⚠️ Kaldığın yeri işaretleyip sildiğinde eğer yeşil se gri renk oluyor 
     * [ ] ⚠️ 
 
 
@@ -70,16 +72,17 @@
 * ### Public
 	
 	* [ ] 🆕 Kelime kökleri düzeltilecek "Acil değil" "Farklı bir kaynaktan alıcaz"
-	* [ ] 🆕 Görünümde liste yapmaya çalış.  "Acil değil" 
+	* [-] 🆕 ~~ Görünümde liste yapmaya çalış.  "Acil değil" ~~
 	* [ ] 🆕 secili ayet kırmız kalsın.
 	* [ ] 🆕 Try catch bloklarında catch kısımlarına girerse new window oluşturup anasayfaya yönlendir kullanııcya uyarı ver.
 	* [ ] 🆕 Admin Ayarlarını acıp kapanıp acıla bilen buttonlar oluştur.
 	* [x] 🆕 Anlam bütünlükleri Fatihadan bağlayınca Nisadada gözüksün
-	* [ ] 🆕 Ayet okurken işaretlemeden cıkınca uyarı ver
+	* [x] 🆕 Ayet okurken işaretlemeden cıkınca uyarı ver
 	* [ ] 🆕 Popupları haraket ettirmek ?
-	* [ ] 🆕 Editor Secimini Gizle
-	* [ ] 🆕 anlam bütünlüğü okurkan düzeltme olsun yazılı şeyler düzeltilemiyor.
-	* [ ] 🆕 
+	* [x] 🆕 Editor Secimini Gizle
+	* [x] 🆕 anlam bütünlüğü okurkan düzeltme olsun yazılı şeyler düzeltilemiyor. ve silme olsun
+	* [x] 🆕 editor girişi için anlambütünlüğü başşığını baypass et   öRNEK :  Fatiha 1 Ayetini Nisa 7 Ayetine Bağlantısı
+	* [ ] 🆕
 
 
 ## KOD DÜZENLEMERİ:

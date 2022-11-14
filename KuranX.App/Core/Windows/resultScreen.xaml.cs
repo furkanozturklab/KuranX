@@ -387,7 +387,7 @@ namespace KuranX.App.Core.Windows
                 XpsDocumentWriter writer = XpsDocument.CreateXpsDocumentWriter(doc);
                 SerializerWriterCollator output_Document = writer.CreateVisualsCollator();
                 output_Document.BeginBatchWrite();
-                output_Document.Write(new ResultPrinter(1));
+                output_Document.Write(App.navResultPrinter.PageCall(selectedResultId));
                 output_Document.EndBatchWrite();
 
                 FixedDocumentSequence preview = doc.GetFixedDocumentSequence();

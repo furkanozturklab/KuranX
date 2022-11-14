@@ -3,7 +3,16 @@
                     xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <Style x:Key="subjectTabSearchBorder" TargetType="Border">
+    <!-- frame row 1 -->
+
+    <Style x:Key="sb_header" TargetType="TextBlock">
+
+        <Setter Property="Foreground" Value="#1C1E2F" />
+        <Setter Property="FontSize" Value="36" />
+        <Setter Property="FontFamily" Value="{DynamicResource PoppinsSemiBold}" />
+    </Style>
+
+    <Style x:Key="sb_TabSearchBorder" TargetType="Border">
 
         <Setter Property="Width" Value="350" />
         <Setter Property="Height" Value="35" />
@@ -13,7 +22,7 @@
         <Setter Property="Margin" Value="0,0,10,0" />
     </Style>
 
-    <Style x:Key="subjectTabSearchText" TargetType="TextBox">
+    <Style x:Key="sb_TabSearchText" TargetType="TextBox">
 
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Height" Value="26" />
@@ -21,7 +30,7 @@
         <Setter Property="FontSize" Value="12" />
         <Setter Property="Width" Value="310" />
         <Setter Property="BorderThickness" Value="0,0,0,0" />
-        <Setter Property="Margin" Value="5,0,5,0" />
+        <Setter Property="Margin" Value="5" />
         <Setter Property="HorizontalContentAlignment" Value="Left" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
 
@@ -46,7 +55,7 @@
         </Style.Triggers>
     </Style>
 
-    <Style x:Key="subjectTabSearchButton" TargetType="Button">
+    <Style x:Key="sb_TabSearchButton" TargetType="Button">
 
         <Setter Property="Width" Value="20" />
         <Setter Property="Height" Value="20" />
@@ -72,7 +81,7 @@
         </Style.Triggers>
     </Style>
 
-    <Style x:Key="subjectActionMainTabButton" TargetType="Button">
+    <Style x:Key="sb_TabButton" TargetType="Button">
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="BorderThickness" Value="0,0,0,0" />
@@ -84,7 +93,7 @@
         <Setter Property="UseLayoutRounding" Value="True" />
     </Style>
 
-    <Style x:Key="subjectActionMainTabButtonAdd" TargetType="Button" BasedOn="{StaticResource subjectActionMainTabButton}">
+    <Style x:Key="sb_TabButtonAdd" TargetType="Button" BasedOn="{StaticResource sb_TabButton}">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate>
@@ -113,7 +122,52 @@
         </Setter>
     </Style>
 
-    <Style x:Key="subjectFolderOpenIcon" TargetType="Button">
+    <Style x:Key="sb_searchErrorMsg" TargetType="TextBlock">
+
+        <Setter Property="Grid.Row" Value="2" />
+        <Setter Property="Text" Value="Yeterince Uzun Değil Minimum 3 Karakter Olmalı" />
+        <Setter Property="Margin" Value="5 0 0 0" />
+        <Setter Property="FontSize" Value="10" />
+        <Setter Property="Foreground" Value="#DC3545" />
+        <Setter Property="FontFamily" Value="{DynamicResource PoppinsMedium}" />
+        <Setter Property="Visibility" Value="Hidden" />
+        <Style.Triggers>
+            <Trigger Property="Visibility" Value="Visible">
+                <Trigger.EnterActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                             From="0.0" To="1.0" Duration="0:0:0.5" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.EnterActions>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- frame row 1 end -->
+
+    <!-- frame row 2-->
+
+    <Style x:Key="sb_folderHeader" TargetType="TextBlock">
+
+        <Setter Property="Width" Value="230" />
+        <Setter Property="TextWrapping" Value="NoWrap" />
+        <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+        <Setter Property="Foreground" Value="#1C1E2F" />
+        <Setter Property="FontFamily" Value="{DynamicResource PoppinsMedium}" />
+        <Setter Property="FontSize" Value="14" />
+    </Style>
+
+    <Style x:Key="sb_folderDate" TargetType="TextBlock">
+
+        <Setter Property="Width" Value="230" />
+        <Setter Property="Foreground" Value="#7B7B7B" />
+        <Setter Property="FontFamily" Value="{DynamicResource PoppinsMedium}" />
+        <Setter Property="FontSize" Value="10" />
+    </Style>
+
+    <Style x:Key="sb_folderOpenIcon" TargetType="Button">
 
         <Setter Property="Width" Value="24" />
         <Setter Property="Height" Value="24" />
@@ -137,7 +191,80 @@
         </Setter>
     </Style>
 
-    <Style x:Key="subjectItemOpenIcon" TargetType="Button">
+    <!-- frame row 2 end -->
+
+    <!-- folder row 0 -->
+
+    <Style x:Key="sb_folderHeaderExtends" TargetType="TextBlock">
+
+        <Setter Property="Width" Value="300" />
+        <Setter Property="TextWrapping" Value="NoWrap" />
+        <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+        <Setter Property="Foreground" Value="#1C1E2F" />
+        <Setter Property="FontFamily" Value="{DynamicResource PoppinsMedium}" />
+        <Setter Property="FontSize" Value="13" />
+    </Style>
+
+    <Style x:Key="sb_folderDateExtends" TargetType="TextBlock">
+
+        <Setter Property="Width" Value="300" />
+        <Setter Property="Foreground" Value="#7B7B7B" />
+        <Setter Property="FontFamily" Value="{DynamicResource PoppinsMedium}" />
+        <Setter Property="FontSize" Value="11" />
+    </Style>
+
+    <Style x:Key="sb_ActionButton" TargetType="Button">
+        <Setter Property="Width" Value="34" />
+        <Setter Property="Height" Value="34" />
+        <Setter Property="BorderThickness" Value="0,0,0,0" />
+        <Setter Property="BorderBrush" Value="{x:Null}" />
+        <Setter Property="Background" Value="{x:Null}" />
+    </Style>
+
+    <Style x:Key="sb_FolderButtonReset" TargetType="Button" BasedOn="{StaticResource sb_ActionButton}">
+
+        <Setter Property="Foreground" Value="#1C1E2F" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <TextBlock Width="24" Height="24"  VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center">
+                    <Icon:PackIconIonicons Margin="0 4 0 0" Kind="{Binding Path=Tag, RelativeSource={RelativeSource TemplatedParent}}" Foreground="{TemplateBinding Foreground}" Width="16" Height="16" />
+                    </TextBlock>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Foreground" Value="#C9283E" />
+                <Setter Property="Cursor" Value="Hand" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- folder row 0 -->
+
+    <!-- folder row 1 -->
+
+    <Style x:Key="sb_ItemName" TargetType="TextBlock">
+
+        <Setter Property="Width" Value="180" />
+        <Setter Property="TextWrapping" Value="NoWrap" />
+        <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+        <Setter Property="Foreground" Value="#1C1E2F" />
+        <Setter Property="FontFamily" Value="{DynamicResource PoppinsMedium}" />
+        <Setter Property="FontSize" Value="13" />
+    </Style>
+
+    <Style x:Key="sb_ItemDate" TargetType="TextBlock">
+
+        <Setter Property="Width" Value="180" />
+        <Setter Property="Foreground" Value="#7B7B7B" />
+        <Setter Property="FontFamily" Value="{DynamicResource PoppinsMedium}" />
+        <Setter Property="FontSize" Value="11" />
+    </Style>
+
+    <Style x:Key="sb_ItemOpenIcon" TargetType="Button">
 
         <Setter Property="Width" Value="24" />
         <Setter Property="Height" Value="24" />
@@ -161,53 +288,5 @@
         </Setter>
     </Style>
 
-    <Style x:Key="subjectItemOpenGoIcon" TargetType="Button">
-
-        <Setter Property="Width" Value="24" />
-        <Setter Property="Height" Value="24" />
-        <Setter Property="Background" Value="{x:Null}" />
-        <Setter Property="BorderThickness" Value="0" />
-
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate>
-                    <TextBlock Width="24" Height="24">
-                        <Icon:PackIconBootstrapIcons x:Name="txt_trg" Kind="ArrowRight" Width="24" Height="24" />
-                    </TextBlock>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="txt_trg" Property="Foreground" Value="#F0433A" />
-                            <Setter Property="Cursor" Value="Hand" />
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <Style x:Key="subjectFolderHeader" TargetType="TextBlock">
-
-        <Setter Property="Width" Value="180" />
-        <Setter Property="TextWrapping" Value="NoWrap" />
-        <Setter Property="TextTrimming" Value="CharacterEllipsis" />
-        <Setter Property="Foreground" Value="#1C1E2F" />
-        <Setter Property="FontFamily" Value="{DynamicResource PoppinsMedium}" />
-        <Setter Property="FontSize" Value="14" />
-    </Style>
-
-    <Style x:Key="subjectFolderDate" TargetType="TextBlock">
-
-        <Setter Property="Width" Value="180" />
-        <Setter Property="Foreground" Value="#7B7B7B" />
-        <Setter Property="FontFamily" Value="{DynamicResource PoppinsRegular}" />
-        <Setter Property="FontSize" Value="10" />
-    </Style>
-
-    <Style x:Key="subjectFolderLoc" TargetType="TextBlock">
-
-        <Setter Property="Width" Value="180" />
-        <Setter Property="Foreground" Value="#F0433A" />
-        <Setter Property="FontFamily" Value="{DynamicResource PoppinsMedium}" />
-        <Setter Property="FontSize" Value="10" />
-    </Style>
+    <!-- folder row 1 -->
 </ResourceDictionary>

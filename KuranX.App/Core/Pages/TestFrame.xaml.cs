@@ -34,5 +34,15 @@ namespace KuranX.App.Core.Pages
 
             // popuptemp.IsOpen = false;
         }
+
+        private void button_Click(object sender, RoutedEventArgs e)
+        {
+            //  frame.Content = navMany;
+        }
+
+        private void button1_Click(object sender, RoutedEventArgs e)
+        {
+            // frame.Content = navMany.reverseLoad(val1.Text, val2.Text);
+        }
     }
 }

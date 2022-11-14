@@ -1,8 +1,8 @@
 ﻿using KuranX.App.Core.Classes;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
-using System.Runtime.ConstrainedExecution;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -27,16 +27,16 @@ namespace KuranX.App.Core.Pages.NoteF
             InitializeComponent();
         }
 
-        public NotePrinter(int currentId) : this()
+        public Page notePrinterCall(int id)
         {
             using (var entitydb = new AyetContext())
             {
-                var dNotes = entitydb.Notes.Where(p => p.NotesId == currentId).FirstOrDefault();
+                var dNotes = entitydb.Notes.Where(p => p.NotesId == id).FirstOrDefault();
 
                 header.Text = dNotes.NoteHeader;
-                create.Text = dNotes.Created.ToString();
+                create.Text = dNotes.Created.ToString("D");
                 location.Text = dNotes.NoteLocation;
-                noteDetail.Text = dNotes.NoteDetail;
+                loadNoteDetail.Text = dNotes.NoteDetail;
 
                 if (dNotes.SureId != 0)
                 {
@@ -59,6 +59,8 @@ namespace KuranX.App.Core.Pages.NoteF
                     infoText.Text = "Not Aldığınız Konu" + Environment.NewLine + dx.SubjectName;
                 }
             }
+
+            return this;
         }
     }
 }

@@ -3,13 +3,18 @@
                     xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <Style x:Key="resultHeader" TargetType="Button">
+    <Style TargetType="Image" x:Key="rs_menuIcon">
+        <Setter Property="Width" Value="26" />
+        <Setter Property="Height" Value="26" />
+        <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality" />
+    </Style>
+    <Style x:Key="rs_Header" TargetType="Button">
 
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate>
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
-                        <Image x:Name="menuIconItemCtrlTmp" Source="{Binding Path=Tag , RelativeSource={RelativeSource TemplatedParent}}" Style="{StaticResource ResourceKey=hmwnd_menuIcon}" />
+                        <Image x:Name="menuIconItemCtrlTmp" Source="{Binding Path=Tag , RelativeSource={RelativeSource TemplatedParent}}" Style="{DynamicResource rs_menuIcon}" />
                         <TextBlock Text="Sonuc" Margin="10 0 0 0" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#1C1E2F" FontSize="22" FontFamily="{DynamicResource PoppinsSemiBold}" />
                     </StackPanel>
                 </ControlTemplate>
@@ -17,89 +22,7 @@
         </Setter>
     </Style>
 
-    <Style TargetType="TextBlock" x:Key="resultFrameComboboxHeaderText">
-
-        <Setter Property="VerticalAlignment" Value="Center" />
-        <Setter Property="HorizontalAlignment" Value="Center" />
-        <Setter Property="Margin" Value="0 3 10 0" />
-        <Setter Property="FontFamily" Value="{DynamicResource PoppinsMedium}" />
-    </Style>
-
-    <Style TargetType="Button" x:Key="resultMainItems">
-
-        <Setter Property="VerticalAlignment" Value="Center" />
-        <Setter Property="HorizontalAlignment" Value="Center" />
-    </Style>
-
-    <Style x:Key="resultItemsIcon" TargetType="{x:Type Image}">
-
-        <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality" />
-        <Setter Property="Width" Value="20" />
-        <Setter Property="Margin" Value="10 0 10 0" />
-        <Setter Property="Height" Value="20" />
-    </Style>
-
-    <Style x:Key="resultItemsIconAyet" TargetType="{x:Type Image}" BasedOn="{StaticResource resultItemsIcon}">
-
-        <Style.Triggers>
-            <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Opacity" Value="0.60" />
-                <Setter Property="Source" Value="/resource/images/icon/verse_r.png" />
-            </Trigger>
-
-            <Trigger Property="IsEnabled" Value="True">
-                <Setter Property="Opacity" Value="1" />
-                <Setter Property="Source" Value="/resource/images/icon/verse_rbr.png" />
-            </Trigger>
-        </Style.Triggers>
-    </Style>
-
-    <Style x:Key="resultItemsIconSubject" TargetType="{x:Type Image}" BasedOn="{StaticResource resultItemsIcon}">
-
-        <Style.Triggers>
-            <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Opacity" Value="0.60" />
-                <Setter Property="Source" Value="/resource/images/icon/subject_r.png" />
-            </Trigger>
-
-            <Trigger Property="IsEnabled" Value="True">
-                <Setter Property="Opacity" Value="1" />
-                <Setter Property="Source" Value="/resource/images/icon/subject_rbr.png" />
-            </Trigger>
-        </Style.Triggers>
-    </Style>
-
-    <Style x:Key="resultItemsIconLib" TargetType="{x:Type Image}" BasedOn="{StaticResource resultItemsIcon}">
-
-        <Style.Triggers>
-            <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Opacity" Value="0.60" />
-                <Setter Property="Source" Value="/resource/images/icon/library_r.png" />
-            </Trigger>
-
-            <Trigger Property="IsEnabled" Value="True">
-                <Setter Property="Opacity" Value="1" />
-                <Setter Property="Source" Value="/resource/images/icon/library_rbr.png" />
-            </Trigger>
-        </Style.Triggers>
-    </Style>
-
-    <Style x:Key="resultItemsIconNotes" TargetType="{x:Type Image}" BasedOn="{StaticResource resultItemsIcon}">
-
-        <Style.Triggers>
-            <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Opacity" Value="0.60" />
-                <Setter Property="Source" Value="/resource/images/icon/notes_r.png" />
-            </Trigger>
-
-            <Trigger Property="IsEnabled" Value="True">
-                <Setter Property="Opacity" Value="1" />
-                <Setter Property="Source" Value="/resource/images/icon/notes_rbr.png" />
-            </Trigger>
-        </Style.Triggers>
-    </Style>
-
-    <Style x:Key="resultItemsHeaderName" TargetType="TextBlock">
+    <Style x:Key="rs_ItemsHeaderName" TargetType="TextBlock">
 
         <Setter Property="Foreground" Value="#1C1E2F" />
         <Setter Property="FontSize" Value="24" />
@@ -109,7 +32,7 @@
         <Setter Property="Padding" Value="10 0 10 0" />
     </Style>
 
-    <Style x:Key="resultItemsControlBtn" TargetType="Button">
+    <Style x:Key="rs_ItemsControlBtn" TargetType="Button">
 
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Background" Value="Transparent" />
@@ -140,7 +63,68 @@
         </Style.Triggers>
     </Style>
 
-    <Style x:Key="resultItemsControlButon" TargetType="CheckBox">
+    <Style x:Key="rs_ItemsIcon" TargetType="{x:Type Image}">
+
+        <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality" />
+        <Setter Property="Width" Value="20" />
+        <Setter Property="Margin" Value="10 0 10 0" />
+        <Setter Property="Height" Value="20" />
+    </Style>
+
+    <Style x:Key="rs_ItemsIconSubject" TargetType="{x:Type Image}" BasedOn="{StaticResource rs_ItemsIcon}">
+
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Opacity" Value="0.60" />
+                <Setter Property="Source" Value="/resource/images/icon/subject_r.png" />
+            </Trigger>
+
+            <Trigger Property="IsEnabled" Value="True">
+                <Setter Property="Opacity" Value="1" />
+                <Setter Property="Source" Value="/resource/images/icon/subject_rbr.png" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="rs_ItemsIconLib" TargetType="{x:Type Image}" BasedOn="{StaticResource rs_ItemsIcon}">
+
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Opacity" Value="0.60" />
+                <Setter Property="Source" Value="/resource/images/icon/library_r.png" />
+            </Trigger>
+
+            <Trigger Property="IsEnabled" Value="True">
+                <Setter Property="Opacity" Value="1" />
+                <Setter Property="Source" Value="/resource/images/icon/library_rbr.png" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="rs_ItemsIconNotes" TargetType="{x:Type Image}" BasedOn="{StaticResource rs_ItemsIcon}">
+
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Opacity" Value="0.60" />
+                <Setter Property="Source" Value="/resource/images/icon/notes_r.png" />
+            </Trigger>
+
+            <Trigger Property="IsEnabled" Value="True">
+                <Setter Property="Opacity" Value="1" />
+                <Setter Property="Source" Value="/resource/images/icon/notes_rbr.png" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="rs_FrameComboboxHeaderText" TargetType="TextBlock">
+
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="Margin" Value="0 3 10 0" />
+        <Setter Property="FontFamily" Value="{DynamicResource PoppinsMedium}" />
+    </Style>
+
+    <Style x:Key="rs_ItemsControlButon" TargetType="CheckBox">
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="BorderThickness" Value="0" />
@@ -176,78 +160,66 @@
         </Style.Triggers>
     </Style>
 
-    <Style x:Key="resultItemsStatusButon" TargetType="Button">
-        <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="UseLayoutRounding" Value="True" />
-        <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="BorderBrush" Value="{x:Null}" />
-        <Setter Property="Height" Value="18" />
-        <Setter Property="Width" Value="18" />
-        <Setter Property="Margin" Value="15 3 15 3 " />
-        <Setter Property="Background" Value="{x:Null}" />
-        <Setter Property="VerticalAlignment" Value="Center" />
-        <Setter Property="HorizontalAlignment" Value="Center" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type Button}">
-                    <TextBlock Width="18" Height="18">
-                        <Image x:Name="icoImage" Source="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}}" Width="18" Height="18" RenderOptions.BitmapScalingMode="HighQuality" />
-                    </TextBlock>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsEnabled" Value="True">
-                            <Setter Property="Source" Value="{Binding Path=Tag, RelativeSource={RelativeSource TemplatedParent}}" TargetName="icoImage" />
-                            <Setter Property="Cursor" Value="Hand" />
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-        <Style.Triggers>
-            <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Cursor" Value="Arrow" />
-            </Trigger>
-        </Style.Triggers>
+    <Style x:Key="rs_ItemsDate" TargetType="TextBlock">
+
+        <Setter Property="Width" Value="150" />
+        <Setter Property="Foreground" Value="#7B7B7B" />
+        <Setter Property="FontFamily" Value="{DynamicResource PoppinsRegular}" />
+        <Setter Property="FontSize" Value="10" />
     </Style>
-    <!--
-    <Style x:Key="resultItemsControl" TargetType="Button" BasedOn="{StaticResource resultItemsControlButon}">
+
+    <Style x:Key="rs_ItemHeader" TargetType="TextBlock">
+
+        <Setter Property="TextWrapping" Value="NoWrap" />
+        <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+        <Setter Property="Foreground" Value="#1C1E2F" />
+        <Setter Property="FontFamily" Value="{DynamicResource PoppinsMedium}" />
+        <Setter Property="FontSize" Value="14" />
+    </Style>
+
+    <Style x:Key="rs_ItemOpenIcon" TargetType="Button">
+
+        <Setter Property="Width" Value="24" />
+        <Setter Property="Height" Value="24" />
+        <Setter Property="Background" Value="{x:Null}" />
+        <Setter Property="BorderThickness" Value="0" />
+
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate>
-                    <Border x:Name="border" Background="{TemplateBinding Background}" VerticalAlignment="Center"  BorderThickness="0" CornerRadius="5" Padding="20 5 20 5" Style="{DynamicResource defaultBorderShadowEffect}">
-                        <StackPanel Orientation="Horizontal" UseLayoutRounding="True" SnapsToDevicePixels="True" VerticalAlignment="Center" HorizontalAlignment="Center">
-                            <TextBlock  RenderOptions.BitmapScalingMode="HighQuality" x:Name="text" Text="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}}" FontSize="13" FontFamily="{DynamicResource PoppinsMedium}" Margin="5 0 0 0" Foreground="#1C1E2F" />
-                        </StackPanel>
-                    </Border>
+                    <TextBlock Width="20" Height="20">
+                        <Icon:PackIconCodicons  x:Name="txt_trg" Kind="{Binding Path=Tag, RelativeSource={RelativeSource TemplatedParent}}" Width="20" Height="20" Foreground="#1C1E2F" VerticalAlignment="Center"  HorizontalAlignment="Center" />
+                    </TextBlock>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="#C9283E" TargetName="border" />
-                            <Setter Property="Foreground" Value="#FFFFFF" TargetName="text" />
+                            <Setter TargetName="txt_trg" Property="Foreground" Value="#F0433A" />
                             <Setter Property="Cursor" Value="Hand" />
-                        </Trigger>
-                        <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="border" Property="Background" Value="#FFE4E6EF" />
-                            <Setter Property="Cursor" Value="No" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
-    -->
 
-    <Style x:Key="resWinNoteDetailHeader" TargetType="TextBlock">
+    <Style x:Key="rs_WinNoteDetailHeader" TargetType="TextBlock">
 
         <Setter Property="FontFamily" Value="{DynamicResource PoppinsMedium}" />
         <Setter Property="FontSize" Value="14" />
         <Setter Property="Foreground" Value="#1C1E2F" />
     </Style>
 
-    <Style x:Key="resWinNoteDetailSubHeader" TargetType="TextBlock">
+    <Style x:Key="rs_WinNoteDetailSubHeader" TargetType="TextBlock">
         <Setter Property="FontFamily" Value="{DynamicResource PoppinsMedium}" />
         <Setter Property="FontSize" Value="11" />
         <Setter Property="Foreground" Value="#C9283E" />
     </Style>
 
-    <Style x:Key="resWinNoteDetailNoteDetail" TargetType="TextBlock">
+    <Style  x:Key="rs_DetailTxtBox" TargetType="TextBox">
+        <Setter Property="Background" Value="#fff" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Foreground" Value="#1C1E2F" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontFamily" Value="{DynamicResource PoppinsMedium}" />
+        <Setter Property="Padding" Value="10" />
     </Style>
 </ResourceDictionary>

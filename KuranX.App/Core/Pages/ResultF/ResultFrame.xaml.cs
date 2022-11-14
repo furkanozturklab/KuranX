@@ -1,12 +1,9 @@
 ﻿using KuranX.App.Core.Classes;
-using KuranX.App.Core.Pages.VerseF;
+using MySqlX.XDevAPI.Common;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -25,30 +22,29 @@ namespace KuranX.App.Core.Pages.ResultF
     /// </summary>
     public partial class ResultFrame : Page
     {
-        private List<Result> dResults = new List<Result>();
-        private int lastResult = 0, NowPage = 1;
         private Task loadTask;
-        private bool fastSureCheck = false;
+        private int lastPage = 0, NowPage = 1;
 
         public ResultFrame()
         {
             InitializeComponent();
         }
 
-        private void resultItemClick_Click(object sender, RoutedEventArgs e)
+        public Page navResultPageCall()
         {
-            var btn = sender as Button;
-            App.mainframe.Content = new ResultItem(int.Parse(btn.Uid));
+            loadTask = Task.Run(() => loadItem());
+            return this;
         }
 
-        private void loadResult()
+        // -------------- Load Func  -------------- //
+
+        public void loadItem()
         {
             using (var entitydb = new AyetContext())
             {
-                loadAni();
-                dResults = entitydb.Results.Skip(lastResult).Take(17).ToList();
+                var dResults = entitydb.Results.Skip(lastPage).Take(16).ToList();
                 Decimal totalcount = entitydb.Results.Count();
-                List<Result> dtemp = new List<Result>();
+                List<Classes.Result> dtemp = new List<Classes.Result>();
 
                 this.Dispatcher.Invoke(() =>
                 {
@@ -65,13 +61,8 @@ namespace KuranX.App.Core.Pages.ResultF
                         itemslist.ItemsSource = dtemp;
                         dtemp.Clear();
                         i++;
-                        if (i == 17) break; // 17 den fazla varmı kontrol etmek için koydum
                     }
-                });
 
-                Thread.Sleep(200);
-                this.Dispatcher.Invoke(() =>
-                {
                     totalcountText.Tag = totalcount.ToString();
 
                     if (dResults.Count() != 0)
@@ -96,15 +87,17 @@ namespace KuranX.App.Core.Pages.ResultF
                         previusPageButton.IsEnabled = false;
                     }
                 });
-
-                loadAniComplated();
             }
         }
 
-        private void Page_Loaded(object sender, RoutedEventArgs e)
+        // -------------- Load Func  -------------- //
+
+        // -------------- Click Func  -------------- //
+
+        private void resultItemClick_Click(object sender, RoutedEventArgs e)
         {
-            loadTask = new Task(loadResult);
-            loadTask.Start();
+            var btn = sender as Button;
+            App.mainframe.Content = App.navResultItem.PageCall(int.Parse(btn.Uid));
         }
 
         private void nextpageButton_Click(object sender, RoutedEventArgs e)
@@ -112,9 +105,9 @@ namespace KuranX.App.Core.Pages.ResultF
             try
             {
                 nextpageButton.IsEnabled = false;
-                lastResult += 16;
+                lastPage += 16;
                 NowPage++;
-                loadTask = new Task(loadResult);
+                loadTask = new Task(() => loadItem());
                 loadTask.Start();
             }
             catch (Exception ex)
@@ -127,12 +120,12 @@ namespace KuranX.App.Core.Pages.ResultF
         {
             try
             {
-                if (lastResult >= 16)
+                if (lastPage >= 16)
                 {
                     previusPageButton.IsEnabled = false;
-                    lastResult -= 16;
+                    lastPage -= 16;
                     NowPage--;
-                    loadTask = new Task(loadResult);
+                    loadTask = new Task(() => loadItem());
                     loadTask.Start();
                 }
             }
@@ -142,44 +135,29 @@ namespace KuranX.App.Core.Pages.ResultF
             }
         }
 
-        private void loadAni()
-        {
-            this.Dispatcher.Invoke(() =>
-            {
-                loadinItemsGifContent.Visibility = Visibility.Visible;
-                gridContent.Visibility = Visibility.Hidden;
-                previusPageButton.IsEnabled = false;
-                nextpageButton.IsEnabled = false;
-                fastsureCombobox.IsEnabled = false;
-            });
-        }
+        // -------------- Click Func  -------------- //
 
-        private void loadAniComplated()
-        {
-            this.Dispatcher.Invoke(() =>
-            {
-                loadinGifContent.Visibility = Visibility.Collapsed;
-                loadinItemsGifContent.Visibility = Visibility.Collapsed;
-                gridContent.Visibility = Visibility.Visible;
-                fastsureCombobox.IsEnabled = true;
-            });
-        }
+        // -------------- Change Func  -------------- //
 
         private void fastsureCombobox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             try
             {
+                /*
                 if (fastSureCheck)
                 {
                     var item = fastsureCombobox.SelectedItem as ComboBoxItem;
                     if (item.Uid != "0") App.mainframe.Content = new ResultItem(int.Parse(item.Uid));
                 }
                 else fastSureCheck = true;
+                */
             }
             catch (Exception ex)
             {
                 App.logWriter("SelectEvent", ex);
             }
         }
+
+        // -------------- Change Func  -------------- //
     }
 }

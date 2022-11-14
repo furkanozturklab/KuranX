@@ -2,7 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib"
                     xmlns:cef="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
-                    xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks">
+                    xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
+                    xmlns:extension="clr-namespace:KuranX.App.Core.Classes">
 
     <!-- ROOT STYLE -->
 
@@ -15,76 +16,6 @@
     <SolidColorBrush x:Key="inputBoxBg" Color="#FFEDEDED" />
     <SolidColorBrush x:Key="baseForegroundColor" Color="#FF000000" />
     <SolidColorBrush x:Key="secondForegroundColor" Color="#FF383C41" />
-
-    <!--Control colors.-->
-    <Color x:Key="WindowColor">#FFE8EDF9</Color>
-    <Color x:Key="ContentAreaColorLight">#FFC5CBF9</Color>
-    <Color x:Key="ContentAreaColorDark">#FF7381F9</Color>
-
-    <Color x:Key="DisabledControlLightColor">#FFE8EDF9</Color>
-    <Color x:Key="DisabledControlDarkColor">#FFC5CBF9</Color>
-    <Color x:Key="DisabledForegroundColor">#FF888888</Color>
-
-    <Color x:Key="SelectedBackgroundColor">#FFC5CBF9</Color>
-    <Color x:Key="SelectedUnfocusedColor">#FFDDDDDD</Color>
-
-    <Color x:Key="ControlLightColor">White</Color>
-    <Color x:Key="ControlMediumColor">#FF7381F9</Color>
-    <Color x:Key="ControlDarkColor">#FF211AA9</Color>
-
-    <Color x:Key="ControlMouseOverColor">#FF3843C4</Color>
-    <Color x:Key="ControlPressedColor">#FF211AA9</Color>
-
-    <Color x:Key="GlyphColor">#FF444444</Color>
-    <Color x:Key="GlyphMouseOver">sc#1, 0.004391443, 0.002428215, 0.242281124</Color>
-
-    <!--Border colors-->
-    <Color x:Key="BorderLightColor">#FFCCCCCC</Color>
-    <Color x:Key="BorderMediumColor">#FF888888</Color>
-    <Color x:Key="BorderDarkColor">#FF444444</Color>
-
-    <Color x:Key="PressedBorderLightColor">#FF888888</Color>
-    <Color x:Key="PressedBorderDarkColor">#FF444444</Color>
-
-    <Color x:Key="DisabledBorderLightColor">#FFAAAAAA</Color>
-    <Color x:Key="DisabledBorderDarkColor">#FF888888</Color>
-
-    <Color x:Key="DefaultBorderBrushDarkColor">Black</Color>
-
-    <!--Control-specific resources.-->
-    <Color x:Key="HeaderTopColor">#FFC5CBF9</Color>
-    <Color x:Key="DatagridCurrentCellBorderColor">Black</Color>
-    <Color x:Key="SliderTrackDarkColor">#FFC5CBF9</Color>
-
-    <Color x:Key="NavButtonFrameColor">#FF3843C4</Color>
-
-    <LinearGradientBrush x:Key="MenuPopupBrush"
-                     EndPoint="0.5,1"
-                     StartPoint="0.5,0">
-        <GradientStop Color="{DynamicResource ControlLightColor}"
-                Offset="0" />
-        <GradientStop Color="{DynamicResource ControlMediumColor}"
-                Offset="0.5" />
-        <GradientStop Color="{DynamicResource ControlLightColor}"
-                Offset="1" />
-    </LinearGradientBrush>
-
-    <LinearGradientBrush x:Key="ProgressBarIndicatorAnimatedFill"
-                     StartPoint="0,0"
-                     EndPoint="1,0">
-        <LinearGradientBrush.GradientStops>
-            <GradientStopCollection>
-                <GradientStop Color="#000000FF"
-                    Offset="0" />
-                <GradientStop Color="#600000FF"
-                    Offset="0.4" />
-                <GradientStop Color="#600000FF"
-                    Offset="0.6" />
-                <GradientStop Color="#000000FF"
-                    Offset="1" />
-            </GradientStopCollection>
-        </LinearGradientBrush.GradientStops>
-    </LinearGradientBrush>
 
     <Style TargetType="Grid" x:Key="gridOffset">
         <Setter Property="Margin" Value="0 30" />
@@ -202,6 +133,87 @@
         </Style.Triggers>
     </Style>
 
+    <Style x:Key="defaultSearchErrorMsg" TargetType="TextBlock">
+
+        <Setter Property="Grid.Row" Value="2" />
+        <Setter Property="Text" Value="Yeterince Uzun Değil Minimum 3 Karakter Olmalı" />
+        <Setter Property="Margin" Value="5 0 0 0" />
+        <Setter Property="FontSize" Value="10" />
+        <Setter Property="Foreground" Value="#DC3545" />
+        <Setter Property="FontFamily" Value="{DynamicResource PoppinsMedium}" />
+        <Setter Property="Visibility" Value="Hidden" />
+        <Style.Triggers>
+            <Trigger Property="Visibility" Value="Visible">
+                <Trigger.EnterActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                             From="0.0" To="1.0" Duration="0:0:0.5" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.EnterActions>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="defaultdynamicItemStackpanel" TargetType="StackPanel">
+
+        <Setter Property="Orientation" Value="Vertical" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+    </Style>
+
+    <Style x:Key="defaultdynamicItemTextHeader" TargetType="TextBlock">
+
+        <Setter Property="Foreground" Value="#1C1E2F" />
+        <Setter Property="FontFamily" Value="{DynamicResource PoppinsMedium}" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="Margin" Value="0 5 0 5" />
+    </Style>
+
+    <Style x:Key="defaultdynamicItemTextNote" TargetType="TextBlock">
+
+        <Setter Property="Foreground" Value="#383C41" />
+        <Setter Property="FontFamily" Value="{DynamicResource PoppinsRegular}" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="MaxHeight" Value="63" />
+        <Setter Property="Height" Value="Auto" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+        <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+        <Setter Property="Margin" Value="0 10 0 10" />
+    </Style>
+
+    <Style x:Key="defaultdynamicItemShowButton" TargetType="Button">
+
+        <Setter Property="Background" Value="{x:Null}" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Margin" Value="0 5 0 5" />
+        <Setter Property="Foreground" Value="#1C1E2F" />
+        <Setter Property="FontFamily" Value="{DynamicResource PoppinsMedium}" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <TextBlock Text="Tamamını Göster" TextAlignment="Left" FontFamily="{TemplateBinding FontFamily}" FontSize="{TemplateBinding FontSize}" Foreground="{TemplateBinding Foreground}" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Foreground" Value="#F0433A" />
+                <Setter Property="Cursor" Value="Hand" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="defaultdynamicItemShowSperator" TargetType="Separator">
+
+        <Setter Property="Width" Value="435" />
+        <Setter Property="Background" Value="#FFACACAC" />
+        <Setter Property="Margin" Value="0 5 0 5" />
+    </Style>
+
     <Style x:Key="defaultTabSearchButton" TargetType="Button">
 
         <Setter Property="Width" Value="20" />
@@ -255,13 +267,6 @@
                 <Setter Property="Cursor" Value="Hand" />
             </Trigger>
         </Style.Triggers>
-    </Style>
-
-    <Style x:Key="chromium" TargetType="cef:ChromiumWebBrowser">
-        <Setter Property="Grid.Column" Value="0" />
-        <Setter Property="Panel.ZIndex" Value="4" />
-        <Setter Property="Height" Value="572" />
-        <Setter Property="Width" Value="816" />
     </Style>
 
     <Style x:Key="aniEffectFadeStack" TargetType="StackPanel">
@@ -432,6 +437,251 @@
                         <Trigger Property="HasDropShadow"  Value="true">
                             <Setter TargetName="Border" Property="CornerRadius" Value="4" />
                             <Setter TargetName="Border" Property="SnapsToDevicePixels" Value="true" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="{x:Type ScrollBar}" TargetType="{x:Type ScrollBar}">
+        <Setter Property="Stylus.IsFlicksEnabled" Value="True" />
+        <Style.Triggers>
+            <Trigger Property="Orientation" Value="Horizontal">
+                <Setter Property="Height" Value="4" />
+                <Setter Property="MinHeight" Value="4" />
+            </Trigger>
+            <Trigger Property="Orientation" Value="Vertical">
+                <Setter Property="Width" Value="4" />
+                <Setter Property="MinWidth" Value="4" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="defaultActionButon" TargetType="Button">
+
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="UseLayoutRounding" Value="True" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="BorderBrush" Value="{x:Null}" />
+        <Setter Property="Height" Value="40" />
+        <Setter Property="Width" Value="150" />
+
+        <Setter Property="Background" Value="#FFFFFF" />
+        <Setter Property="Foreground"  Value="#1C1E2F" />
+    </Style>
+
+    <Style x:Key="defaultActionButonBstrpRed" TargetType="Button" BasedOn="{StaticResource defaultActionButon}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Border x:Name="border" Background="{TemplateBinding Background}" VerticalAlignment="Center" BorderThickness="0" CornerRadius="5" Padding="20 5 20 5" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal" UseLayoutRounding="True" SnapsToDevicePixels="True" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Icon:PackIconBootstrapIcons x:Name="icon" Kind="{Binding Path=Tag, RelativeSource={RelativeSource TemplatedParent}}" Width="17" Height="17"  Foreground="#1C1E2F" VerticalAlignment="Center" />
+                            <TextBlock  x:Name="text" Text="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}}" FontSize="13" FontFamily="{DynamicResource PoppinsMedium}" Margin="10 0 0 0" Foreground="#1C1E2F" />
+                        </StackPanel>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#C9283E" TargetName="border" />
+                            <Setter Property="Foreground" Value="#FFFFFF" TargetName="icon" />
+                            <Setter Property="Foreground" Value="#FFFFFF" TargetName="text" />
+                            <Setter Property="Cursor" Value="Hand" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="border" Property="Background" Value="#FFE4E6EF" />
+                            <Setter Property="Cursor" Value="No" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="defaultActionButonBstrpGreen" TargetType="Button" BasedOn="{StaticResource defaultActionButon}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Border x:Name="border" Background="{TemplateBinding Background}" VerticalAlignment="Center" BorderThickness="0" CornerRadius="5" Padding="20 5 20 5" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal" UseLayoutRounding="True" SnapsToDevicePixels="True" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Icon:PackIconBootstrapIcons x:Name="icon" Kind="{Binding Path=Tag, RelativeSource={RelativeSource TemplatedParent}}" Width="17" Height="17"  Foreground="#1C1E2F" VerticalAlignment="Center" />
+                            <TextBlock  x:Name="text" Text="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}}" FontSize="12" FontFamily="{DynamicResource PoppinsMedium}" Margin="10 0 0 0" Foreground="#1C1E2F" />
+                        </StackPanel>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#28a745" TargetName="border" />
+                            <Setter Property="Foreground" Value="#FFFFFF" TargetName="icon" />
+                            <Setter Property="Foreground" Value="#FFFFFF" TargetName="text" />
+                            <Setter Property="Cursor" Value="Hand" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="border" Property="Background" Value="#FFE4E6EF" />
+                            <Setter Property="Cursor" Value="No" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="defaultActionButonBstrpTurquoise" TargetType="Button" BasedOn="{StaticResource defaultActionButon}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Border x:Name="border" Background="{TemplateBinding Background}" VerticalAlignment="Center" BorderThickness="0" CornerRadius="5" Padding="20 5 20 5" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal" UseLayoutRounding="True" SnapsToDevicePixels="True" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Icon:PackIconBootstrapIcons x:Name="icon" Kind="{Binding Path=Tag, RelativeSource={RelativeSource TemplatedParent}}" Width="17" Height="17"  Foreground="#1C1E2F" VerticalAlignment="Center" />
+                            <TextBlock  x:Name="text" Text="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}}" FontSize="12" FontFamily="{DynamicResource PoppinsMedium}" Margin="10 0 0 0" Foreground="#1C1E2F" />
+                        </StackPanel>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#17a2b8" TargetName="border" />
+                            <Setter Property="Foreground" Value="#FFFFFF" TargetName="icon" />
+                            <Setter Property="Foreground" Value="#FFFFFF" TargetName="text" />
+                            <Setter Property="Cursor" Value="Hand" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="border" Property="Background" Value="#FFE4E6EF" />
+                            <Setter Property="Cursor" Value="No" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="defaultActionButonBstrpDynamicSave" TargetType="Button" BasedOn="{StaticResource defaultActionButon}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Border x:Name="border" Background="{TemplateBinding Background}" VerticalAlignment="Center" BorderThickness="0" CornerRadius="5" Padding="20 5 20 5" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal" UseLayoutRounding="True" SnapsToDevicePixels="True" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Icon:PackIconBootstrapIcons x:Name="icon" Kind="{Binding Path=Tag, RelativeSource={RelativeSource TemplatedParent}}" Width="17" Height="17"  Foreground="#1C1E2F" VerticalAlignment="Center" />
+                            <TextBlock  x:Name="text" Text="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}}" FontSize="12" FontFamily="{DynamicResource PoppinsMedium}" Margin="10 0 0 0" Foreground="#1C1E2F" />
+                        </StackPanel>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#6610f2" TargetName="border" />
+                            <Setter Property="Foreground" Value="#FFFFFF" TargetName="icon" />
+                            <Setter Property="Foreground" Value="#FFFFFF" TargetName="text" />
+                            <Setter Property="Cursor" Value="Hand" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Background" Value="#6610f2" TargetName="border" />
+                            <Setter Property="Foreground" Value="#FFFFFF" TargetName="icon" />
+                            <Setter Property="Foreground" Value="#FFFFFF" TargetName="text" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="defaultActionButonBstrpDark" TargetType="Button" BasedOn="{StaticResource defaultActionButon}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Border x:Name="border" Background="{TemplateBinding Background}" VerticalAlignment="Center" BorderThickness="0" CornerRadius="5" Padding="20 5 20 5" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal" UseLayoutRounding="True" SnapsToDevicePixels="True" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Icon:PackIconBootstrapIcons x:Name="icon" Kind="{Binding Path=Tag, RelativeSource={RelativeSource TemplatedParent}}" Width="17" Height="17"  Foreground="#1C1E2F" VerticalAlignment="Center" />
+                            <TextBlock  x:Name="text" Text="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}}" FontSize="12" FontFamily="{DynamicResource PoppinsMedium}" Margin="10 0 0 0" Foreground="#1C1E2F" />
+                        </StackPanel>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#343a40" TargetName="border" />
+                            <Setter Property="Foreground" Value="#FFFFFF" TargetName="icon" />
+                            <Setter Property="Foreground" Value="#FFFFFF" TargetName="text" />
+                            <Setter Property="Cursor" Value="Hand" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="border" Property="Background" Value="#FFE4E6EF" />
+                            <Setter Property="Cursor" Value="No" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="defaultActionButonBstrpRedd" TargetType="Button" BasedOn="{StaticResource defaultActionButon}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Border x:Name="border" Background="{TemplateBinding Background}" VerticalAlignment="Center" BorderThickness="0" CornerRadius="5" Padding="20 5 20 5" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal" UseLayoutRounding="True" SnapsToDevicePixels="True" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Icon:PackIconBootstrapIcons x:Name="icon" Kind="{Binding Path=Tag, RelativeSource={RelativeSource TemplatedParent}}" Width="17" Height="17"  Foreground="#1C1E2F" VerticalAlignment="Center" />
+                            <TextBlock  x:Name="text" Text="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}}" FontSize="12" FontFamily="{DynamicResource PoppinsMedium}" Margin="10 0 0 0" Foreground="#1C1E2F" />
+                        </StackPanel>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#dc3545" TargetName="border" />
+                            <Setter Property="Foreground" Value="#FFFFFF" TargetName="icon" />
+                            <Setter Property="Foreground" Value="#FFFFFF" TargetName="text" />
+                            <Setter Property="Cursor" Value="Hand" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="border" Property="Background" Value="#FFE4E6EF" />
+                            <Setter Property="Cursor" Value="No" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="defaultActionButonBstrpPurple" TargetType="Button" BasedOn="{StaticResource defaultActionButon}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Border x:Name="border" Background="{TemplateBinding Background}" VerticalAlignment="Center" BorderThickness="0" CornerRadius="5" Padding="20 5 20 5" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal" UseLayoutRounding="True" SnapsToDevicePixels="True" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Icon:PackIconBootstrapIcons x:Name="icon" Kind="{Binding Path=Tag, RelativeSource={RelativeSource TemplatedParent}}" Width="17" Height="17"  Foreground="#1C1E2F" VerticalAlignment="Center" />
+                            <TextBlock  x:Name="text" Text="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}}" FontSize="12" FontFamily="{DynamicResource PoppinsMedium}" Margin="10 0 0 0" Foreground="#1C1E2F" />
+                        </StackPanel>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#6610f2" TargetName="border" />
+                            <Setter Property="Foreground" Value="#FFFFFF" TargetName="icon" />
+                            <Setter Property="Foreground" Value="#FFFFFF" TargetName="text" />
+                            <Setter Property="Cursor" Value="Hand" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Background" Value="#6610f2" TargetName="border" />
+                            <Setter Property="Foreground" Value="#FFFFFF" TargetName="icon" />
+                            <Setter Property="Foreground" Value="#FFFFFF" TargetName="text" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="defaultActionButonBstrpOrange" TargetType="Button" BasedOn="{StaticResource defaultActionButon}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Border x:Name="border" Background="{TemplateBinding Background}" VerticalAlignment="Center" BorderThickness="0" CornerRadius="5" Padding="20 5 20 5" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal" UseLayoutRounding="True" SnapsToDevicePixels="True" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Icon:PackIconBootstrapIcons x:Name="icon" Kind="{Binding Path=Tag, RelativeSource={RelativeSource TemplatedParent}}" Width="17" Height="17"  Foreground="#1C1E2F" VerticalAlignment="Center" />
+                            <TextBlock  x:Name="text" Text="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}}" FontSize="12" FontFamily="{DynamicResource PoppinsMedium}" Margin="10 0 0 0" Foreground="#1C1E2F" />
+                        </StackPanel>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#fd7e14" TargetName="border" />
+                            <Setter Property="Foreground" Value="#FFFFFF" TargetName="icon" />
+                            <Setter Property="Foreground" Value="#FFFFFF" TargetName="text" />
+                            <Setter Property="Cursor" Value="Hand" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="border" Property="Background" Value="#FFE4E6EF" />
+                            <Setter Property="Cursor" Value="No" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

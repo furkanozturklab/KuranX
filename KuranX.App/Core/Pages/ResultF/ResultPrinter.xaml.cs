@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.ConstrainedExecution;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -18,7 +17,7 @@ using System.Windows.Shapes;
 namespace KuranX.App.Core.Pages.ResultF
 {
     /// <summary>
-    /// Interaction logic for NotePrinter.xaml
+    /// Interaction logic for ResultPrinter.xaml
     /// </summary>
     public partial class ResultPrinter : Page
     {
@@ -27,7 +26,7 @@ namespace KuranX.App.Core.Pages.ResultF
             InitializeComponent();
         }
 
-        public ResultPrinter(int currentId) : this()
+        public Page PageCall(int currentId)
         {
             using (var entitydb = new AyetContext())
             {
@@ -53,6 +52,8 @@ namespace KuranX.App.Core.Pages.ResultF
                     libcount.Text = entitydb.ResultItems.Where(p => p.ResultId == currentId && p.ResultLibId != 0).Count().ToString() + " Adet Kütüphane ";
                 }
             }
+
+            return this;
         }
     }
 }

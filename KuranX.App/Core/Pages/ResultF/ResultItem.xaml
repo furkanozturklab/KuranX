@@ -9,7 +9,7 @@
       xmlns:extension="clr-namespace:KuranX.App.Core.Classes"
       mc:Ignorable="d"
       d:DesignHeight="708" d:DesignWidth="1115" d:MaxHeight="708" d:MaxWidth="1270" d:MinWidth="1115"
-      Title="VerseFrame" Background="#FAFAFA" Loaded="Page_Loaded">
+      Title="VerseFrame" Background="#FAFAFA">
 
     <Grid>
 
@@ -19,129 +19,6 @@
             <RowDefinition Height="90" />
         </Grid.RowDefinitions>
 
-        <Grid x:Name="loadinGifContent"  Grid.Row="0" Grid.RowSpan="3" Background="#FAFAFA" Panel.ZIndex="5" Visibility="Collapsed">
-            <Image gif:ImageBehavior.AnimatedSource="/Resource/Images/Gif/Spinner800.gif" Width="250" Height="250"  RenderOptions.BitmapScalingMode="HighQuality" />
-        </Grid>
-
-        <Popup x:Name="alph" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="460" Height="200" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
-            <Border  Style="{DynamicResource defaultBorderShadowEffect}" Width="440" Height="180">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-
-                    <Grid Grid.Row="1">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="10" />
-                            <ColumnDefinition Width="90" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <Border Grid.Column="0" Background="#F0433A" CornerRadius="5 0 0 5"></Border>
-                        <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
-                            <Icon:PackIconOcticons Kind="Alert" Width="48" Height="48" Foreground="#F0433A" />
-                        </StackPanel>
-                        <Border Grid.Column="2"  Padding="10 0 10 0">
-                            <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center">
-                                <TextBlock x:Name="alertPopupHeader" Text="" TextAlignment="Center" FontSize="22" Margin="0,0,0,12" Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsSemiBold}" />
-                                <TextBlock x:Name="alertPopupDetail" Text="" TextAlignment="Center" TextWrapping="Wrap"  Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsMedium}" />
-                            </StackPanel>
-                        </Border>
-                    </Grid>
-                </Grid>
-            </Border>
-        </Popup>
-
-        <Popup x:Name="inph" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="460" Height="200" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
-
-            <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="440" Height="180">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-
-                    <Grid Grid.Row="1">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="10" />
-                            <ColumnDefinition Width="90" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <Border Grid.Column="0" Background="#0D6EFD" CornerRadius="5 0 0 5"></Border>
-                        <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
-                            <Icon:PackIconUnicons Kind="Info" Width="48" Height="48" Foreground="#0D6EFD" />
-                        </StackPanel>
-                        <Border Grid.Column="2"  Padding="10 0 10 0">
-                            <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center">
-                                <TextBlock x:Name="infoPopupHeader" Text="" TextAlignment="Center" FontSize="22" Margin="0,0,0,12" Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsSemiBold}" />
-                                <TextBlock x:Name="infoPopupDetail" Text="" TextAlignment="Center" TextWrapping="Wrap"  Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsMedium}" />
-                            </StackPanel>
-                        </Border>
-                    </Grid>
-                </Grid>
-            </Border>
-        </Popup>
-
-        <Popup x:Name="scph" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="460" Height="200" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
-            <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="440" Height="180">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-
-                    <Grid Grid.Row="1">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="10" />
-                            <ColumnDefinition Width="90" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <Border Grid.Column="0" Background="#66E21F" CornerRadius="5 0 0 5"></Border>
-                        <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
-                            <Icon:PackIconIonicons Kind="CheckmarkMD" Width="48" Height="48" Foreground="#66E21F" />
-                        </StackPanel>
-                        <Border Grid.Column="2"  Padding="10 0 10 0">
-                            <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center">
-                                <TextBlock x:Name="successPopupHeader" Text="" TextAlignment="Center" FontSize="22" Margin="0,0,0,12" Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsSemiBold}" />
-                                <TextBlock x:Name="successPopupDetail" Text="" TextAlignment="Center" TextWrapping="Wrap"  Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsMedium}" />
-                            </StackPanel>
-                        </Border>
-                    </Grid>
-                </Grid>
-            </Border>
-        </Popup>
-
-        <Popup x:Name="deleteResultpopup" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="300" Height="190" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
-
-            <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="280" Height="170">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="50" />
-                        <RowDefinition Height="120" />
-                    </Grid.RowDefinitions>
-                    <Border  Grid.Row="0" Style="{DynamicResource headerBorderTemp}">
-                        <TextBlock Text="Sonuc Bağlantı Sil" Style="{DynamicResource popupHeaderText}" />
-                    </Border>
-                    <Grid Grid.Row="1">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="50" />
-                        </Grid.RowDefinitions>
-                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Width="280" Grid.Row="0">
-                            <TextBlock Text=" Sonuc bağlantısını silmek istediğinize emin misiniz bu işlem geri alınamaz. " TextWrapping="Wrap" TextAlignment="Center" FontFamily="{DynamicResource PoppinsMedium}" FontSize="14" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                        </StackPanel>
-                        <Grid Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-
-                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="0">
-                                <Button x:Name="deleteSubjectPopupBtn" Style="{DynamicResource popupDefaultButtonRest}" Tag="Trash" Content="Sil" HorizontalAlignment="Center" Click="deleteResultPopupBtn_Click" />
-                                <Button  Style="{DynamicResource popupDefaultButtonClosed}" Tag="CloseBig" Content="Vazgeç" Uid="deleteResultpopup" HorizontalAlignment="Center" Click="popupClosed_Click" />
-                            </StackPanel>
-                        </Grid>
-                    </Grid>
-                </Grid>
-            </Border>
-        </Popup>
-
         <StackPanel Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center" SnapsToDevicePixels="True" UseLayoutRounding="True" x:Name="loadHeaderAni" Style="{DynamicResource aniEffectFadeStack}" Visibility="Visible">
 
             <Border Width="350" Height="80" Style="{DynamicResource defaultBorderShadowEffect}">
@@ -149,22 +26,22 @@
                     <Border Height="80" x:Name="loadBgColor" Width="12" CornerRadius="5 0 0 5" />
                     <Border Width="320" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 5 0 15" Padding="10 0 10 0">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
-                            <TextBlock x:Name="loadHeader" Text="" FontSize="18" Style="{DynamicResource subjectFolderHeader}" />
-                            <TextBlock x:Name="loadType" Text="Sonuç" Style="{DynamicResource subjectFolderDate}" FontSize="12" />
+                            <TextBlock x:Name="loadHeader" Text="" FontSize="18" Style="{DynamicResource sb_folderHeaderExtends}" />
+                            <TextBlock x:Name="loadType" Text="Sonuç" Style="{DynamicResource sb_folderDateExtends}" FontSize="12" />
                         </StackPanel>
                     </Border>
                 </StackPanel>
             </Border>
             <Border Width="250" Style="{DynamicResource defaultBorderShadowEffect}" Height="35" Margin="0 -20">
                 <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal">
-                    <CheckBox x:Name="statusSubject" extension:Extensions.DataStorage="subject" IsChecked="False" IsEnabled="True" Tag="/resource/images/icon/subject_rbr.png" Uid="/resource/images/icon/subject_r.png" Content="/resource/images/icon/subject_rb.png" ToolTip="Sadece Konuları Göster" Style="{DynamicResource resultItemsControlButon}" Click="filter_Click" />
-                    <CheckBox x:Name="statusLib" extension:Extensions.DataStorage="library" IsChecked="False" IsEnabled="True" Tag="/resource/images/icon/library_rbr.png" Uid="/resource/images/icon/library_r.png" Content="/resource/images/icon/library_rb.png" ToolTip="Sadece Kütüphaneleri Göster" Style="{DynamicResource resultItemsControlButon}" Click="filter_Click" />
-                    <CheckBox x:Name="statusNote" extension:Extensions.DataStorage="note" IsChecked="False" IsEnabled="True" Tag="/resource/images/icon/notes_rbr.png" Uid="/resource/images/icon/notes_r.png" Content="/resource/images/icon/notes_rb.png" ToolTip="Sadece Notları Göster" Style="{DynamicResource resultItemsControlButon}" Click="filter_Click" />
+                    <CheckBox x:Name="statusSubject" extension:Extensions.DataStorage="subject" IsChecked="False" IsEnabled="True" Tag="/resource/images/icon/subject_rbr.png" Uid="/resource/images/icon/subject_r.png" Content="/resource/images/icon/subject_rb.png" ToolTip="Sadece Konuları Göster" Style="{DynamicResource rs_ItemsControlButon}" Click="filter_Click" />
+                    <CheckBox x:Name="statusLib" extension:Extensions.DataStorage="library" IsChecked="False" IsEnabled="True" Tag="/resource/images/icon/library_rbr.png" Uid="/resource/images/icon/library_r.png" Content="/resource/images/icon/library_rb.png" ToolTip="Sadece Kütüphaneleri Göster" Style="{DynamicResource rs_ItemsControlButon}" Click="filter_Click" />
+                    <CheckBox x:Name="statusNote" extension:Extensions.DataStorage="note" IsChecked="False" IsEnabled="True" Tag="/resource/images/icon/notes_rbr.png" Uid="/resource/images/icon/notes_r.png" Content="/resource/images/icon/notes_rb.png" ToolTip="Sadece Notları Göster" Style="{DynamicResource rs_ItemsControlButon}" Click="filter_Click" />
                 </StackPanel>
             </Border>
         </StackPanel>
 
-        <StackPanel Grid.Row="1" Grid.ColumnSpan="2" x:Name="listBorder" Visibility="Visible" Style="{DynamicResource aniEffectFadeStack}">
+        <StackPanel Grid.Row="1" Grid.ColumnSpan="2" x:Name="listBorder">
 
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -191,15 +68,15 @@
                                         <Border Width="10" Background="{Binding ItemColor}" CornerRadius="5 0 0 5" />
                                         <Border Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0 0 0 0">
                                             <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                <TextBlock Text="{Binding ItemName}" FontSize="12" Style="{DynamicResource notesFolderHeader}" />
-                                                <TextBlock Text="{Binding ItemDateTime}" Style="{DynamicResource fileFolderDate}" />
+                                                <TextBlock Text="{Binding ItemName}" FontSize="12" Style="{DynamicResource rs_ItemHeader}" />
+                                                <TextBlock Text="{Binding ItemDateTime}" Style="{DynamicResource rs_ItemsDate}" />
                                             </StackPanel>
                                         </Border>
                                         <Border Width="24" Height="24" Margin="0 0 10 0">
-                                            <Button Style="{DynamicResource fileItemOpenIcon}" Uid="{Binding ItemId}" extension:Extensions.DataStorage="{Binding ItemColor}" Content="{Binding ItemName}" Tag="ArrowRight" Click="gotoAction_Click" />
+                                            <Button Style="{DynamicResource rs_ItemOpenIcon}" Uid="{Binding ItemId}" extension:Extensions.DataStorage="{Binding ItemColor}" Content="{Binding ItemName}" Tag="ArrowRight" Click="gotoAction_Click" />
                                         </Border>
                                         <Border Width="24" Height="24" Margin="0 0 7 0">
-                                            <Button Style="{DynamicResource fileItemOpenIcon}" Uid="{Binding BaseId}" Tag="Trash" Click="deleteResult_Click" />
+                                            <Button Style="{DynamicResource rs_ItemOpenIcon}" Uid="{Binding BaseId}" Tag="Trash" Click="deleteResult_Click" />
                                         </Border>
                                     </StackPanel>
                                 </Border>
@@ -217,15 +94,15 @@
                                         <Border Width="10" Background="{Binding ItemColor}" CornerRadius="5 0 0 5" />
                                         <Border Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0 0 0 0">
                                             <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                <TextBlock Text="{Binding ItemName}" FontSize="12" Style="{DynamicResource notesFolderHeader}" />
-                                                <TextBlock Text="{Binding ItemDateTime}" Style="{DynamicResource fileFolderDate}" />
+                                                <TextBlock Text="{Binding ItemName}" FontSize="12" Style="{DynamicResource rs_ItemHeader}" />
+                                                <TextBlock Text="{Binding ItemDateTime}" Style="{DynamicResource rs_ItemsDate}" />
                                             </StackPanel>
                                         </Border>
                                         <Border Width="24" Height="24" Margin="0 0 10 0">
-                                            <Button Style="{DynamicResource fileItemOpenIcon}" Uid="{Binding ItemId}" extension:Extensions.DataStorage="{Binding ItemColor}" Content="{Binding ItemName}" Tag="ArrowRight" Click="gotoAction_Click" />
+                                            <Button Style="{DynamicResource rs_ItemOpenIcon}" Uid="{Binding ItemId}" extension:Extensions.DataStorage="{Binding ItemColor}" Content="{Binding ItemName}" Tag="ArrowRight" Click="gotoAction_Click" />
                                         </Border>
                                         <Border Width="24" Height="24" Margin="0 0 7 0">
-                                            <Button Style="{DynamicResource fileItemOpenIcon}" Uid="{Binding BaseId}" Tag="Trash" Click="deleteResult_Click" />
+                                            <Button Style="{DynamicResource rs_ItemOpenIcon}" Uid="{Binding BaseId}" Tag="Trash" Click="deleteResult_Click" />
                                         </Border>
                                     </StackPanel>
                                 </Border>
@@ -243,15 +120,15 @@
                                         <Border Width="10" Background="{Binding ItemColor}" CornerRadius="5 0 0 5" />
                                         <Border Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0 0 0 0">
                                             <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                <TextBlock Text="{Binding ItemName}" FontSize="12" Style="{DynamicResource notesFolderHeader}" />
-                                                <TextBlock Text="{Binding ItemDateTime}" Style="{DynamicResource fileFolderDate}" />
+                                                <TextBlock Text="{Binding ItemName}" FontSize="12" Style="{DynamicResource rs_ItemHeader}" />
+                                                <TextBlock Text="{Binding ItemDateTime}" Style="{DynamicResource rs_ItemsDate}" />
                                             </StackPanel>
                                         </Border>
                                         <Border Width="24" Height="24" Margin="0 0 10 0">
-                                            <Button Style="{DynamicResource fileItemOpenIcon}" Uid="{Binding ItemId}" extension:Extensions.DataStorage="{Binding ItemColor}" Content="{Binding ItemName}" Tag="ArrowRight" Click="gotoAction_Click" />
+                                            <Button Style="{DynamicResource rs_ItemOpenIcon}" Uid="{Binding ItemId}" extension:Extensions.DataStorage="{Binding ItemColor}" Content="{Binding ItemName}" Tag="ArrowRight" Click="gotoAction_Click" />
                                         </Border>
                                         <Border Width="24" Height="24" Margin="0 0 7 0">
-                                            <Button Style="{DynamicResource fileItemOpenIcon}" Uid="{Binding BaseId}" Tag="Trash" Click="deleteResult_Click" />
+                                            <Button Style="{DynamicResource rs_ItemOpenIcon}" Uid="{Binding BaseId}" Tag="Trash" Click="deleteResult_Click" />
                                         </Border>
                                     </StackPanel>
                                 </Border>
@@ -269,15 +146,15 @@
                                         <Border Width="10" Background="{Binding ItemColor}" CornerRadius="5 0 0 5" />
                                         <Border Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0 0 0 0">
                                             <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                <TextBlock Text="{Binding ItemName}" FontSize="12" Style="{DynamicResource notesFolderHeader}" />
-                                                <TextBlock Text="{Binding ItemDateTime}" Style="{DynamicResource fileFolderDate}" />
+                                                <TextBlock Text="{Binding ItemName}" FontSize="12" Style="{DynamicResource rs_ItemHeader}" />
+                                                <TextBlock Text="{Binding ItemDateTime}" Style="{DynamicResource rs_ItemsDate}" />
                                             </StackPanel>
                                         </Border>
                                         <Border Width="24" Height="24" Margin="0 0 10 0">
-                                            <Button Style="{DynamicResource fileItemOpenIcon}" Uid="{Binding ItemId}" extension:Extensions.DataStorage="{Binding ItemColor}" Content="{Binding ItemName}" Tag="ArrowRight" Click="gotoAction_Click" />
+                                            <Button Style="{DynamicResource rs_ItemOpenIcon}" Uid="{Binding ItemId}" extension:Extensions.DataStorage="{Binding ItemColor}" Content="{Binding ItemName}" Tag="ArrowRight" Click="gotoAction_Click" />
                                         </Border>
                                         <Border Width="24" Height="24" Margin="0 0 7 0">
-                                            <Button Style="{DynamicResource fileItemOpenIcon}" Uid="{Binding BaseId}" Tag="Trash" Click="deleteResult_Click" />
+                                            <Button Style="{DynamicResource rs_ItemOpenIcon}" Uid="{Binding BaseId}" Tag="Trash" Click="deleteResult_Click" />
                                         </Border>
                                     </StackPanel>
                                 </Border>
@@ -295,15 +172,15 @@
                                         <Border Width="10" Background="{Binding ItemColor}" CornerRadius="5 0 0 5" />
                                         <Border Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0 0 0 0">
                                             <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                <TextBlock Text="{Binding ItemName}" FontSize="12" Style="{DynamicResource notesFolderHeader}" />
-                                                <TextBlock Text="{Binding ItemDateTime}" Style="{DynamicResource fileFolderDate}" />
+                                                <TextBlock Text="{Binding ItemName}" FontSize="12" Style="{DynamicResource rs_ItemHeader}" />
+                                                <TextBlock Text="{Binding ItemDateTime}" Style="{DynamicResource rs_ItemsDate}" />
                                             </StackPanel>
                                         </Border>
                                         <Border Width="24" Height="24" Margin="0 0 10 0">
-                                            <Button Style="{DynamicResource fileItemOpenIcon}" Uid="{Binding ItemId}" extension:Extensions.DataStorage="{Binding ItemColor}" Content="{Binding ItemName}" Tag="ArrowRight" Click="gotoAction_Click" />
+                                            <Button Style="{DynamicResource rs_ItemOpenIcon}" Uid="{Binding ItemId}" extension:Extensions.DataStorage="{Binding ItemColor}" Content="{Binding ItemName}" Tag="ArrowRight" Click="gotoAction_Click" />
                                         </Border>
                                         <Border Width="24" Height="24" Margin="0 0 7 0">
-                                            <Button Style="{DynamicResource fileItemOpenIcon}" Uid="{Binding BaseId}" Tag="Trash" Click="deleteResult_Click" />
+                                            <Button Style="{DynamicResource rs_ItemOpenIcon}" Uid="{Binding BaseId}" Tag="Trash" Click="deleteResult_Click" />
                                         </Border>
                                     </StackPanel>
                                 </Border>
@@ -321,15 +198,15 @@
                                         <Border Width="10" Background="{Binding ItemColor}" CornerRadius="5 0 0 5" />
                                         <Border Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0 0 0 0">
                                             <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                <TextBlock Text="{Binding ItemName}" FontSize="12" Style="{DynamicResource notesFolderHeader}" />
-                                                <TextBlock Text="{Binding ItemDateTime}" Style="{DynamicResource fileFolderDate}" />
+                                                <TextBlock Text="{Binding ItemName}" FontSize="12" Style="{DynamicResource rs_ItemHeader}" />
+                                                <TextBlock Text="{Binding ItemDateTime}" Style="{DynamicResource rs_ItemsDate}" />
                                             </StackPanel>
                                         </Border>
                                         <Border Width="24" Height="24" Margin="0 0 10 0">
-                                            <Button Style="{DynamicResource fileItemOpenIcon}" Uid="{Binding ItemId}" extension:Extensions.DataStorage="{Binding ItemColor}" Content="{Binding ItemName}" Tag="ArrowRight" Click="gotoAction_Click" />
+                                            <Button Style="{DynamicResource rs_ItemOpenIcon}" Uid="{Binding ItemId}" extension:Extensions.DataStorage="{Binding ItemColor}" Content="{Binding ItemName}" Tag="ArrowRight" Click="gotoAction_Click" />
                                         </Border>
                                         <Border Width="24" Height="24" Margin="0 0 7 0">
-                                            <Button Style="{DynamicResource fileItemOpenIcon}" Uid="{Binding BaseId}" Tag="Trash" Click="deleteResult_Click" />
+                                            <Button Style="{DynamicResource rs_ItemOpenIcon}" Uid="{Binding BaseId}" Tag="Trash" Click="deleteResult_Click" />
                                         </Border>
                                     </StackPanel>
                                 </Border>
@@ -347,15 +224,15 @@
                                         <Border Width="10" Background="{Binding ItemColor}" CornerRadius="5 0 0 5" />
                                         <Border Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0 0 0 0">
                                             <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                <TextBlock Text="{Binding ItemName}" FontSize="12" Style="{DynamicResource notesFolderHeader}" />
-                                                <TextBlock Text="{Binding ItemDateTime}" Style="{DynamicResource fileFolderDate}" />
+                                                <TextBlock Text="{Binding ItemName}" FontSize="12" Style="{DynamicResource rs_ItemHeader}" />
+                                                <TextBlock Text="{Binding ItemDateTime}" Style="{DynamicResource rs_ItemsDate}" />
                                             </StackPanel>
                                         </Border>
                                         <Border Width="24" Height="24" Margin="0 0 10 0">
-                                            <Button Style="{DynamicResource fileItemOpenIcon}" Uid="{Binding ItemId}" extension:Extensions.DataStorage="{Binding ItemColor}" Content="{Binding ItemName}" Tag="ArrowRight" Click="gotoAction_Click" />
+                                            <Button Style="{DynamicResource rs_ItemOpenIcon}" Uid="{Binding ItemId}" extension:Extensions.DataStorage="{Binding ItemColor}" Content="{Binding ItemName}" Tag="ArrowRight" Click="gotoAction_Click" />
                                         </Border>
                                         <Border Width="24" Height="24" Margin="0 0 7 0">
-                                            <Button Style="{DynamicResource fileItemOpenIcon}" Uid="{Binding BaseId}" Tag="Trash" Click="deleteResult_Click" />
+                                            <Button Style="{DynamicResource rs_ItemOpenIcon}" Uid="{Binding BaseId}" Tag="Trash" Click="deleteResult_Click" />
                                         </Border>
                                     </StackPanel>
                                 </Border>
@@ -373,15 +250,15 @@
                                         <Border Width="10" Background="{Binding ItemColor}" CornerRadius="5 0 0 5" />
                                         <Border Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0 0 0 0">
                                             <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                <TextBlock Text="{Binding ItemName}" FontSize="12" Style="{DynamicResource notesFolderHeader}" />
-                                                <TextBlock Text="{Binding ItemDateTime}" Style="{DynamicResource fileFolderDate}" />
+                                                <TextBlock Text="{Binding ItemName}" FontSize="12" Style="{DynamicResource rs_ItemHeader}" />
+                                                <TextBlock Text="{Binding ItemDateTime}" Style="{DynamicResource rs_ItemsDate}" />
                                             </StackPanel>
                                         </Border>
                                         <Border Width="24" Height="24" Margin="0 0 10 0">
-                                            <Button Style="{DynamicResource fileItemOpenIcon}" Uid="{Binding ItemId}" extension:Extensions.DataStorage="{Binding ItemColor}" Content="{Binding ItemName}" Tag="ArrowRight" Click="gotoAction_Click" />
+                                            <Button Style="{DynamicResource rs_ItemOpenIcon}" Uid="{Binding ItemId}" extension:Extensions.DataStorage="{Binding ItemColor}" Content="{Binding ItemName}" Tag="ArrowRight" Click="gotoAction_Click" />
                                         </Border>
                                         <Border Width="24" Height="24" Margin="0 0 7 0">
-                                            <Button Style="{DynamicResource fileItemOpenIcon}" Uid="{Binding BaseId}" Tag="Trash" Click="deleteResult_Click" />
+                                            <Button Style="{DynamicResource rs_ItemOpenIcon}" Uid="{Binding BaseId}" Tag="Trash" Click="deleteResult_Click" />
                                         </Border>
                                     </StackPanel>
                                 </Border>
@@ -399,15 +276,15 @@
                                         <Border Width="10" Background="{Binding ItemColor}" CornerRadius="5 0 0 5" />
                                         <Border Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0 0 0 0">
                                             <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                <TextBlock Text="{Binding ItemName}" FontSize="12" Style="{DynamicResource notesFolderHeader}" />
-                                                <TextBlock Text="{Binding ItemDateTime}" Style="{DynamicResource fileFolderDate}" />
+                                                <TextBlock Text="{Binding ItemName}" FontSize="12" Style="{DynamicResource rs_ItemHeader}" />
+                                                <TextBlock Text="{Binding ItemDateTime}" Style="{DynamicResource rs_ItemsDate}" />
                                             </StackPanel>
                                         </Border>
                                         <Border Width="24" Height="24" Margin="0 0 10 0">
-                                            <Button Style="{DynamicResource fileItemOpenIcon}" Uid="{Binding ItemId}" extension:Extensions.DataStorage="{Binding ItemColor}" Content="{Binding ItemName}" Tag="ArrowRight" Click="gotoAction_Click" />
+                                            <Button Style="{DynamicResource rs_ItemOpenIcon}" Uid="{Binding ItemId}" extension:Extensions.DataStorage="{Binding ItemColor}" Content="{Binding ItemName}" Tag="ArrowRight" Click="gotoAction_Click" />
                                         </Border>
                                         <Border Width="24" Height="24" Margin="0 0 7 0">
-                                            <Button Style="{DynamicResource fileItemOpenIcon}" Uid="{Binding BaseId}" Tag="Trash" Click="deleteResult_Click" />
+                                            <Button Style="{DynamicResource rs_ItemOpenIcon}" Uid="{Binding BaseId}" Tag="Trash" Click="deleteResult_Click" />
                                         </Border>
                                     </StackPanel>
                                 </Border>
@@ -425,15 +302,15 @@
                                         <Border Width="10" Background="{Binding ItemColor}" CornerRadius="5 0 0 5" />
                                         <Border Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0 0 0 0">
                                             <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                <TextBlock Text="{Binding ItemName}" FontSize="12" Style="{DynamicResource notesFolderHeader}" />
-                                                <TextBlock Text="{Binding ItemDateTime}" Style="{DynamicResource fileFolderDate}" />
+                                                <TextBlock Text="{Binding ItemName}" FontSize="12" Style="{DynamicResource rs_ItemHeader}" />
+                                                <TextBlock Text="{Binding ItemDateTime}" Style="{DynamicResource rs_ItemsDate}" />
                                             </StackPanel>
                                         </Border>
                                         <Border Width="24" Height="24" Margin="0 0 10 0">
-                                            <Button Style="{DynamicResource fileItemOpenIcon}" Uid="{Binding ItemId}" extension:Extensions.DataStorage="{Binding ItemColor}" Content="{Binding ItemName}" Tag="ArrowRight" Click="gotoAction_Click" />
+                                            <Button Style="{DynamicResource rs_ItemOpenIcon}" Uid="{Binding ItemId}" extension:Extensions.DataStorage="{Binding ItemColor}" Content="{Binding ItemName}" Tag="ArrowRight" Click="gotoAction_Click" />
                                         </Border>
                                         <Border Width="24" Height="24" Margin="0 0 7 0">
-                                            <Button Style="{DynamicResource fileItemOpenIcon}" Uid="{Binding BaseId}" Tag="Trash" Click="deleteResult_Click" />
+                                            <Button Style="{DynamicResource rs_ItemOpenIcon}" Uid="{Binding BaseId}" Tag="Trash" Click="deleteResult_Click" />
                                         </Border>
                                     </StackPanel>
                                 </Border>
@@ -451,15 +328,15 @@
                                         <Border Width="10" Background="{Binding ItemColor}" CornerRadius="5 0 0 5" />
                                         <Border Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0 0 0 0">
                                             <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                <TextBlock Text="{Binding ItemName}" FontSize="12" Style="{DynamicResource notesFolderHeader}" />
-                                                <TextBlock Text="{Binding ItemDateTime}" Style="{DynamicResource fileFolderDate}" />
+                                                <TextBlock Text="{Binding ItemName}" FontSize="12" Style="{DynamicResource rs_ItemHeader}" />
+                                                <TextBlock Text="{Binding ItemDateTime}" Style="{DynamicResource rs_ItemsDate}" />
                                             </StackPanel>
                                         </Border>
                                         <Border Width="24" Height="24" Margin="0 0 10 0">
-                                            <Button Style="{DynamicResource fileItemOpenIcon}" Uid="{Binding ItemId}" extension:Extensions.DataStorage="{Binding ItemColor}" Content="{Binding ItemName}" Tag="ArrowRight" Click="gotoAction_Click" />
+                                            <Button Style="{DynamicResource rs_ItemOpenIcon}" Uid="{Binding ItemId}" extension:Extensions.DataStorage="{Binding ItemColor}" Content="{Binding ItemName}" Tag="ArrowRight" Click="gotoAction_Click" />
                                         </Border>
                                         <Border Width="24" Height="24" Margin="0 0 7 0">
-                                            <Button Style="{DynamicResource fileItemOpenIcon}" Uid="{Binding BaseId}" Tag="Trash" Click="deleteResult_Click" />
+                                            <Button Style="{DynamicResource rs_ItemOpenIcon}" Uid="{Binding BaseId}" Tag="Trash" Click="deleteResult_Click" />
                                         </Border>
                                     </StackPanel>
                                 </Border>
@@ -477,15 +354,15 @@
                                         <Border Width="10" Background="{Binding ItemColor}" CornerRadius="5 0 0 5" />
                                         <Border Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0 0 0 0">
                                             <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                <TextBlock Text="{Binding ItemName}" FontSize="12" Style="{DynamicResource notesFolderHeader}" />
-                                                <TextBlock Text="{Binding ItemDateTime}" Style="{DynamicResource fileFolderDate}" />
+                                                <TextBlock Text="{Binding ItemName}" FontSize="12" Style="{DynamicResource rs_ItemHeader}" />
+                                                <TextBlock Text="{Binding ItemDateTime}" Style="{DynamicResource rs_ItemsDate}" />
                                             </StackPanel>
                                         </Border>
                                         <Border Width="24" Height="24" Margin="0 0 10 0">
-                                            <Button Style="{DynamicResource fileItemOpenIcon}" Uid="{Binding ItemId}" extension:Extensions.DataStorage="{Binding ItemColor}" Content="{Binding ItemName}" Tag="ArrowRight" Click="gotoAction_Click" />
+                                            <Button Style="{DynamicResource rs_ItemOpenIcon}" Uid="{Binding ItemId}" extension:Extensions.DataStorage="{Binding ItemColor}" Content="{Binding ItemName}" Tag="ArrowRight" Click="gotoAction_Click" />
                                         </Border>
                                         <Border Width="24" Height="24" Margin="0 0 7 0">
-                                            <Button Style="{DynamicResource fileItemOpenIcon}" Uid="{Binding BaseId}" Tag="Trash" Click="deleteResult_Click" />
+                                            <Button Style="{DynamicResource rs_ItemOpenIcon}" Uid="{Binding BaseId}" Tag="Trash" Click="deleteResult_Click" />
                                         </Border>
                                     </StackPanel>
                                 </Border>
@@ -503,15 +380,15 @@
                                         <Border Width="10" Background="{Binding ItemColor}" CornerRadius="5 0 0 5" />
                                         <Border Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0 0 0 0">
                                             <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                <TextBlock Text="{Binding ItemName}" FontSize="12" Style="{DynamicResource notesFolderHeader}" />
-                                                <TextBlock Text="{Binding ItemDateTime}" Style="{DynamicResource fileFolderDate}" />
+                                                <TextBlock Text="{Binding ItemName}" FontSize="12" Style="{DynamicResource rs_ItemHeader}" />
+                                                <TextBlock Text="{Binding ItemDateTime}" Style="{DynamicResource rs_ItemsDate}" />
                                             </StackPanel>
                                         </Border>
                                         <Border Width="24" Height="24" Margin="0 0 10 0">
-                                            <Button Style="{DynamicResource fileItemOpenIcon}" Uid="{Binding ItemId}" extension:Extensions.DataStorage="{Binding ItemColor}" Content="{Binding ItemName}" Tag="ArrowRight" Click="gotoAction_Click" />
+                                            <Button Style="{DynamicResource rs_ItemOpenIcon}" Uid="{Binding ItemId}" extension:Extensions.DataStorage="{Binding ItemColor}" Content="{Binding ItemName}" Tag="ArrowRight" Click="gotoAction_Click" />
                                         </Border>
                                         <Border Width="24" Height="24" Margin="0 0 7 0">
-                                            <Button Style="{DynamicResource fileItemOpenIcon}" Uid="{Binding BaseId}" Tag="Trash" Click="deleteResult_Click" />
+                                            <Button Style="{DynamicResource rs_ItemOpenIcon}" Uid="{Binding BaseId}" Tag="Trash" Click="deleteResult_Click" />
                                         </Border>
                                     </StackPanel>
                                 </Border>
@@ -529,15 +406,15 @@
                                         <Border Width="10" Background="{Binding ItemColor}" CornerRadius="5 0 0 5" />
                                         <Border Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0 0 0 0">
                                             <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                <TextBlock Text="{Binding ItemName}" FontSize="12" Style="{DynamicResource notesFolderHeader}" />
-                                                <TextBlock Text="{Binding ItemDateTime}" Style="{DynamicResource fileFolderDate}" />
+                                                <TextBlock Text="{Binding ItemName}" FontSize="12" Style="{DynamicResource rs_ItemHeader}" />
+                                                <TextBlock Text="{Binding ItemDateTime}" Style="{DynamicResource rs_ItemsDate}" />
                                             </StackPanel>
                                         </Border>
                                         <Border Width="24" Height="24" Margin="0 0 10 0">
-                                            <Button Style="{DynamicResource fileItemOpenIcon}" Uid="{Binding ItemId}" extension:Extensions.DataStorage="{Binding ItemColor}" Content="{Binding ItemName}" Tag="ArrowRight" Click="gotoAction_Click" />
+                                            <Button Style="{DynamicResource rs_ItemOpenIcon}" Uid="{Binding ItemId}" extension:Extensions.DataStorage="{Binding ItemColor}" Content="{Binding ItemName}" Tag="ArrowRight" Click="gotoAction_Click" />
                                         </Border>
                                         <Border Width="24" Height="24" Margin="0 0 7 0">
-                                            <Button Style="{DynamicResource fileItemOpenIcon}" Uid="{Binding BaseId}" Tag="Trash" Click="deleteResult_Click" />
+                                            <Button Style="{DynamicResource rs_ItemOpenIcon}" Uid="{Binding BaseId}" Tag="Trash" Click="deleteResult_Click" />
                                         </Border>
                                     </StackPanel>
                                 </Border>
@@ -555,15 +432,15 @@
                                         <Border Width="10" Background="{Binding ItemColor}" CornerRadius="5 0 0 5" />
                                         <Border Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0 0 0 0">
                                             <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                <TextBlock Text="{Binding ItemName}" FontSize="12" Style="{DynamicResource notesFolderHeader}" />
-                                                <TextBlock Text="{Binding ItemDateTime}" Style="{DynamicResource fileFolderDate}" />
+                                                <TextBlock Text="{Binding ItemName}" FontSize="12" Style="{DynamicResource rs_ItemHeader}" />
+                                                <TextBlock Text="{Binding ItemDateTime}" Style="{DynamicResource rs_ItemsDate}" />
                                             </StackPanel>
                                         </Border>
                                         <Border Width="24" Height="24" Margin="0 0 10 0">
-                                            <Button Style="{DynamicResource fileItemOpenIcon}" Uid="{Binding ItemId}" extension:Extensions.DataStorage="{Binding ItemColor}" Content="{Binding ItemName}" Tag="ArrowRight" Click="gotoAction_Click" />
+                                            <Button Style="{DynamicResource rs_ItemOpenIcon}" Uid="{Binding ItemId}" extension:Extensions.DataStorage="{Binding ItemColor}" Content="{Binding ItemName}" Tag="ArrowRight" Click="gotoAction_Click" />
                                         </Border>
                                         <Border Width="24" Height="24" Margin="0 0 7 0">
-                                            <Button Style="{DynamicResource fileItemOpenIcon}" Uid="{Binding BaseId}" Tag="Trash" Click="deleteResult_Click" />
+                                            <Button Style="{DynamicResource rs_ItemOpenIcon}" Uid="{Binding BaseId}" Tag="Trash" Click="deleteResult_Click" />
                                         </Border>
                                     </StackPanel>
                                 </Border>
@@ -581,15 +458,15 @@
                                         <Border Width="10" Background="{Binding ItemColor}" CornerRadius="5 0 0 5" />
                                         <Border Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0 0 0 0">
                                             <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                <TextBlock Text="{Binding ItemName}" FontSize="12" Style="{DynamicResource notesFolderHeader}" />
-                                                <TextBlock Text="{Binding ItemDateTime}" Style="{DynamicResource fileFolderDate}" />
+                                                <TextBlock Text="{Binding ItemName}" FontSize="12" Style="{DynamicResource rs_ItemHeader}" />
+                                                <TextBlock Text="{Binding ItemDateTime}" Style="{DynamicResource rs_ItemsDate}" />
                                             </StackPanel>
                                         </Border>
                                         <Border Width="24" Height="24" Margin="0 0 10 0">
-                                            <Button Style="{DynamicResource fileItemOpenIcon}" Uid="{Binding ItemId}" extension:Extensions.DataStorage="{Binding ItemColor}" Content="{Binding ItemName}" Tag="ArrowRight" Click="gotoAction_Click" />
+                                            <Button Style="{DynamicResource rs_ItemOpenIcon}" Uid="{Binding ItemId}" extension:Extensions.DataStorage="{Binding ItemColor}" Content="{Binding ItemName}" Tag="ArrowRight" Click="gotoAction_Click" />
                                         </Border>
                                         <Border Width="24" Height="24" Margin="0 0 7 0">
-                                            <Button Style="{DynamicResource fileItemOpenIcon}" Uid="{Binding BaseId}" Tag="Trash" Click="deleteResult_Click" />
+                                            <Button Style="{DynamicResource rs_ItemOpenIcon}" Uid="{Binding BaseId}" Tag="Trash" Click="deleteResult_Click" />
                                         </Border>
                                     </StackPanel>
                                 </Border>
@@ -607,15 +484,15 @@
                                         <Border Width="10" Background="{Binding ItemColor}" CornerRadius="5 0 0 5" />
                                         <Border Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0 0 0 0">
                                             <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                <TextBlock Text="{Binding ItemName}" FontSize="12" Style="{DynamicResource notesFolderHeader}" />
-                                                <TextBlock Text="{Binding ItemDateTime}" Style="{DynamicResource fileFolderDate}" />
+                                                <TextBlock Text="{Binding ItemName}" FontSize="12" Style="{DynamicResource rs_ItemHeader}" />
+                                                <TextBlock Text="{Binding ItemDateTime}" Style="{DynamicResource rs_ItemsDate}" />
                                             </StackPanel>
                                         </Border>
                                         <Border Width="24" Height="24" Margin="0 0 10 0">
-                                            <Button Style="{DynamicResource fileItemOpenIcon}" Uid="{Binding ItemId}" extension:Extensions.DataStorage="{Binding ItemColor}" Content="{Binding ItemName}" Tag="ArrowRight" Click="gotoAction_Click" />
+                                            <Button Style="{DynamicResource rs_ItemOpenIcon}" Uid="{Binding ItemId}" extension:Extensions.DataStorage="{Binding ItemColor}" Content="{Binding ItemName}" Tag="ArrowRight" Click="gotoAction_Click" />
                                         </Border>
                                         <Border Width="24" Height="24" Margin="0 0 7 0">
-                                            <Button Style="{DynamicResource fileItemOpenIcon}" Uid="{Binding BaseId}" Tag="Trash" Click="deleteResult_Click" />
+                                            <Button Style="{DynamicResource rs_ItemOpenIcon}" Uid="{Binding BaseId}" Tag="Trash" Click="deleteResult_Click" />
                                         </Border>
                                     </StackPanel>
                                 </Border>
@@ -633,15 +510,15 @@
                                         <Border Width="10" Background="{Binding ItemColor}" CornerRadius="5 0 0 5" />
                                         <Border Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0 0 0 0">
                                             <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                <TextBlock Text="{Binding ItemName}" FontSize="12" Style="{DynamicResource notesFolderHeader}" />
-                                                <TextBlock Text="{Binding ItemDateTime}" Style="{DynamicResource fileFolderDate}" />
+                                                <TextBlock Text="{Binding ItemName}" FontSize="12" Style="{DynamicResource rs_ItemHeader}" />
+                                                <TextBlock Text="{Binding ItemDateTime}" Style="{DynamicResource rs_ItemsDate}" />
                                             </StackPanel>
                                         </Border>
                                         <Border Width="24" Height="24" Margin="0 0 10 0">
-                                            <Button Style="{DynamicResource fileItemOpenIcon}" Uid="{Binding ItemId}" extension:Extensions.DataStorage="{Binding ItemColor}" Content="{Binding ItemName}" Tag="ArrowRight" Click="gotoAction_Click" />
+                                            <Button Style="{DynamicResource rs_ItemOpenIcon}" Uid="{Binding ItemId}" extension:Extensions.DataStorage="{Binding ItemColor}" Content="{Binding ItemName}" Tag="ArrowRight" Click="gotoAction_Click" />
                                         </Border>
                                         <Border Width="24" Height="24" Margin="0 0 7 0">
-                                            <Button Style="{DynamicResource fileItemOpenIcon}" Uid="{Binding BaseId}" Tag="Trash" Click="deleteResult_Click" />
+                                            <Button Style="{DynamicResource rs_ItemOpenIcon}" Uid="{Binding BaseId}" Tag="Trash" Click="deleteResult_Click" />
                                         </Border>
                                     </StackPanel>
                                 </Border>
@@ -659,15 +536,15 @@
                                         <Border Width="10" Background="{Binding ItemColor}" CornerRadius="5 0 0 5" />
                                         <Border Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0 0 0 0">
                                             <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                <TextBlock Text="{Binding ItemName}" FontSize="12" Style="{DynamicResource notesFolderHeader}" />
-                                                <TextBlock Text="{Binding ItemDateTime}" Style="{DynamicResource fileFolderDate}" />
+                                                <TextBlock Text="{Binding ItemName}" FontSize="12" Style="{DynamicResource rs_ItemHeader}" />
+                                                <TextBlock Text="{Binding ItemDateTime}" Style="{DynamicResource rs_ItemsDate}" />
                                             </StackPanel>
                                         </Border>
                                         <Border Width="24" Height="24" Margin="0 0 10 0">
-                                            <Button Style="{DynamicResource fileItemOpenIcon}" Uid="{Binding ItemId}" extension:Extensions.DataStorage="{Binding ItemColor}" Content="{Binding ItemName}" Tag="ArrowRight" Click="gotoAction_Click" />
+                                            <Button Style="{DynamicResource rs_ItemOpenIcon}" Uid="{Binding ItemId}" extension:Extensions.DataStorage="{Binding ItemColor}" Content="{Binding ItemName}" Tag="ArrowRight" Click="gotoAction_Click" />
                                         </Border>
                                         <Border Width="24" Height="24" Margin="0 0 7 0">
-                                            <Button Style="{DynamicResource fileItemOpenIcon}" Uid="{Binding BaseId}" Tag="Trash" Click="deleteResult_Click" />
+                                            <Button Style="{DynamicResource rs_ItemOpenIcon}" Uid="{Binding BaseId}" Tag="Trash" Click="deleteResult_Click" />
                                         </Border>
                                     </StackPanel>
                                 </Border>
@@ -685,15 +562,15 @@
                                         <Border Width="10" Background="{Binding ItemColor}" CornerRadius="5 0 0 5" />
                                         <Border Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0 0 0 0">
                                             <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                <TextBlock Text="{Binding ItemName}" FontSize="12" Style="{DynamicResource notesFolderHeader}" />
-                                                <TextBlock Text="{Binding ItemDateTime}" Style="{DynamicResource fileFolderDate}" />
+                                                <TextBlock Text="{Binding ItemName}" FontSize="12" Style="{DynamicResource rs_ItemHeader}" />
+                                                <TextBlock Text="{Binding ItemDateTime}" Style="{DynamicResource rs_ItemsDate}" />
                                             </StackPanel>
                                         </Border>
                                         <Border Width="24" Height="24" Margin="0 0 10 0">
-                                            <Button Style="{DynamicResource fileItemOpenIcon}" Uid="{Binding ItemId}" extension:Extensions.DataStorage="{Binding ItemColor}" Content="{Binding ItemName}" Tag="ArrowRight" Click="gotoAction_Click" />
+                                            <Button Style="{DynamicResource rs_ItemOpenIcon}" Uid="{Binding ItemId}" extension:Extensions.DataStorage="{Binding ItemColor}" Content="{Binding ItemName}" Tag="ArrowRight" Click="gotoAction_Click" />
                                         </Border>
                                         <Border Width="24" Height="24" Margin="0 0 7 0">
-                                            <Button Style="{DynamicResource fileItemOpenIcon}" Uid="{Binding BaseId}" Tag="Trash" Click="deleteResult_Click" />
+                                            <Button Style="{DynamicResource rs_ItemOpenIcon}" Uid="{Binding BaseId}" Tag="Trash" Click="deleteResult_Click" />
                                         </Border>
                                     </StackPanel>
                                 </Border>
@@ -711,15 +588,15 @@
                                         <Border Width="10" Background="{Binding ItemColor}" CornerRadius="5 0 0 5" />
                                         <Border Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0 0 0 0">
                                             <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                <TextBlock Text="{Binding ItemName}" FontSize="12" Style="{DynamicResource notesFolderHeader}" />
-                                                <TextBlock Text="{Binding ItemDateTime}" Style="{DynamicResource fileFolderDate}" />
+                                                <TextBlock Text="{Binding ItemName}" FontSize="12" Style="{DynamicResource rs_ItemHeader}" />
+                                                <TextBlock Text="{Binding ItemDateTime}" Style="{DynamicResource rs_ItemsDate}" />
                                             </StackPanel>
                                         </Border>
                                         <Border Width="24" Height="24" Margin="0 0 10 0">
-                                            <Button Style="{DynamicResource fileItemOpenIcon}" Uid="{Binding ItemId}" extension:Extensions.DataStorage="{Binding ItemColor}" Content="{Binding ItemName}" Tag="ArrowRight" Click="gotoAction_Click" />
+                                            <Button Style="{DynamicResource rs_ItemOpenIcon}" Uid="{Binding ItemId}" extension:Extensions.DataStorage="{Binding ItemColor}" Content="{Binding ItemName}" Tag="ArrowRight" Click="gotoAction_Click" />
                                         </Border>
                                         <Border Width="24" Height="24" Margin="0 0 7 0">
-                                            <Button Style="{DynamicResource fileItemOpenIcon}" Uid="{Binding BaseId}" Tag="Trash" Click="deleteResult_Click" />
+                                            <Button Style="{DynamicResource rs_ItemOpenIcon}" Uid="{Binding BaseId}" Tag="Trash" Click="deleteResult_Click" />
                                         </Border>
                                     </StackPanel>
                                 </Border>
@@ -737,15 +614,15 @@
                                         <Border Width="10" Background="{Binding ItemColor}" CornerRadius="5 0 0 5" />
                                         <Border Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0 0 0 0">
                                             <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                <TextBlock Text="{Binding ItemName}" FontSize="12" Style="{DynamicResource notesFolderHeader}" />
-                                                <TextBlock Text="{Binding ItemDateTime}" Style="{DynamicResource fileFolderDate}" />
+                                                <TextBlock Text="{Binding ItemName}" FontSize="12" Style="{DynamicResource rs_ItemHeader}" />
+                                                <TextBlock Text="{Binding ItemDateTime}" Style="{DynamicResource rs_ItemsDate}" />
                                             </StackPanel>
                                         </Border>
                                         <Border Width="24" Height="24" Margin="0 0 10 0">
-                                            <Button Style="{DynamicResource fileItemOpenIcon}" Uid="{Binding ItemId}" extension:Extensions.DataStorage="{Binding ItemColor}" Content="{Binding ItemName}" Tag="ArrowRight" Click="gotoAction_Click" />
+                                            <Button Style="{DynamicResource rs_ItemOpenIcon}" Uid="{Binding ItemId}" extension:Extensions.DataStorage="{Binding ItemColor}" Content="{Binding ItemName}" Tag="ArrowRight" Click="gotoAction_Click" />
                                         </Border>
                                         <Border Width="24" Height="24" Margin="0 0 7 0">
-                                            <Button Style="{DynamicResource fileItemOpenIcon}" Uid="{Binding BaseId}" Tag="Trash" Click="deleteResult_Click" />
+                                            <Button Style="{DynamicResource rs_ItemOpenIcon}" Uid="{Binding BaseId}" Tag="Trash" Click="deleteResult_Click" />
                                         </Border>
                                     </StackPanel>
                                 </Border>
@@ -763,15 +640,15 @@
                                         <Border Width="10" Background="{Binding ItemColor}" CornerRadius="5 0 0 5" />
                                         <Border Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0 0 0 0">
                                             <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                <TextBlock Text="{Binding ItemName}" FontSize="12" Style="{DynamicResource notesFolderHeader}" />
-                                                <TextBlock Text="{Binding ItemDateTime}" Style="{DynamicResource fileFolderDate}" />
+                                                <TextBlock Text="{Binding ItemName}" FontSize="12" Style="{DynamicResource rs_ItemHeader}" />
+                                                <TextBlock Text="{Binding ItemDateTime}" Style="{DynamicResource rs_ItemsDate}" />
                                             </StackPanel>
                                         </Border>
                                         <Border Width="24" Height="24" Margin="0 0 10 0">
-                                            <Button Style="{DynamicResource fileItemOpenIcon}" Uid="{Binding ItemId}" extension:Extensions.DataStorage="{Binding ItemColor}" Content="{Binding ItemName}" Tag="ArrowRight" Click="gotoAction_Click" />
+                                            <Button Style="{DynamicResource rs_ItemOpenIcon}" Uid="{Binding ItemId}" extension:Extensions.DataStorage="{Binding ItemColor}" Content="{Binding ItemName}" Tag="ArrowRight" Click="gotoAction_Click" />
                                         </Border>
                                         <Border Width="24" Height="24" Margin="0 0 7 0">
-                                            <Button Style="{DynamicResource fileItemOpenIcon}" Uid="{Binding BaseId}" Tag="Trash" Click="deleteResult_Click" />
+                                            <Button Style="{DynamicResource rs_ItemOpenIcon}" Uid="{Binding BaseId}" Tag="Trash" Click="deleteResult_Click" />
                                         </Border>
                                     </StackPanel>
                                 </Border>
@@ -789,15 +666,15 @@
                                         <Border Width="10" Background="{Binding ItemColor}" CornerRadius="5 0 0 5" />
                                         <Border Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0 0 0 0">
                                             <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                <TextBlock Text="{Binding ItemName}" FontSize="12" Style="{DynamicResource notesFolderHeader}" />
-                                                <TextBlock Text="{Binding ItemDateTime}" Style="{DynamicResource fileFolderDate}" />
+                                                <TextBlock Text="{Binding ItemName}" FontSize="12" Style="{DynamicResource rs_ItemHeader}" />
+                                                <TextBlock Text="{Binding ItemDateTime}" Style="{DynamicResource rs_ItemsDate}" />
                                             </StackPanel>
                                         </Border>
                                         <Border Width="24" Height="24" Margin="0 0 10 0">
-                                            <Button Style="{DynamicResource fileItemOpenIcon}" Uid="{Binding ItemId}" extension:Extensions.DataStorage="{Binding ItemColor}" Content="{Binding ItemName}" Tag="ArrowRight" Click="gotoAction_Click" />
+                                            <Button Style="{DynamicResource rs_ItemOpenIcon}" Uid="{Binding ItemId}" extension:Extensions.DataStorage="{Binding ItemColor}" Content="{Binding ItemName}" Tag="ArrowRight" Click="gotoAction_Click" />
                                         </Border>
                                         <Border Width="24" Height="24" Margin="0 0 7 0">
-                                            <Button Style="{DynamicResource fileItemOpenIcon}" Uid="{Binding BaseId}" Tag="Trash" Click="deleteResult_Click" />
+                                            <Button Style="{DynamicResource rs_ItemOpenIcon}" Uid="{Binding BaseId}" Tag="Trash" Click="deleteResult_Click" />
                                         </Border>
                                     </StackPanel>
                                 </Border>
@@ -830,15 +707,15 @@
                             <Border Width="225" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
                                 <StackPanel Orientation="Horizontal">
                                     <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                        <TextBlock Text="Konularım" FontSize="12" Style="{DynamicResource fileFolderHeader}" />
+                                        <TextBlock Text="Konularım" FontSize="12" Style="{DynamicResource lib_fileFolderHeader}" />
                                     </StackPanel>
                                 </StackPanel>
                             </Border>
                             <Border Width="24" Height="24" Margin="0 0 7 0">
-                                <Button x:Name="countSub" Style="{DynamicResource viewStackBtn}" Content="0" Tag="#FD7E14" Uid="#FFF" />
+                                <Button x:Name="countSub" Style="{DynamicResource nt_viewStackBtn}" Content="0" Tag="#FD7E14" Uid="#FFF" />
                             </Border>
                             <Border Width="24" Height="24" Margin="0 0 10 0">
-                                <Button Style="{DynamicResource fileItemOpenIcon}" Content="SubjectLoc" Tag="ArrowRight" Click="filter_Click" />
+                                <Button Style="{DynamicResource nt_ItemOpenIcon}" Content="SubjectLoc" extension:Extensions.DataStorage="subject" Tag="ArrowRight" Click="stackfilter_Click" />
                             </Border>
                         </StackPanel>
                     </Border>
@@ -851,15 +728,15 @@
                             <Border Width="225" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
                                 <StackPanel Orientation="Horizontal">
                                     <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                        <TextBlock Text="Kütüphane" FontSize="12" Style="{DynamicResource fileFolderHeader}" />
+                                        <TextBlock Text="Kütüphaneler" FontSize="12" Style="{DynamicResource lib_fileFolderHeader}" />
                                     </StackPanel>
                                 </StackPanel>
                             </Border>
                             <Border Width="24" Height="24" Margin="0 0 7 0">
-                                <Button x:Name="countLib" Style="{DynamicResource viewStackBtn}" Content="0" Uid="#FFF" Tag="#E33FA1" />
+                                <Button x:Name="countLib" Style="{DynamicResource nt_viewStackBtn}" Content="0" Tag="#E33FA1" Uid="#FFF" />
                             </Border>
                             <Border Width="24" Height="24" Margin="0 0 10 0">
-                                <Button Style="{DynamicResource fileItemOpenIcon}" Content="LibraryLoc" Tag="ArrowRight" Click="filter_Click" />
+                                <Button Style="{DynamicResource nt_ItemOpenIcon}" Content="SubjectLoc" extension:Extensions.DataStorage="library" Tag="ArrowRight" Click="stackfilter_Click" />
                             </Border>
                         </StackPanel>
                     </Border>
@@ -872,15 +749,15 @@
                             <Border Width="225" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
                                 <StackPanel Orientation="Horizontal">
                                     <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                        <TextBlock Text="Notlar" FontSize="12" Style="{DynamicResource fileFolderHeader}" />
+                                        <TextBlock Text="Notlar" FontSize="12" Style="{DynamicResource lib_fileFolderHeader}" />
                                     </StackPanel>
                                 </StackPanel>
                             </Border>
                             <Border Width="24" Height="24" Margin="0 0 7 0">
-                                <Button x:Name="countNot"  Style="{DynamicResource viewStackBtn}" Content="0" Uid="#fff" Tag="#B30B00" />
+                                <Button x:Name="countNot" Style="{DynamicResource nt_viewStackBtn}" Content="0" Tag="#B30B00" Uid="#FFF" />
                             </Border>
                             <Border Width="24" Height="24" Margin="0 0 10 0">
-                                <Button Style="{DynamicResource fileItemOpenIcon}" Content="NoteLoc" Tag="ArrowRight" Click="filter_Click" />
+                                <Button Style="{DynamicResource nt_ItemOpenIcon}" Content="SubjectLoc" extension:Extensions.DataStorage="note" Tag="ArrowRight" Click="stackfilter_Click" />
                             </Border>
                         </StackPanel>
                     </Border>
@@ -893,23 +770,24 @@
             <StackPanel Orientation="Horizontal" Height="80">
 
                 <StackPanel Style="{DynamicResource frameItemsOffsetNav}">
-                    <Button IsEnabled="False" x:Name="backPage" Style="{DynamicResource frameItemsControlNav}" Tag="ArrowLeft" Content="Sonuca Geri Dön" Click="backPage_Click" />
+                    <Button IsEnabled="True" x:Name="backPage" Style="{DynamicResource frameItemsControlNav}" Tag="ArrowLeft" Content="Sonuca Geri Dön" Click="backPage_Click" />
                 </StackPanel>
 
                 <StackPanel Style="{DynamicResource frameItemsOffsetNav}">
-                    <Button IsEnabled="False" x:Name="resultScreenOpen" Style="{DynamicResource frameItemsControlNavSpec}" Tag="RegularExport" Content="Sonucu Özetle-Yazdır" Click="resultScreenOpen_Click" />
+                    <Button IsEnabled="True" x:Name="resultScreenOpen" Style="{DynamicResource frameItemsControlNavSpec}" Tag="RegularExport" Content="Sonucu Özetle-Yazdır" Click="resultScreenOpen_Click" />
                 </StackPanel>
 
-                <StackPanel Style="{DynamicResource ayetlerControlItems}">
-                    <Button x:Name="filterButton" IsEnabled="False" Style="{DynamicResource ayetlerControlItemPageButtonRight}" Tag="Clone" Content="Liste Görünümü" Click="filterButton_Click" />
-                    <Popup x:Name="hoverPopup" IsOpen="False" AllowsTransparency="True" Placement="Top" Width="250" Height="60" VerticalOffset="5" HorizontalOffset="-50" PopupAnimation="Fade">
+                <StackPanel Style="{DynamicResource frameItemsOffsetNav}">
+                    <StackPanel Style="{DynamicResource frameItemsOffsetNav}">
+                        <Button x:Name="filterButton" IsEnabled="True" Style="{DynamicResource frameItemsControlNav}" Tag="Clone" Content="Liste Görünümü" Click="filterButton_Click" />
+                    </StackPanel>
 
-                        <Border Background="Transparent"  Width="250" Height="60" Padding="10" UseLayoutRounding="True" SnapsToDevicePixels="True">
+                    <Popup x:Name="hoverPopup" IsOpen="False" AllowsTransparency="True" Placement="Center" Width="250" Height="60" VerticalOffset="40" HorizontalOffset="50" PopupAnimation="Fade">
+                        <Border Background="Transparent"  Width="250" Height="50" Padding="10" UseLayoutRounding="True" SnapsToDevicePixels="True">
                             <Border Background="#FFF" Style="{DynamicResource defaultBorderShadowEffect}">
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-
-                                    <CheckBox x:Name="listview" Style="{DynamicResource viewNoteType}" IsChecked="True" Tag="List" Content="Liste" Click="viewchange_Click" />
-                                    <CheckBox x:Name="stackview" Style="{DynamicResource viewNoteType}" Tag="Stack" Content="Yığın" Click="viewchange_Click" />
+                                    <CheckBox x:Name="listview" Style="{DynamicResource pp_viewNoteType}" IsChecked="True" Tag="List" Content="Liste" Click="viewchange_Click" Uid="5 0 0 5" />
+                                    <CheckBox x:Name="stackview" Style="{DynamicResource pp_viewNoteType}" Tag="Stack" Content="Yığın" Click="viewchange_Click" Uid="0 5 5 0" />
                                 </StackPanel>
                             </Border>
                         </Border>

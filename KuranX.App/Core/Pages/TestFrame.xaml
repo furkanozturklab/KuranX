@@ -5,6 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="clr-namespace:KuranX.App.Core.Pages"
        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+       xmlns:extension="clr-namespace:KuranX.App.Core.Classes"
        xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
        xmlns:gif="http://wpfanimatedgif.codeplex.com"
       mc:Ignorable="d"

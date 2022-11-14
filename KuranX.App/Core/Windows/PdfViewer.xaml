@@ -1,14 +1,466 @@
 ﻿<Window x:Class="KuranX.App.Core.Windows.PdfViewer"
-  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:KuranX.App.Core.Windows"
-        xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
-        xmlns:cef="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
-        mc:Ignorable="d"
-        Title="PDF SCREEN" Height="768" Width="1366" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Loaded="Window_Loaded" Icon="/Resource/Images/ico/pdf.ico">
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+
+      xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
+      xmlns:local="clr-namespace:KuranX.App.Core.Pages"
+      xmlns:gif="http://wpfanimatedgif.codeplex.com"
+      mc:Ignorable="d"
+        Title="PDF SCREEN" Height="768" Width="1366" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Loaded="Window_Loaded" Icon="/Resource/Images/ico/pdf.ico" Closed="Window_Closed">
     <Grid>
-        <cef:ChromiumWebBrowser x:Name="meltdown" Address="" Width="1366" Height="768" Panel.ZIndex="4" />
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Popup -->
+
+        <Popup x:Name="alph" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="460" Height="200" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+            <Border  Style="{DynamicResource defaultBorderShadowEffect}" Width="440" Height="180">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="90" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Border Grid.Column="0" Background="#F0433A" CornerRadius="5 0 0 5"></Border>
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Icon:PackIconOcticons Kind="Alert" Width="48" Height="48" Foreground="#F0433A" />
+                        </StackPanel>
+                        <Border Grid.Column="2"  Padding="10 0 10 0">
+                            <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <TextBlock x:Name="alertPopupHeader" Text="" TextAlignment="Center" FontSize="22" Margin="0,0,0,12" Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsSemiBold}" />
+                                <TextBlock x:Name="alertPopupDetail" Text="" TextAlignment="Center" TextWrapping="Wrap"  Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsMedium}" />
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                </Grid>
+            </Border>
+        </Popup>
+
+        <Popup x:Name="inph" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="460" Height="200" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+
+            <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="440" Height="180">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="90" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Border Grid.Column="0" Background="#0D6EFD" CornerRadius="5 0 0 5"></Border>
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Icon:PackIconUnicons Kind="Info" Width="48" Height="48" Foreground="#0D6EFD" />
+                        </StackPanel>
+                        <Border Grid.Column="2"  Padding="10 0 10 0">
+                            <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <TextBlock x:Name="infoPopupHeader" Text="" TextAlignment="Center" FontSize="22" Margin="0,0,0,12" Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsSemiBold}" />
+                                <TextBlock x:Name="infoPopupDetail" Text="" TextAlignment="Center" TextWrapping="Wrap"  Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsMedium}" />
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                </Grid>
+            </Border>
+        </Popup>
+
+        <Popup x:Name="scph" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="460" Height="200" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+            <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="440" Height="180">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="90" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Border Grid.Column="0" Background="#66E21F" CornerRadius="5 0 0 5"></Border>
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Icon:PackIconIonicons Kind="CheckmarkMD" Width="48" Height="48" Foreground="#66E21F" />
+                        </StackPanel>
+                        <Border Grid.Column="2"  Padding="10 0 10 0">
+                            <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <TextBlock x:Name="successPopupHeader" Text="" TextAlignment="Center" FontSize="22" Margin="0,0,0,12" Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsSemiBold}" />
+                                <TextBlock x:Name="successPopupDetail" Text="" TextAlignment="Center" TextWrapping="Wrap"  Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsMedium}" />
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                </Grid>
+            </Border>
+        </Popup>
+
+        <!-- Note  -->
+
+        <!-- İlk Not Penceresi -->
+
+        <Popup x:Name="popup_Note" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="500" Height="350" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+
+            <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="480" Height="330">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50" />
+                        <RowDefinition Height="280" />
+                    </Grid.RowDefinitions>
+                    <Border  Grid.Row="0" Style="{DynamicResource pp_BorderHeader}">
+                        <TextBlock Text="Notlar" Style="{DynamicResource pp_HeaderText}" />
+                    </Border>
+                    <Grid Grid.Row="1">
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+
+                            <ItemsControl  Grid.Row="0" Grid.Column="0" x:Name="nd1">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Button Style="{DynamicResource pp_ConnectItemsBts}" Content="{Binding NoteHeader}" Uid="{Binding NotesId}" Tag="ArrowRight" Click="noteDetailPopup_Click" />
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+
+                            <ItemsControl  Grid.Row="0" Grid.Column="1" x:Name="nd2">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Button Style="{DynamicResource pp_ConnectItemsBts}" Content="{Binding NoteHeader}" Uid="{Binding NotesId}" Tag="ArrowRight" Click="noteDetailPopup_Click" />
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+
+                            <ItemsControl  Grid.Row="1" Grid.Column="0" x:Name="nd3">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Button Style="{DynamicResource pp_ConnectItemsBts}" Content="{Binding NoteHeader}" Uid="{Binding NotesId}" Tag="ArrowRight" Click="noteDetailPopup_Click" />
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+
+                            <ItemsControl  Grid.Row="1" Grid.Column="1" x:Name="nd4">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Button Style="{DynamicResource pp_ConnectItemsBts}" Content="{Binding NoteHeader}" Uid="{Binding NotesId}" Tag="ArrowRight" Click="noteDetailPopup_Click" />
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+
+                            <ItemsControl  Grid.Row="2" Grid.Column="0" x:Name="nd5">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Button Style="{DynamicResource pp_ConnectItemsBts}" Content="{Binding NoteHeader}" Uid="{Binding NotesId}" Tag="ArrowRight" Click="noteDetailPopup_Click" />
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+
+                            <ItemsControl  Grid.Row="2" Grid.Column="1" x:Name="nd6">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Button Style="{DynamicResource pp_ConnectItemsBts}" Content="{Binding NoteHeader}" Uid="{Binding NotesId}" Tag="ArrowRight" Click="noteDetailPopup_Click" />
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+
+                            <ItemsControl  Grid.Row="3" Grid.Column="0" x:Name="nd7">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Button Style="{DynamicResource pp_ConnectItemsBts}" Content="{Binding NoteHeader}" Uid="{Binding NotesId}" Tag="ArrowRight" Click="noteDetailPopup_Click" />
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+
+                            <Button  x:Name="allShowNoteButton" Visibility="Hidden" Grid.Row="3" Grid.Column="1" Style="{DynamicResource pp_ConnectItemsBts}" Content="Hepsini Göster" Tag="ArrowRight" Click="allShowNoteButton_Click" />
+
+                            <Button x:Name="noteSubjectAddButtonP"  Grid.Column="0" Grid.Row="4" Style="{DynamicResource pp_ConnectItemsBts}" Content="Yeni Not Al" Tag="JournalPlus" Click="noteAddButton_Click" />
+                            <Button Grid.Column="1" Grid.Row="4" Style="{DynamicResource pp_ConnectItemsClosed}" Content="Vazgeç" Tag="CloseBig" Uid="popup_Note"  Click="popupClosed_Click" />
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </Border>
+        </Popup>
+
+        <!--  Not Ekleme Penceresi -->
+
+        <Popup x:Name="popup_noteAddPopup" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="400" Height="600" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+
+            <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="380" Height="580">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50" />
+                        <RowDefinition Height="530" />
+                    </Grid.RowDefinitions>
+                    <Border  Grid.Row="0" Style="{DynamicResource pp_BorderHeader}">
+                        <TextBlock Text="Yeni Not" Style="{DynamicResource pp_HeaderText}" />
+                    </Border>
+                    <Grid Grid.Row="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="50" />
+                        </Grid.RowDefinitions>
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Width="350" Grid.Row="0">
+
+                            <TextBlock Text="Seçili Ayeti" FontFamily="{DynamicResource PoppinsSemiBold}" FontSize="14" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 10 0 5" />
+                            <TextBox Style="{DynamicResource pp_DefaulTextBox}" Width="300" x:Name="noteConnectVerse" IsReadOnly="True" />
+
+                            <TextBlock Text="Not Türü" FontFamily="{DynamicResource PoppinsSemiBold}" FontSize="14" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 10 0 5" />
+                            <TextBox Style="{DynamicResource pp_DefaulTextBox}" Width="300" x:Name="noteType" IsReadOnly="True" />
+
+                            <TextBlock Text="Not Başlığı " FontFamily="{DynamicResource PoppinsSemiBold}" FontSize="14" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 20 0 0" />
+                            <TextBox Style="{DynamicResource pp_DefaulTextBox}" Width="300" x:Name="noteName" KeyDown="noteName_KeyDown" />
+                            <Label Visibility="Hidden" x:Name="noteAddPopupHeaderError" Style="{DynamicResource pp_DefaultTextBoxLabel}" Margin="0 5 0 0" />
+
+                            <TextBlock Text="Not" FontFamily="{DynamicResource PoppinsSemiBold}" FontSize="14" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 5 0 0" />
+                            <TextBox x:Name="noteDetail" Style="{DynamicResource pp_DefaulTextArea}" KeyDown="noteDetail_KeyDown"  Height="120"  Width="300" />
+                            <Label Visibility="Hidden" x:Name="noteAddPopupDetailError" Style="{DynamicResource pp_DefaultTextBoxLabel}" Margin="0 5 0 5" />
+                        </StackPanel>
+                        <Grid Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="0">
+                                <Button x:Name="addNoteButton" Style="{DynamicResource pp_DefaultButtonBstrp}" Tag="JournalCheck" Content="Ekle" HorizontalAlignment="Center" Click="addNoteButton_Click" />
+                                <Button  Style="{DynamicResource pp_DefaultButtonClosed}" Tag="CloseBig" Content="Vazgeç" Uid="popup_noteAddPopup" HorizontalAlignment="Center" Click="popupClosed_Click" />
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </Border>
+        </Popup>
+
+        <!-- Not İçeriği -->
+
+        <Popup x:Name="popup_noteDetailText" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="500" Height="350" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+            <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="480" Height="330">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50" />
+                        <RowDefinition Height="280" />
+                    </Grid.RowDefinitions>
+                    <Border  Grid.Row="0" Style="{DynamicResource pp_BorderHeader}">
+                        <TextBlock MaxWidth="460" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" x:Name="noteDetailTextHeader" Text="Connect 1 Bağlantısı" Style="{DynamicResource pp_HeaderText}" />
+                    </Border>
+                    <Grid Grid.Row="1">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="210" />
+
+                                <RowDefinition Height="60" />
+                            </Grid.RowDefinitions>
+
+                            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Height="190" Padding="10">
+                                <TextBlock x:Name="noteOpenDetailText" Foreground="#383C41" FontFamily="{DynamicResource PoppinsMedium}" TextWrapping="Wrap" Grid.Row="0"  VerticalAlignment="Top" />
+                            </ScrollViewer>
+
+                            <StackPanel Grid.Row="2" Orientation="Horizontal">
+                                <Button x:Name="noteOpenDetailTextBack"  Style="{DynamicResource pp_ConnectItems}" Content="Geri Dön" Tag="ArrowBack" Uid="subjectNoteConnect" Click="noteOpenDetailTextBack_Click" />
+                                <Button x:Name="noteOpenDetailLibSend" Style="{DynamicResource pp_ConnectItems}" Content="Kütüphaneye Gönder" Tag="ArrowForward" Uid="subjectNoteConnect" Click="noteOpenDetailLibSend_Click" />
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </Border>
+        </Popup>
+
+        <!-- Notu Kütüphaneye Gönderme -->
+
+        <Popup x:Name="popup_SendNote" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="340" Height="370" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+            <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="320" Height="350">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50" />
+                        <RowDefinition Height="300" />
+                    </Grid.RowDefinitions>
+                    <Border  Grid.Row="0" Style="{DynamicResource pp_BorderHeader}">
+                        <TextBlock Text="Notu Kütüphaneye Ekle" Style="{DynamicResource pp_HeaderText}" />
+                    </Border>
+                    <Grid Grid.Row="1">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="56" />
+                            </Grid.RowDefinitions>
+
+                            <StackPanel Orientation="Vertical" Margin="0 10 0 0" VerticalAlignment="Center">
+                                <TextBlock Text="Kütüphane Seç" FontFamily="{DynamicResource PoppinsMedium}" FontSize="14" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                <ComboBox Width="300" x:Name="selectedLibFolder"  Style="{DynamicResource pp_Combobox}" SelectedIndex="0" IsReadOnly="True">
+                                </ComboBox>
+                                <TextBlock Margin="0,5,0,0" VerticalAlignment="Center" HorizontalAlignment="Center" x:Name="popupaddLibError" Style="{DynamicResource pp_DefaultDynamicTextBlock}" />
+                                <Button FontSize="12"  Width="180" x:Name="newLibFolder" Style="{DynamicResource pp_DefaultButtonBstrp}" Tag="Archive" Content="Yeni Konu Aç" HorizontalAlignment="Center" Margin="0 5 0 5" Click="newLibFolder_Click" />
+                                <TextBlock Text="Seçili Not" FontFamily="{DynamicResource PoppinsMedium}" FontSize="14" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 10 0 0" />
+                                <TextBox Style="{DynamicResource pp_DefaulTextBox}" Width="300" x:Name="selectedLib" IsReadOnly="True" />
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="1">
+                                <Button Width="120" x:Name="addLib" Style="{DynamicResource pp_DefaultButtonBstrp}" Tag="FolderPlus" Content="Ekle" HorizontalAlignment="Center" Click="addLib_Click" />
+                                <Button Width="120" Style="{DynamicResource pp_DefaultButtonClosed}" Tag="CloseBig" Content="Vazgeç" Uid="popup_SendNote" HorizontalAlignment="Center" Click="popupClosed_Click" />
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </Border>
+        </Popup>
+
+        <!-- Tüm Notları Göster -->
+
+        <Popup x:Name="popup_notesAllShowPopup" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="500" Height="600" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+
+            <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="480" Height="580">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50" />
+                        <RowDefinition Height="530" />
+                    </Grid.RowDefinitions>
+                    <Border  Grid.Row="0" Style="{DynamicResource pp_BorderHeader}">
+                        <TextBlock Text="Tüm Notlar" Style="{DynamicResource pp_HeaderText}" />
+                    </Border>
+                    <Grid Grid.Row="1">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="56" />
+                            </Grid.RowDefinitions>
+
+                            <ScrollViewer Grid.ColumnSpan="2" Grid.Row="0" Padding="20">
+                                <StackPanel x:Name="notesAllShowPopupStackPanel">
+                                </StackPanel>
+                            </ScrollViewer>
+
+                            <Button Grid.Column="0" Grid.Row="4" Style="{DynamicResource pp_ConnectItemsBts}" Content="Yeni Not Al" Tag="JournalPlus" Click="noteAddButton_Click" />
+                            <Button Grid.Column="1" Grid.Row="4" Style="{DynamicResource pp_ConnectItemsBack}" Content="Geri Dön" Tag="ArrowLeft" Uid="popup_notesAllShowPopup" Click="popupClosed_Click" />
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </Border>
+        </Popup>
+
+        <!--  Kütüphaneye Oluşturma  -->
+
+        <Popup x:Name="popup_FolderLibraryPopup" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="370" Height="460" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+            <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="350" Height="440">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50" />
+                        <RowDefinition Height="380" />
+                    </Grid.RowDefinitions>
+                    <Border  Grid.Row="0" Style="{DynamicResource pp_BorderHeader}">
+                        <TextBlock Text="Kütüphane Başlığı Oluştur" Style="{DynamicResource pp_HeaderText}" />
+                    </Border>
+                    <Grid Grid.Row="1">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="56" />
+                            </Grid.RowDefinitions>
+                            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Width="320" Grid.Row="0">
+                                <TextBlock Text="Kütüphane Başlığı" FontFamily="{DynamicResource PoppinsSemiBold}" FontSize="14" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0" />
+                                <TextBox Style="{DynamicResource pp_DefaulTextBox}" Width="280" x:Name="libraryFolderHeader" KeyDown="libraryFolderHeader_KeyDown" KeyUp="libraryFolderHeader_KeyUp" />
+                                <Label Visibility="Visible" x:Name="libraryHeaderFolderErrorMesssage" Style="{DynamicResource pp_DefaultTextBoxLabel}" Margin="0 5 0 5" />
+
+                                <TextBlock Text="Kütüphane Rengi" FontFamily="{DynamicResource PoppinsSemiBold}" FontSize="14" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0" />
+                                <StackPanel Orientation="Horizontal" Width="300" Margin="0 10 0 10" x:Name="libraryColorStack">
+                                    <CheckBox IsChecked="False" Style="{DynamicResource pp_HeaderColorSelected}" Tag="#66E21F" Uid="1" Click="libraryColorPick_Click" />
+                                    <CheckBox IsChecked="False" Style="{DynamicResource pp_HeaderColorSelected}" Tag="#DC3545" Uid="2" Click="libraryColorPick_Click" />
+                                    <CheckBox IsChecked="False" Style="{DynamicResource pp_HeaderColorSelected}" Tag="#0D6EFD" Uid="3" Click="libraryColorPick_Click" />
+                                    <CheckBox IsChecked="False" Style="{DynamicResource pp_HeaderColorSelected}" Tag="#6610F2" Uid="4" Click="libraryColorPick_Click" />
+                                    <CheckBox IsChecked="False" Style="{DynamicResource pp_HeaderColorSelected}" Tag="#FD7E14" Uid="5" Click="libraryColorPick_Click" />
+                                    <CheckBox IsChecked="False" Style="{DynamicResource pp_HeaderColorSelected}" Tag="#FFC107" Uid="6" Click="libraryColorPick_Click" />
+                                </StackPanel>
+
+                                <TextBlock Text="Önizleme" FontFamily="{DynamicResource PoppinsSemiBold}" FontSize="14" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 10 0 0" />
+
+                                <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="280" Height="50" Margin="0 20 0 20">
+                                    <StackPanel Height="50" Width="300" Orientation="Horizontal">
+                                        <Border x:Name="librarypreviewColor" Width="10" Background="#66E21F" CornerRadius="5 0 0 5" />
+                                        <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                            <TextBlock Text="Önizleme" x:Name="librarypreviewName" FontSize="14" Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsMedium}" VerticalAlignment="Center" Margin="10 0 0 0" />
+                                            <TextBlock Text="25.08.2022" FontSize="10" Foreground="#7B7B7B" FontFamily="{DynamicResource PoppinsRegular}" VerticalAlignment="Center" Margin="10 0 0 0" />
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Border>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="1">
+                                <Button x:Name="addlibrarySubject" Style="{DynamicResource pp_DefaultButtonBstrp}" Tag="FolderPlus" Content="Oluştur" HorizontalAlignment="Center" Click="addfolderlibrary_Click" />
+                                <Button  Style="{DynamicResource pp_DefaultButtonClosed}" Tag="CloseBig" Content="Vazgeç" Uid="popup_FolderLibraryPopup" HorizontalAlignment="Center" Click="popupClosed_Click" />
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </Border>
+        </Popup>
+
+        <!-- Note  -->
+
+        <!-- Popup  -->
+
+        <Border Grid.Row="0" Width="400" Height="60" x:Name="loadHeaderBorder" Style="{DynamicResource defaultBorderShadowEffect}">
+            <StackPanel Orientation="Horizontal">
+                <Border x:Name="loadHeaderColor" Width="12" CornerRadius="5 0 0 5" Background="#B30B00" />
+                <Border Width="338" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock x:Name="loadHeader" Text="" FontSize="18" Style="{DynamicResource sb_folderHeaderExtends}" />
+                        <TextBlock x:Name="loadCreated" Text="" Style="{DynamicResource sb_folderDateExtends}" />
+                    </StackPanel>
+                </Border>
+                <Border Width="50">
+                    <Button x:Name="subjectItemsDeleteBtn" Style="{DynamicResource sb_FolderButtonReset}" Grid.Column="2" Tag="TrashMD" Click="libraryFileDeleteBtn_Click" />
+                </Border>
+            </StackPanel>
+        </Border>
+
+        <Border Grid.Row="1" x:Name="loadControlAni">
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Button x:Name="backButton" Grid.Column="2" Content="Kapat" Tag="ArrowLeft" Style="{DynamicResource defaultActionButonBstrpRed}" Click="backButton_Click" />
+                <Button x:Name="noteButton" Grid.Column="3" Content="Not Al-Oku" Tag="JournalBookmark" Style="{DynamicResource defaultActionButonBstrpPurple}" Click="noteButton_Click" />
+            </Grid>
+        </Border>
+
+        <Border Grid.Row="2">
+            <WebBrowser x:Name="browser" />
+        </Border>
     </Grid>
 </Window>

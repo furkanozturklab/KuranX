@@ -323,7 +323,7 @@ namespace KuranX.App.Migrations
                     b.Property<DateTime>("SendTime")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT")
-                        .HasDefaultValue(new DateTime(2022, 10, 27, 19, 9, 49, 542, DateTimeKind.Local).AddTicks(4888));
+                        .HasDefaultValue(new DateTime(2022, 11, 3, 19, 16, 50, 78, DateTimeKind.Local).AddTicks(6339));
 
                     b.HasKey("ResultItemId");
 
@@ -390,6 +390,11 @@ namespace KuranX.App.Migrations
                     b.Property<int?>("sureId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
+
+                    b.Property<bool?>("Complated")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasDefaultValue(false);
 
                     b.Property<string>("Description")
                         .HasColumnType("TEXT");

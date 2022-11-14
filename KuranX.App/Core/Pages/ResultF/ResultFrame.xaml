@@ -8,7 +8,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d"
       d:DesignHeight="708" d:DesignWidth="1115" d:MaxHeight="708" d:MaxWidth="1270" d:MinWidth="1115"
-      Title="RemiderFrame" Background="#FAFAFA" Loaded="Page_Loaded">
+      Title="RemiderFrame" Background="#FAFAFA">
 
     <Grid>
 
@@ -18,103 +18,10 @@
             <RowDefinition Height="90" />
         </Grid.RowDefinitions>
 
-        <Grid x:Name="loadinGifContent" Grid.ColumnSpan="2" Grid.RowSpan="4"  Grid.Row="0" Background="#FAFAFA" Panel.ZIndex="7" Visibility="Hidden">
-            <Image gif:ImageBehavior.AnimatedSource="/Resource/Images/Gif/Spinner800.gif" Width="250" Height="250"  RenderOptions.BitmapScalingMode="HighQuality" />
-        </Grid>
-
-        <Grid x:Name="loadinItemsGifContent" Grid.ColumnSpan="2"  Grid.Row="1" Background="#FAFAFA" Panel.ZIndex="5" Visibility="Hidden">
-            <Image gif:ImageBehavior.AnimatedSource="/Resource/Images/Gif/Spinner800.gif" Width="250" Height="250"  RenderOptions.BitmapScalingMode="HighQuality" />
-        </Grid>
-
-        <Popup x:Name="alph" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="460" Height="200" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
-            <Border  Style="{DynamicResource defaultBorderShadowEffect}" Width="440" Height="180">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-
-                    <Grid Grid.Row="1">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="10" />
-                            <ColumnDefinition Width="90" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <Border Grid.Column="0" Background="#F0433A" CornerRadius="5 0 0 5"></Border>
-                        <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
-                            <Icon:PackIconOcticons Kind="Alert" Width="48" Height="48" Foreground="#F0433A" />
-                        </StackPanel>
-                        <Border Grid.Column="2"  Padding="10 0 10 0">
-                            <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center">
-                                <TextBlock x:Name="alertPopupHeader" Text="" TextAlignment="Center" FontSize="22" Margin="0,0,0,12" Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsSemiBold}" />
-                                <TextBlock x:Name="alertPopupDetail" Text="" TextAlignment="Center" TextWrapping="Wrap"  Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsMedium}" />
-                            </StackPanel>
-                        </Border>
-                    </Grid>
-                </Grid>
-            </Border>
-        </Popup>
-
-        <Popup x:Name="inph" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="460" Height="200" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
-
-            <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="440" Height="180">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-
-                    <Grid Grid.Row="1">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="10" />
-                            <ColumnDefinition Width="90" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <Border Grid.Column="0" Background="#0D6EFD" CornerRadius="5 0 0 5"></Border>
-                        <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
-                            <Icon:PackIconUnicons Kind="Info" Width="48" Height="48" Foreground="#0D6EFD" />
-                        </StackPanel>
-                        <Border Grid.Column="2"  Padding="10 0 10 0">
-                            <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center">
-                                <TextBlock x:Name="infoPopupHeader" Text="" TextAlignment="Center" FontSize="22" Margin="0,0,0,12" Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsSemiBold}" />
-                                <TextBlock x:Name="infoPopupDetail" Text="" TextAlignment="Center" TextWrapping="Wrap"  Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsMedium}" />
-                            </StackPanel>
-                        </Border>
-                    </Grid>
-                </Grid>
-            </Border>
-        </Popup>
-
-        <Popup x:Name="scph" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="460" Height="200" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
-            <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="440" Height="180">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-
-                    <Grid Grid.Row="1">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="10" />
-                            <ColumnDefinition Width="90" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <Border Grid.Column="0" Background="#66E21F" CornerRadius="5 0 0 5"></Border>
-                        <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
-                            <Icon:PackIconIonicons Kind="CheckmarkMD" Width="48" Height="48" Foreground="#66E21F" />
-                        </StackPanel>
-                        <Border Grid.Column="2"  Padding="10 0 10 0">
-                            <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center">
-                                <TextBlock x:Name="successPopupHeader" Text="" TextAlignment="Center" FontSize="22" Margin="0,0,0,12" Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsSemiBold}" />
-                                <TextBlock x:Name="successPopupDetail" Text="" TextAlignment="Center" TextWrapping="Wrap"  Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsMedium}" />
-                            </StackPanel>
-                        </Border>
-                    </Grid>
-                </Grid>
-            </Border>
-        </Popup>
-
         <Border Grid.Row="0" Width="350" Height="60" x:Name="loadHeaderAni" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Visible" UseLayoutRounding="True" SnapsToDevicePixels="True">
             <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="300" Height="60">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
-                    <Button Style="{DynamicResource resultHeader}" Tag="/resource/images/icon/result_r.png" />
+                    <Button Style="{DynamicResource rs_Header}" Tag="/resource/images/icon/result_r.png" />
                 </StackPanel>
             </Border>
         </Border>
@@ -148,15 +55,15 @@
                                     <Border Height="10" Grid.Row="0" Background="{Binding ResultStatus}" CornerRadius="5 5 0 0" />
 
                                     <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
-                                        <TextBlock  Text="{Binding ResultName}" Style="{DynamicResource resultItemsHeaderName}" />
-                                        <Button x:Name="resultItemClick" Style="{DynamicResource resultItemsControlBtn}" Click="resultItemClick_Click" Uid="{Binding ResultId}" />
+                                        <TextBlock  Text="{Binding ResultName}" Style="{DynamicResource rs_ItemsHeaderName}" />
+                                        <Button x:Name="resultItemClick" Style="{DynamicResource rs_ItemsControlBtn}" Click="resultItemClick_Click" Uid="{Binding ResultId}" />
                                     </StackPanel>
 
                                     <StackPanel Grid.Row="2" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
 
-                                        <Image IsEnabled="{Binding ResultSubject}" Style="{DynamicResource resultItemsIconSubject}" />
-                                        <Image IsEnabled="{Binding ResultLib}" Style="{DynamicResource resultItemsIconLib}" />
-                                        <Image IsEnabled="{Binding ResultNotes}" Style="{DynamicResource resultItemsIconNotes}" />
+                                        <Image IsEnabled="{Binding ResultSubject}" Style="{DynamicResource rs_ItemsIconSubject}" />
+                                        <Image IsEnabled="{Binding ResultLib}" Style="{DynamicResource rs_ItemsIconLib}" />
+                                        <Image IsEnabled="{Binding ResultNotes}" Style="{DynamicResource rs_ItemsIconNotes}" />
                                     </StackPanel>
                                 </Grid>
                             </Border>
@@ -180,15 +87,15 @@
                                     <Border Height="10" Grid.Row="0" Background="{Binding ResultStatus}" CornerRadius="5 5 0 0" />
 
                                     <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
-                                        <TextBlock  Text="{Binding ResultName}" Style="{DynamicResource resultItemsHeaderName}" />
-                                        <Button x:Name="resultItemClick" Style="{DynamicResource resultItemsControlBtn}" Click="resultItemClick_Click" Uid="{Binding ResultId}" />
+                                        <TextBlock  Text="{Binding ResultName}" Style="{DynamicResource rs_ItemsHeaderName}" />
+                                        <Button x:Name="resultItemClick" Style="{DynamicResource rs_ItemsControlBtn}" Click="resultItemClick_Click" Uid="{Binding ResultId}" />
                                     </StackPanel>
 
                                     <StackPanel Grid.Row="2" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
 
-                                        <Image IsEnabled="{Binding ResultSubject}" Style="{DynamicResource resultItemsIconSubject}" />
-                                        <Image IsEnabled="{Binding ResultLib}" Style="{DynamicResource resultItemsIconLib}" />
-                                        <Image IsEnabled="{Binding ResultNotes}" Style="{DynamicResource resultItemsIconNotes}" />
+                                        <Image IsEnabled="{Binding ResultSubject}" Style="{DynamicResource rs_ItemsIconSubject}" />
+                                        <Image IsEnabled="{Binding ResultLib}" Style="{DynamicResource rs_ItemsIconLib}" />
+                                        <Image IsEnabled="{Binding ResultNotes}" Style="{DynamicResource rs_ItemsIconNotes}" />
                                     </StackPanel>
                                 </Grid>
                             </Border>
@@ -212,15 +119,15 @@
                                     <Border Height="10" Grid.Row="0" Background="{Binding ResultStatus}" CornerRadius="5 5 0 0" />
 
                                     <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
-                                        <TextBlock  Text="{Binding ResultName}" Style="{DynamicResource resultItemsHeaderName}" />
-                                        <Button x:Name="resultItemClick" Style="{DynamicResource resultItemsControlBtn}" Click="resultItemClick_Click" Uid="{Binding ResultId}" />
+                                        <TextBlock  Text="{Binding ResultName}" Style="{DynamicResource rs_ItemsHeaderName}" />
+                                        <Button x:Name="resultItemClick" Style="{DynamicResource rs_ItemsControlBtn}" Click="resultItemClick_Click" Uid="{Binding ResultId}" />
                                     </StackPanel>
 
                                     <StackPanel Grid.Row="2" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
 
-                                        <Image IsEnabled="{Binding ResultSubject}" Style="{DynamicResource resultItemsIconSubject}" />
-                                        <Image IsEnabled="{Binding ResultLib}" Style="{DynamicResource resultItemsIconLib}" />
-                                        <Image IsEnabled="{Binding ResultNotes}" Style="{DynamicResource resultItemsIconNotes}" />
+                                        <Image IsEnabled="{Binding ResultSubject}" Style="{DynamicResource rs_ItemsIconSubject}" />
+                                        <Image IsEnabled="{Binding ResultLib}" Style="{DynamicResource rs_ItemsIconLib}" />
+                                        <Image IsEnabled="{Binding ResultNotes}" Style="{DynamicResource rs_ItemsIconNotes}" />
                                     </StackPanel>
                                 </Grid>
                             </Border>
@@ -244,15 +151,15 @@
                                     <Border Height="10" Grid.Row="0" Background="{Binding ResultStatus}" CornerRadius="5 5 0 0" />
 
                                     <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
-                                        <TextBlock  Text="{Binding ResultName}" Style="{DynamicResource resultItemsHeaderName}" />
-                                        <Button x:Name="resultItemClick" Style="{DynamicResource resultItemsControlBtn}" Click="resultItemClick_Click" Uid="{Binding ResultId}" />
+                                        <TextBlock  Text="{Binding ResultName}" Style="{DynamicResource rs_ItemsHeaderName}" />
+                                        <Button x:Name="resultItemClick" Style="{DynamicResource rs_ItemsControlBtn}" Click="resultItemClick_Click" Uid="{Binding ResultId}" />
                                     </StackPanel>
 
                                     <StackPanel Grid.Row="2" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
 
-                                        <Image IsEnabled="{Binding ResultSubject}" Style="{DynamicResource resultItemsIconSubject}" />
-                                        <Image IsEnabled="{Binding ResultLib}" Style="{DynamicResource resultItemsIconLib}" />
-                                        <Image IsEnabled="{Binding ResultNotes}" Style="{DynamicResource resultItemsIconNotes}" />
+                                        <Image IsEnabled="{Binding ResultSubject}" Style="{DynamicResource rs_ItemsIconSubject}" />
+                                        <Image IsEnabled="{Binding ResultLib}" Style="{DynamicResource rs_ItemsIconLib}" />
+                                        <Image IsEnabled="{Binding ResultNotes}" Style="{DynamicResource rs_ItemsIconNotes}" />
                                     </StackPanel>
                                 </Grid>
                             </Border>
@@ -276,14 +183,15 @@
                                     <Border Height="10" Grid.Row="0" Background="{Binding ResultStatus}" CornerRadius="5 5 0 0" />
 
                                     <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
-                                        <TextBlock  Text="{Binding ResultName}" Style="{DynamicResource resultItemsHeaderName}" />
-                                        <Button x:Name="resultItemClick" Style="{DynamicResource resultItemsControlBtn}" Click="resultItemClick_Click" Uid="{Binding ResultId}" />
+                                        <TextBlock  Text="{Binding ResultName}" Style="{DynamicResource rs_ItemsHeaderName}" />
+                                        <Button x:Name="resultItemClick" Style="{DynamicResource rs_ItemsControlBtn}" Click="resultItemClick_Click" Uid="{Binding ResultId}" />
                                     </StackPanel>
+
                                     <StackPanel Grid.Row="2" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
 
-                                        <Image IsEnabled="{Binding ResultSubject}" Style="{DynamicResource resultItemsIconSubject}" />
-                                        <Image IsEnabled="{Binding ResultLib}" Style="{DynamicResource resultItemsIconLib}" />
-                                        <Image IsEnabled="{Binding ResultNotes}" Style="{DynamicResource resultItemsIconNotes}" />
+                                        <Image IsEnabled="{Binding ResultSubject}" Style="{DynamicResource rs_ItemsIconSubject}" />
+                                        <Image IsEnabled="{Binding ResultLib}" Style="{DynamicResource rs_ItemsIconLib}" />
+                                        <Image IsEnabled="{Binding ResultNotes}" Style="{DynamicResource rs_ItemsIconNotes}" />
                                     </StackPanel>
                                 </Grid>
                             </Border>
@@ -307,14 +215,15 @@
                                     <Border Height="10" Grid.Row="0" Background="{Binding ResultStatus}" CornerRadius="5 5 0 0" />
 
                                     <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
-                                        <TextBlock  Text="{Binding ResultName}" Style="{DynamicResource resultItemsHeaderName}" />
-                                        <Button x:Name="resultItemClick" Style="{DynamicResource resultItemsControlBtn}" Click="resultItemClick_Click" Uid="{Binding ResultId}" />
+                                        <TextBlock  Text="{Binding ResultName}" Style="{DynamicResource rs_ItemsHeaderName}" />
+                                        <Button x:Name="resultItemClick" Style="{DynamicResource rs_ItemsControlBtn}" Click="resultItemClick_Click" Uid="{Binding ResultId}" />
                                     </StackPanel>
+
                                     <StackPanel Grid.Row="2" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
 
-                                        <Image IsEnabled="{Binding ResultSubject}" Style="{DynamicResource resultItemsIconSubject}" />
-                                        <Image IsEnabled="{Binding ResultLib}" Style="{DynamicResource resultItemsIconLib}" />
-                                        <Image IsEnabled="{Binding ResultNotes}" Style="{DynamicResource resultItemsIconNotes}" />
+                                        <Image IsEnabled="{Binding ResultSubject}" Style="{DynamicResource rs_ItemsIconSubject}" />
+                                        <Image IsEnabled="{Binding ResultLib}" Style="{DynamicResource rs_ItemsIconLib}" />
+                                        <Image IsEnabled="{Binding ResultNotes}" Style="{DynamicResource rs_ItemsIconNotes}" />
                                     </StackPanel>
                                 </Grid>
                             </Border>
@@ -338,15 +247,15 @@
                                     <Border Height="10" Grid.Row="0" Background="{Binding ResultStatus}" CornerRadius="5 5 0 0" />
 
                                     <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
-                                        <TextBlock  Text="{Binding ResultName}" Style="{DynamicResource resultItemsHeaderName}" />
-                                        <Button x:Name="resultItemClick" Style="{DynamicResource resultItemsControlBtn}" Click="resultItemClick_Click" Uid="{Binding ResultId}" />
+                                        <TextBlock  Text="{Binding ResultName}" Style="{DynamicResource rs_ItemsHeaderName}" />
+                                        <Button x:Name="resultItemClick" Style="{DynamicResource rs_ItemsControlBtn}" Click="resultItemClick_Click" Uid="{Binding ResultId}" />
                                     </StackPanel>
 
                                     <StackPanel Grid.Row="2" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
 
-                                        <Image IsEnabled="{Binding ResultSubject}" Style="{DynamicResource resultItemsIconSubject}" />
-                                        <Image IsEnabled="{Binding ResultLib}" Style="{DynamicResource resultItemsIconLib}" />
-                                        <Image IsEnabled="{Binding ResultNotes}" Style="{DynamicResource resultItemsIconNotes}" />
+                                        <Image IsEnabled="{Binding ResultSubject}" Style="{DynamicResource rs_ItemsIconSubject}" />
+                                        <Image IsEnabled="{Binding ResultLib}" Style="{DynamicResource rs_ItemsIconLib}" />
+                                        <Image IsEnabled="{Binding ResultNotes}" Style="{DynamicResource rs_ItemsIconNotes}" />
                                     </StackPanel>
                                 </Grid>
                             </Border>
@@ -370,15 +279,15 @@
                                     <Border Height="10" Grid.Row="0" Background="{Binding ResultStatus}" CornerRadius="5 5 0 0" />
 
                                     <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
-                                        <TextBlock  Text="{Binding ResultName}" Style="{DynamicResource resultItemsHeaderName}" />
-                                        <Button x:Name="resultItemClick" Style="{DynamicResource resultItemsControlBtn}" Click="resultItemClick_Click" Uid="{Binding ResultId}" />
+                                        <TextBlock  Text="{Binding ResultName}" Style="{DynamicResource rs_ItemsHeaderName}" />
+                                        <Button x:Name="resultItemClick" Style="{DynamicResource rs_ItemsControlBtn}" Click="resultItemClick_Click" Uid="{Binding ResultId}" />
                                     </StackPanel>
 
                                     <StackPanel Grid.Row="2" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
 
-                                        <Image IsEnabled="{Binding ResultSubject}" Style="{DynamicResource resultItemsIconSubject}" />
-                                        <Image IsEnabled="{Binding ResultLib}" Style="{DynamicResource resultItemsIconLib}" />
-                                        <Image IsEnabled="{Binding ResultNotes}" Style="{DynamicResource resultItemsIconNotes}" />
+                                        <Image IsEnabled="{Binding ResultSubject}" Style="{DynamicResource rs_ItemsIconSubject}" />
+                                        <Image IsEnabled="{Binding ResultLib}" Style="{DynamicResource rs_ItemsIconLib}" />
+                                        <Image IsEnabled="{Binding ResultNotes}" Style="{DynamicResource rs_ItemsIconNotes}" />
                                     </StackPanel>
                                 </Grid>
                             </Border>
@@ -402,15 +311,15 @@
                                     <Border Height="10" Grid.Row="0" Background="{Binding ResultStatus}" CornerRadius="5 5 0 0" />
 
                                     <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
-                                        <TextBlock  Text="{Binding ResultName}" Style="{DynamicResource resultItemsHeaderName}" />
-                                        <Button x:Name="resultItemClick" Style="{DynamicResource resultItemsControlBtn}" Click="resultItemClick_Click" Uid="{Binding ResultId}" />
+                                        <TextBlock  Text="{Binding ResultName}" Style="{DynamicResource rs_ItemsHeaderName}" />
+                                        <Button x:Name="resultItemClick" Style="{DynamicResource rs_ItemsControlBtn}" Click="resultItemClick_Click" Uid="{Binding ResultId}" />
                                     </StackPanel>
 
                                     <StackPanel Grid.Row="2" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
 
-                                        <Image IsEnabled="{Binding ResultSubject}" Style="{DynamicResource resultItemsIconSubject}" />
-                                        <Image IsEnabled="{Binding ResultLib}" Style="{DynamicResource resultItemsIconLib}" />
-                                        <Image IsEnabled="{Binding ResultNotes}" Style="{DynamicResource resultItemsIconNotes}" />
+                                        <Image IsEnabled="{Binding ResultSubject}" Style="{DynamicResource rs_ItemsIconSubject}" />
+                                        <Image IsEnabled="{Binding ResultLib}" Style="{DynamicResource rs_ItemsIconLib}" />
+                                        <Image IsEnabled="{Binding ResultNotes}" Style="{DynamicResource rs_ItemsIconNotes}" />
                                     </StackPanel>
                                 </Grid>
                             </Border>
@@ -434,15 +343,15 @@
                                     <Border Height="10" Grid.Row="0" Background="{Binding ResultStatus}" CornerRadius="5 5 0 0" />
 
                                     <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
-                                        <TextBlock  Text="{Binding ResultName}" Style="{DynamicResource resultItemsHeaderName}" />
-                                        <Button x:Name="resultItemClick" Style="{DynamicResource resultItemsControlBtn}" Click="resultItemClick_Click" Uid="{Binding ResultId}" />
+                                        <TextBlock  Text="{Binding ResultName}" Style="{DynamicResource rs_ItemsHeaderName}" />
+                                        <Button x:Name="resultItemClick" Style="{DynamicResource rs_ItemsControlBtn}" Click="resultItemClick_Click" Uid="{Binding ResultId}" />
                                     </StackPanel>
 
                                     <StackPanel Grid.Row="2" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
 
-                                        <Image IsEnabled="{Binding ResultSubject}" Style="{DynamicResource resultItemsIconSubject}" />
-                                        <Image IsEnabled="{Binding ResultLib}" Style="{DynamicResource resultItemsIconLib}" />
-                                        <Image IsEnabled="{Binding ResultNotes}" Style="{DynamicResource resultItemsIconNotes}" />
+                                        <Image IsEnabled="{Binding ResultSubject}" Style="{DynamicResource rs_ItemsIconSubject}" />
+                                        <Image IsEnabled="{Binding ResultLib}" Style="{DynamicResource rs_ItemsIconLib}" />
+                                        <Image IsEnabled="{Binding ResultNotes}" Style="{DynamicResource rs_ItemsIconNotes}" />
                                     </StackPanel>
                                 </Grid>
                             </Border>
@@ -466,15 +375,15 @@
                                     <Border Height="10" Grid.Row="0" Background="{Binding ResultStatus}" CornerRadius="5 5 0 0" />
 
                                     <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
-                                        <TextBlock  Text="{Binding ResultName}" Style="{DynamicResource resultItemsHeaderName}" />
-                                        <Button x:Name="resultItemClick" Style="{DynamicResource resultItemsControlBtn}" Click="resultItemClick_Click" Uid="{Binding ResultId}" />
+                                        <TextBlock  Text="{Binding ResultName}" Style="{DynamicResource rs_ItemsHeaderName}" />
+                                        <Button x:Name="resultItemClick" Style="{DynamicResource rs_ItemsControlBtn}" Click="resultItemClick_Click" Uid="{Binding ResultId}" />
                                     </StackPanel>
 
                                     <StackPanel Grid.Row="2" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
 
-                                        <Image IsEnabled="{Binding ResultSubject}" Style="{DynamicResource resultItemsIconSubject}" />
-                                        <Image IsEnabled="{Binding ResultLib}" Style="{DynamicResource resultItemsIconLib}" />
-                                        <Image IsEnabled="{Binding ResultNotes}" Style="{DynamicResource resultItemsIconNotes}" />
+                                        <Image IsEnabled="{Binding ResultSubject}" Style="{DynamicResource rs_ItemsIconSubject}" />
+                                        <Image IsEnabled="{Binding ResultLib}" Style="{DynamicResource rs_ItemsIconLib}" />
+                                        <Image IsEnabled="{Binding ResultNotes}" Style="{DynamicResource rs_ItemsIconNotes}" />
                                     </StackPanel>
                                 </Grid>
                             </Border>
@@ -498,15 +407,15 @@
                                     <Border Height="10" Grid.Row="0" Background="{Binding ResultStatus}" CornerRadius="5 5 0 0" />
 
                                     <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
-                                        <TextBlock  Text="{Binding ResultName}" Style="{DynamicResource resultItemsHeaderName}" />
-                                        <Button x:Name="resultItemClick" Style="{DynamicResource resultItemsControlBtn}" Click="resultItemClick_Click" Uid="{Binding ResultId}" />
+                                        <TextBlock  Text="{Binding ResultName}" Style="{DynamicResource rs_ItemsHeaderName}" />
+                                        <Button x:Name="resultItemClick" Style="{DynamicResource rs_ItemsControlBtn}" Click="resultItemClick_Click" Uid="{Binding ResultId}" />
                                     </StackPanel>
 
                                     <StackPanel Grid.Row="2" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
 
-                                        <Image IsEnabled="{Binding ResultSubject}" Style="{DynamicResource resultItemsIconSubject}" />
-                                        <Image IsEnabled="{Binding ResultLib}" Style="{DynamicResource resultItemsIconLib}" />
-                                        <Image IsEnabled="{Binding ResultNotes}" Style="{DynamicResource resultItemsIconNotes}" />
+                                        <Image IsEnabled="{Binding ResultSubject}" Style="{DynamicResource rs_ItemsIconSubject}" />
+                                        <Image IsEnabled="{Binding ResultLib}" Style="{DynamicResource rs_ItemsIconLib}" />
+                                        <Image IsEnabled="{Binding ResultNotes}" Style="{DynamicResource rs_ItemsIconNotes}" />
                                     </StackPanel>
                                 </Grid>
                             </Border>
@@ -519,7 +428,7 @@
                 <ItemsControl  UseLayoutRounding="True" SnapsToDevicePixels="True" x:Name="rs13">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Border Width="245" Height="110" Background="#FFF" Style="{DynamicResource defaultBorderShadowEffect}">
+                            <Border Width="245" Height="100" Background="#FFF" Style="{DynamicResource defaultBorderShadowEffect}">
                                 <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="10" />
@@ -530,15 +439,15 @@
                                     <Border Height="10" Grid.Row="0" Background="{Binding ResultStatus}" CornerRadius="5 5 0 0" />
 
                                     <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
-                                        <TextBlock  Text="{Binding ResultName}" Style="{DynamicResource resultItemsHeaderName}" />
-                                        <Button x:Name="resultItemClick" Style="{DynamicResource resultItemsControlBtn}" Click="resultItemClick_Click" Uid="{Binding ResultId}" />
+                                        <TextBlock  Text="{Binding ResultName}" Style="{DynamicResource rs_ItemsHeaderName}" />
+                                        <Button x:Name="resultItemClick" Style="{DynamicResource rs_ItemsControlBtn}" Click="resultItemClick_Click" Uid="{Binding ResultId}" />
                                     </StackPanel>
 
                                     <StackPanel Grid.Row="2" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
 
-                                        <Image IsEnabled="{Binding ResultSubject}" Style="{DynamicResource resultItemsIconSubject}" />
-                                        <Image IsEnabled="{Binding ResultLib}" Style="{DynamicResource resultItemsIconLib}" />
-                                        <Image IsEnabled="{Binding ResultNotes}" Style="{DynamicResource resultItemsIconNotes}" />
+                                        <Image IsEnabled="{Binding ResultSubject}" Style="{DynamicResource rs_ItemsIconSubject}" />
+                                        <Image IsEnabled="{Binding ResultLib}" Style="{DynamicResource rs_ItemsIconLib}" />
+                                        <Image IsEnabled="{Binding ResultNotes}" Style="{DynamicResource rs_ItemsIconNotes}" />
                                     </StackPanel>
                                 </Grid>
                             </Border>
@@ -562,15 +471,15 @@
                                     <Border Height="10" Grid.Row="0" Background="{Binding ResultStatus}" CornerRadius="5 5 0 0" />
 
                                     <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
-                                        <TextBlock  Text="{Binding ResultName}" Style="{DynamicResource resultItemsHeaderName}" />
-                                        <Button x:Name="resultItemClick" Style="{DynamicResource resultItemsControlBtn}" Click="resultItemClick_Click" Uid="{Binding ResultId}" />
+                                        <TextBlock  Text="{Binding ResultName}" Style="{DynamicResource rs_ItemsHeaderName}" />
+                                        <Button x:Name="resultItemClick" Style="{DynamicResource rs_ItemsControlBtn}" Click="resultItemClick_Click" Uid="{Binding ResultId}" />
                                     </StackPanel>
 
                                     <StackPanel Grid.Row="2" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
 
-                                        <Image IsEnabled="{Binding ResultSubject}" Style="{DynamicResource resultItemsIconSubject}" />
-                                        <Image IsEnabled="{Binding ResultLib}" Style="{DynamicResource resultItemsIconLib}" />
-                                        <Image IsEnabled="{Binding ResultNotes}" Style="{DynamicResource resultItemsIconNotes}" />
+                                        <Image IsEnabled="{Binding ResultSubject}" Style="{DynamicResource rs_ItemsIconSubject}" />
+                                        <Image IsEnabled="{Binding ResultLib}" Style="{DynamicResource rs_ItemsIconLib}" />
+                                        <Image IsEnabled="{Binding ResultNotes}" Style="{DynamicResource rs_ItemsIconNotes}" />
                                     </StackPanel>
                                 </Grid>
                             </Border>
@@ -594,15 +503,15 @@
                                     <Border Height="10" Grid.Row="0" Background="{Binding ResultStatus}" CornerRadius="5 5 0 0" />
 
                                     <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
-                                        <TextBlock  Text="{Binding ResultName}" Style="{DynamicResource resultItemsHeaderName}" />
-                                        <Button x:Name="resultItemClick" Style="{DynamicResource resultItemsControlBtn}" Click="resultItemClick_Click" Uid="{Binding ResultId}" />
+                                        <TextBlock  Text="{Binding ResultName}" Style="{DynamicResource rs_ItemsHeaderName}" />
+                                        <Button x:Name="resultItemClick" Style="{DynamicResource rs_ItemsControlBtn}" Click="resultItemClick_Click" Uid="{Binding ResultId}" />
                                     </StackPanel>
 
                                     <StackPanel Grid.Row="2" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
 
-                                        <Image IsEnabled="{Binding ResultSubject}" Style="{DynamicResource resultItemsIconSubject}" />
-                                        <Image IsEnabled="{Binding ResultLib}" Style="{DynamicResource resultItemsIconLib}" />
-                                        <Image IsEnabled="{Binding ResultNotes}" Style="{DynamicResource resultItemsIconNotes}" />
+                                        <Image IsEnabled="{Binding ResultSubject}" Style="{DynamicResource rs_ItemsIconSubject}" />
+                                        <Image IsEnabled="{Binding ResultLib}" Style="{DynamicResource rs_ItemsIconLib}" />
+                                        <Image IsEnabled="{Binding ResultNotes}" Style="{DynamicResource rs_ItemsIconNotes}" />
                                     </StackPanel>
                                 </Grid>
                             </Border>
@@ -626,14 +535,15 @@
                                     <Border Height="10" Grid.Row="0" Background="{Binding ResultStatus}" CornerRadius="5 5 0 0" />
 
                                     <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
-                                        <TextBlock  Text="{Binding ResultName}" Style="{DynamicResource resultItemsHeaderName}" />
-                                        <Button x:Name="resultItemClick" Style="{DynamicResource resultItemsControlBtn}" Click="resultItemClick_Click" Uid="{Binding ResultId}" />
+                                        <TextBlock  Text="{Binding ResultName}" Style="{DynamicResource rs_ItemsHeaderName}" />
+                                        <Button x:Name="resultItemClick" Style="{DynamicResource rs_ItemsControlBtn}" Click="resultItemClick_Click" Uid="{Binding ResultId}" />
                                     </StackPanel>
+
                                     <StackPanel Grid.Row="2" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
 
-                                        <Image IsEnabled="{Binding ResultSubject}" Style="{DynamicResource resultItemsIconSubject}" />
-                                        <Image IsEnabled="{Binding ResultLib}" Style="{DynamicResource resultItemsIconLib}" />
-                                        <Image IsEnabled="{Binding ResultNotes}" Style="{DynamicResource resultItemsIconNotes}" />
+                                        <Image IsEnabled="{Binding ResultSubject}" Style="{DynamicResource rs_ItemsIconSubject}" />
+                                        <Image IsEnabled="{Binding ResultLib}" Style="{DynamicResource rs_ItemsIconLib}" />
+                                        <Image IsEnabled="{Binding ResultNotes}" Style="{DynamicResource rs_ItemsIconNotes}" />
                                     </StackPanel>
                                 </Grid>
                             </Border>
@@ -647,9 +557,9 @@
             <StackPanel Orientation="Horizontal" Height="80">
 
                 <StackPanel Style="{DynamicResource frameItemsOffsetNav}" Orientation="Horizontal">
-                    <TextBlock Text="Sure Seç" Style="{DynamicResource resultFrameComboboxHeaderText}" />
+                    <TextBlock Text="Sure Seç" Style="{DynamicResource rs_FrameComboboxHeaderText}" />
 
-                    <ComboBox x:Name="fastsureCombobox" Margin="0 5 0 0" Style="{DynamicResource ResourceKey=ayetlerNavCombobox}" SelectedIndex="0" SelectionChanged="fastsureCombobox_SelectionChanged">
+                    <ComboBox x:Name="fastsureCombobox" Margin="0 5 0 0" Style="{DynamicResource sr_NavCombobox}" SelectedIndex="0" SelectionChanged="fastsureCombobox_SelectionChanged">
                         <ComboBoxItem  Content="Sure Seciniz" Uid="0" Tag="0" />
                         <ComboBoxItem  Content="Fâtiha" Uid="1" Tag="7" />
                         <ComboBoxItem  Content="Bakara" Uid="2" Tag="286" />

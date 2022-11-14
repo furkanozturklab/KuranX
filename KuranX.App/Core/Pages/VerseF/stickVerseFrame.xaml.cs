@@ -311,7 +311,6 @@ namespace KuranX.App.Core.Pages.VerseF
                     relativeVerseDesk = (int)dVerse[0].RelativeDesk;
 
                     // Location Nav Content
-                    App.locationTxt.Text = "Ayetler >" + " " + dSure[0].Name;
                 });
 
                 singlerelativeDesk = (int)dVerse[0].RelativeDesk;
@@ -367,17 +366,6 @@ namespace KuranX.App.Core.Pages.VerseF
 
                 this.Dispatcher.Invoke(() =>
                 {
-                    if (dSure[0].Name == "Fâtiha" && singlerelativeDesk == 1) NavUpdatePrevSingle.IsEnabled = false;
-                    else NavUpdatePrevSingle.IsEnabled = true;
-
-                    if (App.currentDesktype == "DeskMushaf")
-                    {
-                        if (dSure[0].Name == "Tevbe" && singlerelativeDesk == 129) NavUpdateNextSingle.IsEnabled = false;
-                    }
-                    else
-                    {
-                        if (dSure[0].Name == "Nâs" && singlerelativeDesk == 6) NavUpdateNextSingle.IsEnabled = false;
-                    }
                 });
 
                 Thread.Sleep(200);
@@ -523,8 +511,8 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             if (navLocation == "Verse")
             {
-                App.selectedBlock = false;
-                App.mainframe.Content = new versesFrame(App.currentVersesPageD[0], App.currentVersesPageD[1], App.currentLanding);
+                // App.selectedBlock = false;
+                //  App.mainframe.Content = new versesFrame(App.currentVersesPageD[0], App.currentVersesPageD[1], App.currentLanding);
             }
             else NavigationService.GoBack();
         }
@@ -726,32 +714,6 @@ namespace KuranX.App.Core.Pages.VerseF
             if (singlerelativeDesk == -1) singlerelativeDesk = 0;
             if (singlerelativeDesk == 0)
             {
-                if (App.currentDesktype == "DeskMushaf")
-                {
-                    int xc = 0;
-                    using (var entitydb = new AyetContext())
-                    {
-                        var listx = entitydb.Sure.OrderBy(p => p.DeskMushaf);
-                        foreach (var item in listx)
-                        {
-                            xc++;
-                            if (dSure[0].Name == item.Name) break;
-                        }
-                        xc--;
-                        var listxc = entitydb.Sure.OrderBy(p => p.DeskMushaf).Where(p => p.DeskMushaf == xc).FirstOrDefault();
-                        App.mainframe.Content = new verseFrame((int)listxc.sureId, (int)listxc.NumberOfVerses, "Verse");
-                    }
-                }
-                else
-                {
-                    using (var entitydb = new AyetContext())
-                    {
-                        int selectedSure = (int)dSure[0].sureId;
-                        selectedSure--;
-                        var BeforeD = entitydb.Sure.Where(p => p.sureId == selectedSure).Select(p => new Sure() { NumberOfVerses = p.NumberOfVerses }).FirstOrDefault();
-                        App.mainframe.Content = new verseFrame((int)--dSure[0].sureId, (int)BeforeD.NumberOfVerses, "Verse");
-                    }
-                }
             }
             else
             {

@@ -83,6 +83,9 @@ namespace KuranX.App.Core.Classes
             modelBuilder.Entity<Sure>()
                 .Property(u => u.UserLastRelativeVerse)
                 .HasDefaultValue(1);
+            modelBuilder.Entity<Sure>()
+                .Property(u => u.Complated)
+                .HasDefaultValue(false);
 
             //   VERSE
             modelBuilder.Entity<Verse>()
@@ -113,7 +116,7 @@ namespace KuranX.App.Core.Classes
                .HasDefaultValue(0);
             modelBuilder.Entity<Notes>()
                .Property(u => u.PdfPageId)
-               .HasDefaultValue(1);
+               .HasDefaultValue(0);
             modelBuilder.Entity<Notes>()
                 .Property(u => u.NoteStatus)
                 .HasDefaultValue("#ADB5BD");

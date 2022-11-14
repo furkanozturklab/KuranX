@@ -1,16 +1,14 @@
 ﻿using KuranX.App.Core.Classes;
 using KuranX.App.Core.Windows;
+using Org.BouncyCastle.Asn1.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Automation;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -18,7 +16,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.Windows.Threading;
 
 namespace KuranX.App.Core.Pages.ResultF
 {
@@ -36,61 +33,65 @@ namespace KuranX.App.Core.Pages.ResultF
             public string ItemColor { get; set; }
         }
 
+        private int lastPage = 0, NowPage = 1, selectedId;
+        private Task loadTask;
         private bool filter = false;
         private string filterTxt;
-        private int lastResultItem = 0, selectedId, NowPage = 1, itemDeleteId;
-        private Task loadTask;
-        private List<Classes.ResultItem> dResultItems = new List<Classes.ResultItem>();
-        private List<Dstack> dTemp = new List<Dstack>();
-        private DispatcherTimer? timeSpan = new DispatcherTimer(DispatcherPriority.Render);
 
         public ResultItem()
         {
             InitializeComponent();
         }
 
-        public ResultItem(int id) : this()
+        public Page PageCall(int id)
         {
             selectedId = id;
+            loadTask = Task.Run(() => loadItem());
+            return this;
         }
 
-        private void resultItemsLoad()
+        public void loadItem()
         {
             using (var entitydb = new AyetContext())
             {
-                loadAni();
-
                 decimal totalcount = 0;
                 var dResult = entitydb.Results.Where(p => p.ResultId == selectedId).FirstOrDefault();
+                List<Classes.ResultItem> dResultItems = new List<Classes.ResultItem>();
+
+                Debug.WriteLine(filter);
+                Debug.WriteLine(filterTxt);
 
                 if (filter)
                 {
                     switch (filterTxt)
                     {
                         case "subject":
-                            dResultItems = entitydb.ResultItems.Where(p => p.ResultId == selectedId && p.ResultSubjectId != 0).Skip(lastResultItem).Take(25).ToList();
+                            dResultItems = entitydb.ResultItems.Where(p => p.ResultId == selectedId && p.ResultSubjectId != 0).Skip(lastPage).Take(24).ToList();
                             totalcount = entitydb.ResultItems.Where(p => p.ResultId == selectedId && p.ResultSubjectId != 0).Count();
                             break;
 
                         case "library":
-                            dResultItems = entitydb.ResultItems.Where(p => p.ResultId == selectedId && p.ResultLibId != 0).Skip(lastResultItem).Take(25).ToList();
+                            dResultItems = entitydb.ResultItems.Where(p => p.ResultId == selectedId && p.ResultLibId != 0).Skip(lastPage).Take(24).ToList();
                             totalcount = entitydb.ResultItems.Where(p => p.ResultId == selectedId && p.ResultLibId != 0).Count();
                             break;
 
                         case "note":
-                            dResultItems = entitydb.ResultItems.Where(p => p.ResultId == selectedId && p.ResultNoteId != 0).Skip(lastResultItem).Take(25).ToList();
+                            dResultItems = entitydb.ResultItems.Where(p => p.ResultId == selectedId && p.ResultNoteId != 0).Skip(lastPage).Take(24).ToList();
                             totalcount = entitydb.ResultItems.Where(p => p.ResultId == selectedId && p.ResultNoteId != 0).Count();
                             break;
                     }
                 }
                 else
                 {
-                    dResultItems = entitydb.ResultItems.Where(p => p.ResultId == selectedId).Skip(lastResultItem).Take(25).ToList();
+                    dResultItems = entitydb.ResultItems.Where(p => p.ResultId == selectedId).Skip(lastPage).Take(25).ToList();
                     totalcount = entitydb.ResultItems.Where(p => p.ResultId == selectedId).Count();
                 }
 
                 this.Dispatcher.Invoke(() =>
                 {
+                    listBorder.Visibility = Visibility.Visible;
+                    stackBorder.Visibility = Visibility.Collapsed;
+
                     countSub.Content = entitydb.ResultItems.Where(p => p.ResultSubjectId != 0).Count();
                     countLib.Content = entitydb.ResultItems.Where(p => p.ResultLibId != 0).Count();
                     countNot.Content = entitydb.ResultItems.Where(p => p.ResultNoteId != 0).Count();
@@ -104,7 +105,7 @@ namespace KuranX.App.Core.Pages.ResultF
                     }
 
                     int i = 1;
-
+                    List<Dstack> dTemp = new List<Dstack>();
                     foreach (var item in dResultItems)
                     {
                         Dstack tempData = new Dstack();
@@ -134,8 +135,6 @@ namespace KuranX.App.Core.Pages.ResultF
                         itemslist.ItemsSource = dTemp;
                         dTemp.Clear();
                         i++;
-
-                        if (i == 25) break; // 24 den fazla varmı kontrol etmek için koydum
                     }
 
                     if (dResultItems.Count() != 0)
@@ -162,79 +161,10 @@ namespace KuranX.App.Core.Pages.ResultF
                         previusPageButton.IsEnabled = false;
                     }
                 });
-
-                loadAniComplated();
             }
         }
 
-        private void Page_Loaded(object sender, RoutedEventArgs e)
-        {
-            loadTask = new Task(resultItemsLoad);
-            loadTask.Start();
-        }
-
-        private void gotoAction_Click(object sender, RoutedEventArgs e)
-        {
-            Button btn = sender as Button;
-
-            Debug.WriteLine("btn val : " + btn.Uid);
-
-            switch (btn.GetValue(Extensions.DataStorage))
-            {
-                case "#B30B00":
-
-                    App.mainframe.Content = new NoteF.NoteItem(int.Parse(btn.Uid), "Result");
-
-                    break;
-
-                case "#FD7E14":
-                    using (var entitydb = new AyetContext())
-                    {
-                        var dtemp = entitydb.Subject.Where(p => p.SubjectId == int.Parse(btn.Uid)).FirstOrDefault();
-                        if (dtemp != null) App.mainframe.Content = new SubjectF.SubjectItemsFrame(dtemp.SubjectId, dtemp.SubjectName, dtemp.Created.ToString("D"), dtemp.SubjectColor);
-                    }
-
-                    break;
-
-                case "#E33FA1":
-                    using (var entitydb = new AyetContext())
-                    {
-                        var dtemp = entitydb.Librarys.Where(p => p.LibraryId == int.Parse(btn.Uid)).FirstOrDefault();
-                        if (dtemp != null) App.mainframe.Content = new LibraryF.LibraryNotesItemOpen(dtemp.LibraryId, dtemp.LibraryName, dtemp.Created.ToString("D"), (SolidColorBrush)new BrushConverter().ConvertFrom(dtemp.LibraryColor));
-                    }
-                    break;
-            }
-        }
-
-        private void deleteResult_Click(object sender, RoutedEventArgs e)
-        {
-            Button btn = sender as Button;
-            deleteResultpopup.IsOpen = true;
-            itemDeleteId = int.Parse(btn.Uid);
-        }
-
-        private void deleteResultPopupBtn_Click(object sender, RoutedEventArgs e)
-        {
-            using (var entitydb = new AyetContext())
-            {
-                entitydb.ResultItems.RemoveRange(entitydb.ResultItems.Where(p => p.ResultItemId == itemDeleteId));
-                entitydb.SaveChanges();
-
-                if (entitydb.ResultItems.Where(p => p.ResultId == selectedId && p.ResultNoteId != 0).Count() == 0)
-                    entitydb.Results.Where(p => p.ResultId == selectedId).FirstOrDefault().ResultNotes = "false";
-
-                if (entitydb.ResultItems.Where(p => p.ResultId == selectedId && p.ResultLibId != 0).Count() == 0)
-                    entitydb.Results.Where(p => p.ResultId == selectedId).FirstOrDefault().ResultLib = "false";
-
-                if (entitydb.ResultItems.Where(p => p.ResultId == selectedId && p.ResultSubjectId != 0).Count() == 0)
-                    entitydb.Results.Where(p => p.ResultId == selectedId).FirstOrDefault().ResultSubject = "false";
-
-                entitydb.SaveChanges();
-                deleteResultpopup.IsOpen = false;
-                loadTask = new Task(resultItemsLoad);
-                loadTask.Start();
-            }
-        }
+        // --------------- Click Func --------------- //
 
         private void filter_Click(object sender, RoutedEventArgs e)
         {
@@ -257,32 +187,58 @@ namespace KuranX.App.Core.Pages.ResultF
                 filterTxt = btn.GetValue(Extensions.DataStorage).ToString();
             }
 
-            loadTask = new Task(resultItemsLoad);
-            loadTask.Start();
+            loadTask = Task.Run(() => loadItem());
         }
 
-        private void backPage_Click(object sender, RoutedEventArgs e)
+        private void stackfilter_Click(object sender, RoutedEventArgs e)
         {
-            try
+            Button? btn = sender as Button;
+
+            listview.IsChecked = true;
+            stackview.IsChecked = false;
+
+            statusSubject.IsChecked = false;
+            statusLib.IsChecked = false;
+            statusNote.IsChecked = false;
+
+            filter = true;
+            filterTxt = btn.GetValue(Extensions.DataStorage).ToString();
+
+            loadTask = Task.Run(() => loadItem());
+        }
+
+        private void gotoAction_Click(object sender, RoutedEventArgs e)
+        {
+            Button btn = sender as Button;
+            switch (btn.GetValue(Extensions.DataStorage))
             {
-                NavigationService.GoBack();
-            }
-            catch (Exception ex)
-            {
-                App.logWriter("Navigation", ex);
+                case "#B30B00":
+
+                    App.mainframe.Content = App.navNoteItem.noteItemPageCall(int.Parse(btn.Uid));
+
+                    break;
+
+                case "#FD7E14":
+                    using (var entitydb = new AyetContext())
+                    {
+                        var dtemp = entitydb.Subject.Where(p => p.SubjectId == int.Parse(btn.Uid)).Select(p => new Subject { SubjectId = p.SubjectId }).FirstOrDefault();
+                        if (dtemp != null) App.mainframe.Content = App.navSubjectFolder.PageCall(dtemp.SubjectId);
+                    }
+
+                    break;
+
+                case "#E33FA1":
+                    using (var entitydb = new AyetContext())
+                    {
+                        var dtemp = entitydb.Librarys.Where(p => p.LibraryId == int.Parse(btn.Uid)).FirstOrDefault();
+                        if (dtemp != null) App.mainframe.Content = App.navLibraryNoteItemsFrame.PageCall(dtemp.LibraryId);
+                    }
+                    break;
             }
         }
 
-        private void filterButton_Click(object sender, RoutedEventArgs e)
+        private void deleteResult_Click(object sender, RoutedEventArgs e)
         {
-            if (hoverPopup.IsOpen)
-            {
-                hoverPopup.IsOpen = false;
-            }
-            else
-            {
-                hoverPopup.IsOpen = true;
-            }
         }
 
         private void viewchange_Click(object sender, RoutedEventArgs e)
@@ -306,57 +262,14 @@ namespace KuranX.App.Core.Pages.ResultF
             hoverPopup.IsOpen = false;
         }
 
-        public void loadAni()
-        {
-            this.Dispatcher.Invoke(() =>
-            {
-                backPage.IsEnabled = false;
-                filterButton.IsEnabled = false;
-                resultScreenOpen.IsEnabled = false;
-            });
-        }
-
-        public void loadAniComplated()
-        {
-            this.Dispatcher.Invoke(() =>
-            {
-                filterButton.IsEnabled = true;
-                backPage.IsEnabled = true;
-                resultScreenOpen.IsEnabled = true;
-                loadinGifContent.Visibility = Visibility.Collapsed;
-            });
-        }
-
-        private void resultScreenOpen_Click(object sender, RoutedEventArgs e)
-        {
-            resultScreen rssc = new resultScreen();
-            rssc.Show();
-        }
-
-        private void popupClosed_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                Button btntemp = sender as Button;
-                var popuptemp = (Popup)this.FindName(btntemp.Uid);
-
-                popuptemp.IsOpen = false;
-            }
-            catch (Exception ex)
-            {
-                App.logWriter("Other", ex);
-            }
-        }
-
         private void nextpageButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
                 nextpageButton.IsEnabled = false;
-                lastResultItem += 24;
+                lastPage += 24;
                 NowPage++;
-                loadTask = new Task(resultItemsLoad);
-                loadTask.Start();
+                loadTask = Task.Run(loadItem);
             }
             catch (Exception ex)
             {
@@ -368,13 +281,12 @@ namespace KuranX.App.Core.Pages.ResultF
         {
             try
             {
-                if (lastResultItem >= 24)
+                if (lastPage >= 24)
                 {
                     previusPageButton.IsEnabled = false;
-                    lastResultItem -= 24;
+                    lastPage -= 24;
                     NowPage--;
-                    loadTask = new Task(resultItemsLoad);
-                    loadTask.Start();
+                    loadTask = Task.Run(loadItem);
                 }
             }
             catch (Exception ex)
@@ -382,5 +294,37 @@ namespace KuranX.App.Core.Pages.ResultF
                 App.logWriter("LoadEvent", ex);
             }
         }
+
+        private void backPage_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                NavigationService.GoBack();
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Navigation", ex);
+            }
+        }
+
+        private void resultScreenOpen_Click(object sender, RoutedEventArgs e)
+        {
+            resultScreen rssc = new resultScreen(selectedId);
+            rssc.Show();
+        }
+
+        private void filterButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (hoverPopup.IsOpen)
+            {
+                hoverPopup.IsOpen = false;
+            }
+            else
+            {
+                hoverPopup.IsOpen = true;
+            }
+        }
+
+        // --------------- Click Func --------------- //
     }
 }

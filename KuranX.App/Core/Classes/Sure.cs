@@ -19,5 +19,6 @@ namespace KuranX.App.Core.Classes
         public int? DeskList { get; set; }
         public string? Status { get; set; }
         public string? Description { get; set; }
+        public Boolean? Complated { get; set; }
     }
 }

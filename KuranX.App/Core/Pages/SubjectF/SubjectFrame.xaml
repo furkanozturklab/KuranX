@@ -12,14 +12,12 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="155" />
+            <RowDefinition Height="140" />
             <RowDefinition Height="*" />
             <RowDefinition Height="90" />
         </Grid.RowDefinitions>
 
-        <Grid x:Name="loadinGifContent" Grid.Row="1" Background="#FAFAFA" Panel.ZIndex="5">
-            <Image gif:ImageBehavior.AnimatedSource="/Resource/Images/Gif/Spinner800.gif" Width="250" Height="250"  RenderOptions.BitmapScalingMode="HighQuality" />
-        </Grid>
+        <!-- popup -->
 
         <Popup x:Name="alph" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="460" Height="200" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
             <Border  Style="{DynamicResource defaultBorderShadowEffect}" Width="440" Height="180">
@@ -106,15 +104,15 @@
             </Border>
         </Popup>
 
-        <Popup x:Name="addFolderSubjectPopup" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="340" Height="410" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
-            <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="320" Height="390">
+        <Popup x:Name="popup_FolderSubjectPopup" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="370" Height="460" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+            <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="350" Height="440">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="50" />
-                        <RowDefinition Height="330" />
+                        <RowDefinition Height="380" />
                     </Grid.RowDefinitions>
-                    <Border  Grid.Row="0" Style="{DynamicResource headerBorderTemp}">
-                        <TextBlock Text="Konu Oluştur" Style="{DynamicResource popupHeaderText}" />
+                    <Border  Grid.Row="0" Style="{DynamicResource pp_BorderHeader}">
+                        <TextBlock Text="Konu Oluştur" Style="{DynamicResource pp_HeaderText}" />
                     </Border>
                     <Grid Grid.Row="1">
                         <Grid>
@@ -127,30 +125,22 @@
                             </Grid.RowDefinitions>
                             <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Width="320" Grid.Row="0">
                                 <TextBlock Text="Konu Başlığı" FontFamily="{DynamicResource PoppinsSemiBold}" FontSize="14" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0" />
-                                <TextBox Style="{DynamicResource popupDefaulTextBox}" Width="300" x:Name="subjectFolderHeader" KeyDown="subjectFolderHeader_KeyDown" KeyUp="subjectFolderHeader_KeyUp">
-                                    <TextBox.Resources>
-                                        <Style TargetType="{x:Type Border}">
-                                            <Setter Property="CornerRadius" Value="3" />
-                                        </Style>
-                                    </TextBox.Resources>
-                                </TextBox>
-                                <StackPanel Orientation="Horizontal" Width="Auto" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                    <Label Visibility="Hidden" x:Name="subjectHeaderFolderErrorMesssage" Style="{DynamicResource popupDefaultTextBoxLabel}" />
-                                </StackPanel>
+                                <TextBox Style="{DynamicResource pp_DefaulTextBox}" Width="280" x:Name="subjectFolderHeader" KeyDown="subjectFolderHeader_KeyDown" KeyUp="subjectFolderHeader_KeyUp" />
+                                <Label Visibility="Visible" x:Name="subjectHeaderFolderErrorMesssage" Style="{DynamicResource pp_DefaultTextBoxLabel}" Margin="0 5 0 5" />
 
                                 <TextBlock Text="Konu Rengi" FontFamily="{DynamicResource PoppinsSemiBold}" FontSize="14" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0" />
                                 <StackPanel Orientation="Horizontal" Width="300" Margin="0 10 0 10" x:Name="subjectColorStack">
-                                    <CheckBox IsChecked="False" Style="{DynamicResource subjectHeaderColorSelected}" Tag="#66E21F" Uid="1" Click="subjectColorPick_Click" />
-                                    <CheckBox IsChecked="False" Style="{DynamicResource subjectHeaderColorSelected}" Tag="#DC3545" Uid="2" Click="subjectColorPick_Click" />
-                                    <CheckBox IsChecked="False" Style="{DynamicResource subjectHeaderColorSelected}" Tag="#0D6EFD" Uid="3" Click="subjectColorPick_Click" />
-                                    <CheckBox IsChecked="False" Style="{DynamicResource subjectHeaderColorSelected}" Tag="#6610F2" Uid="4" Click="subjectColorPick_Click" />
-                                    <CheckBox IsChecked="False" Style="{DynamicResource subjectHeaderColorSelected}" Tag="#FD7E14" Uid="5" Click="subjectColorPick_Click" />
-                                    <CheckBox IsChecked="False" Style="{DynamicResource subjectHeaderColorSelected}" Tag="#FFC107" Uid="6" Click="subjectColorPick_Click" />
+                                    <CheckBox IsChecked="False" Style="{DynamicResource pp_HeaderColorSelected}" Tag="#66E21F" Uid="1" Click="subjectColorPick_Click" />
+                                    <CheckBox IsChecked="False" Style="{DynamicResource pp_HeaderColorSelected}" Tag="#DC3545" Uid="2" Click="subjectColorPick_Click" />
+                                    <CheckBox IsChecked="False" Style="{DynamicResource pp_HeaderColorSelected}" Tag="#0D6EFD" Uid="3" Click="subjectColorPick_Click" />
+                                    <CheckBox IsChecked="False" Style="{DynamicResource pp_HeaderColorSelected}" Tag="#6610F2" Uid="4" Click="subjectColorPick_Click" />
+                                    <CheckBox IsChecked="False" Style="{DynamicResource pp_HeaderColorSelected}" Tag="#FD7E14" Uid="5" Click="subjectColorPick_Click" />
+                                    <CheckBox IsChecked="False" Style="{DynamicResource pp_HeaderColorSelected}" Tag="#FFC107" Uid="6" Click="subjectColorPick_Click" />
                                 </StackPanel>
 
-                                <TextBlock Text="Önizleme" FontFamily="{DynamicResource PoppinsSemiBold}" FontSize="14" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 5 0 0" />
+                                <TextBlock Text="Önizleme" FontFamily="{DynamicResource PoppinsSemiBold}" FontSize="14" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 10 0 0" />
 
-                                <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="300" Height="50" Margin="0 20 0 20">
+                                <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="280" Height="50" Margin="0 20 0 20">
                                     <StackPanel Height="50" Width="300" Orientation="Horizontal">
                                         <Border x:Name="subjectpreviewColor" Width="10" Background="#66E21F" CornerRadius="5 0 0 5" />
                                         <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
@@ -161,8 +151,8 @@
                                 </Border>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="1">
-                                <Button x:Name="addfolderSubject" Style="{DynamicResource popupDefaultButtonBstrp}" Tag="FolderPlus" Content="Oluştur" HorizontalAlignment="Center" Click="addfolderSubject_Click" />
-                                <Button  Style="{DynamicResource popupDefaultButtonClosed}" Tag="CloseBig" Content="Vazgeç" Uid="addFolderSubjectPopup" HorizontalAlignment="Center" Click="popupClosed_Click" />
+                                <Button x:Name="addfolderSubject" Style="{DynamicResource pp_DefaultButtonBstrp}" Tag="FolderPlus" Content="Oluştur" HorizontalAlignment="Center" Click="addfolderSubject_Click" />
+                                <Button  Style="{DynamicResource pp_DefaultButtonClosed}" Tag="CloseBig" Content="Vazgeç" Uid="popup_FolderSubjectPopup" HorizontalAlignment="Center" Click="popupClosed_Click" />
                             </StackPanel>
                         </Grid>
                     </Grid>
@@ -170,347 +160,392 @@
             </Border>
         </Popup>
 
-        <Border Grid.Row="0" Padding="20 10 20 10" x:Name="loadBorderHeader"  Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+        <!-- popup -->
+
+        <Border Grid.Row="0" Padding="20 0 20 0" x:Name="loadBorderHeader">
             <StackPanel Orientation="Vertical">
                 <Grid>
-
                     <Grid.RowDefinitions>
                         <RowDefinition Height="50" />
-                        <RowDefinition Height="70" />
+                        <RowDefinition Height="60" />
                         <RowDefinition Height="20" />
                     </Grid.RowDefinitions>
-                    <TextBlock Grid.Row="0" Text="KONULARIM" Foreground="#1C1E2F" FontSize="36" FontFamily="{DynamicResource PoppinsSemiBold}" />
-                    <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0 15 0 0 ">
+                    <TextBlock Grid.Row="0" Text="KONULARIM"  Style="{DynamicResource sb_header}" />
+                    <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0 0 0 0 ">
                         <StackPanel VerticalAlignment="Center">
-                            <Border Style="{DynamicResource subjectTabSearchBorder}">
-
+                            <Border Style="{DynamicResource sb_TabSearchBorder}">
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBox x:Name="SearchData" Style="{DynamicResource subjectTabSearchText}" TextChanged="SearchData_TextChanged" LostFocus="SearchData_LostFocus" />
-                                    <Button x:Name="SearchBtn" Style="{DynamicResource subjectTabSearchButton}" Click="SearchBtn_Click" />
+                                    <TextBox x:Name="SearchData" Style="{DynamicResource sb_TabSearchText}" TextChanged="SearchData_TextChanged" LostFocus="SearchData_LostFocus" />
+                                    <Button x:Name="SearchBtn" ToolTip="Arama Yapmanızı Sağlar" Style="{DynamicResource sb_TabSearchButton}" Click="SearchBtn_Click" />
                                 </StackPanel>
                             </Border>
                         </StackPanel>
-                        <Button Height="33" x:Name="addSubjectButton" Content="Konu Başlığı Ekle" Tag="Plus" Style="{DynamicResource subjectActionMainTabButtonAdd}" Click="addSubjectButton_Click" />
+                        <Button Height="33" ToolTip="Yeni Konu Başlığı Oluştur" x:Name="addSubjectButton" Content="Konu Başlığı Ekle" Tag="Plus" Style="{DynamicResource sb_TabButtonAdd}" Click="addSubjectButton_Click" />
                     </StackPanel>
-                    <TextBlock x:Name="searchErrMsgTxt" Visibility="Hidden" Grid.Row="2" Text="Yeterince Uzun Değil Minimum 3 Karakter Olmalı" Margin="5 0 0 0" FontSize="10" Foreground="#DC3545" FontFamily="{DynamicResource PoppinsMedium}" />
+                    <TextBlock x:Name="searchErrMsgTxt" Style="{DynamicResource sb_searchErrorMsg}" Visibility="Hidden" />
                 </Grid>
             </StackPanel>
         </Border>
 
-        <Border Grid.Row="1" x:Name="loadBorder" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+        <Border Grid.Row="1" x:Name="loadBorder" Padding="0 20 0 20">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="350" />
-                    <ColumnDefinition Width="350" />
-                    <ColumnDefinition Width="350" />
+                    <ColumnDefinition Width="370" />
+                    <ColumnDefinition Width="370" />
+                    <ColumnDefinition Width="370" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
+                    <RowDefinition Height="87" />
+                    <RowDefinition Height="87" />
+                    <RowDefinition Height="87" />
+                    <RowDefinition Height="87" />
+                    <RowDefinition Height="87" />
                 </Grid.RowDefinitions>
 
-                <Border Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="sb1">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Width="300" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
-                                    <StackPanel Orientation="Horizontal">
+                <ItemsControl x:Name="sbItem1" Grid.Row="0" Grid.Column="0">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Width="300" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                                <StackPanel Orientation="Horizontal">
 
-                                        <Border Width="12" CornerRadius="5 0 0 5" Background="{Binding SubjectColor}" />
-                                        <Border Width="250" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                            <StackPanel Orientation="Vertical">
-                                                <TextBlock Text="{Binding SubjectName}" Style="{DynamicResource subjectFolderHeader}" />
-                                                <TextBlock Text="{Binding Created}" Style="{DynamicResource subjectFolderDate}" />
-                                            </StackPanel>
-                                        </Border>
+                                    <Border Width="12" CornerRadius="5 0 0 5" Background="{Binding SubjectColor}" />
+                                    <Border Width="250" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                        <StackPanel Orientation="Vertical">
+                                            <TextBlock Text="{Binding SubjectName}" Style="{DynamicResource sb_folderHeader}" />
+                                            <TextBlock Text="{Binding Created}" Style="{DynamicResource sb_folderDate}" />
+                                        </StackPanel>
+                                    </Border>
 
-                                        <Border Width="38" Height="50">
-                                            <Button Style="{DynamicResource subjectFolderOpenIcon}" Uid="{Binding SubjectId}" Tag="{Binding Created}" Content="{Binding SubjectName}" Background="{Binding SubjectColor}" Click="openSubjectFolder_Click" />
-                                        </Border>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </Border>
+                                    <Border Width="38" Height="50">
+                                        <Button Style="{DynamicResource sb_folderOpenIcon}" Uid="{Binding SubjectId}" Tag="{Binding Created}" Content="{Binding SubjectName}" Background="{Binding SubjectColor}" Click="openSubjectFolder_Click" />
+                                    </Border>
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
 
-                <Border Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="sb2">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Width="300" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
-                                    <StackPanel Orientation="Horizontal">
+                <ItemsControl x:Name="sbItem2" Grid.Row="0" Grid.Column="1">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Width="300" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                                <StackPanel Orientation="Horizontal">
 
-                                        <Border Width="12" CornerRadius="5 0 0 5" Background="{Binding SubjectColor}" />
-                                        <Border Width="250" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                            <StackPanel Orientation="Vertical">
-                                                <TextBlock Text="{Binding SubjectName}" Style="{DynamicResource subjectFolderHeader}" />
-                                                <TextBlock Text="{Binding Created}" Style="{DynamicResource subjectFolderDate}" />
-                                            </StackPanel>
-                                        </Border>
+                                    <Border Width="12" CornerRadius="5 0 0 5" Background="{Binding SubjectColor}" />
+                                    <Border Width="250" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                        <StackPanel Orientation="Vertical">
+                                            <TextBlock Text="{Binding SubjectName}" Style="{DynamicResource sb_folderHeader}" />
+                                            <TextBlock Text="{Binding Created}" Style="{DynamicResource sb_folderDate}" />
+                                        </StackPanel>
+                                    </Border>
 
-                                        <Border Width="38" Height="50">
-                                            <Button Style="{DynamicResource subjectFolderOpenIcon}" Uid="{Binding SubjectId}" Tag="{Binding Created}" Content="{Binding SubjectName}" Background="{Binding SubjectColor}" Click="openSubjectFolder_Click" />
-                                        </Border>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </Border>
+                                    <Border Width="38" Height="50">
+                                        <Button Style="{DynamicResource sb_folderOpenIcon}" Uid="{Binding SubjectId}" Tag="{Binding Created}" Content="{Binding SubjectName}" Background="{Binding SubjectColor}" Click="openSubjectFolder_Click" />
+                                    </Border>
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
 
-                <Border Grid.Column="2" Grid.Row="0" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="sb3">
-                        <ItemsControl.ItemTemplate>
+                <ItemsControl x:Name="sbItem3" Grid.Row="0" Grid.Column="2">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Width="300" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                                <StackPanel Orientation="Horizontal">
 
-                            <DataTemplate>
-                                <Border Width="300" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
-                                    <StackPanel Orientation="Horizontal">
+                                    <Border Width="12" CornerRadius="5 0 0 5" Background="{Binding SubjectColor}" />
+                                    <Border Width="250" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                        <StackPanel Orientation="Vertical">
+                                            <TextBlock Text="{Binding SubjectName}" Style="{DynamicResource sb_folderHeader}" />
+                                            <TextBlock Text="{Binding Created}" Style="{DynamicResource sb_folderDate}" />
+                                        </StackPanel>
+                                    </Border>
 
-                                        <Border Width="12" CornerRadius="5 0 0 5" Background="{Binding SubjectColor}" />
-                                        <Border Width="250" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                            <StackPanel Orientation="Vertical">
-                                                <TextBlock Text="{Binding SubjectName}" Style="{DynamicResource subjectFolderHeader}" />
-                                                <TextBlock Text="{Binding Created}" Style="{DynamicResource subjectFolderDate}" />
-                                            </StackPanel>
-                                        </Border>
+                                    <Border Width="38" Height="50">
+                                        <Button Style="{DynamicResource sb_folderOpenIcon}" Uid="{Binding SubjectId}" Tag="{Binding Created}" Content="{Binding SubjectName}" Background="{Binding SubjectColor}" Click="openSubjectFolder_Click" />
+                                    </Border>
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
 
-                                        <Border Width="38" Height="50">
-                                            <Button Style="{DynamicResource subjectFolderOpenIcon}" Uid="{Binding SubjectId}" Tag="{Binding Created}" Content="{Binding SubjectName}" Background="{Binding SubjectColor}" Click="openSubjectFolder_Click" />
-                                        </Border>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </Border>
+                <ItemsControl x:Name="sbItem4" Grid.Row="1" Grid.Column="0">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Width="300" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                                <StackPanel Orientation="Horizontal">
 
-                <Border Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="sb4">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Width="300" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
-                                    <StackPanel Orientation="Horizontal">
+                                    <Border Width="12" CornerRadius="5 0 0 5" Background="{Binding SubjectColor}" />
+                                    <Border Width="250" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                        <StackPanel Orientation="Vertical">
+                                            <TextBlock Text="{Binding SubjectName}" Style="{DynamicResource sb_folderHeader}" />
+                                            <TextBlock Text="{Binding Created}" Style="{DynamicResource sb_folderDate}" />
+                                        </StackPanel>
+                                    </Border>
 
-                                        <Border Width="12" CornerRadius="5 0 0 5" Background="{Binding SubjectColor}" />
-                                        <Border Width="250" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                            <StackPanel Orientation="Vertical">
-                                                <TextBlock Text="{Binding SubjectName}" Style="{DynamicResource subjectFolderHeader}" />
-                                                <TextBlock Text="{Binding Created}" Style="{DynamicResource subjectFolderDate}" />
-                                            </StackPanel>
-                                        </Border>
+                                    <Border Width="38" Height="50">
+                                        <Button Style="{DynamicResource sb_folderOpenIcon}" Uid="{Binding SubjectId}" Tag="{Binding Created}" Content="{Binding SubjectName}" Background="{Binding SubjectColor}" Click="openSubjectFolder_Click" />
+                                    </Border>
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
 
-                                        <Border Width="38" Height="50">
-                                            <Button Style="{DynamicResource subjectFolderOpenIcon}" Uid="{Binding SubjectId}" Tag="{Binding Created}" Content="{Binding SubjectName}" Background="{Binding SubjectColor}" Click="openSubjectFolder_Click" />
-                                        </Border>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </Border>
+                <ItemsControl x:Name="sbItem5" Grid.Row="1" Grid.Column="1">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Width="300" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                                <StackPanel Orientation="Horizontal">
 
-                <Border Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="sb5">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Width="300" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
-                                    <StackPanel Orientation="Horizontal">
+                                    <Border Width="12" CornerRadius="5 0 0 5" Background="{Binding SubjectColor}" />
+                                    <Border Width="250" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                        <StackPanel Orientation="Vertical">
+                                            <TextBlock Text="{Binding SubjectName}" Style="{DynamicResource sb_folderHeader}" />
+                                            <TextBlock Text="{Binding Created}" Style="{DynamicResource sb_folderDate}" />
+                                        </StackPanel>
+                                    </Border>
 
-                                        <Border Width="12" CornerRadius="5 0 0 5" Background="{Binding SubjectColor}" />
-                                        <Border Width="250" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                            <StackPanel Orientation="Vertical">
-                                                <TextBlock Text="{Binding SubjectName}" Style="{DynamicResource subjectFolderHeader}" />
-                                                <TextBlock Text="{Binding Created}" Style="{DynamicResource subjectFolderDate}" />
-                                            </StackPanel>
-                                        </Border>
+                                    <Border Width="38" Height="50">
+                                        <Button Style="{DynamicResource sb_folderOpenIcon}" Uid="{Binding SubjectId}" Tag="{Binding Created}" Content="{Binding SubjectName}" Background="{Binding SubjectColor}" Click="openSubjectFolder_Click" />
+                                    </Border>
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
 
-                                        <Border Width="38" Height="50">
-                                            <Button Style="{DynamicResource subjectFolderOpenIcon}" Uid="{Binding SubjectId}" Tag="{Binding Created}" Content="{Binding SubjectName}" Background="{Binding SubjectColor}" Click="openSubjectFolder_Click" />
-                                        </Border>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </Border>
-                <Border Grid.Column="2" Grid.Row="1" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="sb6">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Width="300" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
-                                    <StackPanel Orientation="Horizontal">
+                <ItemsControl x:Name="sbItem6" Grid.Row="1" Grid.Column="2">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Width="300" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                                <StackPanel Orientation="Horizontal">
 
-                                        <Border Width="12" CornerRadius="5 0 0 5" Background="{Binding SubjectColor}" />
-                                        <Border Width="250" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                            <StackPanel Orientation="Vertical">
-                                                <TextBlock Text="{Binding SubjectName}" Style="{DynamicResource subjectFolderHeader}" />
-                                                <TextBlock Text="{Binding Created}" Style="{DynamicResource subjectFolderDate}" />
-                                            </StackPanel>
-                                        </Border>
+                                    <Border Width="12" CornerRadius="5 0 0 5" Background="{Binding SubjectColor}" />
+                                    <Border Width="250" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                        <StackPanel Orientation="Vertical">
+                                            <TextBlock Text="{Binding SubjectName}" Style="{DynamicResource sb_folderHeader}" />
+                                            <TextBlock Text="{Binding Created}" Style="{DynamicResource sb_folderDate}" />
+                                        </StackPanel>
+                                    </Border>
 
-                                        <Border Width="38" Height="50">
-                                            <Button Style="{DynamicResource subjectFolderOpenIcon}" Uid="{Binding SubjectId}" Tag="{Binding Created}" Content="{Binding SubjectName}" Background="{Binding SubjectColor}" Click="openSubjectFolder_Click" />
-                                        </Border>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </Border>
+                                    <Border Width="38" Height="50">
+                                        <Button Style="{DynamicResource sb_folderOpenIcon}" Uid="{Binding SubjectId}" Tag="{Binding Created}" Content="{Binding SubjectName}" Background="{Binding SubjectColor}" Click="openSubjectFolder_Click" />
+                                    </Border>
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
 
-                <Border Grid.Column="0" Grid.Row="2" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="sb7">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Width="300" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
-                                    <StackPanel Orientation="Horizontal">
+                <ItemsControl x:Name="sbItem7" Grid.Row="2" Grid.Column="0">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Width="300" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                                <StackPanel Orientation="Horizontal">
 
-                                        <Border Width="12" CornerRadius="5 0 0 5" Background="{Binding SubjectColor}" />
-                                        <Border Width="250" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                            <StackPanel Orientation="Vertical">
-                                                <TextBlock Text="{Binding SubjectName}" Style="{DynamicResource subjectFolderHeader}" />
-                                                <TextBlock Text="{Binding Created}" Style="{DynamicResource subjectFolderDate}" />
-                                            </StackPanel>
-                                        </Border>
+                                    <Border Width="12" CornerRadius="5 0 0 5" Background="{Binding SubjectColor}" />
+                                    <Border Width="250" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                        <StackPanel Orientation="Vertical">
+                                            <TextBlock Text="{Binding SubjectName}" Style="{DynamicResource sb_folderHeader}" />
+                                            <TextBlock Text="{Binding Created}" Style="{DynamicResource sb_folderDate}" />
+                                        </StackPanel>
+                                    </Border>
 
-                                        <Border Width="38" Height="50">
-                                            <Button Style="{DynamicResource subjectFolderOpenIcon}" Uid="{Binding SubjectId}" Tag="{Binding Created}" Content="{Binding SubjectName}" Background="{Binding SubjectColor}" Click="openSubjectFolder_Click" />
-                                        </Border>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </Border>
+                                    <Border Width="38" Height="50">
+                                        <Button Style="{DynamicResource sb_folderOpenIcon}" Uid="{Binding SubjectId}" Tag="{Binding Created}" Content="{Binding SubjectName}" Background="{Binding SubjectColor}" Click="openSubjectFolder_Click" />
+                                    </Border>
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
 
-                <Border Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="sb8">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Width="300" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
-                                    <StackPanel Orientation="Horizontal">
+                <ItemsControl x:Name="sbItem8" Grid.Row="2" Grid.Column="1">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Width="300" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                                <StackPanel Orientation="Horizontal">
 
-                                        <Border Width="12" CornerRadius="5 0 0 5" Background="{Binding SubjectColor}" />
-                                        <Border Width="250" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                            <StackPanel Orientation="Vertical">
-                                                <TextBlock Text="{Binding SubjectName}" Style="{DynamicResource subjectFolderHeader}" />
-                                                <TextBlock Text="{Binding Created}" Style="{DynamicResource subjectFolderDate}" />
-                                            </StackPanel>
-                                        </Border>
+                                    <Border Width="12" CornerRadius="5 0 0 5" Background="{Binding SubjectColor}" />
+                                    <Border Width="250" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                        <StackPanel Orientation="Vertical">
+                                            <TextBlock Text="{Binding SubjectName}" Style="{DynamicResource sb_folderHeader}" />
+                                            <TextBlock Text="{Binding Created}" Style="{DynamicResource sb_folderDate}" />
+                                        </StackPanel>
+                                    </Border>
 
-                                        <Border Width="38" Height="50">
-                                            <Button Style="{DynamicResource subjectFolderOpenIcon}" Uid="{Binding SubjectId}" Tag="{Binding Created}" Content="{Binding SubjectName}" Background="{Binding SubjectColor}" Click="openSubjectFolder_Click" />
-                                        </Border>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </Border>
+                                    <Border Width="38" Height="50">
+                                        <Button Style="{DynamicResource sb_folderOpenIcon}" Uid="{Binding SubjectId}" Tag="{Binding Created}" Content="{Binding SubjectName}" Background="{Binding SubjectColor}" Click="openSubjectFolder_Click" />
+                                    </Border>
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
 
-                <Border Grid.Column="2" Grid.Row="2" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="sb9">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Width="300" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
-                                    <StackPanel Orientation="Horizontal">
+                <ItemsControl x:Name="sbItem9" Grid.Row="2" Grid.Column="2">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Width="300" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                                <StackPanel Orientation="Horizontal">
 
-                                        <Border Width="12" CornerRadius="5 0 0 5" Background="{Binding SubjectColor}" />
-                                        <Border Width="250" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                            <StackPanel Orientation="Vertical">
-                                                <TextBlock Text="{Binding SubjectName}" Style="{DynamicResource subjectFolderHeader}" />
-                                                <TextBlock Text="{Binding Created}" Style="{DynamicResource subjectFolderDate}" />
-                                            </StackPanel>
-                                        </Border>
+                                    <Border Width="12" CornerRadius="5 0 0 5" Background="{Binding SubjectColor}" />
+                                    <Border Width="250" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                        <StackPanel Orientation="Vertical">
+                                            <TextBlock Text="{Binding SubjectName}" Style="{DynamicResource sb_folderHeader}" />
+                                            <TextBlock Text="{Binding Created}" Style="{DynamicResource sb_folderDate}" />
+                                        </StackPanel>
+                                    </Border>
 
-                                        <Border Width="38" Height="50">
-                                            <Button Style="{DynamicResource subjectFolderOpenIcon}" Uid="{Binding SubjectId}" Tag="{Binding Created}" Content="{Binding SubjectName}" Background="{Binding SubjectColor}" Click="openSubjectFolder_Click" />
-                                        </Border>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </Border>
+                                    <Border Width="38" Height="50">
+                                        <Button Style="{DynamicResource sb_folderOpenIcon}" Uid="{Binding SubjectId}" Tag="{Binding Created}" Content="{Binding SubjectName}" Background="{Binding SubjectColor}" Click="openSubjectFolder_Click" />
+                                    </Border>
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
 
-                <Border Grid.Column="0" Grid.Row="3" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
+                <ItemsControl x:Name="sbItem10" Grid.Row="3" Grid.Column="0">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Width="300" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                                <StackPanel Orientation="Horizontal">
 
-                    <ItemsControl x:Name="sb10">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Width="300" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
-                                    <StackPanel Orientation="Horizontal">
+                                    <Border Width="12" CornerRadius="5 0 0 5" Background="{Binding SubjectColor}" />
+                                    <Border Width="250" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                        <StackPanel Orientation="Vertical">
+                                            <TextBlock Text="{Binding SubjectName}" Style="{DynamicResource sb_folderHeader}" />
+                                            <TextBlock Text="{Binding Created}" Style="{DynamicResource sb_folderDate}" />
+                                        </StackPanel>
+                                    </Border>
 
-                                        <Border Width="12" CornerRadius="5 0 0 5" Background="{Binding SubjectColor}" />
-                                        <Border Width="250" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                            <StackPanel Orientation="Vertical">
-                                                <TextBlock Text="{Binding SubjectName}" Style="{DynamicResource subjectFolderHeader}" />
-                                                <TextBlock Text="{Binding Created}" Style="{DynamicResource subjectFolderDate}" />
-                                            </StackPanel>
-                                        </Border>
+                                    <Border Width="38" Height="50">
+                                        <Button Style="{DynamicResource sb_folderOpenIcon}" Uid="{Binding SubjectId}" Tag="{Binding Created}" Content="{Binding SubjectName}" Background="{Binding SubjectColor}" Click="openSubjectFolder_Click" />
+                                    </Border>
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
 
-                                        <Border Width="38" Height="50">
-                                            <Button Style="{DynamicResource subjectFolderOpenIcon}" Uid="{Binding SubjectId}" Tag="{Binding Created}" Content="{Binding SubjectName}" Background="{Binding SubjectColor}" Click="openSubjectFolder_Click" />
-                                        </Border>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </Border>
+                <ItemsControl x:Name="sbItem11" Grid.Row="3" Grid.Column="1">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Width="300" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                                <StackPanel Orientation="Horizontal">
 
-                <Border Grid.Column="1" Grid.Row="3" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="sb11">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Width="300" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
-                                    <StackPanel Orientation="Horizontal">
+                                    <Border Width="12" CornerRadius="5 0 0 5" Background="{Binding SubjectColor}" />
+                                    <Border Width="250" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                        <StackPanel Orientation="Vertical">
+                                            <TextBlock Text="{Binding SubjectName}" Style="{DynamicResource sb_folderHeader}" />
+                                            <TextBlock Text="{Binding Created}" Style="{DynamicResource sb_folderDate}" />
+                                        </StackPanel>
+                                    </Border>
 
-                                        <Border Width="12" CornerRadius="5 0 0 5" Background="{Binding SubjectColor}" />
-                                        <Border Width="250" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                            <StackPanel Orientation="Vertical">
-                                                <TextBlock Text="{Binding SubjectName}" Style="{DynamicResource subjectFolderHeader}" />
-                                                <TextBlock Text="{Binding Created}" Style="{DynamicResource subjectFolderDate}" />
-                                            </StackPanel>
-                                        </Border>
+                                    <Border Width="38" Height="50">
+                                        <Button Style="{DynamicResource sb_folderOpenIcon}" Uid="{Binding SubjectId}" Tag="{Binding Created}" Content="{Binding SubjectName}" Background="{Binding SubjectColor}" Click="openSubjectFolder_Click" />
+                                    </Border>
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
 
-                                        <Border Width="38" Height="50">
-                                            <Button Style="{DynamicResource subjectFolderOpenIcon}" Uid="{Binding SubjectId}" Tag="{Binding Created}" Content="{Binding SubjectName}" Background="{Binding SubjectColor}" Click="openSubjectFolder_Click" />
-                                        </Border>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </Border>
+                <ItemsControl x:Name="sbItem12" Grid.Row="3" Grid.Column="2">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Width="300" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                                <StackPanel Orientation="Horizontal">
 
-                <Border Grid.Column="2" Grid.Row="3" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="sb12">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Width="300" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
-                                    <StackPanel Orientation="Horizontal">
+                                    <Border Width="12" CornerRadius="5 0 0 5" Background="{Binding SubjectColor}" />
+                                    <Border Width="250" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                        <StackPanel Orientation="Vertical">
+                                            <TextBlock Text="{Binding SubjectName}" Style="{DynamicResource sb_folderHeader}" />
+                                            <TextBlock Text="{Binding Created}" Style="{DynamicResource sb_folderDate}" />
+                                        </StackPanel>
+                                    </Border>
 
-                                        <Border Width="12" CornerRadius="5 0 0 5" Background="{Binding SubjectColor}" />
-                                        <Border Width="250" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                            <StackPanel Orientation="Vertical">
-                                                <TextBlock Text="{Binding SubjectName}" Style="{DynamicResource subjectFolderHeader}" />
-                                                <TextBlock Text="{Binding Created}" Style="{DynamicResource subjectFolderDate}" />
-                                            </StackPanel>
-                                        </Border>
+                                    <Border Width="38" Height="50">
+                                        <Button Style="{DynamicResource sb_folderOpenIcon}" Uid="{Binding SubjectId}" Tag="{Binding Created}" Content="{Binding SubjectName}" Background="{Binding SubjectColor}" Click="openSubjectFolder_Click" />
+                                    </Border>
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
 
-                                        <Border Width="38" Height="50">
-                                            <Button Style="{DynamicResource subjectFolderOpenIcon}" Uid="{Binding SubjectId}" Tag="{Binding Created}" Content="{Binding SubjectName}" Background="{Binding SubjectColor}" Click="openSubjectFolder_Click" />
-                                        </Border>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </Border>
+                <ItemsControl x:Name="sbItem13" Grid.Row="4" Grid.Column="0">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Width="300" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                                <StackPanel Orientation="Horizontal">
+
+                                    <Border Width="12" CornerRadius="5 0 0 5" Background="{Binding SubjectColor}" />
+                                    <Border Width="250" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                        <StackPanel Orientation="Vertical">
+                                            <TextBlock Text="{Binding SubjectName}" Style="{DynamicResource sb_folderHeader}" />
+                                            <TextBlock Text="{Binding Created}" Style="{DynamicResource sb_folderDate}" />
+                                        </StackPanel>
+                                    </Border>
+
+                                    <Border Width="38" Height="50">
+                                        <Button Style="{DynamicResource sb_folderOpenIcon}" Uid="{Binding SubjectId}" Tag="{Binding Created}" Content="{Binding SubjectName}" Background="{Binding SubjectColor}" Click="openSubjectFolder_Click" />
+                                    </Border>
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <ItemsControl x:Name="sbItem14" Grid.Row="4" Grid.Column="1">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Width="300" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                                <StackPanel Orientation="Horizontal">
+
+                                    <Border Width="12" CornerRadius="5 0 0 5" Background="{Binding SubjectColor}" />
+                                    <Border Width="250" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                        <StackPanel Orientation="Vertical">
+                                            <TextBlock Text="{Binding SubjectName}" Style="{DynamicResource sb_folderHeader}" />
+                                            <TextBlock Text="{Binding Created}" Style="{DynamicResource sb_folderDate}" />
+                                        </StackPanel>
+                                    </Border>
+
+                                    <Border Width="38" Height="50">
+                                        <Button Style="{DynamicResource sb_folderOpenIcon}" Uid="{Binding SubjectId}" Tag="{Binding Created}" Content="{Binding SubjectName}" Background="{Binding SubjectColor}" Click="openSubjectFolder_Click" />
+                                    </Border>
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <ItemsControl x:Name="sbItem15" Grid.Row="4" Grid.Column="2">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Width="300" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                                <StackPanel Orientation="Horizontal">
+
+                                    <Border Width="12" CornerRadius="5 0 0 5" Background="{Binding SubjectColor}" />
+                                    <Border Width="250" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                        <StackPanel Orientation="Vertical">
+                                            <TextBlock Text="{Binding SubjectName}" Style="{DynamicResource sb_folderHeader}" />
+                                            <TextBlock Text="{Binding Created}" Style="{DynamicResource sb_folderDate}" />
+                                        </StackPanel>
+                                    </Border>
+
+                                    <Border Width="38" Height="50">
+                                        <Button Style="{DynamicResource sb_folderOpenIcon}" Uid="{Binding SubjectId}" Tag="{Binding Created}" Content="{Binding SubjectName}" Background="{Binding SubjectColor}" Click="openSubjectFolder_Click" />
+                                    </Border>
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
             </Grid>
         </Border>
 

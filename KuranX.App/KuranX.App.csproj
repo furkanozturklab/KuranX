@@ -23,6 +23,12 @@
     <None Remove="Resource\Images\Gif\Pulse300.gif" />
     <None Remove="Resource\Images\Gif\Pulse50.gif" />
     <None Remove="Resource\Images\Gif\Spinner800.gif" />
+    <None Remove="Resource\Images\Icon\dashboard_r.png" />
+    <None Remove="Resource\Images\Icon\dashboard_rb.png" />
+    <None Remove="Resource\Images\Icon\dashboard_rbg.png" />
+    <None Remove="Resource\Images\Icon\dashboard_rbo.png" />
+    <None Remove="Resource\Images\Icon\dashboard_rbr.png" />
+    <None Remove="Resource\Images\Icon\dashboard_rbx.png" />
     <None Remove="Resource\Images\Icon\email_r.png" />
     <None Remove="Resource\Images\Icon\email_rb.png" />
     <None Remove="Resource\Images\Icon\help_r.png" />
@@ -72,6 +78,9 @@
     <None Remove="Resource\Images\Icon\verse_rbx.png" />
     <None Remove="Resource\Images\Ico\pdf.ico" />
     <None Remove="Resource\Images\Other\defaultProfileImage.png" />
+    <None Remove="Resource\Images\Profile\profile_1.jpg" />
+    <None Remove="Resource\Images\Profile\profile_2.jpg" />
+    <None Remove="Resource\Images\Profile\profile_3.jpg" />
   </ItemGroup>
 
 
@@ -101,14 +110,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="CefSharp.Wpf.NETCore" Version="105.3.330" />
     <PackageReference Include="MahApps.Metro.IconPacks" Version="4.11.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.9" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.9">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="MySql.Data" Version="8.0.30" />
+    <PackageReference Include="MySql.Data" Version="8.0.31" />
     <PackageReference Include="WpfAnimatedGif" Version="2.0.2" />
   </ItemGroup>
 
@@ -129,6 +137,24 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resource\Images\Gif\Spinner800.gif">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Images\Icon\dashboard_r.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Images\Icon\dashboard_rb.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Images\Icon\dashboard_rbg.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Images\Icon\dashboard_rbo.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Images\Icon\dashboard_rbr.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Images\Icon\dashboard_rbx.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resource\Images\Icon\email_r.png">
@@ -309,52 +335,20 @@
     <Resource Include="Resource\Fonts\Poppins-Thin.ttf">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resource\Images\Profile\profile_1.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Images\Profile\profile_2.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Images\Profile\profile_3.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Core\Control\" />
     <Folder Include="Migrations\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Update="Core\Pages\LibraryF\libraryOpenEditorFile.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Core\Pages\LibraryF\libraryNotesItems.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Core\Pages\LibraryF\libraryPublisherItemsFrame.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Core\Pages\ResultF\ResultPrinter.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Core\Windows\PdfEditorViewer.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="Core\Pages\LibraryF\libraryOpenEditorFile.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Core\Pages\LibraryF\libraryNotesItems.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Core\Pages\LibraryF\libraryPublisherItemsFrame.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Core\Pages\ResultF\ResultPrinter.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Core\Windows\PdfEditorViewer.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-      <SubType>Designer</SubType>
-    </Page>
   </ItemGroup>
 
 

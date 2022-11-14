@@ -24,125 +24,99 @@ namespace KuranX.App.Core.Pages.ReminderF
     /// </summary>
     public partial class RemiderItem : Page
     {
-        private int remiderId;
-        private bool tempCheck = false;
-        private Remider dRemider = new Remider();
-        private DispatcherTimer? timeSpan = new DispatcherTimer(DispatcherPriority.Render);
         private Task loadTask;
+        private int cV, cS, remiderId;
+        private bool tempCheck = false;
 
         public RemiderItem()
         {
-            try
-            {
-                InitializeComponent();
-            }
-            catch (Exception ex)
-            {
-                App.logWriter("InitializeComponent", ex);
-            }
+            InitializeComponent();
         }
 
-        public RemiderItem(int id) : this()
+        public Page PageCall(int id)
         {
-            try
-            {
-                remiderId = id;
-            }
-            catch (Exception ex)
-            {
-                App.logWriter("InitializeComponent", ex);
-            }
+            remiderId = id;
+            loadTask = Task.Run(() => loadItem(id));
+
+            return this;
         }
 
-        //-------------------------- LOADED FUNC  --------------------------//
-
-        private void loadRemider()
+        public void loadItem(int id)
         {
-            try
+            using (var entitydb = new AyetContext())
             {
-                loadAni();
-                using (var entitydb = new AyetContext())
+                var dRemider = entitydb.Remider.Where(p => p.RemiderId == id).FirstOrDefault();
+
+                this.Dispatcher.Invoke(() =>
                 {
-                    dRemider = entitydb.Remider.Where(p => p.RemiderId == remiderId).FirstOrDefault();
-
-                    this.Dispatcher.Invoke(() =>
+                    if (dRemider != null)
                     {
-                        if (dRemider != null)
+                        if (dRemider.ConnectSureId == 0) gotoVerseButton.IsEnabled = false;
+                        else gotoVerseButton.IsEnabled = true;
+                        cV = dRemider.ConnectVerseId;
+                        cS = dRemider.ConnectSureId;
+                        switch (dRemider.LoopType)
                         {
-                            if (dRemider.ConnectSureId == 0) gotoVerseButton.IsEnabled = false;
-                            else gotoVerseButton.IsEnabled = true;
+                            case "False":
+                                remiderType.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#ffc107");
+                                TimeSpan ts = dRemider.RemiderDate - DateTime.Now;
+                                type.Text = "Hatırlatma İçin Kalan Süre : " + ts.Days.ToString() + " Gün " + ts.Hours.ToString() + " Saat " + ts.Minutes.ToString() + " Dakika";
+                                type.Foreground = (SolidColorBrush)new BrushConverter().ConvertFrom("#ffc107");
+                                break;
 
-                            switch (dRemider.LoopType)
-                            {
-                                case "False":
-                                    remiderType.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#ffc107");
-                                    TimeSpan ts = dRemider.RemiderDate - DateTime.Now;
-                                    type.Text = "Hatırlatma İçin Kalan Süre : " + ts.Days.ToString() + " Gün " + ts.Hours.ToString() + " Saat " + ts.Minutes.ToString() + " Dakika";
-                                    type.Foreground = (SolidColorBrush)new BrushConverter().ConvertFrom("#ffc107");
-                                    break;
+                            case "Gün":
+                                remiderType.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#d63384");
+                                type.Text = "Günlük Olarak Tekrarlanıyor";
+                                type.Foreground = (SolidColorBrush)new BrushConverter().ConvertFrom("#d63384");
+                                break;
 
-                                case "Gün":
-                                    remiderType.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#d63384");
-                                    type.Text = "Günlük Olarak Tekrarlanıyor";
-                                    type.Foreground = (SolidColorBrush)new BrushConverter().ConvertFrom("#d63384");
-                                    break;
+                            case "Hafta":
+                                remiderType.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#0d6efd");
+                                type.Text = "Haflık Olarak Tekrarlanıyor";
+                                type.Foreground = (SolidColorBrush)new BrushConverter().ConvertFrom("#0d6efd");
+                                break;
 
-                                case "Hafta":
-                                    remiderType.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#0d6efd");
-                                    type.Text = "Haflık Olarak Tekrarlanıyor";
-                                    type.Foreground = (SolidColorBrush)new BrushConverter().ConvertFrom("#0d6efd");
-                                    break;
+                            case "Ay":
+                                remiderType.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#0dcaf0");
+                                type.Text = "Aylık Olarak Tekrarlanıyor";
+                                type.Foreground = (SolidColorBrush)new BrushConverter().ConvertFrom("#0dcaf0");
+                                break;
 
-                                case "Ay":
-                                    remiderType.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#0dcaf0");
-                                    type.Text = "Aylık Olarak Tekrarlanıyor";
-                                    type.Foreground = (SolidColorBrush)new BrushConverter().ConvertFrom("#0dcaf0");
-                                    break;
-
-                                case "Yıl":
-                                    remiderType.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#6610f2");
-                                    type.Text = "Yıllık Olarak Tekrarlanıyor";
-                                    type.Foreground = (SolidColorBrush)new BrushConverter().ConvertFrom("#6610f2");
-                                    break;
-                            }
-
-                            header.Text = dRemider.RemiderName;
-                            remiderDetail.Text = dRemider.RemiderDetail;
-                            create.Text = dRemider.Create.ToString("d") + " tarihinde oluşturulmuş.";
+                            case "Yıl":
+                                remiderType.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#6610f2");
+                                type.Text = "Yıllık Olarak Tekrarlanıyor";
+                                type.Foreground = (SolidColorBrush)new BrushConverter().ConvertFrom("#6610f2");
+                                break;
                         }
-                    });
-                    Thread.Sleep(200);
-                }
-                loadAniComplated();
-            }
-            catch (Exception ex)
-            {
-                App.logWriter("loadRemider", ex);
+
+                        header.Text = dRemider.RemiderName;
+                        remiderDetail.Text = dRemider.RemiderDetail;
+                        create.Text = dRemider.Create.ToString("d") + " tarihinde oluşturulmuş.";
+                    }
+                });
+                Thread.Sleep(200);
             }
         }
 
-        private void Page_Loaded(object sender, RoutedEventArgs e)
+        // --------------------- Click Func --------------------- //
+
+        private void gotoBackButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                loadTask = new Task(loadRemider);
-                loadTask.Start();
+                NavigationService.GoBack();
             }
             catch (Exception ex)
             {
-                App.logWriter("Page_Loaded", ex);
+                App.logWriter("gotoBackButton_Click", ex);
             }
         }
-
-        //-------------------------- LOADED FUNC  --------------------------//
-
-        //-------------------------- POPUP OPEN FUNC  --------------------------//
 
         private void deleteButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                deleteNotepopup.IsOpen = true;
+                popup_DeleteConfirm.IsOpen = true;
             }
             catch (Exception ex)
             {
@@ -150,25 +124,15 @@ namespace KuranX.App.Core.Pages.ReminderF
             }
         }
 
-        //-------------------------- POPUP OPEN FUNC  --------------------------//
-
-        //-------------------------- ACTİONS FUNC  --------------------------//
-
-        private void saveButton_Click(object sender, RoutedEventArgs e)
+        private void gotoVerseButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                using (var entitydb = new AyetContext())
-                {
-                    dRemider.RemiderDetail = remiderDetail.Text;
-                    entitydb.Remider.Update(dRemider);
-                    entitydb.SaveChanges();
-                    saveButton.IsEnabled = false;
-                }
+                App.mainframe.Content = App.navVersePage.PageCall(cS, cV, "Remider");
             }
             catch (Exception ex)
             {
-                App.logWriter("saveButton_Click", ex);
+                App.logWriter("gotoVerseButton_Click", ex);
             }
         }
 
@@ -186,7 +150,7 @@ namespace KuranX.App.Core.Pages.ReminderF
                     entitydb.Remider.RemoveRange(entitydb.Remider.Where(p => p.RemiderId == remiderId));
                     entitydb.Tasks.RemoveRange(entitydb.Tasks.Where(p => p.MissonsId == remiderId));
                     entitydb.SaveChanges();
-                    deleteNotepopup.IsOpen = false;
+                    popup_DeleteConfirm.IsOpen = false;
                     voidgobacktimer();
                 }
             }
@@ -200,12 +164,12 @@ namespace KuranX.App.Core.Pages.ReminderF
         {
             try
             {
-                timeSpan.Interval = TimeSpan.FromSeconds(3);
-                timeSpan.Start();
+                App.timeSpan.Interval = TimeSpan.FromSeconds(3);
+                App.timeSpan.Start();
                 succsessFunc("Hatırlatıcı Silme Başarılı", "Hatırlatıcı başaralı bir sekilde silinmiştir. Hatırlatıcı sayfasına yönlendiriliyorsunuz...", 3);
-                timeSpan.Tick += delegate
+                App.timeSpan.Tick += delegate
                 {
-                    timeSpan.Stop();
+                    App.timeSpan.Stop();
                     NavigationService.GoBack();
                 };
             }
@@ -215,71 +179,51 @@ namespace KuranX.App.Core.Pages.ReminderF
             }
         }
 
-        private void gotoVerseButton_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                App.mainframe.Content = new VerseF.verseFrame(dRemider.ConnectSureId, dRemider.ConnectVerseId, "Remider");
-            }
-            catch (Exception ex)
-            {
-                App.logWriter("gotoVerseButton_Click", ex);
-            }
-        }
-
         private void popupClosed_Click(object sender, RoutedEventArgs e)
         {
             try
             {
                 Button btntemp = sender as Button;
-                var popuptemp = (Popup)this.FindName(btntemp.Uid);
+                var popuptemp = (Popup)FindName(btntemp.Uid);
 
                 popuptemp.IsOpen = false;
             }
             catch (Exception ex)
             {
-                App.logWriter("popupClosed_Click", ex);
+                App.logWriter("Other", ex);
             }
         }
 
-        private void succsessFunc(string header, string detail, int timespan)
+        private void saveButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                successPopupHeader.Text = header;
-                successPopupDetail.Text = detail;
-                scph.IsOpen = true;
-
-                timeSpan.Interval = TimeSpan.FromSeconds(timespan);
-                timeSpan.Start();
-                timeSpan.Tick += delegate
+                using (var entitydb = new AyetContext())
                 {
-                    scph.IsOpen = false;
-                    timeSpan.Stop();
-                };
+                    if (remiderDetail.Text.Length < 8)
+                    {
+                        alertFunc("Güncelleme Başarısız", "Yeni hatırlatıcı notunuz çok kısa minimum 8 karakter olmalıdır.", 3);
+                    }
+                    else
+                    {
+                        entitydb.Remider.Where(p => p.RemiderId == remiderId).First().RemiderDetail = remiderDetail.Text;
+                        entitydb.SaveChanges();
+                        succsessFunc("Güncelleme Başarılı", "Hatırlatıcı notunuz güncellendi.", 3);
+                        saveButton.IsEnabled = false;
+                    }
+                }
             }
             catch (Exception ex)
             {
-                App.logWriter("succsessFunc", ex);
+                App.logWriter("saveButton_Click", ex);
             }
         }
 
-        private void gotoBackButton_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                NavigationService.GoBack();
-            }
-            catch (Exception ex)
-            {
-                App.logWriter("gotoBackButton_Click", ex);
-            }
-        }
+        // --------------------- Click Func --------------------- //
 
-        //-------------------------- ACTİONS FUNC  --------------------------//
+        // -------------------- Change Func -------------------- //
 
-        //-------------------------- KEYDOWN FUNC  --------------------------//
-        private void noteDetail_TextChanged(object sender, TextChangedEventArgs e)
+        private void remiderDetail_TextChanged(object sender, TextChangedEventArgs e)
         {
             try
             {
@@ -291,45 +235,80 @@ namespace KuranX.App.Core.Pages.ReminderF
             }
             catch (Exception ex)
             {
-                App.logWriter("noteDetail_TextChanged", ex);
+                App.logWriter("remiderDetail_TextChanged", ex);
             }
         }
 
-        //-------------------------- KEYDOWN FUNC  --------------------------//
+        // -------------------- Change Func -------------------- //
 
-        //-------------------------- Animations FUNC  --------------------------//
+        // ---------- MessageFunc FUNC ---------- //
 
-        private void loadAni()
+        private void alertFunc(string header, string detail, int timespan)
         {
             try
             {
-                this.Dispatcher.Invoke(() =>
+                alertPopupHeader.Text = header;
+                alertPopupDetail.Text = detail;
+                alph.IsOpen = true;
+
+                App.timeSpan.Interval = TimeSpan.FromSeconds(timespan);
+                App.timeSpan.Start();
+                App.timeSpan.Tick += delegate
                 {
-                    loadinGifContent.Visibility = Visibility.Visible;
-                });
+                    alph.IsOpen = false;
+                    App.timeSpan.Stop();
+                };
             }
             catch (Exception ex)
             {
-                App.logWriter("loadAni", ex);
+                App.logWriter("Other", ex);
             }
         }
 
-        private void loadAniComplated()
+        private void infoFunc(string header, string detail, int timespan)
         {
             try
             {
-                this.Dispatcher.Invoke(() =>
+                infoPopupHeader.Text = header;
+                infoPopupDetail.Text = detail;
+                inph.IsOpen = true;
+
+                App.timeSpan.Interval = TimeSpan.FromSeconds(timespan);
+                App.timeSpan.Start();
+                App.timeSpan.Tick += delegate
                 {
-                    loadinGifContent.Visibility = Visibility.Collapsed;
-                    loadBorder.Visibility = Visibility.Visible;
-                });
+                    inph.IsOpen = false;
+                    App.timeSpan.Stop();
+                };
             }
             catch (Exception ex)
             {
-                App.logWriter("loadAniComplated", ex);
+                App.logWriter("Other", ex);
             }
         }
 
-        //-------------------------- Animations FUNC  --------------------------//
+        private void succsessFunc(string header, string detail, int timespan)
+        {
+            try
+            {
+                successPopupHeader.Text = header;
+                successPopupDetail.Text = detail;
+                scph.IsOpen = true;
+
+                App.timeSpan.Interval = TimeSpan.FromSeconds(timespan);
+                App.timeSpan.Start();
+                App.timeSpan.Tick += delegate
+            {
+                scph.IsOpen = false;
+                App.timeSpan.Stop();
+            };
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Other", ex);
+            }
+        }
+
+        // ---------- MessageFunc FUNC ---------- //
     }
 }
