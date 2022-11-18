@@ -22,7 +22,6 @@ namespace KuranX.App.Core.Pages.ResultF
     /// </summary>
     public partial class ResultFrame : Page
     {
-        private Task loadTask;
         private int lastPage = 0, NowPage = 1;
 
         public ResultFrame()
@@ -30,10 +29,18 @@ namespace KuranX.App.Core.Pages.ResultF
             InitializeComponent();
         }
 
-        public Page navResultPageCall()
+        public Page PageCall()
         {
-            loadTask = Task.Run(() => loadItem());
+            lastPage = 0;
+            NowPage = 1;
+            App.loadTask = Task.Run(() => loadItem());
             return this;
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            App.mainScreen.navigationWriter("result", "");
+            App.loadTask = Task.Run(() => loadItem());
         }
 
         // -------------- Load Func  -------------- //
@@ -42,6 +49,7 @@ namespace KuranX.App.Core.Pages.ResultF
         {
             using (var entitydb = new AyetContext())
             {
+                App.mainScreen.navigationWriter("result", "");
                 var dResults = entitydb.Results.Skip(lastPage).Take(16).ToList();
                 Decimal totalcount = entitydb.Results.Count();
                 List<Classes.Result> dtemp = new List<Classes.Result>();
@@ -107,8 +115,8 @@ namespace KuranX.App.Core.Pages.ResultF
                 nextpageButton.IsEnabled = false;
                 lastPage += 16;
                 NowPage++;
-                loadTask = new Task(() => loadItem());
-                loadTask.Start();
+                App.loadTask = new Task(() => loadItem());
+                App.loadTask.Start();
             }
             catch (Exception ex)
             {
@@ -125,8 +133,8 @@ namespace KuranX.App.Core.Pages.ResultF
                     previusPageButton.IsEnabled = false;
                     lastPage -= 16;
                     NowPage--;
-                    loadTask = new Task(() => loadItem());
-                    loadTask.Start();
+                    App.loadTask = new Task(() => loadItem());
+                    App.loadTask.Start();
                 }
             }
             catch (Exception ex)
@@ -143,14 +151,15 @@ namespace KuranX.App.Core.Pages.ResultF
         {
             try
             {
-                /*
-                if (fastSureCheck)
+                var cbi = fastsureCombobox.SelectedItem as ComboBoxItem;
+                if (cbi != null)
                 {
-                    var item = fastsureCombobox.SelectedItem as ComboBoxItem;
-                    if (item.Uid != "0") App.mainframe.Content = new ResultItem(int.Parse(item.Uid));
+                    if (cbi.Uid != "0")
+                    {
+                        if (cbi.Uid != "0") App.mainframe.Content = App.navResultItem.PageCall(int.Parse(cbi.Uid));
+                    }
                 }
-                else fastSureCheck = true;
-                */
+                cbi = null;
             }
             catch (Exception ex)
             {
@@ -159,5 +168,25 @@ namespace KuranX.App.Core.Pages.ResultF
         }
 
         // -------------- Change Func  -------------- //
+
+        // ------------ Animation Func ------------ //
+
+        public void loadAni()
+        {
+            this.Dispatcher.Invoke(() =>
+            {
+                fastsureCombobox.IsEnabled = false;
+            });
+        }
+
+        public void loadAniComplated()
+        {
+            this.Dispatcher.Invoke(() =>
+            {
+                fastsureCombobox.IsEnabled = true;
+            });
+        }
+
+        // ------------ Animation Func ------------ //
     }
 }

@@ -16,9 +16,9 @@ namespace KuranX.App.Core.Classes
         public string? VerseArabic { get; set; }
         public string? VerseTr { get; set; }
         public string? VerseDesc { get; set; }
-        public string? VerseCheck { get; set; }
-        public string? MarkCheck { get; set; }
-        public string? RemiderCheck { get; set; }
+        public bool? VerseCheck { get; set; }
+        public bool? MarkCheck { get; set; }
+        public bool? RemiderCheck { get; set; }
 
         public string? Status { get; set; }
     }

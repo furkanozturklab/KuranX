@@ -9,7 +9,7 @@
       xmlns:extension="clr-namespace:KuranX.App.Core.Classes"
       mc:Ignorable="d"
       d:DesignHeight="708" d:DesignWidth="1115" d:MaxHeight="708" d:MaxWidth="1270" d:MinWidth="1115"
-      Title="VerseFrame" Background="#FAFAFA">
+      Title="VerseFrame" Background="#FAFAFA" Loaded="Page_Loaded">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="150" />

@@ -24,7 +24,6 @@ namespace KuranX.App.Core.Pages.ReminderF
     /// </summary>
     public partial class RemiderItem : Page
     {
-        private Task loadTask;
         private int cV, cS, remiderId;
         private bool tempCheck = false;
 
@@ -36,8 +35,7 @@ namespace KuranX.App.Core.Pages.ReminderF
         public Page PageCall(int id)
         {
             remiderId = id;
-            loadTask = Task.Run(() => loadItem(id));
-
+            App.loadTask = Task.Run(() => loadItem(id));
             return this;
         }
 
@@ -45,6 +43,7 @@ namespace KuranX.App.Core.Pages.ReminderF
         {
             using (var entitydb = new AyetContext())
             {
+                loadAni();
                 var dRemider = entitydb.Remider.Where(p => p.RemiderId == id).FirstOrDefault();
 
                 this.Dispatcher.Invoke(() =>
@@ -55,6 +54,10 @@ namespace KuranX.App.Core.Pages.ReminderF
                         else gotoVerseButton.IsEnabled = true;
                         cV = dRemider.ConnectVerseId;
                         cS = dRemider.ConnectSureId;
+
+                        if (dRemider.LoopType == "False") App.mainScreen.navigationWriter("remider", "Tarih Bazlı Hatırlartıcı");
+                        else App.mainScreen.navigationWriter("remider", $"{dRemider.LoopType} Bazlı Hatırlartıcı");
+
                         switch (dRemider.LoopType)
                         {
                             case "False":
@@ -95,6 +98,7 @@ namespace KuranX.App.Core.Pages.ReminderF
                     }
                 });
                 Thread.Sleep(200);
+                loadAniComplated();
             }
         }
 
@@ -144,7 +148,6 @@ namespace KuranX.App.Core.Pages.ReminderF
                 {
                     gotoBackButton.IsEnabled = false;
                     gotoVerseButton.IsEnabled = false;
-
                     deleteButton.IsEnabled = false;
                     saveButton.IsEnabled = false;
                     entitydb.Remider.RemoveRange(entitydb.Remider.Where(p => p.RemiderId == remiderId));
@@ -310,5 +313,31 @@ namespace KuranX.App.Core.Pages.ReminderF
         }
 
         // ---------- MessageFunc FUNC ---------- //
+
+        // ------------ Animation Func ------------ //
+
+        public void loadAni()
+        {
+            this.Dispatcher.Invoke(() =>
+            {
+                gotoBackButton.IsEnabled = false;
+                gotoVerseButton.IsEnabled = false;
+                deleteButton.IsEnabled = false;
+                remiderDetail.IsEnabled = false;
+            });
+        }
+
+        public void loadAniComplated()
+        {
+            this.Dispatcher.Invoke(() =>
+            {
+                gotoBackButton.IsEnabled = true;
+                gotoVerseButton.IsEnabled = true;
+                deleteButton.IsEnabled = true;
+                remiderDetail.IsEnabled = true;
+            });
+        }
+
+        // ------------ Animation Func ------------ //
     }
 }

@@ -51,124 +51,134 @@
 
         <!-- POPUP -->
 
-        <Grid x:Name="leftgg" Grid.Column="0" Width="250">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="250" />
-                <RowDefinition Height="458" />
-                <RowDefinition Height="60" />
-            </Grid.RowDefinitions>
+        <Border x:Name="leftgg" Grid.Column="0" Width="250" BorderThickness="0 0 1 0 " BorderBrush="#E1E3E6">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="250" />
+                    <RowDefinition Height="458" />
+                    <RowDefinition Height="60" />
+                </Grid.RowDefinitions>
 
-            <Border x:Name="hmwnd_leftHeaderContent" Style="{DynamicResource hmwnd_leftHeaderContent}" UseLayoutRounding="True">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
+                <Border x:Name="hmwnd_leftHeaderContent" Style="{DynamicResource hmwnd_leftHeaderContent}" UseLayoutRounding="True">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
 
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="45" />
-                        <RowDefinition Height="24" />
-                        <RowDefinition Height="115" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="6" />
-                    </Grid.RowDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="45" />
+                            <RowDefinition Height="24" />
+                            <RowDefinition Height="115" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="6" />
+                        </Grid.RowDefinitions>
 
-                    <TextBlock Text="Demo" Style="{DynamicResource hmwnd_demoText}" Panel.ZIndex="10" Margin="0,-36,-51,0">
-                        <TextBlock.RenderTransform>
-                            <TransformGroup>
-                                <ScaleTransform />
-                                <SkewTransform />
-                                <RotateTransform Angle="40" />
-                                <TranslateTransform />
-                            </TransformGroup>
-                        </TextBlock.RenderTransform>
-                    </TextBlock>
+                        <TextBlock Text="Demo" Style="{DynamicResource hmwnd_demoText}" Panel.ZIndex="10" Margin="0,-36,-51,0">
+                            <TextBlock.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform />
+                                    <SkewTransform />
+                                    <RotateTransform Angle="40" />
+                                    <TranslateTransform />
+                                </TransformGroup>
+                            </TextBlock.RenderTransform>
+                        </TextBlock>
 
-                    <StackPanel Grid.Row="0">
-                        <TextBlock x:Name="hmwnd_headerH1" Text="Hoşgeldiniz"  Style="{DynamicResource hmwnd_leftHeader}" />
-                        <TextBlock x:Name="hmwnd_headerH2" Text="" Style="{DynamicResource hmwnd_leftHeaderSub}" />
+                        <StackPanel Grid.Row="0">
+                            <TextBlock x:Name="hmwnd_headerH1" Text="Hoşgeldiniz"  Style="{DynamicResource hmwnd_leftHeader}" />
+                            <TextBlock x:Name="hmwnd_headerH2" Text="" Style="{DynamicResource hmwnd_leftHeaderSub}" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Left">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <CheckBox x:Name="hmwnd_sizeControl" Grid.Row="0" IsChecked="False" ToolTip="Ekran Boyut Değiştirme" Style="{DynamicResource ExtendedButton}" Visibility="Visible" Click="hmwnd_sizeControl_Click">
+                                    <CheckBox.Triggers>
+                                        <EventTrigger RoutedEvent="CheckBox.Unchecked">
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation From="105" To="250" Duration="0:0:0.8" Storyboard.TargetName="leftgg" Storyboard.TargetProperty="(Grid.Width)" />
+                                                    <DoubleAnimation From="1271" To="1116" Duration="0:0:0.8" Storyboard.TargetName="rightgg" Storyboard.TargetProperty="(Grid.Width)" />
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </EventTrigger>
+                                        <EventTrigger RoutedEvent="CheckBox.Checked">
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation From="250" To="105" Duration="0:0:0.8" Storyboard.TargetName="leftgg" Storyboard.TargetProperty="(Grid.Width)" />
+                                                    <DoubleAnimation From="1116" To="1271" Duration="0:0:0.8" Storyboard.TargetName="rightgg" Storyboard.TargetProperty="(Grid.Width)" />
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </EventTrigger>
+                                    </CheckBox.Triggers>
+                                </CheckBox>
+                            </Grid>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Vertical" Grid.Row="2">
+                            <Ellipse x:Name="hmwd_profileImage" Style="{DynamicResource hmwnd_leftHeaderImage}" Margin="0,8,0,0">
+                                <Ellipse.Fill>
+                                    <ImageBrush x:Uid="" x:Name="hmwd_profileImageBrush" RenderOptions.BitmapScalingMode="HighQuality" ImageSource="/resource/images/other/defaultProfileImage.png" />
+                                </Ellipse.Fill>
+                            </Ellipse>
+                            <TextBlock x:Name="hmwd_profileName" Style="{DynamicResource ResourceKey=hmwnd_leftHeaderImageText}" Text="Meltdown Öztürk" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Button x:Name="leftHeaderButtonsProfile" Style="{DynamicResource hmwnd_leftHeaderButton}" extension:Extensions.ExtendsStatus="false" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="4" VerticalAlignment="Top">
+                            <Separator Background="#E1E3E6" Height="2" Margin="0,4,0,4" />
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <Border Grid.Row="1" Padding="20 10 20 10">
+                    <StackPanel x:Name="hmwnd_leftNavControlStack"  Orientation="Vertical" Margin="5 0 0 0">
+                        <CheckBox IsChecked="False" Tag="/resource/images/icon/dashboard_rb.png" Uid="/resource/images/icon/dashboard_r.png" IsEnabled="True" Content="AnaSayfa" Style="{DynamicResource hmwnd_menuItems}" Click="menuNavControl_Click" extension:Extensions.ExtendsStatus="false" />
+                        <CheckBox IsChecked="False" Tag="/resource/images/icon/verse_rb.png" Uid="/resource/images/icon/verse_r.png" IsEnabled="True" Content="Ayetler" Style="{DynamicResource hmwnd_menuItems}"  Click="menuNavControl_Click" extension:Extensions.ExtendsStatus="false" />
+                        <CheckBox IsChecked="False" Tag="/resource/images/icon/subject_rb.png" Uid="/resource/images/icon/subject_r.png" IsEnabled="True" Content="Konularım" Style="{DynamicResource hmwnd_menuItems}"  Click="menuNavControl_Click" extension:Extensions.ExtendsStatus="false" />
+                        <CheckBox IsChecked="False" Tag="/resource/images/icon/library_rb.png" Uid="/resource/images/icon/library_r.png" IsEnabled="True" Content="Kütüphane" Style="{DynamicResource hmwnd_menuItems}"  Click="menuNavControl_Click" extension:Extensions.ExtendsStatus="false" />
+                        <CheckBox IsChecked="False" Tag="/resource/images/icon/notes_rb.png" Uid="/resource/images/icon/notes_r.png" IsEnabled="True" Content="Notlar" Style="{DynamicResource hmwnd_menuItems}"  Click="menuNavControl_Click" extension:Extensions.ExtendsStatus="false" />
+                        <CheckBox IsChecked="False" Tag="/resource/images/icon/remider_rb.png" Uid="/resource/images/icon/remider_r.png" IsEnabled="True" Content="Hatırlatıcı" Style="{DynamicResource hmwnd_menuItems}"  Click="menuNavControl_Click" extension:Extensions.ExtendsStatus="false" />
+                        <CheckBox IsChecked="False" Tag="/resource/images/icon/result_rb.png" Uid="/resource/images/icon/result_r.png" IsEnabled="True" Content="Sonuc" Style="{DynamicResource hmwnd_menuItems}"  Click="menuNavControl_Click" extension:Extensions.ExtendsStatus="false" />
+                        <CheckBox IsChecked="False" Tag="/resource/images/icon/help_rb.png" Uid="/resource/images/icon/help_r.png" IsEnabled="True" Content="Kullanıcı Yardımı" Style="{DynamicResource hmwnd_menuItems}"  Click="menuNavControl_Click" extension:Extensions.ExtendsStatus="false" />
                     </StackPanel>
+                </Border>
+                <Border Grid.Row="2" Padding="5 0 5 0">
 
-                    <StackPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Left">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*" />
-                            </Grid.RowDefinitions>
-                            <CheckBox x:Name="hmwnd_sizeControl" Grid.Row="0" IsChecked="False" ToolTip="Ekran Boyut Değiştirme" Style="{DynamicResource ExtendedButton}" Visibility="Visible" Click="hmwnd_sizeControl_Click">
-                                <CheckBox.Triggers>
-                                    <EventTrigger RoutedEvent="CheckBox.Unchecked">
-                                        <BeginStoryboard>
-                                            <Storyboard>
-                                                <DoubleAnimation From="105" To="250" Duration="0:0:0.8" Storyboard.TargetName="leftgg" Storyboard.TargetProperty="(Grid.Width)" />
-                                                <DoubleAnimation From="1271" To="1116" Duration="0:0:0.8" Storyboard.TargetName="rightgg" Storyboard.TargetProperty="(Grid.Width)" />
-                                            </Storyboard>
-                                        </BeginStoryboard>
-                                    </EventTrigger>
-                                    <EventTrigger RoutedEvent="CheckBox.Checked">
-                                        <BeginStoryboard>
-                                            <Storyboard>
-                                                <DoubleAnimation From="250" To="105" Duration="0:0:0.8" Storyboard.TargetName="leftgg" Storyboard.TargetProperty="(Grid.Width)" />
-                                                <DoubleAnimation From="1116" To="1271" Duration="0:0:0.8" Storyboard.TargetName="rightgg" Storyboard.TargetProperty="(Grid.Width)" />
-                                            </Storyboard>
-                                        </BeginStoryboard>
-                                    </EventTrigger>
-                                </CheckBox.Triggers>
-                            </CheckBox>
-                        </Grid>
-                    </StackPanel>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
 
-                    <StackPanel Orientation="Vertical" Grid.Row="2">
-                        <Ellipse x:Name="hmwd_profileImage" Style="{DynamicResource hmwnd_leftHeaderImage}" Margin="0,8,0,0">
-                            <Ellipse.Fill>
-                                <ImageBrush x:Uid="" x:Name="hmwd_profileImageBrush" RenderOptions.BitmapScalingMode="HighQuality" ImageSource="/resource/images/other/defaultProfileImage.png" />
-                            </Ellipse.Fill>
-                        </Ellipse>
-                        <TextBlock x:Name="hmwd_profileName" Style="{DynamicResource ResourceKey=hmwnd_leftHeaderImageText}" Text="Meltdown Öztürk" />
-                    </StackPanel>
+                        <StackPanel Grid.Row="0" Orientation="Horizontal"  VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Button Style="{DynamicResource hmwnd_leftSetting}" ToolTip="Ayarlar Menüsü" />
+                            <Button Style="{DynamicResource hmwnd_leftFeed}" ToolTip="Geri Bildirim" />
+                            <Button Style="{DynamicResource hmwnd_leftAdmin}" Click="adminOpen_Click" Visibility="Visible" />
+                        </StackPanel>
 
-                    <StackPanel Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Center">
-                        <Button x:Name="leftHeaderButtonsProfile" Style="{DynamicResource hmwnd_leftHeaderButton}" extension:Extensions.ExtendsStatus="false" />
-                    </StackPanel>
-
-                    <StackPanel Grid.Row="4" VerticalAlignment="Top">
-                        <Separator Background="#E1E3E6" Height="2" Margin="0,4,0,4" />
-                    </StackPanel>
-                </Grid>
-            </Border>
-
-            <Border Grid.Row="1" Padding="20 10 20 10">
-                <StackPanel x:Name="hmwnd_leftNavControlStack"  Orientation="Vertical" Margin="5 0 0 0">
-                    <CheckBox IsChecked="False" Tag="/resource/images/icon/dashboard_rb.png" Uid="/resource/images/icon/dashboard_r.png" IsEnabled="True" Content="AnaSayfa" Style="{DynamicResource hmwnd_menuItems}" Click="menuNavControl_Click" extension:Extensions.ExtendsStatus="false" />
-                    <CheckBox IsChecked="False" Tag="/resource/images/icon/verse_rb.png" Uid="/resource/images/icon/verse_r.png" IsEnabled="True" Content="Ayetler" Style="{DynamicResource hmwnd_menuItems}"  Click="menuNavControl_Click" extension:Extensions.ExtendsStatus="false" />
-                    <CheckBox IsChecked="False" Tag="/resource/images/icon/subject_rb.png" Uid="/resource/images/icon/subject_r.png" IsEnabled="True" Content="Konularım" Style="{DynamicResource hmwnd_menuItems}"  Click="menuNavControl_Click" extension:Extensions.ExtendsStatus="false" />
-                    <CheckBox IsChecked="False" Tag="/resource/images/icon/library_rb.png" Uid="/resource/images/icon/library_r.png" IsEnabled="True" Content="Kütüphane" Style="{DynamicResource hmwnd_menuItems}"  Click="menuNavControl_Click" extension:Extensions.ExtendsStatus="false" />
-                    <CheckBox IsChecked="False" Tag="/resource/images/icon/notes_rb.png" Uid="/resource/images/icon/notes_r.png" IsEnabled="True" Content="Notlar" Style="{DynamicResource hmwnd_menuItems}"  Click="menuNavControl_Click" extension:Extensions.ExtendsStatus="false" />
-                    <CheckBox IsChecked="False" Tag="/resource/images/icon/remider_rb.png" Uid="/resource/images/icon/remider_r.png" IsEnabled="True" Content="Hatırlatıcı" Style="{DynamicResource hmwnd_menuItems}"  Click="menuNavControl_Click" extension:Extensions.ExtendsStatus="false" />
-                    <CheckBox IsChecked="False" Tag="/resource/images/icon/result_rb.png" Uid="/resource/images/icon/result_r.png" IsEnabled="True" Content="Sonuc" Style="{DynamicResource hmwnd_menuItems}"  Click="menuNavControl_Click" extension:Extensions.ExtendsStatus="false" />
-                    <CheckBox IsChecked="False" Tag="/resource/images/icon/help_rb.png" Uid="/resource/images/icon/help_r.png" IsEnabled="True" Content="Kullanıcı Yardımı" Style="{DynamicResource hmwnd_menuItems}"  Click="menuNavControl_Click" extension:Extensions.ExtendsStatus="false" />
-                </StackPanel>
-            </Border>
-            <Border Grid.Row="2" Padding="5 0 5 0">
-
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-
-                    <StackPanel Grid.Row="0" Orientation="Horizontal"  VerticalAlignment="Center" HorizontalAlignment="Center">
-                        <Button Style="{DynamicResource hmwnd_leftSetting}" ToolTip="Ayarlar Menüsü" />
-                        <Button Style="{DynamicResource hmwnd_leftFeed}" ToolTip="Geri Bildirim" Click="Button_Click" />
-                        <Button Style="{DynamicResource hmwnd_leftAdmin}" Click="adminOpen_Click" Visibility="Visible" />
-                    </StackPanel>
-
-                    <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
-                        <TextBlock  Text="Version 0.2.0" Style="{DynamicResource hmwnd_leftVersionText}" />
-                    </StackPanel>
-                </Grid>
-            </Border>
-        </Grid>
+                        <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <TextBlock  Text="Version 0.2.0" Style="{DynamicResource hmwnd_leftVersionText}" />
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Border>
 
         <Grid x:Name="rightgg"  Grid.Column="1"  Width="1116" Grid.ColumnSpan="2">
+
+            <StackPanel Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Right" Panel.ZIndex="7" Margin="0 10 0 0">
+                <Button Grid.Column="1" Style="{DynamicResource hmwnd_appclosedButton}"  Content="close" Click="appClosed_Click" />
+            </StackPanel>
+
+            <Grid x:Name="loadinGifContent" Grid.Row="0" Background="#FAFAFA" Panel.ZIndex="5" Visibility="Collapsed">
+                <Image gif:ImageBehavior.AnimatedSource="/Resource/Images/Gif/Spinner800.gif" Width="250" Height="250"  RenderOptions.BitmapScalingMode="HighQuality" />
+            </Grid>
 
             <Popup x:Name="lifeCyclerPopups" IsOpen="False" AllowsTransparency="True" Width="340" Height="90" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade" Placement="Top" VerticalOffset="50" HorizontalOffset="750" PlacementTarget="{Binding ElementName=homeFrame}">
                 <Border Style="{DynamicResource defaultBorderShadowEffect}" VerticalAlignment="Center" Height="70" Width="320">
@@ -185,10 +195,10 @@
                 </Border>
             </Popup>
 
-            <Border x:Name="border" Style="{DynamicResource rightPanelBorder}">
-                <Grid>
+            <Border Style="{DynamicResource rightPanelBorder}">
+                <Grid x:Name="rightPanel" Style="{DynamicResource aniEffectFadeGrid}" Visibility="Hidden">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="40" />
+                        <RowDefinition Height="50" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
                     <Grid Grid.Row="0">
@@ -198,17 +208,12 @@
                         </Grid.ColumnDefinitions>
                         <StackPanel x:Name="NavigationStack" Orientation="Horizontal" Grid.Column="0" Margin="25,0,0,0" HorizontalAlignment="Left">
                             <Button x:Name="baseNavigation" Style="{DynamicResource hmwnd_navgationIcons}" />
-                        </StackPanel>
-                        <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right">
-                            <Button Grid.Column="1" Style="{DynamicResource hmwnd_appclosedButton}"  Content="close" Click="appClosed_Click" />
+                            <StackPanel x:Name="NavigationStackItems" Orientation="Horizontal">
+                            </StackPanel>
                         </StackPanel>
                     </Grid>
 
-                    <Grid x:Name="loadinGifContent" Grid.Row="1" Background="#FAFAFA" Panel.ZIndex="5" Visibility="Visible">
-                        <Image gif:ImageBehavior.AnimatedSource="/Resource/Images/Gif/Spinner800.gif" Width="250" Height="250"  RenderOptions.BitmapScalingMode="HighQuality" />
-                    </Grid>
-
-                    <Grid x:Name="MainFrameGrid" Grid.Row="1" Style="{DynamicResource aniEffectFadeGrid}" Visibility="Hidden">
+                    <Grid x:Name="MainFrameGrid" Grid.Row="1">
                         <Frame  Style="{DynamicResource contentFrame}"  NavigationUIVisibility="Hidden" x:Name="homeFrame" Content="Frame" Padding="15,0,15,0" Grid.IsSharedSizeScope="True" Navigated="homeFrame_Navigated" />
                     </Grid>
                 </Grid>

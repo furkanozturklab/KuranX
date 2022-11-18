@@ -16,7 +16,6 @@
 * ### Public 
 
 	* [ ] ⚠️ ---------------
-
 	* [x] ⚠️ ~~1-7 sure arada arası secememe rağmen~~
 	* [x] ⚠️ ~~ayetlerde tek tek gitme de ekle ciftlilerde 7 7 git.~~
 	* [x] ⚠️ ~~ayetlere tek tek giderken üst bar güncellenmiyor~~
@@ -51,22 +50,29 @@
     * [x] ⚠️ ~~Yorumcuyu değiştirdğimde yorumu getir aktif ise değiştiriyor ama biz göremiyoruz yorumcu değişince + yorumu getir click lenmiş gibi olmalı~~
     * [x] ⚠️ ~~Aynı not isim ile not eklene biliyor~~
     * [x] ⚠️ ~~Not alırken 3000 karakter sınırı olsun // AYET~~
-    * [ ] ⚠️ verses panel ve resultpanel haric sonraki buttonlar ve önceki buttonlar düzgün çalışmıyor 
-    * [ ] ⚠️ filtrelemede  sonraki buttonlar ve önceki buttonlar düzgün çalışmıyor 
+    * [x] ⚠️ verses panel ve resultpanel haric sonraki buttonlar ve önceki buttonlar düzgün çalışmıyor 
+    * [x] ⚠️ filtrelemede  sonraki buttonlar ve önceki buttonlar düzgün çalışmıyor 
     * [ ] ⚠️ Hatırlatıcılardaki sıralama sorunu var oder by date düzgün çalışmıyor 
-    * [ ] ⚠️ Kütüphane ve konu oluşturda popup boyutları ve uyarı mesajlarında görsel hata
+    * [x] ⚠️ Kütüphane ve konu oluşturda popup boyutları ve uyarı mesajlarında görsel hata
     * [ ] ⚠️ infor ayetler arasındaki konular yazı header değiştir. // NE YAZICAĞIMI HATIRLAMIYORUM   /// :: Ayetler arasındaki konular
     * [x] ⚠️ işaretle de birden fazla işaretleme kala biliyor .
     * [x] ⚠️ Okuduklarım da okunan tüm veriler gösterilmiyor.
     * [x] ⚠️ işaret değiştiğinde okunmuşdan okunamış olarak geçiyor düzeltmem lazım.
-    * [ ] ⚠️ Not getirme kısımda 24 ıtemscontrol var 26 load yapmışım kontrol edilmesi lazım
-    * [ ] ⚠️ Not frame de totalcount ve next previes page yapısı eski kalmış düzeltimeli
-    * [ ] ⚠️ Not başlığı sınır koymalımıyız ? 
-    * [ ] ⚠️ Kaldığın yeri işaretleyip sildiğinde eğer yeşil se gri renk oluyor 
-    * [ ] ⚠️ 
-
-
-
+    * [x] ⚠️ Not getirme kısımda 24 ıtemscontrol var 26 load yapmışım kontrol edilmesi lazım
+    * [x] ⚠️ Not frame de totalcount ve next previes page yapısı eski kalmış düzeltimeli
+    * [x] ⚠️ Not başlığı sınır koymalımıyız ? 
+    * [x] ⚠️ Kaldığın yeri işaretleyip sildiğinde eğer yeşil se gri renk oluyor 
+    * [x] ⚠️ İşaretledikden sonra tümünü okuduğunda renk gidiyor mavi yerine yeşil oluyor. "Uğraştırdı 😄"
+    * [x] ⚠️ Anlam bütünlüğü başlığı 50 den uzun oluyor ama uyarı veriyor.
+    * [ ] ⚠️ LibraryFile Itemda Not türü konu notu olarak kalmış.
+    * [ ] ⚠️ LibraryFile kütüphaneye gönderince combobox kütüphaneler ulaşmıyor.
+    * [x] ⚠️ Not daha önceki notun parçaları kalıyor kontrol et library notu actım sonra user notu library notunu parçaları kalmış.
+    * [ ] ⚠️ konuların notunda nota gidemiyoruz.
+    * [ ] ⚠️ Not silerkenki popup hatalı gösteriyor.
+    * [x] ⚠️ Kütüphane Dosyaları silinemiyor.
+    * [ ] ⚠️ Tüm Panellerin Yükleme funclarını kontrol edelim
+    * [ ] ⚠️ Hatırlatıcı sildikten sonra işaretli kalıyor ve popupları acılıp kapanması bak
+    * [ ] 
 ## Gelecek Güncellemeler:
 
 * ### Public
@@ -82,6 +88,8 @@
 	* [x] 🆕 Editor Secimini Gizle
 	* [x] 🆕 anlam bütünlüğü okurkan düzeltme olsun yazılı şeyler düzeltilemiyor. ve silme olsun
 	* [x] 🆕 editor girişi için anlambütünlüğü başşığını baypass et   öRNEK :  Fatiha 1 Ayetini Nisa 7 Ayetine Bağlantısı
+	* [ ] 🆕 Ayetlerde yorumcuların içinde search 
+	* [ ] 🆕 Yeni Yorumcu
 	* [ ] 🆕
 
 
@@ -100,14 +108,14 @@
 
 #### STATUS 
 
-> SON EKLENEN SORUN TARİHİ : 22.10.2022
+> SON EKLENEN SORUN TARİHİ : 15.11.2022
 >
-> SON ÇÖZÜLEN SORUN TARİHİ : 12.10.2022
+> SON ÇÖZÜLEN SORUN TARİHİ : 15.11.2022
 >
-> Toplam Çözülen Sorun : 33
+> Toplam Çözülen Sorun : ?
 >
-> SON GÜNCELLEME TARİHİ : 12.10.2022
+> SON GÜNCELLEME TARİHİ : 15.11.2022
 >
-> VERSİYON PUBLİC : 0.1.0  Alpha
+> VERSİYON PUBLİC : 0.2.0  Alpha
 >
 

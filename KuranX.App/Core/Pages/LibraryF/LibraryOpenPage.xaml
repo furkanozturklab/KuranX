@@ -7,7 +7,7 @@
        xmlns:gif="http://wpfanimatedgif.codeplex.com"
       mc:Ignorable="d"
       d:DesignHeight="708" d:DesignWidth="1115" d:MaxHeight="708" d:MaxWidth="1270" d:MinWidth="1115"
-      Title="LibraryFrame" Background="#FAFAFA">
+      Title="LibraryFrame" Background="#FAFAFA" Loaded="Page_Loaded">
 
     <Grid>
 

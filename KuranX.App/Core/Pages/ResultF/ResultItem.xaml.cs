@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -34,7 +35,6 @@ namespace KuranX.App.Core.Pages.ResultF
         }
 
         private int lastPage = 0, NowPage = 1, selectedId;
-        private Task loadTask;
         private bool filter = false;
         private string filterTxt;
 
@@ -45,8 +45,10 @@ namespace KuranX.App.Core.Pages.ResultF
 
         public Page PageCall(int id)
         {
+            lastPage = 0;
+            NowPage = 1;
             selectedId = id;
-            loadTask = Task.Run(() => loadItem());
+            App.loadTask = Task.Run(() => loadItem());
             return this;
         }
 
@@ -54,12 +56,12 @@ namespace KuranX.App.Core.Pages.ResultF
         {
             using (var entitydb = new AyetContext())
             {
+                loadAni();
                 decimal totalcount = 0;
                 var dResult = entitydb.Results.Where(p => p.ResultId == selectedId).FirstOrDefault();
                 List<Classes.ResultItem> dResultItems = new List<Classes.ResultItem>();
 
-                Debug.WriteLine(filter);
-                Debug.WriteLine(filterTxt);
+                App.mainScreen.navigationWriter("result", dResult.ResultName);
 
                 if (filter)
                 {
@@ -137,6 +139,7 @@ namespace KuranX.App.Core.Pages.ResultF
                         i++;
                     }
 
+                    Thread.Sleep(200);
                     if (dResultItems.Count() != 0)
                     {
                         totalcountText.Tag = totalcount.ToString();
@@ -161,6 +164,7 @@ namespace KuranX.App.Core.Pages.ResultF
                         previusPageButton.IsEnabled = false;
                     }
                 });
+                loadAniComplated();
             }
         }
 
@@ -187,7 +191,7 @@ namespace KuranX.App.Core.Pages.ResultF
                 filterTxt = btn.GetValue(Extensions.DataStorage).ToString();
             }
 
-            loadTask = Task.Run(() => loadItem());
+            App.loadTask = Task.Run(() => loadItem());
         }
 
         private void stackfilter_Click(object sender, RoutedEventArgs e)
@@ -204,7 +208,7 @@ namespace KuranX.App.Core.Pages.ResultF
             filter = true;
             filterTxt = btn.GetValue(Extensions.DataStorage).ToString();
 
-            loadTask = Task.Run(() => loadItem());
+            App.loadTask = Task.Run(() => loadItem());
         }
 
         private void gotoAction_Click(object sender, RoutedEventArgs e)
@@ -214,7 +218,7 @@ namespace KuranX.App.Core.Pages.ResultF
             {
                 case "#B30B00":
 
-                    App.mainframe.Content = App.navNoteItem.noteItemPageCall(int.Parse(btn.Uid));
+                    App.mainframe.Content = App.navNoteItem.PageCall(int.Parse(btn.Uid));
 
                     break;
 
@@ -269,7 +273,7 @@ namespace KuranX.App.Core.Pages.ResultF
                 nextpageButton.IsEnabled = false;
                 lastPage += 24;
                 NowPage++;
-                loadTask = Task.Run(loadItem);
+                App.loadTask = Task.Run(loadItem);
             }
             catch (Exception ex)
             {
@@ -286,7 +290,7 @@ namespace KuranX.App.Core.Pages.ResultF
                     previusPageButton.IsEnabled = false;
                     lastPage -= 24;
                     NowPage--;
-                    loadTask = Task.Run(loadItem);
+                    App.loadTask = Task.Run(loadItem);
                 }
             }
             catch (Exception ex)
@@ -326,5 +330,35 @@ namespace KuranX.App.Core.Pages.ResultF
         }
 
         // --------------- Click Func --------------- //
+
+        // ------------ Animation Func ------------ //
+
+        public void loadAni()
+        {
+            this.Dispatcher.Invoke(() =>
+            {
+                statusSubject.IsEnabled = false;
+                statusLib.IsEnabled = false;
+                statusNote.IsEnabled = false;
+                backPage.IsEnabled = false;
+                resultScreenOpen.IsEnabled = false;
+                filterButton.IsEnabled = false;
+            });
+        }
+
+        public void loadAniComplated()
+        {
+            this.Dispatcher.Invoke(() =>
+            {
+                statusSubject.IsEnabled = true;
+                statusLib.IsEnabled = true;
+                statusNote.IsEnabled = true;
+                backPage.IsEnabled = true;
+                resultScreenOpen.IsEnabled = true;
+                filterButton.IsEnabled = true;
+            });
+        }
+
+        // ------------ Animation Func ------------ //
     }
 }

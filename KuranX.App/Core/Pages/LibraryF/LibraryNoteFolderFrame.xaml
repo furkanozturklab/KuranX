@@ -8,7 +8,7 @@
       xmlns:gif="http://wpfanimatedgif.codeplex.com"
       mc:Ignorable="d"
       d:DesignHeight="708" d:DesignWidth="1115" d:MaxHeight="708" d:MaxWidth="1270" d:MinWidth="1115"
-      Title="LibraryNoteFolderFrame" Background="#FAFAFA">
+      Title="LibraryNoteFolderFrame" Background="#FAFAFA" Loaded="Page_Loaded">
 
     <Grid>
 
@@ -650,10 +650,10 @@
             <StackPanel Orientation="Horizontal" Height="80">
 
                 <StackPanel Style="{DynamicResource frameItemsOffsetNav}">
-                    <Button IsEnabled="True" x:Name="backPage" Style="{DynamicResource frameItemsControlNav}" Tag="ArrowLeft" Content="Kütüphaneye Geri Dön" Click="backPage_Click" />
+                    <Button IsEnabled="False" x:Name="backPage" Style="{DynamicResource frameItemsControlNav}" Tag="ArrowLeft" Content="Kütüphaneye Geri Dön" Click="backPage_Click" />
                 </StackPanel>
                 <StackPanel Style="{DynamicResource frameItemsOffsetNav}">
-                    <Button IsEnabled="True" x:Name="newLibHeader" Style="{DynamicResource frameItemsControlNav}" Tag="Plus" Content="Yeni Kütüphane" Click="newLibHeader_Click" />
+                    <Button IsEnabled="False" x:Name="newLibHeader" Style="{DynamicResource frameItemsControlNav}" Tag="Plus" Content="Yeni Kütüphane" Click="newLibHeader_Click" />
                 </StackPanel>
                 <StackPanel Style="{DynamicResource frameItemsOffsetNav}">
                     <Button IsEnabled="False" x:Name="previusPageButton" Style="{DynamicResource frameItemsControlNav}" Tag="AngleLeft" Content="Önceki Sayfa" Click="previusPageButton_Click" />

@@ -26,8 +26,6 @@ namespace KuranX.App.Core.Pages.LibraryF
     public partial class LibraryNoteItemsFrame : Page
     {
         private int lastPage = 0, NowPage = 1, folderId = 0;
-        private Task loadTask;
-        private DispatcherTimer? timeSpan = new DispatcherTimer(DispatcherPriority.Render);
 
         public LibraryNoteItemsFrame()
         {
@@ -36,10 +34,16 @@ namespace KuranX.App.Core.Pages.LibraryF
 
         public object PageCall(int id)
         {
+            lastPage = 0;
+            NowPage = 1;
             folderId = id;
-            loadTask = new Task(() => loadItem(folderId));
-            loadTask.Start();
+            App.loadTask = Task.Run(() => loadItem(folderId));
             return this;
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            App.mainScreen.navigationWriter("library", "Kütüphane Başlıkları," + loadHeader.Text);
         }
 
         // --------------- Load Func --------------- //
@@ -48,6 +52,7 @@ namespace KuranX.App.Core.Pages.LibraryF
         {
             using (var entitydb = new AyetContext())
             {
+                loadAni();
                 var dlibrary = entitydb.Librarys.Where(p => p.LibraryId == folderId).First();
                 var dNotes = entitydb.Notes.Where(p => p.LibraryId == folderId).Skip(lastPage).Take(20).ToList();
 
@@ -58,34 +63,28 @@ namespace KuranX.App.Core.Pages.LibraryF
                     loadHeader.Text = dlibrary.LibraryName;
                     loadCreated.Text = dlibrary.Created.ToString("D");
                     loadHeaderColor.Background = (SolidColorBrush)new BrushConverter().ConvertFrom(dlibrary.LibraryColor);
-                });
 
-                for (int x = 1; x < 21; x++)
-                {
-                    this.Dispatcher.Invoke(() =>
+                    App.mainScreen.navigationWriter("library", "Kütüphane Başlıkları," + loadHeader.Text);
+
+                    for (int x = 1; x < 21; x++)
                     {
                         ItemsControl itemslist = (ItemsControl)this.FindName("lni" + x);
                         itemslist.ItemsSource = null;
-                    });
-                }
+                    }
 
-                int i = 1;
-                List<Notes> tempNote = new List<Notes>();
-                foreach (var item in dNotes)
-                {
-                    this.Dispatcher.Invoke(() =>
+                    int i = 1;
+                    List<Notes> tempNote = new List<Notes>();
+                    foreach (var item in dNotes)
                     {
                         tempNote.Add(item);
                         ItemsControl itemslist = (ItemsControl)this.FindName("lni" + i);
                         itemslist.ItemsSource = tempNote;
                         tempNote.Clear();
                         i++;
-                    });
-                }
+                    }
 
-                Thread.Sleep(200);
-                this.Dispatcher.Invoke(() =>
-                {
+                    Thread.Sleep(200);
+
                     totalcountText.Tag = totalcount.ToString();
 
                     if (dNotes.Count() != 0)
@@ -109,14 +108,10 @@ namespace KuranX.App.Core.Pages.LibraryF
                         nextpageButton.IsEnabled = false;
                         previusPageButton.IsEnabled = false;
                     }
+
+                    loadAniComplated();
                 });
             }
-        }
-
-        private void Page_Loaded(object sender, RoutedEventArgs e)
-        {
-            loadTask = new Task(() => loadItem(folderId));
-            loadTask.Start();
         }
 
         // --------------- Load Func --------------- //
@@ -126,7 +121,7 @@ namespace KuranX.App.Core.Pages.LibraryF
         private void libNoteItemsOpen_Click(object sender, RoutedEventArgs e)
         {
             var btn = sender as Button;
-            App.mainframe.Content = App.navNoteItem.noteItemPageCall(int.Parse(btn.Uid));
+            App.mainframe.Content = App.navNoteItem.PageCall(int.Parse(btn.Uid));
         }
 
         private void libraryFolderDeleteBtn_Click(object sender, RoutedEventArgs e)
@@ -158,8 +153,7 @@ namespace KuranX.App.Core.Pages.LibraryF
                 nextpageButton.IsEnabled = false;
                 lastPage += 20;
                 NowPage++;
-                loadTask = new Task(() => loadItem(folderId));
-                loadTask.Start();
+                App.loadTask = Task.Run(() => loadItem(folderId));
             }
             catch (Exception ex)
             {
@@ -176,8 +170,7 @@ namespace KuranX.App.Core.Pages.LibraryF
                     previusPageButton.IsEnabled = false;
                     lastPage -= 20;
                     NowPage--;
-                    loadTask = new Task(() => loadItem(folderId));
-                    loadTask.Start();
+                    App.loadTask = Task.Run(() => loadItem(folderId));
                 }
             }
             catch (Exception ex)
@@ -267,12 +260,12 @@ namespace KuranX.App.Core.Pages.LibraryF
                 alertPopupDetail.Text = detail;
                 alph.IsOpen = true;
 
-                timeSpan.Interval = TimeSpan.FromSeconds(timespan);
-                timeSpan.Start();
-                timeSpan.Tick += delegate
+                App.timeSpan.Interval = TimeSpan.FromSeconds(timespan);
+                App.timeSpan.Start();
+                App.timeSpan.Tick += delegate
                 {
                     alph.IsOpen = false;
-                    timeSpan.Stop();
+                    App.timeSpan.Stop();
                 };
             }
             catch (Exception ex)
@@ -289,12 +282,12 @@ namespace KuranX.App.Core.Pages.LibraryF
                 infoPopupDetail.Text = detail;
                 inph.IsOpen = true;
 
-                timeSpan.Interval = TimeSpan.FromSeconds(timespan);
-                timeSpan.Start();
-                timeSpan.Tick += delegate
+                App.timeSpan.Interval = TimeSpan.FromSeconds(timespan);
+                App.timeSpan.Start();
+                App.timeSpan.Tick += delegate
                 {
                     inph.IsOpen = false;
-                    timeSpan.Stop();
+                    App.timeSpan.Stop();
                 };
             }
             catch (Exception ex)
@@ -311,12 +304,12 @@ namespace KuranX.App.Core.Pages.LibraryF
                 successPopupDetail.Text = detail;
                 scph.IsOpen = true;
 
-                timeSpan.Interval = TimeSpan.FromSeconds(timespan);
-                timeSpan.Start();
-                timeSpan.Tick += delegate
+                App.timeSpan.Interval = TimeSpan.FromSeconds(timespan);
+                App.timeSpan.Start();
+                App.timeSpan.Tick += delegate
                 {
                     scph.IsOpen = false;
-                    timeSpan.Stop();
+                    App.timeSpan.Stop();
                 };
             }
             catch (Exception ex)
@@ -338,12 +331,12 @@ namespace KuranX.App.Core.Pages.LibraryF
                 nextpageButton.IsEnabled = false;
                 sendResult.IsEnabled = false;
 
-                timeSpan.Interval = TimeSpan.FromSeconds(3);
-                timeSpan.Start();
+                App.timeSpan.Interval = TimeSpan.FromSeconds(3);
+                App.timeSpan.Start();
                 succsessFunc("Silme Başarılı", "Kütüphane başlığı ve başlığa ait tüm notlar serbes bırakıldı. Kütüphaneye yönlendiriliyorsunuz...", 3);
-                timeSpan.Tick += delegate
+                App.timeSpan.Tick += delegate
                 {
-                    timeSpan.Stop();
+                    App.timeSpan.Stop();
                     NavigationService.GoBack();
                 };
             }
@@ -354,5 +347,29 @@ namespace KuranX.App.Core.Pages.LibraryF
         }
 
         // --------------- TimeSpan FUNC --------------- //
+
+        // ------------ Animation Func ------------ //
+
+        public void loadAni()
+        {
+            this.Dispatcher.Invoke(() =>
+            {
+                backPage.IsEnabled = false;
+                sendResult.IsEnabled = false;
+                libraryItemsDeleteBtn.IsEnabled = false;
+            });
+        }
+
+        public void loadAniComplated()
+        {
+            this.Dispatcher.Invoke(() =>
+            {
+                backPage.IsEnabled = true;
+                sendResult.IsEnabled = true;
+                libraryItemsDeleteBtn.IsEnabled = true;
+            });
+        }
+
+        // ------------ Animation Func ------------ //
     }
 }

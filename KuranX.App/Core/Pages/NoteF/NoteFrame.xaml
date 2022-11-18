@@ -192,6 +192,7 @@
                 </Grid>
             </Border>
         </Popup>
+
         <!-- Popup -->
 
         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" x:Name="loadHeaderLeftAni">
@@ -1037,27 +1038,27 @@
         <StackPanel Grid.Row="2" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center" x:Name="loadFilterAni" Style="{DynamicResource aniEffectFadeStack}" Visibility="Visible">
             <StackPanel  Orientation="Horizontal">
                 <StackPanel Style="{DynamicResource frameItemsOffsetNav}">
-                    <Button x:Name="filterAll" IsEnabled="True" Tag="#343a40" Content="Hepsi" Style="{DynamicResource nt_pageColorControl}" Click="filter_Click" />
+                    <Button x:Name="filterAll" IsEnabled="False" Tag="#343a40" Content="Hepsi" Style="{DynamicResource nt_pageColorControl}" Click="filter_Click" />
                 </StackPanel>
 
                 <StackPanel Style="{DynamicResource frameItemsOffsetNav}">
-                    <Button x:Name="filterUser" IsEnabled="True" Tag="#ADB5BD" Content="Kullanıcı" Style="{DynamicResource nt_pageColorControl}" Click="filter_Click" />
+                    <Button x:Name="filterUser" IsEnabled="False" Tag="#ADB5BD" Content="Kullanıcı" Style="{DynamicResource nt_pageColorControl}" Click="filter_Click" />
                 </StackPanel>
 
                 <StackPanel Style="{DynamicResource frameItemsOffsetNav}">
-                    <Button x:Name="filterSubject" IsEnabled="True" Tag="#FD7E14" Content="Konularım" Style="{DynamicResource nt_pageColorControl}" Click="filter_Click" />
+                    <Button x:Name="filterSubject" IsEnabled="False" Tag="#FD7E14" Content="Konularım" Style="{DynamicResource nt_pageColorControl}" Click="filter_Click" />
                 </StackPanel>
 
                 <StackPanel Style="{DynamicResource frameItemsOffsetNav}">
-                    <Button x:Name="filterLib" IsEnabled="True" Tag="#E33FA1" Content="Kütüphane" Style="{DynamicResource nt_pageColorControl}" Click="filter_Click" />
+                    <Button x:Name="filterLib" IsEnabled="False" Tag="#E33FA1" Content="Kütüphane" Style="{DynamicResource nt_pageColorControl}" Click="filter_Click" />
                 </StackPanel>
 
                 <StackPanel Style="{DynamicResource frameItemsOffsetNav}">
-                    <Button x:Name="filterVerse" IsEnabled="True" Tag="#0DCAF0" Content="Ayet" Style="{DynamicResource nt_pageColorControl}" Click="filter_Click" />
+                    <Button x:Name="filterVerse" IsEnabled="False" Tag="#0DCAF0" Content="Ayet" Style="{DynamicResource nt_pageColorControl}" Click="filter_Click" />
                 </StackPanel>
 
                 <StackPanel Style="{DynamicResource frameItemsOffsetNav}">
-                    <Button x:Name="filterPdf" IsEnabled="True" Tag="#B30B00" Content="PDF" Style="{DynamicResource nt_pageColorControl}" Click="filter_Click" />
+                    <Button x:Name="filterPdf" IsEnabled="False" Tag="#B30B00" Content="PDF" Style="{DynamicResource nt_pageColorControl}" Click="filter_Click" />
                 </StackPanel>
             </StackPanel>
         </StackPanel>

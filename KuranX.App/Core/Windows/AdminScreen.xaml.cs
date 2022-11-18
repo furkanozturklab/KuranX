@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -97,6 +98,15 @@ namespace KuranX.App.Core.Windows
         {
         }
 
+        private void funcs2()
+        {
+            for (int i = 0; i < 100000; i++)
+            {
+                Debug.WriteLine(i);
+                Thread.Sleep(1000);
+            }
+        }
+
         private void add_verse(object sender, RoutedEventArgs e)
         {
             string sql = "select * from ayetler;";
@@ -121,8 +131,8 @@ namespace KuranX.App.Core.Windows
                     newVe.VerseArabic = (string)rdr[4];
                     newVe.VerseTr = (string)rdr[5];
                     newVe.VerseDesc = (string)rdr[6];
-                    newVe.VerseCheck = "false";
-                    newVe.RemiderCheck = "false";
+                    newVe.VerseCheck = false;
+                    newVe.RemiderCheck = false;
 
                     entitydb.Verse.Add(newVe);
 
@@ -360,10 +370,13 @@ namespace KuranX.App.Core.Windows
             }
         }
 
+        private void button2_Click(object sender, RoutedEventArgs e)
+        {
+            App.loadTask = Task.Run(() => funcs2());
+        }
+
         private void button_Click(object sender, RoutedEventArgs e)
         {
-            processKillerTask = new Task(App.processKiller);
-            processKillerTask.Start();
         }
     }
 }

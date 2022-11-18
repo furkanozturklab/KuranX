@@ -36,7 +36,6 @@ namespace KuranX.App.Core.Windows
 
         public PdfViewer(int fileId) : this()
         {
-            Debug.WriteLine("Calıştım");
             currentPdfId = fileId;
             loadTask = Task.Run(() => loadItem(currentPdfId));
         }
@@ -264,8 +263,14 @@ namespace KuranX.App.Core.Windows
         {
             try
             {
-                browser.Dispose();
-                this.Close();
+                loadTask = Task.Run(() =>
+                {
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        browser.Dispose();
+                        this.Close();
+                    });
+                });
             }
             catch (Exception ex)
             {

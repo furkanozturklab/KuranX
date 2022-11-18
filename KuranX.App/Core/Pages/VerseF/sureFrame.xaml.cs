@@ -17,7 +17,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.Windows.Threading;
 
 namespace KuranX.App.Core.Pages.VerseF
 {
@@ -26,33 +25,41 @@ namespace KuranX.App.Core.Pages.VerseF
     /// </summary>
     public partial class sureFrame : Page
     {
-        private Task loadTask;
         private ComboBoxItem deskItem, landItem;
-        private int lastPage = 0, NowPage = 1;
-        private List<Sure> dSure;
+        private int lastPage = 0, NowPage = 1, i, cControl, clist;
+        private List<Sure> dSure = new List<Sure>();
         private string readType = "All";
-        private DispatcherTimer? timeSpan = new DispatcherTimer(DispatcherPriority.Render);
+        private Decimal totalcount = 0;
 
         public sureFrame()
         {
             InitializeComponent();
         }
 
-        /* ----------- Load Func ----------- */
-
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            loadTask = Task.Run(() => loadSureFunc());
+            // Debug.WriteLine("Run ?");
+            // App.loadTask = Task.Run(() => loadItem());
         }
 
-        public void loadSureFunc()
+        public Page PageCall()
         {
+            lastPage = 0;
+            NowPage = 1;
+            App.loadTask = Task.Run(() => loadItem());
+            return this;
+        }
+
+        /* ----------- Load Func ----------- */
+
+        private void loadItem()
+        {
+            loadingAni();
+            App.mainScreen.navigationWriter("verse", "");
             using (var entitydb = new AyetContext())
             {
-                loadingAni();
                 this.Dispatcher.Invoke(() =>
                 {
-                    Decimal totalcount = 0;
                     if (readType == "All")
                     {
                         if (deskItem != null)
@@ -197,35 +204,67 @@ namespace KuranX.App.Core.Pages.VerseF
                             }
                         }
                     }
+                });
 
-                    for (int x = 1; x < 16; x++)
+                cControl = NowPage;
+                if (NowPage != 1) clist = (--cControl * 15) + 1;
+                else clist = 1;
+
+                for (int x = 1; x <= 15; x++)
+                {
+                    this.Dispatcher.Invoke(() =>
                     {
-                        ItemsControl itemslist = (ItemsControl)this.FindName("srItem" + x);
-                        itemslist.ItemsSource = null;
-                    }
-                    int i = 1;
+                        var srItem = (Border)FindName("srItem" + x);
+                        srItem.Visibility = Visibility.Hidden;
+                    });
+                }
 
-                    List<Sure> tempSure = new List<Sure>();
+                i = 1;
 
-                    int clist;
-                    int cControl = NowPage;
-                    if (NowPage != 1) clist = (--cControl * 15) + 1;
-                    else clist = 1;
-
-                    foreach (var item in dSure)
+                foreach (var item in dSure)
+                {
+                    if (item != null)
                     {
-                        tempSure.Add(item);
-                        tempSure[0].DeskList = clist;
+                        this.Dispatcher.Invoke(() =>
+                        {
+                            var sStatus = (Border)FindName("srColor" + i);
+                            sStatus.Background = (SolidColorBrush)new BrushConverter().ConvertFrom(item.Status);
+
+                            var sCount = (TextBlock)FindName("srDescCount" + i);
+                            sCount.Text = clist.ToString();
+
+                            var sLand = (TextBlock)FindName("srLanding" + i);
+                            sLand.Text = item.LandingLocation;
+
+                            var sDesc = (TextBlock)FindName("srDesc" + i);
+                            sDesc.Text = item.Description;
+
+                            var sName = (TextBlock)FindName("srName" + i);
+                            sName.Text = item.Name;
+
+                            var sNumber = (TextBlock)FindName("srNumber" + i);
+                            sNumber.Text = item.NumberOfVerses.ToString();
+
+                            var sFast = (Button)FindName("srBtnFast" + i);
+                            sFast.Content = item.Name;
+                            sFast.Uid = item.NumberOfVerses.ToString();
+                            sFast.Tag = item.sureId.ToString();
+
+                            var sClick = (Button)FindName("srBtn" + i);
+                            sClick.Tag = item.sureId.ToString();
+
+                            var srItem = (Border)FindName("srItem" + i);
+                            srItem.Visibility = Visibility.Visible;
+                        });
                         clist++;
-
-                        ItemsControl itemslist = (ItemsControl)this.FindName("srItem" + i);
-                        itemslist.ItemsSource = tempSure;
-                        tempSure.Clear();
                         i++;
                     }
+                }
 
-                    Thread.Sleep(200);
+                Thread.Sleep(200);
 
+                this.Dispatcher.Invoke(() =>
+                {
                     if (dSure.Count() != 0)
                     {
                         totalcount = Math.Ceiling(totalcount / 15);
@@ -248,9 +287,8 @@ namespace KuranX.App.Core.Pages.VerseF
                         previusPageButton.IsEnabled = false;
                     }
                 });
-
-                loadingAniComplated();
             }
+            loadingAniComplated();
         }
 
         /* ----------- Load Func ----------- */
@@ -266,7 +304,7 @@ namespace KuranX.App.Core.Pages.VerseF
 
             if (deskItem != null)
             {
-                loadTask = Task.Run(() => loadSureFunc());
+                App.loadTask = Task.Run(() => loadItem());
             }
         }
 
@@ -277,7 +315,7 @@ namespace KuranX.App.Core.Pages.VerseF
             if (!comboBox.IsLoaded) return;
             if (landItem != null)
             {
-                loadTask = Task.Run(() => loadSureFunc());
+                App.loadTask = Task.Run(() => loadItem());
             }
         }
 
@@ -329,7 +367,7 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             var rd = sender as RadioButton;
             readType = rd.Tag.ToString();
-            loadTask = Task.Run(() => loadSureFunc());
+            App.loadTask = Task.Run(() => loadItem());
         }
 
         private void sr_FastOpen_Click(object sender, RoutedEventArgs e)
@@ -356,7 +394,8 @@ namespace KuranX.App.Core.Pages.VerseF
                 nextpageButton.IsEnabled = false;
                 lastPage += 15;
                 NowPage++;
-                loadTask = Task.Run(() => loadSureFunc());
+                loadinItemsGifContent.Visibility = Visibility.Visible;
+                App.loadTask = Task.Run(() => loadItem());
             }
             catch (Exception ex)
             {
@@ -373,7 +412,8 @@ namespace KuranX.App.Core.Pages.VerseF
                     previusPageButton.IsEnabled = false;
                     lastPage -= 15;
                     NowPage--;
-                    loadTask = Task.Run(() => loadSureFunc());
+                    loadinItemsGifContent.Visibility = Visibility.Visible;
+                    App.loadTask = Task.Run(() => loadItem());
                 }
             }
             catch (Exception ex)
@@ -406,7 +446,8 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             using (var entitydb = new AyetContext())
             {
-                var selectedS = entitydb.Sure.Where(p => p.Status == "#0D6EFD").FirstOrDefault();
+                var selectedS = entitydb.Sure.Where(p => p.UserLastRelativeVerse != 0).FirstOrDefault();
+
                 if (selectedS != null)
                 {
                     App.mainframe.Content = App.navVersePage.PageCall((int)selectedS.sureId, (int)selectedS.UserLastRelativeVerse, "Verse");
@@ -428,12 +469,12 @@ namespace KuranX.App.Core.Pages.VerseF
                 alertPopupDetail.Text = detail;
                 alph.IsOpen = true;
 
-                timeSpan.Interval = TimeSpan.FromSeconds(timespan);
-                timeSpan.Start();
-                timeSpan.Tick += delegate
+                App.timeSpan.Interval = TimeSpan.FromSeconds(timespan);
+                App.timeSpan.Start();
+                App.timeSpan.Tick += delegate
                 {
                     alph.IsOpen = false;
-                    timeSpan.Stop();
+                    App.timeSpan.Stop();
                 };
             }
             catch (Exception ex)
@@ -450,12 +491,12 @@ namespace KuranX.App.Core.Pages.VerseF
                 infoPopupDetail.Text = detail;
                 inph.IsOpen = true;
 
-                timeSpan.Interval = TimeSpan.FromSeconds(timespan);
-                timeSpan.Start();
-                timeSpan.Tick += delegate
+                App.timeSpan.Interval = TimeSpan.FromSeconds(timespan);
+                App.timeSpan.Start();
+                App.timeSpan.Tick += delegate
                 {
                     inph.IsOpen = false;
-                    timeSpan.Stop();
+                    App.timeSpan.Stop();
                 };
             }
             catch (Exception ex)
@@ -472,12 +513,12 @@ namespace KuranX.App.Core.Pages.VerseF
                 successPopupDetail.Text = detail;
                 scph.IsOpen = true;
 
-                timeSpan.Interval = TimeSpan.FromSeconds(timespan);
-                timeSpan.Start();
-                timeSpan.Tick += delegate
+                App.timeSpan.Interval = TimeSpan.FromSeconds(timespan);
+                App.timeSpan.Start();
+                App.timeSpan.Tick += delegate
                 {
                     scph.IsOpen = false;
-                    timeSpan.Stop();
+                    App.timeSpan.Stop();
                 };
             }
             catch (Exception ex)
@@ -494,6 +535,7 @@ namespace KuranX.App.Core.Pages.VerseF
             {
                 this.Dispatcher.Invoke(() =>
                 {
+                    loadContent.Visibility = Visibility.Hidden;
                     gotoMarkLocation.IsEnabled = false;
                     allCheck.IsEnabled = false;
                     readCheck.IsEnabled = false;
@@ -518,6 +560,7 @@ namespace KuranX.App.Core.Pages.VerseF
             {
                 this.Dispatcher.Invoke(() =>
                 {
+                    loadContent.Visibility = Visibility.Visible;
                     gotoMarkLocation.IsEnabled = true;
                     allCheck.IsEnabled = true;
                     readCheck.IsEnabled = true;
@@ -526,6 +569,8 @@ namespace KuranX.App.Core.Pages.VerseF
                     landingCombobox.IsEnabled = true;
                     deskingCombobox.IsEnabled = true;
                     gotoMarkLocation.IsEnabled = true;
+                    loadinItemsGifContent.Visibility = Visibility.Collapsed;
+                    loadinGifContent.Visibility = Visibility.Collapsed;
                 });
             }
             catch (Exception ex)

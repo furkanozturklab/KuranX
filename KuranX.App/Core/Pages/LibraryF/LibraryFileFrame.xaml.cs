@@ -22,10 +22,8 @@ namespace KuranX.App.Core.Pages.LibraryF
     /// </summary>
     public partial class LibraryFileFrame : Page
     {
-        private DispatcherTimer timeSpan = new DispatcherTimer(DispatcherPriority.Render);
-        private Task loadTask;
         private string searchText;
-        private int lastPage = 0, NowPage = 1;
+        private int lastPage = 0, NowPage = 1, selectedId;
 
         private DoubleAnimation animation = new DoubleAnimation();
         private FileDialog openFileDialog = new OpenFileDialog();
@@ -37,15 +35,27 @@ namespace KuranX.App.Core.Pages.LibraryF
 
         public Page PageCall()
         {
-            loadTask = new Task(loadItem);
-            loadTask.Start();
+            App.mainScreen.navigationWriter("library", "Yüklenen Dosyalar");
+            App.loadTask = Task.Run(() => loadItem());
+
             return this;
+        }
+
+        public void loadScreen(int id)
+        {
+            this.Dispatcher.Invoke(() =>
+            {
+                PdfViewer dViewer = new PdfViewer(id);
+                dViewer.Show();
+            });
         }
 
         public void loadItem()
         {
             using (var entitydb = new AyetContext())
             {
+                loadAni();
+
                 List<PdfFile> dPdf = new List<PdfFile>();
                 Decimal totalcount = 0;
 
@@ -112,6 +122,8 @@ namespace KuranX.App.Core.Pages.LibraryF
                         previusPageButton.IsEnabled = false;
                     }
                 });
+
+                loadAniComplated();
             }
         }
 
@@ -183,8 +195,8 @@ namespace KuranX.App.Core.Pages.LibraryF
                 {
                     searchText = SearchData.Text;
 
-                    loadTask = new Task(() => loadItem());
-                    loadTask.Start();
+                    App.loadTask = new Task(() => loadItem());
+                    App.loadTask.Start();
                 }
                 else
                 {
@@ -194,8 +206,8 @@ namespace KuranX.App.Core.Pages.LibraryF
                         searchErrMsgTxt.Visibility = Visibility.Hidden;
                         SearchBtn.Focus();
                         searchText = "";
-                        loadTask = new Task(() => loadItem());
-                        loadTask.Start();
+                        App.loadTask = new Task(() => loadItem());
+                        App.loadTask.Start();
                     }
                     else
                     {
@@ -215,8 +227,8 @@ namespace KuranX.App.Core.Pages.LibraryF
             try
             {
                 var btn = sender as Button;
-                PdfViewer dViewer = new PdfViewer(int.Parse(btn.Uid));
-                dViewer.Show();
+                selectedId = int.Parse(btn.Uid);
+                App.loadTask = Task.Run(() => loadScreen(selectedId));
             }
             catch (Exception ex)
             {
@@ -229,8 +241,40 @@ namespace KuranX.App.Core.Pages.LibraryF
             try
             {
                 var btn = sender as Button;
-                //    currentFileId = int.Parse(btn.Uid);
-                //   fileDeletePopup.IsOpen = true;
+                selectedId = int.Parse(btn.Uid);
+                popup_DeleteConfirm.IsOpen = true;
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("ButtonClick", ex);
+            }
+        }
+
+        private void deleteFilePopupBtn_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                using (var entitydb = new AyetContext())
+                {
+                    var dFile = entitydb.PdfFile.Where(p => p.PdfFileId == selectedId).FirstOrDefault();
+
+                    if (dFile != null)
+                    {
+                        entitydb.PdfFile.RemoveRange(entitydb.PdfFile.Where(p => p.PdfFileId == selectedId));
+                        entitydb.Notes.RemoveRange(entitydb.Notes.Where(p => p.PdfFileId == selectedId));
+
+                        File.Delete(dFile.FileUrl);
+
+                        entitydb.SaveChanges();
+                        popup_DeleteConfirm.IsOpen = false;
+                        succsessFunc("Dosya Silme ", " Dosya başarılı bir sekilde silinmiştir.", 3);
+                        App.loadTask = Task.Run(() => loadItem());
+                    }
+                    else
+                    {
+                        alertFunc("Dosya Silme", "Dosya mevcut değil silinemedi lütfen dosyanın varlığından emin olunuz.", 3);
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -245,8 +289,8 @@ namespace KuranX.App.Core.Pages.LibraryF
                 nextpageButton.IsEnabled = false;
                 lastPage += 20;
                 NowPage++;
-                loadTask = new Task(loadItem);
-                loadTask.Start();
+                App.loadTask = new Task(loadItem);
+                App.loadTask.Start();
             }
             catch (Exception ex)
             {
@@ -263,8 +307,8 @@ namespace KuranX.App.Core.Pages.LibraryF
                     previusPageButton.IsEnabled = false;
                     lastPage -= 20;
                     NowPage--;
-                    loadTask = new Task(loadItem);
-                    loadTask.Start();
+                    App.loadTask = new Task(loadItem);
+                    App.loadTask.Start();
                 }
             }
             catch (Exception ex)
@@ -278,12 +322,28 @@ namespace KuranX.App.Core.Pages.LibraryF
             try
             {
                 fastpopupclear();
-                loadTask = new Task(filedialogtask);
-                loadTask.Start();
+                App.loadTask = new Task(filedialogtask);
+                App.loadTask.Start();
             }
             catch (Exception ex)
             {
                 App.logWriter("FileUploadEvent", ex);
+            }
+        }
+
+        private void popupClosed_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var btntemp = sender as Button;
+                var popuptemp = (Popup)FindName(btntemp.Uid);
+                popuptemp.IsOpen = false;
+
+                btntemp = null;
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Other", ex);
             }
         }
 
@@ -331,8 +391,8 @@ namespace KuranX.App.Core.Pages.LibraryF
                     fileuploadIcontrack.Uid = "#23d160";
                     fileuploadIcontrack.Tag = "CheckCircleFill";
                     fileSizeTxt.Text = "Yükleme Başarılı";
-                    loadTask = new Task(loadItem);
-                    loadTask.Start();
+                    App.loadTask = new Task(loadItem);
+                    App.loadTask.Start();
                 }
             }
             catch (Exception ex)
@@ -348,11 +408,11 @@ namespace KuranX.App.Core.Pages.LibraryF
         {
             try
             {
-                timeSpan.Interval = TimeSpan.FromSeconds(5);
-                timeSpan.Start();
-                timeSpan.Tick += delegate
+                App.timeSpan.Interval = TimeSpan.FromSeconds(5);
+                App.timeSpan.Start();
+                App.timeSpan.Tick += delegate
                 {
-                    timeSpan.Stop();
+                    App.timeSpan.Stop();
                     popup_fileUp.IsOpen = false;
                     fileuploadIcontrack.Uid = "#0D6EFD";
                     fileuploadIcontrack.Tag = "ArrowRightCircle";
@@ -427,12 +487,34 @@ namespace KuranX.App.Core.Pages.LibraryF
                 alertPopupDetail.Text = detail;
                 alph.IsOpen = true;
 
-                timeSpan.Interval = TimeSpan.FromSeconds(timespan);
-                timeSpan.Start();
-                timeSpan.Tick += delegate
+                App.timeSpan.Interval = TimeSpan.FromSeconds(timespan);
+                App.timeSpan.Start();
+                App.timeSpan.Tick += delegate
                 {
                     alph.IsOpen = false;
-                    timeSpan.Stop();
+                    App.timeSpan.Stop();
+                };
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Other", ex);
+            }
+        }
+
+        private void succsessFunc(string header, string detail, int timespan)
+        {
+            try
+            {
+                successPopupHeader.Text = header;
+                successPopupDetail.Text = detail;
+                scph.IsOpen = true;
+
+                App.timeSpan.Interval = TimeSpan.FromSeconds(timespan);
+                App.timeSpan.Start();
+                App.timeSpan.Tick += delegate
+                {
+                    scph.IsOpen = false;
+                    App.timeSpan.Stop();
                 };
             }
             catch (Exception ex)
@@ -442,5 +524,29 @@ namespace KuranX.App.Core.Pages.LibraryF
         }
 
         // ---------- MessageFunc FUNC ---------- //
+
+        // ------------ Animation Func ------------ //
+
+        public void loadAni()
+        {
+            this.Dispatcher.Invoke(() =>
+            {
+                SearchBtn.IsEnabled = false;
+                backPage.IsEnabled = false;
+                addfile.IsEnabled = false;
+            });
+        }
+
+        public void loadAniComplated()
+        {
+            this.Dispatcher.Invoke(() =>
+            {
+                SearchBtn.IsEnabled = true;
+                backPage.IsEnabled = true;
+                addfile.IsEnabled = true;
+            });
+        }
+
+        // ------------ Animation Func ------------ //
     }
 }

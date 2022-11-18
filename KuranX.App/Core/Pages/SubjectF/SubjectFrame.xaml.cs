@@ -8,18 +8,12 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using System.Windows.Data;
-using System.Windows.Documents;
+
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Windows.Threading;
 
 using KuranX.App.Core.Classes;
 using Microsoft.EntityFrameworkCore;
-using MySqlX.XDevAPI.Common;
 
 namespace KuranX.App.Core.Pages.SubjectF
 {
@@ -28,8 +22,6 @@ namespace KuranX.App.Core.Pages.SubjectF
     /// </summary>
     public partial class SubjectFrame : Page
     {
-        private DispatcherTimer timeSpan = new DispatcherTimer(DispatcherPriority.Render);
-        private Task loadTask;
         private string searchText;
         private int lastPage = 0, NowPage = 1;
 
@@ -38,56 +30,61 @@ namespace KuranX.App.Core.Pages.SubjectF
             InitializeComponent();
         }
 
-        public object subjectPageCall()
+        public Page PageCall()
         {
+            lastPage = 0;
+            NowPage = 1;
+            App.mainScreen.navigationWriter("subject", "");
+            App.loadTask = Task.Run(() => loadItem());
+
             return this;
         }
 
-        public void loadFolders()
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            App.mainScreen.navigationWriter("subject", "");
+            App.loadTask = Task.Run(() => loadItem());
+        }
+
+        public void loadItem()
         {
             using (var entitydb = new AyetContext())
             {
                 List<Subject> dSub = new List<Subject>();
                 Decimal totalcount = 0;
 
-                if (searchText != "")
+                this.Dispatcher.Invoke(() =>
                 {
-                    dSub = entitydb.Subject.Where(p => EF.Functions.Like(p.SubjectName, "%" + searchText + "%")).Skip(lastPage).Take(15).ToList();
-                    totalcount = entitydb.Subject.Where(p => EF.Functions.Like(p.SubjectName, "%" + searchText + "%")).Count();
-                }
-                else
-                {
-                    dSub = entitydb.Subject.Skip(lastPage).Take(15).ToList();
-                    totalcount = entitydb.Subject.Count();
-                }
+                    if (searchText != "")
+                    {
+                        dSub = entitydb.Subject.Where(p => EF.Functions.Like(p.SubjectName, "%" + searchText + "%")).Skip(lastPage).Take(15).ToList();
+                        totalcount = entitydb.Subject.Where(p => EF.Functions.Like(p.SubjectName, "%" + searchText + "%")).Count();
+                    }
+                    else
+                    {
+                        dSub = entitydb.Subject.Skip(lastPage).Take(15).ToList();
+                        totalcount = entitydb.Subject.Count();
+                    }
 
-                for (int x = 1; x < 16; x++)
-                {
-                    this.Dispatcher.Invoke(() =>
+                    for (int x = 1; x < 16; x++)
                     {
                         ItemsControl itemslist = (ItemsControl)this.FindName("sbItem" + x);
                         itemslist.ItemsSource = null;
-                    });
-                }
-                int i = 1;
-                List<Subject> tempSub = new List<Subject>();
+                    }
+                    int i = 1;
+                    List<Subject> tempSub = new List<Subject>();
 
-                foreach (var item in dSub)
-                {
-                    this.Dispatcher.Invoke(() =>
+                    foreach (var item in dSub)
                     {
                         tempSub.Add(item);
                         ItemsControl itemslist = (ItemsControl)this.FindName("sbItem" + i);
                         itemslist.ItemsSource = tempSub;
                         tempSub.Clear();
                         i++;
-                    });
-                }
+                    }
 
-                Thread.Sleep(200);
+                    Thread.Sleep(1500);
 
-                this.Dispatcher.Invoke(() =>
-                {
                     totalcountText.Tag = totalcount.ToString();
 
                     if (dSub.Count() != 0)
@@ -115,12 +112,6 @@ namespace KuranX.App.Core.Pages.SubjectF
             }
         }
 
-        private void Page_Loaded(object sender, RoutedEventArgs e)
-        {
-            loadTask = new Task(() => loadFolders());
-            loadTask.Start();
-        }
-
         /* ---------------- Click Func ---------------- */
 
         private void openSubjectFolder_Click(object sender, RoutedEventArgs e)
@@ -137,8 +128,7 @@ namespace KuranX.App.Core.Pages.SubjectF
                 {
                     searchText = SearchData.Text;
 
-                    loadTask = new Task(() => loadFolders());
-                    loadTask.Start();
+                    App.loadTask = Task.Run(() => loadItem());
                 }
                 else
                 {
@@ -148,8 +138,7 @@ namespace KuranX.App.Core.Pages.SubjectF
                         searchErrMsgTxt.Visibility = Visibility.Hidden;
                         SearchBtn.Focus();
                         searchText = "";
-                        loadTask = new Task(() => loadFolders());
-                        loadTask.Start();
+                        App.loadTask = Task.Run(() => loadItem());
                     }
                     else
                     {
@@ -204,8 +193,7 @@ namespace KuranX.App.Core.Pages.SubjectF
                                 popup_FolderSubjectPopup.IsOpen = false;
                                 dSubjectFolder = null;
 
-                                loadTask = new Task(() => loadFolders());
-                                loadTask.Start();
+                                App.loadTask = Task.Run(() => loadItem());
                             }
                             else
                             {
@@ -270,8 +258,7 @@ namespace KuranX.App.Core.Pages.SubjectF
                 nextpageButton.IsEnabled = false;
                 lastPage += 15;
                 NowPage++;
-                loadTask = new Task(() => loadFolders());
-                loadTask.Start();
+                App.loadTask = Task.Run(() => loadItem());
             }
             catch (Exception ex)
             {
@@ -288,8 +275,7 @@ namespace KuranX.App.Core.Pages.SubjectF
                     previusPageButton.IsEnabled = false;
                     lastPage -= 15;
                     NowPage--;
-                    loadTask = new Task(() => loadFolders());
-                    loadTask.Start();
+                    App.loadTask = Task.Run(() => loadItem());
                 }
             }
             catch (Exception ex)
@@ -380,12 +366,12 @@ namespace KuranX.App.Core.Pages.SubjectF
                 alertPopupDetail.Text = detail;
                 alph.IsOpen = true;
 
-                timeSpan.Interval = TimeSpan.FromSeconds(timespan);
-                timeSpan.Start();
-                timeSpan.Tick += delegate
+                App.timeSpan.Interval = TimeSpan.FromSeconds(timespan);
+                App.timeSpan.Start();
+                App.timeSpan.Tick += delegate
                 {
                     alph.IsOpen = false;
-                    timeSpan.Stop();
+                    App.timeSpan.Stop();
                 };
             }
             catch (Exception ex)
@@ -402,12 +388,12 @@ namespace KuranX.App.Core.Pages.SubjectF
                 infoPopupDetail.Text = detail;
                 inph.IsOpen = true;
 
-                timeSpan.Interval = TimeSpan.FromSeconds(timespan);
-                timeSpan.Start();
-                timeSpan.Tick += delegate
+                App.timeSpan.Interval = TimeSpan.FromSeconds(timespan);
+                App.timeSpan.Start();
+                App.timeSpan.Tick += delegate
                 {
                     inph.IsOpen = false;
-                    timeSpan.Stop();
+                    App.timeSpan.Stop();
                 };
             }
             catch (Exception ex)
@@ -424,12 +410,12 @@ namespace KuranX.App.Core.Pages.SubjectF
                 successPopupDetail.Text = detail;
                 scph.IsOpen = true;
 
-                timeSpan.Interval = TimeSpan.FromSeconds(timespan);
-                timeSpan.Start();
-                timeSpan.Tick += delegate
+                App.timeSpan.Interval = TimeSpan.FromSeconds(timespan);
+                App.timeSpan.Start();
+                App.timeSpan.Tick += delegate
                 {
                     scph.IsOpen = false;
-                    timeSpan.Stop();
+                    App.timeSpan.Stop();
                 };
             }
             catch (Exception ex)
@@ -439,5 +425,27 @@ namespace KuranX.App.Core.Pages.SubjectF
         }
 
         // ---------- MessageFunc FUNC ---------- //
+
+        // ------------ Animation Func ------------ //
+
+        public void loadAni()
+        {
+            this.Dispatcher.Invoke(() =>
+            {
+                SearchBtn.IsEnabled = false;
+                addSubjectButton.IsEnabled = false;
+            });
+        }
+
+        public void loadAniComplated()
+        {
+            this.Dispatcher.Invoke(() =>
+            {
+                SearchBtn.IsEnabled = true;
+                addSubjectButton.IsEnabled = true;
+            });
+        }
+
+        // ------------ Animation Func ------------ //
     }
 }

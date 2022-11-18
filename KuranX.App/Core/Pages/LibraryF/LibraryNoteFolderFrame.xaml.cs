@@ -10,13 +10,9 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Windows.Threading;
 
 namespace KuranX.App.Core.Pages.LibraryF
@@ -27,8 +23,6 @@ namespace KuranX.App.Core.Pages.LibraryF
     public partial class LibraryNoteFolderFrame : Page
     {
         private int lastPage = 0, NowPage = 1;
-        private Task loadTask;
-        private DispatcherTimer? timeSpan = new DispatcherTimer(DispatcherPriority.Render);
 
         public LibraryNoteFolderFrame()
         {
@@ -37,45 +31,45 @@ namespace KuranX.App.Core.Pages.LibraryF
 
         public object PageCall()
         {
-            loadTask = new Task(() => loadItem());
-            loadTask.Start();
+            App.mainScreen.navigationWriter("library", "Kütüphane Başlıkları");
+            App.loadTask = Task.Run(() => loadItem());
             return this;
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            App.mainScreen.navigationWriter("library", "Kütüphane Başlıkları");
         }
 
         public void loadItem()
         {
             using (var entitydb = new AyetContext())
             {
+                loadAni();
                 var dLibrarys = entitydb.Librarys.Skip(lastPage).Take(20).ToList();
-
                 Decimal totalcount = entitydb.Librarys.Count();
 
-                for (int x = 1; x < 21; x++)
+                this.Dispatcher.Invoke(() =>
                 {
-                    this.Dispatcher.Invoke(() =>
+                    for (int x = 1; x < 21; x++)
                     {
                         ItemsControl itemslist = (ItemsControl)this.FindName("lnt" + x);
                         itemslist.ItemsSource = null;
-                    });
-                }
+                    }
 
-                int i = 1;
-                List<Classes.Library> tempSub = new List<Classes.Library>();
-                foreach (var item in dLibrarys)
-                {
-                    this.Dispatcher.Invoke(() =>
+                    int i = 1;
+                    List<Classes.Library> tempSub = new List<Classes.Library>();
+                    foreach (var item in dLibrarys)
                     {
                         tempSub.Add(item);
                         ItemsControl itemslist = (ItemsControl)this.FindName("lnt" + i);
                         itemslist.ItemsSource = tempSub;
                         tempSub.Clear();
                         i++;
-                    });
-                }
+                    }
 
-                Thread.Sleep(200);
-                this.Dispatcher.Invoke(() =>
-                {
+                    Thread.Sleep(200);
+
                     totalcountText.Tag = totalcount.ToString();
 
                     if (dLibrarys.Count() != 0)
@@ -99,6 +93,7 @@ namespace KuranX.App.Core.Pages.LibraryF
                         nextpageButton.IsEnabled = false;
                         previusPageButton.IsEnabled = false;
                     }
+                    loadAniComplated();
                 });
             }
         }
@@ -123,8 +118,7 @@ namespace KuranX.App.Core.Pages.LibraryF
                 nextpageButton.IsEnabled = false;
                 lastPage += 20;
                 NowPage++;
-                loadTask = new Task(() => loadItem());
-                loadTask.Start();
+                App.loadTask = Task.Run(() => loadItem());
             }
             catch (Exception ex)
             {
@@ -141,8 +135,7 @@ namespace KuranX.App.Core.Pages.LibraryF
                     previusPageButton.IsEnabled = false;
                     lastPage -= 20;
                     NowPage--;
-                    loadTask = new Task(() => loadItem());
-                    loadTask.Start();
+                    App.loadTask = Task.Run(() => loadItem());
                 }
             }
             catch (Exception ex)
@@ -169,7 +162,7 @@ namespace KuranX.App.Core.Pages.LibraryF
             {
                 if (libraryFolderHeader.Text.Length >= 8)
                 {
-                    if (libraryFolderHeader.Text.Length < 50)
+                    if (libraryFolderHeader.Text.Length < 150)
                     {
                         using (var entitydb = new AyetContext())
                         {
@@ -187,8 +180,7 @@ namespace KuranX.App.Core.Pages.LibraryF
                                 popup_FolderLibraryPopup.IsOpen = false;
                                 dlibraryFolder = null;
 
-                                loadTask = new Task(() => loadItem());
-                                loadTask.Start();
+                                App.loadTask = Task.Run(() => loadItem());
                             }
                             else
                             {
@@ -201,7 +193,7 @@ namespace KuranX.App.Core.Pages.LibraryF
                     {
                         libraryFolderHeader.Focus();
                         libraryHeaderFolderErrorMesssage.Visibility = Visibility.Visible;
-                        libraryHeaderFolderErrorMesssage.Content = "Kütüphane başlığı çok uzun max 50 karakter olabilir";
+                        libraryHeaderFolderErrorMesssage.Content = "Kütüphane başlığı çok uzun max 150 karakter olabilir";
                     }
                 }
                 else
@@ -235,10 +227,10 @@ namespace KuranX.App.Core.Pages.LibraryF
                 }
 
                 chk = sender as CheckBox;
-
                 chk.IsChecked = true;
-
                 librarypreviewColor.Background = new BrushConverter().ConvertFromString(chk.Tag.ToString()) as SolidColorBrush;
+
+                chk = null;
             }
             catch (Exception ex)
             {
@@ -302,12 +294,12 @@ namespace KuranX.App.Core.Pages.LibraryF
                 alertPopupDetail.Text = detail;
                 alph.IsOpen = true;
 
-                timeSpan.Interval = TimeSpan.FromSeconds(timespan);
-                timeSpan.Start();
-                timeSpan.Tick += delegate
+                App.timeSpan.Interval = TimeSpan.FromSeconds(timespan);
+                App.timeSpan.Start();
+                App.timeSpan.Tick += delegate
                 {
                     alph.IsOpen = false;
-                    timeSpan.Stop();
+                    App.timeSpan.Stop();
                 };
             }
             catch (Exception ex)
@@ -324,12 +316,12 @@ namespace KuranX.App.Core.Pages.LibraryF
                 infoPopupDetail.Text = detail;
                 inph.IsOpen = true;
 
-                timeSpan.Interval = TimeSpan.FromSeconds(timespan);
-                timeSpan.Start();
-                timeSpan.Tick += delegate
+                App.timeSpan.Interval = TimeSpan.FromSeconds(timespan);
+                App.timeSpan.Start();
+                App.timeSpan.Tick += delegate
                 {
                     inph.IsOpen = false;
-                    timeSpan.Stop();
+                    App.timeSpan.Stop();
                 };
             }
             catch (Exception ex)
@@ -346,12 +338,12 @@ namespace KuranX.App.Core.Pages.LibraryF
                 successPopupDetail.Text = detail;
                 scph.IsOpen = true;
 
-                timeSpan.Interval = TimeSpan.FromSeconds(timespan);
-                timeSpan.Start();
-                timeSpan.Tick += delegate
+                App.timeSpan.Interval = TimeSpan.FromSeconds(timespan);
+                App.timeSpan.Start();
+                App.timeSpan.Tick += delegate
                 {
                     scph.IsOpen = false;
-                    timeSpan.Stop();
+                    App.timeSpan.Stop();
                 };
             }
             catch (Exception ex)
@@ -361,5 +353,27 @@ namespace KuranX.App.Core.Pages.LibraryF
         }
 
         // ---------- MessageFunc FUNC ---------- //
+
+        // ------------ Animation Func ------------ //
+
+        public void loadAni()
+        {
+            this.Dispatcher.Invoke(() =>
+            {
+                backPage.IsEnabled = false;
+                newLibHeader.IsEnabled = false;
+            });
+        }
+
+        public void loadAniComplated()
+        {
+            this.Dispatcher.Invoke(() =>
+            {
+                backPage.IsEnabled = true;
+                newLibHeader.IsEnabled = true;
+            });
+        }
+
+        // ------------ Animation Func ------------ //
     }
 }

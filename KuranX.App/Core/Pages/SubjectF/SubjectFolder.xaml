@@ -8,7 +8,7 @@
       xmlns:gif="http://wpfanimatedgif.codeplex.com"
       mc:Ignorable="d"
       d:DesignHeight="708" d:DesignWidth="1115" d:MaxHeight="708" d:MaxWidth="1270" d:MinWidth="1115"
-      Title="VerseFrame" Background="#FAFAFA">
+      Title="VerseFrame" Background="#FAFAFA" Loaded="Page_Loaded">
     <Grid>
 
         <Grid.RowDefinitions>
@@ -974,13 +974,13 @@
             <StackPanel Orientation="Horizontal" Height="80" VerticalAlignment="Bottom">
 
                 <StackPanel Style="{DynamicResource frameItemsOffsetNav}">
-                    <Button IsEnabled="True" x:Name="backPage" Style="{DynamicResource frameItemsControlNav}" Tag="ArrowLeft" Content="Konularıma Geri Dön" Click="backPage_Click" />
+                    <Button IsEnabled="False" x:Name="backPage" Style="{DynamicResource frameItemsControlNav}" Tag="ArrowLeft" Content="Konularıma Geri Dön" Click="backPage_Click" />
                 </StackPanel>
                 <StackPanel Style="{DynamicResource frameItemsOffsetNav}">
-                    <Button IsEnabled="True" x:Name="sendResult" Style="{DynamicResource frameItemsControlNav}" Tag="Exchange" Content="Sonuca Gönder" Click="sendResult_Click" />
+                    <Button IsEnabled="False" x:Name="sendResult" Style="{DynamicResource frameItemsControlNav}" Tag="Exchange" Content="Sonuca Gönder" Click="sendResult_Click" />
                 </StackPanel>
                 <StackPanel Style="{DynamicResource frameItemsOffsetNav}">
-                    <Button IsEnabled="True" x:Name="newConnect" Style="{DynamicResource frameItemsControlNav}" Tag="Plus" Content="Yeni Ayet Ekle" Click="newConnect_Click" />
+                    <Button IsEnabled="False" x:Name="newConnect" Style="{DynamicResource frameItemsControlNav}" Tag="Plus" Content="Yeni Ayet Ekle" Click="newConnect_Click" />
                 </StackPanel>
                 <StackPanel Style="{DynamicResource frameItemsOffsetNav}">
                     <Button IsEnabled="False" x:Name="previusPageButton" Style="{DynamicResource frameItemsControlNav}" Tag="AngleLeft" Content="Önceki Sayfa" Click="previusPageButton_Click" />

@@ -30,15 +30,13 @@ namespace KuranX.App.Core.Pages.NoteF
     public class Dstack
     {
         public int Count { get; set; }
-        public string NoteLocation { get; set; }
-        public string Bg { get; set; }
-        public string Fr { get; set; }
+        public string? NoteLocation { get; set; }
+        public string? Bg { get; set; }
+        public string? Fr { get; set; }
     }
 
     public partial class NoteFrame : Page
     {
-        private DispatcherTimer timeSpan = new DispatcherTimer(DispatcherPriority.Render);
-        private Task loadTask;
         private string searchText, filterText;
         private int lastPage = 0, NowPage = 1, selectedId;
         private bool filter;
@@ -50,13 +48,22 @@ namespace KuranX.App.Core.Pages.NoteF
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
+            lastPage = 0;
+            NowPage = 1;
+            App.loadTask = Task.Run(() => loadItem());
+        }
+
+        public Page PageCall()
+        {
+            App.mainScreen.navigationWriter("notes", "");
             filter = false;
             searchText = "";
             listview.IsChecked = true;
             stackview.IsChecked = false;
             listBorder.Visibility = Visibility.Visible;
             stackBorder.Visibility = Visibility.Collapsed;
-            loadTask = Task.Run(() => loadItem());
+            App.loadTask = Task.Run(() => loadItem());
+            return this;
         }
 
         // -------------  Load Func ------------- //
@@ -65,12 +72,15 @@ namespace KuranX.App.Core.Pages.NoteF
         {
             using (var entitydb = new AyetContext())
             {
+                loadAni();
                 List<Notes> dNotes = new List<Notes>();
                 List<Dstack> dstack = new List<Dstack>();
                 List<Notes> tempNotes = new List<Notes>();
 
                 decimal totalcount = entitydb.Notes.Where(p => p.NoteLocation == "Konularım" || p.NoteLocation == "Kütüphane" || p.NoteLocation == "PDF" || p.NoteLocation == "Ayet" || p.NoteLocation == "Kullanıcı").Count();
                 var stackP = entitydb.Notes.Where(p => p.NoteLocation == "Konularım" || p.NoteLocation == "Kütüphane" || p.NoteLocation == "PDF" || p.NoteLocation == "Ayet" || p.NoteLocation == "Kullanıcı").OrderByDescending(p => p.Created).GroupBy(p => p.NoteLocation).Select(p => new Dstack { NoteLocation = p.Key, Count = p.Count(), Bg = p.Key }).ToList();
+
+                App.mainScreen.navigationWriter("notes", "");
 
                 if (filter)
                 {
@@ -117,9 +127,6 @@ namespace KuranX.App.Core.Pages.NoteF
                     }
 
                     int i = 1;
-
-                    Debug.WriteLine(stackP.Count);
-
                     foreach (var item in stackP)
                     {
                         dstack.Add(item);
@@ -188,6 +195,7 @@ namespace KuranX.App.Core.Pages.NoteF
                         i++;
                     }
 
+                    Thread.Sleep(200);
                     totalcountText.Tag = totalcount.ToString();
 
                     if (dNotes.Count() != 0)
@@ -212,6 +220,8 @@ namespace KuranX.App.Core.Pages.NoteF
                         previusPageButton.IsEnabled = false;
                     }
                 });
+
+                loadAniComplated();
             }
         }
 
@@ -236,7 +246,7 @@ namespace KuranX.App.Core.Pages.NoteF
                 filterText = btn.Content.ToString();
             }
 
-            loadTask = Task.Run(loadItem);
+            App.loadTask = Task.Run(() => loadItem());
         }
 
         private void SearchBtn_Click(object sender, RoutedEventArgs e)
@@ -247,7 +257,7 @@ namespace KuranX.App.Core.Pages.NoteF
                 {
                     searchText = SearchData.Text;
 
-                    loadTask = Task.Run(loadItem);
+                    App.loadTask = Task.Run(loadItem);
                 }
                 else
                 {
@@ -257,7 +267,7 @@ namespace KuranX.App.Core.Pages.NoteF
                         searchErrMsgTxt.Visibility = Visibility.Hidden;
                         SearchBtn.Focus();
                         searchText = "";
-                        loadTask = Task.Run(loadItem);
+                        App.loadTask = Task.Run(loadItem);
                     }
                     else
                     {
@@ -324,11 +334,11 @@ namespace KuranX.App.Core.Pages.NoteF
                 }
                 else
                 {
-                    if (noteName.Text.Length > 50)
+                    if (noteName.Text.Length > 150)
                     {
                         noteAddPopupHeaderError.Visibility = Visibility.Visible;
                         noteName.Focus();
-                        noteAddPopupHeaderError.Content = "Not Başlığı Çok Uzun. Max 50 Karakter Olabilir.";
+                        noteAddPopupHeaderError.Content = "Not Başlığı Çok Uzun. Max 150 Karakter Olabilir.";
                     }
                     else
                     {
@@ -362,7 +372,7 @@ namespace KuranX.App.Core.Pages.NoteF
                                         succsessFunc("Not Ekleme Başarılı", "Notunuz Eklenmiştir.", 3);
                                         noteName.Text = "";
                                         noteDetail.Text = "";
-                                        loadTask = Task.Run(() => loadItem());
+                                        App.loadTask = Task.Run(() => loadItem());
 
                                         dNotes = null;
                                     }
@@ -389,7 +399,7 @@ namespace KuranX.App.Core.Pages.NoteF
                 nextpageButton.IsEnabled = false;
                 lastPage += 24;
                 NowPage++;
-                loadTask = Task.Run(loadItem);
+                App.loadTask = Task.Run(loadItem);
             }
             catch (Exception ex)
             {
@@ -406,7 +416,7 @@ namespace KuranX.App.Core.Pages.NoteF
                     previusPageButton.IsEnabled = false;
                     lastPage -= 24;
                     NowPage--;
-                    loadTask = Task.Run(loadItem);
+                    App.loadTask = Task.Run(loadItem);
                 }
             }
             catch (Exception ex)
@@ -433,7 +443,7 @@ namespace KuranX.App.Core.Pages.NoteF
         private void gotoNotes_Click(object sender, RoutedEventArgs e)
         {
             Button btn = sender as Button;
-            App.mainframe.Content = App.navNoteItem.noteItemPageCall(int.Parse(btn.Uid));
+            App.mainframe.Content = App.navNoteItem.PageCall(int.Parse(btn.Uid));
         }
 
         private void deleteNotes_Click(object sender, RoutedEventArgs e)
@@ -452,7 +462,7 @@ namespace KuranX.App.Core.Pages.NoteF
                     entitydb.Notes.RemoveRange(entitydb.Notes.Where(p => p.NotesId == selectedId));
                     entitydb.SaveChanges();
                     popup_deleteNote.IsOpen = false;
-                    loadTask = Task.Run(loadItem);
+                    App.loadTask = Task.Run(loadItem);
                 }
             }
             catch (Exception ex)
@@ -532,12 +542,12 @@ namespace KuranX.App.Core.Pages.NoteF
                 alertPopupDetail.Text = detail;
                 alph.IsOpen = true;
 
-                timeSpan.Interval = TimeSpan.FromSeconds(timespan);
-                timeSpan.Start();
-                timeSpan.Tick += delegate
+                App.timeSpan.Interval = TimeSpan.FromSeconds(timespan);
+                App.timeSpan.Start();
+                App.timeSpan.Tick += delegate
                 {
                     alph.IsOpen = false;
-                    timeSpan.Stop();
+                    App.timeSpan.Stop();
                 };
             }
             catch (Exception ex)
@@ -554,12 +564,12 @@ namespace KuranX.App.Core.Pages.NoteF
                 infoPopupDetail.Text = detail;
                 inph.IsOpen = true;
 
-                timeSpan.Interval = TimeSpan.FromSeconds(timespan);
-                timeSpan.Start();
-                timeSpan.Tick += delegate
+                App.timeSpan.Interval = TimeSpan.FromSeconds(timespan);
+                App.timeSpan.Start();
+                App.timeSpan.Tick += delegate
                 {
                     inph.IsOpen = false;
-                    timeSpan.Stop();
+                    App.timeSpan.Stop();
                 };
             }
             catch (Exception ex)
@@ -576,12 +586,12 @@ namespace KuranX.App.Core.Pages.NoteF
                 successPopupDetail.Text = detail;
                 scph.IsOpen = true;
 
-                timeSpan.Interval = TimeSpan.FromSeconds(timespan);
-                timeSpan.Start();
-                timeSpan.Tick += delegate
+                App.timeSpan.Interval = TimeSpan.FromSeconds(timespan);
+                App.timeSpan.Start();
+                App.timeSpan.Tick += delegate
                 {
                     scph.IsOpen = false;
-                    timeSpan.Stop();
+                    App.timeSpan.Stop();
                 };
             }
             catch (Exception ex)
@@ -591,5 +601,41 @@ namespace KuranX.App.Core.Pages.NoteF
         }
 
         // ---------- MessageFunc FUNC ---------- //
+
+        // ------------ Animation Func ------------ //
+
+        public void loadAni()
+        {
+            this.Dispatcher.Invoke(() =>
+            {
+                SearchBtn.IsEnabled = false;
+                addNewNote.IsEnabled = false;
+                filterButton.IsEnabled = false;
+                filterAll.IsEnabled = false;
+                filterUser.IsEnabled = false;
+                filterSubject.IsEnabled = false;
+                filterLib.IsEnabled = false;
+                filterVerse.IsEnabled = false;
+                filterPdf.IsEnabled = false;
+            });
+        }
+
+        public void loadAniComplated()
+        {
+            this.Dispatcher.Invoke(() =>
+            {
+                SearchBtn.IsEnabled = true;
+                addNewNote.IsEnabled = true;
+                filterButton.IsEnabled = true;
+                filterAll.IsEnabled = true;
+                filterUser.IsEnabled = true;
+                filterSubject.IsEnabled = true;
+                filterLib.IsEnabled = true;
+                filterVerse.IsEnabled = true;
+                filterPdf.IsEnabled = true;
+            });
+        }
+
+        // ------------ Animation Func ------------ //
     }
 }

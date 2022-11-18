@@ -7,18 +7,14 @@ using KuranX.App.Core.Pages.SubjectF;
 using KuranX.App.Core.Pages.VerseF;
 using KuranX.App.Core.Windows;
 using System;
-using System.Collections.Generic;
 using System.Configuration;
-using System.Data;
+
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
-using static Org.BouncyCastle.Math.EC.ECCurve;
 
 namespace KuranX.App
 {
@@ -31,13 +27,18 @@ namespace KuranX.App
         public static string currentDesktype = "DeskLanding";
 
         public static DispatcherTimer timeSpan = new DispatcherTimer(DispatcherPriority.Render);
+        public static Task loadTask;
 
         public static Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+
+        // Main PANEL
+
+        public static homeScreen mainScreen = new homeScreen();
 
         // VERSE PANEL
 
         public static sureFrame navSurePage = new sureFrame();
-        public static verseFrame navVersePage = new verseFrame(1, 1, "Verse");
+        public static verseFrame navVersePage = new verseFrame();
 
         // SUBJECT PANEL
         public static SubjectFrame navSubjectPage = new SubjectFrame();
@@ -71,6 +72,11 @@ namespace KuranX.App
 
         public static TestFrame navTestPage = new TestFrame();
 
+        public void App_Startup(object sender, StartupEventArgs e)
+        {
+            mainScreen.Show();
+        }
+
         public static void logWriter(string type, Exception exe)
         {
             File.AppendAllText("log.txt", Environment.NewLine);
@@ -93,14 +99,6 @@ namespace KuranX.App
                 config.AppSettings.Settings["TaskLastStatus"].Value = "UpdateWait";
                 ConfigurationManager.RefreshSection("appSettings");
                 config.Save(ConfigurationSaveMode.Modified);
-            }
-        }
-
-        public static void processKiller()
-        {
-            foreach (var item in Process.GetProcesses())
-            {
-                if (item.ProcessName == "CefSharp.BrowserSubprocess") item.Kill();
             }
         }
     }

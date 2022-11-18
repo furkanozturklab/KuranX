@@ -31,10 +31,8 @@ namespace KuranX.App.Core.Pages.NoteF
     /// </summary>
     public partial class NoteItem : Page
     {
-        private Task loadTask;
         private int noteId, cSr, cVr, cPd, cSb;
         private bool tempCheck = false;
-        private DispatcherTimer? timeSpan = new DispatcherTimer(DispatcherPriority.Render);
 
         private string gototype;
 
@@ -43,27 +41,10 @@ namespace KuranX.App.Core.Pages.NoteF
             InitializeComponent();
         }
 
-        private void loadNoteDetail_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            try
-            {
-                if (tempCheck)
-                {
-                    saveButton.IsEnabled = true;
-                }
-                else tempCheck = true;
-            }
-            catch (Exception ex)
-            {
-                App.logWriter("noteDetail_TextChanged", ex);
-            }
-        }
-
-        public Page noteItemPageCall(int id)
+        public Page PageCall(int id)
         {
             noteId = id;
-            loadTask = Task.Run(() => loadItem());
-
+            App.loadTask = Task.Run(() => loadItem());
             return this;
         }
 
@@ -75,6 +56,7 @@ namespace KuranX.App.Core.Pages.NoteF
 
                 this.Dispatcher.Invoke(() =>
                 {
+                    infoText.Text = "";
                     loadHeader.Text = dNote.NoteHeader;
                     loadCreate.Text = dNote.Created.ToString("D");
                     loadLocation.Text = dNote.NoteLocation;
@@ -107,6 +89,8 @@ namespace KuranX.App.Core.Pages.NoteF
                     gotoVerseButton.Content = "Kullanıcı";
                     gotoVerseButton.Tag = "People";
 
+                    App.mainScreen.navigationWriter("notes", "Kullanıcı Notu");
+
                     // Sure Bağlanmış
                     if (dNote.SureId != 0)
                     {
@@ -114,7 +98,7 @@ namespace KuranX.App.Core.Pages.NoteF
                         gotoVerseButton.Content = "Ayete Git";
                         gotoVerseButton.Tag = "ArrowRight";
                         var dSure = entitydb.Sure.Where(p => p.sureId == dNote.SureId).FirstOrDefault();
-
+                        App.mainScreen.navigationWriter("notes", "Sure Notu");
                         infoText.Text = "Not Aldığınız Ayet " + Environment.NewLine + dSure.Name + " suresini " + dNote.VerseId + " ayeti";
                         cSr = (int)dSure.sureId;
                         cVr = (int)dNote.VerseId;
@@ -128,7 +112,7 @@ namespace KuranX.App.Core.Pages.NoteF
                         gotoVerseButton.Content = "Pdf e Git";
                         gotoVerseButton.Tag = "ArrowRight";
                         gotoVerseButton.Style = (Style)FindResource("defaultActionButonBstrpRed");
-
+                        App.mainScreen.navigationWriter("notes", "Pdf Notu");
                         var dPdf = entitydb.PdfFile.Where(p => p.PdfFileId == dNote.PdfFileId).FirstOrDefault();
                         infoText.Text = "Not Aldığınız Dosya " + Environment.NewLine + dPdf.FileName;
                         cPd = (int)dNote.PdfFileId;
@@ -142,6 +126,7 @@ namespace KuranX.App.Core.Pages.NoteF
                         gotoVerseButton.Content = "Konuya Git";
                         gotoVerseButton.Tag = "ArrowRight";
 
+                        App.mainScreen.navigationWriter("notes", "Konu Notu");
                         var dSubject = entitydb.SubjectItems.Where(p => p.SubjectItemsId == dNote.SubjectId).FirstOrDefault();
 
                         Debug.WriteLine(dSubject.SubjectId);
@@ -273,12 +258,12 @@ namespace KuranX.App.Core.Pages.NoteF
         {
             try
             {
-                timeSpan.Interval = TimeSpan.FromSeconds(3);
-                timeSpan.Start();
+                App.timeSpan.Interval = TimeSpan.FromSeconds(3);
+                App.timeSpan.Start();
                 succsessFunc("Not Silme Başarılı", "Notunuz başaralı bir sekilde silinmiştir. Notlarım sayfasına yönlendiriliyorsunuz...", 3);
-                timeSpan.Tick += delegate
+                App.timeSpan.Tick += delegate
                 {
-                    timeSpan.Stop();
+                    App.timeSpan.Stop();
                     NavigationService.GoBack();
                 };
             }
@@ -380,6 +365,26 @@ namespace KuranX.App.Core.Pages.NoteF
 
         // ------------- Click Func ------------- //
 
+        // ------------- Changed Func ------------- //
+
+        private void loadNoteDetail_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            try
+            {
+                if (tempCheck)
+                {
+                    saveButton.IsEnabled = true;
+                }
+                else tempCheck = true;
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("noteDetail_TextChanged", ex);
+            }
+        }
+
+        // ------------- Changed Func ------------- //
+
         // ---------- MessageFunc FUNC ---------- //
 
         private void alertFunc(string header, string detail, int timespan)
@@ -390,12 +395,12 @@ namespace KuranX.App.Core.Pages.NoteF
                 alertPopupDetail.Text = detail;
                 alph.IsOpen = true;
 
-                timeSpan.Interval = TimeSpan.FromSeconds(timespan);
-                timeSpan.Start();
-                timeSpan.Tick += delegate
+                App.timeSpan.Interval = TimeSpan.FromSeconds(timespan);
+                App.timeSpan.Start();
+                App.timeSpan.Tick += delegate
                 {
                     alph.IsOpen = false;
-                    timeSpan.Stop();
+                    App.timeSpan.Stop();
                 };
             }
             catch (Exception ex)
@@ -412,12 +417,12 @@ namespace KuranX.App.Core.Pages.NoteF
                 infoPopupDetail.Text = detail;
                 inph.IsOpen = true;
 
-                timeSpan.Interval = TimeSpan.FromSeconds(timespan);
-                timeSpan.Start();
-                timeSpan.Tick += delegate
+                App.timeSpan.Interval = TimeSpan.FromSeconds(timespan);
+                App.timeSpan.Start();
+                App.timeSpan.Tick += delegate
                 {
                     inph.IsOpen = false;
-                    timeSpan.Stop();
+                    App.timeSpan.Stop();
                 };
             }
             catch (Exception ex)
@@ -434,12 +439,12 @@ namespace KuranX.App.Core.Pages.NoteF
                 successPopupDetail.Text = detail;
                 scph.IsOpen = true;
 
-                timeSpan.Interval = TimeSpan.FromSeconds(timespan);
-                timeSpan.Start();
-                timeSpan.Tick += delegate
+                App.timeSpan.Interval = TimeSpan.FromSeconds(timespan);
+                App.timeSpan.Start();
+                App.timeSpan.Tick += delegate
                 {
                     scph.IsOpen = false;
-                    timeSpan.Stop();
+                    App.timeSpan.Stop();
                 };
             }
             catch (Exception ex)

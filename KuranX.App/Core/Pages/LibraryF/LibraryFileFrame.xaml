@@ -48,6 +48,34 @@
             </Border>
         </Popup>
 
+        <Popup x:Name="scph" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="460" Height="200" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+            <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="440" Height="180">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="90" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Border Grid.Column="0" Background="#66E21F" CornerRadius="5 0 0 5"></Border>
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Icon:PackIconIonicons Kind="CheckmarkMD" Width="48" Height="48" Foreground="#66E21F" />
+                        </StackPanel>
+                        <Border Grid.Column="2"  Padding="10 0 10 0">
+                            <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <TextBlock x:Name="successPopupHeader" Text="" TextAlignment="Center" FontSize="22" Margin="0,0,0,12" Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsSemiBold}" />
+                                <TextBlock x:Name="successPopupDetail" Text="" TextAlignment="Center" TextWrapping="Wrap"  Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsMedium}" />
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                </Grid>
+            </Border>
+        </Popup>
+
         <Popup x:Name="popup_fileUp" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="460" Height="140" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
             <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="440" Height="120">
                 <Grid>
@@ -76,6 +104,40 @@
             </Border>
         </Popup>
 
+        <Popup x:Name="popup_DeleteConfirm" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="360" Height="210" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+
+            <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="340" Height="190">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50" />
+                        <RowDefinition Height="140" />
+                    </Grid.RowDefinitions>
+                    <Border  Grid.Row="0" Style="{DynamicResource pp_BorderHeader}">
+                        <TextBlock Text="Konuyu Sil" Style="{DynamicResource pp_HeaderText}" />
+                    </Border>
+                    <Grid Grid.Row="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="50" />
+                        </Grid.RowDefinitions>
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Width="280" Grid.Row="0">
+                            <TextBlock Text=" Dosyayı silmek istediğinize emin misiniz bu işlem geri alınamaz. " TextWrapping="Wrap" TextAlignment="Center" FontFamily="{DynamicResource PoppinsMedium}" FontSize="14" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </StackPanel>
+                        <Grid Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="0">
+                                <Button x:Name="deleteSubjectPopupBtn" Style="{DynamicResource pp_DefaultButtonBstrp}" Tag="Trash" Content="Sil" HorizontalAlignment="Center" Click="deleteFilePopupBtn_Click" />
+                                <Button  Style="{DynamicResource pp_DefaultButtonClosed}" Tag="CloseBig" Content="Vazgeç" Uid="popup_DeleteConfirm" HorizontalAlignment="Center" Click="popupClosed_Click" />
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </Border>
+        </Popup>
+
         <!-- popup -->
 
         <StackPanel  Grid.Row="0" x:Name="loadHeaderAni" VerticalAlignment="Center" UseLayoutRounding="True" SnapsToDevicePixels="True">
@@ -84,7 +146,7 @@
                 <Border Style="{DynamicResource defaultTabSearchBorder}">
                     <StackPanel Orientation="Horizontal">
                         <TextBox x:Name="SearchData" Style="{DynamicResource defaultTabSearchText}" TextChanged="SearchData_TextChanged" LostFocus="SearchData_LostFocus" />
-                        <Button x:Name="SearchBtn" Style="{DynamicResource defaultTabSearchButton}" ToolTip="Arama Yapmanızı Sağlar" Click="SearchBtn_Click" />
+                        <Button x:Name="SearchBtn" IsEnabled="False" Style="{DynamicResource defaultTabSearchButton}" ToolTip="Arama Yapmanızı Sağlar" Click="SearchBtn_Click" />
                     </StackPanel>
                 </Border>
             </StackPanel>
@@ -614,10 +676,10 @@
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right"  x:Name="loadControlAni">
             <StackPanel Orientation="Horizontal" Height="80">
                 <StackPanel Style="{DynamicResource frameItemsOffsetNav}">
-                    <Button x:Name="backPage" IsEnabled="True" Style="{DynamicResource frameItemsControlNav}" Tag="ArrowLeft" Content="Geri Dön" Click="backPage_Click" />
+                    <Button x:Name="backPage" IsEnabled="False" Style="{DynamicResource frameItemsControlNav}" Tag="ArrowLeft" Content="Geri Dön" Click="backPage_Click" />
                 </StackPanel>
                 <StackPanel Style="{DynamicResource frameItemsOffsetNav}">
-                    <Button x:Name="addfile" IsEnabled="True" Style="{DynamicResource frameItemsControlNav}" Tag="Upload" Content="Yeni Dosya Ekle" Click="addfile_Click" />
+                    <Button x:Name="addfile" IsEnabled="False" Style="{DynamicResource frameItemsControlNav}" Tag="Upload" Content="Yeni Dosya Ekle" Click="addfile_Click" />
                 </StackPanel>
                 <StackPanel Style="{DynamicResource frameItemsOffsetNav}">
                     <Button x:Name="previusPageButton" IsEnabled="False"  Style="{DynamicResource frameItemsControlNav}" Tag="AngleLeft" Content="Önceki Sayfa" Click="previusPageButton_Click" />

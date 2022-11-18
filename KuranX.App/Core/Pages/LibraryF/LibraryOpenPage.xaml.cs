@@ -25,11 +25,17 @@ namespace KuranX.App.Core.Pages.LibraryF
             InitializeComponent();
         }
 
+        public Page PageCall()
+        {
+            App.mainScreen.navigationWriter("library", "");
+            return this;
+        }
+
         private void libFileOpenFrame_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                App.mainframe.Content = App.navLibraryFileFrame;
+                App.mainframe.Content = App.navLibraryFileFrame.PageCall();
             }
             catch (Exception ex)
             {
@@ -47,6 +53,11 @@ namespace KuranX.App.Core.Pages.LibraryF
             {
                 App.logWriter("FrameLoad", ex);
             }
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            App.mainScreen.navigationWriter("library", "");
         }
     }
 }

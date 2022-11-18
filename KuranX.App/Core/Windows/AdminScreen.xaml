@@ -17,5 +17,6 @@
         <Button x:Name="editorFileUpdate" Content="Editor PDF Ekle" HorizontalAlignment="Left" Margin="536,43,0,0" VerticalAlignment="Top" Height="35" Width="212" Click="editorFileUpdate_Click" />
         <Button x:Name="button" Content="get process" HorizontalAlignment="Left" Margin="428,217,0,0" VerticalAlignment="Top" Click="button_Click" />
         <Button x:Name="resultCreate" Content="Result Create" HorizontalAlignment="Left" Margin="32,277,0,0" VerticalAlignment="Top" Height="51" Width="124" Click="resultCreate_Click" />
+        <Button x:Name="button2" Content="Button" HorizontalAlignment="Left" Margin="675,320,0,0" VerticalAlignment="Top" Click="button2_Click" />
     </Grid>
 </Window>

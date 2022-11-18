@@ -82,7 +82,7 @@ namespace KuranX.App.Core.Classes
                 .HasDefaultValue(0);
             modelBuilder.Entity<Sure>()
                 .Property(u => u.UserLastRelativeVerse)
-                .HasDefaultValue(1);
+                .HasDefaultValue(0);
             modelBuilder.Entity<Sure>()
                 .Property(u => u.Complated)
                 .HasDefaultValue(false);
@@ -90,13 +90,13 @@ namespace KuranX.App.Core.Classes
             //   VERSE
             modelBuilder.Entity<Verse>()
                 .Property(u => u.RemiderCheck)
-                .HasDefaultValue("false");
+                .HasDefaultValue(false);
             modelBuilder.Entity<Verse>()
                 .Property(u => u.MarkCheck)
-                .HasDefaultValue("false");
+                .HasDefaultValue(false);
             modelBuilder.Entity<Verse>()
                 .Property(u => u.VerseCheck)
-                .HasDefaultValue("false");
+                .HasDefaultValue(false);
 
             //   NOTES
             modelBuilder.Entity<Notes>()

@@ -697,12 +697,12 @@ namespace KuranX.App.Core.Pages.VerseF
                         xc++;
                         var listxc = entitydb.Sure.OrderBy(p => p.DeskMushaf).Where(p => p.DeskMushaf == xc).FirstOrDefault();
 
-                        App.mainframe.Content = new verseFrame((int)listxc.sureId, 1, "Verse");
+                        //App.mainframe.Content = new verseFrame((int)listxc.sureId, 1, "Verse");
                     }
                 }
                 else
                 {
-                    App.mainframe.Content = new verseFrame((int)++dSure[0].sureId, 1, "Verse");
+                    //  App.mainframe.Content = new verseFrame((int)++dSure[0].sureId, 1, "Verse");
                 }
             }
         }

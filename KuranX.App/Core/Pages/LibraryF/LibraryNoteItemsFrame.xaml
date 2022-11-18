@@ -307,7 +307,7 @@
                     </StackPanel>
                 </Border>
                 <Border Width="50">
-                    <Button x:Name="subjectItemsDeleteBtn" Style="{DynamicResource sb_FolderButtonReset}" Grid.Column="2" Tag="TrashMD" Click="libraryFolderDeleteBtn_Click" />
+                    <Button IsEnabled="False" x:Name="libraryItemsDeleteBtn" Style="{DynamicResource sb_FolderButtonReset}" Grid.Column="2" Tag="TrashMD" Click="libraryFolderDeleteBtn_Click" />
                 </Border>
             </StackPanel>
         </Border>
@@ -835,11 +835,11 @@
             <StackPanel Orientation="Horizontal" Height="80">
 
                 <StackPanel Style="{DynamicResource frameItemsOffsetNav}">
-                    <Button IsEnabled="True" x:Name="backPage" Style="{DynamicResource frameItemsControlNav}" Tag="ArrowLeft" Content="Geri Dön" Click="backPage_Click" />
+                    <Button IsEnabled="False" x:Name="backPage" Style="{DynamicResource frameItemsControlNav}" Tag="ArrowLeft" Content="Geri Dön" Click="backPage_Click" />
                 </StackPanel>
 
                 <StackPanel Style="{DynamicResource frameItemsOffsetNav}">
-                    <Button IsEnabled="True" x:Name="sendResult" Style="{DynamicResource frameItemsControlNav}" Tag="Exchange" Content="Sonuca Gönder" Click="sendResult_Click" />
+                    <Button IsEnabled="False" x:Name="sendResult" Style="{DynamicResource frameItemsControlNav}" Tag="Exchange" Content="Sonuca Gönder" Click="sendResult_Click" />
                 </StackPanel>
 
                 <StackPanel Style="{DynamicResource frameItemsOffsetNav}">

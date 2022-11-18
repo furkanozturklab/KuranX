@@ -770,16 +770,16 @@
             <StackPanel Orientation="Horizontal" Height="80">
 
                 <StackPanel Style="{DynamicResource frameItemsOffsetNav}">
-                    <Button IsEnabled="True" x:Name="backPage" Style="{DynamicResource frameItemsControlNav}" Tag="ArrowLeft" Content="Sonuca Geri Dön" Click="backPage_Click" />
+                    <Button IsEnabled="False" x:Name="backPage" Style="{DynamicResource frameItemsControlNav}" Tag="ArrowLeft" Content="Sonuca Geri Dön" Click="backPage_Click" />
                 </StackPanel>
 
                 <StackPanel Style="{DynamicResource frameItemsOffsetNav}">
-                    <Button IsEnabled="True" x:Name="resultScreenOpen" Style="{DynamicResource frameItemsControlNavSpec}" Tag="RegularExport" Content="Sonucu Özetle-Yazdır" Click="resultScreenOpen_Click" />
+                    <Button IsEnabled="False" x:Name="resultScreenOpen" Style="{DynamicResource frameItemsControlNavSpec}" Tag="RegularExport" Content="Sonucu Özetle-Yazdır" Click="resultScreenOpen_Click" />
                 </StackPanel>
 
                 <StackPanel Style="{DynamicResource frameItemsOffsetNav}">
                     <StackPanel Style="{DynamicResource frameItemsOffsetNav}">
-                        <Button x:Name="filterButton" IsEnabled="True" Style="{DynamicResource frameItemsControlNav}" Tag="Clone" Content="Liste Görünümü" Click="filterButton_Click" />
+                        <Button x:Name="filterButton" IsEnabled="False" Style="{DynamicResource frameItemsControlNav}" Tag="Clone" Content="Liste Görünümü" Click="filterButton_Click" />
                     </StackPanel>
 
                     <Popup x:Name="hoverPopup" IsOpen="False" AllowsTransparency="True" Placement="Center" Width="250" Height="60" VerticalOffset="40" HorizontalOffset="50" PopupAnimation="Fade">

@@ -25,8 +25,6 @@ namespace KuranX.App.Core.Pages.ReminderF
     /// </summary>
     public partial class RemiderFrame : Page
     {
-        private DispatcherTimer timeSpan = new DispatcherTimer(DispatcherPriority.Render);
-        private Task loadTask;
         private bool filter, remiderType = false;
         private string filterText;
         private int lastPage = 0, NowPage = 1, selectedId;
@@ -38,21 +36,27 @@ namespace KuranX.App.Core.Pages.ReminderF
 
         public Page PageCall()
         {
+            lastPage = 0;
+            NowPage = 1;
+            App.loadTask = Task.Run(() => loadItem());
             return this;
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            loadTask = Task.Run(() => loadItem());
+            App.loadTask = Task.Run(() => loadItem());
         }
 
         public void loadItem()
         {
-            Debug.WriteLine("Working");
             using (var entitydb = new AyetContext())
             {
+                loadAni();
                 Decimal totalcount = entitydb.Remider.Count();
                 List<Remider> dRemider = new List<Remider>();
+
+                App.mainScreen.navigationWriter("remider", "");
+
                 if (filter)
                 {
                     dRemider = entitydb.Remider.Where(p => p.LoopType == filterText).OrderBy(p => p.Priority).Skip(lastPage).Take(6).ToList();
@@ -62,8 +66,6 @@ namespace KuranX.App.Core.Pages.ReminderF
                 {
                     dRemider = entitydb.Remider.OrderBy(p => p.Priority).Skip(lastPage).Take(6).ToList();
                 }
-
-                Debug.WriteLine(dRemider.Count);
 
                 this.Dispatcher.InvokeAsync(() =>
                 {
@@ -113,7 +115,7 @@ namespace KuranX.App.Core.Pages.ReminderF
                     }
 
                     totalcountText.Tag = totalcount.ToString();
-
+                    Thread.Sleep(200);
                     if (dRemider.Count() != 0)
                     {
                         totalcount = Math.Ceiling(totalcount / 6);
@@ -136,6 +138,8 @@ namespace KuranX.App.Core.Pages.ReminderF
                         previusPageButton.IsEnabled = false;
                     }
                 });
+
+                loadAniComplated();
             }
         }
 
@@ -160,7 +164,7 @@ namespace KuranX.App.Core.Pages.ReminderF
                 filterText = btn.Uid.ToString();
             }
 
-            loadTask = Task.Run(() => loadItem());
+            App.loadTask = Task.Run(() => loadItem());
         }
 
         private void nextpageButton_Click(object sender, RoutedEventArgs e)
@@ -170,7 +174,7 @@ namespace KuranX.App.Core.Pages.ReminderF
                 nextpageButton.IsEnabled = false;
                 lastPage += 6;
                 NowPage++;
-                loadTask = Task.Run(() => loadItem());
+                App.loadTask = Task.Run(() => loadItem());
             }
             catch (Exception ex)
             {
@@ -187,7 +191,7 @@ namespace KuranX.App.Core.Pages.ReminderF
                     previusPageButton.IsEnabled = false;
                     lastPage -= 6;
                     NowPage--;
-                    loadTask = Task.Run(() => loadItem());
+                    App.loadTask = Task.Run(() => loadItem());
                 }
             }
             catch (Exception ex)
@@ -240,7 +244,7 @@ namespace KuranX.App.Core.Pages.ReminderF
                                         remiderName.Text = "";
                                         remiderDetail.Text = "";
                                         remiderDay.SelectedDate = null;
-                                        loadTask = Task.Run(() => loadItem());
+                                        App.loadTask = Task.Run(() => loadItem());
                                     }
                                 }
                                 else
@@ -288,7 +292,7 @@ namespace KuranX.App.Core.Pages.ReminderF
                                         remiderDetail.Text = "";
                                         loopSelectedType.SelectedIndex = 0;
 
-                                        loadTask = Task.Run(() => loadItem());
+                                        App.loadTask = Task.Run(() => loadItem());
                                     }
                                 }
                                 else
@@ -368,7 +372,7 @@ namespace KuranX.App.Core.Pages.ReminderF
                     entitydb.SaveChanges();
                     popup_DeleteConfirm.IsOpen = false;
                     succsessFunc("Hatırlatıcı Silme Başarılı", "Hatırlatıcı başaralı bir sekilde silinmiştir.", 3);
-                    loadTask = Task.Run(() => loadItem());
+                    App.loadTask = Task.Run(() => loadItem());
                 }
             }
             catch (Exception ex)
@@ -417,12 +421,12 @@ namespace KuranX.App.Core.Pages.ReminderF
                 alertPopupDetail.Text = detail;
                 alph.IsOpen = true;
 
-                timeSpan.Interval = TimeSpan.FromSeconds(timespan);
-                timeSpan.Start();
-                timeSpan.Tick += delegate
+                App.timeSpan.Interval = TimeSpan.FromSeconds(timespan);
+                App.timeSpan.Start();
+                App.timeSpan.Tick += delegate
                 {
                     alph.IsOpen = false;
-                    timeSpan.Stop();
+                    App.timeSpan.Stop();
                 };
             }
             catch (Exception ex)
@@ -439,12 +443,12 @@ namespace KuranX.App.Core.Pages.ReminderF
                 infoPopupDetail.Text = detail;
                 inph.IsOpen = true;
 
-                timeSpan.Interval = TimeSpan.FromSeconds(timespan);
-                timeSpan.Start();
-                timeSpan.Tick += delegate
+                App.timeSpan.Interval = TimeSpan.FromSeconds(timespan);
+                App.timeSpan.Start();
+                App.timeSpan.Tick += delegate
                 {
                     inph.IsOpen = false;
-                    timeSpan.Stop();
+                    App.timeSpan.Stop();
                 };
             }
             catch (Exception ex)
@@ -461,12 +465,12 @@ namespace KuranX.App.Core.Pages.ReminderF
                 successPopupDetail.Text = detail;
                 scph.IsOpen = true;
 
-                timeSpan.Interval = TimeSpan.FromSeconds(timespan);
-                timeSpan.Start();
-                timeSpan.Tick += delegate
+                App.timeSpan.Interval = TimeSpan.FromSeconds(timespan);
+                App.timeSpan.Start();
+                App.timeSpan.Tick += delegate
                 {
                     scph.IsOpen = false;
-                    timeSpan.Stop();
+                    App.timeSpan.Stop();
                 };
             }
             catch (Exception ex)
@@ -476,5 +480,37 @@ namespace KuranX.App.Core.Pages.ReminderF
         }
 
         // ---------- MessageFunc FUNC ---------- //
+
+        // ------------ Animation Func ------------ //
+
+        public void loadAni()
+        {
+            this.Dispatcher.Invoke(() =>
+            {
+                addRemider.IsEnabled = false;
+                filterAll.IsEnabled = false;
+                filterDatetime.IsEnabled = false;
+                filterDay.IsEnabled = false;
+                filterWeek.IsEnabled = false;
+                filterMonth.IsEnabled = false;
+                filterYears.IsEnabled = false;
+            });
+        }
+
+        public void loadAniComplated()
+        {
+            this.Dispatcher.Invoke(() =>
+            {
+                addRemider.IsEnabled = true;
+                filterAll.IsEnabled = true;
+                filterDatetime.IsEnabled = true;
+                filterDay.IsEnabled = true;
+                filterWeek.IsEnabled = true;
+                filterMonth.IsEnabled = true;
+                filterYears.IsEnabled = true;
+            });
+        }
+
+        // ------------ Animation Func ------------ //
     }
 }

@@ -3,6 +3,7 @@ using System;
 using KuranX.App.Core.Classes;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KuranX.App.Migrations
 {
     [DbContext(typeof(AyetContext))]
-    partial class AyetContextModelSnapshot : ModelSnapshot
+    [Migration("20221115190623_MainBuild-hotfix1")]
+    partial class MainBuildhotfix1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.0");
@@ -323,7 +326,7 @@ namespace KuranX.App.Migrations
                     b.Property<DateTime>("SendTime")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT")
-                        .HasDefaultValue(new DateTime(2022, 11, 17, 21, 30, 31, 724, DateTimeKind.Local).AddTicks(4886));
+                        .HasDefaultValue(new DateTime(2022, 11, 15, 22, 6, 23, 538, DateTimeKind.Local).AddTicks(9796));
 
                     b.HasKey("ResultItemId");
 
@@ -430,7 +433,7 @@ namespace KuranX.App.Migrations
                     b.Property<int?>("UserLastRelativeVerse")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER")
-                        .HasDefaultValue(0);
+                        .HasDefaultValue(1);
 
                     b.HasKey("sureId");
 
@@ -532,10 +535,10 @@ namespace KuranX.App.Migrations
                     b.Property<int?>("RelativeDesk")
                         .HasColumnType("INTEGER");
 
-                    b.Property<bool?>("RemiderCheck")
+                    b.Property<string>("RemiderCheck")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER")
-                        .HasDefaultValue(false);
+                        .HasColumnType("TEXT")
+                        .HasDefaultValue("false");
 
                     b.Property<string>("Status")
                         .HasColumnType("TEXT");
@@ -546,10 +549,10 @@ namespace KuranX.App.Migrations
                     b.Property<string>("VerseArabic")
                         .HasColumnType("TEXT");
 
-                    b.Property<bool?>("VerseCheck")
+                    b.Property<string>("VerseCheck")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER")
-                        .HasDefaultValue(false);
+                        .HasColumnType("TEXT")
+                        .HasDefaultValue("false");
 
                     b.Property<string>("VerseDesc")
                         .HasColumnType("TEXT");

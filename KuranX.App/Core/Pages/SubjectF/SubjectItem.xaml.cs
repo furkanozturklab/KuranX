@@ -25,8 +25,6 @@ namespace KuranX.App.Core.Pages.SubjectF
     /// </summary>
     public partial class SubjectItem : Page
     {
-        private Task loadTask;
-        private DispatcherTimer? timeSpan = new DispatcherTimer(DispatcherPriority.Render);
         public int sSureId, sverseId, verseId, subId, subItemsId;
 
         public SubjectItem()
@@ -39,9 +37,13 @@ namespace KuranX.App.Core.Pages.SubjectF
             subId = SubID;
             sSureId = SureId;
             verseId = VerseId;
-            loadTask = new Task(() => loadItem(SubID, SureId, VerseId));
-            loadTask.Start();
+            App.loadTask = Task.Run(() => loadItem(SubID, SureId, VerseId));
             return this;
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            App.mainScreen.navigationWriter("subject", loadHeader.Text + "," + loadBackHeader.Text);
         }
 
         // ---------- Load FUNC ---------- //
@@ -61,6 +63,8 @@ namespace KuranX.App.Core.Pages.SubjectF
                     loadHeader.Text = dSub.SubjectName;
                     loadCreated.Text = dSub.Created.ToString("D");
                     loadBackHeader.Text = $"{dSure.Name} Suresinin {VerseId} Ayeti";
+
+                    App.mainScreen.navigationWriter("subject", loadHeader.Text + "," + loadBackHeader.Text);
 
                     loadVerseTr.Text = dVerse.VerseTr;
                     loadVerseArb.Text = dVerse.VerseArabic;
@@ -274,8 +278,7 @@ namespace KuranX.App.Core.Pages.SubjectF
             try
             {
                 popup_Note.IsOpen = true;
-                loadTask = new Task(noteConnect);
-                loadTask.Start();
+                App.loadTask = Task.Run(noteConnect);
             }
             catch (Exception ex)
             {
@@ -302,7 +305,7 @@ namespace KuranX.App.Core.Pages.SubjectF
             try
             {
                 var tmpbutton = sender as Button;
-                // App.mainframe.Content = new NoteF.NoteItem(int.Parse(tmpbutton.Uid), "Other");
+                App.mainframe.Content = App.navNoteItem.PageCall(int.Parse(tmpbutton.Uid));
                 tmpbutton = null;
             }
             catch (Exception ex)
@@ -323,11 +326,11 @@ namespace KuranX.App.Core.Pages.SubjectF
                 }
                 else
                 {
-                    if (noteName.Text.Length > 50)
+                    if (noteName.Text.Length > 150)
                     {
                         noteAddPopupHeaderError.Visibility = Visibility.Visible;
                         noteName.Focus();
-                        noteAddPopupHeaderError.Content = "Not Başlığı Çok Uzun. Max 50 Karakter Olabilir.";
+                        noteAddPopupHeaderError.Content = "Not Başlığı Çok Uzun. Max 150 Karakter Olabilir.";
                     }
                     else
                     {
@@ -359,8 +362,8 @@ namespace KuranX.App.Core.Pages.SubjectF
                                         entitydb.Notes.Add(dNotes);
                                         entitydb.SaveChanges();
                                         succsessFunc("Not Ekleme Başarılı", loadBackHeader.Text + " Not Eklendiniz.", 3);
-                                        loadTask = new Task(noteConnect);
-                                        loadTask.Start();
+                                        App.loadTask = Task.Run(noteConnect);
+
                                         dNotes = null;
                                     }
 
@@ -434,7 +437,7 @@ namespace KuranX.App.Core.Pages.SubjectF
             try
             {
                 var tmpbutton = sender as Button;
-                //  App.mainframe.Content = new NoteF.NoteItem(int.Parse(tmpbutton.Uid), "Other");
+                App.mainframe.Content = App.navNoteItem.PageCall(int.Parse(tmpbutton.Uid));
                 tmpbutton = null;
             }
             catch (Exception ex)
@@ -508,12 +511,12 @@ namespace KuranX.App.Core.Pages.SubjectF
                 alertPopupDetail.Text = detail;
                 alph.IsOpen = true;
 
-                timeSpan.Interval = TimeSpan.FromSeconds(timespan);
-                timeSpan.Start();
-                timeSpan.Tick += delegate
+                App.timeSpan.Interval = TimeSpan.FromSeconds(timespan);
+                App.timeSpan.Start();
+                App.timeSpan.Tick += delegate
                 {
                     alph.IsOpen = false;
-                    timeSpan.Stop();
+                    App.timeSpan.Stop();
                 };
             }
             catch (Exception ex)
@@ -530,12 +533,12 @@ namespace KuranX.App.Core.Pages.SubjectF
                 infoPopupDetail.Text = detail;
                 inph.IsOpen = true;
 
-                timeSpan.Interval = TimeSpan.FromSeconds(timespan);
-                timeSpan.Start();
-                timeSpan.Tick += delegate
+                App.timeSpan.Interval = TimeSpan.FromSeconds(timespan);
+                App.timeSpan.Start();
+                App.timeSpan.Tick += delegate
                 {
                     inph.IsOpen = false;
-                    timeSpan.Stop();
+                    App.timeSpan.Stop();
                 };
             }
             catch (Exception ex)
@@ -552,12 +555,12 @@ namespace KuranX.App.Core.Pages.SubjectF
                 successPopupDetail.Text = detail;
                 scph.IsOpen = true;
 
-                timeSpan.Interval = TimeSpan.FromSeconds(timespan);
-                timeSpan.Start();
-                timeSpan.Tick += delegate
+                App.timeSpan.Interval = TimeSpan.FromSeconds(timespan);
+                App.timeSpan.Start();
+                App.timeSpan.Tick += delegate
                 {
                     scph.IsOpen = false;
-                    timeSpan.Stop();
+                    App.timeSpan.Stop();
                 };
             }
             catch (Exception ex)

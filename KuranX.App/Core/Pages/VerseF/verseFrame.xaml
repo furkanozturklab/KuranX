@@ -7,9 +7,11 @@
       xmlns:sys="clr-namespace:System;assembly=mscorlib"
       xmlns:local="clr-namespace:KuranX.App.Core.Pages"
       xmlns:gif="http://wpfanimatedgif.codeplex.com"
+       xmlns:extension="clr-namespace:KuranX.App.Core.Classes"
+
       mc:Ignorable="d"
       d:DesignHeight="708" d:DesignWidth="1115" d:MaxHeight="708" d:MaxWidth="1270" d:MinWidth="1115"
-      Title="VerseFrame" Background="#FAFAFA">
+      Title="VerseFrame" Background="#FAFAFA" Loaded="Page_Loaded">
     <Grid>
 
         <Grid>
@@ -393,7 +395,7 @@
                                 <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Width="320" Grid.Row="0">
                                     <TextBlock Text="Konu Başlığı" FontFamily="{DynamicResource PoppinsSemiBold}" FontSize="14" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0" />
                                     <TextBox Style="{DynamicResource pp_DefaulTextBox}" Width="280" x:Name="subjectFolderHeader" KeyDown="subjectFolderHeader_KeyDown" KeyUp="subjectFolderHeader_KeyUp" />
-                                    <Label Visibility="Visible" x:Name="subjectHeaderFolderErrorMesssage" Style="{DynamicResource pp_DefaultTextBoxLabel}" Margin="0 5 0 5" />
+                                    <Label Visibility="Visible" x:Name="subjectHeaderFolderError" Style="{DynamicResource pp_DefaultTextBoxLabel}" Margin="0 5 0 5" />
 
                                     <TextBlock Text="Konu Rengi" FontFamily="{DynamicResource PoppinsSemiBold}" FontSize="14" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0" />
                                     <StackPanel Orientation="Horizontal" Width="300" Margin="0 10 0 10" x:Name="subjectColorStack">
@@ -799,6 +801,7 @@
             </Popup>
 
             <Popup x:Name="popup_meaningDeleteConfirm" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="380" Height="220" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+
                 <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="360" Height="200">
                     <Grid>
                         <Grid.RowDefinitions>
@@ -806,15 +809,15 @@
                             <RowDefinition Height="150" />
                         </Grid.RowDefinitions>
                         <Border  Grid.Row="0" Style="{DynamicResource pp_BorderHeader}">
-                            <TextBlock Text="Bağlantıyı Sil" Style="{DynamicResource pp_HeaderText}" />
+                            <TextBlock Text="Konuyu Sil" Style="{DynamicResource pp_HeaderText}" />
                         </Border>
                         <Grid Grid.Row="1">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*" />
                                 <RowDefinition Height="50" />
                             </Grid.RowDefinitions>
-                            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Width="340" Grid.Row="0">
-                                <TextBlock Text="Anlam Bütünlüğü Bağlantısını silmek &#x0a; istediğinize eminmisiniz ? " TextAlignment="Center" FontFamily="{DynamicResource PoppinsMedium}" FontSize="14" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Width="280" Grid.Row="0">
+                                <TextBlock Text=" Anlam Bütünlüğü bağlantısını silmek istediğinize emin misiniz bu işlem geri alınamaz ? " TextWrapping="Wrap" TextAlignment="Center" FontFamily="{DynamicResource PoppinsMedium}" FontSize="14" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" />
                             </StackPanel>
                             <Grid Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
                                 <Grid.ColumnDefinitions>
@@ -822,7 +825,7 @@
                                 </Grid.ColumnDefinitions>
 
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="0">
-                                    <Button x:Name="deleteMeaningPopupBtn" Style="{DynamicResource pp_DefaultButtonBstrp}" Tag="Trash" Content="Sil" HorizontalAlignment="Center" Click="deleteMeaningBtn_Click" />
+                                    <Button x:Name="deleteSubjectPopupBtn" Style="{DynamicResource pp_DefaultButtonBstrp}" Tag="Trash" Content="Sil" HorizontalAlignment="Center" Click="deleteMeaningBtn_Click" />
                                     <Button  Style="{DynamicResource pp_DefaultButtonClosed}" Tag="CloseBig" Content="Vazgeç" Uid="popup_meaningDeleteConfirm" HorizontalAlignment="Center" Click="popupClosed_Click" />
                                 </StackPanel>
                             </Grid>
@@ -960,6 +963,7 @@
             </Popup>
 
             <Popup x:Name="popup_remiderDeleteConfirm" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="380" Height="220" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+
                 <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="360" Height="200">
                     <Grid>
                         <Grid.RowDefinitions>
@@ -974,8 +978,8 @@
                                 <RowDefinition Height="*" />
                                 <RowDefinition Height="50" />
                             </Grid.RowDefinitions>
-                            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Width="340" Grid.Row="0">
-                                <TextBlock Text="Hatırlatıcıyı silmek &#x0a; istediğinize eminmisiniz ? " TextAlignment="Center" FontFamily="{DynamicResource PoppinsMedium}" FontSize="14" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Width="280" Grid.Row="0">
+                                <TextBlock Text=" Hatırlatıcıyı silmek istediğinize emin misiniz bu işlem geri alınamaz ? " TextWrapping="Wrap" TextAlignment="Center" FontFamily="{DynamicResource PoppinsMedium}" FontSize="14" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" />
                             </StackPanel>
                             <Grid Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
                                 <Grid.ColumnDefinitions>
@@ -983,7 +987,7 @@
                                 </Grid.ColumnDefinitions>
 
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="0">
-                                    <Button x:Name="resetRemiderPopupBtn" Style="{DynamicResource pp_DefaultButtonBstrp}" Tag="Trash" Content="Sil" HorizontalAlignment="Center" Click="deleteRemiderBtn_Click" />
+                                    <Button x:Name="deleteRemiderPopupBtn" Style="{DynamicResource pp_DefaultButtonBstrp}" Tag="Trash" Content="Sil" HorizontalAlignment="Center" Click="deleteRemiderBtn_Click" />
                                     <Button  Style="{DynamicResource pp_DefaultButtonClosed}" Tag="CloseBig" Content="Vazgeç" Uid="popup_remiderDeleteConfirm" HorizontalAlignment="Center" Click="popupClosed_Click" />
                                 </StackPanel>
                             </Grid>
@@ -1160,7 +1164,7 @@
                                 <RowDefinition Height="50" />
                             </Grid.RowDefinitions>
                             <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Width="340" Grid.Row="0">
-                                <TextBlock Text="Suredeki tüm ayet ilerlemeniz &#x0a; sıfırlanacak Emin misiniz ? " TextAlignment="Center" FontFamily="{DynamicResource PoppinsMedium}" FontSize="14" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                <TextBlock Text="Suredeki tüm ayet ilerlemeniz &#x0a; sıfırlanacak emin misiniz ? " TextAlignment="Center" FontFamily="{DynamicResource PoppinsMedium}" FontSize="14" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" />
                             </StackPanel>
                             <Grid Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
                                 <Grid.ColumnDefinitions>
@@ -1214,6 +1218,7 @@
             <!-- Reset -->
 
             <!-- Words -->
+
             <Popup x:Name="popup_Words" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="500" Height="600" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
 
                 <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="480" Height="580">
@@ -1262,14 +1267,21 @@
             <!-- POPUPLAR  -->
 
             <!-- Header  -->
+
+            <Border x:Name="loadHeaderGif" Grid.Row="0"  Background="#FFF"  Height="80" Panel.ZIndex="5" CornerRadius="5" Visibility="Visible" Margin="25,0,25,0">
+                <Image gif:ImageBehavior.AnimatedSource="/Resource/Images/Gif/NavSpin500.gif" Width="80"  RenderOptions.BitmapScalingMode="HighQuality" Margin="395,0,395,0" />
+            </Border>
+
             <StackPanel Orientation="Vertical" VerticalAlignment="Center" Grid.Row="0">
-                <Border Style="{DynamicResource vrs_HeaderBorder}">
+
+                <Border x:Name="headerBorder" Style="{DynamicResource vrs_HeaderBorder}" Visibility="Hidden">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="180" />
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="300" />
                         </Grid.ColumnDefinitions>
+
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="15,0,0,0" Grid.Column="0">
                             <TextBlock x:Name="loadHeader" Style="{DynamicResource vrs_HeaderTab}" />
                             <StackPanel Orientation="Horizontal">
@@ -1323,7 +1335,9 @@
             <!-- Header  -->
 
             <!-- Top Control  -->
-            <StackPanel x:Name="navContenTopStack" Grid.Row="1" VerticalAlignment="Center" SnapsToDevicePixels="True" UseLayoutRounding="True">
+
+            <Border x:Name="loadControlGif" Grid.Row="1" Background="Transparent"  Height="50" Panel.ZIndex="5" CornerRadius="5" Visibility="Visible">
+
                 <Border VerticalAlignment="Center"  SnapsToDevicePixels="True" UseLayoutRounding="True" Padding="5 0 5 0">
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -1334,6 +1348,45 @@
                             <ColumnDefinition Width="162" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
+
+                        <Border Grid.Column="0" Height="30" Background="#FFF" Margin="10 0 10 0" CornerRadius="5">
+                            <Image gif:ImageBehavior.AnimatedSource="/Resource/Images/Gif/NavSpin500.gif" Width="50"  RenderOptions.BitmapScalingMode="HighQuality" />
+                        </Border>
+                        <Border Grid.Column="1" Height="30" Background="#FFF" Margin="10 0 10 0" CornerRadius="5">
+                            <Image gif:ImageBehavior.AnimatedSource="/Resource/Images/Gif/NavSpin500.gif" Width="50"  RenderOptions.BitmapScalingMode="HighQuality" />
+                        </Border>
+
+                        <Border Grid.Column="2" Height="30" Background="#FFF" Margin="10 0 10 0" CornerRadius="5">
+                            <Image gif:ImageBehavior.AnimatedSource="/Resource/Images/Gif/NavSpin500.gif" Width="50"  RenderOptions.BitmapScalingMode="HighQuality" />
+                        </Border>
+
+                        <Border Grid.Column="3" Height="30" Background="#FFF" Margin="10 0 10 0" CornerRadius="5">
+                            <Image gif:ImageBehavior.AnimatedSource="/Resource/Images/Gif/NavSpin500.gif" Width="50"  RenderOptions.BitmapScalingMode="HighQuality" />
+                        </Border>
+
+                        <Border Grid.Column="4" Height="30" Background="#FFF" Margin="10 0 10 0" CornerRadius="5">
+                            <Image gif:ImageBehavior.AnimatedSource="/Resource/Images/Gif/NavSpin500.gif" Width="50"  RenderOptions.BitmapScalingMode="HighQuality" />
+                        </Border>
+
+                        <Border Grid.Column="5" Height="30" Background="#FFF" Margin="10 0 10 0" CornerRadius="5">
+                            <Image gif:ImageBehavior.AnimatedSource="/Resource/Images/Gif/NavSpin500.gif" Width="50"  RenderOptions.BitmapScalingMode="HighQuality" />
+                        </Border>
+                    </Grid>
+                </Border>
+            </Border>
+
+            <StackPanel x:Name="controlPanel" Grid.Row="1" VerticalAlignment="Center" SnapsToDevicePixels="True" UseLayoutRounding="True" Style="{DynamicResource aniEffectFadeStack}">
+                <Border VerticalAlignment="Center"  SnapsToDevicePixels="True" UseLayoutRounding="True" Padding="5 0 5 0">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="162" />
+                            <ColumnDefinition Width="162" />
+                            <ColumnDefinition Width="162" />
+                            <ColumnDefinition Width="162" />
+                            <ColumnDefinition Width="162" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
                         <CheckBox x:Name="markButton" ToolTip="Kaldığınız Yeri İşaretler" Grid.Column="0" Content="İşaretle" Tag="Bookmarks" Style="{DynamicResource vrs_ActionMainTabButtonMark}" Click="markButton_Click" />
                         <CheckBox x:Name="bellButton" ToolTip="Yeni Hatırlatıcı Oluştur Veya Düzenle" Grid.Column="1" Content="Hatırlatıcı" Tag="Bell" Style="{DynamicResource vrs_ActionMainTabButtonBell}" Click="bellButton_Click" />
                         <Button   x:Name="noteButton" ToolTip="Not Al Veya Oku" Grid.Column="2" Content="Not Al" Tag="JournalBookmarkFill" Style="{DynamicResource vrs_ActionMainTabButtonNote}" Click="noteButton_Click" />
@@ -1346,10 +1399,15 @@
             <!-- Top Control  -->
 
             <!-- Main Container  -->
+
+            <Border x:Name="loadContentGif"  Grid.Row="2" CornerRadius="5"  Background="#FFFFFF" Panel.ZIndex="6"  Visibility="Visible" Margin="25,5,25,5">
+                <Image gif:ImageBehavior.AnimatedSource="/Resource/Images/Gif/Spinner800.gif" Width="200" Height="200"  RenderOptions.BitmapScalingMode="HighQuality" />
+            </Border>
+
             <StackPanel Grid.Row="2" VerticalAlignment="Center" Margin="0 5 0 5">
 
                 <Border Style="{DynamicResource defaultBorderShadowEffect}" Margin="25,5,25,5">
-                    <Grid>
+                    <Grid x:Name="mainContent" Style="{DynamicResource aniEffectFadeGrid}" Visibility="Hidden">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
@@ -1446,9 +1504,7 @@
                                         <ComboBoxItem  Content="Yaşar Nuri Öztürk" />
                                     </ComboBox>
                                 </StackPanel>
-                                <StackPanel Orientation="Horizontal" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                    <Button Style="{DynamicResource vrs_currentText}" x:Name="CurrentVerse" Tag="" Content="Seçili Ayet" />
-                                </StackPanel>
+
                                 <StackPanel Orientation="Horizontal" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right">
                                     <Button Style="{DynamicResource vrs_wordOpenText}" x:Name="wordText" Tag="Kelime Kökleri" Click="wordText_Click" />
                                 </StackPanel>
@@ -1465,7 +1521,11 @@
 
             <!-- Verse Nav  -->
 
-            <StackPanel Grid.Row="3"  x:Name="navContenStack"  Orientation="Horizontal" HorizontalAlignment="Center" SnapsToDevicePixels="True" UseLayoutRounding="True" Style="{DynamicResource aniEffectFadeStack}">
+            <Border x:Name="loadNavGif" Grid.Row="3"  Background="#FAFAFA"  Height="50" Panel.ZIndex="5" CornerRadius="5" Visibility="Visible">
+                <Image gif:ImageBehavior.AnimatedSource="/Resource/Images/Gif/NavSpin500.gif" Width="50"  RenderOptions.BitmapScalingMode="HighQuality" Margin="395,0,395,0" />
+            </Border>
+
+            <StackPanel Grid.Row="3"  x:Name="navstackPanel"  Orientation="Horizontal" HorizontalAlignment="Center" SnapsToDevicePixels="True" UseLayoutRounding="True" Style="{DynamicResource aniEffectFadeStack}">
 
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -1475,65 +1535,15 @@
                     </Grid.ColumnDefinitions>
 
                     <Button Grid.Column="0" x:Name="NavUpdatePrevSingle" Style="{DynamicResource vrs_NavButton}" Tag="AngleLeft" Height="30" Click="NavUpdatePrevSingle_Click" />
-                    <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" Visibility="Visible">
-                        <ItemsControl Style="{DynamicResource vrs_NavButtonItemsControl}" x:Name="vb1" Grid.Column="1">
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <CheckBox Style="{DynamicResource vrs_NavButtonV}" Uid="{Binding VerseId}" IsChecked="{Binding VerseCheck}" Content="{Binding RelativeDesk}" Tag="{Binding Status}" Click="activeVerseSelected_Click" />
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-                        <ItemsControl Style="{DynamicResource vrs_NavButtonItemsControl}" x:Name="vb2" Grid.Column="2">
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <CheckBox Style="{DynamicResource vrs_NavButtonV}" Uid="{Binding VerseId}" IsChecked="{Binding VerseCheck}" Content="{Binding RelativeDesk}" Tag="{Binding Status}" Click="activeVerseSelected_Click" />
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-                        <ItemsControl Style="{DynamicResource vrs_NavButtonItemsControl}" x:Name="vb3" Grid.Column="3">
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <CheckBox Style="{DynamicResource vrs_NavButtonV}" Uid="{Binding VerseId}" IsChecked="{Binding VerseCheck}" Content="{Binding RelativeDesk}" Tag="{Binding Status}" Click="activeVerseSelected_Click" />
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-                        <ItemsControl Style="{DynamicResource vrs_NavButtonItemsControl}" x:Name="vb4" Grid.Column="4">
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <CheckBox Style="{DynamicResource vrs_NavButtonV}" Uid="{Binding VerseId}" IsChecked="{Binding VerseCheck}" Content="{Binding RelativeDesk}" Tag="{Binding Status}" Click="activeVerseSelected_Click" />
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-                        <ItemsControl Style="{DynamicResource vrs_NavButtonItemsControl}" x:Name="vb5" Grid.Column="5">
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <CheckBox Style="{DynamicResource vrs_NavButtonV}" Uid="{Binding VerseId}" IsChecked="{Binding VerseCheck}" Content="{Binding RelativeDesk}" Tag="{Binding Status}" Click="activeVerseSelected_Click" />
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-                        <ItemsControl Style="{DynamicResource vrs_NavButtonItemsControl}" x:Name="vb6" Grid.Column="6">
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <CheckBox Style="{DynamicResource vrs_NavButtonV}" Uid="{Binding VerseId}" IsChecked="{Binding VerseCheck}" Content="{Binding RelativeDesk}" Tag="{Binding Status}" Click="activeVerseSelected_Click" />
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-
-                        <ItemsControl Style="{DynamicResource vrs_NavButtonItemsControl}" x:Name="vb7" Grid.Column="7">
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <CheckBox Style="{DynamicResource vrs_NavButtonV}" Uid="{Binding VerseId}" IsChecked="{Binding VerseCheck}" Content="{Binding RelativeDesk}" Tag="{Binding Status}" Click="activeVerseSelected_Click" />
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-
-                        <ItemsControl Style="{DynamicResource vrs_NavButtonItemsControl}" x:Name="vb8" Grid.Column="8">
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <CheckBox Style="{DynamicResource vrs_NavButtonV}" Uid="{Binding VerseId}" IsChecked="{Binding VerseCheck}" Content="{Binding RelativeDesk}" Tag="{Binding Status}" Click="activeVerseSelected_Click" />
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <CheckBox x:Name="vb1" extension:Extensions.DataStorage="" IsEnabled="false" Style="{DynamicResource vrs_NavButtonV}"  Click="activeVerseSelected_Click" />
+                        <CheckBox x:Name="vb2" extension:Extensions.DataStorage="" Style="{DynamicResource vrs_NavButtonV}" Click="activeVerseSelected_Click" />
+                        <CheckBox x:Name="vb3" extension:Extensions.DataStorage="" Style="{DynamicResource vrs_NavButtonV}" Click="activeVerseSelected_Click" />
+                        <CheckBox x:Name="vb4" extension:Extensions.DataStorage="" Style="{DynamicResource vrs_NavButtonV}" Click="activeVerseSelected_Click" />
+                        <CheckBox x:Name="vb5" extension:Extensions.DataStorage="" Style="{DynamicResource vrs_NavButtonV}" Click="activeVerseSelected_Click" />
+                        <CheckBox x:Name="vb6" extension:Extensions.DataStorage="" Style="{DynamicResource vrs_NavButtonV}" Click="activeVerseSelected_Click" />
+                        <CheckBox x:Name="vb7" extension:Extensions.DataStorage="" Style="{DynamicResource vrs_NavButtonV}" Click="activeVerseSelected_Click" />
+                        <CheckBox x:Name="vb8" extension:Extensions.DataStorage="" Style="{DynamicResource vrs_NavButtonV}" Click="activeVerseSelected_Click" />
                     </StackPanel>
                     <Button Grid.Column="2" x:Name="NavUpdateNextSingle" Style="{DynamicResource vrs_NavButton}" Tag="AngleRight" Height="30" Click="NavUpdateNextSingle_Click" />
                 </Grid>
