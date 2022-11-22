@@ -40,516 +40,417 @@
                 <RowDefinition Height="130" />
             </Grid.RowDefinitions>
 
-            <Border Padding="10" UseLayoutRounding="True" SnapsToDevicePixels="True" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <ItemsControl  UseLayoutRounding="True" SnapsToDevicePixels="True" x:Name="rs1">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Border Width="245" Height="100" Background="#FFF" Style="{DynamicResource defaultBorderShadowEffect}">
-                                <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="10" />
-                                        <RowDefinition Height="47" />
-                                        <RowDefinition Height="47" />
-                                    </Grid.RowDefinitions>
+            <Border x:Name="rs1" Grid.Column="0" Grid.Row="0" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+                <Border Width="245" Height="100" Background="#FFF" Style="{DynamicResource defaultBorderShadowEffect}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="10" />
+                            <RowDefinition Height="47" />
+                            <RowDefinition Height="47" />
+                        </Grid.RowDefinitions>
 
-                                    <Border Height="10" Grid.Row="0" Background="{Binding ResultStatus}" CornerRadius="5 5 0 0" />
+                        <Border x:Name="rsColor1" Height="10" Grid.Row="0" CornerRadius="5 5 0 0" />
 
-                                    <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
-                                        <TextBlock  Text="{Binding ResultName}" Style="{DynamicResource rs_ItemsHeaderName}" />
-                                        <Button x:Name="resultItemClick" Style="{DynamicResource rs_ItemsControlBtn}" Click="resultItemClick_Click" Uid="{Binding ResultId}" />
-                                    </StackPanel>
+                        <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
+                            <TextBlock x:Name="rsName1" Style="{DynamicResource rs_ItemsHeaderName}" />
+                            <Button x:Name="rsBtn1" Style="{DynamicResource rs_ItemsControlBtn}" Click="resultItemClick_Click" />
+                        </StackPanel>
 
-                                    <StackPanel Grid.Row="2" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <StackPanel Grid.Row="2" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
 
-                                        <Image IsEnabled="{Binding ResultSubject}" Style="{DynamicResource rs_ItemsIconSubject}" />
-                                        <Image IsEnabled="{Binding ResultLib}" Style="{DynamicResource rs_ItemsIconLib}" />
-                                        <Image IsEnabled="{Binding ResultNotes}" Style="{DynamicResource rs_ItemsIconNotes}" />
-                                    </StackPanel>
-                                </Grid>
-                            </Border>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                            <Image x:Name="rsS1" Style="{DynamicResource rs_ItemsIconSubject}" />
+                            <Image x:Name="rsL1" Style="{DynamicResource rs_ItemsIconLib}" />
+                            <Image x:Name="rsN1"  Style="{DynamicResource rs_ItemsIconNotes}" />
+                        </StackPanel>
+                    </Grid>
+                </Border>
             </Border>
 
-            <Border Padding="10" UseLayoutRounding="True" SnapsToDevicePixels="True" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <ItemsControl  UseLayoutRounding="True" SnapsToDevicePixels="True" x:Name="rs2">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Border Width="245" Height="100" Background="#FFF" Style="{DynamicResource defaultBorderShadowEffect}">
-                                <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="10" />
-                                        <RowDefinition Height="47" />
-                                        <RowDefinition Height="47" />
-                                    </Grid.RowDefinitions>
+            <Border x:Name="rs2" Grid.Column="1" Grid.Row="0" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+                <Border Width="245" Height="100" Background="#FFF" Style="{DynamicResource defaultBorderShadowEffect}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="10" />
+                            <RowDefinition Height="47" />
+                            <RowDefinition Height="47" />
+                        </Grid.RowDefinitions>
 
-                                    <Border Height="10" Grid.Row="0" Background="{Binding ResultStatus}" CornerRadius="5 5 0 0" />
+                        <Border x:Name="rsColor2" Height="10" Grid.Row="0" CornerRadius="5 5 0 0" />
 
-                                    <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
-                                        <TextBlock  Text="{Binding ResultName}" Style="{DynamicResource rs_ItemsHeaderName}" />
-                                        <Button x:Name="resultItemClick" Style="{DynamicResource rs_ItemsControlBtn}" Click="resultItemClick_Click" Uid="{Binding ResultId}" />
-                                    </StackPanel>
+                        <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
+                            <TextBlock x:Name="rsName2" Style="{DynamicResource rs_ItemsHeaderName}" />
+                            <Button x:Name="rsBtn2" Style="{DynamicResource rs_ItemsControlBtn}" Click="resultItemClick_Click" />
+                        </StackPanel>
 
-                                    <StackPanel Grid.Row="2" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <StackPanel Grid.Row="2" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
 
-                                        <Image IsEnabled="{Binding ResultSubject}" Style="{DynamicResource rs_ItemsIconSubject}" />
-                                        <Image IsEnabled="{Binding ResultLib}" Style="{DynamicResource rs_ItemsIconLib}" />
-                                        <Image IsEnabled="{Binding ResultNotes}" Style="{DynamicResource rs_ItemsIconNotes}" />
-                                    </StackPanel>
-                                </Grid>
-                            </Border>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                            <Image x:Name="rsS2" Style="{DynamicResource rs_ItemsIconSubject}" />
+                            <Image x:Name="rsL2" Style="{DynamicResource rs_ItemsIconLib}" />
+                            <Image x:Name="rsN2" Style="{DynamicResource rs_ItemsIconNotes}" />
+                        </StackPanel>
+                    </Grid>
+                </Border>
             </Border>
 
-            <Border Padding="10" UseLayoutRounding="True" SnapsToDevicePixels="True" Grid.Column="2" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <ItemsControl  UseLayoutRounding="True" SnapsToDevicePixels="True" x:Name="rs3">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Border Width="245" Height="100" Background="#FFF" Style="{DynamicResource defaultBorderShadowEffect}">
-                                <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="10" />
-                                        <RowDefinition Height="47" />
-                                        <RowDefinition Height="47" />
-                                    </Grid.RowDefinitions>
+            <Border x:Name="rs3" Grid.Column="2" Grid.Row="0" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+                <Border Width="245" Height="100" Background="#FFF" Style="{DynamicResource defaultBorderShadowEffect}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="10" />
+                            <RowDefinition Height="47" />
+                            <RowDefinition Height="47" />
+                        </Grid.RowDefinitions>
 
-                                    <Border Height="10" Grid.Row="0" Background="{Binding ResultStatus}" CornerRadius="5 5 0 0" />
+                        <Border x:Name="rsColor3" Height="10" Grid.Row="0" CornerRadius="5 5 0 0" />
 
-                                    <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
-                                        <TextBlock  Text="{Binding ResultName}" Style="{DynamicResource rs_ItemsHeaderName}" />
-                                        <Button x:Name="resultItemClick" Style="{DynamicResource rs_ItemsControlBtn}" Click="resultItemClick_Click" Uid="{Binding ResultId}" />
-                                    </StackPanel>
+                        <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
+                            <TextBlock x:Name="rsName3" Style="{DynamicResource rs_ItemsHeaderName}" />
+                            <Button x:Name="rsBtn3" Style="{DynamicResource rs_ItemsControlBtn}" Click="resultItemClick_Click" />
+                        </StackPanel>
 
-                                    <StackPanel Grid.Row="2" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <StackPanel Grid.Row="2" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
 
-                                        <Image IsEnabled="{Binding ResultSubject}" Style="{DynamicResource rs_ItemsIconSubject}" />
-                                        <Image IsEnabled="{Binding ResultLib}" Style="{DynamicResource rs_ItemsIconLib}" />
-                                        <Image IsEnabled="{Binding ResultNotes}" Style="{DynamicResource rs_ItemsIconNotes}" />
-                                    </StackPanel>
-                                </Grid>
-                            </Border>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                            <Image x:Name="rsS3" Style="{DynamicResource rs_ItemsIconSubject}" />
+                            <Image x:Name="rsL3" Style="{DynamicResource rs_ItemsIconLib}" />
+                            <Image x:Name="rsN3" Style="{DynamicResource rs_ItemsIconNotes}" />
+                        </StackPanel>
+                    </Grid>
+                </Border>
             </Border>
 
-            <Border Padding="10" UseLayoutRounding="True" SnapsToDevicePixels="True" Grid.Column="3" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <ItemsControl  UseLayoutRounding="True" SnapsToDevicePixels="True" x:Name="rs4">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Border Width="245" Height="100" Background="#FFF" Style="{DynamicResource defaultBorderShadowEffect}">
-                                <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="10" />
-                                        <RowDefinition Height="47" />
-                                        <RowDefinition Height="47" />
-                                    </Grid.RowDefinitions>
+            <Border x:Name="rs4" Grid.Column="3" Grid.Row="0" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+                <Border Width="245" Height="100" Background="#FFF" Style="{DynamicResource defaultBorderShadowEffect}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="10" />
+                            <RowDefinition Height="47" />
+                            <RowDefinition Height="47" />
+                        </Grid.RowDefinitions>
 
-                                    <Border Height="10" Grid.Row="0" Background="{Binding ResultStatus}" CornerRadius="5 5 0 0" />
+                        <Border x:Name="rsColor4" Height="10" Grid.Row="0" CornerRadius="5 5 0 0" />
 
-                                    <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
-                                        <TextBlock  Text="{Binding ResultName}" Style="{DynamicResource rs_ItemsHeaderName}" />
-                                        <Button x:Name="resultItemClick" Style="{DynamicResource rs_ItemsControlBtn}" Click="resultItemClick_Click" Uid="{Binding ResultId}" />
-                                    </StackPanel>
+                        <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
+                            <TextBlock x:Name="rsName4" Style="{DynamicResource rs_ItemsHeaderName}" />
+                            <Button x:Name="rsBtn4" Style="{DynamicResource rs_ItemsControlBtn}" Click="resultItemClick_Click" />
+                        </StackPanel>
 
-                                    <StackPanel Grid.Row="2" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <StackPanel Grid.Row="2" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
 
-                                        <Image IsEnabled="{Binding ResultSubject}" Style="{DynamicResource rs_ItemsIconSubject}" />
-                                        <Image IsEnabled="{Binding ResultLib}" Style="{DynamicResource rs_ItemsIconLib}" />
-                                        <Image IsEnabled="{Binding ResultNotes}" Style="{DynamicResource rs_ItemsIconNotes}" />
-                                    </StackPanel>
-                                </Grid>
-                            </Border>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                            <Image x:Name="rsS4" Style="{DynamicResource rs_ItemsIconSubject}" />
+                            <Image x:Name="rsL4" Style="{DynamicResource rs_ItemsIconLib}" />
+                            <Image x:Name="rsN4" Style="{DynamicResource rs_ItemsIconNotes}" />
+                        </StackPanel>
+                    </Grid>
+                </Border>
             </Border>
 
-            <Border Padding="10" UseLayoutRounding="True" SnapsToDevicePixels="True" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <ItemsControl  UseLayoutRounding="True" SnapsToDevicePixels="True" x:Name="rs5">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Border Width="245" Height="100" Background="#FFF" Style="{DynamicResource defaultBorderShadowEffect}">
-                                <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="10" />
-                                        <RowDefinition Height="47" />
-                                        <RowDefinition Height="47" />
-                                    </Grid.RowDefinitions>
+            <Border x:Name="rs5" Grid.Column="0" Grid.Row="1" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+                <Border Width="245" Height="100" Background="#FFF" Style="{DynamicResource defaultBorderShadowEffect}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="10" />
+                            <RowDefinition Height="47" />
+                            <RowDefinition Height="47" />
+                        </Grid.RowDefinitions>
 
-                                    <Border Height="10" Grid.Row="0" Background="{Binding ResultStatus}" CornerRadius="5 5 0 0" />
+                        <Border x:Name="rsColor5" Height="10" Grid.Row="0" CornerRadius="5 5 0 0" />
 
-                                    <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
-                                        <TextBlock  Text="{Binding ResultName}" Style="{DynamicResource rs_ItemsHeaderName}" />
-                                        <Button x:Name="resultItemClick" Style="{DynamicResource rs_ItemsControlBtn}" Click="resultItemClick_Click" Uid="{Binding ResultId}" />
-                                    </StackPanel>
+                        <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
+                            <TextBlock x:Name="rsName5" Style="{DynamicResource rs_ItemsHeaderName}" />
+                            <Button x:Name="rsBtn5" Style="{DynamicResource rs_ItemsControlBtn}" Click="resultItemClick_Click" />
+                        </StackPanel>
 
-                                    <StackPanel Grid.Row="2" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <StackPanel Grid.Row="2" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
 
-                                        <Image IsEnabled="{Binding ResultSubject}" Style="{DynamicResource rs_ItemsIconSubject}" />
-                                        <Image IsEnabled="{Binding ResultLib}" Style="{DynamicResource rs_ItemsIconLib}" />
-                                        <Image IsEnabled="{Binding ResultNotes}" Style="{DynamicResource rs_ItemsIconNotes}" />
-                                    </StackPanel>
-                                </Grid>
-                            </Border>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                            <Image x:Name="rsS5" Style="{DynamicResource rs_ItemsIconSubject}" />
+                            <Image x:Name="rsL5" Style="{DynamicResource rs_ItemsIconLib}" />
+                            <Image x:Name="rsN5" Style="{DynamicResource rs_ItemsIconNotes}" />
+                        </StackPanel>
+                    </Grid>
+                </Border>
             </Border>
 
-            <Border Padding="10" UseLayoutRounding="True" SnapsToDevicePixels="True" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <ItemsControl  UseLayoutRounding="True" SnapsToDevicePixels="True" x:Name="rs6">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Border Width="245" Height="100" Background="#FFF" Style="{DynamicResource defaultBorderShadowEffect}">
-                                <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="10" />
-                                        <RowDefinition Height="47" />
-                                        <RowDefinition Height="47" />
-                                    </Grid.RowDefinitions>
+            <Border x:Name="rs6" Grid.Column="1" Grid.Row="1" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+                <Border Width="245" Height="100" Background="#FFF" Style="{DynamicResource defaultBorderShadowEffect}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="10" />
+                            <RowDefinition Height="47" />
+                            <RowDefinition Height="47" />
+                        </Grid.RowDefinitions>
 
-                                    <Border Height="10" Grid.Row="0" Background="{Binding ResultStatus}" CornerRadius="5 5 0 0" />
+                        <Border x:Name="rsColor6" Height="10" Grid.Row="0" CornerRadius="5 5 0 0" />
 
-                                    <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
-                                        <TextBlock  Text="{Binding ResultName}" Style="{DynamicResource rs_ItemsHeaderName}" />
-                                        <Button x:Name="resultItemClick" Style="{DynamicResource rs_ItemsControlBtn}" Click="resultItemClick_Click" Uid="{Binding ResultId}" />
-                                    </StackPanel>
+                        <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
+                            <TextBlock x:Name="rsName6" Style="{DynamicResource rs_ItemsHeaderName}" />
+                            <Button x:Name="rsBtn6" Style="{DynamicResource rs_ItemsControlBtn}" Click="resultItemClick_Click" />
+                        </StackPanel>
 
-                                    <StackPanel Grid.Row="2" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <StackPanel Grid.Row="2" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
 
-                                        <Image IsEnabled="{Binding ResultSubject}" Style="{DynamicResource rs_ItemsIconSubject}" />
-                                        <Image IsEnabled="{Binding ResultLib}" Style="{DynamicResource rs_ItemsIconLib}" />
-                                        <Image IsEnabled="{Binding ResultNotes}" Style="{DynamicResource rs_ItemsIconNotes}" />
-                                    </StackPanel>
-                                </Grid>
-                            </Border>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                            <Image x:Name="rsS6" Style="{DynamicResource rs_ItemsIconSubject}" />
+                            <Image x:Name="rsL6" Style="{DynamicResource rs_ItemsIconLib}" />
+                            <Image x:Name="rsN6" Style="{DynamicResource rs_ItemsIconNotes}" />
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </Border>
+            <Border x:Name="rs7" Grid.Column="2" Grid.Row="1" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+                <Border Width="245" Height="100" Background="#FFF" Style="{DynamicResource defaultBorderShadowEffect}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="10" />
+                            <RowDefinition Height="47" />
+                            <RowDefinition Height="47" />
+                        </Grid.RowDefinitions>
+
+                        <Border x:Name="rsColor7" Height="10" Grid.Row="0" CornerRadius="5 5 0 0" />
+
+                        <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
+                            <TextBlock x:Name="rsName7" Style="{DynamicResource rs_ItemsHeaderName}" />
+                            <Button x:Name="rsBtn7" Style="{DynamicResource rs_ItemsControlBtn}" Click="resultItemClick_Click" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="2" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
+
+                            <Image x:Name="rsS7" Style="{DynamicResource rs_ItemsIconSubject}" />
+                            <Image x:Name="rsL7" Style="{DynamicResource rs_ItemsIconLib}" />
+                            <Image x:Name="rsN7" Style="{DynamicResource rs_ItemsIconNotes}" />
+                        </StackPanel>
+                    </Grid>
+                </Border>
             </Border>
 
-            <Border Padding="10" UseLayoutRounding="True" SnapsToDevicePixels="True" Grid.Column="2" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <ItemsControl  UseLayoutRounding="True" SnapsToDevicePixels="True" x:Name="rs7">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Border Width="245" Height="100" Background="#FFF" Style="{DynamicResource defaultBorderShadowEffect}">
-                                <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="10" />
-                                        <RowDefinition Height="47" />
-                                        <RowDefinition Height="47" />
-                                    </Grid.RowDefinitions>
+            <Border x:Name="rs8" Grid.Column="3" Grid.Row="1" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+                <Border Width="245" Height="100" Background="#FFF" Style="{DynamicResource defaultBorderShadowEffect}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="10" />
+                            <RowDefinition Height="47" />
+                            <RowDefinition Height="47" />
+                        </Grid.RowDefinitions>
 
-                                    <Border Height="10" Grid.Row="0" Background="{Binding ResultStatus}" CornerRadius="5 5 0 0" />
+                        <Border x:Name="rsColor8" Height="10" Grid.Row="0" CornerRadius="5 5 0 0" />
 
-                                    <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
-                                        <TextBlock  Text="{Binding ResultName}" Style="{DynamicResource rs_ItemsHeaderName}" />
-                                        <Button x:Name="resultItemClick" Style="{DynamicResource rs_ItemsControlBtn}" Click="resultItemClick_Click" Uid="{Binding ResultId}" />
-                                    </StackPanel>
+                        <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
+                            <TextBlock x:Name="rsName8" Style="{DynamicResource rs_ItemsHeaderName}" />
+                            <Button x:Name="rsBtn8" Style="{DynamicResource rs_ItemsControlBtn}" Click="resultItemClick_Click" />
+                        </StackPanel>
 
-                                    <StackPanel Grid.Row="2" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <StackPanel Grid.Row="2" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
 
-                                        <Image IsEnabled="{Binding ResultSubject}" Style="{DynamicResource rs_ItemsIconSubject}" />
-                                        <Image IsEnabled="{Binding ResultLib}" Style="{DynamicResource rs_ItemsIconLib}" />
-                                        <Image IsEnabled="{Binding ResultNotes}" Style="{DynamicResource rs_ItemsIconNotes}" />
-                                    </StackPanel>
-                                </Grid>
-                            </Border>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                            <Image x:Name="rsS8" Style="{DynamicResource rs_ItemsIconSubject}" />
+                            <Image x:Name="rsL8" Style="{DynamicResource rs_ItemsIconLib}" />
+                            <Image x:Name="rsN8" Style="{DynamicResource rs_ItemsIconNotes}" />
+                        </StackPanel>
+                    </Grid>
+                </Border>
             </Border>
 
-            <Border Padding="10" UseLayoutRounding="True" SnapsToDevicePixels="True" Grid.Column="3" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <ItemsControl  UseLayoutRounding="True" SnapsToDevicePixels="True" x:Name="rs8">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Border Width="245" Height="100" Background="#FFF" Style="{DynamicResource defaultBorderShadowEffect}">
-                                <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="10" />
-                                        <RowDefinition Height="47" />
-                                        <RowDefinition Height="47" />
-                                    </Grid.RowDefinitions>
+            <Border x:Name="rs9" Grid.Column="0" Grid.Row="2" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+                <Border Width="245" Height="100" Background="#FFF" Style="{DynamicResource defaultBorderShadowEffect}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="10" />
+                            <RowDefinition Height="47" />
+                            <RowDefinition Height="47" />
+                        </Grid.RowDefinitions>
 
-                                    <Border Height="10" Grid.Row="0" Background="{Binding ResultStatus}" CornerRadius="5 5 0 0" />
+                        <Border x:Name="rsColor9" Height="10" Grid.Row="0" CornerRadius="5 5 0 0" />
 
-                                    <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
-                                        <TextBlock  Text="{Binding ResultName}" Style="{DynamicResource rs_ItemsHeaderName}" />
-                                        <Button x:Name="resultItemClick" Style="{DynamicResource rs_ItemsControlBtn}" Click="resultItemClick_Click" Uid="{Binding ResultId}" />
-                                    </StackPanel>
+                        <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
+                            <TextBlock x:Name="rsName9" Style="{DynamicResource rs_ItemsHeaderName}" />
+                            <Button x:Name="rsBtn9" Style="{DynamicResource rs_ItemsControlBtn}" Click="resultItemClick_Click" />
+                        </StackPanel>
 
-                                    <StackPanel Grid.Row="2" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <StackPanel Grid.Row="2" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
 
-                                        <Image IsEnabled="{Binding ResultSubject}" Style="{DynamicResource rs_ItemsIconSubject}" />
-                                        <Image IsEnabled="{Binding ResultLib}" Style="{DynamicResource rs_ItemsIconLib}" />
-                                        <Image IsEnabled="{Binding ResultNotes}" Style="{DynamicResource rs_ItemsIconNotes}" />
-                                    </StackPanel>
-                                </Grid>
-                            </Border>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                            <Image x:Name="rsS9" Style="{DynamicResource rs_ItemsIconSubject}" />
+                            <Image x:Name="rsL9" Style="{DynamicResource rs_ItemsIconLib}" />
+                            <Image x:Name="rsN9" Style="{DynamicResource rs_ItemsIconNotes}" />
+                        </StackPanel>
+                    </Grid>
+                </Border>
             </Border>
 
-            <Border Padding="10" UseLayoutRounding="True" SnapsToDevicePixels="True" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <ItemsControl  UseLayoutRounding="True" SnapsToDevicePixels="True" x:Name="rs9">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Border Width="245" Height="100" Background="#FFF" Style="{DynamicResource defaultBorderShadowEffect}">
-                                <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="10" />
-                                        <RowDefinition Height="47" />
-                                        <RowDefinition Height="47" />
-                                    </Grid.RowDefinitions>
+            <Border x:Name="rs10" Grid.Column="1" Grid.Row="2" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+                <Border Width="245" Height="100" Background="#FFF" Style="{DynamicResource defaultBorderShadowEffect}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="10" />
+                            <RowDefinition Height="47" />
+                            <RowDefinition Height="47" />
+                        </Grid.RowDefinitions>
 
-                                    <Border Height="10" Grid.Row="0" Background="{Binding ResultStatus}" CornerRadius="5 5 0 0" />
+                        <Border x:Name="rsColor10" Height="10" Grid.Row="0" CornerRadius="5 5 0 0" />
 
-                                    <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
-                                        <TextBlock  Text="{Binding ResultName}" Style="{DynamicResource rs_ItemsHeaderName}" />
-                                        <Button x:Name="resultItemClick" Style="{DynamicResource rs_ItemsControlBtn}" Click="resultItemClick_Click" Uid="{Binding ResultId}" />
-                                    </StackPanel>
+                        <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
+                            <TextBlock x:Name="rsName10" Style="{DynamicResource rs_ItemsHeaderName}" />
+                            <Button x:Name="rsBtn10" Style="{DynamicResource rs_ItemsControlBtn}" Click="resultItemClick_Click" />
+                        </StackPanel>
 
-                                    <StackPanel Grid.Row="2" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <StackPanel Grid.Row="2" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
 
-                                        <Image IsEnabled="{Binding ResultSubject}" Style="{DynamicResource rs_ItemsIconSubject}" />
-                                        <Image IsEnabled="{Binding ResultLib}" Style="{DynamicResource rs_ItemsIconLib}" />
-                                        <Image IsEnabled="{Binding ResultNotes}" Style="{DynamicResource rs_ItemsIconNotes}" />
-                                    </StackPanel>
-                                </Grid>
-                            </Border>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                            <Image x:Name="rsS10" Style="{DynamicResource rs_ItemsIconSubject}" />
+                            <Image x:Name="rsL10" Style="{DynamicResource rs_ItemsIconLib}" />
+                            <Image x:Name="rsN10" Style="{DynamicResource rs_ItemsIconNotes}" />
+                        </StackPanel>
+                    </Grid>
+                </Border>
             </Border>
 
-            <Border Padding="10" UseLayoutRounding="True" SnapsToDevicePixels="True" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <ItemsControl  UseLayoutRounding="True" SnapsToDevicePixels="True" x:Name="rs10">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Border Width="245" Height="100" Background="#FFF" Style="{DynamicResource defaultBorderShadowEffect}">
-                                <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="10" />
-                                        <RowDefinition Height="47" />
-                                        <RowDefinition Height="47" />
-                                    </Grid.RowDefinitions>
+            <Border x:Name="rs11" Grid.Column="2" Grid.Row="2" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+                <Border Width="245" Height="100" Background="#FFF" Style="{DynamicResource defaultBorderShadowEffect}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="10" />
+                            <RowDefinition Height="47" />
+                            <RowDefinition Height="47" />
+                        </Grid.RowDefinitions>
 
-                                    <Border Height="10" Grid.Row="0" Background="{Binding ResultStatus}" CornerRadius="5 5 0 0" />
+                        <Border x:Name="rsColor11" Height="10" Grid.Row="0" CornerRadius="5 5 0 0" />
 
-                                    <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
-                                        <TextBlock  Text="{Binding ResultName}" Style="{DynamicResource rs_ItemsHeaderName}" />
-                                        <Button x:Name="resultItemClick" Style="{DynamicResource rs_ItemsControlBtn}" Click="resultItemClick_Click" Uid="{Binding ResultId}" />
-                                    </StackPanel>
+                        <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
+                            <TextBlock x:Name="rsName11" Style="{DynamicResource rs_ItemsHeaderName}" />
+                            <Button x:Name="rsBtn11" Style="{DynamicResource rs_ItemsControlBtn}" Click="resultItemClick_Click" />
+                        </StackPanel>
 
-                                    <StackPanel Grid.Row="2" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <StackPanel Grid.Row="2" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
 
-                                        <Image IsEnabled="{Binding ResultSubject}" Style="{DynamicResource rs_ItemsIconSubject}" />
-                                        <Image IsEnabled="{Binding ResultLib}" Style="{DynamicResource rs_ItemsIconLib}" />
-                                        <Image IsEnabled="{Binding ResultNotes}" Style="{DynamicResource rs_ItemsIconNotes}" />
-                                    </StackPanel>
-                                </Grid>
-                            </Border>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                            <Image x:Name="rsS11" Style="{DynamicResource rs_ItemsIconSubject}" />
+                            <Image x:Name="rsL11" Style="{DynamicResource rs_ItemsIconLib}" />
+                            <Image x:Name="rsN11" Style="{DynamicResource rs_ItemsIconNotes}" />
+                        </StackPanel>
+                    </Grid>
+                </Border>
             </Border>
 
-            <Border Padding="10" UseLayoutRounding="True" SnapsToDevicePixels="True" Grid.Column="2" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <ItemsControl  UseLayoutRounding="True" SnapsToDevicePixels="True" x:Name="rs11">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Border Width="245" Height="100" Background="#FFF" Style="{DynamicResource defaultBorderShadowEffect}">
-                                <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="10" />
-                                        <RowDefinition Height="47" />
-                                        <RowDefinition Height="47" />
-                                    </Grid.RowDefinitions>
+            <Border x:Name="rs12" Grid.Column="3" Grid.Row="2" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+                <Border Width="245" Height="100" Background="#FFF" Style="{DynamicResource defaultBorderShadowEffect}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="10" />
+                            <RowDefinition Height="47" />
+                            <RowDefinition Height="47" />
+                        </Grid.RowDefinitions>
 
-                                    <Border Height="10" Grid.Row="0" Background="{Binding ResultStatus}" CornerRadius="5 5 0 0" />
+                        <Border x:Name="rsColor12" Height="10" Grid.Row="0" CornerRadius="5 5 0 0" />
 
-                                    <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
-                                        <TextBlock  Text="{Binding ResultName}" Style="{DynamicResource rs_ItemsHeaderName}" />
-                                        <Button x:Name="resultItemClick" Style="{DynamicResource rs_ItemsControlBtn}" Click="resultItemClick_Click" Uid="{Binding ResultId}" />
-                                    </StackPanel>
+                        <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
+                            <TextBlock x:Name="rsName12" Style="{DynamicResource rs_ItemsHeaderName}" />
+                            <Button x:Name="rsBtn12" Style="{DynamicResource rs_ItemsControlBtn}" Click="resultItemClick_Click" />
+                        </StackPanel>
 
-                                    <StackPanel Grid.Row="2" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <StackPanel Grid.Row="2" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
 
-                                        <Image IsEnabled="{Binding ResultSubject}" Style="{DynamicResource rs_ItemsIconSubject}" />
-                                        <Image IsEnabled="{Binding ResultLib}" Style="{DynamicResource rs_ItemsIconLib}" />
-                                        <Image IsEnabled="{Binding ResultNotes}" Style="{DynamicResource rs_ItemsIconNotes}" />
-                                    </StackPanel>
-                                </Grid>
-                            </Border>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                            <Image x:Name="rsS12" Style="{DynamicResource rs_ItemsIconSubject}" />
+                            <Image x:Name="rsL12" Style="{DynamicResource rs_ItemsIconLib}" />
+                            <Image x:Name="rsN12" Style="{DynamicResource rs_ItemsIconNotes}" />
+                        </StackPanel>
+                    </Grid>
+                </Border>
             </Border>
 
-            <Border Padding="10" UseLayoutRounding="True" SnapsToDevicePixels="True" Grid.Column="3" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <ItemsControl  UseLayoutRounding="True" SnapsToDevicePixels="True" x:Name="rs12">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Border Width="245" Height="100" Background="#FFF" Style="{DynamicResource defaultBorderShadowEffect}">
-                                <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="10" />
-                                        <RowDefinition Height="47" />
-                                        <RowDefinition Height="47" />
-                                    </Grid.RowDefinitions>
+            <Border x:Name="rs13" Grid.Column="0" Grid.Row="3" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+                <Border Width="245" Height="100" Background="#FFF" Style="{DynamicResource defaultBorderShadowEffect}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="10" />
+                            <RowDefinition Height="47" />
+                            <RowDefinition Height="47" />
+                        </Grid.RowDefinitions>
 
-                                    <Border Height="10" Grid.Row="0" Background="{Binding ResultStatus}" CornerRadius="5 5 0 0" />
+                        <Border x:Name="rsColor13" Height="10" Grid.Row="0" CornerRadius="5 5 0 0" />
 
-                                    <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
-                                        <TextBlock  Text="{Binding ResultName}" Style="{DynamicResource rs_ItemsHeaderName}" />
-                                        <Button x:Name="resultItemClick" Style="{DynamicResource rs_ItemsControlBtn}" Click="resultItemClick_Click" Uid="{Binding ResultId}" />
-                                    </StackPanel>
+                        <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
+                            <TextBlock x:Name="rsName13" Style="{DynamicResource rs_ItemsHeaderName}" />
+                            <Button x:Name="rsBtn13" Style="{DynamicResource rs_ItemsControlBtn}" Click="resultItemClick_Click" />
+                        </StackPanel>
 
-                                    <StackPanel Grid.Row="2" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <StackPanel Grid.Row="2" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
 
-                                        <Image IsEnabled="{Binding ResultSubject}" Style="{DynamicResource rs_ItemsIconSubject}" />
-                                        <Image IsEnabled="{Binding ResultLib}" Style="{DynamicResource rs_ItemsIconLib}" />
-                                        <Image IsEnabled="{Binding ResultNotes}" Style="{DynamicResource rs_ItemsIconNotes}" />
-                                    </StackPanel>
-                                </Grid>
-                            </Border>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                            <Image x:Name="rsS13" Style="{DynamicResource rs_ItemsIconSubject}" />
+                            <Image x:Name="rsL13" Style="{DynamicResource rs_ItemsIconLib}" />
+                            <Image x:Name="rsN13" Style="{DynamicResource rs_ItemsIconNotes}" />
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </Border>
+            <Border x:Name="rs14" Grid.Column="1" Grid.Row="3" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+                <Border Width="245" Height="100" Background="#FFF" Style="{DynamicResource defaultBorderShadowEffect}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="10" />
+                            <RowDefinition Height="47" />
+                            <RowDefinition Height="47" />
+                        </Grid.RowDefinitions>
+
+                        <Border x:Name="rsColor14" Height="10" Grid.Row="0" CornerRadius="5 5 0 0" />
+
+                        <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
+                            <TextBlock x:Name="rsName14" Style="{DynamicResource rs_ItemsHeaderName}" />
+                            <Button x:Name="rsBtn14" Style="{DynamicResource rs_ItemsControlBtn}" Click="resultItemClick_Click" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="2" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
+
+                            <Image x:Name="rsS14" Style="{DynamicResource rs_ItemsIconSubject}" />
+                            <Image x:Name="rsL14" Style="{DynamicResource rs_ItemsIconLib}" />
+                            <Image x:Name="rsN14" Style="{DynamicResource rs_ItemsIconNotes}" />
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </Border>
+            <Border x:Name="rs15" Grid.Column="2" Grid.Row="3" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+                <Border Width="245" Height="100" Background="#FFF" Style="{DynamicResource defaultBorderShadowEffect}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="10" />
+                            <RowDefinition Height="47" />
+                            <RowDefinition Height="47" />
+                        </Grid.RowDefinitions>
+
+                        <Border x:Name="rsColor15" Height="10" Grid.Row="0" CornerRadius="5 5 0 0" />
+
+                        <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
+                            <TextBlock x:Name="rsName15" Style="{DynamicResource rs_ItemsHeaderName}" />
+                            <Button x:Name="rsBtn15" Style="{DynamicResource rs_ItemsControlBtn}" Click="resultItemClick_Click" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="2" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
+
+                            <Image x:Name="rsS15" Style="{DynamicResource rs_ItemsIconSubject}" />
+                            <Image x:Name="rsL15" Style="{DynamicResource rs_ItemsIconLib}" />
+                            <Image x:Name="rsN15" Style="{DynamicResource rs_ItemsIconNotes}" />
+                        </StackPanel>
+                    </Grid>
+                </Border>
             </Border>
 
-            <Border Padding="10" UseLayoutRounding="True" SnapsToDevicePixels="True" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <ItemsControl  UseLayoutRounding="True" SnapsToDevicePixels="True" x:Name="rs13">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Border Width="245" Height="100" Background="#FFF" Style="{DynamicResource defaultBorderShadowEffect}">
-                                <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="10" />
-                                        <RowDefinition Height="47" />
-                                        <RowDefinition Height="47" />
-                                    </Grid.RowDefinitions>
+            <Border x:Name="rs16" Grid.Column="3" Grid.Row="3" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+                <Border Width="245" Height="100" Background="#FFF" Style="{DynamicResource defaultBorderShadowEffect}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="10" />
+                            <RowDefinition Height="47" />
+                            <RowDefinition Height="47" />
+                        </Grid.RowDefinitions>
 
-                                    <Border Height="10" Grid.Row="0" Background="{Binding ResultStatus}" CornerRadius="5 5 0 0" />
+                        <Border x:Name="rsColor16" Height="10" Grid.Row="0" CornerRadius="5 5 0 0" />
 
-                                    <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
-                                        <TextBlock  Text="{Binding ResultName}" Style="{DynamicResource rs_ItemsHeaderName}" />
-                                        <Button x:Name="resultItemClick" Style="{DynamicResource rs_ItemsControlBtn}" Click="resultItemClick_Click" Uid="{Binding ResultId}" />
-                                    </StackPanel>
+                        <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
+                            <TextBlock x:Name="rsName16" Style="{DynamicResource rs_ItemsHeaderName}" />
+                            <Button x:Name="rsBtn16" Style="{DynamicResource rs_ItemsControlBtn}" Click="resultItemClick_Click" />
+                        </StackPanel>
 
-                                    <StackPanel Grid.Row="2" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <StackPanel Grid.Row="2" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
 
-                                        <Image IsEnabled="{Binding ResultSubject}" Style="{DynamicResource rs_ItemsIconSubject}" />
-                                        <Image IsEnabled="{Binding ResultLib}" Style="{DynamicResource rs_ItemsIconLib}" />
-                                        <Image IsEnabled="{Binding ResultNotes}" Style="{DynamicResource rs_ItemsIconNotes}" />
-                                    </StackPanel>
-                                </Grid>
-                            </Border>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </Border>
-
-            <Border Padding="10" UseLayoutRounding="True" SnapsToDevicePixels="True" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <ItemsControl  UseLayoutRounding="True" SnapsToDevicePixels="True" x:Name="rs14">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Border Width="245" Height="100" Background="#FFF" Style="{DynamicResource defaultBorderShadowEffect}">
-                                <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="10" />
-                                        <RowDefinition Height="47" />
-                                        <RowDefinition Height="47" />
-                                    </Grid.RowDefinitions>
-
-                                    <Border Height="10" Grid.Row="0" Background="{Binding ResultStatus}" CornerRadius="5 5 0 0" />
-
-                                    <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
-                                        <TextBlock  Text="{Binding ResultName}" Style="{DynamicResource rs_ItemsHeaderName}" />
-                                        <Button x:Name="resultItemClick" Style="{DynamicResource rs_ItemsControlBtn}" Click="resultItemClick_Click" Uid="{Binding ResultId}" />
-                                    </StackPanel>
-
-                                    <StackPanel Grid.Row="2" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
-
-                                        <Image IsEnabled="{Binding ResultSubject}" Style="{DynamicResource rs_ItemsIconSubject}" />
-                                        <Image IsEnabled="{Binding ResultLib}" Style="{DynamicResource rs_ItemsIconLib}" />
-                                        <Image IsEnabled="{Binding ResultNotes}" Style="{DynamicResource rs_ItemsIconNotes}" />
-                                    </StackPanel>
-                                </Grid>
-                            </Border>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </Border>
-
-            <Border Padding="10" UseLayoutRounding="True" SnapsToDevicePixels="True" Grid.Column="2" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <ItemsControl  UseLayoutRounding="True" SnapsToDevicePixels="True" x:Name="rs15">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Border Width="245" Height="100" Background="#FFF" Style="{DynamicResource defaultBorderShadowEffect}">
-                                <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="10" />
-                                        <RowDefinition Height="47" />
-                                        <RowDefinition Height="47" />
-                                    </Grid.RowDefinitions>
-
-                                    <Border Height="10" Grid.Row="0" Background="{Binding ResultStatus}" CornerRadius="5 5 0 0" />
-
-                                    <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
-                                        <TextBlock  Text="{Binding ResultName}" Style="{DynamicResource rs_ItemsHeaderName}" />
-                                        <Button x:Name="resultItemClick" Style="{DynamicResource rs_ItemsControlBtn}" Click="resultItemClick_Click" Uid="{Binding ResultId}" />
-                                    </StackPanel>
-
-                                    <StackPanel Grid.Row="2" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
-
-                                        <Image IsEnabled="{Binding ResultSubject}" Style="{DynamicResource rs_ItemsIconSubject}" />
-                                        <Image IsEnabled="{Binding ResultLib}" Style="{DynamicResource rs_ItemsIconLib}" />
-                                        <Image IsEnabled="{Binding ResultNotes}" Style="{DynamicResource rs_ItemsIconNotes}" />
-                                    </StackPanel>
-                                </Grid>
-                            </Border>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </Border>
-
-            <Border Padding="10" UseLayoutRounding="True" SnapsToDevicePixels="True" Grid.Column="3" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <ItemsControl  UseLayoutRounding="True" SnapsToDevicePixels="True" x:Name="rs16">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Border Width="245" Height="100" Background="#FFF" Style="{DynamicResource defaultBorderShadowEffect}">
-                                <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="10" />
-                                        <RowDefinition Height="47" />
-                                        <RowDefinition Height="47" />
-                                    </Grid.RowDefinitions>
-
-                                    <Border Height="10" Grid.Row="0" Background="{Binding ResultStatus}" CornerRadius="5 5 0 0" />
-
-                                    <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
-                                        <TextBlock  Text="{Binding ResultName}" Style="{DynamicResource rs_ItemsHeaderName}" />
-                                        <Button x:Name="resultItemClick" Style="{DynamicResource rs_ItemsControlBtn}" Click="resultItemClick_Click" Uid="{Binding ResultId}" />
-                                    </StackPanel>
-
-                                    <StackPanel Grid.Row="2" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
-
-                                        <Image IsEnabled="{Binding ResultSubject}" Style="{DynamicResource rs_ItemsIconSubject}" />
-                                        <Image IsEnabled="{Binding ResultLib}" Style="{DynamicResource rs_ItemsIconLib}" />
-                                        <Image IsEnabled="{Binding ResultNotes}" Style="{DynamicResource rs_ItemsIconNotes}" />
-                                    </StackPanel>
-                                </Grid>
-                            </Border>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                            <Image x:Name="rsS16" Style="{DynamicResource rs_ItemsIconSubject}" />
+                            <Image x:Name="rsL16" Style="{DynamicResource rs_ItemsIconLib}" />
+                            <Image x:Name="rsN16" Style="{DynamicResource rs_ItemsIconNotes}" />
+                        </StackPanel>
+                    </Grid>
+                </Border>
             </Border>
         </Grid>
 

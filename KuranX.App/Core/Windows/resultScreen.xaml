@@ -98,7 +98,6 @@
                 <TextBlock Text="Konu Ayet İçeriği" Style="{DynamicResource rs_FrameComboboxHeaderText}" />
                 <ComboBox Width="200" x:Name="subjectItemsNot" Margin="0 5 0 0" Style="{DynamicResource sr_NavCombobox}" SelectedIndex="0" SelectionChanged="subjectItemsNot_SelectionChanged">
                     <ComboBoxItem  Content="Konu Ayetini Seçiniz" Uid="0" Tag="0" />
-                    <ComboBoxItem  Content="Fâtiha" Uid="1" Tag="7" />
                 </ComboBox>
             </StackPanel>
         </StackPanel>
@@ -173,7 +172,7 @@
                         <Separator Background="#E1E3E6" Height="2" Margin="0,4,0,4" />
                     </StackPanel>
                     <ScrollViewer Height="130" Padding="0 5 0 15">
-                        <TextBox x:Name="resultNoteDetail" TextWrapping="Wrap" AcceptsReturn="True" MaxLength="3500" Style="{DynamicResource rs_DetailTxtBox}" Text="" TextChanged="noteDetail_TextChanged" />
+                        <TextBox x:Name="resultNoteDetail" TextWrapping="Wrap" AcceptsReturn="True" MaxLength="3500" Style="{DynamicResource rs_DetailTxtBox}" Text="" TextChanged="noteDetail_TextChanged" KeyDown="resultNoteDetail_KeyDown" />
                     </ScrollViewer>
                 </StackPanel>
             </Border>

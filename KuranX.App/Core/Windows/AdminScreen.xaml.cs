@@ -29,7 +29,7 @@ namespace KuranX.App.Core.Windows
         protected string _connectedString;
         private MySqlConnection connection;
         private string land;
-        private Task? fileDialogTask, processKillerTask;
+        private Task? fileDialogTask;
         private string DeskType;
         private OpenFileDialog openFileDialog = new OpenFileDialog();
 

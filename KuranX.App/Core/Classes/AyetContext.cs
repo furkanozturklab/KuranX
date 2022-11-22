@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.IO;
-using Microsoft.EntityFrameworkCore;
 
 namespace KuranX.App.Core.Classes
 {
@@ -114,12 +110,6 @@ namespace KuranX.App.Core.Classes
             modelBuilder.Entity<Notes>()
                .Property(u => u.LibraryId)
                .HasDefaultValue(0);
-            modelBuilder.Entity<Notes>()
-               .Property(u => u.PdfPageId)
-               .HasDefaultValue(0);
-            modelBuilder.Entity<Notes>()
-                .Property(u => u.NoteStatus)
-                .HasDefaultValue("#ADB5BD");
 
             // PDF
             modelBuilder.Entity<PdfFile>()
@@ -142,16 +132,14 @@ namespace KuranX.App.Core.Classes
             // RESULT
             modelBuilder.Entity<Result>()
                 .Property(u => u.ResultNotes)
-                .HasDefaultValue("false");
+                .HasDefaultValue(false);
             modelBuilder.Entity<Result>()
                 .Property(u => u.ResultSubject)
-                .HasDefaultValue("false");
+                .HasDefaultValue(false);
             modelBuilder.Entity<Result>()
                 .Property(u => u.ResultLib)
-                .HasDefaultValue("false");
-            modelBuilder.Entity<Result>()
-                .Property(u => u.ResultVerse)
-                .HasDefaultValue("false");
+                .HasDefaultValue(false);
+
             modelBuilder.Entity<Result>()
                .Property(u => u.ResultStatus)
                .HasDefaultValue("#ADB5BD");

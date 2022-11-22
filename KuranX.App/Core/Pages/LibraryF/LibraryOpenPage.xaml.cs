@@ -25,6 +25,12 @@ namespace KuranX.App.Core.Pages.LibraryF
             InitializeComponent();
         }
 
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            App.mainScreen.navigationWriter("library", "");
+            libraryMain.Visibility = Visibility.Visible;
+        }
+
         public Page PageCall()
         {
             App.mainScreen.navigationWriter("library", "");
@@ -36,6 +42,7 @@ namespace KuranX.App.Core.Pages.LibraryF
             try
             {
                 App.mainframe.Content = App.navLibraryFileFrame.PageCall();
+                libraryMain.Visibility = Visibility.Hidden;
             }
             catch (Exception ex)
             {
@@ -48,16 +55,12 @@ namespace KuranX.App.Core.Pages.LibraryF
             try
             {
                 App.mainframe.Content = App.navLibraryNoteFolderFrame.PageCall();
+                libraryMain.Visibility = Visibility.Hidden;
             }
             catch (Exception ex)
             {
                 App.logWriter("FrameLoad", ex);
             }
-        }
-
-        private void Page_Loaded(object sender, RoutedEventArgs e)
-        {
-            App.mainScreen.navigationWriter("library", "");
         }
     }
 }

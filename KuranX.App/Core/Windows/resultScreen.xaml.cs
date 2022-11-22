@@ -52,7 +52,7 @@ namespace KuranX.App.Core.Windows
                 screenHeader.Text = dResul.ResultName;
                 resultNoteDetail.Text = dResul.ResultFinallyNote;
 
-                if (dResul.ResultNotes == "true")
+                if (dResul.ResultNotes == true)
                 {
                     var cmdef = new ComboBoxItem();
                     noteico.IsEnabled = true;
@@ -75,7 +75,7 @@ namespace KuranX.App.Core.Windows
                     }
                 }
 
-                if (dResul.ResultSubject == "true")
+                if (dResul.ResultSubject == true)
                 {
                     subico.IsEnabled = true;
 
@@ -107,7 +107,7 @@ namespace KuranX.App.Core.Windows
                     }
                 }
 
-                if (dResul.ResultLib == "true")
+                if (dResul.ResultLib == true)
                 {
                     var cmdef = new ComboBoxItem();
                     libico.IsEnabled = true;
@@ -423,6 +423,11 @@ namespace KuranX.App.Core.Windows
             {
                 App.logWriter("printButton_Click", ex);
             }
+        }
+
+        private void resultNoteDetail_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (resultNoteDetail.Text == "Sonuç Metninizi buraya yaza bilirsiniz.") resultNoteDetail.Text = "";
         }
     }
 }

@@ -4,8 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="clr-namespace:KuranX.App.Core.Pages"
-        xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
-       xmlns:gif="http://wpfanimatedgif.codeplex.com"
+      xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
       mc:Ignorable="d"
       d:DesignHeight="708" d:DesignWidth="1115" d:MaxHeight="708" d:MaxWidth="1270" d:MinWidth="1115"
       Title="NoteFrame" Background="#FAFAFA" Loaded="Page_Loaded">
@@ -159,7 +158,7 @@
             <!-- Note -->
         </Popup>
 
-        <Popup x:Name="popup_deleteNote" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="300" Height="190" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+        <Popup x:Name="popup_deleteNote" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="360" Height="190" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
 
             <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="340" Height="170">
                 <Grid>
@@ -168,7 +167,7 @@
                         <RowDefinition Height="120" />
                     </Grid.RowDefinitions>
                     <Border  Grid.Row="0" Style="{DynamicResource pp_BorderHeader}">
-                        <TextBlock Text="Konuyu Sil" Style="{DynamicResource pp_HeaderText}" />
+                        <TextBlock Text="Notu Sil" Style="{DynamicResource pp_HeaderText}" />
                     </Border>
                     <Grid Grid.Row="1">
                         <Grid.RowDefinitions>
@@ -176,7 +175,7 @@
                             <RowDefinition Height="50" />
                         </Grid.RowDefinitions>
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Width="280" Grid.Row="0">
-                            <TextBlock Text=" Notu Silmek istediğinize emin misiniz bu işlem geri alınamaz. " TextWrapping="Wrap" TextAlignment="Center" FontFamily="{DynamicResource PoppinsMedium}" FontSize="14" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            <TextBlock Text=" Notu silmek istediğinize emin misiniz bu işlem geri alınamaz. " TextWrapping="Wrap" TextAlignment="Center" FontFamily="{DynamicResource PoppinsMedium}" FontSize="14" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </StackPanel>
                         <Grid Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
                             <Grid.ColumnDefinitions>
@@ -258,633 +257,489 @@
                     <RowDefinition Height="78" />
                 </Grid.RowDefinitions>
 
-                <Border Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="nt1">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <Border Width="10" Background="{Binding NoteLocation}" CornerRadius="5 0 0 5" />
-                                        <Border Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0 0 0 0">
-                                            <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                <TextBlock Text="{Binding NoteHeader}" FontSize="12" Style="{DynamicResource nt_ItemHeader}" />
-                                                <TextBlock Text="{Binding Created}" Style="{DynamicResource nt_ItemDate}" />
-                                            </StackPanel>
-                                        </Border>
-                                        <Border Width="24" Height="24" Margin="0 0 10 0">
-                                            <Button Style="{DynamicResource nt_ItemOpenIcon}" Uid="{Binding NotesId}" Content="{Binding NoteHeader}" Tag="ArrowRight" Click="gotoNotes_Click" />
-                                        </Border>
-                                        <Border Width="24" Height="24" Margin="0 0 7 0">
-                                            <Button Style="{DynamicResource nt_ItemOpenIcon}" Uid="{Binding NotesId}" Tag="Trash" Click="deleteNotes_Click" />
-                                        </Border>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                <Border x:Name="nt1" Grid.Column="0" Grid.Row="0" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border x:Name="ntColor1" Width="10"  CornerRadius="5 0 0 5" />
+                            <Border Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0 0 0 0">
+                                <StackPanel Orientation="Vertical" Margin="10 0 10 0">
+                                    <TextBlock x:Name="ntName1"  Style="{DynamicResource nt_ItemHeader}" />
+                                    <TextBlock x:Name="ntCreate1" Style="{DynamicResource nt_ItemDate}" />
+                                </StackPanel>
+                            </Border>
+                            <Border Width="24" Height="24" Margin="0 0 10 0">
+                                <Button x:Name="ntBtnGo1" Style="{DynamicResource nt_ItemOpenIcon}" Tag="ArrowRight" Click="gotoNotes_Click" />
+                            </Border>
+                            <Border Width="24" Height="24" Margin="0 0 7 0">
+                                <Button x:Name="ntBtnDel1" Style="{DynamicResource nt_ItemOpenIcon}" Tag="Trash" Click="deleteNotes_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
                 </Border>
 
-                <Border Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="nt2">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <Border Width="10" Background="{Binding NoteLocation}" CornerRadius="5 0 0 5" />
-                                        <Border Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0 0 0 0">
-                                            <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                <TextBlock Text="{Binding NoteHeader}" FontSize="12" Style="{DynamicResource nt_ItemHeader}" />
-                                                <TextBlock Text="{Binding Created}" Style="{DynamicResource nt_ItemDate}" />
-                                            </StackPanel>
-                                        </Border>
-                                        <Border Width="24" Height="24" Margin="0 0 10 0">
-                                            <Button Style="{DynamicResource nt_ItemOpenIcon}" Uid="{Binding NotesId}" Content="{Binding NoteHeader}" Tag="ArrowRight" Click="gotoNotes_Click" />
-                                        </Border>
-                                        <Border Width="24" Height="24" Margin="0 0 7 0">
-                                            <Button Style="{DynamicResource nt_ItemOpenIcon}" Uid="{Binding NotesId}" Tag="Trash" Click="deleteNotes_Click" />
-                                        </Border>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                <Border x:Name="nt2" Grid.Column="1" Grid.Row="0" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border x:Name="ntColor2" Width="10"  CornerRadius="5 0 0 5" />
+                            <Border Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0 0 0 0">
+                                <StackPanel Orientation="Vertical" Margin="10 0 10 0">
+                                    <TextBlock x:Name="ntName2" Style="{DynamicResource nt_ItemHeader}" />
+                                    <TextBlock x:Name="ntCreate2" Style="{DynamicResource nt_ItemDate}" />
+                                </StackPanel>
+                            </Border>
+                            <Border Width="24" Height="24" Margin="0 0 10 0">
+                                <Button x:Name="ntBtnGo2" Style="{DynamicResource nt_ItemOpenIcon}" Tag="ArrowRight" Click="gotoNotes_Click" />
+                            </Border>
+                            <Border Width="24" Height="24" Margin="0 0 7 0">
+                                <Button x:Name="ntBtnDel2" Style="{DynamicResource nt_ItemOpenIcon}" Tag="Trash" Click="deleteNotes_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
                 </Border>
 
-                <Border Grid.Column="2" Grid.Row="0" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="nt3">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <Border Width="10" Background="{Binding NoteLocation}" CornerRadius="5 0 0 5" />
-                                        <Border Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0 0 0 0">
-                                            <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                <TextBlock Text="{Binding NoteHeader}" FontSize="12" Style="{DynamicResource nt_ItemHeader}" />
-                                                <TextBlock Text="{Binding Created}" Style="{DynamicResource nt_ItemDate}" />
-                                            </StackPanel>
-                                        </Border>
-                                        <Border Width="24" Height="24" Margin="0 0 10 0">
-                                            <Button Style="{DynamicResource nt_ItemOpenIcon}" Uid="{Binding NotesId}" Content="{Binding NoteHeader}" Tag="ArrowRight" Click="gotoNotes_Click" />
-                                        </Border>
-                                        <Border Width="24" Height="24" Margin="0 0 7 0">
-                                            <Button Style="{DynamicResource nt_ItemOpenIcon}" Uid="{Binding NotesId}" Tag="Trash" Click="deleteNotes_Click" />
-                                        </Border>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                <Border x:Name="nt3" Grid.Column="2" Grid.Row="0" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border x:Name="ntColor3" Width="10"  CornerRadius="5 0 0 5" />
+                            <Border Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0 0 0 0">
+                                <StackPanel Orientation="Vertical" Margin="10 0 10 0">
+                                    <TextBlock x:Name="ntName3" Style="{DynamicResource nt_ItemHeader}" />
+                                    <TextBlock x:Name="ntCreate3" Style="{DynamicResource nt_ItemDate}" />
+                                </StackPanel>
+                            </Border>
+                            <Border Width="24" Height="24" Margin="0 0 10 0">
+                                <Button x:Name="ntBtnGo3" Style="{DynamicResource nt_ItemOpenIcon}" Tag="ArrowRight" Click="gotoNotes_Click" />
+                            </Border>
+                            <Border Width="24" Height="24" Margin="0 0 7 0">
+                                <Button x:Name="ntBtnDel3" Style="{DynamicResource nt_ItemOpenIcon}" Tag="Trash" Click="deleteNotes_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
                 </Border>
 
-                <Border Grid.Column="3" Grid.Row="0" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="nt4">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <Border Width="10" Background="{Binding NoteLocation}" CornerRadius="5 0 0 5" />
-                                        <Border Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0 0 0 0">
-                                            <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                <TextBlock Text="{Binding NoteHeader}" FontSize="12" Style="{DynamicResource nt_ItemHeader}" />
-                                                <TextBlock Text="{Binding Created}" Style="{DynamicResource nt_ItemDate}" />
-                                            </StackPanel>
-                                        </Border>
-                                        <Border Width="24" Height="24" Margin="0 0 10 0">
-                                            <Button Style="{DynamicResource nt_ItemOpenIcon}" Uid="{Binding NotesId}" Content="{Binding NoteHeader}" Tag="ArrowRight" Click="gotoNotes_Click" />
-                                        </Border>
-                                        <Border Width="24" Height="24" Margin="0 0 7 0">
-                                            <Button Style="{DynamicResource nt_ItemOpenIcon}" Uid="{Binding NotesId}" Tag="Trash" Click="deleteNotes_Click" />
-                                        </Border>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                <Border x:Name="nt4" Grid.Column="3" Grid.Row="0" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border x:Name="ntColor4" Width="10"  CornerRadius="5 0 0 5" />
+                            <Border Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0 0 0 0">
+                                <StackPanel Orientation="Vertical" Margin="10 0 10 0">
+                                    <TextBlock x:Name="ntName4" Style="{DynamicResource nt_ItemHeader}" />
+                                    <TextBlock x:Name="ntCreate4" Style="{DynamicResource nt_ItemDate}" />
+                                </StackPanel>
+                            </Border>
+                            <Border Width="24" Height="24" Margin="0 0 10 0">
+                                <Button x:Name="ntBtnGo4" Style="{DynamicResource nt_ItemOpenIcon}" Tag="ArrowRight" Click="gotoNotes_Click" />
+                            </Border>
+                            <Border Width="24" Height="24" Margin="0 0 7 0">
+                                <Button x:Name="ntBtnDel4" Style="{DynamicResource nt_ItemOpenIcon}" Tag="Trash" Click="deleteNotes_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
                 </Border>
 
-                <Border Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="nt5">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <Border Width="10" Background="{Binding NoteLocation}" CornerRadius="5 0 0 5" />
-                                        <Border Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0 0 0 0">
-                                            <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                <TextBlock Text="{Binding NoteHeader}" FontSize="12" Style="{DynamicResource nt_ItemHeader}" />
-                                                <TextBlock Text="{Binding Created}" Style="{DynamicResource nt_ItemDate}" />
-                                            </StackPanel>
-                                        </Border>
-                                        <Border Width="24" Height="24" Margin="0 0 10 0">
-                                            <Button Style="{DynamicResource nt_ItemOpenIcon}" Uid="{Binding NotesId}" Content="{Binding NoteHeader}" Tag="ArrowRight" Click="gotoNotes_Click" />
-                                        </Border>
-                                        <Border Width="24" Height="24" Margin="0 0 7 0">
-                                            <Button Style="{DynamicResource nt_ItemOpenIcon}" Uid="{Binding NotesId}" Tag="Trash" Click="deleteNotes_Click" />
-                                        </Border>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                <Border x:Name="nt5" Grid.Column="0" Grid.Row="1" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border x:Name="ntColor5" Width="10"  CornerRadius="5 0 0 5" />
+                            <Border Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0 0 0 0">
+                                <StackPanel Orientation="Vertical" Margin="10 0 10 0">
+                                    <TextBlock x:Name="ntName5" Style="{DynamicResource nt_ItemHeader}" />
+                                    <TextBlock x:Name="ntCreate5" Style="{DynamicResource nt_ItemDate}" />
+                                </StackPanel>
+                            </Border>
+                            <Border Width="24" Height="24" Margin="0 0 10 0">
+                                <Button x:Name="ntBtnGo5" Style="{DynamicResource nt_ItemOpenIcon}" Tag="ArrowRight" Click="gotoNotes_Click" />
+                            </Border>
+                            <Border Width="24" Height="24" Margin="0 0 7 0">
+                                <Button x:Name="ntBtnDel5" Style="{DynamicResource nt_ItemOpenIcon}" Tag="Trash" Click="deleteNotes_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
                 </Border>
 
-                <Border Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="nt6">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <Border Width="10" Background="{Binding NoteLocation}" CornerRadius="5 0 0 5" />
-                                        <Border Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0 0 0 0">
-                                            <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                <TextBlock Text="{Binding NoteHeader}" FontSize="12" Style="{DynamicResource nt_ItemHeader}" />
-                                                <TextBlock Text="{Binding Created}" Style="{DynamicResource nt_ItemDate}" />
-                                            </StackPanel>
-                                        </Border>
-                                        <Border Width="24" Height="24" Margin="0 0 10 0">
-                                            <Button Style="{DynamicResource nt_ItemOpenIcon}" Uid="{Binding NotesId}" Content="{Binding NoteHeader}" Tag="ArrowRight" Click="gotoNotes_Click" />
-                                        </Border>
-                                        <Border Width="24" Height="24" Margin="0 0 7 0">
-                                            <Button Style="{DynamicResource nt_ItemOpenIcon}" Uid="{Binding NotesId}" Tag="Trash" Click="deleteNotes_Click" />
-                                        </Border>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                <Border x:Name="nt6" Grid.Column="1" Grid.Row="1" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border x:Name="ntColor6" Width="10"  CornerRadius="5 0 0 5" />
+                            <Border Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0 0 0 0">
+                                <StackPanel Orientation="Vertical" Margin="10 0 10 0">
+                                    <TextBlock x:Name="ntName6" Style="{DynamicResource nt_ItemHeader}" />
+                                    <TextBlock x:Name="ntCreate6" Style="{DynamicResource nt_ItemDate}" />
+                                </StackPanel>
+                            </Border>
+                            <Border Width="24" Height="24" Margin="0 0 10 0">
+                                <Button x:Name="ntBtnGo6" Style="{DynamicResource nt_ItemOpenIcon}" Tag="ArrowRight" Click="gotoNotes_Click" />
+                            </Border>
+                            <Border Width="24" Height="24" Margin="0 0 7 0">
+                                <Button x:Name="ntBtnDel6" Style="{DynamicResource nt_ItemOpenIcon}" Tag="Trash" Click="deleteNotes_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
                 </Border>
 
-                <Border Grid.Column="2" Grid.Row="1" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="nt7">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <Border Width="10" Background="{Binding NoteLocation}" CornerRadius="5 0 0 5" />
-                                        <Border Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0 0 0 0">
-                                            <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                <TextBlock Text="{Binding NoteHeader}" FontSize="12" Style="{DynamicResource nt_ItemHeader}" />
-                                                <TextBlock Text="{Binding Created}" Style="{DynamicResource nt_ItemDate}" />
-                                            </StackPanel>
-                                        </Border>
-                                        <Border Width="24" Height="24" Margin="0 0 10 0">
-                                            <Button Style="{DynamicResource nt_ItemOpenIcon}" Uid="{Binding NotesId}" Content="{Binding NoteHeader}" Tag="ArrowRight" Click="gotoNotes_Click" />
-                                        </Border>
-                                        <Border Width="24" Height="24" Margin="0 0 7 0">
-                                            <Button Style="{DynamicResource nt_ItemOpenIcon}" Uid="{Binding NotesId}" Tag="Trash" Click="deleteNotes_Click" />
-                                        </Border>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                <Border x:Name="nt7" Grid.Column="2" Grid.Row="1" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border x:Name="ntColor7" Width="10"  CornerRadius="5 0 0 5" />
+                            <Border Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0 0 0 0">
+                                <StackPanel Orientation="Vertical" Margin="10 0 10 0">
+                                    <TextBlock x:Name="ntName7" Style="{DynamicResource nt_ItemHeader}" />
+                                    <TextBlock x:Name="ntCreate7" Style="{DynamicResource nt_ItemDate}" />
+                                </StackPanel>
+                            </Border>
+                            <Border Width="24" Height="24" Margin="0 0 10 0">
+                                <Button x:Name="ntBtnGo7" Style="{DynamicResource nt_ItemOpenIcon}" Tag="ArrowRight" Click="gotoNotes_Click" />
+                            </Border>
+                            <Border Width="24" Height="24" Margin="0 0 7 0">
+                                <Button x:Name="ntBtnDel7" Style="{DynamicResource nt_ItemOpenIcon}" Tag="Trash" Click="deleteNotes_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
                 </Border>
 
-                <Border Grid.Column="3" Grid.Row="1" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="nt8">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <Border Width="10" Background="{Binding NoteLocation}" CornerRadius="5 0 0 5" />
-                                        <Border Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0 0 0 0">
-                                            <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                <TextBlock Text="{Binding NoteHeader}" FontSize="12" Style="{DynamicResource nt_ItemHeader}" />
-                                                <TextBlock Text="{Binding Created}" Style="{DynamicResource nt_ItemDate}" />
-                                            </StackPanel>
-                                        </Border>
-                                        <Border Width="24" Height="24" Margin="0 0 10 0">
-                                            <Button Style="{DynamicResource nt_ItemOpenIcon}" Uid="{Binding NotesId}" Content="{Binding NoteHeader}" Tag="ArrowRight" Click="gotoNotes_Click" />
-                                        </Border>
-                                        <Border Width="24" Height="24" Margin="0 0 7 0">
-                                            <Button Style="{DynamicResource nt_ItemOpenIcon}" Uid="{Binding NotesId}" Tag="Trash" Click="deleteNotes_Click" />
-                                        </Border>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                <Border x:Name="nt8" Grid.Column="3" Grid.Row="1" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border x:Name="ntColor8" Width="10"  CornerRadius="5 0 0 5" />
+                            <Border Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0 0 0 0">
+                                <StackPanel Orientation="Vertical" Margin="10 0 10 0">
+                                    <TextBlock x:Name="ntName8" Style="{DynamicResource nt_ItemHeader}" />
+                                    <TextBlock x:Name="ntCreate8" Style="{DynamicResource nt_ItemDate}" />
+                                </StackPanel>
+                            </Border>
+                            <Border Width="24" Height="24" Margin="0 0 10 0">
+                                <Button x:Name="ntBtnGo8" Style="{DynamicResource nt_ItemOpenIcon}" Tag="ArrowRight" Click="gotoNotes_Click" />
+                            </Border>
+                            <Border Width="24" Height="24" Margin="0 0 7 0">
+                                <Button x:Name="ntBtnDel8" Style="{DynamicResource nt_ItemOpenIcon}" Tag="Trash" Click="deleteNotes_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
                 </Border>
 
-                <Border Grid.Column="0" Grid.Row="2" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="nt9">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <Border Width="10" Background="{Binding NoteLocation}" CornerRadius="5 0 0 5" />
-                                        <Border Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0 0 0 0">
-                                            <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                <TextBlock Text="{Binding NoteHeader}" FontSize="12" Style="{DynamicResource nt_ItemHeader}" />
-                                                <TextBlock Text="{Binding Created}" Style="{DynamicResource nt_ItemDate}" />
-                                            </StackPanel>
-                                        </Border>
-                                        <Border Width="24" Height="24" Margin="0 0 10 0">
-                                            <Button Style="{DynamicResource nt_ItemOpenIcon}" Uid="{Binding NotesId}" Content="{Binding NoteHeader}" Tag="ArrowRight" Click="gotoNotes_Click" />
-                                        </Border>
-                                        <Border Width="24" Height="24" Margin="0 0 7 0">
-                                            <Button Style="{DynamicResource nt_ItemOpenIcon}" Uid="{Binding NotesId}" Tag="Trash" Click="deleteNotes_Click" />
-                                        </Border>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                <Border x:Name="nt9" Grid.Column="0" Grid.Row="2" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border x:Name="ntColor9" Width="10"  CornerRadius="5 0 0 5" />
+                            <Border Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0 0 0 0">
+                                <StackPanel Orientation="Vertical" Margin="10 0 10 0">
+                                    <TextBlock x:Name="ntName9" Style="{DynamicResource nt_ItemHeader}" />
+                                    <TextBlock x:Name="ntCreate9" Style="{DynamicResource nt_ItemDate}" />
+                                </StackPanel>
+                            </Border>
+                            <Border Width="24" Height="24" Margin="0 0 10 0">
+                                <Button x:Name="ntBtnGo9" Style="{DynamicResource nt_ItemOpenIcon}" Tag="ArrowRight" Click="gotoNotes_Click" />
+                            </Border>
+                            <Border Width="24" Height="24" Margin="0 0 7 0">
+                                <Button x:Name="ntBtnDel9" Style="{DynamicResource nt_ItemOpenIcon}" Tag="Trash" Click="deleteNotes_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
                 </Border>
 
-                <Border Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="nt10">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <Border Width="10" Background="{Binding NoteLocation}" CornerRadius="5 0 0 5" />
-                                        <Border Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0 0 0 0">
-                                            <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                <TextBlock Text="{Binding NoteHeader}" FontSize="12" Style="{DynamicResource nt_ItemHeader}" />
-                                                <TextBlock Text="{Binding Created}" Style="{DynamicResource nt_ItemDate}" />
-                                            </StackPanel>
-                                        </Border>
-                                        <Border Width="24" Height="24" Margin="0 0 10 0">
-                                            <Button Style="{DynamicResource nt_ItemOpenIcon}" Uid="{Binding NotesId}" Content="{Binding NoteHeader}" Tag="ArrowRight" Click="gotoNotes_Click" />
-                                        </Border>
-                                        <Border Width="24" Height="24" Margin="0 0 7 0">
-                                            <Button Style="{DynamicResource nt_ItemOpenIcon}" Uid="{Binding NotesId}" Tag="Trash" Click="deleteNotes_Click" />
-                                        </Border>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                <Border x:Name="nt10" Grid.Column="1" Grid.Row="2" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border x:Name="ntColor10" Width="10"  CornerRadius="5 0 0 5" />
+                            <Border Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0 0 0 0">
+                                <StackPanel Orientation="Vertical" Margin="10 0 10 0">
+                                    <TextBlock x:Name="ntName10" Style="{DynamicResource nt_ItemHeader}" />
+                                    <TextBlock x:Name="ntCreate10" Style="{DynamicResource nt_ItemDate}" />
+                                </StackPanel>
+                            </Border>
+                            <Border Width="24" Height="24" Margin="0 0 10 0">
+                                <Button x:Name="ntBtnGo10" Style="{DynamicResource nt_ItemOpenIcon}" Tag="ArrowRight" Click="gotoNotes_Click" />
+                            </Border>
+                            <Border Width="24" Height="24" Margin="0 0 7 0">
+                                <Button x:Name="ntBtnDel10" Style="{DynamicResource nt_ItemOpenIcon}" Tag="Trash" Click="deleteNotes_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
                 </Border>
 
-                <Border Grid.Column="2" Grid.Row="2" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="nt11">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <Border Width="10" Background="{Binding NoteLocation}" CornerRadius="5 0 0 5" />
-                                        <Border Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0 0 0 0">
-                                            <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                <TextBlock Text="{Binding NoteHeader}" FontSize="12" Style="{DynamicResource nt_ItemHeader}" />
-                                                <TextBlock Text="{Binding Created}" Style="{DynamicResource nt_ItemDate}" />
-                                            </StackPanel>
-                                        </Border>
-                                        <Border Width="24" Height="24" Margin="0 0 10 0">
-                                            <Button Style="{DynamicResource nt_ItemOpenIcon}" Uid="{Binding NotesId}" Content="{Binding NoteHeader}" Tag="ArrowRight" Click="gotoNotes_Click" />
-                                        </Border>
-                                        <Border Width="24" Height="24" Margin="0 0 7 0">
-                                            <Button Style="{DynamicResource nt_ItemOpenIcon}" Uid="{Binding NotesId}" Tag="Trash" Click="deleteNotes_Click" />
-                                        </Border>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                <Border x:Name="nt11" Grid.Column="2" Grid.Row="2" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border x:Name="ntColor11" Width="10"  CornerRadius="5 0 0 5" />
+                            <Border Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0 0 0 0">
+                                <StackPanel Orientation="Vertical" Margin="10 0 10 0">
+                                    <TextBlock x:Name="ntName11" Style="{DynamicResource nt_ItemHeader}" />
+                                    <TextBlock x:Name="ntCreate11" Style="{DynamicResource nt_ItemDate}" />
+                                </StackPanel>
+                            </Border>
+                            <Border Width="24" Height="24" Margin="0 0 10 0">
+                                <Button x:Name="ntBtnGo11" Style="{DynamicResource nt_ItemOpenIcon}" Tag="ArrowRight" Click="gotoNotes_Click" />
+                            </Border>
+                            <Border Width="24" Height="24" Margin="0 0 7 0">
+                                <Button x:Name="ntBtnDel11" Style="{DynamicResource nt_ItemOpenIcon}" Tag="Trash" Click="deleteNotes_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
                 </Border>
 
-                <Border Grid.Column="3" Grid.Row="2" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="nt12">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <Border Width="10" Background="{Binding NoteLocation}" CornerRadius="5 0 0 5" />
-                                        <Border Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0 0 0 0">
-                                            <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                <TextBlock Text="{Binding NoteHeader}" FontSize="12" Style="{DynamicResource nt_ItemHeader}" />
-                                                <TextBlock Text="{Binding Created}" Style="{DynamicResource nt_ItemDate}" />
-                                            </StackPanel>
-                                        </Border>
-                                        <Border Width="24" Height="24" Margin="0 0 10 0">
-                                            <Button Style="{DynamicResource nt_ItemOpenIcon}" Uid="{Binding NotesId}" Content="{Binding NoteHeader}" Tag="ArrowRight" Click="gotoNotes_Click" />
-                                        </Border>
-                                        <Border Width="24" Height="24" Margin="0 0 7 0">
-                                            <Button Style="{DynamicResource nt_ItemOpenIcon}" Uid="{Binding NotesId}" Tag="Trash" Click="deleteNotes_Click" />
-                                        </Border>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                <Border x:Name="nt12" Grid.Column="3" Grid.Row="2" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border x:Name="ntColor12" Width="10"  CornerRadius="5 0 0 5" />
+                            <Border Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0 0 0 0">
+                                <StackPanel Orientation="Vertical" Margin="10 0 10 0">
+                                    <TextBlock x:Name="ntName12" Style="{DynamicResource nt_ItemHeader}" />
+                                    <TextBlock x:Name="ntCreate12" Style="{DynamicResource nt_ItemDate}" />
+                                </StackPanel>
+                            </Border>
+                            <Border Width="24" Height="24" Margin="0 0 10 0">
+                                <Button x:Name="ntBtnGo12" Style="{DynamicResource nt_ItemOpenIcon}" Tag="ArrowRight" Click="gotoNotes_Click" />
+                            </Border>
+                            <Border Width="24" Height="24" Margin="0 0 7 0">
+                                <Button x:Name="ntBtnDel12" Style="{DynamicResource nt_ItemOpenIcon}" Tag="Trash" Click="deleteNotes_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
                 </Border>
 
-                <Border Grid.Column="0" Grid.Row="3" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="nt13">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <Border Width="10" Background="{Binding NoteLocation}" CornerRadius="5 0 0 5" />
-                                        <Border Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0 0 0 0">
-                                            <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                <TextBlock Text="{Binding NoteHeader}" FontSize="12" Style="{DynamicResource nt_ItemHeader}" />
-                                                <TextBlock Text="{Binding Created}" Style="{DynamicResource nt_ItemDate}" />
-                                            </StackPanel>
-                                        </Border>
-                                        <Border Width="24" Height="24" Margin="0 0 10 0">
-                                            <Button Style="{DynamicResource nt_ItemOpenIcon}" Uid="{Binding NotesId}" Content="{Binding NoteHeader}" Tag="ArrowRight" Click="gotoNotes_Click" />
-                                        </Border>
-                                        <Border Width="24" Height="24" Margin="0 0 7 0">
-                                            <Button Style="{DynamicResource nt_ItemOpenIcon}" Uid="{Binding NotesId}" Tag="Trash" Click="deleteNotes_Click" />
-                                        </Border>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                <Border x:Name="nt13" Grid.Column="0" Grid.Row="3" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border x:Name="ntColor13" Width="10"  CornerRadius="5 0 0 5" />
+                            <Border Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0 0 0 0">
+                                <StackPanel Orientation="Vertical" Margin="10 0 10 0">
+                                    <TextBlock x:Name="ntName13" Style="{DynamicResource nt_ItemHeader}" />
+                                    <TextBlock x:Name="ntCreate13" Style="{DynamicResource nt_ItemDate}" />
+                                </StackPanel>
+                            </Border>
+                            <Border Width="24" Height="24" Margin="0 0 10 0">
+                                <Button x:Name="ntBtnGo13" Style="{DynamicResource nt_ItemOpenIcon}" Tag="ArrowRight" Click="gotoNotes_Click" />
+                            </Border>
+                            <Border Width="24" Height="24" Margin="0 0 7 0">
+                                <Button x:Name="ntBtnDel13" Style="{DynamicResource nt_ItemOpenIcon}" Tag="Trash" Click="deleteNotes_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
                 </Border>
 
-                <Border Grid.Column="1" Grid.Row="3" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="nt14">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <Border Width="10" Background="{Binding NoteLocation}" CornerRadius="5 0 0 5" />
-                                        <Border Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0 0 0 0">
-                                            <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                <TextBlock Text="{Binding NoteHeader}" FontSize="12" Style="{DynamicResource nt_ItemHeader}" />
-                                                <TextBlock Text="{Binding Created}" Style="{DynamicResource nt_ItemDate}" />
-                                            </StackPanel>
-                                        </Border>
-                                        <Border Width="24" Height="24" Margin="0 0 10 0">
-                                            <Button Style="{DynamicResource nt_ItemOpenIcon}" Uid="{Binding NotesId}" Content="{Binding NoteHeader}" Tag="ArrowRight" Click="gotoNotes_Click" />
-                                        </Border>
-                                        <Border Width="24" Height="24" Margin="0 0 7 0">
-                                            <Button Style="{DynamicResource nt_ItemOpenIcon}" Uid="{Binding NotesId}" Tag="Trash" Click="deleteNotes_Click" />
-                                        </Border>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                <Border x:Name="nt14" Grid.Column="1" Grid.Row="3" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border x:Name="ntColor14" Width="10"  CornerRadius="5 0 0 5" />
+                            <Border Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0 0 0 0">
+                                <StackPanel Orientation="Vertical" Margin="10 0 10 0">
+                                    <TextBlock x:Name="ntName14" Style="{DynamicResource nt_ItemHeader}" />
+                                    <TextBlock x:Name="ntCreate14" Style="{DynamicResource nt_ItemDate}" />
+                                </StackPanel>
+                            </Border>
+                            <Border Width="24" Height="24" Margin="0 0 10 0">
+                                <Button x:Name="ntBtnGo14" Style="{DynamicResource nt_ItemOpenIcon}" Tag="ArrowRight" Click="gotoNotes_Click" />
+                            </Border>
+                            <Border Width="24" Height="24" Margin="0 0 7 0">
+                                <Button x:Name="ntBtnDel14" Style="{DynamicResource nt_ItemOpenIcon}" Tag="Trash" Click="deleteNotes_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
                 </Border>
 
-                <Border Grid.Column="2" Grid.Row="3" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="nt15">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <Border Width="10" Background="{Binding NoteLocation}" CornerRadius="5 0 0 5" />
-                                        <Border Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0 0 0 0">
-                                            <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                <TextBlock Text="{Binding NoteHeader}" FontSize="12" Style="{DynamicResource nt_ItemHeader}" />
-                                                <TextBlock Text="{Binding Created}" Style="{DynamicResource nt_ItemDate}" />
-                                            </StackPanel>
-                                        </Border>
-                                        <Border Width="24" Height="24" Margin="0 0 10 0">
-                                            <Button Style="{DynamicResource nt_ItemOpenIcon}" Uid="{Binding NotesId}" Content="{Binding NoteHeader}" Tag="ArrowRight" Click="gotoNotes_Click" />
-                                        </Border>
-                                        <Border Width="24" Height="24" Margin="0 0 7 0">
-                                            <Button Style="{DynamicResource nt_ItemOpenIcon}" Uid="{Binding NotesId}" Tag="Trash" Click="deleteNotes_Click" />
-                                        </Border>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                <Border x:Name="nt15" Grid.Column="2" Grid.Row="3" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border x:Name="ntColor15" Width="10"  CornerRadius="5 0 0 5" />
+                            <Border Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0 0 0 0">
+                                <StackPanel Orientation="Vertical" Margin="10 0 10 0">
+                                    <TextBlock x:Name="ntName15" Style="{DynamicResource nt_ItemHeader}" />
+                                    <TextBlock x:Name="ntCreate15" Style="{DynamicResource nt_ItemDate}" />
+                                </StackPanel>
+                            </Border>
+                            <Border Width="24" Height="24" Margin="0 0 10 0">
+                                <Button x:Name="ntBtnGo15" Style="{DynamicResource nt_ItemOpenIcon}" Tag="ArrowRight" Click="gotoNotes_Click" />
+                            </Border>
+                            <Border Width="24" Height="24" Margin="0 0 7 0">
+                                <Button x:Name="ntBtnDel15" Style="{DynamicResource nt_ItemOpenIcon}" Tag="Trash" Click="deleteNotes_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
                 </Border>
 
-                <Border Grid.Column="3" Grid.Row="3" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="nt16">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <Border Width="10" Background="{Binding NoteLocation}" CornerRadius="5 0 0 5" />
-                                        <Border Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0 0 0 0">
-                                            <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                <TextBlock Text="{Binding NoteHeader}" FontSize="12" Style="{DynamicResource nt_ItemHeader}" />
-                                                <TextBlock Text="{Binding Created}" Style="{DynamicResource nt_ItemDate}" />
-                                            </StackPanel>
-                                        </Border>
-                                        <Border Width="24" Height="24" Margin="0 0 10 0">
-                                            <Button Style="{DynamicResource nt_ItemOpenIcon}" Uid="{Binding NotesId}" Content="{Binding NoteHeader}" Tag="ArrowRight" Click="gotoNotes_Click" />
-                                        </Border>
-                                        <Border Width="24" Height="24" Margin="0 0 7 0">
-                                            <Button Style="{DynamicResource nt_ItemOpenIcon}" Uid="{Binding NotesId}" Tag="Trash" Click="deleteNotes_Click" />
-                                        </Border>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                <Border x:Name="nt16" Grid.Column="3" Grid.Row="3" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border x:Name="ntColor16" Width="10"  CornerRadius="5 0 0 5" />
+                            <Border Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0 0 0 0">
+                                <StackPanel Orientation="Vertical" Margin="10 0 10 0">
+                                    <TextBlock x:Name="ntName16" Style="{DynamicResource nt_ItemHeader}" />
+                                    <TextBlock x:Name="ntCreate16" Style="{DynamicResource nt_ItemDate}" />
+                                </StackPanel>
+                            </Border>
+                            <Border Width="24" Height="24" Margin="0 0 10 0">
+                                <Button x:Name="ntBtnGo16" Style="{DynamicResource nt_ItemOpenIcon}" Tag="ArrowRight" Click="gotoNotes_Click" />
+                            </Border>
+                            <Border Width="24" Height="24" Margin="0 0 7 0">
+                                <Button x:Name="ntBtnDel16" Style="{DynamicResource nt_ItemOpenIcon}" Tag="Trash" Click="deleteNotes_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
                 </Border>
 
-                <Border Grid.Column="0" Grid.Row="4" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="nt17">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <Border Width="10" Background="{Binding NoteLocation}" CornerRadius="5 0 0 5" />
-                                        <Border Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0 0 0 0">
-                                            <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                <TextBlock Text="{Binding NoteHeader}" FontSize="12" Style="{DynamicResource nt_ItemHeader}" />
-                                                <TextBlock Text="{Binding Created}" Style="{DynamicResource nt_ItemDate}" />
-                                            </StackPanel>
-                                        </Border>
-                                        <Border Width="24" Height="24" Margin="0 0 10 0">
-                                            <Button Style="{DynamicResource nt_ItemOpenIcon}" Uid="{Binding NotesId}" Content="{Binding NoteHeader}" Tag="ArrowRight" Click="gotoNotes_Click" />
-                                        </Border>
-                                        <Border Width="24" Height="24" Margin="0 0 7 0">
-                                            <Button Style="{DynamicResource nt_ItemOpenIcon}" Uid="{Binding NotesId}" Tag="Trash" Click="deleteNotes_Click" />
-                                        </Border>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                <Border x:Name="nt17" Grid.Column="0" Grid.Row="4" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border x:Name="ntColor17" Width="10"  CornerRadius="5 0 0 5" />
+                            <Border Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0 0 0 0">
+                                <StackPanel Orientation="Vertical" Margin="10 0 10 0">
+                                    <TextBlock x:Name="ntName17" Style="{DynamicResource nt_ItemHeader}" />
+                                    <TextBlock x:Name="ntCreate17" Style="{DynamicResource nt_ItemDate}" />
+                                </StackPanel>
+                            </Border>
+                            <Border Width="24" Height="24" Margin="0 0 10 0">
+                                <Button x:Name="ntBtnGo17" Style="{DynamicResource nt_ItemOpenIcon}" Tag="ArrowRight" Click="gotoNotes_Click" />
+                            </Border>
+                            <Border Width="24" Height="24" Margin="0 0 7 0">
+                                <Button x:Name="ntBtnDel17" Style="{DynamicResource nt_ItemOpenIcon}" Tag="Trash" Click="deleteNotes_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
                 </Border>
 
-                <Border Grid.Column="1" Grid.Row="4" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="nt18">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <Border Width="10" Background="{Binding NoteLocation}" CornerRadius="5 0 0 5" />
-                                        <Border Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0 0 0 0">
-                                            <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                <TextBlock Text="{Binding NoteHeader}" FontSize="12" Style="{DynamicResource nt_ItemHeader}" />
-                                                <TextBlock Text="{Binding Created}" Style="{DynamicResource nt_ItemDate}" />
-                                            </StackPanel>
-                                        </Border>
-                                        <Border Width="24" Height="24" Margin="0 0 10 0">
-                                            <Button Style="{DynamicResource nt_ItemOpenIcon}" Uid="{Binding NotesId}" Content="{Binding NoteHeader}" Tag="ArrowRight" Click="gotoNotes_Click" />
-                                        </Border>
-                                        <Border Width="24" Height="24" Margin="0 0 7 0">
-                                            <Button Style="{DynamicResource nt_ItemOpenIcon}" Uid="{Binding NotesId}" Tag="Trash" Click="deleteNotes_Click" />
-                                        </Border>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                <Border x:Name="nt18" Grid.Column="1" Grid.Row="4" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border x:Name="ntColor18" Width="10"  CornerRadius="5 0 0 5" />
+                            <Border Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0 0 0 0">
+                                <StackPanel Orientation="Vertical" Margin="10 0 10 0">
+                                    <TextBlock x:Name="ntName18" Style="{DynamicResource nt_ItemHeader}" />
+                                    <TextBlock x:Name="ntCreate18" Style="{DynamicResource nt_ItemDate}" />
+                                </StackPanel>
+                            </Border>
+                            <Border Width="24" Height="24" Margin="0 0 10 0">
+                                <Button x:Name="ntBtnGo18" Style="{DynamicResource nt_ItemOpenIcon}" Tag="ArrowRight" Click="gotoNotes_Click" />
+                            </Border>
+                            <Border Width="24" Height="24" Margin="0 0 7 0">
+                                <Button x:Name="ntBtnDel18" Style="{DynamicResource nt_ItemOpenIcon}" Tag="Trash" Click="deleteNotes_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
                 </Border>
 
-                <Border Grid.Column="2" Grid.Row="4" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="nt19">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <Border Width="10" Background="{Binding NoteLocation}" CornerRadius="5 0 0 5" />
-                                        <Border Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0 0 0 0">
-                                            <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                <TextBlock Text="{Binding NoteHeader}" FontSize="12" Style="{DynamicResource nt_ItemHeader}" />
-                                                <TextBlock Text="{Binding Created}" Style="{DynamicResource nt_ItemDate}" />
-                                            </StackPanel>
-                                        </Border>
-                                        <Border Width="24" Height="24" Margin="0 0 10 0">
-                                            <Button Style="{DynamicResource nt_ItemOpenIcon}" Uid="{Binding NotesId}" Content="{Binding NoteHeader}" Tag="ArrowRight" Click="gotoNotes_Click" />
-                                        </Border>
-                                        <Border Width="24" Height="24" Margin="0 0 7 0">
-                                            <Button Style="{DynamicResource nt_ItemOpenIcon}" Uid="{Binding NotesId}" Tag="Trash" Click="deleteNotes_Click" />
-                                        </Border>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                <Border x:Name="nt19" Grid.Column="2" Grid.Row="4" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border x:Name="ntColor19" Width="10"  CornerRadius="5 0 0 5" />
+                            <Border Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0 0 0 0">
+                                <StackPanel Orientation="Vertical" Margin="10 0 10 0">
+                                    <TextBlock x:Name="ntName19" Style="{DynamicResource nt_ItemHeader}" />
+                                    <TextBlock x:Name="ntCreate19" Style="{DynamicResource nt_ItemDate}" />
+                                </StackPanel>
+                            </Border>
+                            <Border Width="24" Height="24" Margin="0 0 10 0">
+                                <Button x:Name="ntBtnGo19" Style="{DynamicResource nt_ItemOpenIcon}" Tag="ArrowRight" Click="gotoNotes_Click" />
+                            </Border>
+                            <Border Width="24" Height="24" Margin="0 0 7 0">
+                                <Button x:Name="ntBtnDel19" Style="{DynamicResource nt_ItemOpenIcon}" Tag="Trash" Click="deleteNotes_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
                 </Border>
 
-                <Border Grid.Column="3" Grid.Row="4" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="nt20">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <Border Width="10" Background="{Binding NoteLocation}" CornerRadius="5 0 0 5" />
-                                        <Border Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0 0 0 0">
-                                            <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                <TextBlock Text="{Binding NoteHeader}" FontSize="12" Style="{DynamicResource nt_ItemHeader}" />
-                                                <TextBlock Text="{Binding Created}" Style="{DynamicResource nt_ItemDate}" />
-                                            </StackPanel>
-                                        </Border>
-                                        <Border Width="24" Height="24" Margin="0 0 10 0">
-                                            <Button Style="{DynamicResource nt_ItemOpenIcon}" Uid="{Binding NotesId}" Content="{Binding NoteHeader}" Tag="ArrowRight" Click="gotoNotes_Click" />
-                                        </Border>
-                                        <Border Width="24" Height="24" Margin="0 0 7 0">
-                                            <Button Style="{DynamicResource nt_ItemOpenIcon}" Uid="{Binding NotesId}" Tag="Trash" Click="deleteNotes_Click" />
-                                        </Border>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                <Border x:Name="nt20" Grid.Column="3" Grid.Row="4" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border x:Name="ntColor20" Width="10"  CornerRadius="5 0 0 5" />
+                            <Border Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0 0 0 0">
+                                <StackPanel Orientation="Vertical" Margin="10 0 10 0">
+                                    <TextBlock x:Name="ntName20" Style="{DynamicResource nt_ItemHeader}" />
+                                    <TextBlock x:Name="ntCreate20" Style="{DynamicResource nt_ItemDate}" />
+                                </StackPanel>
+                            </Border>
+                            <Border Width="24" Height="24" Margin="0 0 10 0">
+                                <Button x:Name="ntBtnGo20" Style="{DynamicResource nt_ItemOpenIcon}" Tag="ArrowRight" Click="gotoNotes_Click" />
+                            </Border>
+                            <Border Width="24" Height="24" Margin="0 0 7 0">
+                                <Button x:Name="ntBtnDel20" Style="{DynamicResource nt_ItemOpenIcon}" Tag="Trash" Click="deleteNotes_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
                 </Border>
 
-                <Border Grid.Column="0" Grid.Row="5" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="nt21">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <Border Width="10" Background="{Binding NoteLocation}" CornerRadius="5 0 0 5" />
-                                        <Border Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0 0 0 0">
-                                            <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                <TextBlock Text="{Binding NoteHeader}" FontSize="12" Style="{DynamicResource nt_ItemHeader}" />
-                                                <TextBlock Text="{Binding Created}" Style="{DynamicResource nt_ItemDate}" />
-                                            </StackPanel>
-                                        </Border>
-                                        <Border Width="24" Height="24" Margin="0 0 10 0">
-                                            <Button Style="{DynamicResource nt_ItemOpenIcon}" Uid="{Binding NotesId}" Content="{Binding NoteHeader}" Tag="ArrowRight" Click="gotoNotes_Click" />
-                                        </Border>
-                                        <Border Width="24" Height="24" Margin="0 0 7 0">
-                                            <Button Style="{DynamicResource nt_ItemOpenIcon}" Uid="{Binding NotesId}" Tag="Trash" Click="deleteNotes_Click" />
-                                        </Border>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                <Border x:Name="nt21" Grid.Column="0" Grid.Row="5" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border x:Name="ntColor21" Width="10"  CornerRadius="5 0 0 5" />
+                            <Border Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0 0 0 0">
+                                <StackPanel Orientation="Vertical" Margin="10 0 10 0">
+                                    <TextBlock x:Name="ntName21" Style="{DynamicResource nt_ItemHeader}" />
+                                    <TextBlock x:Name="ntCreate21" Style="{DynamicResource nt_ItemDate}" />
+                                </StackPanel>
+                            </Border>
+                            <Border Width="24" Height="24" Margin="0 0 10 0">
+                                <Button x:Name="ntBtnGo21" Style="{DynamicResource nt_ItemOpenIcon}" Tag="ArrowRight" Click="gotoNotes_Click" />
+                            </Border>
+                            <Border Width="24" Height="24" Margin="0 0 7 0">
+                                <Button x:Name="ntBtnDel21" Style="{DynamicResource nt_ItemOpenIcon}" Tag="Trash" Click="deleteNotes_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
                 </Border>
 
-                <Border Grid.Column="1" Grid.Row="5" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="nt22">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <Border Width="10" Background="{Binding NoteLocation}" CornerRadius="5 0 0 5" />
-                                        <Border Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0 0 0 0">
-                                            <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                <TextBlock Text="{Binding NoteHeader}" FontSize="12" Style="{DynamicResource nt_ItemHeader}" />
-                                                <TextBlock Text="{Binding Created}" Style="{DynamicResource nt_ItemDate}" />
-                                            </StackPanel>
-                                        </Border>
-                                        <Border Width="24" Height="24" Margin="0 0 10 0">
-                                            <Button Style="{DynamicResource nt_ItemOpenIcon}" Uid="{Binding NotesId}" Content="{Binding NoteHeader}" Tag="ArrowRight" Click="gotoNotes_Click" />
-                                        </Border>
-                                        <Border Width="24" Height="24" Margin="0 0 7 0">
-                                            <Button Style="{DynamicResource nt_ItemOpenIcon}" Uid="{Binding NotesId}" Tag="Trash" Click="deleteNotes_Click" />
-                                        </Border>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                <Border x:Name="nt22" Grid.Column="1" Grid.Row="5" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border x:Name="ntColor22" Width="10"  CornerRadius="5 0 0 5" />
+                            <Border Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0 0 0 0">
+                                <StackPanel Orientation="Vertical" Margin="10 0 10 0">
+                                    <TextBlock x:Name="ntName22" Style="{DynamicResource nt_ItemHeader}" />
+                                    <TextBlock x:Name="ntCreate22" Style="{DynamicResource nt_ItemDate}" />
+                                </StackPanel>
+                            </Border>
+                            <Border Width="24" Height="24" Margin="0 0 10 0">
+                                <Button x:Name="ntBtnGo22" Style="{DynamicResource nt_ItemOpenIcon}" Tag="ArrowRight" Click="gotoNotes_Click" />
+                            </Border>
+                            <Border Width="24" Height="24" Margin="0 0 7 0">
+                                <Button x:Name="ntBtnDel22" Style="{DynamicResource nt_ItemOpenIcon}" Tag="Trash" Click="deleteNotes_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
                 </Border>
 
-                <Border Grid.Column="2" Grid.Row="5" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="nt23">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <Border Width="10" Background="{Binding NoteLocation}" CornerRadius="5 0 0 5" />
-                                        <Border Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0 0 0 0">
-                                            <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                <TextBlock Text="{Binding NoteHeader}" FontSize="12" Style="{DynamicResource nt_ItemHeader}" />
-                                                <TextBlock Text="{Binding Created}" Style="{DynamicResource nt_ItemDate}" />
-                                            </StackPanel>
-                                        </Border>
-                                        <Border Width="24" Height="24" Margin="0 0 10 0">
-                                            <Button Style="{DynamicResource nt_ItemOpenIcon}" Uid="{Binding NotesId}" Content="{Binding NoteHeader}" Tag="ArrowRight" Click="gotoNotes_Click" />
-                                        </Border>
-                                        <Border Width="24" Height="24" Margin="0 0 7 0">
-                                            <Button Style="{DynamicResource nt_ItemOpenIcon}" Uid="{Binding NotesId}" Tag="Trash" Click="deleteNotes_Click" />
-                                        </Border>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                <Border x:Name="nt23" Grid.Column="2" Grid.Row="5" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border x:Name="ntColor23" Width="10"  CornerRadius="5 0 0 5" />
+                            <Border Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0 0 0 0">
+                                <StackPanel Orientation="Vertical" Margin="10 0 10 0">
+                                    <TextBlock x:Name="ntName23" Style="{DynamicResource nt_ItemHeader}" />
+                                    <TextBlock x:Name="ntCreate23" Style="{DynamicResource nt_ItemDate}" />
+                                </StackPanel>
+                            </Border>
+                            <Border Width="24" Height="24" Margin="0 0 10 0">
+                                <Button x:Name="ntBtnGo23" Style="{DynamicResource nt_ItemOpenIcon}" Tag="ArrowRight" Click="gotoNotes_Click" />
+                            </Border>
+                            <Border Width="24" Height="24" Margin="0 0 7 0">
+                                <Button x:Name="ntBtnDel23" Style="{DynamicResource nt_ItemOpenIcon}" Tag="Trash" Click="deleteNotes_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
                 </Border>
 
-                <Border Grid.Column="3" Grid.Row="5" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="nt24">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <Border Width="10" Background="{Binding NoteLocation}" CornerRadius="5 0 0 5" />
-                                        <Border Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0 0 0 0">
-                                            <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                <TextBlock Text="{Binding NoteHeader}" FontSize="12" Style="{DynamicResource nt_ItemHeader}" />
-                                                <TextBlock Text="{Binding Created}" Style="{DynamicResource nt_ItemDate}" />
-                                            </StackPanel>
-                                        </Border>
-                                        <Border Width="24" Height="24" Margin="0 0 10 0">
-                                            <Button Style="{DynamicResource nt_ItemOpenIcon}" Uid="{Binding NotesId}" Content="{Binding NoteHeader}" Tag="ArrowRight" Click="gotoNotes_Click" />
-                                        </Border>
-                                        <Border Width="24" Height="24" Margin="0 0 7 0">
-                                            <Button Style="{DynamicResource nt_ItemOpenIcon}" Uid="{Binding NotesId}" Tag="Trash" Click="deleteNotes_Click" />
-                                        </Border>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                <Border x:Name="nt24" Grid.Column="3" Grid.Row="5" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border x:Name="ntColor24" Width="10"  CornerRadius="5 0 0 5" />
+                            <Border Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0 0 0 0">
+                                <StackPanel Orientation="Vertical" Margin="10 0 10 0">
+                                    <TextBlock x:Name="ntName24" Style="{DynamicResource nt_ItemHeader}" />
+                                    <TextBlock x:Name="ntCreate24" Style="{DynamicResource nt_ItemDate}" />
+                                </StackPanel>
+                            </Border>
+                            <Border Width="24" Height="24" Margin="0 0 10 0">
+                                <Button x:Name="ntBtnGo24" Style="{DynamicResource nt_ItemOpenIcon}" Tag="ArrowRight" Click="gotoNotes_Click" />
+                            </Border>
+                            <Border Width="24" Height="24" Margin="0 0 7 0">
+                                <Button x:Name="ntBtnDel24" Style="{DynamicResource nt_ItemOpenIcon}" Tag="Trash" Click="deleteNotes_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
                 </Border>
             </Grid>
         </StackPanel>
 
-        <StackPanel Grid.Row="1" Grid.ColumnSpan="2" x:Name="stackBorder" Visibility="Visible" Style="{DynamicResource aniEffectFadeStack}">
+        <StackPanel Grid.Row="1" Grid.ColumnSpan="2" x:Name="stackBorder" Visibility="Hidden" Style="{DynamicResource aniEffectFadeStack}">
 
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -898,139 +753,110 @@
                     <RowDefinition Height="124" />
                 </Grid.RowDefinitions>
 
-                <Border Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="nts1">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <Border Width="15" Background="{Binding Bg}" CornerRadius="5 0 0 5" />
-                                        <Border Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                            <StackPanel Orientation="Horizontal">
-                                                <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                    <TextBlock Text="{Binding NoteLocation}" FontSize="12" Style="{DynamicResource nt_StackHeader}" />
-                                                </StackPanel>
-                                            </StackPanel>
-                                        </Border>
-                                        <Border Width="24" Height="24" Margin="0 0 7 0">
-                                            <Button Style="{DynamicResource nt_viewStackBtn}" Content="{Binding Count}" Uid="{Binding Fr}" Tag="{Binding Bg}" />
-                                        </Border>
-                                        <Border Width="24" Height="24" Margin="0 0 10 0">
-                                            <Button Style="{DynamicResource nt_ItemOpenIcon}" Content="{Binding NoteLocation}" Tag="ArrowRight" Click="filter_Click" />
-                                        </Border>
+                <Border Grid.Column="0" Grid.Row="0"  UseLayoutRounding="True" SnapsToDevicePixels="True">
+
+                    <Border Width="320" Height="60" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal" UseLayoutRounding="True" SnapsToDevicePixels="True">
+                            <Border Width="15" CornerRadius="5 0 0 5" Background="#FD7E14" />
+                            <Border Width="230" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                <StackPanel Orientation="Horizontal">
+                                    <StackPanel Orientation="Vertical" Margin="5 0 10 0">
+                                        <TextBlock Text="Konu Notları"  FontSize="14" Style="{DynamicResource nt_StackHeader}" />
                                     </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                                </StackPanel>
+                            </Border>
+                            <Border Width="36" Height="36" Margin="0 0 7 0">
+                                <Button x:Name="subStat"  Style="{DynamicResource nt_viewStackBtn}" Content="0" Tag="#FD7E14" Uid="#FFF" />
+                            </Border>
+                            <Border Width="24" Height="24" Margin="0 0 10 0">
+                                <Button Content="Konularım" Style="{DynamicResource nt_ItemOpenIcon}"  Tag="ArrowRight" Click="filter_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
                 </Border>
 
-                <Border Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="nts2">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <Border Width="15" Background="{Binding Bg}" CornerRadius="5 0 0 5" />
-                                        <Border Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                            <StackPanel Orientation="Horizontal">
-                                                <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                    <TextBlock Text="{Binding NoteLocation}" FontSize="12" Style="{DynamicResource nt_StackHeader}" />
-                                                </StackPanel>
-                                            </StackPanel>
-                                        </Border>
-                                        <Border Width="24" Height="24" Margin="0 0 7 0">
-                                            <Button Style="{DynamicResource nt_viewStackBtn}" Content="{Binding Count}" Uid="{Binding Fr}" Tag="{Binding Bg}" />
-                                        </Border>
-                                        <Border Width="24" Height="24" Margin="0 0 10 0">
-                                            <Button Style="{DynamicResource nt_ItemOpenIcon}" Content="{Binding NoteLocation}" Tag="ArrowRight" Click="filter_Click" />
-                                        </Border>
+                <Border Grid.Column="1" Grid.Row="0"  UseLayoutRounding="True" SnapsToDevicePixels="True">
+                    <Border Width="320" Height="60" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border  Width="15" CornerRadius="5 0 0 5" Background="#E33FA1" />
+                            <Border Width="230" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                <StackPanel Orientation="Horizontal">
+                                    <StackPanel Orientation="Vertical" Margin="5 0 10 0">
+                                        <TextBlock Text="Kütüphane Notları"  FontSize="14" Style="{DynamicResource nt_StackHeader}" />
                                     </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                                </StackPanel>
+                            </Border>
+                            <Border Width="36" Height="36" Margin="0 0 7 0">
+                                <Button x:Name="libStat"  Style="{DynamicResource nt_viewStackBtn}" Content="0" Tag="#E33FA1" Uid="#FFF" />
+                            </Border>
+                            <Border Width="24" Height="24" Margin="0 0 10 0">
+                                <Button Content="Kütüphane" Style="{DynamicResource nt_ItemOpenIcon}"  Tag="ArrowRight" Click="filter_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
                 </Border>
 
-                <Border Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="nts3">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <Border Width="15" Background="{Binding Bg}" CornerRadius="5 0 0 5" />
-                                        <Border Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                            <StackPanel Orientation="Horizontal">
-                                                <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                    <TextBlock Text="{Binding NoteLocation}" FontSize="12" Style="{DynamicResource nt_StackHeader}" />
-                                                </StackPanel>
-                                            </StackPanel>
-                                        </Border>
-                                        <Border Width="24" Height="24" Margin="0 0 7 0">
-                                            <Button Style="{DynamicResource nt_viewStackBtn}" Content="{Binding Count}" Uid="{Binding Fr}" Tag="{Binding Bg}" />
-                                        </Border>
-                                        <Border Width="24" Height="24" Margin="0 0 10 0">
-                                            <Button Style="{DynamicResource nt_ItemOpenIcon}" Content="{Binding NoteLocation}" Tag="ArrowRight" Click="filter_Click" />
-                                        </Border>
+                <Border Grid.Column="0" Grid.Row="1"  UseLayoutRounding="True" SnapsToDevicePixels="True">
+                    <Border Width="320" Height="60" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border Width="15" CornerRadius="5 0 0 5" Background="#0DCAF0" />
+                            <Border Width="230" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                <StackPanel Orientation="Horizontal">
+                                    <StackPanel Orientation="Vertical" Margin="5 0 10 0">
+                                        <TextBlock Text="Ayet Notları"  FontSize="14" Style="{DynamicResource nt_StackHeader}" />
                                     </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                                </StackPanel>
+                            </Border>
+                            <Border Width="36" Height="36" Margin="0 0 7 0">
+                                <Button x:Name="verseStat"  Style="{DynamicResource nt_viewStackBtn}" Content="0" Tag="#0DCAF0" Uid="#FFF" />
+                            </Border>
+                            <Border Width="24" Height="24" Margin="0 0 10 0">
+                                <Button Content="Ayet" Style="{DynamicResource nt_ItemOpenIcon}"  Tag="ArrowRight" Click="filter_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
                 </Border>
 
-                <Border Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="nts4">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <Border Width="15" Background="{Binding Bg}" CornerRadius="5 0 0 5" />
-                                        <Border Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                            <StackPanel Orientation="Horizontal">
-                                                <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                    <TextBlock Text="{Binding NoteLocation}" FontSize="12" Style="{DynamicResource nt_StackHeader}" />
-                                                </StackPanel>
-                                            </StackPanel>
-                                        </Border>
-                                        <Border Width="24" Height="24" Margin="0 0 7 0">
-                                            <Button Style="{DynamicResource nt_viewStackBtn}" Content="{Binding Count}" Uid="{Binding Fr}" Tag="{Binding Bg}" />
-                                        </Border>
-                                        <Border Width="24" Height="24" Margin="0 0 10 0">
-                                            <Button Style="{DynamicResource nt_ItemOpenIcon}" Content="{Binding NoteLocation}" Tag="ArrowRight" Click="filter_Click" />
-                                        </Border>
+                <Border Grid.Column="1" Grid.Row="1" UseLayoutRounding="True" SnapsToDevicePixels="True">
+                    <Border Width="320" Height="60" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border Width="15" CornerRadius="5 0 0 5" Background="#B30B00" />
+                            <Border Width="230" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                <StackPanel Orientation="Horizontal">
+                                    <StackPanel Orientation="Vertical" Margin="5 0 10 0">
+                                        <TextBlock Text="Pdf Notları" FontSize="14" Style="{DynamicResource nt_StackHeader}" />
                                     </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                                </StackPanel>
+                            </Border>
+                            <Border Width="36" Height="36" Margin="0 0 7 0">
+                                <Button x:Name="pdfStat"  Style="{DynamicResource nt_viewStackBtn}" Content="0" Tag="#B30B00" Uid="#FFF" />
+                            </Border>
+                            <Border Width="24" Height="24" Margin="0 0 10 0">
+                                <Button Content="PDF" Style="{DynamicResource nt_ItemOpenIcon}"  Tag="ArrowRight" Click="filter_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
                 </Border>
 
-                <Border Grid.Column="0" Grid.Row="2" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="nts5">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <Border Width="15" Background="{Binding Bg}" CornerRadius="5 0 0 5" />
-                                        <Border Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                            <StackPanel Orientation="Horizontal">
-                                                <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                    <TextBlock Text="{Binding NoteLocation}" FontSize="12" Style="{DynamicResource nt_StackHeader}" />
-                                                </StackPanel>
-                                            </StackPanel>
-                                        </Border>
-                                        <Border Width="24" Height="24" Margin="0 0 7 0">
-                                            <Button Style="{DynamicResource nt_viewStackBtn}" Content="{Binding Count}" Uid="{Binding Fr}" Tag="{Binding Bg}" />
-                                        </Border>
-                                        <Border Width="24" Height="24" Margin="0 0 10 0">
-                                            <Button Style="{DynamicResource nt_ItemOpenIcon}" Content="{Binding NoteLocation}" Tag="ArrowRight" Click="filter_Click" />
-                                        </Border>
+                <Border Grid.Column="0" Grid.Row="2" UseLayoutRounding="True" SnapsToDevicePixels="True">
+                    <Border Width="320" Height="60" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border Width="15" CornerRadius="5 0 0 5" Background="#ADB5BD" />
+                            <Border Width="230" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                <StackPanel Orientation="Horizontal">
+                                    <StackPanel Orientation="Vertical" Margin="5 0 10 0">
+                                        <TextBlock Text="Kullanıcı Notları" FontSize="14" Style="{DynamicResource nt_StackHeader}" />
                                     </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                                </StackPanel>
+                            </Border>
+                            <Border Width="36" Height="36" Margin="0 0 7 0">
+                                <Button x:Name="userStat"  Style="{DynamicResource nt_viewStackBtn}" Content="0" Tag="#ADB5BD" Uid="#FFF" />
+                            </Border>
+                            <Border Width="24" Height="24" Margin="0 0 10 0">
+                                <Button Content="Kullanıcı" Style="{DynamicResource nt_ItemOpenIcon}"  Tag="ArrowRight" Click="filter_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
                 </Border>
             </Grid>
         </StackPanel>
@@ -1047,10 +873,6 @@
 
                 <StackPanel Style="{DynamicResource frameItemsOffsetNav}">
                     <Button x:Name="filterSubject" IsEnabled="False" Tag="#FD7E14" Content="Konularım" Style="{DynamicResource nt_pageColorControl}" Click="filter_Click" />
-                </StackPanel>
-
-                <StackPanel Style="{DynamicResource frameItemsOffsetNav}">
-                    <Button x:Name="filterLib" IsEnabled="False" Tag="#E33FA1" Content="Kütüphane" Style="{DynamicResource nt_pageColorControl}" Click="filter_Click" />
                 </StackPanel>
 
                 <StackPanel Style="{DynamicResource frameItemsOffsetNav}">

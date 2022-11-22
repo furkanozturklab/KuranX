@@ -1,0 +1,37 @@
+﻿<Window x:Class="KuranX.App.Core.Windows.AdminPanel"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:KuranX.App.Core.Windows"
+          xmlns:extension="clr-namespace:KuranX.App.Core.Classes"
+        mc:Ignorable="d"
+        Title="KuranX Admin Panel" Height="768" Width="1366" WindowStartupLocation="CenterScreen" Background="#FAFAFA" ResizeMode="NoResize" Loaded="Window_Loaded">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Button x:Name="wampConnectBtn" Content="Wamp" Style="{DynamicResource status_btn}" Tag="ServerConnection" extension:Extensions.DataStorage="wait" />
+            <Button x:Name="sqlConnectBtn" Content="Sql" Style="{DynamicResource status_btn}" Tag="ServerConnection" extension:Extensions.DataStorage="wait" />
+            <Button x:Name="logStatusBtn" Content="Log" Style="{DynamicResource status_btn2}" Tag="HddOutline" extension:Extensions.DataStorage="wait" />
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Grid.Column="0"  VerticalAlignment="Top" Margin="0 50 0 50">
+            <Button x:Name="btnWmpEdit" Tag="13" IsEnabled="false"  Content="Database İşlemleri" Style="{DynamicResource admin_Menubtn}" />
+            <Button x:Name="btnEditing" Tag="13" Content="Düzenleme İşlemleri" Style="{DynamicResource admin_Menubtn}" Click="btnEditing_Click" />
+            <Button x:Name="btnWmp" Tag="13" IsEnabled="false"  Content="Wamp DB Yenile" Style="{DynamicResource admin_Menubtn}" Click="btnwmp_Click" />
+        </StackPanel>
+
+        <StackPanel Grid.Column="1" Grid.Row="0" Grid.RowSpan="2">
+            <Frame x:Name="adminFrame" Width="1166" Height="752" Grid.IsSharedSizeScope="True" NavigationUIVisibility="Hidden" />
+        </StackPanel>
+    </Grid>
+</Window>

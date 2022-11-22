@@ -360,7 +360,11 @@
                                     <ComboBox Width="280" x:Name="selectedSubjectFolder"  Style="{DynamicResource pp_Combobox}" SelectedIndex="0" IsReadOnly="True" />
 
                                     <TextBlock Margin="0,5,0,0" VerticalAlignment="Center" HorizontalAlignment="Center" x:Name="popupaddsubjectError" Style="{DynamicResource pp_DefaultDynamicTextBlock}" />
-                                    <Button FontSize="12"  Width="180" x:Name="newSubjectFolder" Style="{DynamicResource pp_DefaultButtonBstrp}" Tag="Archive" Content="Yeni Konu Aç" HorizontalAlignment="Center" Click="newSubjectFolder_Click" />
+
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                        <Button FontSize="12"  Width="140" x:Name="newSubjectFolder" Style="{DynamicResource pp_DefaultButtonBstrp}" Tag="Archive" Content="Yeni Konu Aç" HorizontalAlignment="Center" Click="newSubjectFolder_Click" />
+                                        <Button FontSize="12" Visibility="Collapsed" Width="140" x:Name="searchSubjectFolder" Style="{DynamicResource pp_DefaultButtonBstrp}" Tag="Search" Content="Konu Ara" HorizontalAlignment="Center" Click="searchSubjectFolder_Click" />
+                                    </StackPanel>
                                 </StackPanel>
 
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="1">
@@ -758,7 +762,7 @@
                                     <Button x:Name="meaningOpenDetailTextBack" Style="{DynamicResource pp_DefaultButtonBstrp}" Tag="ArrowLeft" Content="Geri Dön" HorizontalAlignment="Center" Click="meaningOpenDetailTextBack_Click" />
                                     <Button x:Name="meaningOpenDetailEdit" Style="{DynamicResource pp_DefaultButtonBstrp}" Tag="InputCursorText" Content="Yazıyı Düzenle" HorizontalAlignment="Center" Click="editMeaningButton_Click" />
                                     <Button x:Name="meaningOpenDetailDelete" Style="{DynamicResource pp_DefaultButtonBstrp}" Tag="Trash" Content="Bağlantıyı Kaldır" HorizontalAlignment="Center" Click="deleteMeaningButton_Click" />
-                                    <Button x:Name="meaningOpenSureSticky" Style="{DynamicResource pp_DefaultButtonGo}" Tag="ArrowRight" Content="Sureye Git" Uid="popup_meainingConnectDetailText" HorizontalAlignment="Center" Click="meaningOpenSure_Click" />
+                                    <Button x:Name="meaningOpenSureSticky" Style="{DynamicResource pp_DefaultButtonGo}" Tag="ArrowRight" Content="Ayete Git" Uid="popup_meainingConnectDetailText" HorizontalAlignment="Center" Click="meaningOpenSure_Click" />
                                 </StackPanel>
                             </Grid>
                         </Grid>
@@ -1255,7 +1259,7 @@
                                     </StackPanel>
                                 </ScrollViewer>
 
-                                <Button Grid.Column="1" Grid.Row="4" Style="{DynamicResource pp_DefaultButtonClosed}" Content="Kapat" Tag="CloseBig" Uid="popup_Words" Click="popupClosed_Click" />
+                                <Button Grid.Column="2" Grid.Row="4" Style="{DynamicResource pp_DefaultButtonClosed}" Content="Kapat" Tag="CloseBig" Uid="popup_Words" Click="popupClosed_Click" />
                             </Grid>
                         </Grid>
                     </Grid>
@@ -1268,14 +1272,10 @@
 
             <!-- Header  -->
 
-            <Border x:Name="loadHeaderGif" Grid.Row="0"  Background="#FFF"  Height="80" Panel.ZIndex="5" CornerRadius="5" Visibility="Visible" Margin="25,0,25,0">
-                <Image gif:ImageBehavior.AnimatedSource="/Resource/Images/Gif/NavSpin500.gif" Width="80"  RenderOptions.BitmapScalingMode="HighQuality" Margin="395,0,395,0" />
-            </Border>
-
             <StackPanel Orientation="Vertical" VerticalAlignment="Center" Grid.Row="0">
 
-                <Border x:Name="headerBorder" Style="{DynamicResource vrs_HeaderBorder}" Visibility="Hidden">
-                    <Grid>
+                <Border  Style="{DynamicResource vrs_HeaderBorder}">
+                    <Grid x:Name="headerBorder" Style="{DynamicResource aniEffectFadeGrid}"  Visibility="Hidden">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="180" />
                             <ColumnDefinition Width="*" />
@@ -1325,7 +1325,7 @@
                                     <ColumnDefinition Width="54" />
                                     <ColumnDefinition Width="54" />
                                 </Grid.ColumnDefinitions>
-                                <Button x:Name="showDescPopup" Visibility="Hidden" Style="{DynamicResource vrs_TabActionButtonInfo}" Grid.Column="0" Tag="CommentAltExclamation" Content="Açıklama Metni" />
+                                <Button x:Name="feedbackButton" HorizontalAlignment="Right" Style="{DynamicResource vrs_TabActionButtonInfo}" Grid.Column="0" Tag="EnvelopeUpload" ToolTip="Geri Bildirimde Bulun" Content="Düşünceleriniz Paylaşın" Click="feedbackButton_Click" />
                                 <Button x:Name="resetBtnSure" ToolTip="İlerlemeyi Sıfırla" Style="{DynamicResource vrs_TabActionButtonReset}" Grid.Column="1" Tag="RefreshMD" Click="resetBtnSure_Click" />
                             </Grid>
                         </StackPanel>
@@ -1336,54 +1336,15 @@
 
             <!-- Top Control  -->
 
-            <Border x:Name="loadControlGif" Grid.Row="1" Background="Transparent"  Height="50" Panel.ZIndex="5" CornerRadius="5" Visibility="Visible">
-
-                <Border VerticalAlignment="Center"  SnapsToDevicePixels="True" UseLayoutRounding="True" Padding="5 0 5 0">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="162" />
-                            <ColumnDefinition Width="162" />
-                            <ColumnDefinition Width="162" />
-                            <ColumnDefinition Width="162" />
-                            <ColumnDefinition Width="162" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-
-                        <Border Grid.Column="0" Height="30" Background="#FFF" Margin="10 0 10 0" CornerRadius="5">
-                            <Image gif:ImageBehavior.AnimatedSource="/Resource/Images/Gif/NavSpin500.gif" Width="50"  RenderOptions.BitmapScalingMode="HighQuality" />
-                        </Border>
-                        <Border Grid.Column="1" Height="30" Background="#FFF" Margin="10 0 10 0" CornerRadius="5">
-                            <Image gif:ImageBehavior.AnimatedSource="/Resource/Images/Gif/NavSpin500.gif" Width="50"  RenderOptions.BitmapScalingMode="HighQuality" />
-                        </Border>
-
-                        <Border Grid.Column="2" Height="30" Background="#FFF" Margin="10 0 10 0" CornerRadius="5">
-                            <Image gif:ImageBehavior.AnimatedSource="/Resource/Images/Gif/NavSpin500.gif" Width="50"  RenderOptions.BitmapScalingMode="HighQuality" />
-                        </Border>
-
-                        <Border Grid.Column="3" Height="30" Background="#FFF" Margin="10 0 10 0" CornerRadius="5">
-                            <Image gif:ImageBehavior.AnimatedSource="/Resource/Images/Gif/NavSpin500.gif" Width="50"  RenderOptions.BitmapScalingMode="HighQuality" />
-                        </Border>
-
-                        <Border Grid.Column="4" Height="30" Background="#FFF" Margin="10 0 10 0" CornerRadius="5">
-                            <Image gif:ImageBehavior.AnimatedSource="/Resource/Images/Gif/NavSpin500.gif" Width="50"  RenderOptions.BitmapScalingMode="HighQuality" />
-                        </Border>
-
-                        <Border Grid.Column="5" Height="30" Background="#FFF" Margin="10 0 10 0" CornerRadius="5">
-                            <Image gif:ImageBehavior.AnimatedSource="/Resource/Images/Gif/NavSpin500.gif" Width="50"  RenderOptions.BitmapScalingMode="HighQuality" />
-                        </Border>
-                    </Grid>
-                </Border>
-            </Border>
-
             <StackPanel x:Name="controlPanel" Grid.Row="1" VerticalAlignment="Center" SnapsToDevicePixels="True" UseLayoutRounding="True" Style="{DynamicResource aniEffectFadeStack}">
                 <Border VerticalAlignment="Center"  SnapsToDevicePixels="True" UseLayoutRounding="True" Padding="5 0 5 0">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="162" />
-                            <ColumnDefinition Width="162" />
-                            <ColumnDefinition Width="162" />
-                            <ColumnDefinition Width="162" />
-                            <ColumnDefinition Width="162" />
+                            <ColumnDefinition Width="200" />
+                            <ColumnDefinition Width="200" />
+                            <ColumnDefinition Width="200" />
+                            <ColumnDefinition Width="200" />
+
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
 
@@ -1391,18 +1352,13 @@
                         <CheckBox x:Name="bellButton" ToolTip="Yeni Hatırlatıcı Oluştur Veya Düzenle" Grid.Column="1" Content="Hatırlatıcı" Tag="Bell" Style="{DynamicResource vrs_ActionMainTabButtonBell}" Click="bellButton_Click" />
                         <Button   x:Name="noteButton" ToolTip="Not Al Veya Oku" Grid.Column="2" Content="Not Al" Tag="JournalBookmarkFill" Style="{DynamicResource vrs_ActionMainTabButtonNote}" Click="noteButton_Click" />
                         <CheckBox x:Name="checkButton" ToolTip="Okudum Olarak İşaretle" Grid.Column="3" Content="Okudum" Tag="Check" Style="{DynamicResource vrs_ActionMainTabButtonCheck}" Click="checkButton_Click" />
-                        <Button   x:Name="descButton" ToolTip="Ayet Anlamını Göster" Grid.Column="4" Content="Kısa Tefsir" Tag="ClipboardNotes"  Style="{DynamicResource vrs_ActionMainTabButtonDesc}" Click="descButton_Click" />
-                        <Button   x:Name="feedbackButton" ToolTip="Geri Bildirimde Bulun" Grid.Column="5" Content="Düşünceleriniz Paylaşın" Tag="Send"  Style="{DynamicResource vrs_ActionMainTabButtonFeed}" Uid="{Binding VerseId}" Click="feedbackButton_Click" />
+                        <Button   x:Name="descButton" ToolTip="Ayet Anlamını Göster" Grid.Column="4" Content="Ayetler Arasındaki Konular" Tag="ClipboardNotes"  Style="{DynamicResource vrs_ActionMainTabButtonDesc}" Click="descButton_Click" />
                     </Grid>
                 </Border>
             </StackPanel>
             <!-- Top Control  -->
 
             <!-- Main Container  -->
-
-            <Border x:Name="loadContentGif"  Grid.Row="2" CornerRadius="5"  Background="#FFFFFF" Panel.ZIndex="6"  Visibility="Visible" Margin="25,5,25,5">
-                <Image gif:ImageBehavior.AnimatedSource="/Resource/Images/Gif/Spinner800.gif" Width="200" Height="200"  RenderOptions.BitmapScalingMode="HighQuality" />
-            </Border>
 
             <StackPanel Grid.Row="2" VerticalAlignment="Center" Margin="0 5 0 5">
 
@@ -1459,49 +1415,9 @@
                                     <TextBlock Text="Yorumlayan" FontFamily="{DynamicResource PoppinsMedium}" FontSize="14" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" />
                                     <ComboBox x:Name="interpreterWriterCombo"  Style="{DynamicResource sr_NavCombobox}" SelectedIndex="0" Margin="10,0,0,0" SelectionChanged="interpreterWriterCombo_SelectionChanged">
                                         <ComboBoxItem  Content="Yorumcuyu Seçin" Uid="0" />
-                                        <ComboBoxItem  Content="Mehmet Okuyan" Uid="1" />
-                                        <ComboBoxItem  Content="Abdulbaki Gölpınarlı" Uid="2" />
-                                        <ComboBoxItem  Content="Abdullah Parlıyan" Uid="3" />
-                                        <ComboBoxItem  Content="Adem Uğur" Uid="3" />
-                                        <ComboBoxItem  Content="Ahmed Hulusi" />
-                                        <ComboBoxItem  Content="Ahmet Tekin" />
-                                        <ComboBoxItem  Content="Ahmet Varol" />
-                                        <ComboBoxItem  Content="Ali Bulaç" />
-                                        <ComboBoxItem  Content="Ali Fikri Yavuz" />
-                                        <ComboBoxItem  Content="Ali Ünal" />
-                                        <ComboBoxItem  Content="Bayraktar Bayraklı" />
-                                        <ComboBoxItem  Content="Bekir Sadak" />
-                                        <ComboBoxItem  Content="Celal Yıldırım" />
-                                        <ComboBoxItem  Content="Cemal Külünkoğlu" />
-                                        <ComboBoxItem  Content="Diyanet İşleri (eski)" />
-                                        <ComboBoxItem  Content="Diyanet Vakfi" />
-                                        <ComboBoxItem  Content="Edip Yüksel" />
-                                        <ComboBoxItem  Content="Elmalılı Hamdi Yazır" />
-                                        <ComboBoxItem  Content="Erhan Aktaş" />
-                                        <ComboBoxItem  Content="Gültekin Onan" />
-                                        <ComboBoxItem  Content="Hakkı Yılmaz" />
-                                        <ComboBoxItem  Content="Harun Yıldırım" />
-                                        <ComboBoxItem  Content="Hasan Basri Çantay" />
-                                        <ComboBoxItem  Content="Hayrat Neşriyat" />
-                                        <ComboBoxItem  Content="İbni Kesir" />
-                                        <ComboBoxItem  Content="İskender Evrenosoğlu" />
-                                        <ComboBoxItem  Content="İstanbul Kuran Araştırmaları Grubu" />
-                                        <ComboBoxItem  Content="Kadri Çelik" />
-                                        <ComboBoxItem  Content="Mehmet Ali Eroğlu" />
-                                        <ComboBoxItem  Content="Muhammed Celal Şems" />
-                                        <ComboBoxItem  Content="Muhammed Esed" />
-                                        <ComboBoxItem  Content="Mustafa Çevik" />
-                                        <ComboBoxItem  Content="Mustafa İslamoğlu" />
-                                        <ComboBoxItem  Content="Ömer Nasuhi Bilmen" />
-                                        <ComboBoxItem  Content="Ömer Öngüt" />
-                                        <ComboBoxItem  Content="Şaban Piriş" />
-                                        <ComboBoxItem  Content="Sadık Türkmen" />
-                                        <ComboBoxItem  Content="Seyyid Kutub" />
-                                        <ComboBoxItem  Content="Suat Yıldırım" />
-                                        <ComboBoxItem  Content="Süleyman Ateş" />
-                                        <ComboBoxItem  Content="Tefhim-ul Kuran" />
-                                        <ComboBoxItem  Content="Ümit Şimşek" />
-                                        <ComboBoxItem  Content="Yaşar Nuri Öztürk" />
+                                        <ComboBoxItem  Content="Yorumcu 1 Tr" Uid="1" Tag="Yorumcu 1" />
+                                        <ComboBoxItem  Content="Yorumcu 2 Tr" Uid="2" Tag="Yorumcu 2" />
+                                        <ComboBoxItem  Content="Yorumcu 3 Eng" Uid="3" Tag="Yorumcu 3" />
                                     </ComboBox>
                                 </StackPanel>
 
@@ -1521,11 +1437,7 @@
 
             <!-- Verse Nav  -->
 
-            <Border x:Name="loadNavGif" Grid.Row="3"  Background="#FAFAFA"  Height="50" Panel.ZIndex="5" CornerRadius="5" Visibility="Visible">
-                <Image gif:ImageBehavior.AnimatedSource="/Resource/Images/Gif/NavSpin500.gif" Width="50"  RenderOptions.BitmapScalingMode="HighQuality" Margin="395,0,395,0" />
-            </Border>
-
-            <StackPanel Grid.Row="3"  x:Name="navstackPanel"  Orientation="Horizontal" HorizontalAlignment="Center" SnapsToDevicePixels="True" UseLayoutRounding="True" Style="{DynamicResource aniEffectFadeStack}">
+            <StackPanel Grid.Row="3"  Orientation="Horizontal" HorizontalAlignment="Center" UseLayoutRounding="True" SnapsToDevicePixels="True">
 
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -1535,15 +1447,15 @@
                     </Grid.ColumnDefinitions>
 
                     <Button Grid.Column="0" x:Name="NavUpdatePrevSingle" Style="{DynamicResource vrs_NavButton}" Tag="AngleLeft" Height="30" Click="NavUpdatePrevSingle_Click" />
-                    <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
-                        <CheckBox x:Name="vb1" extension:Extensions.DataStorage="" IsEnabled="false" Style="{DynamicResource vrs_NavButtonV}"  Click="activeVerseSelected_Click" />
-                        <CheckBox x:Name="vb2" extension:Extensions.DataStorage="" Style="{DynamicResource vrs_NavButtonV}" Click="activeVerseSelected_Click" />
-                        <CheckBox x:Name="vb3" extension:Extensions.DataStorage="" Style="{DynamicResource vrs_NavButtonV}" Click="activeVerseSelected_Click" />
-                        <CheckBox x:Name="vb4" extension:Extensions.DataStorage="" Style="{DynamicResource vrs_NavButtonV}" Click="activeVerseSelected_Click" />
-                        <CheckBox x:Name="vb5" extension:Extensions.DataStorage="" Style="{DynamicResource vrs_NavButtonV}" Click="activeVerseSelected_Click" />
-                        <CheckBox x:Name="vb6" extension:Extensions.DataStorage="" Style="{DynamicResource vrs_NavButtonV}" Click="activeVerseSelected_Click" />
-                        <CheckBox x:Name="vb7" extension:Extensions.DataStorage="" Style="{DynamicResource vrs_NavButtonV}" Click="activeVerseSelected_Click" />
-                        <CheckBox x:Name="vb8" extension:Extensions.DataStorage="" Style="{DynamicResource vrs_NavButtonV}" Click="activeVerseSelected_Click" />
+                    <StackPanel x:Name="navstackPanel" Style="{DynamicResource aniEffectFadeStack}" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <CheckBox x:Name="vb1" extension:Extensions.DataStorage="0" IsEnabled="false" Style="{DynamicResource vrs_NavButtonV}"  Click="activeVerseSelected_Click" />
+                        <CheckBox x:Name="vb2" extension:Extensions.DataStorage="0" Style="{DynamicResource vrs_NavButtonV}" Click="activeVerseSelected_Click" />
+                        <CheckBox x:Name="vb3" extension:Extensions.DataStorage="0" Style="{DynamicResource vrs_NavButtonV}" Click="activeVerseSelected_Click" />
+                        <CheckBox x:Name="vb4" extension:Extensions.DataStorage="0" Style="{DynamicResource vrs_NavButtonV}" Click="activeVerseSelected_Click" />
+                        <CheckBox x:Name="vb5" extension:Extensions.DataStorage="0" Style="{DynamicResource vrs_NavButtonV}" Click="activeVerseSelected_Click" />
+                        <CheckBox x:Name="vb6" extension:Extensions.DataStorage="0" Style="{DynamicResource vrs_NavButtonV}" Click="activeVerseSelected_Click" />
+                        <CheckBox x:Name="vb7" extension:Extensions.DataStorage="0" Style="{DynamicResource vrs_NavButtonV}" Click="activeVerseSelected_Click" />
+                        <CheckBox x:Name="vb8" extension:Extensions.DataStorage="0" Style="{DynamicResource vrs_NavButtonV}" Click="activeVerseSelected_Click" />
                     </StackPanel>
                     <Button Grid.Column="2" x:Name="NavUpdateNextSingle" Style="{DynamicResource vrs_NavButton}" Tag="AngleRight" Height="30" Click="NavUpdateNextSingle_Click" />
                 </Grid>
@@ -1553,13 +1465,21 @@
 
             <!-- Bottom Nav  -->
 
-            <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" SnapsToDevicePixels="True" UseLayoutRounding="True">
-                <Button x:Name="backVersesFrame" ToolTip="Geri Dönün" Style="{DynamicResource vrs_BottomItemsControlBtn}" Content="Geri Dön" Tag="ArrowLeft" Click="backVersesFrame_Click" />
-                <Button x:Name="openMeaningPopup" ToolTip="Yeni Anlam Bütünüğü Oluştur Yada Oku" Style="{DynamicResource vrs_BottomItemsControlBtn}" Content="Anlam Bütünlüğü &#x0a; Bağlantılı Ayetler" Tag="Link"  Click="openMeaningPopup_Click" />
-                <Button x:Name="openAddSubjectPopup" ToolTip="Konu Ekle Yada Oluştur" Style="{DynamicResource vrs_BottomItemsControlBtn}" Content="Bu Ayeti &#x0a; Konularıma Ekle" Tag="Plus" Click="openAddSubjectPopup_Click" />
-                <Button x:Name="openNextVersePopup" ToolTip="Sureye Git" Style="{DynamicResource vrs_BottomItemsControlBtn}" Content="Sure Ara" Tag="Search" />
-                <Button x:Name="openVerseNumberPopup" ToolTip="Hızlı Süre Git" Style="{DynamicResource vrs_BottomItemsControlBtnGo}" Content="Ayete Git" Tag="DiagonalArrowRightUp" Click="openVerseNumberPopup_Click" />
-            </StackPanel>
+            <Grid Grid.Row="4" Style="{DynamicResource aniEffectFadeGrid}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="183" />
+                    <ColumnDefinition Width="243" />
+                    <ColumnDefinition Width="243" />
+                    <ColumnDefinition Width="243" />
+                    <ColumnDefinition Width="183" />
+                </Grid.ColumnDefinitions>
+
+                <Button x:Name="backVersesFrame" Grid.Column="0" ToolTip="Geri Dönün" Style="{DynamicResource vrs_BottomItemsControlBtn}" Content="Geri Dön" Tag="ArrowLeft" Click="backVersesFrame_Click" />
+                <Button x:Name="openMeaningPopup"  Grid.Column="1" ToolTip="Yeni Anlam Bütünüğü Oluştur Yada Oku" Style="{DynamicResource vrs_BottomItemsControlBtn}" Content="Anlam &#x0a; Bütünlüğü  Bağlantısı" Tag="Link"  Click="openMeaningPopup_Click" />
+                <Button x:Name="openAddSubjectPopup"  Grid.Column="2" ToolTip="Konu Ekle Yada Oluştur" Style="{DynamicResource vrs_BottomItemsControlBtn}" Content="Ayeti &#x0a; Konularıma Ekle" Tag="Plus" Click="openAddSubjectPopup_Click" />
+                <Button x:Name="openNextVersePopup"  Grid.Column="3" ToolTip="Sureye Git" Style="{DynamicResource vrs_BottomItemsControlBtn}" Content="Sure Ara" Tag="Search" />
+                <Button x:Name="openVerseNumberPopup"  Grid.Column="4" ToolTip="Hızlı Süre Git" Style="{DynamicResource vrs_BottomItemsControlBtnGo}" Content="Ayete Git" Tag="DiagonalArrowRightUp" Click="openVerseNumberPopup_Click" />
+            </Grid>
 
             <!-- Bottom Nav  -->
         </Grid>

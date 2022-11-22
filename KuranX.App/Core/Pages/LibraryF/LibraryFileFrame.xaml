@@ -5,10 +5,9 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
       xmlns:local="clr-namespace:KuranX.App.Core.Pages"
-      xmlns:gif="http://wpfanimatedgif.codeplex.com"
       mc:Ignorable="d"
       d:DesignHeight="708" d:DesignWidth="1115" d:MaxHeight="708" d:MaxWidth="1270" d:MinWidth="1115"
-      Title="LibraryFileFrame" Background="#FAFAFA">
+      Title="LibraryFileFrame" Background="#FAFAFA" Loaded="Page_Loaded">
 
     <Grid>
 
@@ -140,7 +139,7 @@
 
         <!-- popup -->
 
-        <StackPanel  Grid.Row="0" x:Name="loadHeaderAni" VerticalAlignment="Center" UseLayoutRounding="True" SnapsToDevicePixels="True">
+        <StackPanel  Grid.Row="0" x:Name="loadHeaderAni" VerticalAlignment="Center" Style="{DynamicResource aniEffectFadeStack}">
             <Button x:Name="totalFileCount" Style="{DynamicResource lib_FileHeader}" Content="" Tag="Yüklediklerim" Uid="#212529" />
             <StackPanel Grid.Column="0" VerticalAlignment="Center" Margin="0 10 0 0">
                 <Border Style="{DynamicResource defaultTabSearchBorder}">
@@ -151,7 +150,7 @@
                 </Border>
             </StackPanel>
             <TextBlock x:Name="searchErrMsgTxt" Style="{DynamicResource defaultSearchErrorMsg}" TextAlignment="Center" />
-            <TextBlock Text="Yüklenen Dosyalar" FontFamily="{DynamicResource PoppinsMedium}" FontSize="22" Foreground="#1C1E2F" Padding="30 5 30 5" />
+            <TextBlock x:Name="loadText" Text="Yüklenen Dosyalar"  Style="{DynamicResource defaultLoadText}" />
         </StackPanel>
 
         <Border Grid.Row="1"  x:Name="loadDetailAni">
@@ -171,505 +170,425 @@
                     <RowDefinition Height="74" />
                 </Grid.RowDefinitions>
 
-                <ItemsControl x:Name="pdf1" Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                <Border x:Name="pdf1" Grid.Column="0" Grid.Row="0" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border Width="180" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
                                 <StackPanel Orientation="Horizontal">
-                                    <Border Width="180" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                        <StackPanel Orientation="Horizontal">
-                                            <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                <TextBlock Text="{Binding FileName}" FontSize="12" Style="{DynamicResource lib_fileFolderHeader}" />
-                                                <TextBlock Text="{Binding Created}" Style="{DynamicResource lib_fileFolderDate}" />
-                                            </StackPanel>
-                                        </StackPanel>
-                                    </Border>
-                                    <Border Width="24" Height="24" Margin="0 0 10 0">
-                                        <Button Style="{DynamicResource lib_fileItemOpenIcon}" Uid="{Binding PdfFileId}" Content="{Binding FileName}" Tag="GoToFile" Click="gotofilepdf_Click" />
-                                    </Border>
-                                    <Border Width="24" Height="24" Margin="0 0 7 0">
-                                        <Button Style="{DynamicResource lib_fileItemOpenIcon}" Uid="{Binding PdfFileId}" Tag="Trash" Click="deletepdffile_Click" />
-                                    </Border>
+                                    <StackPanel Orientation="Vertical" Margin="10 0 10 0">
+                                        <TextBlock x:Name="pdfName1" Text="" FontSize="12" Style="{DynamicResource lib_fileFolderHeader}" />
+                                        <TextBlock x:Name="pdfCreate1" Text="" Style="{DynamicResource lib_fileFolderDate}" />
+                                    </StackPanel>
                                 </StackPanel>
                             </Border>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                            <Border Width="24" Height="24" Margin="0 0 10 0">
+                                <Button x:Name="pdfGo1" Style="{DynamicResource lib_fileItemOpenIcon}" Tag="GoToFile" Click="gotofilepdf_Click" />
+                            </Border>
+                            <Border Width="24" Height="24" Margin="0 0 7 0">
+                                <Button x:Name="pdfDel1" Style="{DynamicResource lib_fileItemOpenIcon}" Tag="Trash" Click="deletepdffile_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
+                </Border>
 
-                <ItemsControl x:Name="pdf2" Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                <Border x:Name="pdf2" Grid.Column="1" Grid.Row="0" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border Width="180" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
                                 <StackPanel Orientation="Horizontal">
-                                    <Border Width="180" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                        <StackPanel Orientation="Horizontal">
-                                            <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                <TextBlock Text="{Binding FileName}" FontSize="12" Style="{DynamicResource lib_fileFolderHeader}" />
-                                                <TextBlock Text="{Binding Created}" Style="{DynamicResource lib_fileFolderDate}" />
-                                            </StackPanel>
-                                        </StackPanel>
-                                    </Border>
-                                    <Border Width="24" Height="24" Margin="0 0 10 0">
-                                        <Button Style="{DynamicResource lib_fileItemOpenIcon}" Uid="{Binding PdfFileId}" Content="{Binding FileName}" Tag="GoToFile" Click="gotofilepdf_Click" />
-                                    </Border>
-                                    <Border Width="24" Height="24" Margin="0 0 7 0">
-                                        <Button Style="{DynamicResource lib_fileItemOpenIcon}" Uid="{Binding PdfFileId}" Tag="Trash" Click="deletepdffile_Click" />
-                                    </Border>
+                                    <StackPanel Orientation="Vertical" Margin="10 0 10 0">
+                                        <TextBlock x:Name="pdfName2" Text="" FontSize="12" Style="{DynamicResource lib_fileFolderHeader}" />
+                                        <TextBlock x:Name="pdfCreate2" Text="" Style="{DynamicResource lib_fileFolderDate}" />
+                                    </StackPanel>
                                 </StackPanel>
                             </Border>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                            <Border Width="24" Height="24" Margin="0 0 10 0">
+                                <Button x:Name="pdfGo2" Style="{DynamicResource lib_fileItemOpenIcon}" Tag="GoToFile" Click="gotofilepdf_Click" />
+                            </Border>
+                            <Border Width="24" Height="24" Margin="0 0 7 0">
+                                <Button x:Name="pdfDel2" Style="{DynamicResource lib_fileItemOpenIcon}" Tag="Trash" Click="deletepdffile_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
+                </Border>
 
-                <ItemsControl x:Name="pdf3" Grid.Column="2" Grid.Row="0" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                <Border x:Name="pdf3" Grid.Column="2" Grid.Row="0" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border Width="180" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
                                 <StackPanel Orientation="Horizontal">
-                                    <Border Width="180" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                        <StackPanel Orientation="Horizontal">
-                                            <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                <TextBlock Text="{Binding FileName}" FontSize="12" Style="{DynamicResource lib_fileFolderHeader}" />
-                                                <TextBlock Text="{Binding Created}" Style="{DynamicResource lib_fileFolderDate}" />
-                                            </StackPanel>
-                                        </StackPanel>
-                                    </Border>
-                                    <Border Width="24" Height="24" Margin="0 0 10 0">
-                                        <Button Style="{DynamicResource lib_fileItemOpenIcon}" Uid="{Binding PdfFileId}" Content="{Binding FileName}" Tag="GoToFile" Click="gotofilepdf_Click" />
-                                    </Border>
-                                    <Border Width="24" Height="24" Margin="0 0 7 0">
-                                        <Button Style="{DynamicResource lib_fileItemOpenIcon}" Uid="{Binding PdfFileId}" Tag="Trash" Click="deletepdffile_Click" />
-                                    </Border>
+                                    <StackPanel Orientation="Vertical" Margin="10 0 10 0">
+                                        <TextBlock x:Name="pdfName3" Text="" FontSize="12" Style="{DynamicResource lib_fileFolderHeader}" />
+                                        <TextBlock x:Name="pdfCreate3" Text="" Style="{DynamicResource lib_fileFolderDate}" />
+                                    </StackPanel>
                                 </StackPanel>
                             </Border>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                            <Border Width="24" Height="24" Margin="0 0 10 0">
+                                <Button x:Name="pdfGo3" Style="{DynamicResource lib_fileItemOpenIcon}" Tag="GoToFile" Click="gotofilepdf_Click" />
+                            </Border>
+                            <Border Width="24" Height="24" Margin="0 0 7 0">
+                                <Button x:Name="pdfDel3" Style="{DynamicResource lib_fileItemOpenIcon}" Tag="Trash" Click="deletepdffile_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
+                </Border>
 
-                <ItemsControl x:Name="pdf4" Grid.Column="3" Grid.Row="0" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                <Border x:Name="pdf4" Grid.Column="3" Grid.Row="0" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border Width="180" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
                                 <StackPanel Orientation="Horizontal">
-                                    <Border Width="180" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                        <StackPanel Orientation="Horizontal">
-                                            <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                <TextBlock Text="{Binding FileName}" FontSize="12" Style="{DynamicResource lib_fileFolderHeader}" />
-                                                <TextBlock Text="{Binding Created}" Style="{DynamicResource lib_fileFolderDate}" />
-                                            </StackPanel>
-                                        </StackPanel>
-                                    </Border>
-                                    <Border Width="24" Height="24" Margin="0 0 10 0">
-                                        <Button Style="{DynamicResource lib_fileItemOpenIcon}" Uid="{Binding PdfFileId}" Content="{Binding FileName}" Tag="GoToFile" Click="gotofilepdf_Click" />
-                                    </Border>
-                                    <Border Width="24" Height="24" Margin="0 0 7 0">
-                                        <Button Style="{DynamicResource lib_fileItemOpenIcon}" Uid="{Binding PdfFileId}" Tag="Trash" Click="deletepdffile_Click" />
-                                    </Border>
+                                    <StackPanel Orientation="Vertical" Margin="10 0 10 0">
+                                        <TextBlock x:Name="pdfName4" Text="" FontSize="12" Style="{DynamicResource lib_fileFolderHeader}" />
+                                        <TextBlock x:Name="pdfCreate4" Text="" Style="{DynamicResource lib_fileFolderDate}" />
+                                    </StackPanel>
                                 </StackPanel>
                             </Border>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                            <Border Width="24" Height="24" Margin="0 0 10 0">
+                                <Button x:Name="pdfGo4" Style="{DynamicResource lib_fileItemOpenIcon}" Tag="GoToFile" Click="gotofilepdf_Click" />
+                            </Border>
+                            <Border Width="24" Height="24" Margin="0 0 7 0">
+                                <Button x:Name="pdfDel4" Style="{DynamicResource lib_fileItemOpenIcon}" Tag="Trash" Click="deletepdffile_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
+                </Border>
 
-                <ItemsControl x:Name="pdf5" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                <Border x:Name="pdf5" Grid.Column="0" Grid.Row="1" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border Width="180" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
                                 <StackPanel Orientation="Horizontal">
-                                    <Border Width="180" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                        <StackPanel Orientation="Horizontal">
-                                            <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                <TextBlock Text="{Binding FileName}" FontSize="12" Style="{DynamicResource lib_fileFolderHeader}" />
-                                                <TextBlock Text="{Binding Created}" Style="{DynamicResource lib_fileFolderDate}" />
-                                            </StackPanel>
-                                        </StackPanel>
-                                    </Border>
-                                    <Border Width="24" Height="24" Margin="0 0 10 0">
-                                        <Button Style="{DynamicResource lib_fileItemOpenIcon}" Uid="{Binding PdfFileId}" Content="{Binding FileName}" Tag="GoToFile" Click="gotofilepdf_Click" />
-                                    </Border>
-                                    <Border Width="24" Height="24" Margin="0 0 7 0">
-                                        <Button Style="{DynamicResource lib_fileItemOpenIcon}" Uid="{Binding PdfFileId}" Tag="Trash" Click="deletepdffile_Click" />
-                                    </Border>
+                                    <StackPanel Orientation="Vertical" Margin="10 0 10 0">
+                                        <TextBlock x:Name="pdfName5" Text="" FontSize="12" Style="{DynamicResource lib_fileFolderHeader}" />
+                                        <TextBlock x:Name="pdfCreate5" Text="" Style="{DynamicResource lib_fileFolderDate}" />
+                                    </StackPanel>
                                 </StackPanel>
                             </Border>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                            <Border Width="24" Height="24" Margin="0 0 10 0">
+                                <Button x:Name="pdfGo5" Style="{DynamicResource lib_fileItemOpenIcon}" Tag="GoToFile" Click="gotofilepdf_Click" />
+                            </Border>
+                            <Border Width="24" Height="24" Margin="0 0 7 0">
+                                <Button x:Name="pdfDel5" Style="{DynamicResource lib_fileItemOpenIcon}" Tag="Trash" Click="deletepdffile_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
+                </Border>
 
-                <ItemsControl x:Name="pdf6" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                <Border x:Name="pdf6" Grid.Column="1" Grid.Row="1" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border Width="180" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
                                 <StackPanel Orientation="Horizontal">
-                                    <Border Width="180" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                        <StackPanel Orientation="Horizontal">
-                                            <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                <TextBlock Text="{Binding FileName}" FontSize="12" Style="{DynamicResource lib_fileFolderHeader}" />
-                                                <TextBlock Text="{Binding Created}" Style="{DynamicResource lib_fileFolderDate}" />
-                                            </StackPanel>
-                                        </StackPanel>
-                                    </Border>
-                                    <Border Width="24" Height="24" Margin="0 0 10 0">
-                                        <Button Style="{DynamicResource lib_fileItemOpenIcon}" Uid="{Binding PdfFileId}" Content="{Binding FileName}" Tag="GoToFile" Click="gotofilepdf_Click" />
-                                    </Border>
-                                    <Border Width="24" Height="24" Margin="0 0 7 0">
-                                        <Button Style="{DynamicResource lib_fileItemOpenIcon}" Uid="{Binding PdfFileId}" Tag="Trash" Click="deletepdffile_Click" />
-                                    </Border>
+                                    <StackPanel Orientation="Vertical" Margin="10 0 10 0">
+                                        <TextBlock x:Name="pdfName6" Text="" FontSize="12" Style="{DynamicResource lib_fileFolderHeader}" />
+                                        <TextBlock x:Name="pdfCreate6" Text="" Style="{DynamicResource lib_fileFolderDate}" />
+                                    </StackPanel>
                                 </StackPanel>
                             </Border>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                            <Border Width="24" Height="24" Margin="0 0 10 0">
+                                <Button x:Name="pdfGo6" Style="{DynamicResource lib_fileItemOpenIcon}" Tag="GoToFile" Click="gotofilepdf_Click" />
+                            </Border>
+                            <Border Width="24" Height="24" Margin="0 0 7 0">
+                                <Button x:Name="pdfDel6" Style="{DynamicResource lib_fileItemOpenIcon}" Tag="Trash" Click="deletepdffile_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
+                </Border>
 
-                <ItemsControl x:Name="pdf7" Grid.Column="2" Grid.Row="1" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                <Border x:Name="pdf7" Grid.Column="2" Grid.Row="1" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border Width="180" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
                                 <StackPanel Orientation="Horizontal">
-                                    <Border Width="180" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                        <StackPanel Orientation="Horizontal">
-                                            <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                <TextBlock Text="{Binding FileName}" FontSize="12" Style="{DynamicResource lib_fileFolderHeader}" />
-                                                <TextBlock Text="{Binding Created}" Style="{DynamicResource lib_fileFolderDate}" />
-                                            </StackPanel>
-                                        </StackPanel>
-                                    </Border>
-                                    <Border Width="24" Height="24" Margin="0 0 10 0">
-                                        <Button Style="{DynamicResource lib_fileItemOpenIcon}" Uid="{Binding PdfFileId}" Content="{Binding FileName}" Tag="GoToFile" Click="gotofilepdf_Click" />
-                                    </Border>
-                                    <Border Width="24" Height="24" Margin="0 0 7 0">
-                                        <Button Style="{DynamicResource lib_fileItemOpenIcon}" Uid="{Binding PdfFileId}" Tag="Trash" Click="deletepdffile_Click" />
-                                    </Border>
+                                    <StackPanel Orientation="Vertical" Margin="10 0 10 0">
+                                        <TextBlock x:Name="pdfName7" Text="" FontSize="12" Style="{DynamicResource lib_fileFolderHeader}" />
+                                        <TextBlock x:Name="pdfCreate7" Text="" Style="{DynamicResource lib_fileFolderDate}" />
+                                    </StackPanel>
                                 </StackPanel>
                             </Border>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                            <Border Width="24" Height="24" Margin="0 0 10 0">
+                                <Button x:Name="pdfGo7" Style="{DynamicResource lib_fileItemOpenIcon}" Tag="GoToFile" Click="gotofilepdf_Click" />
+                            </Border>
+                            <Border Width="24" Height="24" Margin="0 0 7 0">
+                                <Button x:Name="pdfDel7" Style="{DynamicResource lib_fileItemOpenIcon}" Tag="Trash" Click="deletepdffile_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
+                </Border>
 
-                <ItemsControl x:Name="pdf8" Grid.Column="3" Grid.Row="1" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                <Border x:Name="pdf8" Grid.Column="3" Grid.Row="1" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border Width="180" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
                                 <StackPanel Orientation="Horizontal">
-                                    <Border Width="180" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                        <StackPanel Orientation="Horizontal">
-                                            <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                <TextBlock Text="{Binding FileName}" FontSize="12" Style="{DynamicResource lib_fileFolderHeader}" />
-                                                <TextBlock Text="{Binding Created}" Style="{DynamicResource lib_fileFolderDate}" />
-                                            </StackPanel>
-                                        </StackPanel>
-                                    </Border>
-                                    <Border Width="24" Height="24" Margin="0 0 10 0">
-                                        <Button Style="{DynamicResource lib_fileItemOpenIcon}" Uid="{Binding PdfFileId}" Content="{Binding FileName}" Tag="GoToFile" Click="gotofilepdf_Click" />
-                                    </Border>
-                                    <Border Width="24" Height="24" Margin="0 0 7 0">
-                                        <Button Style="{DynamicResource lib_fileItemOpenIcon}" Uid="{Binding PdfFileId}" Tag="Trash" Click="deletepdffile_Click" />
-                                    </Border>
+                                    <StackPanel Orientation="Vertical" Margin="10 0 10 0">
+                                        <TextBlock x:Name="pdfName8" Text="" FontSize="12" Style="{DynamicResource lib_fileFolderHeader}" />
+                                        <TextBlock x:Name="pdfCreate8" Text="" Style="{DynamicResource lib_fileFolderDate}" />
+                                    </StackPanel>
                                 </StackPanel>
                             </Border>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                            <Border Width="24" Height="24" Margin="0 0 10 0">
+                                <Button x:Name="pdfGo8" Style="{DynamicResource lib_fileItemOpenIcon}" Tag="GoToFile" Click="gotofilepdf_Click" />
+                            </Border>
+                            <Border Width="24" Height="24" Margin="0 0 7 0">
+                                <Button x:Name="pdfDel8" Style="{DynamicResource lib_fileItemOpenIcon}" Tag="Trash" Click="deletepdffile_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
+                </Border>
 
-                <ItemsControl x:Name="pdf9"  Grid.Column="0" Grid.Row="2" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                <Border x:Name="pdf9" Grid.Column="0" Grid.Row="2" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border Width="180" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
                                 <StackPanel Orientation="Horizontal">
-                                    <Border Width="180" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                        <StackPanel Orientation="Horizontal">
-                                            <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                <TextBlock Text="{Binding FileName}" FontSize="12" Style="{DynamicResource lib_fileFolderHeader}" />
-                                                <TextBlock Text="{Binding Created}" Style="{DynamicResource lib_fileFolderDate}" />
-                                            </StackPanel>
-                                        </StackPanel>
-                                    </Border>
-                                    <Border Width="24" Height="24" Margin="0 0 10 0">
-                                        <Button Style="{DynamicResource lib_fileItemOpenIcon}" Uid="{Binding PdfFileId}" Content="{Binding FileName}" Tag="GoToFile" Click="gotofilepdf_Click" />
-                                    </Border>
-                                    <Border Width="24" Height="24" Margin="0 0 7 0">
-                                        <Button Style="{DynamicResource lib_fileItemOpenIcon}" Uid="{Binding PdfFileId}" Tag="Trash" Click="deletepdffile_Click" />
-                                    </Border>
+                                    <StackPanel Orientation="Vertical" Margin="10 0 10 0">
+                                        <TextBlock x:Name="pdfName9" Text="" FontSize="12" Style="{DynamicResource lib_fileFolderHeader}" />
+                                        <TextBlock x:Name="pdfCreate9" Text="" Style="{DynamicResource lib_fileFolderDate}" />
+                                    </StackPanel>
                                 </StackPanel>
                             </Border>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                            <Border Width="24" Height="24" Margin="0 0 10 0">
+                                <Button x:Name="pdfGo9" Style="{DynamicResource lib_fileItemOpenIcon}" Tag="GoToFile" Click="gotofilepdf_Click" />
+                            </Border>
+                            <Border Width="24" Height="24" Margin="0 0 7 0">
+                                <Button x:Name="pdfDel9" Style="{DynamicResource lib_fileItemOpenIcon}" Tag="Trash" Click="deletepdffile_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
+                </Border>
 
-                <ItemsControl x:Name="pdf10" Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                <Border x:Name="pdf10" Grid.Column="1" Grid.Row="2" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border Width="180" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
                                 <StackPanel Orientation="Horizontal">
-                                    <Border Width="180" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                        <StackPanel Orientation="Horizontal">
-                                            <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                <TextBlock Text="{Binding FileName}" FontSize="12" Style="{DynamicResource lib_fileFolderHeader}" />
-                                                <TextBlock Text="{Binding Created}" Style="{DynamicResource lib_fileFolderDate}" />
-                                            </StackPanel>
-                                        </StackPanel>
-                                    </Border>
-                                    <Border Width="24" Height="24" Margin="0 0 10 0">
-                                        <Button Style="{DynamicResource lib_fileItemOpenIcon}" Uid="{Binding PdfFileId}" Content="{Binding FileName}" Tag="GoToFile" Click="gotofilepdf_Click" />
-                                    </Border>
-                                    <Border Width="24" Height="24" Margin="0 0 7 0">
-                                        <Button Style="{DynamicResource lib_fileItemOpenIcon}" Uid="{Binding PdfFileId}" Tag="Trash" Click="deletepdffile_Click" />
-                                    </Border>
+                                    <StackPanel Orientation="Vertical" Margin="10 0 10 0">
+                                        <TextBlock x:Name="pdfName10" Text="" FontSize="12" Style="{DynamicResource lib_fileFolderHeader}" />
+                                        <TextBlock x:Name="pdfCreate10" Text="" Style="{DynamicResource lib_fileFolderDate}" />
+                                    </StackPanel>
                                 </StackPanel>
                             </Border>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                            <Border Width="24" Height="24" Margin="0 0 10 0">
+                                <Button x:Name="pdfGo10" Style="{DynamicResource lib_fileItemOpenIcon}" Tag="GoToFile" Click="gotofilepdf_Click" />
+                            </Border>
+                            <Border Width="24" Height="24" Margin="0 0 7 0">
+                                <Button x:Name="pdfDel10" Style="{DynamicResource lib_fileItemOpenIcon}" Tag="Trash" Click="deletepdffile_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
+                </Border>
 
-                <ItemsControl x:Name="pdf11" Grid.Column="2" Grid.Row="2" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                <Border x:Name="pdf11" Grid.Column="2" Grid.Row="2" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border Width="180" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
                                 <StackPanel Orientation="Horizontal">
-                                    <Border Width="180" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                        <StackPanel Orientation="Horizontal">
-                                            <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                <TextBlock Text="{Binding FileName}" FontSize="12" Style="{DynamicResource lib_fileFolderHeader}" />
-                                                <TextBlock Text="{Binding Created}" Style="{DynamicResource lib_fileFolderDate}" />
-                                            </StackPanel>
-                                        </StackPanel>
-                                    </Border>
-                                    <Border Width="24" Height="24" Margin="0 0 10 0">
-                                        <Button Style="{DynamicResource lib_fileItemOpenIcon}" Uid="{Binding PdfFileId}" Content="{Binding FileName}" Tag="GoToFile" Click="gotofilepdf_Click" />
-                                    </Border>
-                                    <Border Width="24" Height="24" Margin="0 0 7 0">
-                                        <Button Style="{DynamicResource lib_fileItemOpenIcon}" Uid="{Binding PdfFileId}" Tag="Trash" Click="deletepdffile_Click" />
-                                    </Border>
+                                    <StackPanel Orientation="Vertical" Margin="10 0 10 0">
+                                        <TextBlock x:Name="pdfName11" Text="" FontSize="12" Style="{DynamicResource lib_fileFolderHeader}" />
+                                        <TextBlock x:Name="pdfCreate11" Text="" Style="{DynamicResource lib_fileFolderDate}" />
+                                    </StackPanel>
                                 </StackPanel>
                             </Border>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                            <Border Width="24" Height="24" Margin="0 0 10 0">
+                                <Button x:Name="pdfGo11" Style="{DynamicResource lib_fileItemOpenIcon}" Tag="GoToFile" Click="gotofilepdf_Click" />
+                            </Border>
+                            <Border Width="24" Height="24" Margin="0 0 7 0">
+                                <Button x:Name="pdfDel11" Style="{DynamicResource lib_fileItemOpenIcon}" Tag="Trash" Click="deletepdffile_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
+                </Border>
 
-                <ItemsControl x:Name="pdf12" Grid.Column="3" Grid.Row="2" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                <Border x:Name="pdf12" Grid.Column="3" Grid.Row="2" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border Width="180" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
                                 <StackPanel Orientation="Horizontal">
-                                    <Border Width="180" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                        <StackPanel Orientation="Horizontal">
-                                            <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                <TextBlock Text="{Binding FileName}" FontSize="12" Style="{DynamicResource lib_fileFolderHeader}" />
-                                                <TextBlock Text="{Binding Created}" Style="{DynamicResource lib_fileFolderDate}" />
-                                            </StackPanel>
-                                        </StackPanel>
-                                    </Border>
-                                    <Border Width="24" Height="24" Margin="0 0 10 0">
-                                        <Button Style="{DynamicResource lib_fileItemOpenIcon}" Uid="{Binding PdfFileId}" Content="{Binding FileName}" Tag="GoToFile" Click="gotofilepdf_Click" />
-                                    </Border>
-                                    <Border Width="24" Height="24" Margin="0 0 7 0">
-                                        <Button Style="{DynamicResource lib_fileItemOpenIcon}" Uid="{Binding PdfFileId}" Tag="Trash" Click="deletepdffile_Click" />
-                                    </Border>
+                                    <StackPanel Orientation="Vertical" Margin="10 0 10 0">
+                                        <TextBlock x:Name="pdfName12" Text="" FontSize="12" Style="{DynamicResource lib_fileFolderHeader}" />
+                                        <TextBlock x:Name="pdfCreate12" Text="" Style="{DynamicResource lib_fileFolderDate}" />
+                                    </StackPanel>
                                 </StackPanel>
                             </Border>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                            <Border Width="24" Height="24" Margin="0 0 10 0">
+                                <Button x:Name="pdfGo12" Style="{DynamicResource lib_fileItemOpenIcon}" Tag="GoToFile" Click="gotofilepdf_Click" />
+                            </Border>
+                            <Border Width="24" Height="24" Margin="0 0 7 0">
+                                <Button x:Name="pdfDel12" Style="{DynamicResource lib_fileItemOpenIcon}" Tag="Trash" Click="deletepdffile_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
+                </Border>
 
-                <ItemsControl x:Name="pdf13" Grid.Column="0" Grid.Row="3" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                <Border x:Name="pdf13" Grid.Column="0" Grid.Row="3" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border Width="180" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
                                 <StackPanel Orientation="Horizontal">
-                                    <Border Width="180" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                        <StackPanel Orientation="Horizontal">
-                                            <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                <TextBlock Text="{Binding FileName}" FontSize="12" Style="{DynamicResource lib_fileFolderHeader}" />
-                                                <TextBlock Text="{Binding Created}" Style="{DynamicResource lib_fileFolderDate}" />
-                                            </StackPanel>
-                                        </StackPanel>
-                                    </Border>
-                                    <Border Width="24" Height="24" Margin="0 0 10 0">
-                                        <Button Style="{DynamicResource lib_fileItemOpenIcon}" Uid="{Binding PdfFileId}" Content="{Binding FileName}" Tag="GoToFile" Click="gotofilepdf_Click" />
-                                    </Border>
-                                    <Border Width="24" Height="24" Margin="0 0 7 0">
-                                        <Button Style="{DynamicResource lib_fileItemOpenIcon}" Uid="{Binding PdfFileId}" Tag="Trash" Click="deletepdffile_Click" />
-                                    </Border>
+                                    <StackPanel Orientation="Vertical" Margin="10 0 10 0">
+                                        <TextBlock x:Name="pdfName13" Text="" FontSize="12" Style="{DynamicResource lib_fileFolderHeader}" />
+                                        <TextBlock x:Name="pdfCreate13" Text="" Style="{DynamicResource lib_fileFolderDate}" />
+                                    </StackPanel>
                                 </StackPanel>
                             </Border>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                            <Border Width="24" Height="24" Margin="0 0 10 0">
+                                <Button x:Name="pdfGo13" Style="{DynamicResource lib_fileItemOpenIcon}" Tag="GoToFile" Click="gotofilepdf_Click" />
+                            </Border>
+                            <Border Width="24" Height="24" Margin="0 0 7 0">
+                                <Button x:Name="pdfDel13" Style="{DynamicResource lib_fileItemOpenIcon}" Tag="Trash" Click="deletepdffile_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
+                </Border>
 
-                <ItemsControl x:Name="pdf14" Grid.Column="1" Grid.Row="3" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                <Border x:Name="pdf14" Grid.Column="1" Grid.Row="3" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border Width="180" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
                                 <StackPanel Orientation="Horizontal">
-                                    <Border Width="180" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                        <StackPanel Orientation="Horizontal">
-                                            <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                <TextBlock Text="{Binding FileName}" FontSize="12" Style="{DynamicResource lib_fileFolderHeader}" />
-                                                <TextBlock Text="{Binding Created}" Style="{DynamicResource lib_fileFolderDate}" />
-                                            </StackPanel>
-                                        </StackPanel>
-                                    </Border>
-                                    <Border Width="24" Height="24" Margin="0 0 10 0">
-                                        <Button Style="{DynamicResource lib_fileItemOpenIcon}" Uid="{Binding PdfFileId}" Content="{Binding FileName}" Tag="GoToFile" Click="gotofilepdf_Click" />
-                                    </Border>
-                                    <Border Width="24" Height="24" Margin="0 0 7 0">
-                                        <Button Style="{DynamicResource lib_fileItemOpenIcon}" Uid="{Binding PdfFileId}" Tag="Trash" Click="deletepdffile_Click" />
-                                    </Border>
+                                    <StackPanel Orientation="Vertical" Margin="10 0 10 0">
+                                        <TextBlock x:Name="pdfName14" Text="" FontSize="12" Style="{DynamicResource lib_fileFolderHeader}" />
+                                        <TextBlock x:Name="pdfCreate14" Text="" Style="{DynamicResource lib_fileFolderDate}" />
+                                    </StackPanel>
                                 </StackPanel>
                             </Border>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                            <Border Width="24" Height="24" Margin="0 0 10 0">
+                                <Button x:Name="pdfGo14" Style="{DynamicResource lib_fileItemOpenIcon}" Tag="GoToFile" Click="gotofilepdf_Click" />
+                            </Border>
+                            <Border Width="24" Height="24" Margin="0 0 7 0">
+                                <Button x:Name="pdfDel14" Style="{DynamicResource lib_fileItemOpenIcon}" Tag="Trash" Click="deletepdffile_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
+                </Border>
 
-                <ItemsControl x:Name="pdf15" Grid.Column="2" Grid.Row="3" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                <Border x:Name="pdf15" Grid.Column="2" Grid.Row="3" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border Width="180" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
                                 <StackPanel Orientation="Horizontal">
-                                    <Border Width="180" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                        <StackPanel Orientation="Horizontal">
-                                            <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                <TextBlock Text="{Binding FileName}" FontSize="12" Style="{DynamicResource lib_fileFolderHeader}" />
-                                                <TextBlock Text="{Binding Created}" Style="{DynamicResource lib_fileFolderDate}" />
-                                            </StackPanel>
-                                        </StackPanel>
-                                    </Border>
-                                    <Border Width="24" Height="24" Margin="0 0 10 0">
-                                        <Button Style="{DynamicResource lib_fileItemOpenIcon}" Uid="{Binding PdfFileId}" Content="{Binding FileName}" Tag="GoToFile" Click="gotofilepdf_Click" />
-                                    </Border>
-                                    <Border Width="24" Height="24" Margin="0 0 7 0">
-                                        <Button Style="{DynamicResource lib_fileItemOpenIcon}" Uid="{Binding PdfFileId}" Tag="Trash" Click="deletepdffile_Click" />
-                                    </Border>
+                                    <StackPanel Orientation="Vertical" Margin="10 0 10 0">
+                                        <TextBlock x:Name="pdfName15" Text="" FontSize="12" Style="{DynamicResource lib_fileFolderHeader}" />
+                                        <TextBlock x:Name="pdfCreate15" Text="" Style="{DynamicResource lib_fileFolderDate}" />
+                                    </StackPanel>
                                 </StackPanel>
                             </Border>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                            <Border Width="24" Height="24" Margin="0 0 10 0">
+                                <Button x:Name="pdfGo15" Style="{DynamicResource lib_fileItemOpenIcon}" Tag="GoToFile" Click="gotofilepdf_Click" />
+                            </Border>
+                            <Border Width="24" Height="24" Margin="0 0 7 0">
+                                <Button x:Name="pdfDel15" Style="{DynamicResource lib_fileItemOpenIcon}" Tag="Trash" Click="deletepdffile_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
+                </Border>
 
-                <ItemsControl x:Name="pdf16" Grid.Column="3" Grid.Row="3" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                <Border x:Name="pdf16" Grid.Column="3" Grid.Row="3" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border Width="180" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
                                 <StackPanel Orientation="Horizontal">
-                                    <Border Width="180" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                        <StackPanel Orientation="Horizontal">
-                                            <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                <TextBlock Text="{Binding FileName}" FontSize="12" Style="{DynamicResource lib_fileFolderHeader}" />
-                                                <TextBlock Text="{Binding Created}" Style="{DynamicResource lib_fileFolderDate}" />
-                                            </StackPanel>
-                                        </StackPanel>
-                                    </Border>
-                                    <Border Width="24" Height="24" Margin="0 0 10 0">
-                                        <Button Style="{DynamicResource lib_fileItemOpenIcon}" Uid="{Binding PdfFileId}" Content="{Binding FileName}" Tag="GoToFile" Click="gotofilepdf_Click" />
-                                    </Border>
-                                    <Border Width="24" Height="24" Margin="0 0 7 0">
-                                        <Button Style="{DynamicResource lib_fileItemOpenIcon}" Uid="{Binding PdfFileId}" Tag="Trash" Click="deletepdffile_Click" />
-                                    </Border>
+                                    <StackPanel Orientation="Vertical" Margin="10 0 10 0">
+                                        <TextBlock x:Name="pdfName16" Text="" FontSize="12" Style="{DynamicResource lib_fileFolderHeader}" />
+                                        <TextBlock x:Name="pdfCreate16" Text="" Style="{DynamicResource lib_fileFolderDate}" />
+                                    </StackPanel>
                                 </StackPanel>
                             </Border>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                            <Border Width="24" Height="24" Margin="0 0 10 0">
+                                <Button x:Name="pdfGo16" Style="{DynamicResource lib_fileItemOpenIcon}" Tag="GoToFile" Click="gotofilepdf_Click" />
+                            </Border>
+                            <Border Width="24" Height="24" Margin="0 0 7 0">
+                                <Button x:Name="pdfDel16" Style="{DynamicResource lib_fileItemOpenIcon}" Tag="Trash" Click="deletepdffile_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
+                </Border>
 
-                <ItemsControl x:Name="pdf17" Grid.Column="0" Grid.Row="4" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                <Border x:Name="pdf17" Grid.Column="0" Grid.Row="4" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border Width="180" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
                                 <StackPanel Orientation="Horizontal">
-                                    <Border Width="180" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                        <StackPanel Orientation="Horizontal">
-                                            <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                <TextBlock Text="{Binding FileName}" FontSize="12" Style="{DynamicResource lib_fileFolderHeader}" />
-                                                <TextBlock Text="{Binding Created}" Style="{DynamicResource lib_fileFolderDate}" />
-                                            </StackPanel>
-                                        </StackPanel>
-                                    </Border>
-                                    <Border Width="24" Height="24" Margin="0 0 10 0">
-                                        <Button Style="{DynamicResource lib_fileItemOpenIcon}" Uid="{Binding PdfFileId}" Content="{Binding FileName}" Tag="GoToFile" Click="gotofilepdf_Click" />
-                                    </Border>
-                                    <Border Width="24" Height="24" Margin="0 0 7 0">
-                                        <Button Style="{DynamicResource lib_fileItemOpenIcon}" Uid="{Binding PdfFileId}" Tag="Trash" Click="deletepdffile_Click" />
-                                    </Border>
+                                    <StackPanel Orientation="Vertical" Margin="10 0 10 0">
+                                        <TextBlock x:Name="pdfName17" Text="" FontSize="12" Style="{DynamicResource lib_fileFolderHeader}" />
+                                        <TextBlock x:Name="pdfCreate17" Text="" Style="{DynamicResource lib_fileFolderDate}" />
+                                    </StackPanel>
                                 </StackPanel>
                             </Border>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                            <Border Width="24" Height="24" Margin="0 0 10 0">
+                                <Button x:Name="pdfGo17" Style="{DynamicResource lib_fileItemOpenIcon}" Tag="GoToFile" Click="gotofilepdf_Click" />
+                            </Border>
+                            <Border Width="24" Height="24" Margin="0 0 7 0">
+                                <Button x:Name="pdfDel17" Style="{DynamicResource lib_fileItemOpenIcon}" Tag="Trash" Click="deletepdffile_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
+                </Border>
 
-                <ItemsControl x:Name="pdf18" Grid.Column="1" Grid.Row="4" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                <Border x:Name="pdf18" Grid.Column="1" Grid.Row="4" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border Width="180" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
                                 <StackPanel Orientation="Horizontal">
-                                    <Border Width="180" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                        <StackPanel Orientation="Horizontal">
-                                            <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                <TextBlock Text="{Binding FileName}" FontSize="12" Style="{DynamicResource lib_fileFolderHeader}" />
-                                                <TextBlock Text="{Binding Created}" Style="{DynamicResource lib_fileFolderDate}" />
-                                            </StackPanel>
-                                        </StackPanel>
-                                    </Border>
-                                    <Border Width="24" Height="24" Margin="0 0 10 0">
-                                        <Button Style="{DynamicResource lib_fileItemOpenIcon}" Uid="{Binding PdfFileId}" Content="{Binding FileName}" Tag="GoToFile" Click="gotofilepdf_Click" />
-                                    </Border>
-                                    <Border Width="24" Height="24" Margin="0 0 7 0">
-                                        <Button Style="{DynamicResource lib_fileItemOpenIcon}" Uid="{Binding PdfFileId}" Tag="Trash" Click="deletepdffile_Click" />
-                                    </Border>
+                                    <StackPanel Orientation="Vertical" Margin="10 0 10 0">
+                                        <TextBlock x:Name="pdfName18" Text="" FontSize="12" Style="{DynamicResource lib_fileFolderHeader}" />
+                                        <TextBlock x:Name="pdfCreate18" Text="" Style="{DynamicResource lib_fileFolderDate}" />
+                                    </StackPanel>
                                 </StackPanel>
                             </Border>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                            <Border Width="24" Height="24" Margin="0 0 10 0">
+                                <Button x:Name="pdfGo18" Style="{DynamicResource lib_fileItemOpenIcon}" Tag="GoToFile" Click="gotofilepdf_Click" />
+                            </Border>
+                            <Border Width="24" Height="24" Margin="0 0 7 0">
+                                <Button x:Name="pdfDel18" Style="{DynamicResource lib_fileItemOpenIcon}" Tag="Trash" Click="deletepdffile_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
+                </Border>
 
-                <ItemsControl x:Name="pdf19" Grid.Column="2" Grid.Row="4" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                <Border x:Name="pdf19" Grid.Column="2" Grid.Row="4" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border Width="180" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
                                 <StackPanel Orientation="Horizontal">
-                                    <Border Width="180" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                        <StackPanel Orientation="Horizontal">
-                                            <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                <TextBlock Text="{Binding FileName}" FontSize="12" Style="{DynamicResource lib_fileFolderHeader}" />
-                                                <TextBlock Text="{Binding Created}" Style="{DynamicResource lib_fileFolderDate}" />
-                                            </StackPanel>
-                                        </StackPanel>
-                                    </Border>
-                                    <Border Width="24" Height="24" Margin="0 0 10 0">
-                                        <Button Style="{DynamicResource lib_fileItemOpenIcon}" Uid="{Binding PdfFileId}" Content="{Binding FileName}" Tag="GoToFile" Click="gotofilepdf_Click" />
-                                    </Border>
-                                    <Border Width="24" Height="24" Margin="0 0 7 0">
-                                        <Button Style="{DynamicResource lib_fileItemOpenIcon}" Uid="{Binding PdfFileId}" Tag="Trash" Click="deletepdffile_Click" />
-                                    </Border>
+                                    <StackPanel Orientation="Vertical" Margin="10 0 10 0">
+                                        <TextBlock x:Name="pdfName19" Text="" FontSize="12" Style="{DynamicResource lib_fileFolderHeader}" />
+                                        <TextBlock x:Name="pdfCreate19" Text="" Style="{DynamicResource lib_fileFolderDate}" />
+                                    </StackPanel>
                                 </StackPanel>
                             </Border>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                            <Border Width="24" Height="24" Margin="0 0 10 0">
+                                <Button x:Name="pdfGo19" Style="{DynamicResource lib_fileItemOpenIcon}" Tag="GoToFile" Click="gotofilepdf_Click" />
+                            </Border>
+                            <Border Width="24" Height="24" Margin="0 0 7 0">
+                                <Button x:Name="pdfDel19" Style="{DynamicResource lib_fileItemOpenIcon}" Tag="Trash" Click="deletepdffile_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
+                </Border>
 
-                <ItemsControl x:Name="pdf20" Grid.Column="3" Grid.Row="4" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                <Border x:Name="pdf20" Grid.Column="3" Grid.Row="4" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border Width="180" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
                                 <StackPanel Orientation="Horizontal">
-                                    <Border Width="180" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                        <StackPanel Orientation="Horizontal">
-                                            <StackPanel Orientation="Vertical" Margin="10 0 10 0">
-                                                <TextBlock Text="{Binding FileName}" FontSize="12" Style="{DynamicResource lib_fileFolderHeader}" />
-                                                <TextBlock Text="{Binding Created}" Style="{DynamicResource lib_fileFolderDate}" />
-                                            </StackPanel>
-                                        </StackPanel>
-                                    </Border>
-                                    <Border Width="24" Height="24" Margin="0 0 10 0">
-                                        <Button Style="{DynamicResource lib_fileItemOpenIcon}" Uid="{Binding PdfFileId}" Content="{Binding FileName}" Tag="GoToFile" Click="gotofilepdf_Click" />
-                                    </Border>
-                                    <Border Width="24" Height="24" Margin="0 0 7 0">
-                                        <Button Style="{DynamicResource lib_fileItemOpenIcon}" Uid="{Binding PdfFileId}" Tag="Trash" Click="deletepdffile_Click" />
-                                    </Border>
+                                    <StackPanel Orientation="Vertical" Margin="10 0 10 0">
+                                        <TextBlock x:Name="pdfName20" Text="" FontSize="12" Style="{DynamicResource lib_fileFolderHeader}" />
+                                        <TextBlock x:Name="pdfCreate20" Text="" Style="{DynamicResource lib_fileFolderDate}" />
+                                    </StackPanel>
                                 </StackPanel>
                             </Border>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                            <Border Width="24" Height="24" Margin="0 0 10 0">
+                                <Button x:Name="pdfGo20" Style="{DynamicResource lib_fileItemOpenIcon}" Tag="GoToFile" Click="gotofilepdf_Click" />
+                            </Border>
+                            <Border Width="24" Height="24" Margin="0 0 7 0">
+                                <Button x:Name="pdfDel20" Style="{DynamicResource lib_fileItemOpenIcon}" Tag="Trash" Click="deletepdffile_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
+                </Border>
             </Grid>
         </Border>
 

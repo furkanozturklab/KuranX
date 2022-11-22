@@ -163,7 +163,7 @@
 
         <!-- popup -->
 
-        <StackPanel  Grid.Row="0" Orientation="Vertical" VerticalAlignment="Center" SnapsToDevicePixels="True" UseLayoutRounding="True" Style="{DynamicResource aniEffectFadeStack}" Visibility="Visible" x:Name="loadHeaderAni">
+        <StackPanel  Grid.Row="0" Orientation="Vertical" VerticalAlignment="Center" Style="{DynamicResource aniEffectFadeStack}" Visibility="Visible" x:Name="loadHeaderAni">
             <Button x:Name="totalFileCount" Style="{DynamicResource lib_FolderHeader}" Tag="Kütüphane Başlıkları" Uid="#6610F2" />
         </StackPanel>
 
@@ -184,464 +184,344 @@
                     <RowDefinition Height="100" />
                 </Grid.RowDefinitions>
 
-                <Border Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="lnt1">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <Border Width="12" CornerRadius="5 0 0 5" Background="{Binding LibraryColor}" />
-                                        <Border Width="195" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                            <StackPanel Orientation="Vertical">
-                                                <TextBlock Width="170" Text="{Binding LibraryName}" Style="{DynamicResource sb_folderHeader}" />
-                                                <TextBlock Width="170" Text="{Binding Created}" Style="{DynamicResource sb_folderDate}" />
-                                            </StackPanel>
-                                        </Border>
-                                        <Border Width="38" Height="50">
-                                            <Button Style="{DynamicResource lib_FolderOpenIcon}" Uid="{Binding LibraryId}" Tag="{Binding Created}" Content="{Binding LibraryName}" Background="{Binding LibraryColor}" Click="openLibraryFolder_Click" />
-                                        </Border>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                <Border x:Name="lnt1" Grid.Column="0" Grid.Row="0" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border x:Name="lntColor1" Width="12" CornerRadius="5 0 0 5" />
+                            <Border Width="195" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock x:Name="lntName1" Width="170"  Style="{DynamicResource sb_folderHeader}" />
+                                    <TextBlock x:Name="lntCreated1" Width="170"  Style="{DynamicResource sb_folderDate}" />
+                                </StackPanel>
+                            </Border>
+                            <Border Width="38" Height="50">
+                                <Button x:Name="lntBtn1" Style="{DynamicResource lib_FolderOpenIcon}"  Click="openLibraryFolder_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
                 </Border>
 
-                <Border Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="lnt2">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <Border Width="12" CornerRadius="5 0 0 5" Background="{Binding LibraryColor}" />
-                                        <Border Width="195" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                            <StackPanel Orientation="Vertical">
-                                                <TextBlock Width="170" Text="{Binding LibraryName}" Style="{DynamicResource sb_folderHeader}" />
-                                                <TextBlock Width="170" Text="{Binding Created}" Style="{DynamicResource sb_folderDate}" />
-                                            </StackPanel>
-                                        </Border>
-                                        <Border Width="38" Height="50">
-                                            <Button Style="{DynamicResource lib_FolderOpenIcon}" Uid="{Binding LibraryId}" Tag="{Binding Created}" Content="{Binding LibraryName}" Background="{Binding LibraryColor}" Click="openLibraryFolder_Click" />
-                                        </Border>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                <Border x:Name="lnt2" Grid.Column="1" Grid.Row="0" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border x:Name="lntColor2" Width="12" CornerRadius="5 0 0 5" />
+                            <Border Width="195" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock x:Name="lntName2" Width="170"  Style="{DynamicResource sb_folderHeader}" />
+                                    <TextBlock x:Name="lntCreated2" Width="170"  Style="{DynamicResource sb_folderDate}" />
+                                </StackPanel>
+                            </Border>
+                            <Border Width="38" Height="50">
+                                <Button x:Name="lntBtn2" Style="{DynamicResource lib_FolderOpenIcon}"  Click="openLibraryFolder_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
                 </Border>
 
-                <Border Grid.Column="2" Grid.Row="0" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="lnt3">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <Border Width="12" CornerRadius="5 0 0 5" Background="{Binding LibraryColor}" />
-                                        <Border Width="195" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                            <StackPanel Orientation="Vertical">
-                                                <TextBlock Width="170" Text="{Binding LibraryName}" Style="{DynamicResource sb_folderHeader}" />
-                                                <TextBlock Width="170" Text="{Binding Created}" Style="{DynamicResource sb_folderDate}" />
-                                            </StackPanel>
-                                        </Border>
-                                        <Border Width="38" Height="50">
-                                            <Button Style="{DynamicResource lib_FolderOpenIcon}" Uid="{Binding LibraryId}" Tag="{Binding Created}" Content="{Binding LibraryName}" Background="{Binding LibraryColor}" Click="openLibraryFolder_Click" />
-                                        </Border>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                <Border x:Name="lnt3" Grid.Column="2" Grid.Row="0" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border x:Name="lntColor3" Width="12" CornerRadius="5 0 0 5" />
+                            <Border Width="195" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock x:Name="lntName3" Width="170"  Style="{DynamicResource sb_folderHeader}" />
+                                    <TextBlock x:Name="lntCreated3" Width="170"  Style="{DynamicResource sb_folderDate}" />
+                                </StackPanel>
+                            </Border>
+                            <Border Width="38" Height="50">
+                                <Button x:Name="lntBtn3" Style="{DynamicResource lib_FolderOpenIcon}"  Click="openLibraryFolder_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
                 </Border>
 
-                <Border Grid.Column="3" Grid.Row="0" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="lnt4">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <Border Width="12" CornerRadius="5 0 0 5" Background="{Binding LibraryColor}" />
-                                        <Border Width="195" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                            <StackPanel Orientation="Vertical">
-                                                <TextBlock Width="170" Text="{Binding LibraryName}" Style="{DynamicResource sb_folderHeader}" />
-                                                <TextBlock Width="170" Text="{Binding Created}" Style="{DynamicResource sb_folderDate}" />
-                                            </StackPanel>
-                                        </Border>
-                                        <Border Width="38" Height="50">
-                                            <Button Style="{DynamicResource lib_FolderOpenIcon}" Uid="{Binding LibraryId}" Tag="{Binding Created}" Content="{Binding LibraryName}" Background="{Binding LibraryColor}" Click="openLibraryFolder_Click" />
-                                        </Border>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                <Border x:Name="lnt4" Grid.Column="3" Grid.Row="0" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border x:Name="lntColor4" Width="12" CornerRadius="5 0 0 5" />
+                            <Border Width="195" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock x:Name="lntName4" Width="170"  Style="{DynamicResource sb_folderHeader}" />
+                                    <TextBlock x:Name="lntCreated4" Width="170"  Style="{DynamicResource sb_folderDate}" />
+                                </StackPanel>
+                            </Border>
+                            <Border Width="38" Height="50">
+                                <Button x:Name="lntBtn4" Style="{DynamicResource lib_FolderOpenIcon}"  Click="openLibraryFolder_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
                 </Border>
 
-                <Border Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="lnt5">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <Border Width="12" CornerRadius="5 0 0 5" Background="{Binding LibraryColor}" />
-                                        <Border Width="195" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                            <StackPanel Orientation="Vertical">
-                                                <TextBlock Width="170" Text="{Binding LibraryName}" Style="{DynamicResource sb_folderHeader}" />
-                                                <TextBlock Width="170" Text="{Binding Created}" Style="{DynamicResource sb_folderDate}" />
-                                            </StackPanel>
-                                        </Border>
-                                        <Border Width="38" Height="50">
-                                            <Button Style="{DynamicResource lib_FolderOpenIcon}" Uid="{Binding LibraryId}" Tag="{Binding Created}" Content="{Binding LibraryName}" Background="{Binding LibraryColor}" Click="openLibraryFolder_Click" />
-                                        </Border>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                <Border x:Name="lnt5" Grid.Column="0" Grid.Row="1" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border x:Name="lntColor5" Width="12" CornerRadius="5 0 0 5" />
+                            <Border Width="195" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock x:Name="lntName5" Width="170"  Style="{DynamicResource sb_folderHeader}" />
+                                    <TextBlock x:Name="lntCreated5" Width="170"  Style="{DynamicResource sb_folderDate}" />
+                                </StackPanel>
+                            </Border>
+                            <Border Width="38" Height="50">
+                                <Button x:Name="lntBtn5" Style="{DynamicResource lib_FolderOpenIcon}"  Click="openLibraryFolder_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
                 </Border>
 
-                <Border Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="lnt6">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <Border Width="12" CornerRadius="5 0 0 5" Background="{Binding LibraryColor}" />
-                                        <Border Width="195" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                            <StackPanel Orientation="Vertical">
-                                                <TextBlock Width="170" Text="{Binding LibraryName}" Style="{DynamicResource sb_folderHeader}" />
-                                                <TextBlock Width="170" Text="{Binding Created}" Style="{DynamicResource sb_folderDate}" />
-                                            </StackPanel>
-                                        </Border>
-                                        <Border Width="38" Height="50">
-                                            <Button Style="{DynamicResource lib_FolderOpenIcon}" Uid="{Binding LibraryId}" Tag="{Binding Created}" Content="{Binding LibraryName}" Background="{Binding LibraryColor}" Click="openLibraryFolder_Click" />
-                                        </Border>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                <Border x:Name="lnt6" Grid.Column="1" Grid.Row="1" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border x:Name="lntColor6" Width="12" CornerRadius="5 0 0 5" />
+                            <Border Width="195" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock x:Name="lntName6" Width="170"  Style="{DynamicResource sb_folderHeader}" />
+                                    <TextBlock x:Name="lntCreated6" Width="170"  Style="{DynamicResource sb_folderDate}" />
+                                </StackPanel>
+                            </Border>
+                            <Border Width="38" Height="50">
+                                <Button x:Name="lntBtn6" Style="{DynamicResource lib_FolderOpenIcon}"  Click="openLibraryFolder_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
                 </Border>
 
-                <Border Grid.Column="2" Grid.Row="1" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="lnt7">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <Border Width="12" CornerRadius="5 0 0 5" Background="{Binding LibraryColor}" />
-                                        <Border Width="195" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                            <StackPanel Orientation="Vertical">
-                                                <TextBlock Width="170" Text="{Binding LibraryName}" Style="{DynamicResource sb_folderHeader}" />
-                                                <TextBlock Width="170" Text="{Binding Created}" Style="{DynamicResource sb_folderDate}" />
-                                            </StackPanel>
-                                        </Border>
-                                        <Border Width="38" Height="50">
-                                            <Button Style="{DynamicResource lib_FolderOpenIcon}" Uid="{Binding LibraryId}" Tag="{Binding Created}" Content="{Binding LibraryName}" Background="{Binding LibraryColor}" Click="openLibraryFolder_Click" />
-                                        </Border>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                <Border x:Name="lnt7" Grid.Column="2" Grid.Row="1" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border x:Name="lntColor7" Width="12" CornerRadius="5 0 0 5" />
+                            <Border Width="195" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock x:Name="lntName7" Width="170"  Style="{DynamicResource sb_folderHeader}" />
+                                    <TextBlock x:Name="lntCreated7" Width="170"  Style="{DynamicResource sb_folderDate}" />
+                                </StackPanel>
+                            </Border>
+                            <Border Width="38" Height="50">
+                                <Button x:Name="lntBtn7" Style="{DynamicResource lib_FolderOpenIcon}"  Click="openLibraryFolder_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
                 </Border>
 
-                <Border Grid.Column="3" Grid.Row="1" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="lnt8">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <Border Width="12" CornerRadius="5 0 0 5" Background="{Binding LibraryColor}" />
-                                        <Border Width="195" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                            <StackPanel Orientation="Vertical">
-                                                <TextBlock Width="170" Text="{Binding LibraryName}" Style="{DynamicResource sb_folderHeader}" />
-                                                <TextBlock Width="170" Text="{Binding Created}" Style="{DynamicResource sb_folderDate}" />
-                                            </StackPanel>
-                                        </Border>
-                                        <Border Width="38" Height="50">
-                                            <Button Style="{DynamicResource lib_FolderOpenIcon}" Uid="{Binding LibraryId}" Tag="{Binding Created}" Content="{Binding LibraryName}" Background="{Binding LibraryColor}" Click="openLibraryFolder_Click" />
-                                        </Border>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                <Border x:Name="lnt8" Grid.Column="3" Grid.Row="1" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border x:Name="lntColor8" Width="12" CornerRadius="5 0 0 5" />
+                            <Border Width="195" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock x:Name="lntName8" Width="170"  Style="{DynamicResource sb_folderHeader}" />
+                                    <TextBlock x:Name="lntCreated8" Width="170"  Style="{DynamicResource sb_folderDate}" />
+                                </StackPanel>
+                            </Border>
+                            <Border Width="38" Height="50">
+                                <Button x:Name="lntBtn8" Style="{DynamicResource lib_FolderOpenIcon}"  Click="openLibraryFolder_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
                 </Border>
 
-                <Border Grid.Column="0" Grid.Row="2" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="lnt9">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <Border Width="12" CornerRadius="5 0 0 5" Background="{Binding LibraryColor}" />
-                                        <Border Width="195" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                            <StackPanel Orientation="Vertical">
-                                                <TextBlock Width="170" Text="{Binding LibraryName}" Style="{DynamicResource sb_folderHeader}" />
-                                                <TextBlock Width="170" Text="{Binding Created}" Style="{DynamicResource sb_folderDate}" />
-                                            </StackPanel>
-                                        </Border>
-                                        <Border Width="38" Height="50">
-                                            <Button Style="{DynamicResource lib_FolderOpenIcon}" Uid="{Binding LibraryId}" Tag="{Binding Created}" Content="{Binding LibraryName}" Background="{Binding LibraryColor}" Click="openLibraryFolder_Click" />
-                                        </Border>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                <Border x:Name="lnt9" Grid.Column="0" Grid.Row="2" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border x:Name="lntColor9" Width="12" CornerRadius="5 0 0 5" />
+                            <Border Width="195" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock x:Name="lntName9" Width="170"  Style="{DynamicResource sb_folderHeader}" />
+                                    <TextBlock x:Name="lntCreated9" Width="170"  Style="{DynamicResource sb_folderDate}" />
+                                </StackPanel>
+                            </Border>
+                            <Border Width="38" Height="50">
+                                <Button x:Name="lntBtn9" Style="{DynamicResource lib_FolderOpenIcon}"  Click="openLibraryFolder_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
                 </Border>
 
-                <Border Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="lnt10">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <Border Width="12" CornerRadius="5 0 0 5" Background="{Binding LibraryColor}" />
-                                        <Border Width="195" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                            <StackPanel Orientation="Vertical">
-                                                <TextBlock Width="170" Text="{Binding LibraryName}" Style="{DynamicResource sb_folderHeader}" />
-                                                <TextBlock Width="170" Text="{Binding Created}" Style="{DynamicResource sb_folderDate}" />
-                                            </StackPanel>
-                                        </Border>
-                                        <Border Width="38" Height="50">
-                                            <Button Style="{DynamicResource lib_FolderOpenIcon}" Uid="{Binding LibraryId}" Tag="{Binding Created}" Content="{Binding LibraryName}" Background="{Binding LibraryColor}" Click="openLibraryFolder_Click" />
-                                        </Border>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                <Border x:Name="lnt10" Grid.Column="1" Grid.Row="2" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border x:Name="lntColor10" Width="12" CornerRadius="5 0 0 5" />
+                            <Border Width="195" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock x:Name="lntName10" Width="170"  Style="{DynamicResource sb_folderHeader}" />
+                                    <TextBlock x:Name="lntCreated10" Width="170"  Style="{DynamicResource sb_folderDate}" />
+                                </StackPanel>
+                            </Border>
+                            <Border Width="38" Height="50">
+                                <Button x:Name="lntBtn10" Style="{DynamicResource lib_FolderOpenIcon}"  Click="openLibraryFolder_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
                 </Border>
 
-                <Border Grid.Column="2" Grid.Row="2" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="lnt11">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <Border Width="12" CornerRadius="5 0 0 5" Background="{Binding LibraryColor}" />
-                                        <Border Width="195" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                            <StackPanel Orientation="Vertical">
-                                                <TextBlock Width="170" Text="{Binding LibraryName}" Style="{DynamicResource sb_folderHeader}" />
-                                                <TextBlock Width="170" Text="{Binding Created}" Style="{DynamicResource sb_folderDate}" />
-                                            </StackPanel>
-                                        </Border>
-                                        <Border Width="38" Height="50">
-                                            <Button Style="{DynamicResource lib_FolderOpenIcon}" Uid="{Binding LibraryId}" Tag="{Binding Created}" Content="{Binding LibraryName}" Background="{Binding LibraryColor}" Click="openLibraryFolder_Click" />
-                                        </Border>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                <Border x:Name="lnt11" Grid.Column="2" Grid.Row="2" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border x:Name="lntColor11" Width="12" CornerRadius="5 0 0 5" />
+                            <Border Width="195" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock x:Name="lntName11" Width="170"  Style="{DynamicResource sb_folderHeader}" />
+                                    <TextBlock x:Name="lntCreated11" Width="170"  Style="{DynamicResource sb_folderDate}" />
+                                </StackPanel>
+                            </Border>
+                            <Border Width="38" Height="50">
+                                <Button x:Name="lntBtn11" Style="{DynamicResource lib_FolderOpenIcon}"  Click="openLibraryFolder_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
                 </Border>
 
-                <Border Grid.Column="3" Grid.Row="2" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="lnt12">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <Border Width="12" CornerRadius="5 0 0 5" Background="{Binding LibraryColor}" />
-                                        <Border Width="195" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                            <StackPanel Orientation="Vertical">
-                                                <TextBlock Width="170" Text="{Binding LibraryName}" Style="{DynamicResource sb_folderHeader}" />
-                                                <TextBlock Width="170" Text="{Binding Created}" Style="{DynamicResource sb_folderDate}" />
-                                            </StackPanel>
-                                        </Border>
-                                        <Border Width="38" Height="50">
-                                            <Button Style="{DynamicResource lib_FolderOpenIcon}" Uid="{Binding LibraryId}" Tag="{Binding Created}" Content="{Binding LibraryName}" Background="{Binding LibraryColor}" Click="openLibraryFolder_Click" />
-                                        </Border>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                <Border x:Name="lnt12" Grid.Column="3" Grid.Row="2" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border x:Name="lntColor12" Width="12" CornerRadius="5 0 0 5" />
+                            <Border Width="195" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock x:Name="lntName12" Width="170"  Style="{DynamicResource sb_folderHeader}" />
+                                    <TextBlock x:Name="lntCreated12" Width="170"  Style="{DynamicResource sb_folderDate}" />
+                                </StackPanel>
+                            </Border>
+                            <Border Width="38" Height="50">
+                                <Button x:Name="lntBtn12" Style="{DynamicResource lib_FolderOpenIcon}"  Click="openLibraryFolder_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
                 </Border>
 
-                <Border Grid.Column="0" Grid.Row="3" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="lnt13">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <Border Width="12" CornerRadius="5 0 0 5" Background="{Binding LibraryColor}" />
-                                        <Border Width="195" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                            <StackPanel Orientation="Vertical">
-                                                <TextBlock Width="170" Text="{Binding LibraryName}" Style="{DynamicResource sb_folderHeader}" />
-                                                <TextBlock Width="170" Text="{Binding Created}" Style="{DynamicResource sb_folderDate}" />
-                                            </StackPanel>
-                                        </Border>
-                                        <Border Width="38" Height="50">
-                                            <Button Style="{DynamicResource lib_FolderOpenIcon}" Uid="{Binding LibraryId}" Tag="{Binding Created}" Content="{Binding LibraryName}" Background="{Binding LibraryColor}" Click="openLibraryFolder_Click" />
-                                        </Border>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                <Border x:Name="lnt13" Grid.Column="0" Grid.Row="3" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border x:Name="lntColor13" Width="12" CornerRadius="5 0 0 5" />
+                            <Border Width="195" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock x:Name="lntName13" Width="170"  Style="{DynamicResource sb_folderHeader}" />
+                                    <TextBlock x:Name="lntCreated13" Width="170"  Style="{DynamicResource sb_folderDate}" />
+                                </StackPanel>
+                            </Border>
+                            <Border Width="38" Height="50">
+                                <Button x:Name="lntBtn13" Style="{DynamicResource lib_FolderOpenIcon}"  Click="openLibraryFolder_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
                 </Border>
 
-                <Border Grid.Column="1" Grid.Row="3" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="lnt14">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <Border Width="12" CornerRadius="5 0 0 5" Background="{Binding LibraryColor}" />
-                                        <Border Width="195" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                            <StackPanel Orientation="Vertical">
-                                                <TextBlock Width="170" Text="{Binding LibraryName}" Style="{DynamicResource sb_folderHeader}" />
-                                                <TextBlock Width="170" Text="{Binding Created}" Style="{DynamicResource sb_folderDate}" />
-                                            </StackPanel>
-                                        </Border>
-                                        <Border Width="38" Height="50">
-                                            <Button Style="{DynamicResource lib_FolderOpenIcon}" Uid="{Binding LibraryId}" Tag="{Binding Created}" Content="{Binding LibraryName}" Background="{Binding LibraryColor}" Click="openLibraryFolder_Click" />
-                                        </Border>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                <Border x:Name="lnt14" Grid.Column="1" Grid.Row="3" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border x:Name="lntColor14" Width="12" CornerRadius="5 0 0 5" />
+                            <Border Width="195" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock x:Name="lntName14" Width="170"  Style="{DynamicResource sb_folderHeader}" />
+                                    <TextBlock x:Name="lntCreated14" Width="170"  Style="{DynamicResource sb_folderDate}" />
+                                </StackPanel>
+                            </Border>
+                            <Border Width="38" Height="50">
+                                <Button x:Name="lntBtn14" Style="{DynamicResource lib_FolderOpenIcon}"  Click="openLibraryFolder_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
                 </Border>
 
-                <Border Grid.Column="2" Grid.Row="3" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="lnt15">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <Border Width="12" CornerRadius="5 0 0 5" Background="{Binding LibraryColor}" />
-                                        <Border Width="195" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                            <StackPanel Orientation="Vertical">
-                                                <TextBlock Width="170" Text="{Binding LibraryName}" Style="{DynamicResource sb_folderHeader}" />
-                                                <TextBlock Width="170" Text="{Binding Created}" Style="{DynamicResource sb_folderDate}" />
-                                            </StackPanel>
-                                        </Border>
-                                        <Border Width="38" Height="50">
-                                            <Button Style="{DynamicResource lib_FolderOpenIcon}" Uid="{Binding LibraryId}" Tag="{Binding Created}" Content="{Binding LibraryName}" Background="{Binding LibraryColor}" Click="openLibraryFolder_Click" />
-                                        </Border>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                <Border x:Name="lnt15" Grid.Column="2" Grid.Row="3" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border x:Name="lntColor15" Width="12" CornerRadius="5 0 0 5" />
+                            <Border Width="195" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock x:Name="lntName15" Width="170"  Style="{DynamicResource sb_folderHeader}" />
+                                    <TextBlock x:Name="lntCreated15" Width="170"  Style="{DynamicResource sb_folderDate}" />
+                                </StackPanel>
+                            </Border>
+                            <Border Width="38" Height="50">
+                                <Button x:Name="lntBtn15" Style="{DynamicResource lib_FolderOpenIcon}"  Click="openLibraryFolder_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
                 </Border>
 
-                <Border Grid.Column="3" Grid.Row="3" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="lnt16">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <Border Width="12" CornerRadius="5 0 0 5" Background="{Binding LibraryColor}" />
-                                        <Border Width="195" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                            <StackPanel Orientation="Vertical">
-                                                <TextBlock Width="170" Text="{Binding LibraryName}" Style="{DynamicResource sb_folderHeader}" />
-                                                <TextBlock Width="170" Text="{Binding Created}" Style="{DynamicResource sb_folderDate}" />
-                                            </StackPanel>
-                                        </Border>
-                                        <Border Width="38" Height="50">
-                                            <Button Style="{DynamicResource lib_FolderOpenIcon}" Uid="{Binding LibraryId}" Tag="{Binding Created}" Content="{Binding LibraryName}" Background="{Binding LibraryColor}" Click="openLibraryFolder_Click" />
-                                        </Border>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                <Border x:Name="lnt16" Grid.Column="3" Grid.Row="3" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border x:Name="lntColor16" Width="12" CornerRadius="5 0 0 5" />
+                            <Border Width="195" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock x:Name="lntName16" Width="170"  Style="{DynamicResource sb_folderHeader}" />
+                                    <TextBlock x:Name="lntCreated16" Width="170"  Style="{DynamicResource sb_folderDate}" />
+                                </StackPanel>
+                            </Border>
+                            <Border Width="38" Height="50">
+                                <Button x:Name="lntBtn16" Style="{DynamicResource lib_FolderOpenIcon}"  Click="openLibraryFolder_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
                 </Border>
 
-                <Border Grid.Column="0" Grid.Row="4" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="lnt17">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <Border Width="12" CornerRadius="5 0 0 5" Background="{Binding LibraryColor}" />
-                                        <Border Width="195" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                            <StackPanel Orientation="Vertical">
-                                                <TextBlock Width="170" Text="{Binding LibraryName}" Style="{DynamicResource sb_folderHeader}" />
-                                                <TextBlock Width="170" Text="{Binding Created}" Style="{DynamicResource sb_folderDate}" />
-                                            </StackPanel>
-                                        </Border>
-                                        <Border Width="38" Height="50">
-                                            <Button Style="{DynamicResource lib_FolderOpenIcon}" Uid="{Binding LibraryId}" Tag="{Binding Created}" Content="{Binding LibraryName}" Background="{Binding LibraryColor}" Click="openLibraryFolder_Click" />
-                                        </Border>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                <Border x:Name="lnt17" Grid.Column="0" Grid.Row="4" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border x:Name="lntColor17" Width="12" CornerRadius="5 0 0 5" />
+                            <Border Width="195" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock x:Name="lntName17" Width="170"  Style="{DynamicResource sb_folderHeader}" />
+                                    <TextBlock x:Name="lntCreated17" Width="170"  Style="{DynamicResource sb_folderDate}" />
+                                </StackPanel>
+                            </Border>
+                            <Border Width="38" Height="50">
+                                <Button x:Name="lntBtn17" Style="{DynamicResource lib_FolderOpenIcon}"  Click="openLibraryFolder_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
                 </Border>
 
-                <Border Grid.Column="1" Grid.Row="4" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="lnt18">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <Border Width="12" CornerRadius="5 0 0 5" Background="{Binding LibraryColor}" />
-                                        <Border Width="195" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                            <StackPanel Orientation="Vertical">
-                                                <TextBlock Width="170" Text="{Binding LibraryName}" Style="{DynamicResource sb_folderHeader}" />
-                                                <TextBlock Width="170" Text="{Binding Created}" Style="{DynamicResource sb_folderDate}" />
-                                            </StackPanel>
-                                        </Border>
-                                        <Border Width="38" Height="50">
-                                            <Button Style="{DynamicResource lib_FolderOpenIcon}" Uid="{Binding LibraryId}" Tag="{Binding Created}" Content="{Binding LibraryName}" Background="{Binding LibraryColor}" Click="openLibraryFolder_Click" />
-                                        </Border>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                <Border x:Name="lnt18" Grid.Column="1" Grid.Row="4" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border x:Name="lntColor18" Width="12" CornerRadius="5 0 0 5" />
+                            <Border Width="195" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock x:Name="lntName18" Width="170"  Style="{DynamicResource sb_folderHeader}" />
+                                    <TextBlock x:Name="lntCreated18" Width="170"  Style="{DynamicResource sb_folderDate}" />
+                                </StackPanel>
+                            </Border>
+                            <Border Width="38" Height="50">
+                                <Button x:Name="lntBtn18" Style="{DynamicResource lib_FolderOpenIcon}"  Click="openLibraryFolder_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
                 </Border>
 
-                <Border Grid.Column="2" Grid.Row="4" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="lnt19" SnapsToDevicePixels="True" UseLayoutRounding="True">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <Border Width="12" CornerRadius="5 0 0 5" Background="{Binding LibraryColor}" />
-                                        <Border Width="195" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                            <StackPanel Orientation="Vertical">
-                                                <TextBlock Width="170" Text="{Binding LibraryName}" Style="{DynamicResource sb_folderHeader}" />
-                                                <TextBlock Width="170" Text="{Binding Created}" Style="{DynamicResource sb_folderDate}" />
-                                            </StackPanel>
-                                        </Border>
-                                        <Border Width="38" Height="50">
-                                            <Button Style="{DynamicResource lib_FolderOpenIcon}" Uid="{Binding LibraryId}" Tag="{Binding Created}" Content="{Binding LibraryName}" Background="{Binding LibraryColor}" Click="openLibraryFolder_Click" />
-                                        </Border>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                <Border x:Name="lnt19" Grid.Column="2" Grid.Row="4" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border x:Name="lntColor19" Width="12" CornerRadius="5 0 0 5" />
+                            <Border Width="195" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock x:Name="lntName19" Width="170"  Style="{DynamicResource sb_folderHeader}" />
+                                    <TextBlock x:Name="lntCreated19" Width="170"  Style="{DynamicResource sb_folderDate}" />
+                                </StackPanel>
+                            </Border>
+                            <Border Width="38" Height="50">
+                                <Button x:Name="lntBtn19" Style="{DynamicResource lib_FolderOpenIcon}"  Click="openLibraryFolder_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
                 </Border>
 
-                <Border Grid.Column="3" Grid.Row="4" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="lnt20">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <Border Width="12" CornerRadius="5 0 0 5" Background="{Binding LibraryColor}" />
-                                        <Border Width="195" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                            <StackPanel Orientation="Vertical">
-                                                <TextBlock Width="170" Text="{Binding LibraryName}" Style="{DynamicResource sb_folderHeader}" />
-                                                <TextBlock Width="170" Text="{Binding Created}" Style="{DynamicResource sb_folderDate}" />
-                                            </StackPanel>
-                                        </Border>
-                                        <Border Width="38" Height="50">
-                                            <Button Style="{DynamicResource lib_FolderOpenIcon}" Uid="{Binding LibraryId}" Tag="{Binding Created}" Content="{Binding LibraryName}" Background="{Binding LibraryColor}" Click="openLibraryFolder_Click" />
-                                        </Border>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                <Border x:Name="lnt20" Grid.Column="3" Grid.Row="4" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border x:Name="lntColor20" Width="12" CornerRadius="5 0 0 5" />
+                            <Border Width="195" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock x:Name="lntName20" Width="170"  Style="{DynamicResource sb_folderHeader}" />
+                                    <TextBlock x:Name="lntCreated20" Width="170"  Style="{DynamicResource sb_folderDate}" />
+                                </StackPanel>
+                            </Border>
+                            <Border Width="38" Height="50">
+                                <Button x:Name="lntBtn20" Style="{DynamicResource lib_FolderOpenIcon}"  Click="openLibraryFolder_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
                 </Border>
             </Grid>
         </Border>

@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Security.Cryptography.Pkcs;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -52,6 +53,7 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             using (var entitydb = new AyetContext())
             {
+                loadAni();
                 var dSub = entitydb.Subject.Where(p => p.SubjectId == SubID).First();
                 subItemsId = entitydb.SubjectItems.Where(p => p.SubjectId == subId).First().SubjectItemsId;
                 var dSure = entitydb.Sure.Where(p => p.sureId == SureId).Select(p => new Sure { Name = p.Name }).First();
@@ -71,6 +73,9 @@ namespace KuranX.App.Core.Pages.SubjectF
                     sverseId = (int)dVerse.VerseId;
                     loadInterpreterFunc("", sverseId);
                 });
+                Thread.Sleep(200);
+
+                loadAniComplated();
             }
         }
 
@@ -318,11 +323,11 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             try
             {
-                if (noteName.Text.Length <= 8)
+                if (noteName.Text.Length <= 3)
                 {
                     noteAddPopupHeaderError.Visibility = Visibility.Visible;
                     noteName.Focus();
-                    noteAddPopupHeaderError.Content = "Not Başlığı Yeterince Uzun Değil. Min 8 Karakter Olmalıdır.";
+                    noteAddPopupHeaderError.Content = "Not Başlığı Yeterince Uzun Değil. Min 3 Karakter Olmalıdır.";
                 }
                 else
                 {
@@ -334,11 +339,11 @@ namespace KuranX.App.Core.Pages.SubjectF
                     }
                     else
                     {
-                        if (noteDetail.Text.Length <= 8)
+                        if (noteDetail.Text.Length <= 3)
                         {
                             noteAddPopupDetailError.Visibility = Visibility.Visible;
                             noteDetail.Focus();
-                            noteAddPopupDetailError.Content = "Not İçeriği Yeterince Uzun Değil. Min 8 Karakter Olmalıdır";
+                            noteAddPopupDetailError.Content = "Not İçeriği Yeterince Uzun Değil. Min 3 Karakter Olmalıdır";
                         }
                         else
                         {
@@ -570,5 +575,29 @@ namespace KuranX.App.Core.Pages.SubjectF
         }
 
         // ---------- MessageFunc FUNC ---------- //
+
+        // ---------- Animation Func ----------- //
+
+        private void loadAni()
+        {
+            this.Dispatcher.Invoke(() =>
+            {
+                loadHeaderStack.Visibility = Visibility.Hidden;
+                loadBackHeader.Visibility = Visibility.Hidden;
+                loadControlAni.Visibility = Visibility.Hidden;
+                loadContentGrid.Visibility = Visibility.Hidden;
+            });
+        }
+
+        private void loadAniComplated()
+        {
+            this.Dispatcher.Invoke(() =>
+            {
+                loadHeaderStack.Visibility = Visibility.Visible;
+                loadBackHeader.Visibility = Visibility.Visible;
+                loadControlAni.Visibility = Visibility.Visible;
+                loadContentGrid.Visibility = Visibility.Visible;
+            });
+        }
     }
 }

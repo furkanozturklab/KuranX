@@ -37,8 +37,8 @@
     </Style>
 
     <Style TargetType="Button" x:Key="nt_viewStackBtn">
-        <Setter Property="Width" Value="24" />
-        <Setter Property="Height" Value="24" />
+        <Setter Property="Width" Value="36" />
+        <Setter Property="Height" Value="36" />
 
         <Setter Property="Template">
             <Setter.Value>
@@ -91,15 +91,15 @@
         <Setter Property="TextTrimming" Value="CharacterEllipsis" />
         <Setter Property="Foreground" Value="#1C1E2F" />
         <Setter Property="FontFamily" Value="{DynamicResource PoppinsMedium}" />
-        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontSize" Value="13" />
     </Style>
 
     <Style x:Key="nt_ItemDate" TargetType="TextBlock">
 
         <Setter Property="Width" Value="150" />
         <Setter Property="Foreground" Value="#7B7B7B" />
-        <Setter Property="FontFamily" Value="{DynamicResource PoppinsRegular}" />
-        <Setter Property="FontSize" Value="10" />
+        <Setter Property="FontFamily" Value="{DynamicResource PoppinsMedium}" />
+        <Setter Property="FontSize" Value="11" />
     </Style>
 
     <Style  x:Key="nt_DetailTxtBox" TargetType="TextBox">
@@ -109,5 +109,18 @@
         <Setter Property="FontSize" Value="14" />
         <Setter Property="FontFamily" Value="{DynamicResource PoppinsMedium}" />
         <Setter Property="Padding" Value="10" />
+
+        <Style.Triggers>
+            <Trigger Property="Visibility" Value="Visible">
+                <Trigger.EnterActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                             From="0.0" To="1.0" Duration="0:0:0.5" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.EnterActions>
+            </Trigger>
+        </Style.Triggers>
     </Style>
 </ResourceDictionary>

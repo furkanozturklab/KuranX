@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -39,6 +40,7 @@ namespace KuranX.App.Core.Pages.ResultF
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
+            gridContent.Visibility = Visibility.Visible;
             App.mainScreen.navigationWriter("result", "");
             App.loadTask = Task.Run(() => loadItem());
         }
@@ -52,25 +54,49 @@ namespace KuranX.App.Core.Pages.ResultF
                 App.mainScreen.navigationWriter("result", "");
                 var dResults = entitydb.Results.Skip(lastPage).Take(16).ToList();
                 Decimal totalcount = entitydb.Results.Count();
-                List<Classes.Result> dtemp = new List<Classes.Result>();
+
+                for (int x = 1; x <= 16; x++)
+                {
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        var sbItem = (Border)FindName("rs" + x);
+                        sbItem.Visibility = Visibility.Hidden;
+                    });
+                }
+                int i = 1;
+
+                Thread.Sleep(300);
+                foreach (var item in dResults)
+                {
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        var sName = (TextBlock)FindName("rsName" + i);
+                        sName.Text = item.ResultName;
+
+                        var sColor = (Border)FindName("rsColor" + i);
+                        sColor.Background = new BrushConverter().ConvertFrom((string)item.ResultStatus) as SolidColorBrush;
+
+                        var sBtn = (Button)FindName("rsBtn" + i);
+                        sBtn.Uid = item.ResultId.ToString();
+
+                        var sS = (Image)FindName("rsS" + i);
+                        sS.IsEnabled = (bool)item.ResultSubject;
+
+                        var sL = (Image)FindName("rsL" + i);
+                        sL.IsEnabled = (bool)item.ResultLib;
+
+                        var sN = (Image)FindName("rsN" + i);
+                        sN.IsEnabled = (bool)item.ResultNotes;
+
+                        var sbItem = (Border)FindName("rs" + i);
+                        sbItem.Visibility = Visibility.Visible;
+
+                        i++;
+                    });
+                }
 
                 this.Dispatcher.Invoke(() =>
                 {
-                    for (int x = 1; x < 17; x++)
-                    {
-                        ItemsControl itemslist = (ItemsControl)this.FindName("rs" + x);
-                        itemslist.ItemsSource = null;
-                    }
-                    int i = 1;
-                    foreach (var item in dResults)
-                    {
-                        dtemp.Add(item);
-                        ItemsControl itemslist = (ItemsControl)this.FindName("rs" + i);
-                        itemslist.ItemsSource = dtemp;
-                        dtemp.Clear();
-                        i++;
-                    }
-
                     totalcountText.Tag = totalcount.ToString();
 
                     if (dResults.Count() != 0)
@@ -105,6 +131,7 @@ namespace KuranX.App.Core.Pages.ResultF
         private void resultItemClick_Click(object sender, RoutedEventArgs e)
         {
             var btn = sender as Button;
+            gridContent.Visibility = Visibility.Hidden;
             App.mainframe.Content = App.navResultItem.PageCall(int.Parse(btn.Uid));
         }
 

@@ -38,6 +38,7 @@ namespace KuranX.App.Core.Pages.SubjectF
             lastPage = 0;
             NowPage = 1;
             subFolderId = subId;
+            loadHeaderGif.Visibility = Visibility.Visible;
             App.loadTask = Task.Run(() => loadItem(subId));
 
             return this;
@@ -70,30 +71,40 @@ namespace KuranX.App.Core.Pages.SubjectF
                     subjectItemsDeleteBtn.Uid = dSubject.SubjectId.ToString();
                 });
 
-                for (int x = 1; x < 21; x++)
+                for (int x = 1; x <= 20; x++)
                 {
                     this.Dispatcher.Invoke(() =>
                     {
-                        ItemsControl itemslist = (ItemsControl)this.FindName("sbItem" + x);
-                        itemslist.ItemsSource = null;
+                        var sbItem = (StackPanel)FindName("sbItem" + x);
+                        sbItem.Visibility = Visibility.Hidden;
                     });
                 }
 
                 int i = 1;
-                List<SubjectItems> tempSub = new List<SubjectItems>();
+
+                Thread.Sleep(200);
+
                 foreach (var item in dSubjects)
                 {
                     this.Dispatcher.Invoke(() =>
                     {
-                        tempSub.Add(item);
-                        ItemsControl itemslist = (ItemsControl)this.FindName("sbItem" + i);
-                        itemslist.ItemsSource = tempSub;
-                        tempSub.Clear();
+                        var sName = (TextBlock)FindName("sbName" + i);
+                        sName.Text = item.SubjectName;
+
+                        var sCreated = (TextBlock)FindName("sbCreate" + i);
+                        sCreated.Text = item.Created.ToString("D");
+
+                        var sBtn = (Button)FindName("sbBtn" + i);
+                        sBtn.Uid = item.SubjectId.ToString();
+                        sBtn.Content = item.SureId.ToString();
+                        sBtn.Tag = item.VerseId.ToString();
+
+                        var sbItem = (StackPanel)FindName("sbItem" + i);
+                        sbItem.Visibility = Visibility.Visible;
                         i++;
                     });
                 }
 
-                Thread.Sleep(200);
                 this.Dispatcher.Invoke(() =>
                 {
                     totalcountText.Tag = totalcount.ToString();
@@ -137,6 +148,10 @@ namespace KuranX.App.Core.Pages.SubjectF
 
         private void newConnect_Click(object sender, RoutedEventArgs e)
         {
+            var item = popupNextSureId.SelectedItem as ComboBoxItem;
+
+            popupaddnewversecountErrortxt.Content = item.Content + " Süresini " + item.Tag + " Ayeti Mevcut";
+
             popup_addConnect.IsOpen = true;
         }
 
@@ -154,7 +169,8 @@ namespace KuranX.App.Core.Pages.SubjectF
 
                 popupNextSureId.SelectedIndex = 0;
                 popupNextVerseId.Text = "1";
-                popupaddnewversecountErrortxt.Content = "Gitmek İstenilen Ayet Sırasını Giriniz";
+                popupNewName.Text = "";
+
                 popuptemp.IsOpen = false;
             }
             catch (Exception ex)
@@ -178,6 +194,8 @@ namespace KuranX.App.Core.Pages.SubjectF
                         if (dControl.Count != 0)
                         {
                             alertFunc("Ayet Ekleme Başarısız", "Bu ayet Daha Önceden Eklenmiş Yeniden Ekleyemezsiniz.", 3);
+                            popup_addConnect.IsOpen = false;
+                            popupNextVerseId.Text = "1";
                         }
                         else
                         {
@@ -257,7 +275,7 @@ namespace KuranX.App.Core.Pages.SubjectF
 
                 if (entitydb.ResultItems.Where(p => p.ResultId == dResult.ResultId && p.ResultSubjectId == subFolderId).Count() == 0)
                 {
-                    dResult.ResultSubject = "true";
+                    dResult.ResultSubject = true;
                     var dTemp = new ResultItem { ResultId = dResult.ResultId, ResultSubjectId = subFolderId, SendTime = DateTime.Now };
                     entitydb.ResultItems.Add(dTemp);
                     entitydb.SaveChanges();
@@ -285,12 +303,33 @@ namespace KuranX.App.Core.Pages.SubjectF
                     entitydb.Notes.RemoveRange(entitydb.Notes.Where(p => p.SubjectId == subFolderId));
                     entitydb.Subject.RemoveRange(entitydb.Subject.Where(p => p.SubjectId == subFolderId));
                     entitydb.SaveChanges();
+                    popup_SubjectDelete.IsOpen = false;
                     voidgobacktimer();
                 }
             }
             catch (Exception ex)
             {
                 App.logWriter("Remove", ex);
+            }
+        }
+
+        private void newNamePopup_Click(object sender, RoutedEventArgs e)
+        {
+            using (var entitydb = new AyetContext())
+            {
+                if (popupNewName.Text.Length >= 3)
+                {
+                    entitydb.Subject.Where(p => p.SubjectId == subFolderId).First().SubjectName = popupNewName.Text;
+                    loadHeader.Text = popupNewName.Text;
+                    entitydb.SaveChanges();
+                    succsessFunc("Güncelleme Başarılı", "Konu başlığınız başarılı bir sekilde Değiştirilmiştir.", 3);
+                    popup_newName.IsOpen = false;
+                }
+                else
+                {
+                    popupNewName.Focus();
+                    popupRelativeIdError.Content = "Konu başlığının uzunluğu minimum 3 karakter olmalı";
+                }
             }
         }
 
@@ -393,6 +432,19 @@ namespace KuranX.App.Core.Pages.SubjectF
             }
         }
 
+        private void subjectItemsRenameBtn_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                popupNewName.Text = loadHeader.Text;
+                popup_newName.IsOpen = true;
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Popup", ex);
+            }
+        }
+
         private void popupNextVerseId_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             Regex regex = new Regex("[^0-9]+");
@@ -411,18 +463,34 @@ namespace KuranX.App.Core.Pages.SubjectF
                 if (int.Parse(popupNextVerseId.Text) <= int.Parse(item.Tag.ToString()) && int.Parse(popupNextVerseId.Text) > 0)
                 {
                     addnewConnectSubject.IsEnabled = true;
-                    popupaddnewversecountErrortxt.Content = "Ayet Mevcut Gidilebilir";
+                    popupaddnewversecountErrortxt.Content = "Ayet Mevcut Eklene Bilir";
                 }
                 else
                 {
                     addnewConnectSubject.IsEnabled = false;
-                    popupaddnewversecountErrortxt.Content = "Ayet Mevcut Değil";
+                    popupaddnewversecountErrortxt.Content = "Ayet Mevcut Değil üst sınır " + item.Tag;
                 }
             }
             else
             {
                 addnewConnectSubject.IsEnabled = false;
                 popupaddnewversecountErrortxt.Content = "Lütfen Ayet Sırasını Giriniz";
+            }
+        }
+
+        private void popupNewName_TextChanged(object sender, TextChangedEventArgs e)
+        {
+        }
+
+        private void popupNewName_KeyDown(object sender, KeyEventArgs e)
+        {
+            try
+            {
+                popupRelativeIdError.Content = "Yeni Konu Başlığını Giriniz";
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Other", ex);
             }
         }
 
@@ -446,7 +514,7 @@ namespace KuranX.App.Core.Pages.SubjectF
                 App.timeSpan.Tick += delegate
                 {
                     App.timeSpan.Stop();
-                    NavigationService.GoBack();
+                    App.mainframe.Content = App.navSubjectFrame.PageCall();
                 };
             }
             catch (Exception ex)
@@ -474,6 +542,8 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             this.Dispatcher.Invoke(() =>
             {
+                loadHeaderGif.Visibility = Visibility.Collapsed;
+                loadStack.Visibility = Visibility.Visible;
                 subjectItemsDeleteBtn.IsEnabled = true;
                 backPage.IsEnabled = true;
                 sendResult.IsEnabled = true;

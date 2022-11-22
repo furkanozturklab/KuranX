@@ -40,6 +40,7 @@ namespace KuranX.App.Core.Pages.NoteF
         private string searchText, filterText;
         private int lastPage = 0, NowPage = 1, selectedId;
         private bool filter;
+        private List<Notes> dNotes = new List<Notes>();
 
         public NoteFrame()
         {
@@ -48,13 +49,14 @@ namespace KuranX.App.Core.Pages.NoteF
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            lastPage = 0;
-            NowPage = 1;
-            App.loadTask = Task.Run(() => loadItem());
+            listBorder.Visibility = Visibility.Visible;
+            // App.loadTask = Task.Run(() => loadItem());
         }
 
         public Page PageCall()
         {
+            lastPage = 0;
+            NowPage = 1;
             App.mainScreen.navigationWriter("notes", "");
             filter = false;
             searchText = "";
@@ -62,6 +64,7 @@ namespace KuranX.App.Core.Pages.NoteF
             stackview.IsChecked = false;
             listBorder.Visibility = Visibility.Visible;
             stackBorder.Visibility = Visibility.Collapsed;
+
             App.loadTask = Task.Run(() => loadItem());
             return this;
         }
@@ -73,14 +76,17 @@ namespace KuranX.App.Core.Pages.NoteF
             using (var entitydb = new AyetContext())
             {
                 loadAni();
-                List<Notes> dNotes = new List<Notes>();
-                List<Dstack> dstack = new List<Dstack>();
-                List<Notes> tempNotes = new List<Notes>();
 
                 decimal totalcount = entitydb.Notes.Where(p => p.NoteLocation == "Konularım" || p.NoteLocation == "Kütüphane" || p.NoteLocation == "PDF" || p.NoteLocation == "Ayet" || p.NoteLocation == "Kullanıcı").Count();
-                var stackP = entitydb.Notes.Where(p => p.NoteLocation == "Konularım" || p.NoteLocation == "Kütüphane" || p.NoteLocation == "PDF" || p.NoteLocation == "Ayet" || p.NoteLocation == "Kullanıcı").OrderByDescending(p => p.Created).GroupBy(p => p.NoteLocation).Select(p => new Dstack { NoteLocation = p.Key, Count = p.Count(), Bg = p.Key }).ToList();
+                //var stackP = entitydb.Notes.Where(p => p.NoteLocation == "Konularım" || p.NoteLocation == "Kütüphane" || p.NoteLocation == "PDF" || p.NoteLocation == "Ayet" || p.NoteLocation == "Kullanıcı").OrderByDescending(p => p.Created).GroupBy(p => p.NoteLocation).ToList();
 
                 App.mainScreen.navigationWriter("notes", "");
+
+                this.Dispatcher.Invoke(() =>
+                {
+                    listBorder.Visibility = Visibility.Visible;
+                    stackBorder.Visibility = Visibility.Collapsed;
+                });
 
                 if (filter)
                 {
@@ -109,93 +115,81 @@ namespace KuranX.App.Core.Pages.NoteF
                     }
                 }
 
+                for (int x = 1; x <= 24; x++)
+                {
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        var sbItem = (Border)FindName("nt" + x);
+                        sbItem.Visibility = Visibility.Hidden;
+                    });
+                }
+
                 this.Dispatcher.Invoke(() =>
                 {
-                    listBorder.Visibility = Visibility.Visible;
-                    stackBorder.Visibility = Visibility.Collapsed;
+                    subStat.Content = entitydb.Notes.Where(p => p.NoteLocation == "Konularım").Count();
+                    libStat.Content = entitydb.Notes.Where(p => p.NoteLocation == "Kütüphane").Count();
+                    verseStat.Content = entitydb.Notes.Where(p => p.NoteLocation == "Ayet").Count();
+                    pdfStat.Content = entitydb.Notes.Where(p => p.NoteLocation == "PDF").Count();
+                    userStat.Content = entitydb.Notes.Where(p => p.NoteLocation == "Kullanıcı").Count();
+                });
+                int i = 1;
 
-                    for (int x = 1; x < 25; x++)
-                    {
-                        ItemsControl itemslist = (ItemsControl)this.FindName("nt" + x);
-                        itemslist.ItemsSource = null;
-                    }
+                Thread.Sleep(200);
 
-                    for (int x = 1; x < 5; x++)
+                foreach (var item in dNotes)
+                {
+                    this.Dispatcher.Invoke(() =>
                     {
-                        ItemsControl itemslist = (ItemsControl)this.FindName("nts" + x);
-                        itemslist.ItemsSource = null;
-                    }
-
-                    int i = 1;
-                    foreach (var item in stackP)
-                    {
-                        dstack.Add(item);
-                        switch (dstack[0].NoteLocation)
+                        var sColor = (Border)FindName("ntColor" + i);
+                        switch (item.NoteLocation)
                         {
                             case "Konularım":
-                                dstack[0].Bg = "#FD7E14";
-                                dstack[0].Fr = "#FFF";
+                                sColor.Background = new BrushConverter().ConvertFrom("#FD7E14") as SolidColorBrush;
                                 break;
 
                             case "Kütüphane":
-                                dstack[0].Bg = "#E33FA1";
-                                dstack[0].Fr = "#FFF";
+
+                                sColor.Background = new BrushConverter().ConvertFrom("#E33FA1") as SolidColorBrush;
                                 break;
 
                             case "Ayet":
-                                dstack[0].Bg = "#0DCAF0";
-                                dstack[0].Fr = "#FFF";
+
+                                sColor.Background = new BrushConverter().ConvertFrom("#0DCAF0") as SolidColorBrush;
                                 break;
 
                             case "PDF":
-                                dstack[0].Bg = "#B30B00";
-                                dstack[0].Fr = "#FFF";
+
+                                sColor.Background = new BrushConverter().ConvertFrom("#B30B00") as SolidColorBrush;
                                 break;
 
                             default:
-                                dstack[0].Bg = "#ADB5BD";
-                                dstack[0].Fr = "#FFF";
+                                sColor.Background = new BrushConverter().ConvertFrom("#ADB5BD") as SolidColorBrush;
                                 break;
                         }
-                        ItemsControl itemslist = (ItemsControl)this.FindName("nts" + i);
-                        itemslist.ItemsSource = dstack;
-                        dstack.Clear();
+
+                        var sName = (TextBlock)FindName("ntName" + i);
+                        sName.Text = item.NoteHeader;
+
+                        var sCreated = (TextBlock)FindName("ntCreate" + i);
+                        sCreated.Text = item.Created.ToString("D");
+
+                        var sBtnGo = (Button)FindName("ntBtnGo" + i);
+                        sBtnGo.Uid = item.NotesId.ToString();
+
+                        var sBtnDel = (Button)FindName("ntBtnDel" + i);
+                        sBtnDel.Uid = item.NotesId.ToString();
+
+                        var sbItem = (Border)FindName("nt" + i);
+                        sbItem.Visibility = Visibility.Visible;
+
                         i++;
-                    }
+                    });
+                }
 
-                    i = 1;
-                    foreach (var item in dNotes)
-                    {
-                        tempNotes.Add(item);
-                        ItemsControl itemslist = (ItemsControl)this.FindName("nt" + i);
-                        switch (tempNotes[0].NoteLocation)
-                        {
-                            case "Konularım":
-                                tempNotes[0].NoteLocation = "#FD7E14";
-                                break;
+                i = 1;
 
-                            case "Kütüphane":
-                                tempNotes[0].NoteLocation = "#E33FA1";
-                                break;
-
-                            case "Ayet":
-                                tempNotes[0].NoteLocation = "#0DCAF0";
-                                break;
-
-                            case "PDF":
-                                tempNotes[0].NoteLocation = "#B30B00";
-                                break;
-
-                            default:
-                                tempNotes[0].NoteLocation = "#ADB5BD";
-                                break;
-                        }
-                        itemslist.ItemsSource = tempNotes;
-                        tempNotes.Clear();
-                        i++;
-                    }
-
-                    Thread.Sleep(200);
+                this.Dispatcher.Invoke(() =>
+                {
                     totalcountText.Tag = totalcount.ToString();
 
                     if (dNotes.Count() != 0)
@@ -220,7 +214,6 @@ namespace KuranX.App.Core.Pages.NoteF
                         previusPageButton.IsEnabled = false;
                     }
                 });
-
                 loadAniComplated();
             }
         }
@@ -234,16 +227,22 @@ namespace KuranX.App.Core.Pages.NoteF
             Button btn = sender as Button;
             listview.IsChecked = true;
             stackview.IsChecked = false;
+            lastPage = 0;
+            NowPage = 1;
 
             if ((string)btn.Content == "Hepsi")
             {
                 filter = false;
                 filterText = "";
+                searchText = "";
+                SearchData.Text = "";
             }
             else
             {
                 filter = true;
                 filterText = btn.Content.ToString();
+                searchText = "";
+                SearchData.Text = "";
             }
 
             App.loadTask = Task.Run(() => loadItem());
@@ -326,11 +325,11 @@ namespace KuranX.App.Core.Pages.NoteF
         {
             try
             {
-                if (noteName.Text.Length <= 8)
+                if (noteName.Text.Length <= 3)
                 {
                     noteAddPopupHeaderError.Visibility = Visibility.Visible;
                     noteName.Focus();
-                    noteAddPopupHeaderError.Content = "Not Başlığı Yeterince Uzun Değil. Min 8 Karakter Olmalıdır.";
+                    noteAddPopupHeaderError.Content = "Not Başlığı Yeterince Uzun Değil. Min 3 Karakter Olmalıdır.";
                 }
                 else
                 {
@@ -342,11 +341,11 @@ namespace KuranX.App.Core.Pages.NoteF
                     }
                     else
                     {
-                        if (noteDetail.Text.Length <= 8)
+                        if (noteDetail.Text.Length <= 3)
                         {
                             noteAddPopupDetailError.Visibility = Visibility.Visible;
                             noteDetail.Focus();
-                            noteAddPopupDetailError.Content = "Not İçeriği Yeterince Uzun Değil. Min 8 Karakter Olmalıdır";
+                            noteAddPopupDetailError.Content = "Not İçeriği Yeterince Uzun Değil. Min 3 Karakter Olmalıdır";
                         }
                         else
                         {
@@ -372,6 +371,7 @@ namespace KuranX.App.Core.Pages.NoteF
                                         succsessFunc("Not Ekleme Başarılı", "Notunuz Eklenmiştir.", 3);
                                         noteName.Text = "";
                                         noteDetail.Text = "";
+
                                         App.loadTask = Task.Run(() => loadItem());
 
                                         dNotes = null;
@@ -443,6 +443,7 @@ namespace KuranX.App.Core.Pages.NoteF
         private void gotoNotes_Click(object sender, RoutedEventArgs e)
         {
             Button btn = sender as Button;
+            listBorder.Visibility = Visibility.Hidden;
             App.mainframe.Content = App.navNoteItem.PageCall(int.Parse(btn.Uid));
         }
 
@@ -614,7 +615,7 @@ namespace KuranX.App.Core.Pages.NoteF
                 filterAll.IsEnabled = false;
                 filterUser.IsEnabled = false;
                 filterSubject.IsEnabled = false;
-                filterLib.IsEnabled = false;
+
                 filterVerse.IsEnabled = false;
                 filterPdf.IsEnabled = false;
             });
@@ -630,7 +631,7 @@ namespace KuranX.App.Core.Pages.NoteF
                 filterAll.IsEnabled = true;
                 filterUser.IsEnabled = true;
                 filterSubject.IsEnabled = true;
-                filterLib.IsEnabled = true;
+
                 filterVerse.IsEnabled = true;
                 filterPdf.IsEnabled = true;
             });

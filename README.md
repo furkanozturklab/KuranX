@@ -64,22 +64,36 @@
     * [x] ⚠️ Kaldığın yeri işaretleyip sildiğinde eğer yeşil se gri renk oluyor 
     * [x] ⚠️ İşaretledikden sonra tümünü okuduğunda renk gidiyor mavi yerine yeşil oluyor. "Uğraştırdı 😄"
     * [x] ⚠️ Anlam bütünlüğü başlığı 50 den uzun oluyor ama uyarı veriyor.
-    * [ ] ⚠️ LibraryFile Itemda Not türü konu notu olarak kalmış.
-    * [ ] ⚠️ LibraryFile kütüphaneye gönderince combobox kütüphaneler ulaşmıyor.
+    * [x] ⚠️ LibraryFile Itemda Not türü konu notu olarak kalmış.
+    * [x] ⚠️ LibraryFile kütüphaneye gönderince combobox kütüphaneler ulaşmıyor.
     * [x] ⚠️ Not daha önceki notun parçaları kalıyor kontrol et library notu actım sonra user notu library notunu parçaları kalmış.
-    * [ ] ⚠️ konuların notunda nota gidemiyoruz.
-    * [ ] ⚠️ Not silerkenki popup hatalı gösteriyor.
+    * [x] ⚠️ konuların notunda nota gidemiyoruz.
+    * [x] ⚠️ Not silerkenki popup hatalı gösteriyor.
     * [x] ⚠️ Kütüphane Dosyaları silinemiyor.
     * [ ] ⚠️ Tüm Panellerin Yükleme funclarını kontrol edelim
     * [ ] ⚠️ Hatırlatıcı sildikten sonra işaretli kalıyor ve popupları acılıp kapanması bak
-    * [ ] 
+    * [x] ⚠️ Sonuc konu ayet içeiriği fatiha kalmış statick sil 
+    * [x] ⚠️ Kısa tefsir ayet arasındaki konular olarak Değiştir 
+    * [x] ⚠️ Düşüncelerinizi paylaşını üst kısma al
+    * [ ] ⚠️ konularım yeni konu aç da takılma oluyor ?? 
+    * [x] ⚠️ Konu başlığı oluşturda kapat diyince eski veri kalıyor 
+    * [x] ⚠️ karakter sınırlaması min 3 olacak sekilde değiştir.
+    * [ ] ⚠️ konuları listele alfabetik / arama ?
+    * [x] ⚠️ konu panelinde konu başlığının adını değiştirme
+    * [x] ⚠️ ayet değişince popuplar acık kalıyor
+    * [x] ⚠️ sonuc metnine tıkalyınca sil
+    * [x] ⚠️ ayet değğişince default yorumcu kalıyor yorumcu combobox değişik olsa bile
+    * [x] ⚠️ anlambütünlüğü sureye git -> ayete git
+    * [x] ⚠️ hatırlatıcı sayfasında yeni hatırlatıcıya ayet ekle
+    * [ ] ⚠️
+
 ## Gelecek Güncellemeler:
 
 * ### Public
 	
 	* [ ] 🆕 Kelime kökleri düzeltilecek "Acil değil" "Farklı bir kaynaktan alıcaz"
 	* [-] 🆕 ~~ Görünümde liste yapmaya çalış.  "Acil değil" ~~
-	* [ ] 🆕 secili ayet kırmız kalsın.
+	* [x] 🆕 secili ayet kırmız kalsın.
 	* [ ] 🆕 Try catch bloklarında catch kısımlarına girerse new window oluşturup anasayfaya yönlendir kullanııcya uyarı ver.
 	* [ ] 🆕 Admin Ayarlarını acıp kapanıp acıla bilen buttonlar oluştur.
 	* [x] 🆕 Anlam bütünlükleri Fatihadan bağlayınca Nisadada gözüksün
@@ -89,7 +103,8 @@
 	* [x] 🆕 anlam bütünlüğü okurkan düzeltme olsun yazılı şeyler düzeltilemiyor. ve silme olsun
 	* [x] 🆕 editor girişi için anlambütünlüğü başşığını baypass et   öRNEK :  Fatiha 1 Ayetini Nisa 7 Ayetine Bağlantısı
 	* [ ] 🆕 Ayetlerde yorumcuların içinde search 
-	* [ ] 🆕 Yeni Yorumcu
+	* [x] 🆕 Yeni Yorumcu
+	* [x] 🆕 Notlar stack yapısını result yapısı ile eşitle result daha iyi 
 	* [ ] 🆕
 
 
@@ -108,13 +123,13 @@
 
 #### STATUS 
 
-> SON EKLENEN SORUN TARİHİ : 15.11.2022
+> SON EKLENEN SORUN TARİHİ : 19.11.2022
 >
-> SON ÇÖZÜLEN SORUN TARİHİ : 15.11.2022
+> SON ÇÖZÜLEN SORUN TARİHİ : 22.11.2022
 >
 > Toplam Çözülen Sorun : ?
 >
-> SON GÜNCELLEME TARİHİ : 15.11.2022
+> SON GÜNCELLEME TARİHİ : 22.11.2022
 >
 > VERSİYON PUBLİC : 0.2.0  Alpha
 >

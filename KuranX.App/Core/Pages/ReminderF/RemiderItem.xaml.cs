@@ -39,6 +39,13 @@ namespace KuranX.App.Core.Pages.ReminderF
             return this;
         }
 
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            loadHeaderStack.Visibility = Visibility.Visible;
+            controlBar.Visibility = Visibility.Visible;
+            remiderDetail.Visibility = Visibility.Visible;
+        }
+
         public void loadItem(int id)
         {
             using (var entitydb = new AyetContext())
@@ -46,58 +53,79 @@ namespace KuranX.App.Core.Pages.ReminderF
                 loadAni();
                 var dRemider = entitydb.Remider.Where(p => p.RemiderId == id).FirstOrDefault();
 
-                this.Dispatcher.Invoke(() =>
+                if (dRemider != null)
                 {
-                    if (dRemider != null)
+                    cV = dRemider.ConnectVerseId;
+                    cS = dRemider.ConnectSureId;
+
+                    if (dRemider.LoopType == "False") App.mainScreen.navigationWriter("remider", "Tarih Bazlı Hatırlartıcı");
+                    else App.mainScreen.navigationWriter("remider", $"{dRemider.LoopType} Bazlı Hatırlartıcı");
+
+                    switch (dRemider.LoopType)
                     {
-                        if (dRemider.ConnectSureId == 0) gotoVerseButton.IsEnabled = false;
-                        else gotoVerseButton.IsEnabled = true;
-                        cV = dRemider.ConnectVerseId;
-                        cS = dRemider.ConnectSureId;
-
-                        if (dRemider.LoopType == "False") App.mainScreen.navigationWriter("remider", "Tarih Bazlı Hatırlartıcı");
-                        else App.mainScreen.navigationWriter("remider", $"{dRemider.LoopType} Bazlı Hatırlartıcı");
-
-                        switch (dRemider.LoopType)
-                        {
-                            case "False":
-                                remiderType.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#ffc107");
+                        case "False":
+                            this.Dispatcher.Invoke(() =>
+                            {
+                                remiderType.Background = new BrushConverter().ConvertFrom("#ffc107") as SolidColorBrush;
                                 TimeSpan ts = dRemider.RemiderDate - DateTime.Now;
                                 type.Text = "Hatırlatma İçin Kalan Süre : " + ts.Days.ToString() + " Gün " + ts.Hours.ToString() + " Saat " + ts.Minutes.ToString() + " Dakika";
-                                type.Foreground = (SolidColorBrush)new BrushConverter().ConvertFrom("#ffc107");
-                                break;
+                                type.Foreground = new BrushConverter().ConvertFrom("#ffc107") as SolidColorBrush;
+                            });
+                            break;
 
-                            case "Gün":
-                                remiderType.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#d63384");
+                        case "Gün":
+                            this.Dispatcher.Invoke(() =>
+                            {
+                                remiderType.Background = new BrushConverter().ConvertFrom("#d63384") as SolidColorBrush;
                                 type.Text = "Günlük Olarak Tekrarlanıyor";
-                                type.Foreground = (SolidColorBrush)new BrushConverter().ConvertFrom("#d63384");
-                                break;
+                                type.Foreground = new BrushConverter().ConvertFrom("#d63384") as SolidColorBrush;
+                            });
+                            break;
 
-                            case "Hafta":
-                                remiderType.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#0d6efd");
+                        case "Hafta":
+                            this.Dispatcher.Invoke(() =>
+                            {
+                                remiderType.Background = new BrushConverter().ConvertFrom("#0d6efd") as SolidColorBrush;
                                 type.Text = "Haflık Olarak Tekrarlanıyor";
-                                type.Foreground = (SolidColorBrush)new BrushConverter().ConvertFrom("#0d6efd");
-                                break;
+                                type.Foreground = new BrushConverter().ConvertFrom("#0d6efd") as SolidColorBrush;
+                            });
+                            break;
 
-                            case "Ay":
-                                remiderType.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#0dcaf0");
+                        case "Ay":
+                            this.Dispatcher.Invoke(() =>
+                            {
+                                remiderType.Background = new BrushConverter().ConvertFrom("#0dcaf0") as SolidColorBrush;
                                 type.Text = "Aylık Olarak Tekrarlanıyor";
-                                type.Foreground = (SolidColorBrush)new BrushConverter().ConvertFrom("#0dcaf0");
-                                break;
+                                type.Foreground = new BrushConverter().ConvertFrom("#0dcaf0") as SolidColorBrush;
+                            });
+                            break;
 
-                            case "Yıl":
-                                remiderType.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#6610f2");
+                        case "Yıl":
+                            this.Dispatcher.Invoke(() =>
+                            {
+                                remiderType.Background = new BrushConverter().ConvertFrom("#6610f2") as SolidColorBrush;
                                 type.Text = "Yıllık Olarak Tekrarlanıyor";
-                                type.Foreground = (SolidColorBrush)new BrushConverter().ConvertFrom("#6610f2");
-                                break;
-                        }
+                                type.Foreground = new BrushConverter().ConvertFrom("#6610f2") as SolidColorBrush;
+                            });
+                            break;
+                    }
 
+                    this.Dispatcher.Invoke(() =>
+                    {
                         header.Text = dRemider.RemiderName;
                         remiderDetail.Text = dRemider.RemiderDetail;
                         create.Text = dRemider.Create.ToString("d") + " tarihinde oluşturulmuş.";
-                    }
+                    });
+                }
+
+                Thread.Sleep(300);
+
+                this.Dispatcher.Invoke(() =>
+                {
+                    if (dRemider.ConnectSureId == 0) gotoVerseButton.IsEnabled = false;
+                    else gotoVerseButton.IsEnabled = true;
                 });
-                Thread.Sleep(200);
+
                 loadAniComplated();
             }
         }
@@ -132,6 +160,10 @@ namespace KuranX.App.Core.Pages.ReminderF
         {
             try
             {
+                loadHeaderStack.Visibility = Visibility.Hidden;
+                controlBar.Visibility = Visibility.Hidden;
+                remiderDetail.Visibility = Visibility.Hidden;
+
                 App.mainframe.Content = App.navVersePage.PageCall(cS, cV, "Remider");
             }
             catch (Exception ex)
@@ -324,6 +356,10 @@ namespace KuranX.App.Core.Pages.ReminderF
                 gotoVerseButton.IsEnabled = false;
                 deleteButton.IsEnabled = false;
                 remiderDetail.IsEnabled = false;
+                gotoVerseButton.IsEnabled = false;
+                loadHeaderStack.Visibility = Visibility.Hidden;
+                controlBar.Visibility = Visibility.Hidden;
+                remiderDetail.Visibility = Visibility.Hidden;
             });
         }
 
@@ -332,9 +368,13 @@ namespace KuranX.App.Core.Pages.ReminderF
             this.Dispatcher.Invoke(() =>
             {
                 gotoBackButton.IsEnabled = true;
-                gotoVerseButton.IsEnabled = true;
                 deleteButton.IsEnabled = true;
                 remiderDetail.IsEnabled = true;
+                saveButton.IsEnabled = false;
+
+                loadHeaderStack.Visibility = Visibility.Visible;
+                controlBar.Visibility = Visibility.Visible;
+                remiderDetail.Visibility = Visibility.Visible;
             });
         }
 

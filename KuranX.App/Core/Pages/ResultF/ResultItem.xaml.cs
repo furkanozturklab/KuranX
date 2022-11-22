@@ -1,6 +1,7 @@
 ﻿using KuranX.App.Core.Classes;
 using KuranX.App.Core.Windows;
 using Org.BouncyCastle.Asn1.Utilities;
+using Org.BouncyCastle.Ocsp;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -25,22 +26,19 @@ namespace KuranX.App.Core.Pages.ResultF
     /// </summary>
     public partial class ResultItem : Page
     {
-        public class Dstack
-        {
-            public int ItemId { get; set; }
-            public int BaseId { get; set; }
-            public string ItemName { get; set; }
-            public string ItemDateTime { get; set; }
-            public string ItemColor { get; set; }
-        }
-
         private int lastPage = 0, NowPage = 1, selectedId;
         private bool filter = false;
-        private string filterTxt;
+        private string filterTxt, resultName;
 
         public ResultItem()
         {
             InitializeComponent();
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            //headerLoad.Visibility = Visibility.Visible;
+            App.mainScreen.navigationWriter("result", resultName);
         }
 
         public Page PageCall(int id)
@@ -54,38 +52,42 @@ namespace KuranX.App.Core.Pages.ResultF
 
         public void loadItem()
         {
+            loadAni();
             using (var entitydb = new AyetContext())
             {
-                loadAni();
                 decimal totalcount = 0;
+
                 var dResult = entitydb.Results.Where(p => p.ResultId == selectedId).FirstOrDefault();
+
+                resultName = dResult.ResultName;
+
                 List<Classes.ResultItem> dResultItems = new List<Classes.ResultItem>();
 
-                App.mainScreen.navigationWriter("result", dResult.ResultName);
+                App.mainScreen.navigationWriter("result", resultName);
 
                 if (filter)
                 {
                     switch (filterTxt)
                     {
                         case "subject":
-                            dResultItems = entitydb.ResultItems.Where(p => p.ResultId == selectedId && p.ResultSubjectId != 0).Skip(lastPage).Take(24).ToList();
+                            dResultItems = entitydb.ResultItems.Where(p => p.ResultId == selectedId && p.ResultSubjectId != 0).Skip(lastPage).Take(20).ToList();
                             totalcount = entitydb.ResultItems.Where(p => p.ResultId == selectedId && p.ResultSubjectId != 0).Count();
                             break;
 
                         case "library":
-                            dResultItems = entitydb.ResultItems.Where(p => p.ResultId == selectedId && p.ResultLibId != 0).Skip(lastPage).Take(24).ToList();
+                            dResultItems = entitydb.ResultItems.Where(p => p.ResultId == selectedId && p.ResultLibId != 0).Skip(lastPage).Take(20).ToList();
                             totalcount = entitydb.ResultItems.Where(p => p.ResultId == selectedId && p.ResultLibId != 0).Count();
                             break;
 
                         case "note":
-                            dResultItems = entitydb.ResultItems.Where(p => p.ResultId == selectedId && p.ResultNoteId != 0).Skip(lastPage).Take(24).ToList();
+                            dResultItems = entitydb.ResultItems.Where(p => p.ResultId == selectedId && p.ResultNoteId != 0).Skip(lastPage).Take(20).ToList();
                             totalcount = entitydb.ResultItems.Where(p => p.ResultId == selectedId && p.ResultNoteId != 0).Count();
                             break;
                     }
                 }
                 else
                 {
-                    dResultItems = entitydb.ResultItems.Where(p => p.ResultId == selectedId).Skip(lastPage).Take(25).ToList();
+                    dResultItems = entitydb.ResultItems.Where(p => p.ResultId == selectedId).Skip(lastPage).Take(20).ToList();
                     totalcount = entitydb.ResultItems.Where(p => p.ResultId == selectedId).Count();
                 }
 
@@ -98,53 +100,70 @@ namespace KuranX.App.Core.Pages.ResultF
                     countLib.Content = entitydb.ResultItems.Where(p => p.ResultLibId != 0).Count();
                     countNot.Content = entitydb.ResultItems.Where(p => p.ResultNoteId != 0).Count();
                     loadHeader.Text = dResult.ResultName;
-                    loadBgColor.Background = (SolidColorBrush)new BrushConverter().ConvertFrom(dResult.ResultStatus);
-
-                    for (int x = 1; x < 25; x++)
+                    loadBgColor.Background = new BrushConverter().ConvertFrom(dResult.ResultStatus) as SolidColorBrush;
+                });
+                for (int x = 1; x <= 20; x++)
+                {
+                    this.Dispatcher.Invoke(() =>
                     {
-                        ItemsControl itemslist = (ItemsControl)this.FindName("lib" + x);
-                        itemslist.ItemsSource = null;
-                    }
+                        var sbItem = (Border)FindName("lib" + x);
+                        sbItem.Visibility = Visibility.Hidden;
+                    });
+                }
 
-                    int i = 1;
-                    List<Dstack> dTemp = new List<Dstack>();
-                    foreach (var item in dResultItems)
+                int i = 1;
+
+                Thread.Sleep(300);
+
+                foreach (var item in dResultItems)
+                {
+                    this.Dispatcher.Invoke(() =>
                     {
-                        Dstack tempData = new Dstack();
+                        var sLoc = (TextBlock)FindName("libLoc" + i);
+                        var sName = (TextBlock)FindName("libName" + i);
+                        var sCreate = (TextBlock)FindName("libCreate" + i);
+                        var sBtn = (Button)FindName("libBtn" + i);
+                        var sBtnDel = (Button)FindName("libDel" + i);
 
-                        tempData.BaseId = item.ResultItemId;
-                        tempData.ItemDateTime = item.SendTime.ToString("d");
                         if (item.ResultNoteId != 0)
                         {
-                            tempData.ItemName = entitydb.Notes.Where(p => p.NotesId == item.ResultNoteId).Select(p => new Notes { NoteHeader = p.NoteHeader }).FirstOrDefault().NoteHeader;
-                            tempData.ItemColor = "#B30B00";
-                            tempData.ItemId = item.ResultNoteId;
+                            sLoc.Text = "Not";
+                            sName.Text = entitydb.Notes.Where(p => p.NotesId == item.ResultNoteId).Select(p => new Notes { NoteHeader = p.NoteHeader }).FirstOrDefault().NoteHeader;
+                            sBtn.Uid = item.ResultNoteId.ToString();
+                            sBtn.Content = "Not";
                         }
                         if (item.ResultSubjectId != 0)
                         {
-                            tempData.ItemName = entitydb.Subject.Where(p => p.SubjectId == item.ResultSubjectId).Select(p => new Subject { SubjectName = p.SubjectName }).FirstOrDefault().SubjectName;
-                            tempData.ItemColor = "#FD7E14";
-                            tempData.ItemId = item.ResultSubjectId;
+                            sLoc.Text = "Konular";
+                            sName.Text = entitydb.Subject.Where(p => p.SubjectId == item.ResultSubjectId).Select(p => new Subject { SubjectName = p.SubjectName }).FirstOrDefault().SubjectName;
+                            sBtn.Uid = item.ResultSubjectId.ToString();
+                            sBtn.Content = "Konular";
                         }
                         if (item.ResultLibId != 0)
                         {
-                            tempData.ItemName = entitydb.Librarys.Where(p => p.LibraryId == item.ResultLibId).Select(p => new Library { LibraryName = p.LibraryName }).FirstOrDefault().LibraryName;
-                            tempData.ItemColor = "#E33FA1";
-                            tempData.ItemId = item.ResultLibId;
+                            sLoc.Text = "Kütüphane";
+                            sName.Text = entitydb.Librarys.Where(p => p.LibraryId == item.ResultLibId).Select(p => new Library { LibraryName = p.LibraryName }).FirstOrDefault().LibraryName;
+                            sBtn.Uid = item.ResultLibId.ToString();
+                            sBtn.Content = "Kütüphane";
                         }
-                        dTemp.Add(tempData);
-                        ItemsControl itemslist = (ItemsControl)this.FindName("lib" + i);
-                        itemslist.ItemsSource = dTemp;
-                        dTemp.Clear();
-                        i++;
-                    }
 
-                    Thread.Sleep(200);
+                        sBtnDel.Uid = item.ResultItemId.ToString();
+                        sCreate.Text = item.SendTime.ToString("D");
+
+                        var sbItem = (Border)FindName("lib" + i);
+                        sbItem.Visibility = Visibility.Visible;
+
+                        i++;
+                    });
+                }
+
+                this.Dispatcher.Invoke(() =>
+                {
                     if (dResultItems.Count() != 0)
                     {
                         totalcountText.Tag = totalcount.ToString();
 
-                        totalcount = Math.Ceiling(totalcount / 24);
+                        totalcount = Math.Ceiling(totalcount / 20);
                         nowPageStatus.Tag = NowPage + " / " + totalcount.ToString();
                         nextpageButton.Dispatcher.Invoke(() =>
                         {
@@ -164,8 +183,8 @@ namespace KuranX.App.Core.Pages.ResultF
                         previusPageButton.IsEnabled = false;
                     }
                 });
-                loadAniComplated();
             }
+            loadAniComplated();
         }
 
         // --------------- Click Func --------------- //
@@ -205,6 +224,27 @@ namespace KuranX.App.Core.Pages.ResultF
             statusLib.IsChecked = false;
             statusNote.IsChecked = false;
 
+            switch (btn.GetValue(Extensions.DataStorage).ToString())
+            {
+                case "subject":
+                    statusSubject.IsChecked = true;
+                    break;
+
+                case "library":
+                    statusLib.IsChecked = true;
+                    break;
+
+                case "note":
+                    statusNote.IsChecked = true;
+                    break;
+
+                default:
+                    statusSubject.IsChecked = false;
+                    statusLib.IsChecked = false;
+                    statusNote.IsChecked = false;
+                    break;
+            }
+
             filter = true;
             filterTxt = btn.GetValue(Extensions.DataStorage).ToString();
 
@@ -214,15 +254,15 @@ namespace KuranX.App.Core.Pages.ResultF
         private void gotoAction_Click(object sender, RoutedEventArgs e)
         {
             Button btn = sender as Button;
-            switch (btn.GetValue(Extensions.DataStorage))
+            switch (btn.Content)
             {
-                case "#B30B00":
+                case "Not":
 
                     App.mainframe.Content = App.navNoteItem.PageCall(int.Parse(btn.Uid));
 
                     break;
 
-                case "#FD7E14":
+                case "Konular":
                     using (var entitydb = new AyetContext())
                     {
                         var dtemp = entitydb.Subject.Where(p => p.SubjectId == int.Parse(btn.Uid)).Select(p => new Subject { SubjectId = p.SubjectId }).FirstOrDefault();
@@ -231,7 +271,7 @@ namespace KuranX.App.Core.Pages.ResultF
 
                     break;
 
-                case "#E33FA1":
+                case "Kütüphane":
                     using (var entitydb = new AyetContext())
                     {
                         var dtemp = entitydb.Librarys.Where(p => p.LibraryId == int.Parse(btn.Uid)).FirstOrDefault();
@@ -343,6 +383,8 @@ namespace KuranX.App.Core.Pages.ResultF
                 backPage.IsEnabled = false;
                 resultScreenOpen.IsEnabled = false;
                 filterButton.IsEnabled = false;
+                headerLoad.Visibility = Visibility.Hidden;
+                headerControl.Visibility = Visibility.Hidden;
             });
         }
 
@@ -356,6 +398,8 @@ namespace KuranX.App.Core.Pages.ResultF
                 backPage.IsEnabled = true;
                 resultScreenOpen.IsEnabled = true;
                 filterButton.IsEnabled = true;
+                headerLoad.Visibility = Visibility.Visible;
+                headerControl.Visibility = Visibility.Visible;
             });
         }
 

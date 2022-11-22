@@ -1,4 +1,5 @@
 ﻿using KuranX.App.Core.Classes;
+using KuranX.App.Core.Pages.NoteF;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -24,9 +25,6 @@ namespace KuranX.App.Core.Windows
     public partial class PdfViewer : Window
     {
         public string currentfileUrl;
-
-        private Task loadTask;
-        private DispatcherTimer? timeSpan = new DispatcherTimer(DispatcherPriority.Render);
         public int currentPdfId, selectedNoteId;
 
         public PdfViewer()
@@ -37,7 +35,7 @@ namespace KuranX.App.Core.Windows
         public PdfViewer(int fileId) : this()
         {
             currentPdfId = fileId;
-            loadTask = Task.Run(() => loadItem(currentPdfId));
+            App.loadTask = Task.Run(() => loadItem(currentPdfId));
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -51,7 +49,7 @@ namespace KuranX.App.Core.Windows
                 var dPdfFile = entitydb.PdfFile.Where(p => p.PdfFileId == id).FirstOrDefault();
                 this.Dispatcher.Invoke(() =>
                 {
-                    this.Title = dPdfFile.FileName;
+                    this.Title = (string)dPdfFile.FileName;
                     loadHeader.Text = dPdfFile.FileName;
                     loadCreated.Text = dPdfFile.Created.ToString("D");
                     browser.Source = new Uri(@dPdfFile.FileUrl);
@@ -235,7 +233,7 @@ namespace KuranX.App.Core.Windows
             {
                 popup_noteAddPopup.IsOpen = true;
                 noteConnectVerse.Text = loadHeader.Text;
-                noteType.Text = "Konu Notu";
+                noteType.Text = "Kütüphane Notu";
             }
             catch (Exception ex)
             {
@@ -251,6 +249,12 @@ namespace KuranX.App.Core.Windows
                 var popuptemp = (Popup)FindName(btntemp.Uid);
                 popuptemp.IsOpen = false;
 
+                noteName.Text = "";
+                noteDetail.Text = "";
+
+                libraryFolderHeader.Text = "";
+                librarypreviewName.Text = "Önizleme";
+
                 btntemp = null;
             }
             catch (Exception ex)
@@ -263,7 +267,7 @@ namespace KuranX.App.Core.Windows
         {
             try
             {
-                loadTask = Task.Run(() =>
+                App.loadTask = Task.Run(() =>
                 {
                     this.Dispatcher.Invoke(() =>
                     {
@@ -304,8 +308,7 @@ namespace KuranX.App.Core.Windows
                                 popup_FolderLibraryPopup.IsOpen = false;
                                 dlibraryFolder = null;
 
-                                // loadTask = new Task(() => loadItem());
-                                // loadTask.Start();
+                                App.loadTask = Task.Run(() => libFolderLoad());
                             }
                             else
                             {
@@ -343,8 +346,7 @@ namespace KuranX.App.Core.Windows
                 popup_SendNote.IsOpen = true;
                 selectedLib.Text = noteDetailTextHeader.Text;
 
-                loadTask = new Task(() => libFolderLoad());
-                loadTask.Start();
+                App.loadTask = Task.Run(() => libFolderLoad());
             }
             catch (Exception ex)
             {
@@ -444,16 +446,15 @@ namespace KuranX.App.Core.Windows
                                             Modify = DateTime.Now,
                                             Created = DateTime.Now,
                                             NoteLocation = "PDF",
-                                            NoteStatus = "#6610F2"
                                         };
 
                                         entitydb.Notes.Add(dNotes);
                                         entitydb.SaveChanges();
 
-                                        succsessFunc("Not Ekleme Başarılı", loadHeader.Text + " Pdf e Not Eklendiniz.", 3);
+                                        succsessFunc("Ekleme Başarılı", loadHeader.Text + " Pdf e Not Eklendiniz.", 3);
 
-                                        loadTask = new Task(noteConnect);
-                                        loadTask.Start();
+                                        App.loadTask = Task.Run(() => noteConnect());
+
                                         dNotes = null;
                                     }
 
@@ -479,8 +480,7 @@ namespace KuranX.App.Core.Windows
             try
             {
                 popup_Note.IsOpen = true;
-                loadTask = new Task(noteConnect);
-                loadTask.Start();
+                App.loadTask = Task.Run(() => noteConnect());
             }
             catch (Exception ex)
             {
@@ -585,12 +585,12 @@ namespace KuranX.App.Core.Windows
                 alertPopupDetail.Text = detail;
                 alph.IsOpen = true;
 
-                timeSpan.Interval = TimeSpan.FromSeconds(timespan);
-                timeSpan.Start();
-                timeSpan.Tick += delegate
+                App.timeSpan.Interval = TimeSpan.FromSeconds(timespan);
+                App.timeSpan.Start();
+                App.timeSpan.Tick += delegate
                 {
                     alph.IsOpen = false;
-                    timeSpan.Stop();
+                    App.timeSpan.Stop();
                 };
             }
             catch (Exception ex)
@@ -607,12 +607,12 @@ namespace KuranX.App.Core.Windows
                 infoPopupDetail.Text = detail;
                 inph.IsOpen = true;
 
-                timeSpan.Interval = TimeSpan.FromSeconds(timespan);
-                timeSpan.Start();
-                timeSpan.Tick += delegate
+                App.timeSpan.Interval = TimeSpan.FromSeconds(timespan);
+                App.timeSpan.Start();
+                App.timeSpan.Tick += delegate
                 {
                     inph.IsOpen = false;
-                    timeSpan.Stop();
+                    App.timeSpan.Stop();
                 };
             }
             catch (Exception ex)
@@ -634,12 +634,12 @@ namespace KuranX.App.Core.Windows
                 successPopupDetail.Text = detail;
                 scph.IsOpen = true;
 
-                timeSpan.Interval = TimeSpan.FromSeconds(timespan);
-                timeSpan.Start();
-                timeSpan.Tick += delegate
+                App.timeSpan.Interval = TimeSpan.FromSeconds(timespan);
+                App.timeSpan.Start();
+                App.timeSpan.Tick += delegate
                 {
                     scph.IsOpen = false;
-                    timeSpan.Stop();
+                    App.timeSpan.Stop();
                 };
             }
             catch (Exception ex)

@@ -9,10 +9,10 @@ namespace KuranX.App.Core.Classes
     public class Remider
     {
         public int RemiderId { get; set; }
-        public string RemiderName { get; set; }
-        public string RemiderDetail { get; set; }
-        public string LoopType { get; set; }
-        public string Status { get; set; }
+        public string? RemiderName { get; set; }
+        public string? RemiderDetail { get; set; }
+        public string? LoopType { get; set; }
+        public string? Status { get; set; }
 
         public DateTime RemiderDate { get; set; }
         public DateTime Create { get; set; } = DateTime.Now;

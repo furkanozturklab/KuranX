@@ -24,6 +24,8 @@ namespace KuranX.App.Core.Pages.SubjectF
     {
         private string searchText;
         private int lastPage = 0, NowPage = 1;
+        private List<Subject> dSub = new List<Subject>();
+        private Decimal totalcount = 0;
 
         public SubjectFrame()
         {
@@ -43,53 +45,66 @@ namespace KuranX.App.Core.Pages.SubjectF
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
             App.mainScreen.navigationWriter("subject", "");
-            App.loadTask = Task.Run(() => loadItem());
         }
 
         public void loadItem()
         {
             using (var entitydb = new AyetContext())
             {
-                List<Subject> dSub = new List<Subject>();
-                Decimal totalcount = 0;
+                loadAni();
+                if (this.Dispatcher.Invoke(() => searchText != ""))
+                {
+                    dSub = entitydb.Subject.Where(p => EF.Functions.Like(p.SubjectName, "%" + searchText + "%")).OrderByDescending(p => p.SubjectId).Skip(lastPage).Take(18).ToList();
+                    totalcount = entitydb.Subject.Where(p => EF.Functions.Like(p.SubjectName, "%" + searchText + "%")).Count();
+                }
+                else
+                {
+                    dSub = entitydb.Subject.OrderByDescending(p => p.SubjectId).Skip(lastPage).Take(15).ToList();
+                    totalcount = entitydb.Subject.Count();
+                }
+
+                for (int x = 1; x <= 18; x++)
+                {
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        var sbItem = (Border)FindName("sbItem" + x);
+                        sbItem.Visibility = Visibility.Hidden;
+                    });
+                }
+
+                int i = 1;
+
+                Thread.Sleep(300);
+
+                foreach (var item in dSub)
+                {
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        var sColor = (Border)FindName("sbColor" + i);
+                        sColor.Background = new BrushConverter().ConvertFrom((string)item.SubjectColor) as SolidColorBrush;
+
+                        var sName = (TextBlock)FindName("sbName" + i);
+                        sName.Text = item.SubjectName;
+
+                        var sCreated = (TextBlock)FindName("sbCreated" + i);
+                        sCreated.Text = item.Created.ToString("D");
+
+                        var sBtn = (Button)FindName("sbBtn" + i);
+                        sBtn.Uid = item.SubjectId.ToString();
+
+                        var sbItem = (Border)FindName("sbItem" + i);
+                        sbItem.Visibility = Visibility.Visible;
+                        i++;
+                    });
+                }
 
                 this.Dispatcher.Invoke(() =>
                 {
-                    if (searchText != "")
-                    {
-                        dSub = entitydb.Subject.Where(p => EF.Functions.Like(p.SubjectName, "%" + searchText + "%")).Skip(lastPage).Take(15).ToList();
-                        totalcount = entitydb.Subject.Where(p => EF.Functions.Like(p.SubjectName, "%" + searchText + "%")).Count();
-                    }
-                    else
-                    {
-                        dSub = entitydb.Subject.Skip(lastPage).Take(15).ToList();
-                        totalcount = entitydb.Subject.Count();
-                    }
-
-                    for (int x = 1; x < 16; x++)
-                    {
-                        ItemsControl itemslist = (ItemsControl)this.FindName("sbItem" + x);
-                        itemslist.ItemsSource = null;
-                    }
-                    int i = 1;
-                    List<Subject> tempSub = new List<Subject>();
-
-                    foreach (var item in dSub)
-                    {
-                        tempSub.Add(item);
-                        ItemsControl itemslist = (ItemsControl)this.FindName("sbItem" + i);
-                        itemslist.ItemsSource = tempSub;
-                        tempSub.Clear();
-                        i++;
-                    }
-
-                    Thread.Sleep(1500);
-
                     totalcountText.Tag = totalcount.ToString();
 
                     if (dSub.Count() != 0)
                     {
-                        totalcount = Math.Ceiling(totalcount / 15);
+                        totalcount = Math.Ceiling(totalcount / 18);
                         nowPageStatus.Tag = NowPage + " / " + totalcount.ToString();
                         nextpageButton.Dispatcher.Invoke(() =>
                         {
@@ -109,6 +124,8 @@ namespace KuranX.App.Core.Pages.SubjectF
                         previusPageButton.IsEnabled = false;
                     }
                 });
+
+                loadAniComplated();
             }
         }
 
@@ -161,6 +178,9 @@ namespace KuranX.App.Core.Pages.SubjectF
                 var popuptemp = (Popup)FindName(btntemp.Uid);
                 popuptemp.IsOpen = false;
                 subjectHeaderFolderErrorMesssage.Visibility = Visibility.Hidden;
+
+                subjectpreviewName.Text = "Önizleme";
+                subjectFolderHeader.Text = "";
                 btntemp = null;
             }
             catch (Exception ex)
@@ -173,7 +193,7 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             try
             {
-                if (subjectFolderHeader.Text.Length >= 8)
+                if (subjectFolderHeader.Text.Length >= 3)
                 {
                     if (subjectFolderHeader.Text.Length < 50)
                     {
@@ -213,7 +233,7 @@ namespace KuranX.App.Core.Pages.SubjectF
                 {
                     subjectFolderHeader.Focus();
                     subjectHeaderFolderErrorMesssage.Visibility = Visibility.Visible;
-                    subjectHeaderFolderErrorMesssage.Content = "Konu başlığının uzunluğu minimum 8 karakter olmalı";
+                    subjectHeaderFolderErrorMesssage.Content = "Konu başlığının uzunluğu minimum 3 karakter olmalı";
                 }
             }
             catch (Exception ex)
@@ -256,7 +276,7 @@ namespace KuranX.App.Core.Pages.SubjectF
             try
             {
                 nextpageButton.IsEnabled = false;
-                lastPage += 15;
+                lastPage += 18;
                 NowPage++;
                 App.loadTask = Task.Run(() => loadItem());
             }
@@ -270,10 +290,10 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             try
             {
-                if (lastPage >= 15)
+                if (lastPage >= 18)
                 {
                     previusPageButton.IsEnabled = false;
-                    lastPage -= 15;
+                    lastPage -= 18;
                     NowPage--;
                     App.loadTask = Task.Run(() => loadItem());
                 }
@@ -432,8 +452,10 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             this.Dispatcher.Invoke(() =>
             {
+                // loadinGifContent.Visibility = Visibility.Visible;
                 SearchBtn.IsEnabled = false;
                 addSubjectButton.IsEnabled = false;
+                loadBorder.Visibility = Visibility.Hidden;
             });
         }
 
@@ -441,6 +463,8 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             this.Dispatcher.Invoke(() =>
             {
+                //  loadinGifContent.Visibility = Visibility.Collapsed;
+                loadBorder.Visibility = Visibility.Visible;
                 SearchBtn.IsEnabled = true;
                 addSubjectButton.IsEnabled = true;
             });

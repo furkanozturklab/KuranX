@@ -66,7 +66,8 @@ namespace KuranX.App.Core.Windows
                 App.logWriter("LoadedFunc", ex);
             }
 
-            App.mainframe.Content = App.navVersePage.PageCall(96, 1, "OTHER");
+            App.mainframe.Content = App.navSurePage.PageCall();
+
             loadinGifContent.Visibility = Visibility.Hidden;
             rightPanel.Visibility = Visibility.Visible;
         }
@@ -371,7 +372,7 @@ namespace KuranX.App.Core.Windows
                             case "Konularım":
                                 this.Dispatcher.Invoke(() =>
                                 {
-                                    App.mainframe.Content = App.navSubjectPage;
+                                    App.mainframe.Content = App.navSubjectFrame.PageCall();
                                 });
                                 break;
 
@@ -439,7 +440,7 @@ namespace KuranX.App.Core.Windows
                         case "Konularım":
                             this.Dispatcher.Invoke(() =>
                             {
-                                App.mainframe.Content = App.navSubjectPage;
+                                App.mainframe.Content = App.navSubjectFrame.PageCall();
                             });
                             break;
 
@@ -521,13 +522,13 @@ namespace KuranX.App.Core.Windows
         private void menuNavControl_Click(object sender, RoutedEventArgs e)
         {
             navCheckBox = sender as CheckBox;
-            App.loadTask = Task.Run(() => menuTask(navCheckBox));
+            App.loadTask = Task.Run(() => menuTask((CheckBox)navCheckBox));
         }
 
         private void adminOpen_Click(object sender, RoutedEventArgs e)
         {
-            AdminScreen adm = new AdminScreen();
-            adm.Show();
+            AdminPanel ad = new AdminPanel();
+            ad.Show();
         }
 
         private void popupAction_Click(object sender, RoutedEventArgs e)
@@ -628,7 +629,7 @@ namespace KuranX.App.Core.Windows
 
                 case "Konularım":
 
-                    App.mainframe.Content = App.navSubjectPage;
+                    App.mainframe.Content = App.navSubjectFrame.PageCall();
 
                     break;
 

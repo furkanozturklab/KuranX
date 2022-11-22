@@ -28,32 +28,39 @@ namespace KuranX.App.Core.Pages.ResultF
 
         public Page PageCall(int currentId)
         {
+            App.loadTask = Task.Run(() => loadItem(currentId));
+            return this;
+        }
+
+        private void loadItem(int currentId)
+        {
             using (var entitydb = new AyetContext())
             {
-                create.Text = DateTime.Now.ToString("D");
-
                 var dResul = entitydb.Results.Where(p => p.ResultId == currentId).FirstOrDefault();
 
-                header.Text = dResul.ResultName;
-                noteDetail.Text = dResul.ResultFinallyNote;
-                if (dResul.ResultNotes == "true")
+                this.Dispatcher.Invoke(() =>
                 {
-                    noteico.IsEnabled = true;
-                    notecount.Text = entitydb.ResultItems.Where(p => p.ResultId == currentId && p.ResultNoteId != 0).Count().ToString() + " Adet Not";
-                }
-                if (dResul.ResultSubject == "true")
-                {
-                    subico.IsEnabled = true;
-                    subcount.Text = entitydb.ResultItems.Where(p => p.ResultId == currentId && p.ResultSubjectId != 0).Count().ToString() + " Adet Konu";
-                }
-                if (dResul.ResultLib == "true")
-                {
-                    libico.IsEnabled = true;
-                    libcount.Text = entitydb.ResultItems.Where(p => p.ResultId == currentId && p.ResultLibId != 0).Count().ToString() + " Adet Kütüphane ";
-                }
-            }
+                    create.Text = DateTime.Now.ToString("D");
+                    header.Text = dResul.ResultName;
+                    noteDetail.Text = dResul.ResultFinallyNote;
 
-            return this;
+                    if (dResul.ResultNotes == true)
+                    {
+                        noteico.IsEnabled = true;
+                        notecount.Text = entitydb.ResultItems.Where(p => p.ResultId == currentId && p.ResultNoteId != 0).Count().ToString() + " Adet Not";
+                    }
+                    if (dResul.ResultSubject == true)
+                    {
+                        subico.IsEnabled = true;
+                        subcount.Text = entitydb.ResultItems.Where(p => p.ResultId == currentId && p.ResultSubjectId != 0).Count().ToString() + " Adet Konu";
+                    }
+                    if (dResul.ResultLib == true)
+                    {
+                        libico.IsEnabled = true;
+                        libcount.Text = entitydb.ResultItems.Where(p => p.ResultId == currentId && p.ResultLibId != 0).Count().ToString() + " Adet Kütüphane ";
+                    }
+                });
+            }
         }
     }
 }

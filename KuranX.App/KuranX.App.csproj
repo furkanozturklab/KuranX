@@ -9,9 +9,15 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Core\Control\**" />
+    <EmbeddedResource Remove="Core\Control\**" />
+    <None Remove="Core\Control\**" />
+    <Page Remove="Core\Control\**" />
+  </ItemGroup>
+
 
   <ItemGroup>
-    <None Remove="Resource\Fonts\arabica.ttf" />
     <None Remove="Resource\Fonts\XBZar.ttf" />
     <None Remove="Resource\Fonts\XBZarBd.ttf" />
     <None Remove="Resource\Fonts\XBZarBdIt.ttf" />
@@ -101,9 +107,6 @@
 
 
   <ItemGroup>
-    <Resource Include="Resource\Fonts\arabica.ttf">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
     <Resource Include="Resource\Images\Gif\Infinity800.gif">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
@@ -347,7 +350,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Core\Control\" />
     <Folder Include="Migrations\" />
   </ItemGroup>
 

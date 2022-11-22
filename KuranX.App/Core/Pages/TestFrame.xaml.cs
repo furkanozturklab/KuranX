@@ -25,6 +25,18 @@ namespace KuranX.App.Core.Pages
         public TestFrame()
         {
             InitializeComponent();
+            alph.MouseMove += new MouseEventHandler(pop_MouseMove);
+        }
+
+        private void pop_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                var mousePosition = e.GetPosition(this.alph);
+
+                alph.PlacementRectangle = new Rect(new Point(e.GetPosition(this).X,
+                    e.GetPosition(this).Y), new Point(mousePosition.X, mousePosition.Y));
+            }
         }
 
         private void popupClosed_Click(object sender, RoutedEventArgs e)
@@ -43,6 +55,17 @@ namespace KuranX.App.Core.Pages
         private void button1_Click(object sender, RoutedEventArgs e)
         {
             // frame.Content = navMany.reverseLoad(val1.Text, val2.Text);
+        }
+
+        private void popup_MouseMove(object sender, MouseEventArgs e)
+        {
+        }
+
+        private void alph_MouseEnter(object sender, MouseEventArgs e)
+        {
+            var mousePosition = e.GetPosition(this.alph);
+            this.alph.HorizontalOffset = mousePosition.X;
+            this.alph.VerticalOffset = mousePosition.Y;
         }
     }
 }

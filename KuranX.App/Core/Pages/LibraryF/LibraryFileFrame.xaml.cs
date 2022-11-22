@@ -24,6 +24,8 @@ namespace KuranX.App.Core.Pages.LibraryF
     {
         private string searchText;
         private int lastPage = 0, NowPage = 1, selectedId;
+        private List<PdfFile> dPdf = new List<PdfFile>();
+        private Decimal totalcount = 0;
 
         private DoubleAnimation animation = new DoubleAnimation();
         private FileDialog openFileDialog = new OpenFileDialog();
@@ -35,6 +37,8 @@ namespace KuranX.App.Core.Pages.LibraryF
 
         public Page PageCall()
         {
+            lastPage = 0;
+            NowPage = 1;
             App.mainScreen.navigationWriter("library", "Yüklenen Dosyalar");
             App.loadTask = Task.Run(() => loadItem());
 
@@ -56,9 +60,6 @@ namespace KuranX.App.Core.Pages.LibraryF
             {
                 loadAni();
 
-                List<PdfFile> dPdf = new List<PdfFile>();
-                Decimal totalcount = 0;
-
                 if (searchText != "")
                 {
                     dPdf = entitydb.PdfFile.Where(p => EF.Functions.Like(p.FileName, "%" + searchText + "%")).Skip(lastPage).Take(20).ToList();
@@ -70,30 +71,38 @@ namespace KuranX.App.Core.Pages.LibraryF
                     totalcount = entitydb.PdfFile.Count();
                 }
 
-                for (int x = 1; x < 21; x++)
+                for (int x = 1; x <= 20; x++)
                 {
                     this.Dispatcher.Invoke(() =>
                     {
-                        ItemsControl itemslist = (ItemsControl)this.FindName("pdf" + x);
-                        itemslist.ItemsSource = null;
+                        var pdfItem = (Border)FindName("pdf" + x);
+                        pdfItem.Visibility = Visibility.Hidden;
                     });
                 }
                 int i = 1;
-                List<PdfFile> tempPdf = new List<PdfFile>();
+
+                Thread.Sleep(300);
 
                 foreach (var item in dPdf)
                 {
                     this.Dispatcher.Invoke(() =>
                     {
-                        tempPdf.Add(item);
-                        ItemsControl itemslist = (ItemsControl)this.FindName("pdf" + i);
-                        itemslist.ItemsSource = tempPdf;
-                        tempPdf.Clear();
+                        var sName = (TextBlock)FindName("pdfName" + i);
+                        sName.Text = item.FileName;
+
+                        var sCreated = (TextBlock)FindName("pdfCreate" + i);
+                        sCreated.Text = item.Created.ToString("D");
+
+                        var sBtnGo = (Button)FindName("pdfGo" + i);
+                        sBtnGo.Uid = item.PdfFileId.ToString();
+                        var sBtnDel = (Button)FindName("pdfDel" + i);
+                        sBtnDel.Uid = item.PdfFileId.ToString();
+
+                        var sbItem = (Border)FindName("pdf" + i);
+                        sbItem.Visibility = Visibility.Visible;
                         i++;
                     });
                 }
-
-                Thread.Sleep(200);
 
                 this.Dispatcher.Invoke(() =>
                 {
@@ -102,7 +111,7 @@ namespace KuranX.App.Core.Pages.LibraryF
                     if (dPdf.Count() != 0)
                     {
                         // totalFileCount.Content = totalcount + " Adet Dosya Gösteriliyor";
-                        totalcount = Math.Ceiling(totalcount / 15);
+                        totalcount = Math.Ceiling(totalcount / 20);
                         nowPageStatus.Tag = NowPage + " / " + totalcount.ToString();
                         nextpageButton.Dispatcher.Invoke(() =>
                         {
@@ -133,6 +142,7 @@ namespace KuranX.App.Core.Pages.LibraryF
             {
                 this.Dispatcher.Invoke(() =>
                 {
+                    loadAni();
                     openFileDialog.Filter = "Pdf Files|*.pdf";
                     openFileDialog.CheckFileExists = true;
                     bool? response = openFileDialog.ShowDialog();
@@ -142,7 +152,7 @@ namespace KuranX.App.Core.Pages.LibraryF
                         popup_fileUp.IsOpen = true;
 
                         string fileS = string.Format("{0} {1}", (new FileInfo(openFileDialog.FileName).Length / 1.049e+6).ToString("0.0"), "Mb");
-                        var newSoruceLocation = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)) + @"\KuranX\UploadFile\" + openFileDialog.FileName.Split(@"\").Last();
+                        var newSoruceLocation = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)) + @"\KuranX\UploadFile\" + openFileDialog.FileName.Split(@"\").Last();
 
                         using (var entitydb = new AyetContext())
                         {
@@ -176,6 +186,7 @@ namespace KuranX.App.Core.Pages.LibraryF
                     else
                     {
                         alertFunc("Yükleme Hatası", "Dosya yükleme işlemi sırasında hata oluştu", 3);
+                        loadAniComplated();
                     }
                 });
             }
@@ -273,6 +284,7 @@ namespace KuranX.App.Core.Pages.LibraryF
                     else
                     {
                         alertFunc("Dosya Silme", "Dosya mevcut değil silinemedi lütfen dosyanın varlığından emin olunuz.", 3);
+                        loadAniComplated();
                     }
                 }
             }
@@ -523,6 +535,11 @@ namespace KuranX.App.Core.Pages.LibraryF
             }
         }
 
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            loadHeaderAni.Visibility = Visibility.Hidden;
+        }
+
         // ---------- MessageFunc FUNC ---------- //
 
         // ------------ Animation Func ------------ //
@@ -544,6 +561,8 @@ namespace KuranX.App.Core.Pages.LibraryF
                 SearchBtn.IsEnabled = true;
                 backPage.IsEnabled = true;
                 addfile.IsEnabled = true;
+
+                loadHeaderAni.Visibility = Visibility.Visible;
             });
         }
 

@@ -23,6 +23,7 @@ using System.Windows.Threading;
 using System.Windows.Xps.Packaging;
 using System.Windows.Xps;
 using System.Diagnostics;
+using System.Threading;
 
 namespace KuranX.App.Core.Pages.NoteF
 {
@@ -48,12 +49,22 @@ namespace KuranX.App.Core.Pages.NoteF
             return this;
         }
 
+        public void loadScreen(int id)
+        {
+            this.Dispatcher.Invoke(() =>
+            {
+                PdfViewer dViewer = new PdfViewer(id);
+                dViewer.Show();
+            });
+        }
+
         public void loadItem()
         {
             using (var entitydb = new AyetContext())
             {
                 var dNote = entitydb.Notes.Where(p => p.NotesId == noteId).FirstOrDefault();
 
+                loadAni();
                 this.Dispatcher.Invoke(() =>
                 {
                     infoText.Text = "";
@@ -64,23 +75,23 @@ namespace KuranX.App.Core.Pages.NoteF
                     switch (dNote.NoteLocation)
                     {
                         case "Konularım":
-                            noteType.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#FD7E14");
+                            noteType.Background = new BrushConverter().ConvertFrom("#FD7E14") as SolidColorBrush;
                             break;
 
                         case "Kütüphane":
-                            noteType.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#E33FA1");
+                            noteType.Background = new BrushConverter().ConvertFrom("#E33FA1") as SolidColorBrush;
                             break;
 
                         case "Ayet":
-                            noteType.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#0DCAF0");
+                            noteType.Background = new BrushConverter().ConvertFrom("#0DCAF0") as SolidColorBrush;
                             break;
 
                         case "PDF":
-                            noteType.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#B30B00");
+                            noteType.Background = new BrushConverter().ConvertFrom("#B30B00") as SolidColorBrush;
                             break;
 
                         default:
-                            noteType.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#ADB5BD");
+                            noteType.Background = new BrushConverter().ConvertFrom("#ADB5BD") as SolidColorBrush;
                             break;
                     }
 
@@ -137,6 +148,8 @@ namespace KuranX.App.Core.Pages.NoteF
                         gototype = "Subject";
                     }
                 });
+                Thread.Sleep(300);
+                loadAniComplated();
             }
         }
 
@@ -166,8 +179,7 @@ namespace KuranX.App.Core.Pages.NoteF
 
                     case "Pdf":
 
-                        PdfViewer pdfViewer = new PdfViewer(cPd);
-                        pdfViewer.Show();
+                        App.loadTask = Task.Run(() => loadScreen(cPd));
 
                         break;
 
@@ -297,7 +309,7 @@ namespace KuranX.App.Core.Pages.NoteF
 
                 if (entitydb.ResultItems.Where(p => p.ResultId == dResult.ResultId && p.ResultNoteId == noteId).Count() == 0)
                 {
-                    dResult.ResultNotes = "true";
+                    dResult.ResultNotes = true;
                     var dTemp = new ResultItem { ResultId = dResult.ResultId, ResultNoteId = noteId, SendTime = DateTime.Now };
                     entitydb.ResultItems.Add(dTemp);
                     entitydb.SaveChanges();
@@ -454,5 +466,28 @@ namespace KuranX.App.Core.Pages.NoteF
         }
 
         // ---------- MessageFunc FUNC ---------- //
+
+        // ---------- Animation Func -------------- //
+
+        private void loadAni()
+        {
+            this.Dispatcher.Invoke(() =>
+            {
+                loadNoteDetail.Visibility = Visibility.Hidden;
+                loadHeaderStack.Visibility = Visibility.Hidden;
+                controlBar.Visibility = Visibility.Hidden;
+            });
+        }
+
+        private void loadAniComplated()
+        {
+            this.Dispatcher.Invoke(() =>
+            {
+                loadNoteDetail.Visibility = Visibility.Visible;
+                loadHeaderStack.Visibility = Visibility.Visible;
+
+                controlBar.Visibility = Visibility.Visible;
+            });
+        }
     }
 }

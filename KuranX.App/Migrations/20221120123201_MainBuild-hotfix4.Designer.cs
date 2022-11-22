@@ -3,6 +3,7 @@ using System;
 using KuranX.App.Core.Classes;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KuranX.App.Migrations
 {
     [DbContext(typeof(AyetContext))]
-    partial class AyetContextModelSnapshot : ModelSnapshot
+    [Migration("20221120123201_MainBuild-hotfix4")]
+    partial class MainBuildhotfix4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.0");
@@ -203,6 +206,7 @@ namespace KuranX.App.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("LoopType")
+                        .IsRequired()
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT")
                         .HasDefaultValue("False");
@@ -216,12 +220,15 @@ namespace KuranX.App.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("RemiderDetail")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("RemiderName")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Status")
+                        .IsRequired()
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT")
                         .HasDefaultValue("Wait");
@@ -238,32 +245,44 @@ namespace KuranX.App.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("ResultFinallyNote")
+                        .IsRequired()
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT")
                         .HasDefaultValue("Sonuç Metninizi buraya yaza bilirsiniz.");
 
-                    b.Property<bool?>("ResultLib")
+                    b.Property<string>("ResultLib")
+                        .IsRequired()
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER")
-                        .HasDefaultValue(false);
+                        .HasColumnType("TEXT")
+                        .HasDefaultValue("false");
 
                     b.Property<string>("ResultName")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<bool?>("ResultNotes")
+                    b.Property<string>("ResultNotes")
+                        .IsRequired()
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER")
-                        .HasDefaultValue(false);
+                        .HasColumnType("TEXT")
+                        .HasDefaultValue("false");
 
                     b.Property<string>("ResultStatus")
+                        .IsRequired()
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT")
                         .HasDefaultValue("#ADB5BD");
 
-                    b.Property<bool?>("ResultSubject")
+                    b.Property<string>("ResultSubject")
+                        .IsRequired()
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER")
-                        .HasDefaultValue(false);
+                        .HasColumnType("TEXT")
+                        .HasDefaultValue("false");
+
+                    b.Property<string>("ResultVerse")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT")
+                        .HasDefaultValue("false");
 
                     b.HasKey("ResultId");
 
@@ -297,7 +316,7 @@ namespace KuranX.App.Migrations
                     b.Property<DateTime>("SendTime")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT")
-                        .HasDefaultValue(new DateTime(2022, 11, 20, 19, 10, 36, 742, DateTimeKind.Local).AddTicks(3223));
+                        .HasDefaultValue(new DateTime(2022, 11, 20, 15, 32, 1, 302, DateTimeKind.Local).AddTicks(3104));
 
                     b.HasKey("ResultItemId");
 

@@ -160,21 +160,30 @@
         </Style.Triggers>
     </Style>
 
-    <Style x:Key="rs_ItemsDate" TargetType="TextBlock">
-
-        <Setter Property="Width" Value="150" />
-        <Setter Property="Foreground" Value="#7B7B7B" />
-        <Setter Property="FontFamily" Value="{DynamicResource PoppinsRegular}" />
-        <Setter Property="FontSize" Value="10" />
-    </Style>
-
     <Style x:Key="rs_ItemHeader" TargetType="TextBlock">
-
+        <Setter Property="Width" Value="230" />
         <Setter Property="TextWrapping" Value="NoWrap" />
         <Setter Property="TextTrimming" Value="CharacterEllipsis" />
         <Setter Property="Foreground" Value="#1C1E2F" />
         <Setter Property="FontFamily" Value="{DynamicResource PoppinsMedium}" />
         <Setter Property="FontSize" Value="14" />
+        <Setter Property="Margin" Value="0 2 0 0" />
+    </Style>
+
+    <Style x:Key="rs_ItemsDate" TargetType="TextBlock">
+
+        <Setter Property="Width" Value="230" />
+        <Setter Property="Foreground" Value="#7B7B7B" />
+        <Setter Property="FontFamily" Value="{DynamicResource PoppinsMedium}" />
+        <Setter Property="FontSize" Value="11" />
+    </Style>
+
+    <Style x:Key="rs_ItemLoc" TargetType="TextBlock">
+
+        <Setter Property="Width" Value="230" />
+        <Setter Property="Foreground" Value="#F0433A" />
+        <Setter Property="FontFamily" Value="{DynamicResource PoppinsMedium}" />
+        <Setter Property="FontSize" Value="10" />
     </Style>
 
     <Style x:Key="rs_ItemOpenIcon" TargetType="Button">

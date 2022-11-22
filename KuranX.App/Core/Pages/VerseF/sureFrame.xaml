@@ -22,10 +22,6 @@
             <Image gif:ImageBehavior.AnimatedSource="/Resource/Images/Gif/Spinner800.gif" Width="250" Height="250"  RenderOptions.BitmapScalingMode="HighQuality" />
         </Grid>
 
-        <Grid x:Name="loadinItemsGifContent" Grid.ColumnSpan="2"  Grid.Row="1" Background="#FAFAFA" Panel.ZIndex="5" Visibility="Collapsed">
-            <Image gif:ImageBehavior.AnimatedSource="/Resource/Images/Gif/Spinner800.gif" Width="250" Height="250"  RenderOptions.BitmapScalingMode="HighQuality" />
-        </Grid>
-
         <!-- Popup -->
 
         <Popup x:Name="popup_fastopenVerse" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="380" Height="260" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
@@ -324,7 +320,7 @@
             </Border>
         </Grid>
 
-        <Border x:Name="loadContent" Grid.Row="1" Padding="0 10 0 0" UseLayoutRounding="True" SnapsToDevicePixels="True" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Visible">
+        <Border x:Name="loadContent" Grid.Row="1" Padding="0 10 0 0" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Visible">
             <Grid x:Name="loadPanel">
 
                 <Grid.ColumnDefinitions>

@@ -38,8 +38,7 @@ namespace KuranX.App.Core.Pages.VerseF
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            // Debug.WriteLine("Run ?");
-            // App.loadTask = Task.Run(() => loadItem());
+            loadContent.Visibility = Visibility.Visible;
         }
 
         public Page PageCall()
@@ -355,7 +354,7 @@ namespace KuranX.App.Core.Pages.VerseF
 
         private void popupRelativeId_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            Regex regex = new Regex("[^1-9]+");
+            Regex regex = new Regex("[^0-9]+");
             e.Handled = regex.IsMatch(e.Text);
         }
 
@@ -373,7 +372,7 @@ namespace KuranX.App.Core.Pages.VerseF
         private void sr_FastOpen_Click(object sender, RoutedEventArgs e)
         {
             var btn = sender as Button;
-            popupSureId.Text = btn.Tag.ToString();
+            popupSureId.Text = (string)btn.Tag;
             popupMax.Text = btn.Uid;
             popupRelativeId.Text = "1";
             fastopenVerseError.Text = "Gitmek İstenilen Ayet Sırasını Giriniz";
@@ -384,6 +383,7 @@ namespace KuranX.App.Core.Pages.VerseF
         private void sr_Open_Click(object sender, RoutedEventArgs e)
         {
             var btn = sender as Button;
+            loadContent.Visibility = Visibility.Hidden;
             App.mainframe.Content = App.navVersePage.PageCall(int.Parse(btn.Tag.ToString()), 1, "Sure");
         }
 
@@ -394,7 +394,7 @@ namespace KuranX.App.Core.Pages.VerseF
                 nextpageButton.IsEnabled = false;
                 lastPage += 15;
                 NowPage++;
-                loadinItemsGifContent.Visibility = Visibility.Visible;
+
                 App.loadTask = Task.Run(() => loadItem());
             }
             catch (Exception ex)
@@ -412,7 +412,7 @@ namespace KuranX.App.Core.Pages.VerseF
                     previusPageButton.IsEnabled = false;
                     lastPage -= 15;
                     NowPage--;
-                    loadinItemsGifContent.Visibility = Visibility.Visible;
+
                     App.loadTask = Task.Run(() => loadItem());
                 }
             }
@@ -424,6 +424,7 @@ namespace KuranX.App.Core.Pages.VerseF
 
         private void fastLoadVerse_Click(object sender, RoutedEventArgs e)
         {
+            loadContent.Visibility = Visibility.Hidden;
             App.mainframe.Content = App.navVersePage.PageCall(int.Parse(popupSureId.Text), int.Parse(popupRelativeId.Text), "Verse");
         }
 
@@ -569,7 +570,7 @@ namespace KuranX.App.Core.Pages.VerseF
                     landingCombobox.IsEnabled = true;
                     deskingCombobox.IsEnabled = true;
                     gotoMarkLocation.IsEnabled = true;
-                    loadinItemsGifContent.Visibility = Visibility.Collapsed;
+
                     loadinGifContent.Visibility = Visibility.Collapsed;
                 });
             }

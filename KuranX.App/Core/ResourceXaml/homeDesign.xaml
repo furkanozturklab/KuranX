@@ -332,7 +332,7 @@
 
     <Style TargetType="Frame" x:Key="contentFrame">
         <Setter Property="Margin" Value="0" />
-        <Setter Property="Padding" Value="15" />
+        <Setter Property="Padding" Value="0" />
     </Style>
 
     <Style x:Key="hmwnd_navgationIcons" TargetType="{x:Type Button}">

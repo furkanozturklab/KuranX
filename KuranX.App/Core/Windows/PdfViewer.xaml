@@ -308,18 +308,23 @@
                                 <RowDefinition Height="56" />
                             </Grid.RowDefinitions>
 
-                            <StackPanel Orientation="Vertical" Margin="0 10 0 0" VerticalAlignment="Center">
-                                <TextBlock Text="Kütüphane Seç" FontFamily="{DynamicResource PoppinsMedium}" FontSize="14" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                                <ComboBox Width="300" x:Name="selectedLibFolder"  Style="{DynamicResource pp_Combobox}" SelectedIndex="0" IsReadOnly="True">
-                                </ComboBox>
-                                <TextBlock Margin="0,5,0,0" VerticalAlignment="Center" HorizontalAlignment="Center" x:Name="popupaddLibError" Style="{DynamicResource pp_DefaultDynamicTextBlock}" />
-                                <Button FontSize="12"  Width="180" x:Name="newLibFolder" Style="{DynamicResource pp_DefaultButtonBstrp}" Tag="Archive" Content="Yeni Konu Aç" HorizontalAlignment="Center" Margin="0 5 0 5" Click="newLibFolder_Click" />
+                            <StackPanel Orientation="Vertical" Margin="0 10 0 0">
+
                                 <TextBlock Text="Seçili Not" FontFamily="{DynamicResource PoppinsMedium}" FontSize="14" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 10 0 0" />
-                                <TextBox Style="{DynamicResource pp_DefaulTextBox}" Width="300" x:Name="selectedLib" IsReadOnly="True" />
+                                <TextBox Style="{DynamicResource pp_DefaulTextBox}" Width="280" x:Name="selectedLib" IsReadOnly="True" />
+
+                                <TextBlock Text="Kütüphane Seç" FontFamily="{DynamicResource PoppinsMedium}" FontSize="14" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 20 0 0" />
+                                <ComboBox Width="280" x:Name="selectedLibFolder"  Style="{DynamicResource pp_Combobox}" SelectedIndex="0" IsReadOnly="True" />
+
+                                <TextBlock Margin="0,5,0,0" VerticalAlignment="Center" HorizontalAlignment="Center" x:Name="popupaddLibError" Style="{DynamicResource pp_DefaultDynamicTextBlock}" />
+
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                    <Button FontSize="12"  Width="180" x:Name="newLibFolder" Style="{DynamicResource pp_DefaultButtonBstrp}" Tag="Archive" Content="Yeni Kütüphane Aç" HorizontalAlignment="Center" Click="newLibFolder_Click" />
+                                </StackPanel>
                             </StackPanel>
 
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="1">
-                                <Button Width="120" x:Name="addLib" Style="{DynamicResource pp_DefaultButtonBstrp}" Tag="FolderPlus" Content="Ekle" HorizontalAlignment="Center" Click="addLib_Click" />
+                                <Button Width="120" x:Name="addSubject" Style="{DynamicResource pp_DefaultButtonBstrp}" Tag="FolderPlus" Content="Ekle" HorizontalAlignment="Center" Click="addLib_Click" />
                                 <Button Width="120" Style="{DynamicResource pp_DefaultButtonClosed}" Tag="CloseBig" Content="Vazgeç" Uid="popup_SendNote" HorizontalAlignment="Center" Click="popupClosed_Click" />
                             </StackPanel>
                         </Grid>

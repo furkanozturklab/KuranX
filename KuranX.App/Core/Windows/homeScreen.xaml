@@ -196,7 +196,7 @@
             </Popup>
 
             <Border Style="{DynamicResource rightPanelBorder}">
-                <Grid x:Name="rightPanel" Style="{DynamicResource aniEffectFadeGrid}" Visibility="Hidden">
+                <Grid x:Name="rightPanel" Style="{DynamicResource aniEffectFadeGrid}" Visibility="Visible">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="50" />
                         <RowDefinition Height="*" />
@@ -214,7 +214,7 @@
                     </Grid>
 
                     <Grid x:Name="MainFrameGrid" Grid.Row="1">
-                        <Frame  Style="{DynamicResource contentFrame}"  NavigationUIVisibility="Hidden" x:Name="homeFrame" Content="Frame" Padding="15,0,15,0" Grid.IsSharedSizeScope="True" Navigated="homeFrame_Navigated" />
+                        <Frame  Style="{DynamicResource contentFrame}"  NavigationUIVisibility="Hidden" x:Name="homeFrame" Content="Frame" Padding="10,0,15,0" Grid.IsSharedSizeScope="True" Navigated="homeFrame_Navigated" />
                     </Grid>
                 </Grid>
             </Border>

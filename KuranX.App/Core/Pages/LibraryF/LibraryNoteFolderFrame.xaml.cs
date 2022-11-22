@@ -31,6 +31,7 @@ namespace KuranX.App.Core.Pages.LibraryF
 
         public object PageCall()
         {
+            loadHeaderAni.Visibility = Visibility.Hidden;
             App.mainScreen.navigationWriter("library", "Kütüphane Başlıkları");
             App.loadTask = Task.Run(() => loadItem());
             return this;
@@ -49,27 +50,43 @@ namespace KuranX.App.Core.Pages.LibraryF
                 var dLibrarys = entitydb.Librarys.Skip(lastPage).Take(20).ToList();
                 Decimal totalcount = entitydb.Librarys.Count();
 
+                for (int x = 1; x <= 20; x++)
+                {
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        var pdfItem = (Border)FindName("lnt" + x);
+                        pdfItem.Visibility = Visibility.Hidden;
+                    });
+                }
+
+                int i = 1;
+
+                Thread.Sleep(300);
+
+                foreach (var item in dLibrarys)
+                {
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        var sColor = (Border)FindName("lntColor" + i);
+                        sColor.Background = (SolidColorBrush)new BrushConverter().ConvertFrom(item.LibraryColor);
+
+                        var sName = (TextBlock)FindName("lntName" + i);
+                        sName.Text = item.LibraryName;
+
+                        var sCreated = (TextBlock)FindName("lntCreated" + i);
+                        sCreated.Text = item.Created.ToString("D");
+
+                        var sBtn = (Button)FindName("lntBtn" + i);
+                        sBtn.Uid = item.LibraryId.ToString();
+
+                        var sbItem = (Border)FindName("lnt" + i);
+                        sbItem.Visibility = Visibility.Visible;
+                        i++;
+                    });
+                }
+
                 this.Dispatcher.Invoke(() =>
                 {
-                    for (int x = 1; x < 21; x++)
-                    {
-                        ItemsControl itemslist = (ItemsControl)this.FindName("lnt" + x);
-                        itemslist.ItemsSource = null;
-                    }
-
-                    int i = 1;
-                    List<Classes.Library> tempSub = new List<Classes.Library>();
-                    foreach (var item in dLibrarys)
-                    {
-                        tempSub.Add(item);
-                        ItemsControl itemslist = (ItemsControl)this.FindName("lnt" + i);
-                        itemslist.ItemsSource = tempSub;
-                        tempSub.Clear();
-                        i++;
-                    }
-
-                    Thread.Sleep(200);
-
                     totalcountText.Tag = totalcount.ToString();
 
                     if (dLibrarys.Count() != 0)
@@ -93,8 +110,8 @@ namespace KuranX.App.Core.Pages.LibraryF
                         nextpageButton.IsEnabled = false;
                         previusPageButton.IsEnabled = false;
                     }
-                    loadAniComplated();
                 });
+                loadAniComplated();
             }
         }
 
@@ -160,7 +177,7 @@ namespace KuranX.App.Core.Pages.LibraryF
         {
             try
             {
-                if (libraryFolderHeader.Text.Length >= 8)
+                if (libraryFolderHeader.Text.Length >= 3)
                 {
                     if (libraryFolderHeader.Text.Length < 150)
                     {
@@ -175,7 +192,7 @@ namespace KuranX.App.Core.Pages.LibraryF
                                 entitydb.SaveChanges();
                                 succsessFunc("Kütüphane Başlığı ", " Yeni kütüphane başlığı oluşturuldu artık veri ekleye bilirsiniz.", 3);
 
-                                librarypreviewName.Text = "";
+                                librarypreviewName.Text = "Önizlem";
                                 libraryFolderHeader.Text = "";
                                 popup_FolderLibraryPopup.IsOpen = false;
                                 dlibraryFolder = null;
@@ -200,7 +217,7 @@ namespace KuranX.App.Core.Pages.LibraryF
                 {
                     libraryFolderHeader.Focus();
                     libraryHeaderFolderErrorMesssage.Visibility = Visibility.Visible;
-                    libraryHeaderFolderErrorMesssage.Content = "Kütüphane başlığının uzunluğu minimum 8 karakter olmalı";
+                    libraryHeaderFolderErrorMesssage.Content = "Kütüphane başlığının uzunluğu minimum 3 karakter olmalı";
                 }
             }
             catch (Exception ex)
@@ -246,6 +263,9 @@ namespace KuranX.App.Core.Pages.LibraryF
                 var popuptemp = (Popup)FindName(btntemp.Uid);
                 popuptemp.IsOpen = false;
                 libraryHeaderFolderErrorMesssage.Visibility = Visibility.Hidden;
+                librarypreviewName.Text = "Önizlem";
+                libraryFolderHeader.Text = "";
+
                 btntemp = null;
             }
             catch (Exception ex)
@@ -371,6 +391,7 @@ namespace KuranX.App.Core.Pages.LibraryF
             {
                 backPage.IsEnabled = true;
                 newLibHeader.IsEnabled = true;
+                loadHeaderAni.Visibility = Visibility.Visible;
             });
         }
 

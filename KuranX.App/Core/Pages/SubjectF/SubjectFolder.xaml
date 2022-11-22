@@ -247,7 +247,7 @@
                                 <TextBox Style="{DynamicResource pp_DefaulTextBox}" x:Name="popupNextVerseId" Text="1" PreviewTextInput="popupNextVerseId_PreviewTextInput" TextChanged="popupNextVerseId_TextChanged" />
                             </StackPanel>
 
-                            <Label x:Name="popupaddnewversecountErrortxt" Style="{DynamicResource pp_DefaultTextBoxLabel}">Gitmek İstenilen Ayet Sırasını Giriniz</Label>
+                            <Label x:Name="popupaddnewversecountErrortxt" Style="{DynamicResource pp_DefaultTextBoxLabel}" />
                         </StackPanel>
                         <Grid Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
                             <Grid.ColumnDefinitions>
@@ -454,20 +454,65 @@
             </Border>
         </Popup>
 
+        <Popup x:Name="popup_newName" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="380" Height="240" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+            <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="360" Height="220">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50" />
+                        <RowDefinition Height="170" />
+                    </Grid.RowDefinitions>
+                    <Border  Grid.Row="0" Style="{DynamicResource pp_BorderHeader}">
+                        <TextBlock Text="Konu Başlığını Değiştir" Style="{DynamicResource pp_HeaderText}" />
+                    </Border>
+                    <Grid Grid.Row="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="50" />
+                        </Grid.RowDefinitions>
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Width="280" Grid.Row="0">
+                            <TextBlock Text="Yeni Başlık " FontFamily="{DynamicResource PoppinsMedium}" FontSize="14" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            <TextBox Style="{DynamicResource pp_DefaulTextBox}" Width="270" x:Name="popupNewName" TextChanged="popupNewName_TextChanged" KeyDown="popupNewName_KeyDown" />
+                            <Label x:Name="popupRelativeIdError" Style="{DynamicResource pp_DefaultTextBoxLabel}" Margin="0 5 0 0">Yeni Konu Başlığını Giriniz</Label>
+                        </StackPanel>
+                        <Grid Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="0">
+                                <Button x:Name="loadSubjectNamePopup" Style="{DynamicResource pp_DefaultButtonBstrp}" Tag="Check2" Content="Tamam" HorizontalAlignment="Center" Click="newNamePopup_Click" />
+                                <Button  Style="{DynamicResource pp_DefaultButtonClosed}" Tag="CloseBig" Content="Vazgeç" Uid="popup_newName" HorizontalAlignment="Center" Click="popupClosed_Click" />
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </Border>
+        </Popup>
+
         <!-- popup -->
 
-        <Border Grid.Row="0" Width="400" Height="70" x:Name="loadHeaderBorder" Style="{DynamicResource defaultBorderShadowEffect}">
-            <StackPanel Orientation="Horizontal">
-                <Border x:Name="loadHeaderColor" Width="12" CornerRadius="5 0 0 5" Background="#66E21F" />
-                <Border Width="338" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                    <StackPanel Orientation="Vertical">
-                        <TextBlock x:Name="loadHeader" Text="" FontSize="18" Style="{DynamicResource sb_folderHeaderExtends}" />
-                        <TextBlock x:Name="loadCreated" Text="" Style="{DynamicResource sb_folderDateExtends}" />
-                    </StackPanel>
+        <Border Height="70" Width="400" x:Name="loadHeaderBorder" Style="{DynamicResource defaultBorderShadowEffect}">
+            <StackPanel Orientation="Horizontal" Width="400" Height="70">
+
+                <Border x:Name="loadHeaderGif" Grid.Row="0" Width="400" Height="70" Background="#FFFFFF" Panel.ZIndex="5" CornerRadius="5" Visibility="Visible">
+                    <Image gif:ImageBehavior.AnimatedSource="/Resource/Images/Gif/NavSpin500.gif" Width="70" RenderOptions.BitmapScalingMode="HighQuality" />
                 </Border>
-                <Border Width="50">
-                    <Button x:Name="subjectItemsDeleteBtn" Style="{DynamicResource sb_FolderButtonReset}" Grid.Column="2" Tag="TrashMD" Click="subjectItemsDeleteBtn_Click" />
-                </Border>
+
+                <StackPanel x:Name="loadStack" Orientation="Horizontal" Style="{DynamicResource aniEffectFadeStack}" Visibility="Hidden">
+                    <Border x:Name="loadHeaderColor" Width="12" Height="70" CornerRadius="5 0 0 5" />
+                    <Border Width="338" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock x:Name="loadHeader" Text="" FontSize="18" Style="{DynamicResource sb_folderHeaderExtends}" />
+                            <TextBlock x:Name="loadCreated" Text="" Style="{DynamicResource sb_folderDateExtends}" />
+                        </StackPanel>
+                    </Border>
+                    <Border Width="50">
+                        <StackPanel>
+                            <Button x:Name="subjectItemsRenameBtn" Style="{DynamicResource sb_FolderButtonReset}" Grid.Column="2" Tag="CreateMD" Click="subjectItemsRenameBtn_Click" ToolTip="Konu Başlığını Adını Değiştir" />
+                            <Button x:Name="subjectItemsDeleteBtn" Style="{DynamicResource sb_FolderButtonReset}" Grid.Column="2" Tag="TrashMD" Click="subjectItemsDeleteBtn_Click" ToolTip="Konu Başlığını Sil" />
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
             </StackPanel>
         </Border>
 
@@ -487,485 +532,325 @@
                     <RowDefinition Height="100" />
                 </Grid.RowDefinitions>
 
-                <Border Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="sbItem1">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
-                                    <StackPanel Orientation="Horizontal">
+                <StackPanel x:Name="sbItem1" Grid.Column="0" Grid.Row="0" VerticalAlignment="Center"  HorizontalAlignment="Center" Visibility="Hidden" Style="{DynamicResource aniEffectFadeStack}">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border Width="207" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock x:Name="sbName1" FontSize="12" Style="{DynamicResource sb_ItemName}" />
+                                    <TextBlock x:Name="sbCreate1" Style="{DynamicResource sb_ItemDate}" />
+                                </StackPanel>
+                            </Border>
+                            <Border Width="38" Height="50">
+                                <Button x:Name="sbBtn1" Style="{DynamicResource sb_ItemOpenIcon}" Click="subjectItemsOpen_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
 
-                                        <Border Width="207" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                            <StackPanel Orientation="Vertical">
-                                                <TextBlock Text="{Binding SubjectName}" FontSize="12" Style="{DynamicResource sb_ItemName}" />
-                                                <TextBlock Text="{Binding Created}" Style="{DynamicResource sb_ItemDate}" />
-                                            </StackPanel>
-                                        </Border>
+                <StackPanel x:Name="sbItem2" Grid.Column="1" Grid.Row="0" VerticalAlignment="Center"  HorizontalAlignment="Center" Visibility="Hidden" Style="{DynamicResource aniEffectFadeStack}">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border Width="207" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock x:Name="sbName2" FontSize="12" Style="{DynamicResource sb_ItemName}" />
+                                    <TextBlock x:Name="sbCreate2" Style="{DynamicResource sb_ItemDate}" />
+                                </StackPanel>
+                            </Border>
+                            <Border Width="38" Height="50">
+                                <Button x:Name="sbBtn2" Style="{DynamicResource sb_ItemOpenIcon}" Click="subjectItemsOpen_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
 
-                                        <Border Width="38" Height="50">
-                                            <Button Style="{DynamicResource sb_ItemOpenIcon}" Uid="{Binding SubjectId}" Content="{Binding SureId}" Tag="{Binding VerseId}" Click="subjectItemsOpen_Click" />
-                                        </Border>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </Border>
+                <StackPanel x:Name="sbItem3" Grid.Column="2" Grid.Row="0" VerticalAlignment="Center"  HorizontalAlignment="Center" Visibility="Hidden" Style="{DynamicResource aniEffectFadeStack}">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border Width="207" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock x:Name="sbName3" FontSize="12" Style="{DynamicResource sb_ItemName}" />
+                                    <TextBlock x:Name="sbCreate3" Style="{DynamicResource sb_ItemDate}" />
+                                </StackPanel>
+                            </Border>
+                            <Border Width="38" Height="50">
+                                <Button x:Name="sbBtn3" Style="{DynamicResource sb_ItemOpenIcon}" Click="subjectItemsOpen_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
 
-                <Border Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="sbItem2">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
-                                    <StackPanel Orientation="Horizontal">
+                <StackPanel x:Name="sbItem4" Grid.Column="3" Grid.Row="0" VerticalAlignment="Center"  HorizontalAlignment="Center" Visibility="Hidden" Style="{DynamicResource aniEffectFadeStack}">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border Width="207" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock x:Name="sbName4" FontSize="12" Style="{DynamicResource sb_ItemName}" />
+                                    <TextBlock x:Name="sbCreate4" Style="{DynamicResource sb_ItemDate}" />
+                                </StackPanel>
+                            </Border>
+                            <Border Width="38" Height="50">
+                                <Button x:Name="sbBtn4" Style="{DynamicResource sb_ItemOpenIcon}" Click="subjectItemsOpen_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
 
-                                        <Border Width="207" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                            <StackPanel Orientation="Vertical">
-                                                <TextBlock Text="{Binding SubjectName}" FontSize="12" Style="{DynamicResource sb_ItemName}" />
-                                                <TextBlock Text="{Binding Created}" Style="{DynamicResource sb_ItemDate}" />
-                                            </StackPanel>
-                                        </Border>
+                <StackPanel x:Name="sbItem5" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center"  HorizontalAlignment="Center" Visibility="Hidden" Style="{DynamicResource aniEffectFadeStack}">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border Width="207" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock x:Name="sbName5" FontSize="12" Style="{DynamicResource sb_ItemName}" />
+                                    <TextBlock x:Name="sbCreate5" Style="{DynamicResource sb_ItemDate}" />
+                                </StackPanel>
+                            </Border>
+                            <Border Width="38" Height="50">
+                                <Button x:Name="sbBtn5" Style="{DynamicResource sb_ItemOpenIcon}" Click="subjectItemsOpen_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
 
-                                        <Border Width="38" Height="50">
-                                            <Button Style="{DynamicResource sb_ItemOpenIcon}" Uid="{Binding SubjectId}" Content="{Binding SureId}" Tag="{Binding VerseId}" Click="subjectItemsOpen_Click" />
-                                        </Border>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </Border>
+                <StackPanel x:Name="sbItem6" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center"  HorizontalAlignment="Center" Visibility="Hidden" Style="{DynamicResource aniEffectFadeStack}">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border Width="207" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock x:Name="sbName6" FontSize="12" Style="{DynamicResource sb_ItemName}" />
+                                    <TextBlock x:Name="sbCreate6" Style="{DynamicResource sb_ItemDate}" />
+                                </StackPanel>
+                            </Border>
+                            <Border Width="38" Height="50">
+                                <Button x:Name="sbBtn6" Style="{DynamicResource sb_ItemOpenIcon}" Click="subjectItemsOpen_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
 
-                <Border Grid.Column="2" Grid.Row="0" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="sbItem3">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
-                                    <StackPanel Orientation="Horizontal">
+                <StackPanel x:Name="sbItem7" Grid.Column="2" Grid.Row="1" VerticalAlignment="Center"  HorizontalAlignment="Center" Visibility="Hidden" Style="{DynamicResource aniEffectFadeStack}">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border Width="207" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock x:Name="sbName7" FontSize="12" Style="{DynamicResource sb_ItemName}" />
+                                    <TextBlock x:Name="sbCreate7" Style="{DynamicResource sb_ItemDate}" />
+                                </StackPanel>
+                            </Border>
+                            <Border Width="38" Height="50">
+                                <Button x:Name="sbBtn7" Style="{DynamicResource sb_ItemOpenIcon}" Click="subjectItemsOpen_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
 
-                                        <Border Width="207" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                            <StackPanel Orientation="Vertical">
-                                                <TextBlock Text="{Binding SubjectName}" FontSize="12" Style="{DynamicResource sb_ItemName}" />
-                                                <TextBlock Text="{Binding Created}" Style="{DynamicResource sb_ItemDate}" />
-                                            </StackPanel>
-                                        </Border>
+                <StackPanel x:Name="sbItem8" Grid.Column="3" Grid.Row="1" VerticalAlignment="Center"  HorizontalAlignment="Center" Visibility="Hidden" Style="{DynamicResource aniEffectFadeStack}">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border Width="207" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock x:Name="sbName8" FontSize="12" Style="{DynamicResource sb_ItemName}" />
+                                    <TextBlock x:Name="sbCreate8" Style="{DynamicResource sb_ItemDate}" />
+                                </StackPanel>
+                            </Border>
+                            <Border Width="38" Height="50">
+                                <Button x:Name="sbBtn8" Style="{DynamicResource sb_ItemOpenIcon}" Click="subjectItemsOpen_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
 
-                                        <Border Width="38" Height="50">
-                                            <Button Style="{DynamicResource sb_ItemOpenIcon}" Uid="{Binding SubjectId}" Content="{Binding SureId}" Tag="{Binding VerseId}" Click="subjectItemsOpen_Click" />
-                                        </Border>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </Border>
+                <StackPanel x:Name="sbItem9" Grid.Column="0" Grid.Row="2" VerticalAlignment="Center"  HorizontalAlignment="Center" Visibility="Hidden" Style="{DynamicResource aniEffectFadeStack}">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border Width="207" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock x:Name="sbName9" FontSize="12" Style="{DynamicResource sb_ItemName}" />
+                                    <TextBlock x:Name="sbCreate9" Style="{DynamicResource sb_ItemDate}" />
+                                </StackPanel>
+                            </Border>
+                            <Border Width="38" Height="50">
+                                <Button x:Name="sbBtn9" Style="{DynamicResource sb_ItemOpenIcon}" Click="subjectItemsOpen_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
 
-                <Border Grid.Column="3" Grid.Row="0" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="sbItem4">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
-                                    <StackPanel Orientation="Horizontal">
+                <StackPanel x:Name="sbItem10" Grid.Column="1" Grid.Row="2" VerticalAlignment="Center"  HorizontalAlignment="Center" Visibility="Hidden" Style="{DynamicResource aniEffectFadeStack}">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border Width="207" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock x:Name="sbName10" FontSize="12" Style="{DynamicResource sb_ItemName}" />
+                                    <TextBlock x:Name="sbCreate10" Style="{DynamicResource sb_ItemDate}" />
+                                </StackPanel>
+                            </Border>
+                            <Border Width="38" Height="50">
+                                <Button x:Name="sbBtn10" Style="{DynamicResource sb_ItemOpenIcon}" Click="subjectItemsOpen_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
 
-                                        <Border Width="207" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                            <StackPanel Orientation="Vertical">
-                                                <TextBlock Text="{Binding SubjectName}" FontSize="12" Style="{DynamicResource sb_ItemName}" />
-                                                <TextBlock Text="{Binding Created}" Style="{DynamicResource sb_ItemDate}" />
-                                            </StackPanel>
-                                        </Border>
+                <StackPanel x:Name="sbItem11" Grid.Column="2" Grid.Row="2" VerticalAlignment="Center"  HorizontalAlignment="Center" Visibility="Hidden" Style="{DynamicResource aniEffectFadeStack}">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border Width="207" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock x:Name="sbName11" FontSize="12" Style="{DynamicResource sb_ItemName}" />
+                                    <TextBlock x:Name="sbCreate11" Style="{DynamicResource sb_ItemDate}" />
+                                </StackPanel>
+                            </Border>
+                            <Border Width="38" Height="50">
+                                <Button x:Name="sbBtn11" Style="{DynamicResource sb_ItemOpenIcon}" Click="subjectItemsOpen_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
 
-                                        <Border Width="38" Height="50">
-                                            <Button Style="{DynamicResource sb_ItemOpenIcon}" Uid="{Binding SubjectId}" Content="{Binding SureId}" Tag="{Binding VerseId}" Click="subjectItemsOpen_Click" />
-                                        </Border>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </Border>
+                <StackPanel x:Name="sbItem12" Grid.Column="3" Grid.Row="2" VerticalAlignment="Center"  HorizontalAlignment="Center" Visibility="Hidden" Style="{DynamicResource aniEffectFadeStack}">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border Width="207" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock x:Name="sbName12" FontSize="12" Style="{DynamicResource sb_ItemName}" />
+                                    <TextBlock x:Name="sbCreate12" Style="{DynamicResource sb_ItemDate}" />
+                                </StackPanel>
+                            </Border>
+                            <Border Width="38" Height="50">
+                                <Button x:Name="sbBtn12" Style="{DynamicResource sb_ItemOpenIcon}" Click="subjectItemsOpen_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
 
-                <Border Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="sbItem5">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
-                                    <StackPanel Orientation="Horizontal">
+                <StackPanel x:Name="sbItem13" Grid.Column="0" Grid.Row="3" VerticalAlignment="Center"  HorizontalAlignment="Center" Visibility="Hidden" Style="{DynamicResource aniEffectFadeStack}">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border Width="207" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock x:Name="sbName13" FontSize="12" Style="{DynamicResource sb_ItemName}" />
+                                    <TextBlock x:Name="sbCreate13" Style="{DynamicResource sb_ItemDate}" />
+                                </StackPanel>
+                            </Border>
+                            <Border Width="38" Height="50">
+                                <Button x:Name="sbBtn13" Style="{DynamicResource sb_ItemOpenIcon}" Click="subjectItemsOpen_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
 
-                                        <Border Width="207" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                            <StackPanel Orientation="Vertical">
-                                                <TextBlock Text="{Binding SubjectName}" FontSize="12" Style="{DynamicResource sb_ItemName}" />
-                                                <TextBlock Text="{Binding Created}" Style="{DynamicResource sb_ItemDate}" />
-                                            </StackPanel>
-                                        </Border>
+                <StackPanel x:Name="sbItem14" Grid.Column="1" Grid.Row="3" VerticalAlignment="Center"  HorizontalAlignment="Center" Visibility="Hidden" Style="{DynamicResource aniEffectFadeStack}">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border Width="207" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock x:Name="sbName14" FontSize="12" Style="{DynamicResource sb_ItemName}" />
+                                    <TextBlock x:Name="sbCreate14" Style="{DynamicResource sb_ItemDate}" />
+                                </StackPanel>
+                            </Border>
+                            <Border Width="38" Height="50">
+                                <Button x:Name="sbBtn14" Style="{DynamicResource sb_ItemOpenIcon}" Click="subjectItemsOpen_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
 
-                                        <Border Width="38" Height="50">
-                                            <Button Style="{DynamicResource sb_ItemOpenIcon}" Uid="{Binding SubjectId}" Content="{Binding SureId}" Tag="{Binding VerseId}" Click="subjectItemsOpen_Click" />
-                                        </Border>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </Border>
+                <StackPanel x:Name="sbItem15" Grid.Column="2" Grid.Row="3" VerticalAlignment="Center"  HorizontalAlignment="Center" Visibility="Hidden" Style="{DynamicResource aniEffectFadeStack}">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border Width="207" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock x:Name="sbName15" FontSize="12" Style="{DynamicResource sb_ItemName}" />
+                                    <TextBlock x:Name="sbCreate15" Style="{DynamicResource sb_ItemDate}" />
+                                </StackPanel>
+                            </Border>
+                            <Border Width="38" Height="50">
+                                <Button x:Name="sbBtn15" Style="{DynamicResource sb_ItemOpenIcon}" Click="subjectItemsOpen_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
 
-                <Border Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="sbItem6">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
-                                    <StackPanel Orientation="Horizontal">
+                <StackPanel x:Name="sbItem16" Grid.Column="3" Grid.Row="3" VerticalAlignment="Center"  HorizontalAlignment="Center" Visibility="Hidden" Style="{DynamicResource aniEffectFadeStack}">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border Width="207" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock x:Name="sbName16" FontSize="12" Style="{DynamicResource sb_ItemName}" />
+                                    <TextBlock x:Name="sbCreate16" Style="{DynamicResource sb_ItemDate}" />
+                                </StackPanel>
+                            </Border>
+                            <Border Width="38" Height="50">
+                                <Button x:Name="sbBtn16" Style="{DynamicResource sb_ItemOpenIcon}" Click="subjectItemsOpen_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
 
-                                        <Border Width="207" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                            <StackPanel Orientation="Vertical">
-                                                <TextBlock Text="{Binding SubjectName}" FontSize="12" Style="{DynamicResource sb_ItemName}" />
-                                                <TextBlock Text="{Binding Created}" Style="{DynamicResource sb_ItemDate}" />
-                                            </StackPanel>
-                                        </Border>
+                <StackPanel x:Name="sbItem17" Grid.Column="0" Grid.Row="4" VerticalAlignment="Center"  HorizontalAlignment="Center" Visibility="Hidden" Style="{DynamicResource aniEffectFadeStack}">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border Width="207" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock x:Name="sbName17" FontSize="12" Style="{DynamicResource sb_ItemName}" />
+                                    <TextBlock x:Name="sbCreate17" Style="{DynamicResource sb_ItemDate}" />
+                                </StackPanel>
+                            </Border>
+                            <Border Width="38" Height="50">
+                                <Button x:Name="sbBtn17" Style="{DynamicResource sb_ItemOpenIcon}" Click="subjectItemsOpen_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
 
-                                        <Border Width="38" Height="50">
-                                            <Button Style="{DynamicResource sb_ItemOpenIcon}" Uid="{Binding SubjectId}" Content="{Binding SureId}" Tag="{Binding VerseId}" Click="subjectItemsOpen_Click" />
-                                        </Border>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </Border>
+                <StackPanel x:Name="sbItem18" Grid.Column="1" Grid.Row="4" VerticalAlignment="Center"  HorizontalAlignment="Center" Visibility="Hidden" Style="{DynamicResource aniEffectFadeStack}">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border Width="207" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock x:Name="sbName18" FontSize="12" Style="{DynamicResource sb_ItemName}" />
+                                    <TextBlock x:Name="sbCreate18" Style="{DynamicResource sb_ItemDate}" />
+                                </StackPanel>
+                            </Border>
+                            <Border Width="38" Height="50">
+                                <Button x:Name="sbBtn18" Style="{DynamicResource sb_ItemOpenIcon}" Click="subjectItemsOpen_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
 
-                <Border Grid.Column="2" Grid.Row="1" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="sbItem7">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
-                                    <StackPanel Orientation="Horizontal">
+                <StackPanel x:Name="sbItem19" Grid.Column="2" Grid.Row="4" VerticalAlignment="Center"  HorizontalAlignment="Center" Visibility="Hidden" Style="{DynamicResource aniEffectFadeStack}">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border Width="207" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock x:Name="sbName19" FontSize="12" Style="{DynamicResource sb_ItemName}" />
+                                    <TextBlock x:Name="sbCreate19" Style="{DynamicResource sb_ItemDate}" />
+                                </StackPanel>
+                            </Border>
+                            <Border Width="38" Height="50">
+                                <Button x:Name="sbBtn19" Style="{DynamicResource sb_ItemOpenIcon}" Click="subjectItemsOpen_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
 
-                                        <Border Width="207" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                            <StackPanel Orientation="Vertical">
-                                                <TextBlock Text="{Binding SubjectName}" FontSize="12" Style="{DynamicResource sb_ItemName}" />
-                                                <TextBlock Text="{Binding Created}" Style="{DynamicResource sb_ItemDate}" />
-                                            </StackPanel>
-                                        </Border>
-
-                                        <Border Width="38" Height="50">
-                                            <Button Style="{DynamicResource sb_ItemOpenIcon}" Uid="{Binding SubjectId}" Content="{Binding SureId}" Tag="{Binding VerseId}" Click="subjectItemsOpen_Click" />
-                                        </Border>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </Border>
-
-                <Border Grid.Column="3" Grid.Row="1" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="sbItem8">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
-                                    <StackPanel Orientation="Horizontal">
-
-                                        <Border Width="207" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                            <StackPanel Orientation="Vertical">
-                                                <TextBlock Text="{Binding SubjectName}" FontSize="12" Style="{DynamicResource sb_ItemName}" />
-                                                <TextBlock Text="{Binding Created}" Style="{DynamicResource sb_ItemDate}" />
-                                            </StackPanel>
-                                        </Border>
-
-                                        <Border Width="38" Height="50">
-                                            <Button Style="{DynamicResource sb_ItemOpenIcon}" Uid="{Binding SubjectId}" Content="{Binding SureId}" Tag="{Binding VerseId}" Click="subjectItemsOpen_Click" />
-                                        </Border>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </Border>
-
-                <Border Grid.Column="0" Grid.Row="2" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="sbItem9">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
-                                    <StackPanel Orientation="Horizontal">
-
-                                        <Border Width="207" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                            <StackPanel Orientation="Vertical">
-                                                <TextBlock Text="{Binding SubjectName}" FontSize="12" Style="{DynamicResource sb_ItemName}" />
-                                                <TextBlock Text="{Binding Created}" Style="{DynamicResource sb_ItemDate}" />
-                                            </StackPanel>
-                                        </Border>
-
-                                        <Border Width="38" Height="50">
-                                            <Button Style="{DynamicResource sb_ItemOpenIcon}" Uid="{Binding SubjectId}" Content="{Binding SureId}" Tag="{Binding VerseId}" Click="subjectItemsOpen_Click" />
-                                        </Border>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </Border>
-
-                <Border Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="sbItem10">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
-                                    <StackPanel Orientation="Horizontal">
-
-                                        <Border Width="207" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                            <StackPanel Orientation="Vertical">
-                                                <TextBlock Text="{Binding SubjectName}" FontSize="12" Style="{DynamicResource sb_ItemName}" />
-                                                <TextBlock Text="{Binding Created}" Style="{DynamicResource sb_ItemDate}" />
-                                            </StackPanel>
-                                        </Border>
-
-                                        <Border Width="38" Height="50">
-                                            <Button Style="{DynamicResource sb_ItemOpenIcon}" Uid="{Binding SubjectId}" Content="{Binding SureId}" Tag="{Binding VerseId}" Click="subjectItemsOpen_Click" />
-                                        </Border>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </Border>
-
-                <Border Grid.Column="2" Grid.Row="2" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="sbItem11">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
-                                    <StackPanel Orientation="Horizontal">
-
-                                        <Border Width="207" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                            <StackPanel Orientation="Vertical">
-                                                <TextBlock Text="{Binding SubjectName}" FontSize="12" Style="{DynamicResource sb_ItemName}" />
-                                                <TextBlock Text="{Binding Created}" Style="{DynamicResource sb_ItemDate}" />
-                                            </StackPanel>
-                                        </Border>
-
-                                        <Border Width="38" Height="50">
-                                            <Button Style="{DynamicResource sb_ItemOpenIcon}" Uid="{Binding SubjectId}" Content="{Binding SureId}" Tag="{Binding VerseId}" Click="subjectItemsOpen_Click" />
-                                        </Border>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </Border>
-
-                <Border Grid.Column="3" Grid.Row="2" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="sbItem12">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
-                                    <StackPanel Orientation="Horizontal">
-
-                                        <Border Width="207" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                            <StackPanel Orientation="Vertical">
-                                                <TextBlock Text="{Binding SubjectName}" FontSize="12" Style="{DynamicResource sb_ItemName}" />
-                                                <TextBlock Text="{Binding Created}" Style="{DynamicResource sb_ItemDate}" />
-                                            </StackPanel>
-                                        </Border>
-
-                                        <Border Width="38" Height="50">
-                                            <Button Style="{DynamicResource sb_ItemOpenIcon}" Uid="{Binding SubjectId}" Content="{Binding SureId}" Tag="{Binding VerseId}" Click="subjectItemsOpen_Click" />
-                                        </Border>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </Border>
-
-                <Border Grid.Column="0" Grid.Row="3" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="sbItem13">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
-                                    <StackPanel Orientation="Horizontal">
-
-                                        <Border Width="207" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                            <StackPanel Orientation="Vertical">
-                                                <TextBlock Text="{Binding SubjectName}" FontSize="12" Style="{DynamicResource sb_ItemName}" />
-                                                <TextBlock Text="{Binding Created}" Style="{DynamicResource sb_ItemDate}" />
-                                            </StackPanel>
-                                        </Border>
-
-                                        <Border Width="38" Height="50">
-                                            <Button Style="{DynamicResource sb_ItemOpenIcon}" Uid="{Binding SubjectId}" Content="{Binding SureId}" Tag="{Binding VerseId}" Click="subjectItemsOpen_Click" />
-                                        </Border>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </Border>
-
-                <Border Grid.Column="1" Grid.Row="3" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="sbItem14">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
-                                    <StackPanel Orientation="Horizontal">
-
-                                        <Border Width="207" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                            <StackPanel Orientation="Vertical">
-                                                <TextBlock Text="{Binding SubjectName}" FontSize="12" Style="{DynamicResource sb_ItemName}" />
-                                                <TextBlock Text="{Binding Created}" Style="{DynamicResource sb_ItemDate}" />
-                                            </StackPanel>
-                                        </Border>
-
-                                        <Border Width="38" Height="50">
-                                            <Button Style="{DynamicResource sb_ItemOpenIcon}" Uid="{Binding SubjectId}" Content="{Binding SureId}" Tag="{Binding VerseId}" Click="subjectItemsOpen_Click" />
-                                        </Border>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </Border>
-
-                <Border Grid.Column="2" Grid.Row="3" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="sbItem15">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
-                                    <StackPanel Orientation="Horizontal">
-
-                                        <Border Width="207" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                            <StackPanel Orientation="Vertical">
-                                                <TextBlock Text="{Binding SubjectName}" FontSize="12" Style="{DynamicResource sb_ItemName}" />
-                                                <TextBlock Text="{Binding Created}" Style="{DynamicResource sb_ItemDate}" />
-                                            </StackPanel>
-                                        </Border>
-
-                                        <Border Width="38" Height="50">
-                                            <Button Style="{DynamicResource sb_ItemOpenIcon}" Uid="{Binding SubjectId}" Content="{Binding SureId}" Tag="{Binding VerseId}" Click="subjectItemsOpen_Click" />
-                                        </Border>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </Border>
-
-                <Border Grid.Column="3" Grid.Row="3" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="sbItem16">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
-                                    <StackPanel Orientation="Horizontal">
-
-                                        <Border Width="207" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                            <StackPanel Orientation="Vertical">
-                                                <TextBlock Text="{Binding SubjectName}" FontSize="12" Style="{DynamicResource sb_ItemName}" />
-                                                <TextBlock Text="{Binding Created}" Style="{DynamicResource sb_ItemDate}" />
-                                            </StackPanel>
-                                        </Border>
-
-                                        <Border Width="38" Height="50">
-                                            <Button Style="{DynamicResource sb_ItemOpenIcon}" Uid="{Binding SubjectId}" Content="{Binding SureId}" Tag="{Binding VerseId}" Click="subjectItemsOpen_Click" />
-                                        </Border>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </Border>
-
-                <Border Grid.Column="0" Grid.Row="4" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="sbItem17">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
-                                    <StackPanel Orientation="Horizontal">
-
-                                        <Border Width="207" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                            <StackPanel Orientation="Vertical">
-                                                <TextBlock Text="{Binding SubjectName}" FontSize="12" Style="{DynamicResource sb_ItemName}" />
-                                                <TextBlock Text="{Binding Created}" Style="{DynamicResource sb_ItemDate}" />
-                                            </StackPanel>
-                                        </Border>
-
-                                        <Border Width="38" Height="50">
-                                            <Button Style="{DynamicResource sb_ItemOpenIcon}" Uid="{Binding SubjectId}" Content="{Binding SureId}" Tag="{Binding VerseId}" Click="subjectItemsOpen_Click" />
-                                        </Border>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </Border>
-
-                <Border Grid.Column="1" Grid.Row="4" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="sbItem18">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
-                                    <StackPanel Orientation="Horizontal">
-
-                                        <Border Width="207" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                            <StackPanel Orientation="Vertical">
-                                                <TextBlock Text="{Binding SubjectName}" FontSize="12" Style="{DynamicResource sb_ItemName}" />
-                                                <TextBlock Text="{Binding Created}" Style="{DynamicResource sb_ItemDate}" />
-                                            </StackPanel>
-                                        </Border>
-
-                                        <Border Width="38" Height="50">
-                                            <Button Style="{DynamicResource sb_ItemOpenIcon}" Uid="{Binding SubjectId}" Content="{Binding SureId}" Tag="{Binding VerseId}" Click="subjectItemsOpen_Click" />
-                                        </Border>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </Border>
-
-                <Border Grid.Column="2" Grid.Row="4" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="sbItem19">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
-                                    <StackPanel Orientation="Horizontal">
-
-                                        <Border Width="207" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                            <StackPanel Orientation="Vertical">
-                                                <TextBlock Text="{Binding SubjectName}" FontSize="12" Style="{DynamicResource sb_ItemName}" />
-                                                <TextBlock Text="{Binding Created}" Style="{DynamicResource sb_ItemDate}" />
-                                            </StackPanel>
-                                        </Border>
-
-                                        <Border Width="38" Height="50">
-                                            <Button Style="{DynamicResource sb_ItemOpenIcon}" Uid="{Binding SubjectId}" Content="{Binding SureId}" Tag="{Binding VerseId}" Click="subjectItemsOpen_Click" />
-                                        </Border>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </Border>
-
-                <Border Grid.Column="3" Grid.Row="4" VerticalAlignment="Center" Padding="10" HorizontalAlignment="Center">
-                    <ItemsControl x:Name="sbItem20">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
-                                    <StackPanel Orientation="Horizontal">
-
-                                        <Border Width="207" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                            <StackPanel Orientation="Vertical">
-                                                <TextBlock Text="{Binding SubjectName}" FontSize="12" Style="{DynamicResource sb_ItemName}" />
-                                                <TextBlock Text="{Binding Created}" Style="{DynamicResource sb_ItemDate}" />
-                                            </StackPanel>
-                                        </Border>
-
-                                        <Border Width="38" Height="50">
-                                            <Button Style="{DynamicResource sb_ItemOpenIcon}" Uid="{Binding SubjectId}" Content="{Binding SureId}" Tag="{Binding VerseId}" Click="subjectItemsOpen_Click" />
-                                        </Border>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </Border>
+                <StackPanel x:Name="sbItem20" Grid.Column="3" Grid.Row="4" VerticalAlignment="Center"  HorizontalAlignment="Center" Visibility="Hidden" Style="{DynamicResource aniEffectFadeStack}">
+                    <Border Width="245" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border Width="207" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock x:Name="sbName20" FontSize="12" Style="{DynamicResource sb_ItemName}" />
+                                    <TextBlock x:Name="sbCreate20" Style="{DynamicResource sb_ItemDate}" />
+                                </StackPanel>
+                            </Border>
+                            <Border Width="38" Height="50">
+                                <Button x:Name="sbBtn20" Style="{DynamicResource sb_ItemOpenIcon}" Click="subjectItemsOpen_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
             </Grid>
         </Border>
 

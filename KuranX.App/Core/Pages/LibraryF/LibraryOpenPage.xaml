@@ -9,7 +9,7 @@
       d:DesignHeight="708" d:DesignWidth="1115" d:MaxHeight="708" d:MaxWidth="1270" d:MinWidth="1115"
       Title="LibraryFrame" Background="#FAFAFA" Loaded="Page_Loaded">
 
-    <Grid>
+    <Grid x:Name="libraryMain" Style="{DynamicResource aniEffectFadeGrid}" Visibility="Visible">
 
         <Grid.RowDefinitions>
             <RowDefinition Height="200" />
