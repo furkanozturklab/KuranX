@@ -40,7 +40,7 @@ namespace KuranX.App.Core.Pages.AdminF
                 using (var entitydb = new AyetContext())
                 {
                     dSure = entitydb.Sure.Where(p => p.sureId == sId).First();
-                    dVerse = entitydb.Verse.Where(p => p.SureId == sId && p.RelativeDesk == rId).First();
+                    dVerse = entitydb.Verse.Where(p => p.sureId == sId && p.relativeDesk == rId).First();
 
                     this.Dispatcher.Invoke(() =>
                     {
@@ -57,17 +57,17 @@ namespace KuranX.App.Core.Pages.AdminF
                     if (dintel2 != null) this.Dispatcher.Invoke(() => intel2.Text = dintel2.interpreterDetail);
                     if (dintel3 != null) this.Dispatcher.Invoke(() => intel3.Text = dintel3.interpreterDetail);
 
-                    sverseMax = (int)dSure.NumberOfVerses;
+                    sverseMax = (int)dSure.numberOfVerses;
                     ssure = (int)dSure.sureId;
-                    sverse = (int)dVerse.RelativeDesk;
+                    sverse = (int)dVerse.relativeDesk;
 
                     this.Dispatcher.Invoke(() =>
                     {
-                        ARABIC.Text = dVerse.VerseArabic;
-                        TR.Text = dVerse.VerseTr;
-                        DESC.Text = dVerse.VerseDesc;
-                        setname.Text = dSure.Name;
-                        setverse.Text = dVerse.RelativeDesk.ToString();
+                        ARABIC.Text = dVerse.verseArabic;
+                        TR.Text = dVerse.verseTr;
+                        DESC.Text = dVerse.verseDesc;
+                        setname.Text = dSure.name;
+                        setverse.Text = dVerse.relativeDesk.ToString();
                         setverse.IsReadOnly = false;
                     });
                 }
@@ -249,9 +249,9 @@ namespace KuranX.App.Core.Pages.AdminF
                 {
                     using (var entitydb = new AyetContext())
                     {
-                        entitydb.Verse.Where(p => p.SureId == ssure && p.RelativeDesk == sverse).First().VerseArabic = ARABIC.Text;
-                        entitydb.Verse.Where(p => p.SureId == ssure && p.RelativeDesk == sverse).First().VerseTr = TR.Text;
-                        entitydb.Verse.Where(p => p.SureId == ssure && p.RelativeDesk == sverse).First().VerseDesc = DESC.Text;
+                        entitydb.Verse.Where(p => p.sureId == ssure && p.relativeDesk == sverse).First().verseArabic = ARABIC.Text;
+                        entitydb.Verse.Where(p => p.sureId == ssure && p.relativeDesk == sverse).First().verseTr = TR.Text;
+                        entitydb.Verse.Where(p => p.sureId == ssure && p.relativeDesk == sverse).First().verseDesc = DESC.Text;
 
                         entitydb.SaveChanges();
                     }

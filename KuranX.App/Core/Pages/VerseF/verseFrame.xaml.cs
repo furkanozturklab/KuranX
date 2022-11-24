@@ -1,5 +1,7 @@
 ﻿using KuranX.App.Core.Classes;
+using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -9,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Navigation;
@@ -20,21 +23,24 @@ namespace KuranX.App.Core.Pages.VerseF
     /// </summary>
     public partial class verseFrame : Page
     {
-        private int sSureId, sRelativeVerseId, verseId, currentP, clearNav = 1, last = 0;
+        private int sSureId, sRelativeVerseId, verseId, currentP, clearNav = 1, last = 0, starindex = 0;
         public int[] feedPoint = new int[4];
         private string navLocation, meaningPattern, intelWriter = "";
-        private bool nexting = false, remiderType = false;
+        private bool remiderType = false;
+        private ArrayList findIndex = new ArrayList();
 
         public verseFrame()
         {
             InitializeComponent();
         }
 
-        public object PageCall(int sureId, int relativeVerseId, string Location)
+        public object PageCall(int sureId, int relativeVerseId, string Location, string interpreter = "")
         {
             sSureId = sureId;
             sRelativeVerseId = relativeVerseId;
             navLocation = Location;
+            intelWriter = interpreter;
+
             loadAni();
             App.loadTask = Task.Run(() => loadVerseFunc(relativeVerseId));
 
@@ -55,11 +61,11 @@ namespace KuranX.App.Core.Pages.VerseF
             {
                 using (var entitydb = new AyetContext())
                 {
-                    var dSure = entitydb.Sure.Where(p => p.sureId == sSureId).Select(p => new Sure { Name = p.Name, NumberOfVerses = p.NumberOfVerses, LandingLocation = p.LandingLocation, Description = p.Description, DeskLanding = p.DeskLanding, DeskMushaf = p.DeskMushaf }).First();
-                    var dVerse = entitydb.Verse.Where(p => p.SureId == sSureId && p.RelativeDesk == relativeVerseId).First();
-                    verseId = (int)dVerse.VerseId;
+                    var dSure = entitydb.Sure.Where(p => p.sureId == sSureId).Select(p => new Sure { name = p.name, numberOfVerses = p.numberOfVerses, landingLocation = p.landingLocation, description = p.description, deskLanding = p.deskLanding, deskMushaf = p.deskMushaf }).First();
+                    var dVerse = entitydb.Verse.Where(p => p.sureId == sSureId && p.relativeDesk == relativeVerseId).First();
+                    verseId = (int)dVerse.verseId;
 
-                    sRelativeVerseId = (int)dVerse.RelativeDesk;
+                    sRelativeVerseId = (int)dVerse.relativeDesk;
                     allPopupClosed();
                     loadNavFunc();
                     loadItemsHeader(dSure);
@@ -72,7 +78,7 @@ namespace KuranX.App.Core.Pages.VerseF
                         App.mainScreen.navigationWriter("verse", loadHeader.Text + "," + sRelativeVerseId);
 
                         mainContent.Visibility = Visibility.Visible;
-                        if (dSure.Name == "Fâtiha" && sRelativeVerseId == 1) NavUpdatePrevSingle.IsEnabled = false;
+                        if (dSure.name == "Fâtiha" && sRelativeVerseId == 1) NavUpdatePrevSingle.IsEnabled = false;
                         else NavUpdatePrevSingle.IsEnabled = true;
                     });
 
@@ -93,6 +99,26 @@ namespace KuranX.App.Core.Pages.VerseF
             {
                 using (var entitydb = new AyetContext())
                 {
+                    switch (writer)
+                    {
+                        case "Yorumcu 1":
+                            this.Dispatcher.Invoke(() => interpreterWriterCombo.SelectedIndex = 1);
+                            break;
+
+                        case "Yorumcu 2":
+                            this.Dispatcher.Invoke(() => interpreterWriterCombo.SelectedIndex = 2);
+                            break;
+
+                        case "Yorumcu 3":
+                            this.Dispatcher.Invoke(() => interpreterWriterCombo.SelectedIndex = 3);
+                            break;
+
+                        default:
+                            this.Dispatcher.Invoke(() => interpreterWriterCombo.SelectedIndex = 0);
+
+                            break;
+                    }
+
                     this.Dispatcher.Invoke(() => loadDetail.Text = "");
                     this.Dispatcher.Invoke(() => tempLoadDetail.Text = "");
 
@@ -143,7 +169,7 @@ namespace KuranX.App.Core.Pages.VerseF
                 if (prev != 0) last -= prev;
                 else last -= 2;
 
-                var dVerseNav = entitydb.Verse.Where(p => p.SureId == sSureId).Select(p => new Verse() { VerseId = p.VerseId, RelativeDesk = p.RelativeDesk, Status = p.Status, VerseCheck = p.VerseCheck }).Skip(last).Take(8).ToList();
+                var dVerseNav = entitydb.Verse.Where(p => p.sureId == sSureId).Select(p => new Verse() { verseId = p.verseId, relativeDesk = p.relativeDesk, status = p.status, verseCheck = p.verseCheck }).Skip(last).Take(8).ToList();
                 var tempVerse = new List<Verse>();
 
                 int i = 0;
@@ -159,11 +185,11 @@ namespace KuranX.App.Core.Pages.VerseF
                         if (vNav != null)
                         {
                             vNav.Visibility = Visibility.Visible;
-                            vNav.Uid = item.VerseId.ToString();
-                            vNav.IsChecked = item.VerseCheck;
-                            vNav.Content = item.RelativeDesk;
-                            vNav.Tag = item.Status;
-                            vNav.SetValue(Extensions.DataStorage, item.RelativeDesk.ToString());
+                            vNav.Uid = item.verseId.ToString();
+                            vNav.IsChecked = item.verseCheck;
+                            vNav.Content = item.relativeDesk;
+                            vNav.Tag = item.status;
+                            vNav.SetValue(Extensions.DataStorage, item.relativeDesk.ToString());
                         }
                     });
                 }
@@ -198,12 +224,12 @@ namespace KuranX.App.Core.Pages.VerseF
             {
                 this.Dispatcher.Invoke(() =>
                 {
-                    loadHeader.Text = dSure.Name;
-                    loadLocation.Text = dSure.LandingLocation;
-                    loadDesc.Text = dSure.Description;
-                    loadVerseCount.Text = dSure.NumberOfVerses.ToString();
-                    loadDeskLanding.Text = dSure.DeskLanding.ToString();
-                    loadDeskMushaf.Text = dSure.DeskMushaf.ToString();
+                    loadHeader.Text = dSure.name;
+                    loadLocation.Text = dSure.landingLocation;
+                    loadDesc.Text = dSure.description;
+                    loadVerseCount.Text = dSure.numberOfVerses.ToString();
+                    loadDeskLanding.Text = dSure.deskLanding.ToString();
+                    loadDeskMushaf.Text = dSure.deskMushaf.ToString();
 
                     headerBorder.Visibility = Visibility.Visible;
                 });
@@ -218,7 +244,7 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             using (var entitydb = new AyetContext())
             {
-                loadItemsControl(entitydb.Verse.Where(p => p.RelativeDesk == sR && p.SureId == sSureId).First());
+                loadItemsControl(entitydb.Verse.Where(p => p.relativeDesk == sR && p.sureId == sSureId).First());
             }
         }
 
@@ -229,15 +255,15 @@ namespace KuranX.App.Core.Pages.VerseF
             {
                 this.Dispatcher.Invoke(() =>
                 {
-                    markButton.IsChecked = dVerse.MarkCheck;
-                    markButton.Uid = dVerse.VerseId.ToString();
-                    bellButton.IsChecked = dVerse.RemiderCheck;
-                    bellButton.Uid = dVerse.VerseId.ToString();
-                    noteButton.Uid = dVerse.VerseId.ToString();
-                    checkButton.IsChecked = dVerse.VerseCheck;
-                    checkButton.Uid = dVerse.VerseId.ToString();
-                    descButton.Uid = dVerse.VerseDesc;
-                    feedbackButton.Uid = dVerse.VerseId.ToString();
+                    markButton.IsChecked = dVerse.markCheck;
+                    markButton.Uid = dVerse.verseId.ToString();
+                    bellButton.IsChecked = dVerse.remiderCheck;
+                    bellButton.Uid = dVerse.verseId.ToString();
+                    noteButton.Uid = dVerse.verseId.ToString();
+                    checkButton.IsChecked = dVerse.verseCheck;
+                    checkButton.Uid = dVerse.verseId.ToString();
+                    descButton.Uid = dVerse.verseDesc;
+                    feedbackButton.Uid = dVerse.verseId.ToString();
                 });
             }
             catch (Exception ex)
@@ -253,8 +279,8 @@ namespace KuranX.App.Core.Pages.VerseF
             {
                 this.Dispatcher.Invoke(() =>
                 {
-                    loadVerseTr.Text = dVerse.VerseTr;
-                    loadVerseArb.Text = dVerse.VerseArabic;
+                    loadVerseTr.Text = dVerse.verseTr;
+                    loadVerseArb.Text = dVerse.verseArabic;
                 });
             }
             catch (Exception ex)
@@ -286,7 +312,7 @@ namespace KuranX.App.Core.Pages.VerseF
             {
                 using (var entitydb = new AyetContext())
                 {
-                    var dNotes = entitydb.Notes.Where(p => p.SureId == sSureId && p.VerseId == sRelativeVerseId && p.NoteLocation == "Ayet").ToList();
+                    var dNotes = entitydb.Notes.Where(p => p.sureId == sSureId && p.verseId == sRelativeVerseId && p.noteLocation == "Ayet").ToList();
                     var dTempNotes = new List<Notes>();
                     int i = 1;
 
@@ -383,7 +409,7 @@ namespace KuranX.App.Core.Pages.VerseF
             {
                 using (var entitydb = new AyetContext())
                 {
-                    var dSubjectFolder = entitydb.Subject.OrderByDescending(p => p.SubjectName).ToList();
+                    var dSubjectFolder = entitydb.Subject.OrderByDescending(p => p.subjectName).ToList();
 
                     this.Dispatcher.Invoke(() =>
                     {
@@ -393,8 +419,8 @@ namespace KuranX.App.Core.Pages.VerseF
                         {
                             var cmbitem = new ComboBoxItem();
 
-                            cmbitem.Content = item.SubjectName;
-                            cmbitem.Uid = item.SubjectId.ToString();
+                            cmbitem.Content = item.subjectName;
+                            cmbitem.Uid = item.subjectId.ToString();
                             selectedSubjectFolder.Items.Add(cmbitem);
                         }
                     });
@@ -505,17 +531,17 @@ namespace KuranX.App.Core.Pages.VerseF
                         int xc = 0;
                         using (var entitydb = new AyetContext())
                         {
-                            var listx = entitydb.Sure.OrderBy(p => p.DeskLanding);
+                            var listx = entitydb.Sure.OrderBy(p => p.deskLanding);
                             foreach (var item in listx)
                             {
                                 xc++;
-                                if (loadHeader.Text == item.Name) break;
+                                if (loadHeader.Text == item.name) break;
                             }
                             xc--;
-                            var listxc = entitydb.Sure.OrderBy(p => p.DeskLanding).Where(p => p.DeskLanding == xc).FirstOrDefault();
+                            var listxc = entitydb.Sure.OrderBy(p => p.deskLanding).Where(p => p.deskLanding == xc).FirstOrDefault();
 
                             headerBorder.Visibility = Visibility.Hidden;
-                            App.mainframe.Content = App.navVersePage.PageCall((int)listxc.sureId, (int)listxc.NumberOfVerses, "Verse");
+                            App.mainframe.Content = App.navVersePage.PageCall((int)listxc.sureId, (int)listxc.numberOfVerses, "Verse");
 
                             listx = null;
                             listxc = null;
@@ -527,10 +553,10 @@ namespace KuranX.App.Core.Pages.VerseF
                         {
                             int selectedSure = sSureId;
                             selectedSure--;
-                            var BeforeD = entitydb.Sure.Where(p => p.sureId == selectedSure).Select(p => new Sure() { NumberOfVerses = p.NumberOfVerses }).FirstOrDefault();
+                            var BeforeD = entitydb.Sure.Where(p => p.sureId == selectedSure).Select(p => new Sure() { numberOfVerses = p.numberOfVerses }).FirstOrDefault();
 
                             headerBorder.Visibility = Visibility.Hidden;
-                            App.mainframe.Content = App.navVersePage.PageCall(--sSureId, (int)BeforeD.NumberOfVerses, "Verse");
+                            App.mainframe.Content = App.navVersePage.PageCall(--sSureId, (int)BeforeD.numberOfVerses, "Verse");
 
                             BeforeD = null;
                         }
@@ -568,14 +594,14 @@ namespace KuranX.App.Core.Pages.VerseF
                         using (var entitydb = new AyetContext())
                         {
                             int xc = 0;
-                            var listx = entitydb.Sure.OrderBy(p => p.DeskLanding);
+                            var listx = entitydb.Sure.OrderBy(p => p.deskLanding);
                             foreach (var item in listx)
                             {
                                 xc++;
-                                if (loadHeader.Text == item.Name) break;
+                                if (loadHeader.Text == item.name) break;
                             }
                             xc++;
-                            var listxc = entitydb.Sure.OrderBy(p => p.DeskLanding).Where(p => p.DeskLanding == xc).First();
+                            var listxc = entitydb.Sure.OrderBy(p => p.deskLanding).Where(p => p.deskLanding == xc).First();
 
                             headerBorder.Visibility = Visibility.Hidden;
                             App.mainframe.Content = App.navVersePage.PageCall((int)listxc.sureId, 1, "Verse");
@@ -622,29 +648,29 @@ namespace KuranX.App.Core.Pages.VerseF
 
                 using (var entitydb = new AyetContext())
                 {
-                    var verseUpdate = entitydb.Verse.Where(p => p.VerseId == int.Parse(chk.Uid)).FirstOrDefault();
+                    var verseUpdate = entitydb.Verse.Where(p => p.verseId == int.Parse(chk.Uid)).FirstOrDefault();
                     var sureUpdate = entitydb.Sure.Where(p => p.sureId == sSureId).FirstOrDefault();
 
                     if (chk.IsChecked.ToString() == "True")
                     {
-                        verseUpdate.VerseCheck = true;
-                        verseUpdate.Status = "#66E21F";
-                        sureUpdate.UserCheckCount++;
+                        verseUpdate.verseCheck = true;
+                        verseUpdate.status = "#66E21F";
+                        sureUpdate.userCheckCount++;
 
-                        if (sureUpdate.UserCheckCount == sureUpdate.NumberOfVerses)
+                        if (sureUpdate.userCheckCount == sureUpdate.numberOfVerses)
                         {
-                            sureUpdate.Complated = true;
-                            if (entitydb.Sure.Where(p => p.UserLastRelativeVerse != 0).Count() >= 1) sureUpdate.Status = "#0D6EFD";
-                            else sureUpdate.Status = "#66E21F";
+                            sureUpdate.complated = true;
+                            if (entitydb.Sure.Where(p => p.userLastRelativeVerse != 0).Count() >= 1) sureUpdate.status = "#0D6EFD";
+                            else sureUpdate.status = "#66E21F";
                         }
                     }
                     else
                     {
-                        verseUpdate.VerseCheck = false;
-                        verseUpdate.Status = "#FFFFFF";
+                        verseUpdate.verseCheck = false;
+                        verseUpdate.status = "#FFFFFF";
 
-                        sureUpdate.Complated = false;
-                        if (sureUpdate.UserCheckCount != 0) sureUpdate.UserCheckCount--;
+                        sureUpdate.complated = false;
+                        if (sureUpdate.userCheckCount != 0) sureUpdate.userCheckCount--;
                     }
                     entitydb.SaveChanges();
 
@@ -672,21 +698,21 @@ namespace KuranX.App.Core.Pages.VerseF
 
                     using (var entitydb = new AyetContext())
                     {
-                        var dRemider = entitydb.Remider.Where(p => p.ConnectSureId == sSureId && p.ConnectVerseId == sRelativeVerseId).First();
+                        var dRemider = entitydb.Remider.Where(p => p.connectSureId == sSureId && p.connectVerseId == sRelativeVerseId).First();
 
                         if (dRemider != null)
                         {
-                            remiderNameControl.Text = dRemider.RemiderName;
+                            remiderNameControl.Text = dRemider.remiderName;
 
-                            if (dRemider.Status == "Wait")
+                            if (dRemider.status == "Wait")
                             {
-                                TimeSpan tt = DateTime.Parse(dRemider.RemiderDate.ToString("d")) - DateTime.Parse(DateTime.Now.ToString("d"));
+                                TimeSpan tt = DateTime.Parse(dRemider.remiderDate.ToString("d")) - DateTime.Parse(DateTime.Now.ToString("d"));
                                 remiderTimerControl.Text = "Hatırlatmaya Kalan Süre " + tt.TotalDays.ToString() + " Gün ";
                             }
                             else
                             {
                                 string d = "";
-                                switch (dRemider.LoopType)
+                                switch (dRemider.loopType)
                                 {
                                     case "Gün":
                                         d = "Günlük";
@@ -732,30 +758,30 @@ namespace KuranX.App.Core.Pages.VerseF
                 {
                     // Tüm Önceki işaretleri kaldı
 
-                    var dVerse = entitydb.Verse.Where(p => p.MarkCheck == true).ToList();
-                    var dSure = entitydb.Sure.Where(p => p.Status == "#0D6EFD").ToList();
+                    var dVerse = entitydb.Verse.Where(p => p.markCheck == true).ToList();
+                    var dSure = entitydb.Sure.Where(p => p.status == "#0D6EFD").ToList();
                     foreach (var item in dVerse)
                     {
-                        item.MarkCheck = false;
+                        item.markCheck = false;
                     }
                     foreach (var item in dSure)
                     {
-                        if (item.Complated != true) item.Status = "#ADB5BD";
-                        else item.Status = "#66E21F";
-                        item.UserLastRelativeVerse = 0;
+                        if (item.complated != true) item.status = "#ADB5BD";
+                        else item.status = "#66E21F";
+                        item.userLastRelativeVerse = 0;
                     }
 
                     if (bchk.IsChecked.ToString() == "True")
                     {
-                        entitydb.Verse.Where(p => p.VerseId == int.Parse(bchk.Uid)).First().MarkCheck = true;
-                        entitydb.Sure.Where(p => p.sureId == sSureId).First().Status = "#0D6EFD";
-                        entitydb.Sure.Where(p => p.sureId == sSureId).First().UserLastRelativeVerse = sRelativeVerseId;
+                        entitydb.Verse.Where(p => p.verseId == int.Parse(bchk.Uid)).First().markCheck = true;
+                        entitydb.Sure.Where(p => p.sureId == sSureId).First().status = "#0D6EFD";
+                        entitydb.Sure.Where(p => p.sureId == sSureId).First().userLastRelativeVerse = sRelativeVerseId;
                     }
                     else
                     {
-                        entitydb.Verse.Where(p => p.VerseId == int.Parse(bchk.Uid)).First().MarkCheck = false;
-                        if (entitydb.Sure.Where(p => p.sureId == sSureId).First().Complated == true) entitydb.Sure.Where(p => p.sureId == sSureId).First().Status = "#66E21F";
-                        else entitydb.Sure.Where(p => p.sureId == sSureId).First().Status = "#ADB5BD";
+                        entitydb.Verse.Where(p => p.verseId == int.Parse(bchk.Uid)).First().markCheck = false;
+                        if (entitydb.Sure.Where(p => p.sureId == sSureId).First().complated == true) entitydb.Sure.Where(p => p.sureId == sSureId).First().status = "#66E21F";
+                        else entitydb.Sure.Where(p => p.sureId == sSureId).First().status = "#ADB5BD";
                     }
 
                     entitydb.SaveChanges();
@@ -822,6 +848,9 @@ namespace KuranX.App.Core.Pages.VerseF
                 remiderAddPopupHeaderError.Visibility = Visibility.Hidden;
                 remiderAddPopupDateError.Visibility = Visibility.Hidden;
                 remiderAddPopupDetailError.Visibility = Visibility.Hidden;
+
+                resultDataContent.Children.Clear();
+                SearchData.Text = "";
 
                 loopSelectedType.SelectedIndex = 0;
 
@@ -1127,13 +1156,13 @@ namespace KuranX.App.Core.Pages.VerseF
                             {
                                 using (var entitydb = new AyetContext())
                                 {
-                                    if (entitydb.Notes.Where(p => p.NoteHeader == noteName.Text && p.SureId == sSureId && p.VerseId == sRelativeVerseId).FirstOrDefault() != null)
+                                    if (entitydb.Notes.Where(p => p.noteHeader == noteName.Text && p.sureId == sSureId && p.verseId == sRelativeVerseId).FirstOrDefault() != null)
                                     {
                                         alertFunc("Not Ekleme Başarısız", "Aynı isimde not eklemiş olabilirsiniz lütfen kontrol edip yeniden deneyiniz.", 3);
                                     }
                                     else
                                     {
-                                        var dNotes = new Notes { NoteHeader = noteName.Text, NoteDetail = noteDetail.Text, SureId = sSureId, VerseId = sRelativeVerseId, Modify = DateTime.Now, Created = DateTime.Now, NoteLocation = "Ayet" };
+                                        var dNotes = new Notes { noteHeader = noteName.Text, noteDetail = noteDetail.Text, sureId = sSureId, verseId = sRelativeVerseId, modify = DateTime.Now, created = DateTime.Now, noteLocation = "Ayet" };
                                         entitydb.Notes.Add(dNotes);
                                         entitydb.SaveChanges();
                                         succsessFunc("Not Ekleme Başarılı", loadHeader.Text + " Surenin " + sRelativeVerseId + " Ayetine Not Eklendiniz.", 3);
@@ -1164,7 +1193,7 @@ namespace KuranX.App.Core.Pages.VerseF
                 popup_notesAllShowPopup.IsOpen = true;
                 using (var entitydb = new AyetContext())
                 {
-                    var dNotes = entitydb.Notes.Where(p => p.SureId == sSureId && p.VerseId == sRelativeVerseId).ToList();
+                    var dNotes = entitydb.Notes.Where(p => p.sureId == sSureId && p.verseId == sRelativeVerseId).ToList();
                     foreach (var item in dNotes)
                     {
                         var itemsStack = new StackPanel();
@@ -1179,10 +1208,10 @@ namespace KuranX.App.Core.Pages.VerseF
                         allshowButton.Style = (Style)FindResource("pp_dynamicItemShowButton");
                         sp.Style = (Style)FindResource("pp_dynamicItemShowSperator");
 
-                        headerText.Text = item.NoteHeader.ToString();
-                        noteText.Text = item.NoteDetail.ToString();
-                        allshowButton.Uid = item.NotesId.ToString();
-                        allshowButton.Content = item.NoteDetail.ToString();
+                        headerText.Text = item.noteHeader.ToString();
+                        noteText.Text = item.noteDetail.ToString();
+                        allshowButton.Uid = item.notesId.ToString();
+                        allshowButton.Content = item.noteDetail.ToString();
 
                         allshowButton.Click += notesDetailPopup_Click;
 
@@ -1237,7 +1266,7 @@ namespace KuranX.App.Core.Pages.VerseF
                                 {
                                     using (var entitydb = new AyetContext())
                                     {
-                                        var dControl = entitydb.Remider.Where(p => p.ConnectSureId == sSureId && p.ConnectVerseId == sRelativeVerseId).ToList();
+                                        var dControl = entitydb.Remider.Where(p => p.connectSureId == sSureId && p.connectVerseId == sRelativeVerseId).ToList();
 
                                         if (dControl.Count > 0)
                                         {
@@ -1249,8 +1278,8 @@ namespace KuranX.App.Core.Pages.VerseF
                                         }
                                         else
                                         {
-                                            var newRemider = new Remider { ConnectSureId = sSureId, ConnectVerseId = sRelativeVerseId, RemiderDate = (DateTime)remiderDay.SelectedDate, RemiderDetail = remiderDetail.Text, RemiderName = remiderName.Text, Create = DateTime.Now, Priority = 1, LastAction = DateTime.Now, Status = "Run" };
-                                            entitydb.Verse.Where(p => p.SureId == sSureId && p.RelativeDesk == sRelativeVerseId).First().RemiderCheck = true;
+                                            var newRemider = new Remider { connectSureId = sSureId, connectVerseId = sRelativeVerseId, remiderDate = (DateTime)remiderDay.SelectedDate, remiderDetail = remiderDetail.Text, remiderName = remiderName.Text, create = DateTime.Now, priority = 1, lastAction = DateTime.Now, status = "Run" };
+                                            entitydb.Verse.Where(p => p.sureId == sSureId && p.relativeDesk == sRelativeVerseId).First().remiderCheck = true;
                                             entitydb.Remider.Add(newRemider);
                                             entitydb.SaveChanges();
                                             succsessFunc("Hatırlatıcı Oluşturuldu.", "Yeni hatırlatıcınız başarılı bir sekilde oluşturuldu", 3);
@@ -1283,7 +1312,7 @@ namespace KuranX.App.Core.Pages.VerseF
                                 {
                                     using (var entitydb = new AyetContext())
                                     {
-                                        var dControl = entitydb.Remider.Where(p => p.ConnectSureId == sSureId && p.ConnectVerseId == sRelativeVerseId).ToList();
+                                        var dControl = entitydb.Remider.Where(p => p.connectSureId == sSureId && p.connectVerseId == sRelativeVerseId).ToList();
 
                                         if (dControl.Count > 0)
                                         {
@@ -1314,8 +1343,8 @@ namespace KuranX.App.Core.Pages.VerseF
                                                     pr = 5;
                                                     break;
                                             }
-                                            var newRemider = new Remider { ConnectSureId = sSureId, ConnectVerseId = sRelativeVerseId, RemiderDate = new DateTime(1, 1, 1, 0, 0, 0, 0), RemiderDetail = remiderDetail.Text, RemiderName = remiderName.Text, Create = DateTime.Now, LoopType = ditem.Uid.ToString(), Status = "Run", Priority = pr, LastAction = DateTime.Now };
-                                            entitydb.Verse.Where(p => p.SureId == sSureId && p.RelativeDesk == sRelativeVerseId).FirstOrDefault().RemiderCheck = true;
+                                            var newRemider = new Remider { connectSureId = sSureId, connectVerseId = sRelativeVerseId, remiderDate = new DateTime(1, 1, 1, 0, 0, 0, 0), remiderDetail = remiderDetail.Text, remiderName = remiderName.Text, create = DateTime.Now, loopType = ditem.Uid.ToString(), status = "Run", priority = pr, lastAction = DateTime.Now };
+                                            entitydb.Verse.Where(p => p.sureId == sSureId && p.relativeDesk == sRelativeVerseId).FirstOrDefault().remiderCheck = true;
                                             entitydb.Remider.Add(newRemider);
                                             entitydb.SaveChanges();
                                             succsessFunc("Hatırlatıcı Oluşturuldu.", "Yeni hatırlatıcınız başarılı bir sekilde oluşturuldu", 3);
@@ -1374,8 +1403,8 @@ namespace KuranX.App.Core.Pages.VerseF
             {
                 using (var entitydb = new AyetContext())
                 {
-                    entitydb.Remider.RemoveRange(entitydb.Remider.Where(p => p.ConnectVerseId == sRelativeVerseId && p.ConnectSureId == sSureId));
-                    entitydb.Verse.Where(p => p.RelativeDesk == sRelativeVerseId && p.SureId == sSureId).FirstOrDefault().RemiderCheck = false;
+                    entitydb.Remider.RemoveRange(entitydb.Remider.Where(p => p.connectVerseId == sRelativeVerseId && p.connectSureId == sSureId));
+                    entitydb.Verse.Where(p => p.relativeDesk == sRelativeVerseId && p.sureId == sSureId).FirstOrDefault().remiderCheck = false;
                     entitydb.SaveChanges();
                     popup_remiderDeleteConfirm.IsOpen = false;
                     popup_remiderControlPopup.IsOpen = false;
@@ -1399,7 +1428,7 @@ namespace KuranX.App.Core.Pages.VerseF
 
                     if (item != null)
                     {
-                        var dControl = entitydb.SubjectItems.Where(p => p.SureId == sSureId && p.VerseId == sRelativeVerseId && p.SubjectId == int.Parse(item.Uid)).ToList();
+                        var dControl = entitydb.SubjectItems.Where(p => p.sureId == sSureId && p.verseId == sRelativeVerseId && p.subjectId == int.Parse(item.Uid)).ToList();
 
                         if (dControl.Count != 0)
                         {
@@ -1407,7 +1436,7 @@ namespace KuranX.App.Core.Pages.VerseF
                         }
                         else
                         {
-                            var dSubjectItem = new SubjectItems { SubjectId = int.Parse(item.Uid), SubjectNotesId = 0, SureId = sSureId, VerseId = sRelativeVerseId, Created = DateTime.Now, Modify = DateTime.Now, SubjectName = loadHeader.Text + " Suresinin " + sRelativeVerseId.ToString() + " Ayeti" };
+                            var dSubjectItem = new SubjectItems { subjectId = int.Parse(item.Uid), subjectNotesId = 0, sureId = sSureId, verseId = sRelativeVerseId, created = DateTime.Now, modify = DateTime.Now, subjectName = loadHeader.Text + " Suresinin " + sRelativeVerseId.ToString() + " Ayeti" };
                             entitydb.SubjectItems.Add(dSubjectItem);
                             entitydb.SaveChanges();
                             popup_addSubjectPopup.IsOpen = false;
@@ -1441,11 +1470,11 @@ namespace KuranX.App.Core.Pages.VerseF
                     {
                         using (var entitydb = new AyetContext())
                         {
-                            var dControl = entitydb.Subject.Where(p => p.SubjectName == subjectpreviewName.Text).ToList();
+                            var dControl = entitydb.Subject.Where(p => p.subjectName == subjectpreviewName.Text).ToList();
 
                             if (dControl.Count == 0)
                             {
-                                var dSubjectFolder = new Subject { SubjectName = subjectpreviewName.Text, SubjectColor = subjectpreviewColor.Background.ToString(), Created = DateTime.Now, Modify = DateTime.Now };
+                                var dSubjectFolder = new Subject { subjectName = subjectpreviewName.Text, subjectColor = subjectpreviewColor.Background.ToString(), created = DateTime.Now, modify = DateTime.Now };
                                 entitydb.Subject.Add(dSubjectFolder);
                                 entitydb.SaveChanges();
                                 succsessFunc("Konu Başlığı ", " Yeni konu başlığı oluşturuldu artık ayetleri ekleye bilirsiniz.", 3);
@@ -1492,17 +1521,17 @@ namespace KuranX.App.Core.Pages.VerseF
 
                 using (var entitydb = new AyetContext())
                 {
-                    var dInteg = entitydb.Integrity.Where(p => p.IntegrityId == Int16.Parse(tmpbutton.Uid)).FirstOrDefault();
+                    var dInteg = entitydb.Integrity.Where(p => p.integrityId == Int16.Parse(tmpbutton.Uid)).FirstOrDefault();
 
-                    var dSure = entitydb.Sure.Where(p => p.sureId == dInteg.connectSureId).Select(p => new Sure() { Name = p.Name }).FirstOrDefault();
-                    var dCSure = entitydb.Sure.Where(p => p.sureId == dInteg.connectedSureId).Select(p => new Sure() { Name = p.Name }).FirstOrDefault();
-                    meaningOpenDetailText.Text = dInteg.IntegrityNote;
-                    meaningDetailTextHeader.Text = dInteg.IntegrityName;
+                    var dSure = entitydb.Sure.Where(p => p.sureId == dInteg.connectSureId).Select(p => new Sure() { name = p.name }).FirstOrDefault();
+                    var dCSure = entitydb.Sure.Where(p => p.sureId == dInteg.connectedSureId).Select(p => new Sure() { name = p.name }).FirstOrDefault();
+                    meaningOpenDetailText.Text = dInteg.integrityNote;
+                    meaningDetailTextHeader.Text = dInteg.integrityName;
 
                     meaningDTempSureId.Text = dInteg.connectedSureId.ToString();
                     meaningDTempVerseId.Text = dInteg.connectedVerseId.ToString();
-                    meaningDId.Text = dInteg.IntegrityId.ToString();
-                    meaningOpenDetailTextConnect.Text = dSure.Name + " Suresini " + dInteg.connectVerseId.ToString() + " Ayeti İçin " + dCSure.Name + " " + dInteg.connectedVerseId + " Ayeti ile Eşleştirilmiş";
+                    meaningDId.Text = dInteg.integrityId.ToString();
+                    meaningOpenDetailTextConnect.Text = dSure.name + " Suresini " + dInteg.connectVerseId.ToString() + " Ayeti İçin " + dCSure.name + " " + dInteg.connectedVerseId + " Ayeti ile Eşleştirilmiş";
                 }
 
                 popup_meainingConnectDetailText.IsOpen = true;
@@ -1539,9 +1568,9 @@ namespace KuranX.App.Core.Pages.VerseF
                         allshowButton.Style = (Style)FindResource("dynamicItemShowButton");
                         sp.Style = (Style)FindResource("dynamicItemShowSperator");
 
-                        headerText.Text = item.IntegrityName.ToString();
-                        noteText.Text = item.IntegrityNote.ToString();
-                        allshowButton.Uid = item.IntegrityId.ToString();
+                        headerText.Text = item.integrityName.ToString();
+                        noteText.Text = item.integrityNote.ToString();
+                        allshowButton.Uid = item.integrityId.ToString();
 
                         allshowButton.Click += meaningDetailPopup_Click;
 
@@ -1588,7 +1617,7 @@ namespace KuranX.App.Core.Pages.VerseF
 
                                         using (var entitydb = new AyetContext())
                                         {
-                                            if (entitydb.Integrity.Where(p => p.IntegrityName == meaningName.Text).FirstOrDefault() != null)
+                                            if (entitydb.Integrity.Where(p => p.integrityName == meaningName.Text).FirstOrDefault() != null)
                                             {
                                                 alertFunc("Bağlantı Ekleme Başarısız", "Aynı isimli bağlantı eklemiş olabilirsiniz lütfen kontrol edip yeniden deneyiniz.", 3);
                                                 meaningName.Text = "";
@@ -1599,7 +1628,7 @@ namespace KuranX.App.Core.Pages.VerseF
                                             }
                                             else
                                             {
-                                                var dIntegrity = new Integrity { IntegrityName = meaningName.Text, connectSureId = sSureId, connectVerseId = sRelativeVerseId, connectedSureId = int.Parse(tmpcbxi.Uid), connectedVerseId = int.Parse(meaningConnectVerse.Text), Created = DateTime.Now, Modify = DateTime.Now, IntegrityNote = meaningConnectNote.Text };
+                                                var dIntegrity = new Integrity { integrityName = meaningName.Text, connectSureId = sSureId, connectVerseId = sRelativeVerseId, connectedSureId = int.Parse(tmpcbxi.Uid), connectedVerseId = int.Parse(meaningConnectVerse.Text), created = DateTime.Now, modify = DateTime.Now, integrityNote = meaningConnectNote.Text };
                                                 entitydb.Integrity.Add(dIntegrity);
                                                 entitydb.SaveChanges();
                                                 succsessFunc("Bağlantı Oluşturuldu.", "Yeni bağlantınız oluşturuldu.", 3);
@@ -1667,7 +1696,7 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
-                App.mainframe.Content = new stickVerseFrame(int.Parse(meaningDTempSureId.Text), int.Parse(meaningDTempVerseId.Text), loadHeader.Text, sRelativeVerseId.ToString(), "Visible");
+                App.mainframe.Content = App.navVerseStickPage.PageCall(int.Parse(meaningDTempSureId.Text), int.Parse(meaningDTempVerseId.Text), loadHeader.Text, sRelativeVerseId);
             }
             catch (Exception ex)
             {
@@ -1683,7 +1712,7 @@ namespace KuranX.App.Core.Pages.VerseF
                 {
                     if (meaningEditNote.Text.Length >= 3)
                     {
-                        entitydb.Integrity.Where(p => p.IntegrityId == int.Parse(meaningDId.Text)).First().IntegrityNote = meaningEditNote.Text;
+                        entitydb.Integrity.Where(p => p.integrityId == int.Parse(meaningDId.Text)).First().integrityNote = meaningEditNote.Text;
                         meaningOpenDetailText.Text = meaningEditNote.Text;
                         succsessFunc("Bağlantı Düzeltildi ", " Anlam Bütünlüğü Bağlantınızın Notu Düzeltildi...", 3);
                         popup_meaningEditPopup.IsOpen = false;
@@ -1708,7 +1737,7 @@ namespace KuranX.App.Core.Pages.VerseF
             {
                 using (var entitydb = new AyetContext())
                 {
-                    entitydb.Integrity.RemoveRange(entitydb.Integrity.Where(p => p.IntegrityId == int.Parse(meaningDId.Text)));
+                    entitydb.Integrity.RemoveRange(entitydb.Integrity.Where(p => p.integrityId == int.Parse(meaningDId.Text)));
                     entitydb.SaveChanges();
                     popup_meaningDeleteConfirm.IsOpen = false;
                     popup_meainingConnectDetailText.IsOpen = false;
@@ -1727,25 +1756,25 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             using (var entitydb = new AyetContext())
             {
-                foreach (var item in entitydb.Verse.Where(p => p.SureId == sSureId))
+                foreach (var item in entitydb.Verse.Where(p => p.sureId == sSureId))
                 {
-                    item.VerseCheck = false;
-                    item.Status = "#FFFFFF";
+                    item.verseCheck = false;
+                    item.status = "#FFFFFF";
                 }
 
                 var sureUpdate = entitydb.Sure.Where(p => p.sureId == sSureId).FirstOrDefault();
 
-                sureUpdate.Complated = false;
-                sureUpdate.UserCheckCount = 0;
+                sureUpdate.complated = false;
+                sureUpdate.userCheckCount = 0;
 
-                if (entitydb.Sure.Where(p => p.sureId == sSureId && p.UserLastRelativeVerse != 0).Count() >= 1)
+                if (entitydb.Sure.Where(p => p.sureId == sSureId && p.userLastRelativeVerse != 0).Count() >= 1)
                 {
-                    sureUpdate.Status = "#0D6EFD";
+                    sureUpdate.status = "#0D6EFD";
                 }
                 else
                 {
-                    if (entitydb.Sure.Where(p => p.sureId == sSureId).First().Complated == true) sureUpdate.Status = "#66E21F";
-                    sureUpdate.Status = "#ADB5BD";
+                    if (entitydb.Sure.Where(p => p.sureId == sSureId).First().complated == true) sureUpdate.status = "#66E21F";
+                    sureUpdate.status = "#ADB5BD";
                 }
 
                 entitydb.SaveChanges();
@@ -1756,6 +1785,153 @@ namespace KuranX.App.Core.Pages.VerseF
                 navstackPanel.Visibility = Visibility.Hidden;
                 App.loadTask = Task.Run(() => loadVerseFunc(1));
             }
+        }
+
+        private void SearchBtn_Click(object sender, RoutedEventArgs e)
+        {
+            using (var entitydb = new AyetContext())
+            {
+                if (SearchData.Text.Length >= 3)
+                {
+                    resultTextHeader.Text = "Aranan Kelime veya Cümle : " + SearchData.Text;
+
+                    int totalSearch = 0; ;
+                    resultDataContent.Children.Clear();
+                    var searchDt1 = entitydb.Verse.Where(p => p.sureId == sSureId && EF.Functions.Like(p.verseTr, "%" + SearchData.Text + "%")).Select(p => new Verse { verseTr = p.verseTr, relativeDesk = p.relativeDesk }).ToList();
+                    var searchDt2 = entitydb.Verse.Where(p => p.sureId == sSureId && EF.Functions.Like(p.verseDesc, "%" + SearchData.Text + "%")).Select(p => new Verse { verseDesc = p.verseDesc, relativeDesk = p.relativeDesk }).ToList();
+                    var searchDt3 = entitydb.Interpreter.Where(p => p.sureId == sSureId && EF.Functions.Like(p.interpreterDetail, "%" + SearchData.Text + "%")).Select(p => new Interpreter
+                    {
+                        interpreterDetail = p.interpreterDetail,
+                        verseId = p.verseId,
+                        interpreterWriter = p.interpreterWriter
+                    }).ToList();
+
+                    foreach (var searchContent in searchDt1)
+                    {
+                        searchDataContent.Text = searchContent.verseTr.Replace(Environment.NewLine, "");
+                        starindex = 0;
+                        findIndex.Clear();
+                        while (true)
+                        {
+                            starindex = searchDataContent.Text.ToLower().IndexOf(SearchData.Text.ToLower(), ++starindex);
+                            if (starindex == -1) break;
+                            findIndex.Add(starindex);
+                            totalSearch++;
+                        }
+                        searchDataWrite(findIndex, loadHeader.Text + " surenin " + searchContent.relativeDesk + ". ayetinde Türkçe Okunuşu", (int)searchContent.relativeDesk);
+                    }
+
+                    foreach (var searchContent in searchDt2)
+                    {
+                        searchDataContent.Text = searchContent.verseDesc.Replace(Environment.NewLine, "");
+                        starindex = 0;
+                        findIndex.Clear();
+                        while (true)
+                        {
+                            starindex = searchDataContent.Text.ToLower().IndexOf(SearchData.Text.ToLower(), ++starindex);
+                            if (starindex == -1) break;
+                            findIndex.Add(starindex);
+                            totalSearch++;
+                        }
+                        searchDataWrite(findIndex, loadHeader.Text + " surenin " + searchContent.relativeDesk + ". ayetinde açıklamasında", (int)searchContent.relativeDesk);
+                    }
+
+                    foreach (var searchContent in searchDt3)
+                    {
+                        searchDataContent.Text = searchContent.interpreterDetail.Replace(Environment.NewLine, "");
+                        starindex = 0;
+                        findIndex.Clear();
+                        while (true)
+                        {
+                            starindex = searchDataContent.Text.ToLower().IndexOf(SearchData.Text.ToLower(), ++starindex);
+                            if (starindex == -1) break;
+                            findIndex.Add(starindex);
+                            totalSearch++;
+                        }
+                        searchDataWrite(findIndex, loadHeader.Text + " surenin " + searchContent.verseId + ". ayetinin " + searchContent.interpreterWriter + " e ait yorumunda", (int)searchContent.verseId, searchContent.interpreterWriter);
+                    }
+
+                    totalResultText.Text = "Arama sonucunda " + totalSearch.ToString() + " eşleşen kelime veya cümle bulundu";
+                    popup_search.IsOpen = true;
+                }
+                else
+                {
+                    SearchData.Focus();
+                    alertFunc("Başarısız İşlem", "Arama yapmak için minimum 3 karakter girmeniz gerekemetedir.", 3);
+                }
+            }
+        }
+
+        private void searchDataWrite(ArrayList content, string Loc, int rId, string interpreter = "")
+        {
+            int id = 0;
+
+            foreach (var item in content)
+            {
+                var dataTextBlock = new TextBlock();
+                var tempLoc = new TextBlock();
+                var tempborder = new Border();
+                var tempstackpanel = new StackPanel();
+                var tempButton = new Button();
+
+                tempborder.Style = (Style)FindResource("pp_searchResultPanelBorder");
+                tempLoc.Style = (Style)FindResource("pp_searchResultLocation");
+                dataTextBlock.Style = (Style)FindResource("pp_searchResultText");
+                tempButton.Style = (Style)FindResource("pp_dynamicItemSearchButton");
+                tempstackpanel.HorizontalAlignment = HorizontalAlignment.Left;
+
+                tempButton.Uid = rId.ToString();
+                tempButton.Tag = interpreter;
+
+                tempButton.Click += searchTempButonClick;
+
+                id = int.Parse(item.ToString());
+
+                id -= 20;
+
+                if (id < 0)
+                {
+                    searchDataContent.SelectionStart = 0;
+                    searchDataContent.SelectionLength = int.Parse(item.ToString());
+                }
+                else
+                {
+                    searchDataContent.SelectionStart = id;
+                    searchDataContent.SelectionLength = 20;
+                }
+
+                dataTextBlock.Text = " ... " + searchDataContent.SelectedText;
+                dataTextBlock.Inlines.Add(new Run(SearchData.Text) { Foreground = Brushes.Red });
+
+                id = (SearchData.Text).Length + int.Parse(item.ToString());
+
+                searchDataContent.SelectionStart = id;
+                searchDataContent.SelectionLength = 20;
+
+                dataTextBlock.Inlines.Add(searchDataContent.SelectedText + " ... ");
+
+                tempLoc.Text = Loc;
+
+                tempstackpanel.Children.Add(dataTextBlock);
+                tempstackpanel.Children.Add(tempLoc);
+                tempstackpanel.Children.Add(tempButton);
+                tempborder.Child = tempstackpanel;
+
+                resultDataContent.Children.Add(tempborder);
+
+                dataTextBlock = null;
+            }
+        }
+
+        private void searchTempButonClick(object sender, RoutedEventArgs e)
+        {
+            var btn = sender as Button;
+            popup_search.IsOpen = false;
+            resultDataContent.Children.Clear();
+            SearchData.Text = "";
+            App.mainframe.Content = App.navVersePage.PageCall(sSureId, int.Parse(btn.Uid.ToString()), "Verse", btn.Tag.ToString());
+
+            btn = null;
         }
 
         // ---------- Popup Actions FUNC ---------- //
@@ -2095,7 +2271,7 @@ namespace KuranX.App.Core.Pages.VerseF
 
                 using (var entitydb = new AyetContext())
                 {
-                    // var dWords = entitydb.Words.Where(p => p.SureId == dSure[0].sureId).Where(p => p.VerseId == dVerse[0].VerseId).ToList();
+                    // var dWords = entitydb.Words.Where(p => p.sureId == dSure[0].sureId).Where(p => p.verseId == dVerse[0].VerseId).ToList();
 
                     //DATA DÜZELTİLECEK
 

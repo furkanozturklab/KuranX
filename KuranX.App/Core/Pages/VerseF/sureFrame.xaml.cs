@@ -68,20 +68,20 @@ namespace KuranX.App.Core.Pages.VerseF
                                 if (landItem.Uid == "0")
                                 {
                                     // Hepsi
-                                    dSure = entitydb.Sure.OrderBy(p => p.DeskLanding).Skip(lastPage).Take(15).ToList();
+                                    dSure = entitydb.Sure.OrderBy(p => p.deskLanding).Skip(lastPage).Take(15).ToList();
                                     totalcount = entitydb.Sure.Count();
                                 }
                                 else if (landItem.Uid == "1")
                                 {
                                     // Mekke
-                                    dSure = entitydb.Sure.OrderBy(p => p.DeskLanding).Where(p => p.LandingLocation == "Mekke").Skip(lastPage).Take(15).ToList();
-                                    totalcount = entitydb.Sure.Where(p => p.LandingLocation == "Mekke").Count();
+                                    dSure = entitydb.Sure.OrderBy(p => p.deskLanding).Where(p => p.landingLocation == "Mekke").Skip(lastPage).Take(15).ToList();
+                                    totalcount = entitydb.Sure.Where(p => p.landingLocation == "Mekke").Count();
                                 }
                                 else
                                 {
                                     // Medine
-                                    dSure = entitydb.Sure.OrderBy(p => p.DeskLanding).Where(p => p.LandingLocation == "Medine").Skip(lastPage).Take(15).ToList();
-                                    totalcount = entitydb.Sure.Where(p => p.LandingLocation == "Medine").Count();
+                                    dSure = entitydb.Sure.OrderBy(p => p.deskLanding).Where(p => p.landingLocation == "Medine").Skip(lastPage).Take(15).ToList();
+                                    totalcount = entitydb.Sure.Where(p => p.landingLocation == "Medine").Count();
                                 }
                             }
                             else
@@ -89,20 +89,20 @@ namespace KuranX.App.Core.Pages.VerseF
                                 if (landItem.Uid == "0")
                                 {
                                     // Hepsi
-                                    dSure = entitydb.Sure.OrderBy(p => p.DeskMushaf).Skip(lastPage).Take(15).ToList();
+                                    dSure = entitydb.Sure.OrderBy(p => p.deskMushaf).Skip(lastPage).Take(15).ToList();
                                     totalcount = entitydb.Sure.Count();
                                 }
                                 else if (landItem.Uid == "1")
                                 {
                                     // Mekke
-                                    dSure = entitydb.Sure.OrderBy(p => p.DeskMushaf).Where(p => p.LandingLocation == "Mekke").Skip(lastPage).Take(15).ToList();
-                                    totalcount = entitydb.Sure.Where(p => p.LandingLocation == "Mekke").Count();
+                                    dSure = entitydb.Sure.OrderBy(p => p.deskMushaf).Where(p => p.landingLocation == "Mekke").Skip(lastPage).Take(15).ToList();
+                                    totalcount = entitydb.Sure.Where(p => p.landingLocation == "Mekke").Count();
                                 }
                                 else
                                 {
                                     // Medine
-                                    dSure = entitydb.Sure.OrderBy(p => p.DeskMushaf).Where(p => p.LandingLocation == "Medine").Skip(lastPage).Take(15).ToList();
-                                    totalcount = entitydb.Sure.Where(p => p.LandingLocation == "Medine").Count();
+                                    dSure = entitydb.Sure.OrderBy(p => p.deskMushaf).Where(p => p.landingLocation == "Medine").Skip(lastPage).Take(15).ToList();
+                                    totalcount = entitydb.Sure.Where(p => p.landingLocation == "Medine").Count();
                                 }
                             }
                         }
@@ -116,20 +116,20 @@ namespace KuranX.App.Core.Pages.VerseF
                                 if (landItem.Uid == "0")
                                 {
                                     // Hepsi
-                                    dSure = entitydb.Sure.OrderBy(p => p.DeskLanding).Where(p => p.Complated == true).Skip(lastPage).Take(15).ToList();
-                                    totalcount = entitydb.Sure.Where(p => p.Complated == true).Count();
+                                    dSure = entitydb.Sure.OrderBy(p => p.deskLanding).Where(p => p.complated == true).Skip(lastPage).Take(15).ToList();
+                                    totalcount = entitydb.Sure.Where(p => p.complated == true).Count();
                                 }
                                 else if (landItem.Uid == "1")
                                 {
                                     // Mekke
-                                    dSure = entitydb.Sure.OrderBy(p => p.DeskLanding).Where(p => p.LandingLocation == "Mekke" && p.Complated == true).Skip(lastPage).Take(15).ToList();
-                                    totalcount = entitydb.Sure.Where(p => p.LandingLocation == "Mekke" && p.Complated == true).Count();
+                                    dSure = entitydb.Sure.OrderBy(p => p.deskLanding).Where(p => p.landingLocation == "Mekke" && p.complated == true).Skip(lastPage).Take(15).ToList();
+                                    totalcount = entitydb.Sure.Where(p => p.landingLocation == "Mekke" && p.complated == true).Count();
                                 }
                                 else
                                 {
                                     // Medine
-                                    dSure = entitydb.Sure.OrderBy(p => p.DeskLanding).Where(p => p.LandingLocation == "Medine" && p.Complated == true).Skip(lastPage).Take(15).ToList();
-                                    totalcount = entitydb.Sure.Where(p => p.LandingLocation == "Medine" && p.Complated == true).Count();
+                                    dSure = entitydb.Sure.OrderBy(p => p.deskLanding).Where(p => p.landingLocation == "Medine" && p.complated == true).Skip(lastPage).Take(15).ToList();
+                                    totalcount = entitydb.Sure.Where(p => p.landingLocation == "Medine" && p.complated == true).Count();
                                 }
                             }
                             else
@@ -137,20 +137,20 @@ namespace KuranX.App.Core.Pages.VerseF
                                 if (landItem.Uid == "0")
                                 {
                                     // Hepsi
-                                    dSure = entitydb.Sure.OrderBy(p => p.DeskMushaf).Where(p => p.Complated == true).Skip(lastPage).Take(15).ToList();
-                                    totalcount = entitydb.Sure.Where(p => p.Complated == true).Count();
+                                    dSure = entitydb.Sure.OrderBy(p => p.deskMushaf).Where(p => p.complated == true).Skip(lastPage).Take(15).ToList();
+                                    totalcount = entitydb.Sure.Where(p => p.complated == true).Count();
                                 }
                                 else if (landItem.Uid == "1")
                                 {
                                     // Mekke
-                                    dSure = entitydb.Sure.OrderBy(p => p.DeskMushaf).Where(p => p.LandingLocation == "Mekke" && p.Complated == true).Skip(lastPage).Take(15).ToList();
-                                    totalcount = entitydb.Sure.Where(p => p.LandingLocation == "Mekke" && p.Complated == true).Count();
+                                    dSure = entitydb.Sure.OrderBy(p => p.deskMushaf).Where(p => p.landingLocation == "Mekke" && p.complated == true).Skip(lastPage).Take(15).ToList();
+                                    totalcount = entitydb.Sure.Where(p => p.landingLocation == "Mekke" && p.complated == true).Count();
                                 }
                                 else
                                 {
                                     // Medine
-                                    dSure = entitydb.Sure.OrderBy(p => p.DeskMushaf).Where(p => p.LandingLocation == "Medine" && p.Complated == true).Skip(lastPage).Take(15).ToList();
-                                    totalcount = entitydb.Sure.Where(p => p.LandingLocation == "Medine" && p.Complated == true).Count();
+                                    dSure = entitydb.Sure.OrderBy(p => p.deskMushaf).Where(p => p.landingLocation == "Medine" && p.complated == true).Skip(lastPage).Take(15).ToList();
+                                    totalcount = entitydb.Sure.Where(p => p.landingLocation == "Medine" && p.complated == true).Count();
                                 }
                             }
                         }
@@ -164,20 +164,20 @@ namespace KuranX.App.Core.Pages.VerseF
                                 if (landItem.Uid == "0")
                                 {
                                     // Hepsi
-                                    dSure = entitydb.Sure.OrderBy(p => p.DeskLanding).Where(p => p.Complated == false).Skip(lastPage).Take(15).ToList();
-                                    totalcount = entitydb.Sure.Where(p => p.Complated == false).Count();
+                                    dSure = entitydb.Sure.OrderBy(p => p.deskLanding).Where(p => p.complated == false).Skip(lastPage).Take(15).ToList();
+                                    totalcount = entitydb.Sure.Where(p => p.complated == false).Count();
                                 }
                                 else if (landItem.Uid == "1")
                                 {
                                     // Mekke
-                                    dSure = entitydb.Sure.OrderBy(p => p.DeskLanding).Where(p => p.LandingLocation == "Mekke" && p.Complated == false).Skip(lastPage).Take(15).ToList();
-                                    totalcount = entitydb.Sure.Where(p => p.LandingLocation == "Mekke" && p.Complated == false).Count();
+                                    dSure = entitydb.Sure.OrderBy(p => p.deskLanding).Where(p => p.landingLocation == "Mekke" && p.complated == false).Skip(lastPage).Take(15).ToList();
+                                    totalcount = entitydb.Sure.Where(p => p.landingLocation == "Mekke" && p.complated == false).Count();
                                 }
                                 else
                                 {
                                     // Medine
-                                    dSure = entitydb.Sure.OrderBy(p => p.DeskLanding).Where(p => p.LandingLocation == "Medine" && p.Complated == false).Skip(lastPage).Take(15).ToList();
-                                    totalcount = entitydb.Sure.Where(p => p.LandingLocation == "Medine" && p.Complated == false).Count();
+                                    dSure = entitydb.Sure.OrderBy(p => p.deskLanding).Where(p => p.landingLocation == "Medine" && p.complated == false).Skip(lastPage).Take(15).ToList();
+                                    totalcount = entitydb.Sure.Where(p => p.landingLocation == "Medine" && p.complated == false).Count();
                                 }
                             }
                             else
@@ -185,20 +185,20 @@ namespace KuranX.App.Core.Pages.VerseF
                                 if (landItem.Uid == "0")
                                 {
                                     // Hepsi
-                                    dSure = entitydb.Sure.OrderBy(p => p.DeskMushaf).Where(p => p.Complated == false).Skip(lastPage).Take(15).ToList();
-                                    totalcount = entitydb.Sure.Where(p => p.Complated == false).Count();
+                                    dSure = entitydb.Sure.OrderBy(p => p.deskMushaf).Where(p => p.complated == false).Skip(lastPage).Take(15).ToList();
+                                    totalcount = entitydb.Sure.Where(p => p.complated == false).Count();
                                 }
                                 else if (landItem.Uid == "1")
                                 {
                                     // Mekke
-                                    dSure = entitydb.Sure.OrderBy(p => p.DeskMushaf).Where(p => p.LandingLocation == "Mekke" && p.Complated == false).Skip(lastPage).Take(15).ToList();
-                                    totalcount = entitydb.Sure.Where(p => p.LandingLocation == "Mekke" && p.Complated == false).Count();
+                                    dSure = entitydb.Sure.OrderBy(p => p.deskMushaf).Where(p => p.landingLocation == "Mekke" && p.complated == false).Skip(lastPage).Take(15).ToList();
+                                    totalcount = entitydb.Sure.Where(p => p.landingLocation == "Mekke" && p.complated == false).Count();
                                 }
                                 else
                                 {
                                     // Medine
-                                    dSure = entitydb.Sure.OrderBy(p => p.DeskMushaf).Where(p => p.LandingLocation == "Medine" && p.Complated == false).Skip(lastPage).Take(15).ToList();
-                                    totalcount = entitydb.Sure.Where(p => p.LandingLocation == "Medine" && p.Complated == false).Count();
+                                    dSure = entitydb.Sure.OrderBy(p => p.deskMushaf).Where(p => p.landingLocation == "Medine" && p.complated == false).Skip(lastPage).Take(15).ToList();
+                                    totalcount = entitydb.Sure.Where(p => p.landingLocation == "Medine" && p.complated == false).Count();
                                 }
                             }
                         }
@@ -227,26 +227,26 @@ namespace KuranX.App.Core.Pages.VerseF
                         this.Dispatcher.Invoke(() =>
                         {
                             var sStatus = (Border)FindName("srColor" + i);
-                            sStatus.Background = (SolidColorBrush)new BrushConverter().ConvertFrom(item.Status);
+                            sStatus.Background = (SolidColorBrush)new BrushConverter().ConvertFrom(item.status);
 
                             var sCount = (TextBlock)FindName("srDescCount" + i);
                             sCount.Text = clist.ToString();
 
                             var sLand = (TextBlock)FindName("srLanding" + i);
-                            sLand.Text = item.LandingLocation;
+                            sLand.Text = item.landingLocation;
 
                             var sDesc = (TextBlock)FindName("srDesc" + i);
-                            sDesc.Text = item.Description;
+                            sDesc.Text = item.description;
 
                             var sName = (TextBlock)FindName("srName" + i);
-                            sName.Text = item.Name;
+                            sName.Text = item.name;
 
                             var sNumber = (TextBlock)FindName("srNumber" + i);
-                            sNumber.Text = item.NumberOfVerses.ToString();
+                            sNumber.Text = item.numberOfVerses.ToString();
 
                             var sFast = (Button)FindName("srBtnFast" + i);
-                            sFast.Content = item.Name;
-                            sFast.Uid = item.NumberOfVerses.ToString();
+                            sFast.Content = item.name;
+                            sFast.Uid = item.numberOfVerses.ToString();
                             sFast.Tag = item.sureId.ToString();
 
                             var sClick = (Button)FindName("srBtn" + i);
@@ -447,11 +447,11 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             using (var entitydb = new AyetContext())
             {
-                var selectedS = entitydb.Sure.Where(p => p.UserLastRelativeVerse != 0).FirstOrDefault();
+                var selectedS = entitydb.Sure.Where(p => p.userLastRelativeVerse != 0).FirstOrDefault();
 
                 if (selectedS != null)
                 {
-                    App.mainframe.Content = App.navVersePage.PageCall((int)selectedS.sureId, (int)selectedS.UserLastRelativeVerse, "Verse");
+                    App.mainframe.Content = App.navVersePage.PageCall((int)selectedS.sureId, (int)selectedS.userLastRelativeVerse, "Verse");
                 }
                 else
                 {

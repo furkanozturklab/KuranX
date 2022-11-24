@@ -68,16 +68,16 @@ namespace KuranX.App.Core.Pages.LibraryF
                     this.Dispatcher.Invoke(() =>
                     {
                         var sColor = (Border)FindName("lntColor" + i);
-                        sColor.Background = (SolidColorBrush)new BrushConverter().ConvertFrom(item.LibraryColor);
+                        sColor.Background = (SolidColorBrush)new BrushConverter().ConvertFrom(item.libraryColor);
 
                         var sName = (TextBlock)FindName("lntName" + i);
-                        sName.Text = item.LibraryName;
+                        sName.Text = item.libraryName;
 
                         var sCreated = (TextBlock)FindName("lntCreated" + i);
-                        sCreated.Text = item.Created.ToString("D");
+                        sCreated.Text = item.created.ToString("D");
 
                         var sBtn = (Button)FindName("lntBtn" + i);
-                        sBtn.Uid = item.LibraryId.ToString();
+                        sBtn.Uid = item.libraryId.ToString();
 
                         var sbItem = (Border)FindName("lnt" + i);
                         sbItem.Visibility = Visibility.Visible;
@@ -183,11 +183,11 @@ namespace KuranX.App.Core.Pages.LibraryF
                     {
                         using (var entitydb = new AyetContext())
                         {
-                            var dControl = entitydb.Librarys.Where(p => p.LibraryName == librarypreviewName.Text).ToList();
+                            var dControl = entitydb.Librarys.Where(p => p.libraryName == librarypreviewName.Text).ToList();
 
                             if (dControl.Count == 0)
                             {
-                                var dlibraryFolder = new Classes.Library { LibraryName = librarypreviewName.Text, LibraryColor = librarypreviewColor.Background.ToString(), Created = DateTime.Now, Modify = DateTime.Now };
+                                var dlibraryFolder = new Classes.Library { libraryName = librarypreviewName.Text, libraryColor = librarypreviewColor.Background.ToString(), created = DateTime.Now, modify = DateTime.Now };
                                 entitydb.Librarys.Add(dlibraryFolder);
                                 entitydb.SaveChanges();
                                 succsessFunc("Kütüphane Başlığı ", " Yeni kütüphane başlığı oluşturuldu artık veri ekleye bilirsiniz.", 3);

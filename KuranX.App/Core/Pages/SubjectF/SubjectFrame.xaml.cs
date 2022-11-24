@@ -54,12 +54,12 @@ namespace KuranX.App.Core.Pages.SubjectF
                 loadAni();
                 if (this.Dispatcher.Invoke(() => searchText != ""))
                 {
-                    dSub = entitydb.Subject.Where(p => EF.Functions.Like(p.SubjectName, "%" + searchText + "%")).OrderByDescending(p => p.SubjectId).Skip(lastPage).Take(18).ToList();
-                    totalcount = entitydb.Subject.Where(p => EF.Functions.Like(p.SubjectName, "%" + searchText + "%")).Count();
+                    dSub = entitydb.Subject.Where(p => EF.Functions.Like(p.subjectName, "%" + searchText + "%")).OrderByDescending(p => p.subjectId).Skip(lastPage).Take(18).ToList();
+                    totalcount = entitydb.Subject.Where(p => EF.Functions.Like(p.subjectName, "%" + searchText + "%")).Count();
                 }
                 else
                 {
-                    dSub = entitydb.Subject.OrderByDescending(p => p.SubjectId).Skip(lastPage).Take(15).ToList();
+                    dSub = entitydb.Subject.OrderByDescending(p => p.subjectId).Skip(lastPage).Take(15).ToList();
                     totalcount = entitydb.Subject.Count();
                 }
 
@@ -81,16 +81,16 @@ namespace KuranX.App.Core.Pages.SubjectF
                     this.Dispatcher.Invoke(() =>
                     {
                         var sColor = (Border)FindName("sbColor" + i);
-                        sColor.Background = new BrushConverter().ConvertFrom((string)item.SubjectColor) as SolidColorBrush;
+                        sColor.Background = new BrushConverter().ConvertFrom((string)item.subjectColor) as SolidColorBrush;
 
                         var sName = (TextBlock)FindName("sbName" + i);
-                        sName.Text = item.SubjectName;
+                        sName.Text = item.subjectName;
 
                         var sCreated = (TextBlock)FindName("sbCreated" + i);
-                        sCreated.Text = item.Created.ToString("D");
+                        sCreated.Text = item.created.ToString("D");
 
                         var sBtn = (Button)FindName("sbBtn" + i);
-                        sBtn.Uid = item.SubjectId.ToString();
+                        sBtn.Uid = item.subjectId.ToString();
 
                         var sbItem = (Border)FindName("sbItem" + i);
                         sbItem.Visibility = Visibility.Visible;
@@ -199,11 +199,11 @@ namespace KuranX.App.Core.Pages.SubjectF
                     {
                         using (var entitydb = new AyetContext())
                         {
-                            var dControl = entitydb.Subject.Where(p => p.SubjectName == subjectpreviewName.Text).ToList();
+                            var dControl = entitydb.Subject.Where(p => p.subjectName == subjectpreviewName.Text).ToList();
 
                             if (dControl.Count == 0)
                             {
-                                var dSubjectFolder = new Subject { SubjectName = subjectpreviewName.Text, SubjectColor = subjectpreviewColor.Background.ToString(), Created = DateTime.Now, Modify = DateTime.Now };
+                                var dSubjectFolder = new Subject { subjectName = subjectpreviewName.Text, subjectColor = subjectpreviewColor.Background.ToString(), created = DateTime.Now, modify = DateTime.Now };
                                 entitydb.Subject.Add(dSubjectFolder);
                                 entitydb.SaveChanges();
                                 succsessFunc("Konu Başlığı ", " Yeni konu başlığı oluşturuldu artık ayetleri ekleye bilirsiniz.", 3);

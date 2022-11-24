@@ -71,22 +71,22 @@ namespace KuranX.App.Core.Pages.ResultF
                     this.Dispatcher.Invoke(() =>
                     {
                         var sName = (TextBlock)FindName("rsName" + i);
-                        sName.Text = item.ResultName;
+                        sName.Text = item.resultName;
 
                         var sColor = (Border)FindName("rsColor" + i);
-                        sColor.Background = new BrushConverter().ConvertFrom((string)item.ResultStatus) as SolidColorBrush;
+                        sColor.Background = new BrushConverter().ConvertFrom((string)item.resultStatus) as SolidColorBrush;
 
                         var sBtn = (Button)FindName("rsBtn" + i);
-                        sBtn.Uid = item.ResultId.ToString();
+                        sBtn.Uid = item.resultId.ToString();
 
                         var sS = (Image)FindName("rsS" + i);
-                        sS.IsEnabled = (bool)item.ResultSubject;
+                        sS.IsEnabled = (bool)item.resultSubject;
 
                         var sL = (Image)FindName("rsL" + i);
-                        sL.IsEnabled = (bool)item.ResultLib;
+                        sL.IsEnabled = (bool)item.resultLib;
 
                         var sN = (Image)FindName("rsN" + i);
-                        sN.IsEnabled = (bool)item.ResultNotes;
+                        sN.IsEnabled = (bool)item.resultNotes;
 
                         var sbItem = (Border)FindName("rs" + i);
                         sbItem.Visibility = Visibility.Visible;

@@ -31,32 +31,32 @@ namespace KuranX.App.Core.Pages.NoteF
         {
             using (var entitydb = new AyetContext())
             {
-                var dNotes = entitydb.Notes.Where(p => p.NotesId == id).FirstOrDefault();
+                var dNotes = entitydb.Notes.Where(p => p.notesId == id).FirstOrDefault();
 
-                header.Text = dNotes.NoteHeader;
-                create.Text = dNotes.Created.ToString("D");
-                location.Text = dNotes.NoteLocation;
-                loadNoteDetail.Text = dNotes.NoteDetail;
+                header.Text = dNotes.noteHeader;
+                create.Text = dNotes.created.ToString("D");
+                location.Text = dNotes.noteLocation;
+                loadNoteDetail.Text = dNotes.noteDetail;
 
-                if (dNotes.SureId != 0)
+                if (dNotes.sureId != 0)
                 {
-                    var dSure = entitydb.Sure.Where(p => p.sureId == dNotes.SureId).FirstOrDefault();
-                    infoText.Text = "Not Aldığınız Ayet " + Environment.NewLine + dSure.Name + " suresini " + dNotes.VerseId + " ayeti";
+                    var dSure = entitydb.Sure.Where(p => p.sureId == dNotes.sureId).FirstOrDefault();
+                    infoText.Text = "Not Aldığınız Ayet " + Environment.NewLine + dSure.name + " suresini " + dNotes.verseId + " ayeti";
                 }
 
                 // PDF Bağlanmış
-                if (dNotes.PdfFileId != 0)
+                if (dNotes.pdfFileId != 0)
                 {
-                    var dPdf = entitydb.PdfFile.Where(p => p.PdfFileId == dNotes.PdfFileId).FirstOrDefault();
-                    infoText.Text = "Not Aldığınız Dosya " + Environment.NewLine + dPdf.FileName;
+                    var dPdf = entitydb.PdfFile.Where(p => p.pdfFileId == dNotes.pdfFileId).FirstOrDefault();
+                    infoText.Text = "Not Aldığınız Dosya " + Environment.NewLine + dPdf.fileName;
                 }
 
                 // Konu Bağlanmış
-                if (dNotes.SubjectId != 0)
+                if (dNotes.subjectId != 0)
                 {
-                    var dSubject = entitydb.SubjectItems.Where(p => p.SubjectItemsId == dNotes.SubjectId).FirstOrDefault();
-                    var dx = entitydb.Subject.Where(p => p.SubjectId == dSubject.SubjectId).FirstOrDefault();
-                    infoText.Text = "Not Aldığınız Konu" + Environment.NewLine + dx.SubjectName;
+                    var dSubject = entitydb.SubjectItems.Where(p => p.subjectItemsId == dNotes.subjectId).FirstOrDefault();
+                    var dx = entitydb.Subject.Where(p => p.subjectId == dSubject.subjectId).FirstOrDefault();
+                    infoText.Text = "Not Aldığınız Konu" + Environment.NewLine + dx.subjectName;
                 }
             }
 

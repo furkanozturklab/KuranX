@@ -65,20 +65,20 @@ namespace KuranX.App.Core.Windows
                         var Verse = new Sure();
 
                         Verse.sureId = (int)rdr[0];
-                        Verse.Name = (string)rdr[1];
-                        Verse.NumberOfVerses = (int)rdr[2];
+                        Verse.name = (string)rdr[1];
+                        Verse.numberOfVerses = (int)rdr[2];
 
                         // DB DEN YANLIŞ YER YÜZÜNDEN LANDİNG VE MUSHAF KARIŞMIŞ
                         // Düzelttim ama kontrol edilmesi lazım
                         Debug.WriteLine((int)rdr[4]);
 
-                        Verse.DeskLanding = (int)rdr[3];
-                        Verse.DeskMushaf = (int)rdr[4];
+                        Verse.deskLanding = (int)rdr[3];
+                        Verse.deskMushaf = (int)rdr[4];
 
                         // DB DEN YANLIŞ YER YÜZÜNDEN LANDİNG VE MUSHAF KARIŞMIŞ
-                        Verse.LandingLocation = (string)rdr[5];
-                        Verse.Description = (string)rdr[6];
-                        Verse.Status = "#ADB5BD";
+                        Verse.landingLocation = (string)rdr[5];
+                        Verse.description = (string)rdr[6];
+                        Verse.status = "#ADB5BD";
 
                         entitydb.Sure.Add(Verse);
 
@@ -124,15 +124,15 @@ namespace KuranX.App.Core.Windows
                     int ch = (int)rdr[2];
                     ch++;
 
-                    newVe.SureId = (int)rdr[0];
-                    newVe.VerseId = (int)rdr[1];
-                    newVe.RelativeDesk = ch;
-                    newVe.Status = "#FFFFFF";
-                    newVe.VerseArabic = (string)rdr[4];
-                    newVe.VerseTr = (string)rdr[5];
-                    newVe.VerseDesc = (string)rdr[6];
-                    newVe.VerseCheck = false;
-                    newVe.RemiderCheck = false;
+                    newVe.sureId = (int)rdr[0];
+                    newVe.verseId = (int)rdr[1];
+                    newVe.relativeDesk = ch;
+                    newVe.status = "#FFFFFF";
+                    newVe.verseArabic = (string)rdr[4];
+                    newVe.verseTr = (string)rdr[5];
+                    newVe.verseDesc = (string)rdr[6];
+                    newVe.verseCheck = false;
+                    newVe.remiderCheck = false;
 
                     entitydb.Verse.Add(newVe);
 
@@ -194,10 +194,10 @@ namespace KuranX.App.Core.Windows
                     {
                         var newWe = new Words();
 
-                        newWe.VerseId = (int)rdr[1];
-                        newWe.WordText = (string)rdr[2];
-                        newWe.WordRe = (string)rdr[3];
-                        newWe.SureId = (int)rdr[4];
+                        newWe.verseId = (int)rdr[1];
+                        newWe.wordText = (string)rdr[2];
+                        newWe.wordRe = (string)rdr[3];
+                        newWe.sureId = (int)rdr[4];
 
                         entitydb.Words.Add(newWe);
 
@@ -226,32 +226,32 @@ namespace KuranX.App.Core.Windows
                 {
                     if (DeskType == "İniş Sırası")
                     {
-                        VersesList = (List<Sure>)entitydb.Sure.Where(p => p.LandingLocation == land).OrderBy(p => p.DeskLanding).ToList();
+                        VersesList = (List<Sure>)entitydb.Sure.Where(p => p.landingLocation == land).OrderBy(p => p.deskLanding).ToList();
                     }
                     else
                     {
-                        VersesList = (List<Sure>)entitydb.Sure.Where(p => p.LandingLocation == land).OrderBy(p => p.DeskMushaf).ToList();
+                        VersesList = (List<Sure>)entitydb.Sure.Where(p => p.landingLocation == land).OrderBy(p => p.deskMushaf).ToList();
                     }
 
                     foreach (var item in VersesList)
                     {
-                        Debug.WriteLine(item.Name);
+                        Debug.WriteLine(item.name);
                     }
                 }
                 else
                 {
                     if (DeskType == "İniş Sırası")
                     {
-                        VersesList = (List<Sure>)entitydb.Sure.OrderBy(p => p.DeskLanding).ToList();
+                        VersesList = (List<Sure>)entitydb.Sure.OrderBy(p => p.deskLanding).ToList();
                     }
                     else
                     {
-                        VersesList = (List<Sure>)entitydb.Sure.OrderBy(p => p.DeskMushaf).ToList();
+                        VersesList = (List<Sure>)entitydb.Sure.OrderBy(p => p.deskMushaf).ToList();
                     }
 
                     foreach (var item in VersesList)
                     {
-                        Debug.WriteLine(item.Name);
+                        Debug.WriteLine(item.name);
                     }
                 }
             }
@@ -273,7 +273,7 @@ namespace KuranX.App.Core.Windows
                     using (var entitydb = new AyetContext())
                     {
                         string name = openFileDialog.FileName.Split(@"\").Last();
-                        var dControl = entitydb.PdfFile.Where(p => p.FileName == name).ToList();
+                        var dControl = entitydb.PdfFile.Where(p => p.fileName == name).ToList();
 
                         if (File.Exists(newSoruceLocation) && dControl.Count != 0)
                         {
@@ -283,7 +283,7 @@ namespace KuranX.App.Core.Windows
                         {
                             File.Copy(openFileDialog.FileName, newSoruceLocation, true);
 
-                            var newFile = new PdfFile { FileName = openFileDialog.FileName.Split(@"\").Last(), FileUrl = newSoruceLocation, FileSize = fileS, Created = DateTime.Now, Modify = DateTime.Now, FileType = "Editor" };
+                            var newFile = new PdfFile { fileName = openFileDialog.FileName.Split(@"\").Last(), fileUrl = newSoruceLocation, fileSize = fileS, created = DateTime.Now, modify = DateTime.Now, fileType = "Editor" };
                             entitydb.PdfFile.Add(newFile);
                             entitydb.SaveChanges();
 
@@ -359,7 +359,7 @@ namespace KuranX.App.Core.Windows
                 {
                     var newWe = new Result();
 
-                    newWe.ResultName = rdr[1].ToString();
+                    newWe.resultName = rdr[1].ToString();
 
                     entitydb.Results.Add(newWe);
 

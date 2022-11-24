@@ -8,10 +8,10 @@ namespace KuranX.App.Core.Classes
 {
     public class Library
     {
-        public int LibraryId { get; set; }
-        public string? LibraryName { get; set; }
-        public string? LibraryColor { get; set; }
-        public DateTime Created { get; set; } = DateTime.Now;
-        public DateTime Modify { get; set; } = DateTime.Now;
+        public int libraryId { get; set; }
+        public string? libraryName { get; set; }
+        public string? libraryColor { get; set; }
+        public DateTime created { get; set; } = DateTime.Now;
+        public DateTime modify { get; set; } = DateTime.Now;
     }
 }

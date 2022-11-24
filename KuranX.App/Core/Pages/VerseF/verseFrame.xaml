@@ -1221,6 +1221,62 @@
 
             <!-- Reset -->
 
+            <!-- Search -->
+
+            <Popup x:Name="popup_search" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="800" Height="600" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+
+                <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="780" Height="580">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="50" />
+                            <RowDefinition Height="470" />
+                            <RowDefinition Height="60" />
+                        </Grid.RowDefinitions>
+                        <Border  Grid.Row="0" Style="{DynamicResource pp_BorderHeader}">
+                            <TextBlock Text="Arama Sonucları" Style="{DynamicResource pp_HeaderText}" />
+                        </Border>
+                        <Grid Grid.Row="1">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+
+                                <ScrollViewer Grid.ColumnSpan="2" Grid.Row="0">
+
+                                    <StackPanel x:Name="searchStack" Orientation="Vertical">
+                                        <TextBox x:Name="searchDataContent" Visibility="Collapsed" IsReadOnly="True" TextWrapping="Wrap" Text="" />
+
+                                        <Grid Height="60" Margin="20">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="40" />
+                                                <RowDefinition Height="20" />
+                                            </Grid.RowDefinitions>
+                                            <TextBlock x:Name="resultTextHeader" Grid.Row="0" VerticalAlignment="Center" FontFamily="{DynamicResource PoppinsMedium}" FontSize="18" Foreground="#1C1E2F" Text="" />
+                                            <TextBlock x:Name="totalResultText" Grid.Row="1" VerticalAlignment="Center" FontFamily="{DynamicResource PoppinsMedium}" FontSize="12" Foreground="#7B7B7B"  Text="" />
+                                        </Grid>
+
+                                        <StackPanel x:Name="resultDataContent" Orientation="Vertical" Margin="20 10 20 10">
+                                        </StackPanel>
+                                    </StackPanel>
+                                </ScrollViewer>
+                            </Grid>
+                        </Grid>
+
+                        <Button Grid.Column="1" Grid.Row="4" Style="{DynamicResource pp_ConnectItemsClosed}" Content="Kapat" Tag="CloseBig" Uid="popup_search" Click="popupClosed_Click" />
+                    </Grid>
+                </Border>
+            </Popup>
+
+            <!-- Search -->
+
             <!-- Words -->
 
             <Popup x:Name="popup_Words" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="500" Height="600" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
@@ -1275,11 +1331,12 @@
             <StackPanel Orientation="Vertical" VerticalAlignment="Center" Grid.Row="0">
 
                 <Border  Style="{DynamicResource vrs_HeaderBorder}">
-                    <Grid x:Name="headerBorder" Style="{DynamicResource aniEffectFadeGrid}"  Visibility="Hidden">
+                    <Grid x:Name="headerBorder" Style="{DynamicResource aniEffectFadeGrid}"  Visibility="Visible">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="180" />
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="300" />
+                            <ColumnDefinition Width="102" />
                         </Grid.ColumnDefinitions>
 
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="15,0,0,0" Grid.Column="0">
@@ -1290,7 +1347,7 @@
                                 <TextBlock Text="Ayet" Style="{DynamicResource vrs_HeaderTabAlt}" />
                             </StackPanel>
                         </StackPanel>
-                        <StackPanel Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center">
+                        <StackPanel Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
@@ -1319,11 +1376,20 @@
                             </Grid>
                         </StackPanel>
 
-                        <StackPanel Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,25,0">
+                        <StackPanel VerticalAlignment="Center" Grid.Column="2">
+                            <Border Style="{DynamicResource vrs_TabSearchBorder}">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBox x:Name="SearchData" Style="{DynamicResource vrs_TabSearchText}" />
+                                    <Button x:Name="SearchBtn" ToolTip="Arama Yapmanızı Sağlar" Style="{DynamicResource vrs_TabSearchButton}" Click="SearchBtn_Click" />
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,10,0">
                             <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="54" />
-                                    <ColumnDefinition Width="54" />
+                                    <ColumnDefinition Width="46" />
+                                    <ColumnDefinition Width="46" />
                                 </Grid.ColumnDefinitions>
                                 <Button x:Name="feedbackButton" HorizontalAlignment="Right" Style="{DynamicResource vrs_TabActionButtonInfo}" Grid.Column="0" Tag="EnvelopeUpload" ToolTip="Geri Bildirimde Bulun" Content="Düşünceleriniz Paylaşın" Click="feedbackButton_Click" />
                                 <Button x:Name="resetBtnSure" ToolTip="İlerlemeyi Sıfırla" Style="{DynamicResource vrs_TabActionButtonReset}" Grid.Column="1" Tag="RefreshMD" Click="resetBtnSure_Click" />

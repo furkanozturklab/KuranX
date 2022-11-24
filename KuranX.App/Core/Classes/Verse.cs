@@ -9,17 +9,15 @@ namespace KuranX.App.Core.Classes
 {
     public class Verse
     {
-        public int? SureId { get; set; }
-        public int? VerseId { get; set; }
-        public int? RelativeDesk { get; set; }
-
-        public string? VerseArabic { get; set; }
-        public string? VerseTr { get; set; }
-        public string? VerseDesc { get; set; }
-        public bool? VerseCheck { get; set; }
-        public bool? MarkCheck { get; set; }
-        public bool? RemiderCheck { get; set; }
-
-        public string? Status { get; set; }
+        public int verseId { get; set; }
+        public int sureId { get; set; } = 0;
+        public int relativeDesk { get; set; } = 0;
+        public string verseArabic { get; set; } = "Default";
+        public string verseTr { get; set; } = "Default";
+        public string verseDesc { get; set; } = "Wait";
+        public bool verseCheck { get; set; } = false;
+        public bool markCheck { get; set; } = false;
+        public bool remiderCheck { get; set; } = false;
+        public string status { get; set; } = "#FFFFFF";
     }
 }

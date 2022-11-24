@@ -3,6 +3,7 @@ using System;
 using KuranX.App.Core.Classes;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,18 +11,32 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KuranX.App.Migrations
 {
     [DbContext(typeof(AyetContext))]
-    partial class AyetContextModelSnapshot : ModelSnapshot
+    [Migration("20221124182338_Stability-Hotfix")]
+    partial class StabilityHotfix
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.0");
 
             modelBuilder.Entity("KuranX.App.Core.Classes.Integrity", b =>
                 {
-                    b.Property<int>("integrityId")
+                    b.Property<int>("IntegrityId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("IntegrityName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("IntegrityNote")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("Modify")
+                        .HasColumnType("TEXT");
 
                     b.Property<int?>("connectSureId")
                         .HasColumnType("INTEGER");
@@ -35,19 +50,7 @@ namespace KuranX.App.Migrations
                     b.Property<int?>("connectedVerseId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTime>("created")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("integrityName")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("integrityNote")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("modify")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("integrityId");
+                    b.HasKey("IntegrityId");
 
                     b.ToTable("Integrity");
                 });
@@ -77,338 +80,334 @@ namespace KuranX.App.Migrations
 
             modelBuilder.Entity("KuranX.App.Core.Classes.Library", b =>
                 {
-                    b.Property<int>("libraryId")
+                    b.Property<int>("LibraryId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTime>("created")
+                    b.Property<DateTime>("Created")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("libraryColor")
+                    b.Property<string>("LibraryColor")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("libraryName")
+                    b.Property<string>("LibraryName")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("modify")
+                    b.Property<DateTime>("Modify")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("libraryId");
+                    b.HasKey("LibraryId");
 
                     b.ToTable("Librarys");
                 });
 
             modelBuilder.Entity("KuranX.App.Core.Classes.Notes", b =>
                 {
-                    b.Property<int>("notesId")
+                    b.Property<int>("NotesId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTime>("created")
+                    b.Property<DateTime>("Created")
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("libraryId")
+                    b.Property<int?>("LibraryId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER")
                         .HasDefaultValue(0);
 
-                    b.Property<DateTime>("modify")
+                    b.Property<DateTime>("Modify")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("noteDetail")
+                    b.Property<string>("NoteDetail")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("noteHeader")
+                    b.Property<string>("NoteHeader")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("noteLocation")
+                    b.Property<string>("NoteLocation")
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("pdfFileId")
+                    b.Property<int?>("PdfFileId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER")
                         .HasDefaultValue(0);
 
-                    b.Property<int?>("subjectId")
+                    b.Property<int?>("SubjectId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER")
                         .HasDefaultValue(0);
 
-                    b.Property<int?>("sureId")
+                    b.Property<int?>("SureId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER")
                         .HasDefaultValue(0);
 
-                    b.Property<int?>("verseId")
+                    b.Property<int?>("VerseId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER")
                         .HasDefaultValue(0);
 
-                    b.HasKey("notesId");
+                    b.HasKey("NotesId");
 
                     b.ToTable("Notes");
                 });
 
             modelBuilder.Entity("KuranX.App.Core.Classes.PdfFile", b =>
                 {
-                    b.Property<int>("pdfFileId")
+                    b.Property<int>("PdfFileId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTime>("created")
+                    b.Property<DateTime>("Created")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("fileName")
+                    b.Property<string>("FileName")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("fileSize")
+                    b.Property<string>("FileSize")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("fileType")
+                    b.Property<string>("FileType")
                         .IsRequired()
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT")
                         .HasDefaultValue("User");
 
-                    b.Property<string>("fileUrl")
+                    b.Property<string>("FileUrl")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("modify")
+                    b.Property<DateTime>("Modify")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("pdfFileId");
+                    b.HasKey("PdfFileId");
 
                     b.ToTable("PdfFile");
                 });
 
             modelBuilder.Entity("KuranX.App.Core.Classes.Remider", b =>
                 {
-                    b.Property<int>("remiderId")
+                    b.Property<int>("RemiderId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("connectSureId")
+                    b.Property<int>("ConnectSureId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("connectVerseId")
+                    b.Property<int>("ConnectVerseId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTime>("create")
+                    b.Property<DateTime>("Create")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("lastAction")
+                    b.Property<DateTime>("LastAction")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("loopType")
+                    b.Property<string>("LoopType")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT")
                         .HasDefaultValue("False");
 
-                    b.Property<int>("priority")
+                    b.Property<int>("Priority")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER")
                         .HasDefaultValue(1);
 
-                    b.Property<DateTime>("remiderDate")
+                    b.Property<DateTime>("RemiderDate")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("remiderDetail")
+                    b.Property<string>("RemiderDetail")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("remiderName")
+                    b.Property<string>("RemiderName")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("status")
+                    b.Property<string>("Status")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT")
                         .HasDefaultValue("Wait");
 
-                    b.HasKey("remiderId");
+                    b.HasKey("RemiderId");
 
                     b.ToTable("Remider");
                 });
 
             modelBuilder.Entity("KuranX.App.Core.Classes.Result", b =>
                 {
-                    b.Property<int>("resultId")
+                    b.Property<int>("ResultId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("resultFinallyNote")
+                    b.Property<string>("ResultFinallyNote")
                         .IsRequired()
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT")
                         .HasDefaultValue("Sonuç Metninizi buraya yaza bilirsiniz.");
 
-                    b.Property<bool>("resultLib")
+                    b.Property<bool>("ResultLib")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER")
                         .HasDefaultValue(false);
 
-                    b.Property<string>("resultName")
+                    b.Property<string>("ResultName")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<bool>("resultNotes")
+                    b.Property<bool>("ResultNotes")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER")
                         .HasDefaultValue(false);
 
-                    b.Property<string>("resultStatus")
+                    b.Property<string>("ResultStatus")
                         .IsRequired()
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT")
                         .HasDefaultValue("#ADB5BD");
 
-                    b.Property<bool>("resultSubject")
+                    b.Property<bool>("ResultSubject")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER")
                         .HasDefaultValue(false);
 
-                    b.HasKey("resultId");
+                    b.HasKey("ResultId");
 
                     b.ToTable("Results");
                 });
 
             modelBuilder.Entity("KuranX.App.Core.Classes.ResultItem", b =>
                 {
-                    b.Property<int>("resultItemId")
+                    b.Property<int>("ResultItemId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("resultId")
+                    b.Property<int>("ResultId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("resultLibId")
+                    b.Property<int>("ResultLibId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER")
                         .HasDefaultValue(0);
 
-                    b.Property<int>("resultNoteId")
+                    b.Property<int>("ResultNoteId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER")
                         .HasDefaultValue(0);
 
-                    b.Property<int>("resultSubjectId")
+                    b.Property<int>("ResultSubjectId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER")
                         .HasDefaultValue(0);
 
-                    b.Property<DateTime>("sendTime")
+                    b.Property<DateTime>("SendTime")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT")
-                        .HasDefaultValue(new DateTime(2022, 11, 24, 22, 33, 27, 514, DateTimeKind.Local).AddTicks(470));
+                        .HasDefaultValue(new DateTime(2022, 11, 24, 21, 23, 38, 464, DateTimeKind.Local).AddTicks(553));
 
-                    b.HasKey("resultItemId");
+                    b.HasKey("ResultItemId");
 
                     b.ToTable("ResultItems");
                 });
 
             modelBuilder.Entity("KuranX.App.Core.Classes.Subject", b =>
                 {
-                    b.Property<int>("subjectId")
+                    b.Property<int>("SubjectId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTime>("created")
+                    b.Property<DateTime>("Created")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("modify")
+                    b.Property<DateTime>("Modify")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("subjectColor")
+                    b.Property<string>("SubjectColor")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("subjectName")
+                    b.Property<string>("SubjectName")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("subjectId");
+                    b.HasKey("SubjectId");
 
                     b.ToTable("Subject");
                 });
 
             modelBuilder.Entity("KuranX.App.Core.Classes.SubjectItems", b =>
                 {
-                    b.Property<int>("subjectItemsId")
+                    b.Property<int>("SubjectItemsId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTime>("created")
+                    b.Property<DateTime>("Created")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("modify")
+                    b.Property<DateTime>("Modify")
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("subjectId")
+                    b.Property<int?>("SubjectId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("subjectName")
+                    b.Property<string>("SubjectName")
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("subjectNotesId")
+                    b.Property<int?>("SubjectNotesId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("sureId")
+                    b.Property<int?>("SureId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("verseId")
+                    b.Property<int?>("VerseId")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("subjectItemsId");
+                    b.HasKey("SubjectItemsId");
 
                     b.ToTable("SubjectItems");
                 });
 
             modelBuilder.Entity("KuranX.App.Core.Classes.Sure", b =>
                 {
-                    b.Property<int>("sureId")
+                    b.Property<int?>("sureId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<bool>("complated")
+                    b.Property<bool?>("Complated")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER")
                         .HasDefaultValue(false);
 
-                    b.Property<string>("description")
-                        .IsRequired()
+                    b.Property<string>("Description")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("deskLanding")
+                    b.Property<int?>("DeskLanding")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("deskList")
+                    b.Property<int?>("DeskList")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER")
                         .HasDefaultValue(0);
 
-                    b.Property<int>("deskMushaf")
+                    b.Property<int?>("DeskMushaf")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("landingLocation")
-                        .IsRequired()
+                    b.Property<string>("LandingLocation")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("name")
-                        .IsRequired()
+                    b.Property<string>("Name")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("numberOfVerses")
+                    b.Property<int?>("NumberOfVerses")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("status")
-                        .IsRequired()
+                    b.Property<string>("Status")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("userCheckCount")
+                    b.Property<int?>("UserCheckCount")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER")
                         .HasDefaultValue(0);
 
-                    b.Property<int>("userLastRelativeVerse")
+                    b.Property<int?>("UserLastRelativeVerse")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER")
                         .HasDefaultValue(0);
@@ -420,165 +419,161 @@ namespace KuranX.App.Migrations
 
             modelBuilder.Entity("KuranX.App.Core.Classes.Tasks", b =>
                 {
-                    b.Property<int>("tasksId")
+                    b.Property<int>("TasksId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("missonsColor")
+                    b.Property<string>("MissonsColor")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("missonsId")
+                    b.Property<int>("MissonsId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("missonsRepeart")
+                    b.Property<int>("MissonsRepeart")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("missonsTime")
+                    b.Property<int>("MissonsTime")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("missonsType")
+                    b.Property<string>("MissonsType")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.HasKey("tasksId");
+                    b.HasKey("TasksId");
 
                     b.ToTable("Tasks");
                 });
 
             modelBuilder.Entity("KuranX.App.Core.Classes.User", b =>
                 {
-                    b.Property<int>("userId")
+                    b.Property<int>("UserId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER")
                         .HasColumnName("user_id");
 
-                    b.Property<string>("avatarUrl")
+                    b.Property<string>("AvatarUrl")
                         .IsRequired()
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT")
                         .HasDefaultValue("default")
                         .HasColumnName("user_avatarUrl");
 
-                    b.Property<DateTime>("createDate")
+                    b.Property<DateTime>("CreateDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT")
-                        .HasDefaultValue(new DateTime(2022, 11, 24, 22, 33, 27, 513, DateTimeKind.Local).AddTicks(6052))
+                        .HasDefaultValue(new DateTime(2022, 11, 24, 21, 23, 38, 463, DateTimeKind.Local).AddTicks(6009))
                         .HasColumnName("user_createDate");
 
-                    b.Property<string>("email")
+                    b.Property<string>("Email")
                         .IsRequired()
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT")
                         .HasDefaultValue("none")
                         .HasColumnName("user_email");
 
-                    b.Property<string>("firstName")
+                    b.Property<string>("FirstName")
                         .IsRequired()
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT")
                         .HasDefaultValue("First Name")
                         .HasColumnName("user_fisrtName");
 
-                    b.Property<string>("lastName")
+                    b.Property<string>("LastName")
                         .IsRequired()
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT")
                         .HasDefaultValue("Last Name")
                         .HasColumnName("user_lastName");
 
-                    b.Property<string>("password")
+                    b.Property<string>("Password")
                         .IsRequired()
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT")
                         .HasDefaultValue("1230")
                         .HasColumnName("user_password");
 
-                    b.Property<string>("screetQuestion")
+                    b.Property<string>("ScreetQuestion")
                         .IsRequired()
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT")
                         .HasDefaultValue("Screet Question")
                         .HasColumnName("user_screetQuestion");
 
-                    b.Property<DateTime>("updateDate")
+                    b.Property<DateTime>("UpdateDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT")
-                        .HasDefaultValue(new DateTime(2022, 11, 24, 22, 33, 27, 513, DateTimeKind.Local).AddTicks(6191))
+                        .HasDefaultValue(new DateTime(2022, 11, 24, 21, 23, 38, 463, DateTimeKind.Local).AddTicks(6156))
                         .HasColumnName("user_updateDate");
 
-                    b.HasKey("userId");
+                    b.HasKey("UserId");
 
                     b.ToTable("Users");
                 });
 
             modelBuilder.Entity("KuranX.App.Core.Classes.Verse", b =>
                 {
-                    b.Property<int>("verseId")
+                    b.Property<int?>("VerseId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<bool>("markCheck")
+                    b.Property<bool?>("MarkCheck")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER")
                         .HasDefaultValue(false);
 
-                    b.Property<int>("relativeDesk")
+                    b.Property<int?>("RelativeDesk")
                         .HasColumnType("INTEGER");
 
-                    b.Property<bool>("remiderCheck")
+                    b.Property<bool?>("RemiderCheck")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER")
                         .HasDefaultValue(false);
 
-                    b.Property<string>("status")
-                        .IsRequired()
+                    b.Property<string>("Status")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("sureId")
+                    b.Property<int?>("SureId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("verseArabic")
-                        .IsRequired()
+                    b.Property<string>("VerseArabic")
                         .HasColumnType("TEXT");
 
-                    b.Property<bool>("verseCheck")
+                    b.Property<bool?>("VerseCheck")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER")
                         .HasDefaultValue(false);
 
-                    b.Property<string>("verseDesc")
-                        .IsRequired()
+                    b.Property<string>("VerseDesc")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("verseTr")
-                        .IsRequired()
+                    b.Property<string>("VerseTr")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("verseId");
+                    b.HasKey("VerseId");
 
                     b.ToTable("Verse");
                 });
 
             modelBuilder.Entity("KuranX.App.Core.Classes.Words", b =>
                 {
-                    b.Property<int>("wordsId")
+                    b.Property<int>("WordsId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("sureId")
+                    b.Property<int?>("SureId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("verseId")
+                    b.Property<int?>("VerseId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("wordRe")
+                    b.Property<string>("WordRe")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("wordText")
+                    b.Property<string>("WordText")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("wordsId");
+                    b.HasKey("WordsId");
 
                     b.ToTable("Words");
                 });

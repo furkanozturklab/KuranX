@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Org.BouncyCastle.Utilities;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -22,50 +24,88 @@ namespace KuranX.App.Core.Pages
     /// </summary>
     public partial class TestFrame : Page
     {
+        private ArrayList findİndex = new ArrayList();
+
         public TestFrame()
         {
             InitializeComponent();
-            alph.MouseMove += new MouseEventHandler(pop_MouseMove);
         }
 
-        private void pop_MouseMove(object sender, MouseEventArgs e)
+        public Page PageCall()
         {
-            if (e.LeftButton == MouseButtonState.Pressed)
+            return this;
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            /*
+            var starindex = 0;
+            findİndex.Clear();
+
+            // İndex Arama
+            while (true)
             {
-                var mousePosition = e.GetPosition(this.alph);
-
-                alph.PlacementRectangle = new Rect(new Point(e.GetPosition(this).X,
-                    e.GetPosition(this).Y), new Point(mousePosition.X, mousePosition.Y));
+                starindex = searchDataContent.Text.IndexOf("dizgi", ++starindex);
+                if (starindex == -1) break;
+                findİndex.Add(starindex);
             }
-        }
 
-        private void popupClosed_Click(object sender, RoutedEventArgs e)
-        {
-            Button btntemp = sender as Button;
-            var popuptemp = (Popup)this.FindName(btntemp.Uid);
+            Debug.WriteLine(findİndex.Count);
 
-            // popuptemp.IsOpen = false;
-        }
+            int id = 0;
 
-        private void button_Click(object sender, RoutedEventArgs e)
-        {
-            //  frame.Content = navMany;
-        }
+            foreach (var item in findİndex)
+            {
+                var dataTextBlock = new TextBlock();
+                var tempLoc = new TextBlock();
+                var tempborder = new Border();
+                var tempstackpanel = new StackPanel();
+                var tempButton = new Button();
 
-        private void button1_Click(object sender, RoutedEventArgs e)
-        {
-            // frame.Content = navMany.reverseLoad(val1.Text, val2.Text);
-        }
+                tempborder.Style = (Style)FindResource("pp_searchResultPanelBorder");
+                tempLoc.Style = (Style)FindResource("pp_searchResultLocation");
+                dataTextBlock.Style = (Style)FindResource("pp_searchResultText");
+                tempButton.Style = (Style)FindResource("pp_dynamicItemSearchButton");
+                tempstackpanel.HorizontalAlignment = HorizontalAlignment.Left;
 
-        private void popup_MouseMove(object sender, MouseEventArgs e)
-        {
-        }
+                id = int.Parse(item.ToString());
 
-        private void alph_MouseEnter(object sender, MouseEventArgs e)
-        {
-            var mousePosition = e.GetPosition(this.alph);
-            this.alph.HorizontalOffset = mousePosition.X;
-            this.alph.VerticalOffset = mousePosition.Y;
+                id -= 20;
+
+                if (id < 0)
+                {
+                    searchDataContent.SelectionStart = 0;
+                    searchDataContent.SelectionLength = int.Parse(item.ToString());
+                }
+                else
+                {
+                    searchDataContent.SelectionStart = id;
+                    searchDataContent.SelectionLength = 20;
+                }
+
+                dataTextBlock.Text = " ... " + searchDataContent.SelectedText;
+                dataTextBlock.Inlines.Add(new Run("dizgi") { Foreground = Brushes.Red });
+
+                id = ("dizgi").Length + int.Parse(item.ToString());
+
+                searchDataContent.SelectionStart = id;
+                searchDataContent.SelectionLength = 20;
+
+                dataTextBlock.Inlines.Add(searchDataContent.SelectedText + " ... ");
+
+                tempLoc.Text = "Yorum";
+
+                tempstackpanel.Children.Add(dataTextBlock);
+                tempstackpanel.Children.Add(tempLoc);
+                tempstackpanel.Children.Add(tempButton);
+                tempborder.Child = tempstackpanel;
+
+                resultDataContent.Children.Add(tempborder);
+
+                dataTextBlock = null;
+            }
+
+            */
         }
     }
 }

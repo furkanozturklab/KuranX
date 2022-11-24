@@ -8,17 +8,17 @@ namespace KuranX.App.Core.Classes
 {
     public class Sure
     {
-        public int? sureId { get; set; }
-        public string? Name { get; set; }
-        public int? NumberOfVerses { get; set; }
-        public int? UserCheckCount { get; set; }
-        public int? UserLastRelativeVerse { get; set; }
-        public string? LandingLocation { get; set; }
-        public int? DeskLanding { get; set; }
-        public int? DeskMushaf { get; set; }
-        public int? DeskList { get; set; }
-        public string? Status { get; set; }
-        public string? Description { get; set; }
-        public Boolean? Complated { get; set; }
+        public int sureId { get; set; }
+        public string name { get; set; } = "Default";
+        public int numberOfVerses { get; set; } = 0;
+        public int userCheckCount { get; set; } = 0;
+        public int userLastRelativeVerse { get; set; } = 0;
+        public string landingLocation { get; set; } = "Default";
+        public int deskLanding { get; set; } = 0;
+        public int deskMushaf { get; set; } = 0;
+        public int deskList { get; set; } = 0;
+        public string status { get; set; } = "Default";
+        public string description { get; set; } = "Wait";
+        public bool complated { get; set; } = false;
     }
 }

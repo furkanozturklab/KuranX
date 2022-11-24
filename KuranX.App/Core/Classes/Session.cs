@@ -8,10 +8,10 @@ namespace KuranX.App.Core.Classes
 {
     public class Session
     {
-        public int SessionId { get; set; }
-        public int? UserID { get; set; }
-        public int? ReadVerseCount { get; set; }
-        public int? CurrentSureId { get; set; }
-        public int? CurrentVerseId { get; set; }
+        public int sessionId { get; set; }
+        public int? userID { get; set; }
+        public int? readVerseCount { get; set; }
+        public int? currentSureId { get; set; }
+        public int? currentVerseId { get; set; }
     }
 }

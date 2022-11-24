@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net.NetworkInformation;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -64,12 +65,12 @@ namespace KuranX.App.Core.Pages.ReminderF
 
                 if (filter)
                 {
-                    dRemider = entitydb.Remider.Where(p => p.LoopType == filterText).OrderBy(p => p.Priority).Skip(lastPage).Take(6).ToList();
+                    dRemider = entitydb.Remider.Where(p => p.loopType == filterText).OrderBy(p => p.priority).Skip(lastPage).Take(6).ToList();
                     totalcount = dRemider.Count;
                 }
                 else
                 {
-                    dRemider = entitydb.Remider.OrderBy(p => p.Priority).Skip(lastPage).Take(6).ToList();
+                    dRemider = entitydb.Remider.OrderBy(p => p.priority).Skip(lastPage).Take(6).ToList();
                 }
 
                 for (int x = 1; x <= 6; x++)
@@ -93,12 +94,12 @@ namespace KuranX.App.Core.Pages.ReminderF
                         var sColor2 = (Border)FindName("cbBtTypeColor" + i);
                         var sBtnStat = (TextBlock)FindName("cbStatus" + i);
 
-                        switch (item.LoopType)
+                        switch (item.loopType)
                         {
                             case "False":
                                 sColor.Background = new BrushConverter().ConvertFrom("#ffc107") as SolidColorBrush;
                                 sColor2.Background = new BrushConverter().ConvertFrom("#ffc107") as SolidColorBrush;
-                                sBtnStat.Text = item.RemiderDate.ToString("d") + " Tarihin de Hatırlatılacak";
+                                sBtnStat.Text = item.remiderDate.ToString("d") + " Tarihin de Hatırlatılacak";
                                 break;
 
                             case "Gün":
@@ -131,10 +132,10 @@ namespace KuranX.App.Core.Pages.ReminderF
                         var sBtnDel = (Button)FindName("cbBtnDel" + i);
                         var sBtnGo = (Button)FindName("cbBtnGo" + i);
 
-                        sName.Text = item.RemiderName;
-                        sDetail.Text = item.RemiderDetail;
-                        sBtnDel.Uid = item.RemiderId.ToString();
-                        sBtnGo.Uid = item.RemiderId.ToString();
+                        sName.Text = item.remiderName;
+                        sDetail.Text = item.remiderDetail;
+                        sBtnDel.Uid = item.remiderId.ToString();
+                        sBtnGo.Uid = item.remiderId.ToString();
 
                         var sbItem = (Border)FindName("cb" + i);
                         sbItem.Visibility = Visibility.Visible;
@@ -270,8 +271,8 @@ namespace KuranX.App.Core.Pages.ReminderF
                                     {
                                         var newRemider = new Remider();
 
-                                        if (sId.Text != "0") newRemider = new Remider { ConnectSureId = int.Parse(sId.Text), ConnectVerseId = int.Parse(vId.Text), RemiderDate = (DateTime)remiderDay.SelectedDate, RemiderDetail = remiderDetail.Text, RemiderName = remiderName.Text, Create = DateTime.Now, Priority = 1, LastAction = DateTime.Now };
-                                        else newRemider = new Remider { ConnectSureId = 0, ConnectVerseId = 0, RemiderDate = (DateTime)remiderDay.SelectedDate, RemiderDetail = remiderDetail.Text, RemiderName = remiderName.Text, Create = DateTime.Now, Priority = 1, LastAction = DateTime.Now };
+                                        if (sId.Text != "0") newRemider = new Remider { connectSureId = int.Parse(sId.Text), connectVerseId = int.Parse(vId.Text), remiderDate = (DateTime)remiderDay.SelectedDate, remiderDetail = remiderDetail.Text, remiderName = remiderName.Text, create = DateTime.Now, priority = 1, lastAction = DateTime.Now };
+                                        else newRemider = new Remider { connectSureId = 0, connectVerseId = 0, remiderDate = (DateTime)remiderDay.SelectedDate, remiderDetail = remiderDetail.Text, remiderName = remiderName.Text, create = DateTime.Now, priority = 1, lastAction = DateTime.Now };
 
                                         entitydb.Remider.Add(newRemider);
                                         entitydb.SaveChanges();
@@ -280,6 +281,11 @@ namespace KuranX.App.Core.Pages.ReminderF
                                         popup_remiderAddPopup.IsOpen = false;
                                         remiderName.Text = "";
                                         remiderDetail.Text = "";
+                                        remiderConnectVerse.Text = "Ayet Secilmemiş";
+
+                                        sId.Text = "0";
+                                        vId.Text = "0";
+
                                         remiderDay.SelectedDate = null;
                                         App.loadTask = Task.Run(() => loadItem());
                                     }
@@ -318,7 +324,7 @@ namespace KuranX.App.Core.Pages.ReminderF
                                                 pr = 5;
                                                 break;
                                         }
-                                        var newRemider = new Remider { ConnectSureId = 0, ConnectVerseId = 0, RemiderDate = new DateTime(1, 1, 1, 0, 0, 0, 0), RemiderDetail = remiderDetail.Text, RemiderName = remiderName.Text, Create = DateTime.Now, LoopType = ditem.Uid.ToString(), Status = "Run", Priority = pr, LastAction = DateTime.Now };
+                                        var newRemider = new Remider { connectSureId = 0, connectVerseId = 0, remiderDate = new DateTime(1, 1, 1, 0, 0, 0, 0), remiderDetail = remiderDetail.Text, remiderName = remiderName.Text, create = DateTime.Now, loopType = ditem.Uid.ToString(), status = "Wait", priority = pr, lastAction = DateTime.Now };
 
                                         entitydb.Remider.Add(newRemider);
                                         entitydb.SaveChanges();
@@ -327,6 +333,9 @@ namespace KuranX.App.Core.Pages.ReminderF
                                         popup_remiderAddPopup.IsOpen = false;
                                         remiderName.Text = "";
                                         remiderDetail.Text = "";
+                                        remiderConnectVerse.Text = "Ayet Secilmemiş";
+                                        sId.Text = "0";
+                                        vId.Text = "0";
                                         loopSelectedType.SelectedIndex = 0;
 
                                         App.loadTask = Task.Run(() => loadItem());
@@ -388,8 +397,8 @@ namespace KuranX.App.Core.Pages.ReminderF
             {
                 using (var entitydb = new AyetContext())
                 {
-                    entitydb.Remider.RemoveRange(entitydb.Remider.Where(p => p.RemiderId == selectedId));
-                    entitydb.Tasks.RemoveRange(entitydb.Tasks.Where(p => p.MissonsId == selectedId));
+                    entitydb.Remider.RemoveRange(entitydb.Remider.Where(p => p.remiderId == selectedId));
+                    entitydb.Tasks.RemoveRange(entitydb.Tasks.Where(p => p.missonsId == selectedId));
                     entitydb.SaveChanges();
                     popup_DeleteConfirm.IsOpen = false;
                     succsessFunc("Hatırlatıcı Silme Başarılı", "Hatırlatıcı başaralı bir sekilde silinmiştir.", 3);

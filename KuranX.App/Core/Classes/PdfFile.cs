@@ -8,14 +8,12 @@ namespace KuranX.App.Core.Classes
 {
     public class PdfFile
     {
-        public int PdfFileId { get; set; }
-
-        public string FileName { get; set; }
-        public string FileUrl { get; set; }
-        public string FileSize { get; set; }
-        public string FileType { get; set; }
-
-        public DateTime Created { get; set; } = DateTime.Now;
-        public DateTime Modify { get; set; } = DateTime.Now;
+        public int pdfFileId { get; set; }
+        public string fileName { get; set; }
+        public string fileUrl { get; set; }
+        public string fileSize { get; set; }
+        public string fileType { get; set; }
+        public DateTime created { get; set; } = DateTime.Now;
+        public DateTime modify { get; set; } = DateTime.Now;
     }
 }

@@ -138,14 +138,14 @@ namespace KuranX.App.Core.Pages.LoginF
                             using (var db = new AyetContext())
                             {
                                 var User = new User();
-                                var checkuser = db.Users.Where(u => u.Email == rgstUserEmail.Text).FirstOrDefault();
+                                var checkuser = db.Users.Where(u => u.email == rgstUserEmail.Text).FirstOrDefault();
 
                                 if (checkuser == null)
                                 {
-                                    User.Email = rgstUserEmail.Text.ToString();
-                                    User.Password = rgstUserPsw.Password.ToString();
-                                    User.CreateDate = DateTime.Now;
-                                    User.UpdateDate = DateTime.Now;
+                                    User.email = rgstUserEmail.Text.ToString();
+                                    User.password = rgstUserPsw.Password.ToString();
+                                    User.createDate = DateTime.Now;
+                                    User.updateDate = DateTime.Now;
                                     db.Users.Add(User);
                                     db.SaveChanges();
 

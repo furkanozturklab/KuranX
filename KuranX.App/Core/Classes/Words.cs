@@ -8,10 +8,10 @@ namespace KuranX.App.Core.Classes
 {
     public class Words
     {
-        public int WordsId { get; set; }
-        public int? VerseId { get; set; }
-        public int? SureId { get; set; }
-        public string? WordText { get; set; }
-        public string? WordRe { get; set; }
+        public int wordsId { get; set; }
+        public int? verseId { get; set; }
+        public int? sureId { get; set; }
+        public string? wordText { get; set; }
+        public string? wordRe { get; set; }
     }
 }

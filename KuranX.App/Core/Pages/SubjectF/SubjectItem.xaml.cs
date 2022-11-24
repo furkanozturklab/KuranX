@@ -54,23 +54,23 @@ namespace KuranX.App.Core.Pages.SubjectF
             using (var entitydb = new AyetContext())
             {
                 loadAni();
-                var dSub = entitydb.Subject.Where(p => p.SubjectId == SubID).First();
-                subItemsId = entitydb.SubjectItems.Where(p => p.SubjectId == subId).First().SubjectItemsId;
-                var dSure = entitydb.Sure.Where(p => p.sureId == SureId).Select(p => new Sure { Name = p.Name }).First();
-                var dVerse = entitydb.Verse.Where(p => p.SureId == SureId && p.RelativeDesk == VerseId).First();
+                var dSub = entitydb.Subject.Where(p => p.subjectId == SubID).First();
+                subItemsId = entitydb.SubjectItems.Where(p => p.subjectId == subId).First().subjectItemsId;
+                var dSure = entitydb.Sure.Where(p => p.sureId == SureId).Select(p => new Sure { name = p.name }).First();
+                var dVerse = entitydb.Verse.Where(p => p.sureId == SureId && p.relativeDesk == VerseId).First();
 
                 this.Dispatcher.Invoke(() =>
                 {
-                    loadBgColor.Background = (SolidColorBrush)new BrushConverter().ConvertFrom(dSub.SubjectColor);
-                    loadHeader.Text = dSub.SubjectName;
-                    loadCreated.Text = dSub.Created.ToString("D");
-                    loadBackHeader.Text = $"{dSure.Name} Suresinin {VerseId} Ayeti";
+                    loadBgColor.Background = (SolidColorBrush)new BrushConverter().ConvertFrom(dSub.subjectColor);
+                    loadHeader.Text = dSub.subjectName;
+                    loadCreated.Text = dSub.created.ToString("D");
+                    loadBackHeader.Text = $"{dSure.name} Suresinin {VerseId} Ayeti";
 
                     App.mainScreen.navigationWriter("subject", loadHeader.Text + "," + loadBackHeader.Text);
 
-                    loadVerseTr.Text = dVerse.VerseTr;
-                    loadVerseArb.Text = dVerse.VerseArabic;
-                    sverseId = (int)dVerse.VerseId;
+                    loadVerseTr.Text = dVerse.verseTr;
+                    loadVerseArb.Text = dVerse.verseArabic;
+                    sverseId = (int)dVerse.verseId;
                     loadInterpreterFunc("", sverseId);
                 });
                 Thread.Sleep(200);
@@ -122,7 +122,7 @@ namespace KuranX.App.Core.Pages.SubjectF
             {
                 using (var entitydb = new AyetContext())
                 {
-                    var dNotes = entitydb.Notes.Where(p => p.SureId == sSureId && p.VerseId == verseId && p.NoteLocation == "Konularım").ToList();
+                    var dNotes = entitydb.Notes.Where(p => p.sureId == sSureId && p.verseId == verseId && p.noteLocation == "Konularım").ToList();
                     var dTempNotes = new List<Notes>();
                     int i = 1;
 
@@ -217,7 +217,7 @@ namespace KuranX.App.Core.Pages.SubjectF
 
                 using (var entitydb = new AyetContext())
                 {
-                    // var dWords = entitydb.Words.Where(p => p.SureId == dSure[0].sureId).Where(p => p.VerseId == dVerse[0].VerseId).ToList();
+                    // var dWords = entitydb.Words.Where(p => p.sureId == dSure[0].sureId).Where(p => p.verseId == dVerse[0].VerseId).ToList();
 
                     //DATA DÜZELTİLECEK
 
@@ -357,13 +357,13 @@ namespace KuranX.App.Core.Pages.SubjectF
                             {
                                 using (var entitydb = new AyetContext())
                                 {
-                                    if (entitydb.Notes.Where(p => p.NoteHeader == noteName.Text && p.SureId == sSureId && p.VerseId == verseId).FirstOrDefault() != null)
+                                    if (entitydb.Notes.Where(p => p.noteHeader == noteName.Text && p.sureId == sSureId && p.verseId == verseId).FirstOrDefault() != null)
                                     {
                                         alertFunc("Not Ekleme Başarısız", "Aynı isimde not eklemiş olabilirsiniz lütfen kontrol edip yeniden deneyiniz.", 3);
                                     }
                                     else
                                     {
-                                        var dNotes = new Notes { NoteHeader = noteName.Text, NoteDetail = noteDetail.Text, SureId = sSureId, VerseId = verseId, Modify = DateTime.Now, Created = DateTime.Now, NoteLocation = "Konularım", SubjectId = subItemsId };
+                                        var dNotes = new Notes { noteHeader = noteName.Text, noteDetail = noteDetail.Text, sureId = sSureId, verseId = verseId, modify = DateTime.Now, created = DateTime.Now, noteLocation = "Konularım", subjectId = subItemsId };
                                         entitydb.Notes.Add(dNotes);
                                         entitydb.SaveChanges();
                                         succsessFunc("Not Ekleme Başarılı", loadBackHeader.Text + " Not Eklendiniz.", 3);
@@ -394,7 +394,7 @@ namespace KuranX.App.Core.Pages.SubjectF
                 popup_notesAllShowPopup.IsOpen = true;
                 using (var entitydb = new AyetContext())
                 {
-                    var dNotes = entitydb.Notes.Where(p => p.SureId == sSureId && p.VerseId == verseId).ToList();
+                    var dNotes = entitydb.Notes.Where(p => p.sureId == sSureId && p.verseId == verseId).ToList();
                     foreach (var item in dNotes)
                     {
                         var itemsStack = new StackPanel();
@@ -409,10 +409,10 @@ namespace KuranX.App.Core.Pages.SubjectF
                         allshowButton.Style = (Style)FindResource("pp_dynamicItemShowButton");
                         sp.Style = (Style)FindResource("pp_dynamicItemShowSperator");
 
-                        headerText.Text = item.NoteHeader.ToString();
-                        noteText.Text = item.NoteDetail.ToString();
-                        allshowButton.Uid = item.NotesId.ToString();
-                        allshowButton.Content = item.NoteDetail.ToString();
+                        headerText.Text = item.noteHeader.ToString();
+                        noteText.Text = item.noteDetail.ToString();
+                        allshowButton.Uid = item.notesId.ToString();
+                        allshowButton.Content = item.noteDetail.ToString();
 
                         allshowButton.Click += notesDetailPopup_Click;
 

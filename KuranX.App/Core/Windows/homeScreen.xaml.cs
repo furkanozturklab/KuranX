@@ -14,6 +14,7 @@ using System.Windows.Threading;
 
 using KuranX.App.Core.Classes;
 using KuranX.App.Core.Pages;
+using Microsoft.EntityFrameworkCore;
 
 namespace KuranX.App.Core.Windows
 {
@@ -22,13 +23,10 @@ namespace KuranX.App.Core.Windows
     /// </summary>
     public partial class homeScreen : Window
     {
-        private Task lifeCyclesTask, configTask, menuLTask;
         private CheckBox? navCheckBox;
-
-#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+        private bool taskstatus = true;
 
         public homeScreen()
-#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         {
             InitializeComponent();
 
@@ -50,29 +48,26 @@ namespace KuranX.App.Core.Windows
                     // hmwd_profileImageBrush.ImageSource = (ImageSource)FindResource(user.AvatarUrl);
                 }
 
-                welcoming();
-                navigationWriter("verse", "");
+                // BAŞARILI CALIŞAN
 
-                configTask = new Task(config_Func);
-                configTask.Start();
+                App.mainTask = Task.Run(() => welcoming());
+                App.mainTask = Task.Run(() => navigationWriter("verse", ""));
+                App.mainTask = Task.Run(() => remiderCycler_Func());
 
-                configTask.Wait();
+                App.mainTask.Wait();
 
-                lifeCyclesTask = new Task(tasksCycler_Func);
-                lifeCyclesTask.Start();
+                if (taskstatus) App.mainTask = Task.Run(() => tasksCycler_Func());
+
+                //App.mainframe.Content = App.navTestPage.PageCall();
+                App.mainframe.Content = App.navVersePage.PageCall(1, 1, "other");
             }
             catch (Exception ex)
             {
                 App.logWriter("LoadedFunc", ex);
             }
-
-            App.mainframe.Content = App.navSurePage.PageCall();
-
-            loadinGifContent.Visibility = Visibility.Hidden;
-            rightPanel.Visibility = Visibility.Visible;
         }
 
-        private void homeFrame_Navigated(object sender, System.Windows.Navigation.NavigationEventArgs e)
+        private void homeFrame_Navigated(object sender, NavigationEventArgs e)
         {
         }
 
@@ -80,41 +75,36 @@ namespace KuranX.App.Core.Windows
 
         // ------------ Special Func  ------------ //
 
-        private void config_Func()
-        {
-            try
-            {
-                lifeCyclesTask = new Task(remiderCycler_Func);
-                lifeCyclesTask.Start();
-            }
-            catch (Exception ex)
-            {
-                App.logWriter("SpecialFunc", ex);
-            }
-        }
-
         private void remiderCycler_Func()
         {
             // APP LİFECYCLER MİSSİONS
+
             try
             {
                 using (var entitydb = new AyetContext())
                 {
-                    var dRemider = entitydb.Remider.Where(p => p.LastAction < DateTime.Now && p.Status == "Run").ToList();
+                    var dRemider = entitydb.Remider.Where(p => p.lastAction < DateTime.Now && p.status == "Wait" || p.status == "Run").ToList();
 
                     foreach (var item in dRemider)
                     {
-                        switch (item.LoopType)
+                        if (item.remiderDate < DateTime.Now && item.status == "Added")
+                        {
+                            entitydb.Remider.RemoveRange(entitydb.Remider.Where(p => p.remiderId == item.remiderId));
+                            entitydb.SaveChanges();
+                            continue;
+                        }
+
+                        switch (item.loopType)
                         {
                             case "False":
-                                if (item.RemiderDate.ToString("d") == DateTime.Now.ToString("d") && item.LastAction.ToString("d") != DateTime.Now.ToString("d"))
+                                if (item.remiderDate.ToString("d") == DateTime.Now.ToString("d") && item.lastAction.ToString("d") != DateTime.Now.ToString("d"))
                                 {
-                                    if (entitydb.Tasks.Where(p => p.MissonsId == item.RemiderId && p.MissonsType == "Remider").Count() == 0)
+                                    if (entitydb.Tasks.Where(p => p.missonsId == item.remiderId && p.missonsType == "Remider").Count() == 0)
                                     {
-                                        entitydb.Remider.Where(p => p.RemiderId == item.RemiderId)
-                                                        .FirstOrDefault().LastAction = DateTime.Now;
+                                        entitydb.Remider.Where(p => p.remiderId == item.remiderId).FirstOrDefault().lastAction = DateTime.Now;
+                                        var newD = new Tasks { missonsId = item.remiderId, missonsColor = "#ffc107", missonsRepeart = 5, missonsTime = 5, missonsType = "Remider" };
 
-                                        var newD = new Tasks { MissonsId = item.RemiderId, MissonsColor = "#ffc107", MissonsRepeart = 5, MissonsTime = 5, MissonsType = "Remider" };
+                                        entitydb.Remider.Where(p => p.remiderId == item.remiderId).First().status = "Added";
                                         entitydb.Tasks.Add(newD);
                                     }
                                 }
@@ -122,13 +112,14 @@ namespace KuranX.App.Core.Windows
 
                             case "Gün":
 
-                                if (item.LastAction.AddDays(1).ToString("d") == DateTime.Now.ToString("d"))
+                                if (item.lastAction.AddDays(1).ToString("d") == DateTime.Now.ToString("d"))
                                 {
-                                    if (entitydb.Tasks.Where(p => p.MissonsId == item.RemiderId && p.MissonsType == "Remider").Count() == 0)
+                                    if (entitydb.Tasks.Where(p => p.missonsId == item.remiderId && p.missonsType == "Remider").Count() == 0)
                                     {
-                                        entitydb.Remider.Where(p => p.RemiderId == item.RemiderId).FirstOrDefault().LastAction = DateTime.Now;
+                                        entitydb.Remider.Where(p => p.remiderId == item.remiderId).FirstOrDefault().lastAction = DateTime.Now;
 
-                                        var newD = new Tasks { MissonsId = item.RemiderId, MissonsColor = "#d63384", MissonsRepeart = 5, MissonsTime = 5, MissonsType = "Remider" };
+                                        var newD = new Tasks { missonsId = item.remiderId, missonsColor = "#d63384", missonsRepeart = 5, missonsTime = 5, missonsType = "Remider" };
+                                        entitydb.Remider.Where(p => p.remiderId == item.remiderId).First().status = "Run";
                                         entitydb.Tasks.Add(newD);
                                     }
                                 }
@@ -136,50 +127,46 @@ namespace KuranX.App.Core.Windows
 
                             case "Hafta":
 
-                                if (item.LastAction.AddDays(7).ToString("d") == DateTime.Now.ToString("d"))
+                                if (item.lastAction.AddDays(7).ToString("d") == DateTime.Now.ToString("d"))
                                 {
-                                    if (entitydb.Tasks.Where(p => p.MissonsId == item.RemiderId && p.MissonsType == "Remider").Count() == 0)
+                                    if (entitydb.Tasks.Where(p => p.missonsId == item.remiderId && p.missonsType == "Remider").Count() == 0)
                                     {
-                                        entitydb.Remider.Where(p => p.RemiderId == item.RemiderId).FirstOrDefault().LastAction = DateTime.Now;
+                                        entitydb.Remider.Where(p => p.remiderId == item.remiderId).FirstOrDefault().lastAction = DateTime.Now;
 
-                                        var newD = new Tasks { MissonsId = item.RemiderId, MissonsColor = "#0d6efd", MissonsRepeart = 5, MissonsTime = 5, MissonsType = "Remider" };
+                                        var newD = new Tasks { missonsId = item.remiderId, missonsColor = "#0d6efd", missonsRepeart = 5, missonsTime = 5, missonsType = "Remider" };
+                                        entitydb.Remider.Where(p => p.remiderId == item.remiderId).First().status = "Run";
                                         entitydb.Tasks.Add(newD);
                                     }
                                 }
                                 break;
 
                             case "Ay":
-                                if (item.LastAction.AddMonths(1).ToString("d") == DateTime.Now.ToString("d"))
+                                if (item.lastAction.AddMonths(1).ToString("d") == DateTime.Now.ToString("d"))
                                 {
-                                    if (entitydb.Tasks.Where(p => p.MissonsId == item.RemiderId && p.MissonsType == "Remider").Count() == 0)
+                                    if (entitydb.Tasks.Where(p => p.missonsId == item.remiderId && p.missonsType == "Remider").Count() == 0)
                                     {
-                                        entitydb.Remider.Where(p => p.RemiderId == item.RemiderId).FirstOrDefault().LastAction = DateTime.Now;
+                                        entitydb.Remider.Where(p => p.remiderId == item.remiderId).FirstOrDefault().lastAction = DateTime.Now;
 
-                                        var newD = new Tasks { MissonsId = item.RemiderId, MissonsColor = "#0dcaf0", MissonsRepeart = 5, MissonsTime = 5, MissonsType = "Remider" };
+                                        var newD = new Tasks { missonsId = item.remiderId, missonsColor = "#0dcaf0", missonsRepeart = 5, missonsTime = 5, missonsType = "Remider" };
+                                        entitydb.Remider.Where(p => p.remiderId == item.remiderId).First().status = "Run";
                                         entitydb.Tasks.Add(newD);
                                     }
                                 }
                                 break;
 
                             case "Yıl":
-                                if (item.LastAction.AddYears(1).ToString("d") == DateTime.Now.ToString("d"))
+                                if (item.lastAction.AddYears(1).ToString("d") == DateTime.Now.ToString("d"))
                                 {
-                                    if (entitydb.Tasks.Where(p => p.MissonsId == item.RemiderId && p.MissonsType == "Remider").Count() == 0)
+                                    if (entitydb.Tasks.Where(p => p.missonsId == item.remiderId && p.missonsType == "Remider").Count() == 0)
                                     {
-                                        entitydb.Remider.Where(p => p.RemiderId == item.RemiderId).FirstOrDefault().LastAction = DateTime.Now;
+                                        entitydb.Remider.Where(p => p.remiderId == item.remiderId).FirstOrDefault().lastAction = DateTime.Now;
 
-                                        var newD = new Tasks { MissonsId = item.RemiderId, MissonsColor = "#6610f2", MissonsRepeart = 5, MissonsTime = 5, MissonsType = "Remider" };
+                                        var newD = new Tasks { missonsId = item.remiderId, missonsColor = "#6610f2", missonsRepeart = 5, missonsTime = 5, missonsType = "Remider" };
+                                        entitydb.Remider.Where(p => p.remiderId == item.remiderId).First().status = "Run";
                                         entitydb.Tasks.Add(newD);
                                     }
                                 }
                                 break;
-                        }
-
-                        if (item.RemiderDate != DateTime.Parse("0001-01-01 00:00:00") && item.RemiderDate < DateTime.Now)
-                        {
-                            entitydb.Remider.RemoveRange(entitydb.Remider.Where(p => p.RemiderId == item.RemiderId));
-
-                            entitydb.Verse.Where(p => p.RelativeDesk == item.ConnectVerseId && p.SureId == item.ConnectSureId).FirstOrDefault().RemiderCheck = false;
                         }
 
                         entitydb.SaveChanges();
@@ -196,6 +183,8 @@ namespace KuranX.App.Core.Windows
         {
             try
             {
+                taskstatus = true;
+
                 using (var entitydb = new AyetContext())
                 {
                     while (true)
@@ -204,37 +193,41 @@ namespace KuranX.App.Core.Windows
 
                         foreach (var item in TasksLoad)
                         {
+                            // 5sn sonra sıradaki göreve geç
                             Thread.Sleep(5000); // 5 sn // 10 sn // 30 sn // 60 sn // 120 sn // 240 sn // Sırdaki göreve gecme süresi
-                            var dRemider = entitydb.Remider.Where(p => p.RemiderId == item.MissonsId).FirstOrDefault();
+
+                            var dRemider = entitydb.Remider.Where(p => p.remiderId == item.missonsId).FirstOrDefault();
 
                             if (dRemider != null)
                             {
-                                entitydb.Tasks.Where(p => p.MissonsId == dRemider.RemiderId).FirstOrDefault().MissonsRepeart--;
+                                entitydb.Tasks.Where(p => p.missonsId == dRemider.remiderId).First().missonsRepeart--;
 
-                                if (entitydb.Tasks.Where(p => p.MissonsId == dRemider.RemiderId).FirstOrDefault().MissonsRepeart == 0) entitydb.Tasks.RemoveRange(entitydb.Tasks.Where(p => p.TasksId == item.TasksId));
+                                if (entitydb.Tasks.Where(p => p.missonsId == dRemider.remiderId).First().missonsRepeart == 0) entitydb.Tasks.RemoveRange(entitydb.Tasks.Where(p => p.tasksId == item.tasksId));
 
                                 entitydb.SaveChanges();
 
                                 this.Dispatcher.Invoke(() =>
                                 {
                                     lifeCyclerPopups.IsOpen = true;
-                                    lifeCyclerPopupsText.Text = dRemider.RemiderName;
-                                    lifePopupGoActionButton.Uid = dRemider.RemiderId.ToString();
+
+                                    lifeCyclerPopupsText.Text = dRemider.remiderName;
+                                    lifePopupGoActionButton.Uid = dRemider.remiderId.ToString();
                                     lifePopupGoActionButton.Tag = "Remider";
-                                    if (dRemider.ConnectSureId == 0) lifePopupGoDobuleActionButton.Visibility = Visibility.Collapsed;
+                                    if (dRemider.connectSureId == 0)
+                                    {
+                                        lifePopupGoDobuleActionButton.Visibility = Visibility.Hidden;
+                                    }
                                     else
                                     {
                                         lifePopupGoDobuleActionButton.Visibility = Visibility.Visible;
-                                        lifeCyclerPopupsTxtStck.Width = 230;
-                                        lifeCyclerPopupsActStck.Width = 80;
-                                        lifePopupGoDobuleActionButton.Uid = dRemider.RemiderId.ToString();
+                                        lifePopupGoDobuleActionButton.Uid = dRemider.remiderId.ToString();
                                     }
-#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
-                                    lifeCyclerPopupBorder.Background = (SolidColorBrush)new BrushConverter().ConvertFrom(item.MissonsColor);
-#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
+
+                                    lifeCyclerPopupBorder.Background = new BrushConverter().ConvertFrom(item.missonsColor) as SolidColorBrush;
                                 });
 
-                                Thread.Sleep(10000); // 5 sn // 10 sn // 30 sn // 60 sn // 120 sn // 240 sn // Ekranda bekleme süresi
+                                // Missiontime * 10000 -> Mission time 5 -> 5*10000 = 50000mm -> 50 sn
+                                Thread.Sleep(item.missonsTime * 10000); // 5 sn // 10 sn // 30 sn // 60 sn // 120 sn // 240 sn // Ekranda bekleme süresi
 
                                 this.Dispatcher.Invoke(() =>
                                 {
@@ -245,7 +238,11 @@ namespace KuranX.App.Core.Windows
                                 });
                             }
                         }
-                        if (TasksLoad.Count == 0) break;
+                        if (TasksLoad.Count == 0)
+                        {
+                            taskstatus = false;
+                            break;
+                        }
                     }
                 }
             }
@@ -261,10 +258,13 @@ namespace KuranX.App.Core.Windows
             {
                 int i = DateTime.Now.Hour;
 
-                if (i >= 0 && i <= 7) hmwnd_headerH2.Text = "İyi Geceler";
-                if (i > 7 && i <= 11) hmwnd_headerH2.Text = "İyi Sabahlar";
-                if (i > 11 && i <= 18) hmwnd_headerH2.Text = "İyi Günler";
-                if (i > 18 && i <= 24) hmwnd_headerH2.Text = "İyi Akşamlar";
+                this.Dispatcher.Invoke(() =>
+                {
+                    if (i >= 0 && i <= 7) hmwnd_headerH2.Text = "İyi Geceler";
+                    if (i > 7 && i <= 11) hmwnd_headerH2.Text = "İyi Sabahlar";
+                    if (i > 11 && i <= 18) hmwnd_headerH2.Text = "İyi Günler";
+                    if (i > 18 && i <= 24) hmwnd_headerH2.Text = "İyi Akşamlar";
+                });
             }
             catch (Exception ex)
             {
@@ -348,8 +348,6 @@ namespace KuranX.App.Core.Windows
         {
             try
             {
-                Debug.WriteLine("Menu Task ??");
-
                 if (this.Dispatcher.Invoke(() => App.mainframe.Content.ToString().Split('.').Last() == "verseFrame"))
                 {
                     // eğer verseFrame de isem çalış
@@ -430,7 +428,6 @@ namespace KuranX.App.Core.Windows
                         case "Ayetler":
                             this.Dispatcher.Invoke(() =>
                             {
-                                Debug.WriteLine("Load????");
                                 App.currentDesktype = "DeskLanding";
                                 App.mainframe.Content = App.navSurePage.PageCall();
                             });
@@ -539,9 +536,9 @@ namespace KuranX.App.Core.Windows
 
                 using (var entitydb = new AyetContext())
                 {
-                    var dRemider = entitydb.Remider.Where(p => p.RemiderId == int.Parse(btn.Uid)).FirstOrDefault();
+                    var dRemider = entitydb.Remider.Where(p => p.remiderId == int.Parse(btn.Uid)).FirstOrDefault();
 
-                    //if (dRemider != null && dRemider.ConnectSureId != 0) App.mainframe.Content = new Pages.ReminderF.RemiderItem(dRemider.RemiderId);
+                    if (dRemider != null) App.mainframe.Content = App.navRemiderItem.PageCall(dRemider.remiderId);
 
                     lifeCyclerPopups.IsOpen = false;
                 }
@@ -550,6 +547,32 @@ namespace KuranX.App.Core.Windows
             {
                 App.logWriter("ClickFunc", ex);
             }
+        }
+
+        private void popupActionDouble_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var btn = sender as Button;
+
+                using (var entitydb = new AyetContext())
+                {
+                    var dRemider = entitydb.Remider.Where(p => p.remiderId == int.Parse(btn.Uid)).FirstOrDefault();
+
+                    if (dRemider != null && dRemider.connectSureId != 0) App.mainframe.Content = App.navVersePage.PageCall(dRemider.connectSureId, dRemider.connectVerseId, "Remider");
+
+                    lifeCyclerPopups.IsOpen = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("ClickFunc", ex);
+            }
+        }
+
+        private void popupExit_Click(object sender, RoutedEventArgs e)
+        {
+            lifeCyclerPopups.IsOpen = false;
         }
 
         private void hmwnd_sizeControl_Click(object sender, RoutedEventArgs e)
@@ -583,30 +606,8 @@ namespace KuranX.App.Core.Windows
             }
         }
 
-        private void popupActionDouble_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                var btn = sender as Button;
-
-                using (var entitydb = new AyetContext())
-                {
-                    var dRemider = entitydb.Remider.Where(p => p.RemiderId == int.Parse(btn.Uid)).FirstOrDefault();
-
-                    if (dRemider != null && dRemider.ConnectSureId != 0) App.mainframe.Content = App.navVersePage.PageCall(dRemider.ConnectSureId, dRemider.ConnectVerseId, "Remider");
-
-                    lifeCyclerPopups.IsOpen = false;
-                }
-            }
-            catch (Exception ex)
-            {
-                App.logWriter("ClickFunc", ex);
-            }
-        }
-
         private void fastexitBtn_Click(object sender, RoutedEventArgs e)
         {
-            Debug.WriteLine("FAST CLİCK ? ");
             popup_fastExitConfirm.IsOpen = false;
 
             foreach (object item in hmwnd_leftNavControlStack.Children)

@@ -9,12 +9,12 @@ namespace KuranX.App.Core.Classes
 {
     public class Result
     {
-        public int ResultId { get; set; }
-        public string ResultName { get; set; }
-        public bool ResultLib { get; set; }
-        public bool ResultNotes { get; set; }
-        public bool ResultSubject { get; set; }
-        public string ResultStatus { get; set; }
-        public string ResultFinallyNote { get; set; }
+        public int resultId { get; set; }
+        public string resultName { get; set; }
+        public bool resultLib { get; set; }
+        public bool resultNotes { get; set; }
+        public bool resultSubject { get; set; }
+        public string resultStatus { get; set; }
+        public string resultFinallyNote { get; set; }
     }
 }

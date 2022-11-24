@@ -62,17 +62,17 @@ namespace KuranX.App.Core.Pages.NoteF
         {
             using (var entitydb = new AyetContext())
             {
-                var dNote = entitydb.Notes.Where(p => p.NotesId == noteId).FirstOrDefault();
+                var dNote = entitydb.Notes.Where(p => p.notesId == noteId).FirstOrDefault();
 
                 loadAni();
                 this.Dispatcher.Invoke(() =>
                 {
                     infoText.Text = "";
-                    loadHeader.Text = dNote.NoteHeader;
-                    loadCreate.Text = dNote.Created.ToString("D");
-                    loadLocation.Text = dNote.NoteLocation;
-                    loadNoteDetail.Text = dNote.NoteDetail;
-                    switch (dNote.NoteLocation)
+                    loadHeader.Text = dNote.noteHeader;
+                    loadCreate.Text = dNote.created.ToString("D");
+                    loadLocation.Text = dNote.noteLocation;
+                    loadNoteDetail.Text = dNote.noteDetail;
+                    switch (dNote.noteLocation)
                     {
                         case "Konularım":
                             noteType.Background = new BrushConverter().ConvertFrom("#FD7E14") as SolidColorBrush;
@@ -103,48 +103,48 @@ namespace KuranX.App.Core.Pages.NoteF
                     App.mainScreen.navigationWriter("notes", "Kullanıcı Notu");
 
                     // Sure Bağlanmış
-                    if (dNote.SureId != 0)
+                    if (dNote.sureId != 0)
                     {
                         gotoVerseButton.IsEnabled = true;
                         gotoVerseButton.Content = "Ayete Git";
                         gotoVerseButton.Tag = "ArrowRight";
-                        var dSure = entitydb.Sure.Where(p => p.sureId == dNote.SureId).FirstOrDefault();
+                        var dSure = entitydb.Sure.Where(p => p.sureId == dNote.sureId).FirstOrDefault();
                         App.mainScreen.navigationWriter("notes", "Sure Notu");
-                        infoText.Text = "Not Aldığınız Ayet " + Environment.NewLine + dSure.Name + " suresini " + dNote.VerseId + " ayeti";
+                        infoText.Text = "Not Aldığınız Ayet " + Environment.NewLine + dSure.name + " suresini " + dNote.verseId + " ayeti";
                         cSr = (int)dSure.sureId;
-                        cVr = (int)dNote.VerseId;
+                        cVr = (int)dNote.verseId;
                         gototype = "Verse";
                     }
 
                     // PDF Bağlanmış
-                    if (dNote.PdfFileId != 0)
+                    if (dNote.pdfFileId != 0)
                     {
                         gotoVerseButton.IsEnabled = true;
                         gotoVerseButton.Content = "Pdf e Git";
                         gotoVerseButton.Tag = "ArrowRight";
                         gotoVerseButton.Style = (Style)FindResource("defaultActionButonBstrpRed");
                         App.mainScreen.navigationWriter("notes", "Pdf Notu");
-                        var dPdf = entitydb.PdfFile.Where(p => p.PdfFileId == dNote.PdfFileId).FirstOrDefault();
-                        infoText.Text = "Not Aldığınız Dosya " + Environment.NewLine + dPdf.FileName;
-                        cPd = (int)dNote.PdfFileId;
+                        var dPdf = entitydb.PdfFile.Where(p => p.pdfFileId == dNote.pdfFileId).FirstOrDefault();
+                        infoText.Text = "Not Aldığınız Dosya " + Environment.NewLine + dPdf.fileName;
+                        cPd = (int)dNote.pdfFileId;
                         gototype = "Pdf";
                     }
 
                     // Konu Bağlanmış
-                    if (dNote.SubjectId != 0)
+                    if (dNote.subjectId != 0)
                     {
                         gotoVerseButton.IsEnabled = true;
                         gotoVerseButton.Content = "Konuya Git";
                         gotoVerseButton.Tag = "ArrowRight";
 
                         App.mainScreen.navigationWriter("notes", "Konu Notu");
-                        var dSubject = entitydb.SubjectItems.Where(p => p.SubjectItemsId == dNote.SubjectId).FirstOrDefault();
+                        var dSubject = entitydb.SubjectItems.Where(p => p.subjectItemsId == dNote.subjectId).FirstOrDefault();
 
-                        Debug.WriteLine(dSubject.SubjectId);
+                        Debug.WriteLine(dSubject.subjectId);
 
-                        var dx = entitydb.Subject.Where(p => p.SubjectId == dSubject.SubjectId).FirstOrDefault();
-                        infoText.Text = "Not Aldığınız Konu" + Environment.NewLine + dx.SubjectName;
-                        cSb = (int)dNote.SubjectId;
+                        var dx = entitydb.Subject.Where(p => p.subjectId == dSubject.subjectId).FirstOrDefault();
+                        infoText.Text = "Not Aldığınız Konu" + Environment.NewLine + dx.subjectName;
+                        cSb = (int)dNote.subjectId;
                         gototype = "Subject";
                     }
                 });
@@ -187,8 +187,8 @@ namespace KuranX.App.Core.Pages.NoteF
 
                         using (var entitydbsb = new AyetContext())
                         {
-                            var dSubjectItems = entitydbsb.SubjectItems.Where(p => p.SubjectItemsId == cSb).FirstOrDefault();
-                            App.mainframe.Content = App.navSubjectItem.subjectItemsPageCall((int)dSubjectItems.SubjectId, (int)dSubjectItems.SureId, (int)dSubjectItems.VerseId);
+                            var dSubjectItems = entitydbsb.SubjectItems.Where(p => p.subjectItemsId == cSb).FirstOrDefault();
+                            App.mainframe.Content = App.navSubjectItem.subjectItemsPageCall((int)dSubjectItems.subjectId, (int)dSubjectItems.sureId, (int)dSubjectItems.verseId);
                         }
 
                         break;
@@ -229,7 +229,7 @@ namespace KuranX.App.Core.Pages.NoteF
                     }
                     else
                     {
-                        entitydb.Notes.Where(p => p.NotesId == noteId).First().NoteDetail = loadNoteDetail.Text;
+                        entitydb.Notes.Where(p => p.notesId == noteId).First().noteDetail = loadNoteDetail.Text;
                         entitydb.SaveChanges();
                         succsessFunc("Güncelleme Başarılı", "Notunuz başarılı bir sekilde güncellendi.", 3);
                         saveButton.IsEnabled = false;
@@ -254,7 +254,7 @@ namespace KuranX.App.Core.Pages.NoteF
                     printButton.IsEnabled = false;
                     deleteButton.IsEnabled = false;
                     saveButton.IsEnabled = false;
-                    entitydb.Notes.RemoveRange(entitydb.Notes.Where(p => p.NotesId == noteId));
+                    entitydb.Notes.RemoveRange(entitydb.Notes.Where(p => p.notesId == noteId));
                     entitydb.SaveChanges();
                     popup_DeleteConfirm.IsOpen = false;
                     voidgobacktimer();
@@ -305,12 +305,12 @@ namespace KuranX.App.Core.Pages.NoteF
             using (var entitydb = new AyetContext())
             {
                 var item = popupResultSureId.SelectedItem as ComboBoxItem;
-                var dResult = entitydb.Results.Where(p => p.ResultId == int.Parse(item.Uid)).FirstOrDefault();
+                var dResult = entitydb.Results.Where(p => p.resultId == int.Parse(item.Uid)).FirstOrDefault();
 
-                if (entitydb.ResultItems.Where(p => p.ResultId == dResult.ResultId && p.ResultNoteId == noteId).Count() == 0)
+                if (entitydb.ResultItems.Where(p => p.resultId == dResult.resultId && p.resultNoteId == noteId).Count() == 0)
                 {
-                    dResult.ResultNotes = true;
-                    var dTemp = new ResultItem { ResultId = dResult.ResultId, ResultNoteId = noteId, SendTime = DateTime.Now };
+                    dResult.resultNotes = true;
+                    var dTemp = new ResultItem { resultId = dResult.resultId, resultNoteId = noteId, sendTime = DateTime.Now };
                     entitydb.ResultItems.Add(dTemp);
                     entitydb.SaveChanges();
                     popup_sendResultItems.IsOpen = false;

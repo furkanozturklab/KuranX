@@ -62,8 +62,8 @@ namespace KuranX.App.Core.Pages.LibraryF
 
                 if (searchText != "")
                 {
-                    dPdf = entitydb.PdfFile.Where(p => EF.Functions.Like(p.FileName, "%" + searchText + "%")).Skip(lastPage).Take(20).ToList();
-                    totalcount = entitydb.PdfFile.Where(p => EF.Functions.Like(p.FileName, "%" + searchText + "%")).Count();
+                    dPdf = entitydb.PdfFile.Where(p => EF.Functions.Like(p.fileName, "%" + searchText + "%")).Skip(lastPage).Take(20).ToList();
+                    totalcount = entitydb.PdfFile.Where(p => EF.Functions.Like(p.fileName, "%" + searchText + "%")).Count();
                 }
                 else
                 {
@@ -88,15 +88,15 @@ namespace KuranX.App.Core.Pages.LibraryF
                     this.Dispatcher.Invoke(() =>
                     {
                         var sName = (TextBlock)FindName("pdfName" + i);
-                        sName.Text = item.FileName;
+                        sName.Text = item.fileName;
 
                         var sCreated = (TextBlock)FindName("pdfCreate" + i);
-                        sCreated.Text = item.Created.ToString("D");
+                        sCreated.Text = item.created.ToString("D");
 
                         var sBtnGo = (Button)FindName("pdfGo" + i);
-                        sBtnGo.Uid = item.PdfFileId.ToString();
+                        sBtnGo.Uid = item.pdfFileId.ToString();
                         var sBtnDel = (Button)FindName("pdfDel" + i);
-                        sBtnDel.Uid = item.PdfFileId.ToString();
+                        sBtnDel.Uid = item.pdfFileId.ToString();
 
                         var sbItem = (Border)FindName("pdf" + i);
                         sbItem.Visibility = Visibility.Visible;
@@ -157,7 +157,7 @@ namespace KuranX.App.Core.Pages.LibraryF
                         using (var entitydb = new AyetContext())
                         {
                             string name = openFileDialog.FileName.Split(@"\").Last();
-                            var dControl = entitydb.PdfFile.Where(p => p.FileName == name).ToList();
+                            var dControl = entitydb.PdfFile.Where(p => p.fileName == name).ToList();
 
                             if (File.Exists(newSoruceLocation) && dControl.Count != 0)
                             {
@@ -174,7 +174,7 @@ namespace KuranX.App.Core.Pages.LibraryF
                                 fileNameTxt.Text = name;
                                 fileSizeTxt.Text = fileS;
 
-                                var newFile = new PdfFile { FileName = openFileDialog.FileName.Split(@"\").Last(), FileUrl = newSoruceLocation, FileSize = fileS, Created = DateTime.Now, Modify = DateTime.Now };
+                                var newFile = new PdfFile { fileName = openFileDialog.FileName.Split(@"\").Last(), fileUrl = newSoruceLocation, fileSize = fileS, created = DateTime.Now, modify = DateTime.Now };
                                 entitydb.PdfFile.Add(newFile);
                                 entitydb.SaveChanges();
                                 progressAni((ProgressBar)this.FindName("fileuploadtrackprogress"), 100);
@@ -267,14 +267,14 @@ namespace KuranX.App.Core.Pages.LibraryF
             {
                 using (var entitydb = new AyetContext())
                 {
-                    var dFile = entitydb.PdfFile.Where(p => p.PdfFileId == selectedId).FirstOrDefault();
+                    var dFile = entitydb.PdfFile.Where(p => p.pdfFileId == selectedId).FirstOrDefault();
 
                     if (dFile != null)
                     {
-                        entitydb.PdfFile.RemoveRange(entitydb.PdfFile.Where(p => p.PdfFileId == selectedId));
-                        entitydb.Notes.RemoveRange(entitydb.Notes.Where(p => p.PdfFileId == selectedId));
+                        entitydb.PdfFile.RemoveRange(entitydb.PdfFile.Where(p => p.pdfFileId == selectedId));
+                        entitydb.Notes.RemoveRange(entitydb.Notes.Where(p => p.pdfFileId == selectedId));
 
-                        File.Delete(dFile.FileUrl);
+                        File.Delete(dFile.fileUrl);
 
                         entitydb.SaveChanges();
                         popup_DeleteConfirm.IsOpen = false;

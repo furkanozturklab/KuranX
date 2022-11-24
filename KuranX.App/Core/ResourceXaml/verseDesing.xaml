@@ -66,6 +66,7 @@
         <Setter Property="Foreground" Value="#1C1E2F" />
         <Setter Property="FontFamily" Value="{DynamicResource PoppinsMedium}" />
         <Setter Property="Margin" Value="0 0 0 5" />
+        <Setter Property="FontWeight" Value="Medium" />
         <Setter Property="TextAlignment" Value="Center" />
     </Style>
 
@@ -96,17 +97,17 @@
 
     <Style x:Key="vrs_loadDetailInterpreter" TargetType="TextBlock">
         <Setter Property="FontFamily" Value="{DynamicResource PoppinsRegular}" />
-        <Setter Property="FontSize" Value="20" />
+        <Setter Property="FontSize" Value="22" />
     </Style>
 
     <Style x:Key="vrs_loadDetailTr" TargetType="TextBlock">
         <Setter Property="FontFamily" Value="{DynamicResource PoppinsMedium}" />
-        <Setter Property="FontSize" Value="20" />
+        <Setter Property="FontSize" Value="22" />
     </Style>
 
     <Style x:Key="vrs_loadDetailArp" TargetType="TextBlock">
-        <Setter Property="FontFamily" Value="XB Zar" />
-        <Setter Property="FontSize" Value="24" />
+        <Setter Property="FontFamily" Value="{DynamicResource XBZar}" />
+        <Setter Property="FontSize" Value="26" />
     </Style>
 
     <!-- Textblock -->
@@ -649,4 +650,74 @@
     </Style>
 
     <!--  İtemsControl -->
+
+    <Style x:Key="vrs_TabSearchBorder" TargetType="Border">
+
+        <Setter Property="Width" Value="250" />
+        <Setter Property="Height" Value="35" />
+        <Setter Property="BorderThickness" Value="1,1,1,1" />
+        <Setter Property="BorderBrush" Value="#E1E3E6" />
+        <Setter Property="CornerRadius" Value="5,5,5,5" />
+        <Setter Property="Margin" Value="0,0,10,0" />
+    </Style>
+
+    <Style x:Key="vrs_TabSearchText" TargetType="TextBox">
+
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Height" Value="26" />
+        <Setter Property="FontFamily" Value="{DynamicResource PoppinsMedium}" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="Width" Value="200" />
+        <Setter Property="FontWeight" Value="Medium" />
+        <Setter Property="BorderThickness" Value="0,0,0,0" />
+        <Setter Property="Margin" Value="10 0 10 0" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+
+        <Style.Resources>
+            <VisualBrush x:Key="CueBannerBrush" AlignmentX="Left" AlignmentY="Center" Stretch="None">
+                <VisualBrush.Visual>
+                    <Label x:Name="searchHint" FontFamily="{DynamicResource PoppinsMedium}" Margin="5 0 0 0" Content="İçerik Ara" Foreground="#D1D1D1" />
+                </VisualBrush.Visual>
+            </VisualBrush>
+        </Style.Resources>
+
+        <Style.Triggers>
+            <Trigger Property="Text" Value="{x:Static sys:String.Empty}">
+                <Setter Property="Background" Value="{DynamicResource CueBannerBrush}" />
+            </Trigger>
+            <Trigger Property="Text" Value="{x:Null}">
+                <Setter Property="Background" Value="{DynamicResource CueBannerBrush}" />
+            </Trigger>
+            <Trigger Property="IsKeyboardFocused" Value="True">
+                <Setter Property="Background" Value="Transparent" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="vrs_TabSearchButton" TargetType="Button">
+
+        <Setter Property="Width" Value="20" />
+        <Setter Property="Height" Value="20" />
+        <Setter Property="Foreground" Value="#1C1E2F" />
+        <Setter Property="BorderThickness" Value="0,0,0,0" />
+        <Setter Property="BorderBrush" Value="{x:Null}" />
+        <Setter Property="Background" Value="{x:Null}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <TextBlock Width="18" Height="18">
+                        <Icon:PackIconOcticons x:Name="searchIcon" Kind="Search" Width="18" Height="18" Foreground="{TemplateBinding Foreground}" VerticalAlignment="Center"  HorizontalAlignment="Center" />
+                    </TextBlock>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Foreground" Value="#C9283E" />
+                <Setter Property="Cursor" Value="Hand" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
 </ResourceDictionary>         

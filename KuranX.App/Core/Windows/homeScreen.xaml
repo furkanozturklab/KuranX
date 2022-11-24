@@ -181,15 +181,16 @@
             </Grid>
 
             <Popup x:Name="lifeCyclerPopups" IsOpen="False" AllowsTransparency="True" Width="340" Height="90" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade" Placement="Top" VerticalOffset="50" HorizontalOffset="750" PlacementTarget="{Binding ElementName=homeFrame}">
-                <Border Style="{DynamicResource defaultBorderShadowEffect}" VerticalAlignment="Center" Height="70" Width="320">
-                    <StackPanel Height="70" Orientation="Horizontal" VerticalAlignment="Center">
-                        <Border x:Name="lifeCyclerPopupBorder" Width="10" Height="70" CornerRadius="5,0,0,5" />
-                        <StackPanel x:Name="lifeCyclerPopupsTxtStck" Orientation="Vertical" Width="270" VerticalAlignment="Center" HorizontalAlignment="Center">
-                            <TextBlock Text="" x:Name="lifeCyclerPopupsText" Style="{DynamicResource hmwnd_lifeCyclerPopupHeader}" VerticalAlignment="Center" TextAlignment="Center" HorizontalAlignment="Center" />
-                        </StackPanel>
-                        <StackPanel x:Name="lifeCyclerPopupsActStck" Width="40" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
-                            <Button x:Name="lifePopupGoActionButton" Style="{DynamicResource hmwnd_lifeActionPopup}" Margin="8 0 8 0" Uid="" Click="popupAction_Click" Tag="" />
-                            <Button x:Name="lifePopupGoDobuleActionButton" Style="{DynamicResource hmwnd_lifeDoubleActionPopup}" Margin="8 0 8 0" Uid="" Tag="" Click="popupActionDouble_Click" />
+                <Border Style="{DynamicResource defaultBorderShadowEffect}" VerticalAlignment="Center" Height="60" Width="320">
+                    <StackPanel Height="60" Orientation="Horizontal" VerticalAlignment="Center">
+                        <Border x:Name="lifeCyclerPopupBorder" Width="10" Height="60" CornerRadius="5,0,0,5" />
+                        <Border Padding="10 0 10 0" x:Name="lifeCyclerPopupsTxtStck" Width="210" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <TextBlock Text="Deneme" Width="190" x:Name="lifeCyclerPopupsText" Style="{DynamicResource hmwnd_lifeCyclerPopupHeader}" />
+                        </Border>
+                        <StackPanel x:Name="lifeCyclerPopupsActStck" Width="100" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Button x:Name="lifePopupGoDobuleActionButton" ToolTip="Ayete Git" Style="{DynamicResource hmwnd_lifeDoubleActionPopup}" Click="popupActionDouble_Click" />
+                            <Button x:Name="lifePopupGoActionButton" ToolTip="Hatırlatıcıya Git" Style="{DynamicResource hmwnd_lifeActionPopup}" Click="popupAction_Click" />
+                            <Button x:Name="lifePopupExit" ToolTip="Kapat" Style="{DynamicResource hmwnd_lifeExitPopup}" Click="popupExit_Click" />
                         </StackPanel>
                     </StackPanel>
                 </Border>

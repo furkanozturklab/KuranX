@@ -25,6 +25,22 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <Style x:Key="pp_searchResultPanelBorder" TargetType="Border">
+
+        <Setter Property="SnapsToDevicePixels" Value="true" />
+        <Setter Property="UseLayoutRounding" Value="True" />
+        <Setter Property="Background" Value="#FFFFFF" />
+        <Setter Property="CornerRadius" Value="5 5 5 5" />
+        <Setter Property="Margin" Value="10" />
+        <Setter Property="Padding" Value="10" />
+        <Setter Property="Effect">
+            <Setter.Value>
+                <DropShadowEffect BlurRadius="15" Opacity="0.15"  ShadowDepth="1" Direction="-25" Color="Black" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <!-- Border -->
 
     <!-- Textblock -->
@@ -163,6 +179,19 @@
         <Setter Property="HorizontalAlignment" Value="Center" />
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+
+    <Style x:Key="pp_searchResultText" TargetType="TextBlock">
+
+        <Setter Property="FontFamily" Value="{DynamicResource PoppinsRegular}" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Foreground" Value="#1C1E2F" />
+    </Style>
+    <Style x:Key="pp_searchResultLocation" TargetType="TextBlock">
+
+        <Setter Property="FontFamily" Value="{DynamicResource PoppinsRegular}" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="Foreground" Value="#383C41" />
     </Style>
 
     <!-- Textblock -->
@@ -385,6 +414,32 @@
         </Style.Triggers>
     </Style>
 
+    <Style x:Key="pp_dynamicItemSearchButton" TargetType="Button">
+
+        <Setter Property="Width" Value="60" />
+        <Setter Property="Background" Value="{x:Null}" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Margin" Value="0 3 0 3" />
+        <Setter Property="Foreground" Value="#1C1E2F" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="FontFamily" Value="{DynamicResource PoppinsMedium}" />
+        <Setter Property="FontSize" Value="10" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <TextBlock Text="Sonuca Git" TextAlignment="Left" FontFamily="{TemplateBinding FontFamily}" FontSize="{TemplateBinding FontSize}" Foreground="{TemplateBinding Foreground}" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Foreground" Value="#F0433A" />
+                <Setter Property="Cursor" Value="Hand" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
     <Style x:Key="pp_DefaultButtonSend" TargetType="Button" BasedOn="{StaticResource pp_DefaultButtonBase}">
         <Setter Property="Template">
             <Setter.Value>
@@ -522,6 +577,12 @@
     <Style x:Key="pp_dynamicItemShowSperator" TargetType="Separator">
 
         <Setter Property="Width" Value="435" />
+        <Setter Property="Background" Value="#FFACACAC" />
+        <Setter Property="Margin" Value="0 5 0 5" />
+    </Style>
+
+    <Style x:Key="pp_dynamicItemSearchSperator" TargetType="Separator">
+
         <Setter Property="Background" Value="#FFACACAC" />
         <Setter Property="Margin" Value="0 5 0 5" />
     </Style>

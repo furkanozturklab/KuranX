@@ -53,16 +53,16 @@ namespace KuranX.App.Core.Pages.LibraryF
             using (var entitydb = new AyetContext())
             {
                 loadAni();
-                var dlibrary = entitydb.Librarys.Where(p => p.LibraryId == folderId).First();
-                var dNotes = entitydb.Notes.Where(p => p.LibraryId == folderId).Skip(lastPage).Take(20).ToList();
+                var dlibrary = entitydb.Librarys.Where(p => p.libraryId == folderId).First();
+                var dNotes = entitydb.Notes.Where(p => p.libraryId == folderId).Skip(lastPage).Take(20).ToList();
 
-                Decimal totalcount = entitydb.Notes.Where(p => p.LibraryId == folderId).Count();
+                Decimal totalcount = entitydb.Notes.Where(p => p.libraryId == folderId).Count();
 
                 this.Dispatcher.Invoke(() =>
                 {
-                    loadHeader.Text = dlibrary.LibraryName;
-                    loadCreated.Text = dlibrary.Created.ToString("D");
-                    loadHeaderColor.Background = new BrushConverter().ConvertFrom((string)dlibrary.LibraryColor) as SolidColorBrush;
+                    loadHeader.Text = dlibrary.libraryName;
+                    loadCreated.Text = dlibrary.created.ToString("D");
+                    loadHeaderColor.Background = new BrushConverter().ConvertFrom((string)dlibrary.libraryColor) as SolidColorBrush;
                     App.mainScreen.navigationWriter("library", "Kütüphane Başlıkları," + loadHeader.Text);
                 });
 
@@ -83,16 +83,16 @@ namespace KuranX.App.Core.Pages.LibraryF
                     this.Dispatcher.Invoke(() =>
                     {
                         var sName = (TextBlock)FindName("lniName" + i);
-                        sName.Text = item.NoteHeader;
+                        sName.Text = item.noteHeader;
 
                         var sCreated = (TextBlock)FindName("lniCreate" + i);
-                        sCreated.Text = item.Created.ToString("D");
+                        sCreated.Text = item.created.ToString("D");
 
                         var sLocation = (TextBlock)FindName("lniLocation" + i);
-                        sLocation.Text = item.NoteLocation;
+                        sLocation.Text = item.noteLocation;
 
                         var sBtn = (Button)FindName("lniBtn" + i);
-                        sBtn.Uid = item.SubjectId.ToString();
+                        sBtn.Uid = item.subjectId.ToString();
 
                         var sbItem = (Border)FindName("lni" + i);
                         sbItem.Visibility = Visibility.Visible;
@@ -165,8 +165,8 @@ namespace KuranX.App.Core.Pages.LibraryF
             {
                 if (popupNewName.Text.Length >= 3)
                 {
-                    entitydb.Librarys.Where(p => p.LibraryId == folderId).First().LibraryName = popupNewName.Text;
-                    entitydb.Librarys.Where(p => p.LibraryId == folderId).First().Modify = DateTime.Now;
+                    entitydb.Librarys.Where(p => p.libraryId == folderId).First().libraryName = popupNewName.Text;
+                    entitydb.Librarys.Where(p => p.libraryId == folderId).First().modify = DateTime.Now;
                     loadHeader.Text = popupNewName.Text;
                     entitydb.SaveChanges();
                     succsessFunc("Güncelleme Başarılı", "Kütüphane başlığınız başarılı bir sekilde Değiştirilmiştir.", 3);
@@ -236,13 +236,13 @@ namespace KuranX.App.Core.Pages.LibraryF
             {
                 using (var entitydb = new AyetContext())
                 {
-                    var dUpdate = entitydb.Notes.Where(p => p.LibraryId == folderId).ToList();
+                    var dUpdate = entitydb.Notes.Where(p => p.libraryId == folderId).ToList();
 
                     foreach (var d in dUpdate)
                     {
-                        d.LibraryId = 0;
+                        d.libraryId = 0;
                     }
-                    entitydb.Librarys.RemoveRange(entitydb.Librarys.Where(p => p.LibraryId == folderId));
+                    entitydb.Librarys.RemoveRange(entitydb.Librarys.Where(p => p.libraryId == folderId));
                     entitydb.SaveChanges();
                     voidgobacktimer();
                 }
@@ -260,12 +260,12 @@ namespace KuranX.App.Core.Pages.LibraryF
                 try
                 {
                     var item = popupResultSureId.SelectedItem as ComboBoxItem;
-                    var dResult = entitydb.Results.Where(p => p.ResultId == int.Parse(item.Uid)).FirstOrDefault();
+                    var dResult = entitydb.Results.Where(p => p.resultId == int.Parse(item.Uid)).FirstOrDefault();
 
-                    if (entitydb.ResultItems.Where(p => p.ResultId == dResult.ResultId && p.ResultLibId == folderId).Count() == 0)
+                    if (entitydb.ResultItems.Where(p => p.resultId == dResult.resultId && p.resultLibId == folderId).Count() == 0)
                     {
-                        dResult.ResultLib = true;
-                        var dTemp = new ResultItem { ResultId = dResult.ResultId, ResultLibId = folderId, SendTime = DateTime.Now };
+                        dResult.resultLib = true;
+                        var dTemp = new ResultItem { resultId = dResult.resultId, resultLibId = folderId, sendTime = DateTime.Now };
                         entitydb.ResultItems.Add(dTemp);
                         entitydb.SaveChanges();
                         popup_sendResult.IsOpen = false;

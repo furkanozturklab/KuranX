@@ -46,13 +46,13 @@ namespace KuranX.App.Core.Windows
         {
             using (var entitydb = new AyetContext())
             {
-                var dPdfFile = entitydb.PdfFile.Where(p => p.PdfFileId == id).FirstOrDefault();
+                var dPdfFile = entitydb.PdfFile.Where(p => p.pdfFileId == id).FirstOrDefault();
                 this.Dispatcher.Invoke(() =>
                 {
-                    this.Title = (string)dPdfFile.FileName;
-                    loadHeader.Text = dPdfFile.FileName;
-                    loadCreated.Text = dPdfFile.Created.ToString("D");
-                    browser.Source = new Uri(@dPdfFile.FileUrl);
+                    this.Title = (string)dPdfFile.fileName;
+                    loadHeader.Text = dPdfFile.fileName;
+                    loadCreated.Text = dPdfFile.created.ToString("D");
+                    browser.Source = new Uri(@dPdfFile.fileUrl);
                 });
             }
         }
@@ -63,7 +63,7 @@ namespace KuranX.App.Core.Windows
             {
                 using (var entitydb = new AyetContext())
                 {
-                    var dNotes = entitydb.Notes.Where(p => p.PdfFileId == currentPdfId).Where(p => p.NoteLocation == "PDF").ToList();
+                    var dNotes = entitydb.Notes.Where(p => p.pdfFileId == currentPdfId).Where(p => p.noteLocation == "PDF").ToList();
                     var dTempNotes = new List<Notes>();
                     int i = 1;
 
@@ -119,8 +119,8 @@ namespace KuranX.App.Core.Windows
                     {
                         var cmbitem = new ComboBoxItem();
 
-                        cmbitem.Content = item.LibraryName;
-                        cmbitem.Uid = item.LibraryId.ToString();
+                        cmbitem.Content = item.libraryName;
+                        cmbitem.Uid = item.libraryId.ToString();
                         selectedLibFolder.Items.Add(cmbitem);
                     }
                 });
@@ -142,11 +142,11 @@ namespace KuranX.App.Core.Windows
 
                 using (var entitydb = new AyetContext())
                 {
-                    var dnotes = entitydb.Notes.Where(p => p.NotesId == int.Parse(tmpbutton.Uid)).Select(p => new Notes() { NoteHeader = p.NoteHeader, NoteDetail = p.NoteDetail, NotesId = p.NotesId }).FirstOrDefault();
+                    var dnotes = entitydb.Notes.Where(p => p.notesId == int.Parse(tmpbutton.Uid)).Select(p => new Notes() { noteHeader = p.noteHeader, noteDetail = p.noteDetail, notesId = p.notesId }).FirstOrDefault();
 
-                    selectedNoteId = dnotes.NotesId;
-                    noteDetailTextHeader.Text = dnotes.NoteHeader;
-                    noteOpenDetailText.Text = dnotes.NoteDetail;
+                    selectedNoteId = dnotes.notesId;
+                    noteDetailTextHeader.Text = dnotes.noteHeader;
+                    noteOpenDetailText.Text = dnotes.noteDetail;
                 }
             }
             catch (Exception ex)
@@ -162,7 +162,7 @@ namespace KuranX.App.Core.Windows
             using (var entitydb = new AyetContext())
             {
                 Debug.WriteLine(currentPdfId);
-                var dPdf = entitydb.Notes.Where(p => p.PdfFileId == currentPdfId).ToList();
+                var dPdf = entitydb.Notes.Where(p => p.pdfFileId == currentPdfId).ToList();
 
                 foreach (var item in dPdf)
                 {
@@ -178,10 +178,10 @@ namespace KuranX.App.Core.Windows
                     allshowButton.Style = (Style)FindResource("defaultdynamicItemShowButton");
                     sp.Style = (Style)FindResource("defaultdynamicItemShowSperator");
 
-                    headerText.Text = item.NoteHeader.ToString();
-                    noteText.Text = item.NoteDetail.ToString();
-                    allshowButton.Uid = item.NotesId.ToString();
-                    allshowButton.Content = item.NoteDetail.ToString();
+                    headerText.Text = item.noteHeader.ToString();
+                    noteText.Text = item.noteDetail.ToString();
+                    allshowButton.Uid = item.notesId.ToString();
+                    allshowButton.Content = item.noteDetail.ToString();
 
                     allshowButton.Click += notesDetailPopup_Click;
 
@@ -294,11 +294,11 @@ namespace KuranX.App.Core.Windows
                     {
                         using (var entitydb = new AyetContext())
                         {
-                            var dControl = entitydb.Librarys.Where(p => p.LibraryName == librarypreviewName.Text).ToList();
+                            var dControl = entitydb.Librarys.Where(p => p.libraryName == librarypreviewName.Text).ToList();
 
                             if (dControl.Count == 0)
                             {
-                                var dlibraryFolder = new Classes.Library { LibraryName = librarypreviewName.Text, LibraryColor = librarypreviewColor.Background.ToString(), Created = DateTime.Now, Modify = DateTime.Now };
+                                var dlibraryFolder = new Classes.Library { libraryName = librarypreviewName.Text, libraryColor = librarypreviewColor.Background.ToString(), created = DateTime.Now, modify = DateTime.Now };
                                 entitydb.Librarys.Add(dlibraryFolder);
                                 entitydb.SaveChanges();
                                 succsessFunc("Kütüphane Başlığı ", " Yeni kütüphane başlığı oluşturuldu artık veri ekleye bilirsiniz.", 3);
@@ -366,13 +366,13 @@ namespace KuranX.App.Core.Windows
 
                     if (item != null)
                     {
-                        if (entitydb.Notes.Where(p => p.NotesId == selectedNoteId && p.LibraryId != 0).Count() != 0)
+                        if (entitydb.Notes.Where(p => p.notesId == selectedNoteId && p.libraryId != 0).Count() != 0)
                         {
                             alertFunc("Kütüphane Ekleme Başarısız", "Bu Not Daha Önceden Eklenmiş Yeniden Ekleyemezsiniz.", 3);
                         }
                         else
                         {
-                            entitydb.Notes.Where(p => p.NotesId == selectedNoteId).FirstOrDefault().LibraryId = int.Parse(item.Uid);
+                            entitydb.Notes.Where(p => p.notesId == selectedNoteId).FirstOrDefault().libraryId = int.Parse(item.Uid);
                             entitydb.SaveChanges();
                             succsessFunc("Kütüphane Ekleme Başarılı", "Seçmiş olduğunuz not kütüphaneye eklendi.", 3);
                             popup_SendNote.IsOpen = false;
@@ -432,7 +432,7 @@ namespace KuranX.App.Core.Windows
                             {
                                 using (var entitydb = new AyetContext())
                                 {
-                                    if (entitydb.Notes.Where(p => p.NoteHeader == noteName.Text).Where(p => p.NoteLocation == "PDF").FirstOrDefault() != null)
+                                    if (entitydb.Notes.Where(p => p.noteHeader == noteName.Text).Where(p => p.noteLocation == "PDF").FirstOrDefault() != null)
                                     {
                                         alertFunc("Not Ekleme Başarısız", "Aynı isimde not eklemiş olabilirsiniz lütfen kontrol edip yeniden deneyiniz.", 3);
                                     }
@@ -440,12 +440,12 @@ namespace KuranX.App.Core.Windows
                                     {
                                         Notes dNotes = new()
                                         {
-                                            NoteHeader = noteName.Text,
-                                            NoteDetail = noteDetail.Text,
-                                            PdfFileId = currentPdfId,
-                                            Modify = DateTime.Now,
-                                            Created = DateTime.Now,
-                                            NoteLocation = "PDF",
+                                            noteHeader = noteName.Text,
+                                            noteDetail = noteDetail.Text,
+                                            pdfFileId = currentPdfId,
+                                            modify = DateTime.Now,
+                                            created = DateTime.Now,
+                                            noteLocation = "PDF",
                                         };
 
                                         entitydb.Notes.Add(dNotes);

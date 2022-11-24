@@ -8,11 +8,11 @@ namespace KuranX.App.Core.Classes
 {
     public class ResultItem
     {
-        public int ResultItemId { get; set; }
-        public int ResultId { get; set; }
-        public int ResultSubjectId { get; set; }
-        public int ResultLibId { get; set; }
-        public int ResultNoteId { get; set; }
-        public DateTime SendTime { get; set; }
+        public int resultItemId { get; set; }
+        public int resultId { get; set; }
+        public int resultSubjectId { get; set; }
+        public int resultLibId { get; set; }
+        public int resultNoteId { get; set; }
+        public DateTime sendTime { get; set; }
     }
 }

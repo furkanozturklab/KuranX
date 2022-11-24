@@ -8,13 +8,13 @@ namespace KuranX.App.Core.Classes
 {
     public class SubjectItems
     {
-        public int SubjectItemsId { get; set; }
-        public int? SubjectId { get; set; }
-        public int? SureId { get; set; }
-        public int? VerseId { get; set; }
-        public int? SubjectNotesId { get; set; }
-        public string? SubjectName { get; set; }
-        public DateTime Created { get; set; } = DateTime.Now;
-        public DateTime Modify { get; set; } = DateTime.Now;
+        public int subjectItemsId { get; set; }
+        public int? subjectId { get; set; }
+        public int? sureId { get; set; }
+        public int? verseId { get; set; }
+        public int? subjectNotesId { get; set; }
+        public string? subjectName { get; set; }
+        public DateTime created { get; set; } = DateTime.Now;
+        public DateTime modify { get; set; } = DateTime.Now;
     }
 }

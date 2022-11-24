@@ -51,23 +51,23 @@ namespace KuranX.App.Core.Pages.ReminderF
             using (var entitydb = new AyetContext())
             {
                 loadAni();
-                var dRemider = entitydb.Remider.Where(p => p.RemiderId == id).FirstOrDefault();
+                var dRemider = entitydb.Remider.Where(p => p.remiderId == id).FirstOrDefault();
 
                 if (dRemider != null)
                 {
-                    cV = dRemider.ConnectVerseId;
-                    cS = dRemider.ConnectSureId;
+                    cV = dRemider.connectVerseId;
+                    cS = dRemider.connectSureId;
 
-                    if (dRemider.LoopType == "False") App.mainScreen.navigationWriter("remider", "Tarih Bazlı Hatırlartıcı");
-                    else App.mainScreen.navigationWriter("remider", $"{dRemider.LoopType} Bazlı Hatırlartıcı");
+                    if (dRemider.loopType == "False") App.mainScreen.navigationWriter("remider", "Tarih Bazlı Hatırlartıcı");
+                    else App.mainScreen.navigationWriter("remider", $"{dRemider.loopType} Bazlı Hatırlartıcı");
 
-                    switch (dRemider.LoopType)
+                    switch (dRemider.loopType)
                     {
                         case "False":
                             this.Dispatcher.Invoke(() =>
                             {
                                 remiderType.Background = new BrushConverter().ConvertFrom("#ffc107") as SolidColorBrush;
-                                TimeSpan ts = dRemider.RemiderDate - DateTime.Now;
+                                TimeSpan ts = dRemider.remiderDate - DateTime.Now;
                                 type.Text = "Hatırlatma İçin Kalan Süre : " + ts.Days.ToString() + " Gün " + ts.Hours.ToString() + " Saat " + ts.Minutes.ToString() + " Dakika";
                                 type.Foreground = new BrushConverter().ConvertFrom("#ffc107") as SolidColorBrush;
                             });
@@ -112,9 +112,9 @@ namespace KuranX.App.Core.Pages.ReminderF
 
                     this.Dispatcher.Invoke(() =>
                     {
-                        header.Text = dRemider.RemiderName;
-                        remiderDetail.Text = dRemider.RemiderDetail;
-                        create.Text = dRemider.Create.ToString("d") + " tarihinde oluşturulmuş.";
+                        header.Text = dRemider.remiderName;
+                        remiderDetail.Text = dRemider.remiderDetail;
+                        create.Text = dRemider.create.ToString("d") + " tarihinde oluşturulmuş.";
                     });
                 }
 
@@ -122,7 +122,7 @@ namespace KuranX.App.Core.Pages.ReminderF
 
                 this.Dispatcher.Invoke(() =>
                 {
-                    if (dRemider.ConnectSureId == 0) gotoVerseButton.IsEnabled = false;
+                    if (dRemider.connectSureId == 0) gotoVerseButton.IsEnabled = false;
                     else gotoVerseButton.IsEnabled = true;
                 });
 
@@ -182,8 +182,8 @@ namespace KuranX.App.Core.Pages.ReminderF
                     gotoVerseButton.IsEnabled = false;
                     deleteButton.IsEnabled = false;
                     saveButton.IsEnabled = false;
-                    entitydb.Remider.RemoveRange(entitydb.Remider.Where(p => p.RemiderId == remiderId));
-                    entitydb.Tasks.RemoveRange(entitydb.Tasks.Where(p => p.MissonsId == remiderId));
+                    entitydb.Remider.RemoveRange(entitydb.Remider.Where(p => p.remiderId == remiderId));
+                    entitydb.Tasks.RemoveRange(entitydb.Tasks.Where(p => p.missonsId == remiderId));
                     entitydb.SaveChanges();
                     popup_DeleteConfirm.IsOpen = false;
                     voidgobacktimer();
@@ -241,7 +241,7 @@ namespace KuranX.App.Core.Pages.ReminderF
                     }
                     else
                     {
-                        entitydb.Remider.Where(p => p.RemiderId == remiderId).First().RemiderDetail = remiderDetail.Text;
+                        entitydb.Remider.Where(p => p.remiderId == remiderId).First().remiderDetail = remiderDetail.Text;
                         entitydb.SaveChanges();
                         succsessFunc("Güncelleme Başarılı", "Hatırlatıcı notunuz güncellendi.", 3);
                         saveButton.IsEnabled = false;

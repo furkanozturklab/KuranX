@@ -37,128 +37,132 @@ namespace KuranX.App.Core.Classes
         {
             //   USER
             modelBuilder.Entity<User>()
-                .Property(u => u.UserId)
+                .Property(u => u.userId)
                 .HasColumnName("user_id");
             modelBuilder.Entity<User>()
-                .Property(u => u.Email)
+                .Property(u => u.email)
                 .HasColumnName("user_email")
+                .HasDefaultValue("none")
                 .IsRequired();
             modelBuilder.Entity<User>()
-                .Property(u => u.FirstName)
+                .Property(u => u.firstName)
                 .HasColumnName("user_fisrtName")
                 .HasDefaultValue("First Name");
             modelBuilder.Entity<User>()
-                .Property(u => u.LastName)
+                .Property(u => u.lastName)
                 .HasColumnName("user_lastName")
                 .HasDefaultValue("Last Name");
             modelBuilder.Entity<User>()
-                .Property(u => u.Password)
+                .Property(u => u.password)
+                .HasDefaultValue("1230")
                 .HasColumnName("user_password");
             modelBuilder.Entity<User>()
-                .Property(u => u.ScreetQuestion)
+                .Property(u => u.screetQuestion)
                 .HasColumnName("user_screetQuestion")
                 .HasDefaultValue("Screet Question");
             modelBuilder.Entity<User>()
-                .Property(u => u.CreateDate)
-                .HasColumnName("user_createDate");
+                .Property(u => u.createDate)
+                .HasColumnName("user_createDate")
+                .HasDefaultValue(DateTime.Now);
             modelBuilder.Entity<User>()
-                .Property(u => u.UpdateDate)
-                .HasColumnName("user_updateDate");
+                .Property(u => u.updateDate)
+                .HasColumnName("user_updateDate")
+                .HasDefaultValue(DateTime.Now);
             modelBuilder.Entity<User>()
-                .Property(u => u.AvatarUrl)
+                .Property(u => u.avatarUrl)
                 .HasColumnName("user_avatarUrl")
                 .HasDefaultValue("default");
 
             //   SURE
             modelBuilder.Entity<Sure>()
-                .Property(u => u.UserCheckCount)
+                .Property(u => u.userCheckCount)
                 .HasDefaultValue(0);
             modelBuilder.Entity<Sure>()
-                .Property(u => u.DeskList)
+                .Property(u => u.deskList)
                 .HasDefaultValue(0);
             modelBuilder.Entity<Sure>()
-                .Property(u => u.UserLastRelativeVerse)
+                .Property(u => u.userLastRelativeVerse)
                 .HasDefaultValue(0);
             modelBuilder.Entity<Sure>()
-                .Property(u => u.Complated)
+                .Property(u => u.complated)
                 .HasDefaultValue(false);
 
             //   VERSE
             modelBuilder.Entity<Verse>()
-                .Property(u => u.RemiderCheck)
+                .Property(u => u.remiderCheck)
                 .HasDefaultValue(false);
             modelBuilder.Entity<Verse>()
-                .Property(u => u.MarkCheck)
+                .Property(u => u.markCheck)
                 .HasDefaultValue(false);
             modelBuilder.Entity<Verse>()
-                .Property(u => u.VerseCheck)
+                .Property(u => u.verseCheck)
                 .HasDefaultValue(false);
 
             //   NOTES
             modelBuilder.Entity<Notes>()
-                .Property(u => u.SureId)
+                .Property(u => u.sureId)
                 .HasDefaultValue(0);
             modelBuilder.Entity<Notes>()
-                .Property(u => u.VerseId)
+                .Property(u => u.verseId)
                 .HasDefaultValue(0);
             modelBuilder.Entity<Notes>()
-               .Property(u => u.SubjectId)
+               .Property(u => u.subjectId)
                .HasDefaultValue(0);
             modelBuilder.Entity<Notes>()
-               .Property(u => u.PdfFileId)
+               .Property(u => u.pdfFileId)
                .HasDefaultValue(0);
             modelBuilder.Entity<Notes>()
-               .Property(u => u.LibraryId)
+               .Property(u => u.libraryId)
                .HasDefaultValue(0);
 
             // PDF
             modelBuilder.Entity<PdfFile>()
-                .Property(u => u.FileType)
+                .Property(u => u.fileType)
                 .HasDefaultValue("User");
 
             // REMIDER
 
             modelBuilder.Entity<Remider>()
-                .Property(u => u.LoopType)
+                .Property(u => u.loopType)
                 .HasDefaultValue("False");
 
             modelBuilder.Entity<Remider>()
-               .Property(u => u.Status)
+               .Property(u => u.status)
                .HasDefaultValue("Wait");
             modelBuilder.Entity<Remider>()
-              .Property(u => u.Priority)
+              .Property(u => u.priority)
               .HasDefaultValue(1);
 
             // RESULT
             modelBuilder.Entity<Result>()
-                .Property(u => u.ResultNotes)
+                .Property(u => u.resultNotes)
                 .HasDefaultValue(false);
             modelBuilder.Entity<Result>()
-                .Property(u => u.ResultSubject)
+                .Property(u => u.resultSubject)
                 .HasDefaultValue(false);
             modelBuilder.Entity<Result>()
-                .Property(u => u.ResultLib)
+                .Property(u => u.resultLib)
                 .HasDefaultValue(false);
 
             modelBuilder.Entity<Result>()
-               .Property(u => u.ResultStatus)
+               .Property(u => u.resultStatus)
                .HasDefaultValue("#ADB5BD");
             modelBuilder.Entity<Result>()
-                .Property(u => u.ResultFinallyNote)
+                .Property(u => u.resultFinallyNote)
                 .HasDefaultValue("Sonuç Metninizi buraya yaza bilirsiniz.");
 
             // RESULT ITEMS
             modelBuilder.Entity<ResultItem>()
-                .Property(u => u.ResultNoteId)
+                .Property(u => u.resultNoteId)
                 .HasDefaultValue(0);
             modelBuilder.Entity<ResultItem>()
-                .Property(u => u.ResultLibId)
+                .Property(u => u.resultLibId)
                 .HasDefaultValue(0);
             modelBuilder.Entity<ResultItem>()
-                .Property(u => u.ResultSubjectId)
+                .Property(u => u.resultSubjectId)
                 .HasDefaultValue(0);
             modelBuilder.Entity<ResultItem>()
-                .Property(u => u.SendTime)
+                .Property(u => u.sendTime)
                 .HasDefaultValue(DateTime.Now);
         }
     }

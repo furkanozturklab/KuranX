@@ -46,13 +46,13 @@ namespace KuranX.App.Core.Windows
             using (var entitydb = new AyetContext())
             {
                 loadAni();
-                dResul = entitydb.Results.Where(p => p.ResultId == selectedResultId).FirstOrDefault();
+                dResul = entitydb.Results.Where(p => p.resultId == selectedResultId).FirstOrDefault();
 
-                this.Title = dResul.ResultName + " Sonucu";
-                screenHeader.Text = dResul.ResultName;
-                resultNoteDetail.Text = dResul.ResultFinallyNote;
+                this.Title = dResul.resultName + " Sonucu";
+                screenHeader.Text = dResul.resultName;
+                resultNoteDetail.Text = dResul.resultFinallyNote;
 
-                if (dResul.ResultNotes == true)
+                if (dResul.resultNotes == true)
                 {
                     var cmdef = new ComboBoxItem();
                     noteico.IsEnabled = true;
@@ -63,19 +63,19 @@ namespace KuranX.App.Core.Windows
                     noteItems.Items.Add(cmdef);
                     noteItems.SelectedIndex = 0;
 
-                    var dlistNotes = entitydb.ResultItems.Where(p => p.ResultId == selectedResultId && p.ResultNoteId != 0).ToList();
+                    var dlistNotes = entitydb.ResultItems.Where(p => p.resultId == selectedResultId && p.resultNoteId != 0).ToList();
 
                     foreach (var item in dlistNotes)
                     {
-                        var rItem = entitydb.Notes.Where(p => p.NotesId == item.ResultNoteId).FirstOrDefault();
+                        var rItem = entitydb.Notes.Where(p => p.notesId == item.resultNoteId).FirstOrDefault();
                         var cmbitem = new ComboBoxItem();
-                        cmbitem.Content = rItem.NoteHeader;
-                        cmbitem.Uid = rItem.NotesId.ToString();
+                        cmbitem.Content = rItem.noteHeader;
+                        cmbitem.Uid = rItem.notesId.ToString();
                         noteItems.Items.Add(cmbitem);
                     }
                 }
 
-                if (dResul.ResultSubject == true)
+                if (dResul.resultSubject == true)
                 {
                     subico.IsEnabled = true;
 
@@ -94,20 +94,20 @@ namespace KuranX.App.Core.Windows
                     subjectItemsNot.Items.Add(cmdef6);
                     subjectItemsNot.SelectedIndex = 0;
 
-                    var dListSubject = entitydb.ResultItems.Where(p => p.ResultId == selectedResultId && p.ResultSubjectId != 0).ToList();
+                    var dListSubject = entitydb.ResultItems.Where(p => p.resultId == selectedResultId && p.resultSubjectId != 0).ToList();
 
                     foreach (var item in dListSubject)
                     {
                         var cmbitem = new ComboBoxItem();
 
-                        var rItem = entitydb.Subject.Where(p => p.SubjectId == item.ResultSubjectId).FirstOrDefault();
-                        cmbitem.Content = rItem.SubjectName;
-                        cmbitem.Uid = rItem.SubjectId.ToString();
+                        var rItem = entitydb.Subject.Where(p => p.subjectId == item.resultSubjectId).FirstOrDefault();
+                        cmbitem.Content = rItem.subjectName;
+                        cmbitem.Uid = rItem.subjectId.ToString();
                         subjectBase.Items.Add(cmbitem);
                     }
                 }
 
-                if (dResul.ResultLib == true)
+                if (dResul.resultLib == true)
                 {
                     var cmdef = new ComboBoxItem();
                     libico.IsEnabled = true;
@@ -118,15 +118,15 @@ namespace KuranX.App.Core.Windows
                     libraryItems.Items.Add(cmdef);
                     libraryItems.SelectedIndex = 0;
 
-                    var dListLibrary = entitydb.ResultItems.Where(p => p.ResultId == selectedResultId && p.ResultLibId != 0).ToList();
+                    var dListLibrary = entitydb.ResultItems.Where(p => p.resultId == selectedResultId && p.resultLibId != 0).ToList();
 
                     foreach (var item in dListLibrary)
                     {
                         var cmbitem = new ComboBoxItem();
 
-                        var rItem = entitydb.Librarys.Where(p => p.LibraryId == item.ResultLibId).FirstOrDefault();
-                        cmbitem.Content = rItem.LibraryName;
-                        cmbitem.Uid = rItem.LibraryId.ToString();
+                        var rItem = entitydb.Librarys.Where(p => p.libraryId == item.resultLibId).FirstOrDefault();
+                        cmbitem.Content = rItem.libraryName;
+                        cmbitem.Uid = rItem.libraryId.ToString();
                         libraryBase.Items.Add(cmbitem);
                     }
                 }
@@ -149,10 +149,10 @@ namespace KuranX.App.Core.Windows
                 {
                     using (var entitydb = new AyetContext())
                     {
-                        var dNotes = entitydb.Notes.Where(p => p.NotesId == int.Parse(item.Uid)).FirstOrDefault();
-                        noteNameHeader.Text = dNotes.NoteHeader;
-                        noteNameSubHeader.Text = "Notlarım / " + dNotes.NoteLocation + " Notu";
-                        noteNoteDetail.Text = dNotes.NoteDetail;
+                        var dNotes = entitydb.Notes.Where(p => p.notesId == int.Parse(item.Uid)).FirstOrDefault();
+                        noteNameHeader.Text = dNotes.noteHeader;
+                        noteNameSubHeader.Text = "Notlarım / " + dNotes.noteLocation + " Notu";
+                        noteNoteDetail.Text = dNotes.noteDetail;
                     }
                 }
                 else
@@ -186,13 +186,13 @@ namespace KuranX.App.Core.Windows
                         subjectItemsNot.Items.Add(cmdef6);
                         subjectItemsNot.SelectedIndex = 0;
 
-                        var dSubjectItems = entitydb.SubjectItems.Where(p => p.SubjectId == int.Parse(item.Uid)).ToList();
+                        var dSubjectItems = entitydb.SubjectItems.Where(p => p.subjectId == int.Parse(item.Uid)).ToList();
                         foreach (var subitem in dSubjectItems)
                         {
                             var cmbitem = new ComboBoxItem();
 
-                            cmbitem.Content = subitem.SubjectName;
-                            cmbitem.Uid = subitem.SubjectItemsId.ToString();
+                            cmbitem.Content = subitem.subjectName;
+                            cmbitem.Uid = subitem.subjectItemsId.ToString();
                             subjectItems.Items.Add(cmbitem);
                         }
                     }
@@ -221,14 +221,14 @@ namespace KuranX.App.Core.Windows
 
                     using (var entitydb = new AyetContext())
                     {
-                        var dNotesItems = entitydb.Notes.Where(p => p.SubjectId == int.Parse(item.Uid)).ToList();
+                        var dNotesItems = entitydb.Notes.Where(p => p.subjectId == int.Parse(item.Uid)).ToList();
 
                         foreach (var subitem in dNotesItems)
                         {
                             var cmbitem = new ComboBoxItem();
 
-                            cmbitem.Content = subitem.NoteHeader;
-                            cmbitem.Uid = subitem.NotesId.ToString();
+                            cmbitem.Content = subitem.noteHeader;
+                            cmbitem.Uid = subitem.notesId.ToString();
                             subjectItemsNot.Items.Add(cmbitem);
                         }
                     }
@@ -251,11 +251,11 @@ namespace KuranX.App.Core.Windows
                 {
                     using (var entitydb = new AyetContext())
                     {
-                        var dNoteItem = entitydb.Notes.Where(p => p.NotesId == int.Parse(item.Uid)).FirstOrDefault();
+                        var dNoteItem = entitydb.Notes.Where(p => p.notesId == int.Parse(item.Uid)).FirstOrDefault();
 
-                        subNameHeader.Text = dNoteItem.NoteHeader;
+                        subNameHeader.Text = dNoteItem.noteHeader;
                         subNameSubHeader.Text = "Konularım / " + subbase.Content + " / " + subheader.Content;
-                        subNoteDetail.Text = dNoteItem.NoteDetail;
+                        subNoteDetail.Text = dNoteItem.noteDetail;
                     }
                 }
                 else
@@ -283,14 +283,14 @@ namespace KuranX.App.Core.Windows
 
                     using (var entitydb = new AyetContext())
                     {
-                        var dNotesItems = entitydb.Notes.Where(p => p.LibraryId == int.Parse(item.Uid)).ToList();
+                        var dNotesItems = entitydb.Notes.Where(p => p.libraryId == int.Parse(item.Uid)).ToList();
 
                         foreach (var subitem in dNotesItems)
                         {
                             var cmbitem = new ComboBoxItem();
 
-                            cmbitem.Content = subitem.NoteHeader;
-                            cmbitem.Uid = subitem.NotesId.ToString();
+                            cmbitem.Content = subitem.noteHeader;
+                            cmbitem.Uid = subitem.notesId.ToString();
                             libraryItems.Items.Add(cmbitem);
                         }
                     }
@@ -312,10 +312,10 @@ namespace KuranX.App.Core.Windows
                 {
                     using (var entitydb = new AyetContext())
                     {
-                        var dNotes = entitydb.Notes.Where(p => p.NotesId == int.Parse(item.Uid)).FirstOrDefault();
-                        libNameHeader.Text = dNotes.NoteHeader;
-                        libNameSubHeader.Text = "Kütüphane / " + sublib.Content + " / " + dNotes.NoteLocation + " Notu";
-                        libNoteDetail.Text = dNotes.NoteDetail;
+                        var dNotes = entitydb.Notes.Where(p => p.notesId == int.Parse(item.Uid)).FirstOrDefault();
+                        libNameHeader.Text = dNotes.noteHeader;
+                        libNameSubHeader.Text = "Kütüphane / " + sublib.Content + " / " + dNotes.noteLocation + " Notu";
+                        libNoteDetail.Text = dNotes.noteDetail;
                     }
                 }
                 else
@@ -349,7 +349,7 @@ namespace KuranX.App.Core.Windows
             {
                 using (var entitydb = new AyetContext())
                 {
-                    dResul.ResultFinallyNote = resultNoteDetail.Text;
+                    dResul.resultFinallyNote = resultNoteDetail.Text;
                     entitydb.Results.Update(dResul);
                     entitydb.SaveChanges();
                     savebtn.IsEnabled = false;

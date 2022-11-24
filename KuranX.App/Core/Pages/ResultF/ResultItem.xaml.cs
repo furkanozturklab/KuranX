@@ -57,9 +57,9 @@ namespace KuranX.App.Core.Pages.ResultF
             {
                 decimal totalcount = 0;
 
-                var dResult = entitydb.Results.Where(p => p.ResultId == selectedId).FirstOrDefault();
+                var dResult = entitydb.Results.Where(p => p.resultId == selectedId).FirstOrDefault();
 
-                resultName = dResult.ResultName;
+                resultName = dResult.resultName;
 
                 List<Classes.ResultItem> dResultItems = new List<Classes.ResultItem>();
 
@@ -70,25 +70,25 @@ namespace KuranX.App.Core.Pages.ResultF
                     switch (filterTxt)
                     {
                         case "subject":
-                            dResultItems = entitydb.ResultItems.Where(p => p.ResultId == selectedId && p.ResultSubjectId != 0).Skip(lastPage).Take(20).ToList();
-                            totalcount = entitydb.ResultItems.Where(p => p.ResultId == selectedId && p.ResultSubjectId != 0).Count();
+                            dResultItems = entitydb.ResultItems.Where(p => p.resultId == selectedId && p.resultSubjectId != 0).Skip(lastPage).Take(20).ToList();
+                            totalcount = entitydb.ResultItems.Where(p => p.resultId == selectedId && p.resultSubjectId != 0).Count();
                             break;
 
                         case "library":
-                            dResultItems = entitydb.ResultItems.Where(p => p.ResultId == selectedId && p.ResultLibId != 0).Skip(lastPage).Take(20).ToList();
-                            totalcount = entitydb.ResultItems.Where(p => p.ResultId == selectedId && p.ResultLibId != 0).Count();
+                            dResultItems = entitydb.ResultItems.Where(p => p.resultId == selectedId && p.resultLibId != 0).Skip(lastPage).Take(20).ToList();
+                            totalcount = entitydb.ResultItems.Where(p => p.resultId == selectedId && p.resultLibId != 0).Count();
                             break;
 
                         case "note":
-                            dResultItems = entitydb.ResultItems.Where(p => p.ResultId == selectedId && p.ResultNoteId != 0).Skip(lastPage).Take(20).ToList();
-                            totalcount = entitydb.ResultItems.Where(p => p.ResultId == selectedId && p.ResultNoteId != 0).Count();
+                            dResultItems = entitydb.ResultItems.Where(p => p.resultId == selectedId && p.resultNoteId != 0).Skip(lastPage).Take(20).ToList();
+                            totalcount = entitydb.ResultItems.Where(p => p.resultId == selectedId && p.resultNoteId != 0).Count();
                             break;
                     }
                 }
                 else
                 {
-                    dResultItems = entitydb.ResultItems.Where(p => p.ResultId == selectedId).Skip(lastPage).Take(20).ToList();
-                    totalcount = entitydb.ResultItems.Where(p => p.ResultId == selectedId).Count();
+                    dResultItems = entitydb.ResultItems.Where(p => p.resultId == selectedId).Skip(lastPage).Take(20).ToList();
+                    totalcount = entitydb.ResultItems.Where(p => p.resultId == selectedId).Count();
                 }
 
                 this.Dispatcher.Invoke(() =>
@@ -96,11 +96,11 @@ namespace KuranX.App.Core.Pages.ResultF
                     listBorder.Visibility = Visibility.Visible;
                     stackBorder.Visibility = Visibility.Collapsed;
 
-                    countSub.Content = entitydb.ResultItems.Where(p => p.ResultSubjectId != 0).Count();
-                    countLib.Content = entitydb.ResultItems.Where(p => p.ResultLibId != 0).Count();
-                    countNot.Content = entitydb.ResultItems.Where(p => p.ResultNoteId != 0).Count();
-                    loadHeader.Text = dResult.ResultName;
-                    loadBgColor.Background = new BrushConverter().ConvertFrom(dResult.ResultStatus) as SolidColorBrush;
+                    countSub.Content = entitydb.ResultItems.Where(p => p.resultSubjectId != 0).Count();
+                    countLib.Content = entitydb.ResultItems.Where(p => p.resultLibId != 0).Count();
+                    countNot.Content = entitydb.ResultItems.Where(p => p.resultNoteId != 0).Count();
+                    loadHeader.Text = dResult.resultName;
+                    loadBgColor.Background = new BrushConverter().ConvertFrom(dResult.resultStatus) as SolidColorBrush;
                 });
                 for (int x = 1; x <= 20; x++)
                 {
@@ -125,30 +125,30 @@ namespace KuranX.App.Core.Pages.ResultF
                         var sBtn = (Button)FindName("libBtn" + i);
                         var sBtnDel = (Button)FindName("libDel" + i);
 
-                        if (item.ResultNoteId != 0)
+                        if (item.resultNoteId != 0)
                         {
                             sLoc.Text = "Not";
-                            sName.Text = entitydb.Notes.Where(p => p.NotesId == item.ResultNoteId).Select(p => new Notes { NoteHeader = p.NoteHeader }).FirstOrDefault().NoteHeader;
-                            sBtn.Uid = item.ResultNoteId.ToString();
+                            sName.Text = entitydb.Notes.Where(p => p.notesId == item.resultNoteId).Select(p => new Notes { noteHeader = p.noteHeader }).FirstOrDefault().noteHeader;
+                            sBtn.Uid = item.resultNoteId.ToString();
                             sBtn.Content = "Not";
                         }
-                        if (item.ResultSubjectId != 0)
+                        if (item.resultSubjectId != 0)
                         {
                             sLoc.Text = "Konular";
-                            sName.Text = entitydb.Subject.Where(p => p.SubjectId == item.ResultSubjectId).Select(p => new Subject { SubjectName = p.SubjectName }).FirstOrDefault().SubjectName;
-                            sBtn.Uid = item.ResultSubjectId.ToString();
+                            sName.Text = entitydb.Subject.Where(p => p.subjectId == item.resultSubjectId).Select(p => new Subject { subjectName = p.subjectName }).FirstOrDefault().subjectName;
+                            sBtn.Uid = item.resultSubjectId.ToString();
                             sBtn.Content = "Konular";
                         }
-                        if (item.ResultLibId != 0)
+                        if (item.resultLibId != 0)
                         {
                             sLoc.Text = "Kütüphane";
-                            sName.Text = entitydb.Librarys.Where(p => p.LibraryId == item.ResultLibId).Select(p => new Library { LibraryName = p.LibraryName }).FirstOrDefault().LibraryName;
-                            sBtn.Uid = item.ResultLibId.ToString();
+                            sName.Text = entitydb.Librarys.Where(p => p.libraryId == item.resultLibId).Select(p => new Library { libraryName = p.libraryName }).FirstOrDefault().libraryName;
+                            sBtn.Uid = item.resultLibId.ToString();
                             sBtn.Content = "Kütüphane";
                         }
 
-                        sBtnDel.Uid = item.ResultItemId.ToString();
-                        sCreate.Text = item.SendTime.ToString("D");
+                        sBtnDel.Uid = item.resultItemId.ToString();
+                        sCreate.Text = item.sendTime.ToString("D");
 
                         var sbItem = (Border)FindName("lib" + i);
                         sbItem.Visibility = Visibility.Visible;
@@ -265,8 +265,8 @@ namespace KuranX.App.Core.Pages.ResultF
                 case "Konular":
                     using (var entitydb = new AyetContext())
                     {
-                        var dtemp = entitydb.Subject.Where(p => p.SubjectId == int.Parse(btn.Uid)).Select(p => new Subject { SubjectId = p.SubjectId }).FirstOrDefault();
-                        if (dtemp != null) App.mainframe.Content = App.navSubjectFolder.PageCall(dtemp.SubjectId);
+                        var dtemp = entitydb.Subject.Where(p => p.subjectId == int.Parse(btn.Uid)).Select(p => new Subject { subjectId = p.subjectId }).FirstOrDefault();
+                        if (dtemp != null) App.mainframe.Content = App.navSubjectFolder.PageCall(dtemp.subjectId);
                     }
 
                     break;
@@ -274,8 +274,8 @@ namespace KuranX.App.Core.Pages.ResultF
                 case "Kütüphane":
                     using (var entitydb = new AyetContext())
                     {
-                        var dtemp = entitydb.Librarys.Where(p => p.LibraryId == int.Parse(btn.Uid)).FirstOrDefault();
-                        if (dtemp != null) App.mainframe.Content = App.navLibraryNoteItemsFrame.PageCall(dtemp.LibraryId);
+                        var dtemp = entitydb.Librarys.Where(p => p.libraryId == int.Parse(btn.Uid)).FirstOrDefault();
+                        if (dtemp != null) App.mainframe.Content = App.navLibraryNoteItemsFrame.PageCall(dtemp.libraryId);
                     }
                     break;
             }

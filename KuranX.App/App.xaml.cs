@@ -27,7 +27,9 @@ namespace KuranX.App
         public static string currentDesktype = "DeskLanding";
 
         public static DispatcherTimer timeSpan = new DispatcherTimer(DispatcherPriority.Render);
+        public static DispatcherTimer lifeCycler = new DispatcherTimer(DispatcherPriority.Render);
         public static Task? loadTask;
+        public static Task? mainTask;
 
         public static Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
 
@@ -35,10 +37,13 @@ namespace KuranX.App
 
         public static homeScreen mainScreen = new homeScreen();
 
+        public static HomePage navHomeFrame = new HomePage();
+
         // VERSE PANEL
 
         public static sureFrame navSurePage = new sureFrame();
         public static verseFrame navVersePage = new verseFrame();
+        public static verseStickFrame navVerseStickPage = new verseStickFrame();
 
         // SUBJECT PANEL
         public static SubjectFrame navSubjectFrame = new SubjectFrame();

@@ -56,19 +56,19 @@ namespace KuranX.App.Core.Pages.SubjectF
             using (var entitydb = new AyetContext())
             {
                 loadAni();
-                var dSubject = entitydb.Subject.Where(p => p.SubjectId == id).FirstOrDefault();
-                var dSubjects = entitydb.SubjectItems.Where(p => p.SubjectId == id).Skip(lastPage).Take(20).ToList();
+                var dSubject = entitydb.Subject.Where(p => p.subjectId == id).FirstOrDefault();
+                var dSubjects = entitydb.SubjectItems.Where(p => p.subjectId == id).Skip(lastPage).Take(20).ToList();
 
-                Decimal totalcount = entitydb.SubjectItems.Where(p => p.SubjectId == id).Count();
+                Decimal totalcount = entitydb.SubjectItems.Where(p => p.subjectId == id).Count();
 
-                App.mainScreen.navigationWriter("subject", dSubject.SubjectName);
+                App.mainScreen.navigationWriter("subject", dSubject.subjectName);
 
                 this.Dispatcher.Invoke(() =>
                 {
-                    loadHeader.Text = dSubject.SubjectName;
-                    loadCreated.Text = dSubject.Created.ToString("D");
-                    loadHeaderColor.Background = (SolidColorBrush)new BrushConverter().ConvertFrom(dSubject.SubjectColor);
-                    subjectItemsDeleteBtn.Uid = dSubject.SubjectId.ToString();
+                    loadHeader.Text = dSubject.subjectName;
+                    loadCreated.Text = dSubject.created.ToString("D");
+                    loadHeaderColor.Background = (SolidColorBrush)new BrushConverter().ConvertFrom(dSubject.subjectColor);
+                    subjectItemsDeleteBtn.Uid = dSubject.subjectId.ToString();
                 });
 
                 for (int x = 1; x <= 20; x++)
@@ -89,15 +89,15 @@ namespace KuranX.App.Core.Pages.SubjectF
                     this.Dispatcher.Invoke(() =>
                     {
                         var sName = (TextBlock)FindName("sbName" + i);
-                        sName.Text = item.SubjectName;
+                        sName.Text = item.subjectName;
 
                         var sCreated = (TextBlock)FindName("sbCreate" + i);
-                        sCreated.Text = item.Created.ToString("D");
+                        sCreated.Text = item.created.ToString("D");
 
                         var sBtn = (Button)FindName("sbBtn" + i);
-                        sBtn.Uid = item.SubjectId.ToString();
-                        sBtn.Content = item.SureId.ToString();
-                        sBtn.Tag = item.VerseId.ToString();
+                        sBtn.Uid = item.subjectId.ToString();
+                        sBtn.Content = item.sureId.ToString();
+                        sBtn.Tag = item.verseId.ToString();
 
                         var sbItem = (StackPanel)FindName("sbItem" + i);
                         sbItem.Visibility = Visibility.Visible;
@@ -189,7 +189,7 @@ namespace KuranX.App.Core.Pages.SubjectF
 
                     if (item != null)
                     {
-                        var dControl = entitydb.SubjectItems.Where(p => p.SureId == int.Parse(item.Uid)).Where(p => p.VerseId == int.Parse(popupNextVerseId.Text)).Where(p => p.SubjectId == subFolderId).ToList();
+                        var dControl = entitydb.SubjectItems.Where(p => p.sureId == int.Parse(item.Uid)).Where(p => p.verseId == int.Parse(popupNextVerseId.Text)).Where(p => p.subjectId == subFolderId).ToList();
 
                         if (dControl.Count != 0)
                         {
@@ -199,7 +199,7 @@ namespace KuranX.App.Core.Pages.SubjectF
                         }
                         else
                         {
-                            var dSubjectItem = new SubjectItems { SubjectId = subFolderId, SubjectNotesId = 0, SureId = int.Parse(item.Uid), VerseId = int.Parse(popupNextVerseId.Text), Created = DateTime.Now, Modify = DateTime.Now, SubjectName = item.Content + " Suresinin " + popupNextVerseId.Text + " Ayeti" };
+                            var dSubjectItem = new SubjectItems { subjectId = subFolderId, subjectNotesId = 0, sureId = int.Parse(item.Uid), verseId = int.Parse(popupNextVerseId.Text), created = DateTime.Now, modify = DateTime.Now, subjectName = item.Content + " Suresinin " + popupNextVerseId.Text + " Ayeti" };
                             entitydb.SubjectItems.Add(dSubjectItem);
                             entitydb.SaveChanges();
                             succsessFunc("Ayet Ekleme Başarılı", "Seçmiş olduğunuz konuya ayet eklendi.", 3);
@@ -271,12 +271,12 @@ namespace KuranX.App.Core.Pages.SubjectF
             using (var entitydb = new AyetContext())
             {
                 var item = popupResultSureId.SelectedItem as ComboBoxItem;
-                var dResult = entitydb.Results.Where(p => p.ResultId == int.Parse(item.Uid)).FirstOrDefault();
+                var dResult = entitydb.Results.Where(p => p.resultId == int.Parse(item.Uid)).FirstOrDefault();
 
-                if (entitydb.ResultItems.Where(p => p.ResultId == dResult.ResultId && p.ResultSubjectId == subFolderId).Count() == 0)
+                if (entitydb.ResultItems.Where(p => p.resultId == dResult.resultId && p.resultSubjectId == subFolderId).Count() == 0)
                 {
-                    dResult.ResultSubject = true;
-                    var dTemp = new ResultItem { ResultId = dResult.ResultId, ResultSubjectId = subFolderId, SendTime = DateTime.Now };
+                    dResult.resultSubject = true;
+                    var dTemp = new ResultItem { resultId = dResult.resultId, resultSubjectId = subFolderId, sendTime = DateTime.Now };
                     entitydb.ResultItems.Add(dTemp);
                     entitydb.SaveChanges();
                     popup_sendResult.IsOpen = false;
@@ -299,9 +299,9 @@ namespace KuranX.App.Core.Pages.SubjectF
             {
                 using (var entitydb = new AyetContext())
                 {
-                    entitydb.SubjectItems.RemoveRange(entitydb.SubjectItems.Where(p => p.SubjectId == subFolderId));
-                    entitydb.Notes.RemoveRange(entitydb.Notes.Where(p => p.SubjectId == subFolderId));
-                    entitydb.Subject.RemoveRange(entitydb.Subject.Where(p => p.SubjectId == subFolderId));
+                    entitydb.SubjectItems.RemoveRange(entitydb.SubjectItems.Where(p => p.subjectId == subFolderId));
+                    entitydb.Notes.RemoveRange(entitydb.Notes.Where(p => p.subjectId == subFolderId));
+                    entitydb.Subject.RemoveRange(entitydb.Subject.Where(p => p.subjectId == subFolderId));
                     entitydb.SaveChanges();
                     popup_SubjectDelete.IsOpen = false;
                     voidgobacktimer();
@@ -319,7 +319,7 @@ namespace KuranX.App.Core.Pages.SubjectF
             {
                 if (popupNewName.Text.Length >= 3)
                 {
-                    entitydb.Subject.Where(p => p.SubjectId == subFolderId).First().SubjectName = popupNewName.Text;
+                    entitydb.Subject.Where(p => p.subjectId == subFolderId).First().subjectName = popupNewName.Text;
                     loadHeader.Text = popupNewName.Text;
                     entitydb.SaveChanges();
                     succsessFunc("Güncelleme Başarılı", "Konu başlığınız başarılı bir sekilde Değiştirilmiştir.", 3);
