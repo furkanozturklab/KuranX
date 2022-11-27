@@ -22,7 +22,7 @@ namespace KuranX.App.Core.Pages.LibraryF
     /// </summary>
     public partial class LibraryFileFrame : Page
     {
-        private string searchText;
+        private string searchText = "";
         private int lastPage = 0, NowPage = 1, selectedId;
         private List<PdfFile> dPdf = new List<PdfFile>();
         private Decimal totalcount = 0;
@@ -32,107 +32,149 @@ namespace KuranX.App.Core.Pages.LibraryF
 
         public LibraryFileFrame()
         {
-            InitializeComponent();
+            try
+            {
+                InitializeComponent();
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("InitializeComponent", ex);
+            }
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                loadHeaderAni.Visibility = Visibility.Hidden;
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Loading Func", ex);
+            }
         }
 
         public Page PageCall()
         {
-            lastPage = 0;
-            NowPage = 1;
-            App.mainScreen.navigationWriter("library", "Yüklenen Dosyalar");
-            App.loadTask = Task.Run(() => loadItem());
-
-            return this;
+            try
+            {
+                lastPage = 0;
+                NowPage = 1;
+                App.mainScreen.navigationWriter("library", "Yüklenen Dosyalar");
+                App.loadTask = Task.Run(() => loadItem());
+                return this;
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Loading Func", ex);
+                return this;
+            }
         }
+
+        // --------------- Loading Func --------------- //
 
         public void loadScreen(int id)
         {
-            this.Dispatcher.Invoke(() =>
+            try
             {
-                PdfViewer dViewer = new PdfViewer(id);
-                dViewer.Show();
-            });
+                this.Dispatcher.Invoke(() =>
+                {
+                    PdfViewer dViewer = new PdfViewer(id);
+                    dViewer.Show();
+                });
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Loading Func", ex);
+            }
         }
 
         public void loadItem()
         {
-            using (var entitydb = new AyetContext())
+            try
             {
-                loadAni();
+                using (var entitydb = new AyetContext())
+                {
+                    loadAni();
 
-                if (searchText != "")
-                {
-                    dPdf = entitydb.PdfFile.Where(p => EF.Functions.Like(p.fileName, "%" + searchText + "%")).Skip(lastPage).Take(20).ToList();
-                    totalcount = entitydb.PdfFile.Where(p => EF.Functions.Like(p.fileName, "%" + searchText + "%")).Count();
-                }
-                else
-                {
-                    dPdf = entitydb.PdfFile.Skip(lastPage).Take(20).ToList();
-                    totalcount = entitydb.PdfFile.Count();
-                }
-
-                for (int x = 1; x <= 20; x++)
-                {
-                    this.Dispatcher.Invoke(() =>
+                    if (searchText != "")
                     {
-                        var pdfItem = (Border)FindName("pdf" + x);
-                        pdfItem.Visibility = Visibility.Hidden;
-                    });
-                }
-                int i = 1;
-
-                Thread.Sleep(300);
-
-                foreach (var item in dPdf)
-                {
-                    this.Dispatcher.Invoke(() =>
-                    {
-                        var sName = (TextBlock)FindName("pdfName" + i);
-                        sName.Text = item.fileName;
-
-                        var sCreated = (TextBlock)FindName("pdfCreate" + i);
-                        sCreated.Text = item.created.ToString("D");
-
-                        var sBtnGo = (Button)FindName("pdfGo" + i);
-                        sBtnGo.Uid = item.pdfFileId.ToString();
-                        var sBtnDel = (Button)FindName("pdfDel" + i);
-                        sBtnDel.Uid = item.pdfFileId.ToString();
-
-                        var sbItem = (Border)FindName("pdf" + i);
-                        sbItem.Visibility = Visibility.Visible;
-                        i++;
-                    });
-                }
-
-                this.Dispatcher.Invoke(() =>
-                {
-                    totalcountText.Tag = totalcount.ToString();
-
-                    if (dPdf.Count() != 0)
-                    {
-                        // totalFileCount.Content = totalcount + " Adet Dosya Gösteriliyor";
-                        totalcount = Math.Ceiling(totalcount / 20);
-                        nowPageStatus.Tag = NowPage + " / " + totalcount.ToString();
-                        nextpageButton.Dispatcher.Invoke(() =>
-                        {
-                            if (NowPage != totalcount) nextpageButton.IsEnabled = true;
-                            else if (NowPage == totalcount) nextpageButton.IsEnabled = false;
-                        });
-                        previusPageButton.Dispatcher.Invoke(() =>
-                        {
-                            if (NowPage != 1) previusPageButton.IsEnabled = true;
-                            else if (NowPage == 1) previusPageButton.IsEnabled = false;
-                        });
+                        dPdf = entitydb.PdfFile.Where(p => EF.Functions.Like(p.fileName, "%" + searchText + "%")).Skip(lastPage).Take(20).ToList();
+                        totalcount = entitydb.PdfFile.Where(p => EF.Functions.Like(p.fileName, "%" + searchText + "%")).Count();
                     }
                     else
                     {
-                        nowPageStatus.Tag = "-";
-                        nextpageButton.IsEnabled = false;
-                        previusPageButton.IsEnabled = false;
+                        dPdf = entitydb.PdfFile.Skip(lastPage).Take(20).ToList();
+                        totalcount = entitydb.PdfFile.Count();
                     }
-                });
 
-                loadAniComplated();
+                    for (int x = 1; x <= 20; x++)
+                    {
+                        this.Dispatcher.Invoke(() =>
+                        {
+                            var pdfItem = (Border)FindName("pdf" + x);
+                            pdfItem.Visibility = Visibility.Hidden;
+                        });
+                    }
+                    int i = 1;
+
+                    Thread.Sleep(300);
+
+                    foreach (var item in dPdf)
+                    {
+                        this.Dispatcher.Invoke(() =>
+                        {
+                            var sName = (TextBlock)FindName("pdfName" + i);
+                            sName.Text = item.fileName;
+
+                            var sCreated = (TextBlock)FindName("pdfCreate" + i);
+                            sCreated.Text = item.created.ToString("D");
+
+                            var sBtnGo = (Button)FindName("pdfGo" + i);
+                            sBtnGo.Uid = item.pdfFileId.ToString();
+                            var sBtnDel = (Button)FindName("pdfDel" + i);
+                            sBtnDel.Uid = item.pdfFileId.ToString();
+
+                            var sbItem = (Border)FindName("pdf" + i);
+                            sbItem.Visibility = Visibility.Visible;
+                            i++;
+                        });
+                    }
+
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        totalcountText.Tag = totalcount.ToString();
+
+                        if (dPdf.Count() != 0)
+                        {
+                            // totalFileCount.Content = totalcount + " Adet Dosya Gösteriliyor";
+                            totalcount = Math.Ceiling(totalcount / 20);
+                            nowPageStatus.Tag = NowPage + " / " + totalcount.ToString();
+                            nextpageButton.Dispatcher.Invoke(() =>
+                            {
+                                if (NowPage != totalcount) nextpageButton.IsEnabled = true;
+                                else if (NowPage == totalcount) nextpageButton.IsEnabled = false;
+                            });
+                            previusPageButton.Dispatcher.Invoke(() =>
+                            {
+                                if (NowPage != 1) previusPageButton.IsEnabled = true;
+                                else if (NowPage == 1) previusPageButton.IsEnabled = false;
+                            });
+                        }
+                        else
+                        {
+                            nowPageStatus.Tag = "-";
+                            nextpageButton.IsEnabled = false;
+                            previusPageButton.IsEnabled = false;
+                        }
+                    });
+
+                    loadAniComplated();
+                }
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Loading Func", ex);
             }
         }
 
@@ -185,7 +227,7 @@ namespace KuranX.App.Core.Pages.LibraryF
                     }
                     else
                     {
-                        alertFunc("Yükleme Hatası", "Dosya yükleme işlemi sırasında hata oluştu", 3);
+                        App.mainScreen.alertFunc("Yükleme Hatası", "Dosya yükleme işlemi sırasında hata oluştu", 3);
                         loadAniComplated();
                     }
                 });
@@ -196,7 +238,9 @@ namespace KuranX.App.Core.Pages.LibraryF
             }
         }
 
-        // ---------------- Click Func ---------------- //
+        // --------------- Loading Func --------------- //
+
+        // --------------- Click Func --------------- //
 
         private void SearchBtn_Click(object sender, RoutedEventArgs e)
         {
@@ -229,7 +273,7 @@ namespace KuranX.App.Core.Pages.LibraryF
             }
             catch (Exception ex)
             {
-                App.logWriter("SearchButton", ex);
+                App.logWriter("Click", ex);
             }
         }
 
@@ -243,7 +287,7 @@ namespace KuranX.App.Core.Pages.LibraryF
             }
             catch (Exception ex)
             {
-                App.logWriter("ButtonClick", ex);
+                App.logWriter("Click", ex);
             }
         }
 
@@ -257,7 +301,7 @@ namespace KuranX.App.Core.Pages.LibraryF
             }
             catch (Exception ex)
             {
-                App.logWriter("ButtonClick", ex);
+                App.logWriter("Click", ex);
             }
         }
 
@@ -278,19 +322,19 @@ namespace KuranX.App.Core.Pages.LibraryF
 
                         entitydb.SaveChanges();
                         popup_DeleteConfirm.IsOpen = false;
-                        succsessFunc("Dosya Silme ", " Dosya başarılı bir sekilde silinmiştir.", 3);
+                        App.mainScreen.succsessFunc("Dosya Silme ", " Dosya başarılı bir sekilde silinmiştir.", 3);
                         App.loadTask = Task.Run(() => loadItem());
                     }
                     else
                     {
-                        alertFunc("Dosya Silme", "Dosya mevcut değil silinemedi lütfen dosyanın varlığından emin olunuz.", 3);
+                        App.mainScreen.alertFunc("Dosya Silme", "Dosya mevcut değil silinemedi lütfen dosyanın varlığından emin olunuz.", 3);
                         loadAniComplated();
                     }
                 }
             }
             catch (Exception ex)
             {
-                App.logWriter("ButtonClick", ex);
+                App.logWriter("Click", ex);
             }
         }
 
@@ -306,7 +350,7 @@ namespace KuranX.App.Core.Pages.LibraryF
             }
             catch (Exception ex)
             {
-                App.logWriter("LoadEvent", ex);
+                App.logWriter("Click", ex);
             }
         }
 
@@ -325,7 +369,7 @@ namespace KuranX.App.Core.Pages.LibraryF
             }
             catch (Exception ex)
             {
-                App.logWriter("LoadEvent", ex);
+                App.logWriter("Click", ex);
             }
         }
 
@@ -339,7 +383,7 @@ namespace KuranX.App.Core.Pages.LibraryF
             }
             catch (Exception ex)
             {
-                App.logWriter("FileUploadEvent", ex);
+                App.logWriter("Click", ex);
             }
         }
 
@@ -355,7 +399,19 @@ namespace KuranX.App.Core.Pages.LibraryF
             }
             catch (Exception ex)
             {
-                App.logWriter("Other", ex);
+                App.logWriter("Click", ex);
+            }
+        }
+
+        private void backPage_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                NavigationService.GoBack();
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Click", ex);
             }
         }
 
@@ -378,7 +434,7 @@ namespace KuranX.App.Core.Pages.LibraryF
             }
             catch (Exception ex)
             {
-                App.logWriter("TextClear", ex);
+                App.logWriter("TextChanged", ex);
             }
         }
 
@@ -390,7 +446,7 @@ namespace KuranX.App.Core.Pages.LibraryF
             }
             catch (Exception ex)
             {
-                App.logWriter("TextClear", ex);
+                App.logWriter("LostFocus", ex);
             }
         }
 
@@ -409,13 +465,14 @@ namespace KuranX.App.Core.Pages.LibraryF
             }
             catch (Exception ex)
             {
-                App.logWriter("FileUploadTrack", ex);
+                App.logWriter("ValueChanged", ex);
             }
         }
 
         // ---------------- Changed Func ---------------- //
 
         // ---------------- SimpleClear Func ---------------- //
+
         private void popupClear()
         {
             try
@@ -434,7 +491,7 @@ namespace KuranX.App.Core.Pages.LibraryF
             }
             catch (Exception ex)
             {
-                App.logWriter("TimeSpan", ex);
+                App.logWriter("Clear", ex);
             }
         }
 
@@ -450,25 +507,14 @@ namespace KuranX.App.Core.Pages.LibraryF
             }
             catch (Exception ex)
             {
-                App.logWriter("ClearFunc", ex);
-            }
-        }
-
-        private void backPage_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                NavigationService.GoBack();
-            }
-            catch (Exception ex)
-            {
-                App.logWriter("Navigation", ex);
+                App.logWriter("Clear", ex);
             }
         }
 
         // ---------------- SimpleClear Func ---------------- //
 
-        // ---------------- Animations Func ---------------- //
+        // ------------ Animation Func ------------ //
+
         public void progressAni(ProgressBar prg, int start)
         {
             try
@@ -487,83 +533,39 @@ namespace KuranX.App.Core.Pages.LibraryF
             }
         }
 
-        // ---------------- Animations Func ---------------- //
-
-        // ---------- MessageFunc FUNC ---------- //
-
-        private void alertFunc(string header, string detail, int timespan)
-        {
-            try
-            {
-                alertPopupHeader.Text = header;
-                alertPopupDetail.Text = detail;
-                alph.IsOpen = true;
-
-                App.timeSpan.Interval = TimeSpan.FromSeconds(timespan);
-                App.timeSpan.Start();
-                App.timeSpan.Tick += delegate
-                {
-                    alph.IsOpen = false;
-                    App.timeSpan.Stop();
-                };
-            }
-            catch (Exception ex)
-            {
-                App.logWriter("Other", ex);
-            }
-        }
-
-        private void succsessFunc(string header, string detail, int timespan)
-        {
-            try
-            {
-                successPopupHeader.Text = header;
-                successPopupDetail.Text = detail;
-                scph.IsOpen = true;
-
-                App.timeSpan.Interval = TimeSpan.FromSeconds(timespan);
-                App.timeSpan.Start();
-                App.timeSpan.Tick += delegate
-                {
-                    scph.IsOpen = false;
-                    App.timeSpan.Stop();
-                };
-            }
-            catch (Exception ex)
-            {
-                App.logWriter("Other", ex);
-            }
-        }
-
-        private void Page_Loaded(object sender, RoutedEventArgs e)
-        {
-            loadHeaderAni.Visibility = Visibility.Hidden;
-        }
-
-        // ---------- MessageFunc FUNC ---------- //
-
-        // ------------ Animation Func ------------ //
-
         public void loadAni()
         {
-            this.Dispatcher.Invoke(() =>
+            try
             {
-                SearchBtn.IsEnabled = false;
-                backPage.IsEnabled = false;
-                addfile.IsEnabled = false;
-            });
+                this.Dispatcher.Invoke(() =>
+                {
+                    SearchBtn.IsEnabled = false;
+                    backPage.IsEnabled = false;
+                    addfile.IsEnabled = false;
+                });
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Animation", ex);
+            }
         }
 
         public void loadAniComplated()
         {
-            this.Dispatcher.Invoke(() =>
+            try
             {
-                SearchBtn.IsEnabled = true;
-                backPage.IsEnabled = true;
-                addfile.IsEnabled = true;
-
-                loadHeaderAni.Visibility = Visibility.Visible;
-            });
+                this.Dispatcher.Invoke(() =>
+                {
+                    SearchBtn.IsEnabled = true;
+                    backPage.IsEnabled = true;
+                    addfile.IsEnabled = true;
+                    loadHeaderAni.Visibility = Visibility.Visible;
+                });
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Animation", ex);
+            }
         }
 
         // ------------ Animation Func ------------ //

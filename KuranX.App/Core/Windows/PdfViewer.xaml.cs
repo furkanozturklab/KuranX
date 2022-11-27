@@ -3,8 +3,10 @@ using KuranX.App.Core.Pages.NoteF;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -24,18 +26,32 @@ namespace KuranX.App.Core.Windows
     /// </summary>
     public partial class PdfViewer : Window
     {
-        public string currentfileUrl;
+        public string currentfileUrl = "";
         public int currentPdfId, selectedNoteId;
 
         public PdfViewer()
         {
-            InitializeComponent();
+            try
+            {
+                InitializeComponent();
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("InitializeComponent", ex);
+            }
         }
 
         public PdfViewer(int fileId) : this()
         {
-            currentPdfId = fileId;
-            App.loadTask = Task.Run(() => loadItem(currentPdfId));
+            try
+            {
+                currentPdfId = fileId;
+                App.loadTask = Task.Run(() => loadItem(currentPdfId));
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Loading", ex);
+            }
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -44,16 +60,23 @@ namespace KuranX.App.Core.Windows
 
         private void loadItem(int id)
         {
-            using (var entitydb = new AyetContext())
+            try
             {
-                var dPdfFile = entitydb.PdfFile.Where(p => p.pdfFileId == id).FirstOrDefault();
-                this.Dispatcher.Invoke(() =>
+                using (var entitydb = new AyetContext())
                 {
-                    this.Title = (string)dPdfFile.fileName;
-                    loadHeader.Text = dPdfFile.fileName;
-                    loadCreated.Text = dPdfFile.created.ToString("D");
-                    browser.Source = new Uri(@dPdfFile.fileUrl);
-                });
+                    var dPdfFile = entitydb.PdfFile.Where(p => p.pdfFileId == id).FirstOrDefault();
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        this.Title = (string)dPdfFile.fileName;
+                        loadHeader.Text = dPdfFile.fileName;
+                        loadCreated.Text = dPdfFile.created.ToString("D");
+                        browser.Source = new Uri(@dPdfFile.fileUrl);
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Click", ex);
             }
         }
 
@@ -64,15 +87,15 @@ namespace KuranX.App.Core.Windows
                 using (var entitydb = new AyetContext())
                 {
                     var dNotes = entitydb.Notes.Where(p => p.pdfFileId == currentPdfId).Where(p => p.noteLocation == "PDF").ToList();
-                    var dTempNotes = new List<Notes>();
+
                     int i = 1;
 
-                    for (int x = 1; x < 8; x++)
+                    for (int x = 1; x <= 7; x++)
                     {
                         this.Dispatcher.Invoke(() =>
                         {
-                            var itemslist = (ItemsControl)FindName("nd" + x);
-                            itemslist.ItemsSource = null;
+                            var sbItem = (Button)FindName("nd" + x);
+                            sbItem.Visibility = Visibility.Hidden;
                         });
                     }
 
@@ -80,50 +103,55 @@ namespace KuranX.App.Core.Windows
                     {
                         if (i == 8)
                         {
-                            allShowNoteButton.Dispatcher.Invoke(() =>
-                            {
-                                allShowNoteButton.Visibility = Visibility.Visible;
-                            });
+                            this.Dispatcher.Invoke(() => allShowNoteButton.Visibility = Visibility.Visible);
 
                             break;
                         }
 
                         this.Dispatcher.Invoke(() =>
                         {
-                            var dControlTemp = (ItemsControl)FindName("nd" + i);
-                            dTempNotes.Add(item);
-                            dControlTemp.ItemsSource = dTempNotes;
-                            dTempNotes.Clear();
-                        });
+                            var sButton = (Button)FindName("nd" + i);
+                            sButton.Content = item.noteHeader;
+                            sButton.Uid = item.notesId.ToString();
 
-                        i++;
+                            var sbItem = (Button)FindName("nd" + i);
+                            sbItem.Visibility = Visibility.Visible;
+                            i++;
+                        });
                     }
                 }
             }
             catch (Exception ex)
             {
-                App.logWriter("NoteConnect", ex);
+                App.logWriter("Click", ex);
             }
         }
 
         private void libFolderLoad()
         {
-            using (var entitydb = new AyetContext())
+            try
             {
-                var dLibFolder = entitydb.Librarys.ToList();
-
-                this.Dispatcher.Invoke(() =>
+                using (var entitydb = new AyetContext())
                 {
-                    selectedLibFolder.Items.Clear();
-                    foreach (var item in dLibFolder)
-                    {
-                        var cmbitem = new ComboBoxItem();
+                    var dLibFolder = entitydb.Librarys.ToList();
 
-                        cmbitem.Content = item.libraryName;
-                        cmbitem.Uid = item.libraryId.ToString();
-                        selectedLibFolder.Items.Add(cmbitem);
-                    }
-                });
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        selectedLibFolder.Items.Clear();
+                        foreach (var item in dLibFolder)
+                        {
+                            var cmbitem = new ComboBoxItem();
+
+                            cmbitem.Content = item.libraryName;
+                            cmbitem.Uid = item.libraryId.ToString();
+                            selectedLibFolder.Items.Add(cmbitem);
+                        }
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Click", ex);
             }
         }
 
@@ -131,6 +159,36 @@ namespace KuranX.App.Core.Windows
 
         private void libraryFileDeleteBtn_Click(object sender, RoutedEventArgs e)
         {
+            try
+            {
+                popup_deletePdf.IsOpen = true;
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Click", ex);
+            }
+        }
+
+        private void deletePdfPopupBtn_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                using (var entitydb = new AyetContext())
+                {
+                    Debug.WriteLine(entitydb.PdfFile.Where(p => p.pdfFileId == currentPdfId).First().fileUrl);
+                    File.Delete(entitydb.PdfFile.Where(p => p.pdfFileId == currentPdfId).First().fileUrl);
+                    entitydb.PdfFile.RemoveRange(entitydb.PdfFile.Where(p => p.pdfFileId == currentPdfId));
+                    entitydb.Notes.RemoveRange(entitydb.Notes.Where(p => p.pdfFileId == currentPdfId));
+                    entitydb.SaveChanges();
+                    popup_deletePdf.IsOpen = false;
+                    this.Close();
+                    App.mainframe.Content = App.navLibraryFileFrame.PageCall();
+                }
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Click", ex);
+            }
         }
 
         private void noteDetailPopup_Click(object sender, RoutedEventArgs e)
@@ -151,47 +209,54 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("Other", ex);
+                App.logWriter("Click", ex);
             }
         }
 
         private void allShowNoteButton_Click(object sender, RoutedEventArgs e)
         {
-            popup_notesAllShowPopup.IsOpen = true;
-
-            using (var entitydb = new AyetContext())
+            try
             {
-                Debug.WriteLine(currentPdfId);
-                var dPdf = entitydb.Notes.Where(p => p.pdfFileId == currentPdfId).ToList();
+                popup_notesAllShowPopup.IsOpen = true;
 
-                foreach (var item in dPdf)
+                using (var entitydb = new AyetContext())
                 {
-                    StackPanel itemsStack = new StackPanel();
-                    TextBlock headerText = new TextBlock();
-                    TextBlock noteText = new TextBlock();
-                    Button allshowButton = new Button();
-                    Separator sp = new Separator();
+                    Debug.WriteLine(currentPdfId);
+                    var dPdf = entitydb.Notes.Where(p => p.pdfFileId == currentPdfId).ToList();
 
-                    itemsStack.Style = (Style)FindResource("defaultdynamicItemStackpanel");
-                    headerText.Style = (Style)FindResource("defaultdynamicItemTextHeader");
-                    noteText.Style = (Style)FindResource("defaultdynamicItemTextNote");
-                    allshowButton.Style = (Style)FindResource("defaultdynamicItemShowButton");
-                    sp.Style = (Style)FindResource("defaultdynamicItemShowSperator");
+                    foreach (var item in dPdf)
+                    {
+                        StackPanel itemsStack = new StackPanel();
+                        TextBlock headerText = new TextBlock();
+                        TextBlock noteText = new TextBlock();
+                        Button allshowButton = new Button();
+                        Separator sp = new Separator();
 
-                    headerText.Text = item.noteHeader.ToString();
-                    noteText.Text = item.noteDetail.ToString();
-                    allshowButton.Uid = item.notesId.ToString();
-                    allshowButton.Content = item.noteDetail.ToString();
+                        itemsStack.Style = (Style)FindResource("defaultdynamicItemStackpanel");
+                        headerText.Style = (Style)FindResource("defaultdynamicItemTextHeader");
+                        noteText.Style = (Style)FindResource("defaultdynamicItemTextNote");
+                        allshowButton.Style = (Style)FindResource("defaultdynamicItemShowButton");
+                        sp.Style = (Style)FindResource("defaultdynamicItemShowSperator");
 
-                    allshowButton.Click += notesDetailPopup_Click;
+                        headerText.Text = item.noteHeader.ToString();
+                        noteText.Text = item.noteDetail.ToString();
+                        allshowButton.Uid = item.notesId.ToString();
+                        allshowButton.Content = item.noteDetail.ToString();
 
-                    itemsStack.Children.Add(headerText);
-                    itemsStack.Children.Add(noteText);
-                    itemsStack.Children.Add(allshowButton);
-                    itemsStack.Children.Add(sp);
+                        allshowButton.Click += notesDetailPopup_Click;
 
-                    notesAllShowPopupStackPanel.Children.Add(itemsStack);
+                        itemsStack.Children.Add(headerText);
+                        itemsStack.Children.Add(noteText);
+                        itemsStack.Children.Add(allshowButton);
+                        itemsStack.Children.Add(sp);
+
+                        notesAllShowPopupStackPanel.Children.Add(itemsStack);
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Click", ex);
             }
         }
 
@@ -200,13 +265,12 @@ namespace KuranX.App.Core.Windows
             try
             {
                 popup_noteDetailText.IsOpen = true;
-
                 Button btn = sender as Button;
                 noteOpenDetailText.Text = btn.Content.ToString();
             }
             catch (Exception ex)
             {
-                App.logWriter("NoteDetail", ex);
+                App.logWriter("Click", ex);
             }
         }
 
@@ -224,7 +288,14 @@ namespace KuranX.App.Core.Windows
 
         private void newLibFolder_Click(object sender, RoutedEventArgs e)
         {
-            popup_FolderLibraryPopup.IsOpen = true;
+            try
+            {
+                popup_FolderLibraryPopup.IsOpen = true;
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Click", ex);
+            }
         }
 
         private void noteAddButton_Click(object sender, RoutedEventArgs e)
@@ -237,7 +308,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("Other", ex);
+                App.logWriter("Click", ex);
             }
         }
 
@@ -259,7 +330,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("Other", ex);
+                App.logWriter("Click", ex);
             }
         }
 
@@ -278,7 +349,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("Navigation", ex);
+                App.logWriter("Click", ex);
             }
         }
 
@@ -288,9 +359,9 @@ namespace KuranX.App.Core.Windows
         {
             try
             {
-                if (libraryFolderHeader.Text.Length >= 8)
+                if (libraryFolderHeader.Text.Length >= 3)
                 {
-                    if (libraryFolderHeader.Text.Length < 50)
+                    if (libraryFolderHeader.Text.Length < 150)
                     {
                         using (var entitydb = new AyetContext())
                         {
@@ -301,7 +372,7 @@ namespace KuranX.App.Core.Windows
                                 var dlibraryFolder = new Classes.Library { libraryName = librarypreviewName.Text, libraryColor = librarypreviewColor.Background.ToString(), created = DateTime.Now, modify = DateTime.Now };
                                 entitydb.Librarys.Add(dlibraryFolder);
                                 entitydb.SaveChanges();
-                                succsessFunc("Kütüphane Başlığı ", " Yeni kütüphane başlığı oluşturuldu artık veri ekleye bilirsiniz.", 3);
+                                App.mainScreen.succsessFunc("Kütüphane Başlığı ", " Yeni kütüphane başlığı oluşturuldu artık veri ekleye bilirsiniz.", 3);
 
                                 librarypreviewName.Text = "";
                                 libraryFolderHeader.Text = "";
@@ -312,7 +383,7 @@ namespace KuranX.App.Core.Windows
                             }
                             else
                             {
-                                alertFunc("Kütüphane Başlığı Oluşturulamadı ", " Daha önce aynı isimde bir konu zaten mevcut lütfen kontrol ediniz.", 3);
+                                App.mainScreen.alertFunc("Kütüphane Başlığı Oluşturulamadı ", " Daha önce aynı isimde bir konu zaten mevcut lütfen kontrol ediniz.", 3);
                             }
                             dControl = null;
                         }
@@ -321,19 +392,19 @@ namespace KuranX.App.Core.Windows
                     {
                         libraryFolderHeader.Focus();
                         libraryHeaderFolderErrorMesssage.Visibility = Visibility.Visible;
-                        libraryHeaderFolderErrorMesssage.Content = "Kütüphane başlığı çok uzun max 50 karakter olabilir";
+                        libraryHeaderFolderErrorMesssage.Content = "Kütüphane başlığı çok uzun max 150 karakter olabilir";
                     }
                 }
                 else
                 {
                     libraryFolderHeader.Focus();
                     libraryHeaderFolderErrorMesssage.Visibility = Visibility.Visible;
-                    libraryHeaderFolderErrorMesssage.Content = "Kütüphane başlığının uzunluğu minimum 8 karakter olmalı";
+                    libraryHeaderFolderErrorMesssage.Content = "Kütüphane başlığının uzunluğu minimum 3 karakter olmalı";
                 }
             }
             catch (Exception ex)
             {
-                App.logWriter("PopupAction", ex);
+                App.logWriter("Click", ex);
             }
         }
 
@@ -350,7 +421,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("PopupOpen", ex);
+                App.logWriter("Click", ex);
             }
         }
 
@@ -368,13 +439,13 @@ namespace KuranX.App.Core.Windows
                     {
                         if (entitydb.Notes.Where(p => p.notesId == selectedNoteId && p.libraryId != 0).Count() != 0)
                         {
-                            alertFunc("Kütüphane Ekleme Başarısız", "Bu Not Daha Önceden Eklenmiş Yeniden Ekleyemezsiniz.", 3);
+                            App.mainScreen.alertFunc("Kütüphane Ekleme Başarısız", "Bu Not Daha Önceden Eklenmiş Yeniden Ekleyemezsiniz.", 3);
                         }
                         else
                         {
                             entitydb.Notes.Where(p => p.notesId == selectedNoteId).FirstOrDefault().libraryId = int.Parse(item.Uid);
                             entitydb.SaveChanges();
-                            succsessFunc("Kütüphane Ekleme Başarılı", "Seçmiş olduğunuz not kütüphaneye eklendi.", 3);
+                            App.mainScreen.succsessFunc("Kütüphane Ekleme Başarılı", "Seçmiş olduğunuz not kütüphaneye eklendi.", 3);
                             popup_SendNote.IsOpen = false;
                         }
                     }
@@ -388,7 +459,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("PopupAction", ex);
+                App.logWriter("Click", ex);
             }
         }
 
@@ -398,27 +469,27 @@ namespace KuranX.App.Core.Windows
         {
             try
             {
-                if (noteName.Text.Length <= 8)
+                if (noteName.Text.Length <= 3)
                 {
                     noteAddPopupHeaderError.Visibility = Visibility.Visible;
                     noteName.Focus();
-                    noteAddPopupHeaderError.Content = "Not Başlığı Yeterince Uzun Değil. Min 8 Karakter Olmalıdır.";
+                    noteAddPopupHeaderError.Content = "Not Başlığı Yeterince Uzun Değil. Min 3 Karakter Olmalıdır.";
                 }
                 else
                 {
-                    if (noteName.Text.Length > 50)
+                    if (noteName.Text.Length > 150)
                     {
                         noteAddPopupHeaderError.Visibility = Visibility.Visible;
                         noteName.Focus();
-                        noteAddPopupHeaderError.Content = "Not Başlığı Çok Uzun. Max 50 Karakter Olabilir.";
+                        noteAddPopupHeaderError.Content = "Not Başlığı Çok Uzun. Max 150 Karakter Olabilir.";
                     }
                     else
                     {
-                        if (noteDetail.Text.Length <= 8)
+                        if (noteDetail.Text.Length <= 3)
                         {
                             noteAddPopupDetailError.Visibility = Visibility.Visible;
                             noteDetail.Focus();
-                            noteAddPopupDetailError.Content = "Not İçeriği Yeterince Uzun Değil. Min 8 Karakter Olmalıdır";
+                            noteAddPopupDetailError.Content = "Not İçeriği Yeterince Uzun Değil. Min 3 Karakter Olmalıdır";
                         }
                         else
                         {
@@ -434,7 +505,7 @@ namespace KuranX.App.Core.Windows
                                 {
                                     if (entitydb.Notes.Where(p => p.noteHeader == noteName.Text).Where(p => p.noteLocation == "PDF").FirstOrDefault() != null)
                                     {
-                                        alertFunc("Not Ekleme Başarısız", "Aynı isimde not eklemiş olabilirsiniz lütfen kontrol edip yeniden deneyiniz.", 3);
+                                        App.mainScreen.alertFunc("Not Ekleme Başarısız", "Aynı isimde not eklemiş olabilirsiniz lütfen kontrol edip yeniden deneyiniz.", 3);
                                     }
                                     else
                                     {
@@ -451,7 +522,7 @@ namespace KuranX.App.Core.Windows
                                         entitydb.Notes.Add(dNotes);
                                         entitydb.SaveChanges();
 
-                                        succsessFunc("Ekleme Başarılı", loadHeader.Text + " Pdf e Not Eklendiniz.", 3);
+                                        App.mainScreen.succsessFunc("Ekleme Başarılı", loadHeader.Text + " Pdf e Not Eklendiniz.", 3);
 
                                         App.loadTask = Task.Run(() => noteConnect());
 
@@ -469,7 +540,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("PopupAction", ex);
+                App.logWriter("Click", ex);
             }
         }
 
@@ -484,7 +555,48 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("PopupOpen", ex);
+                App.logWriter("Click", ex);
+            }
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            try
+            {
+                browser.Dispose();
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Click", ex);
+            }
+        }
+
+        private void libraryColorPick_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                CheckBox? chk;
+
+                foreach (object item in libraryColorStack.Children)
+                {
+                    chk = null;
+                    if (item is FrameworkElement)
+                    {
+                        chk = ((CheckBox?)(item as FrameworkElement));
+
+                        chk.IsChecked = false;
+                    }
+                }
+
+                chk = sender as CheckBox;
+
+                chk.IsChecked = true;
+
+                librarypreviewColor.Background = new BrushConverter().ConvertFromString((string)chk.Tag) as SolidColorBrush;
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Click", ex);
             }
         }
 
@@ -528,7 +640,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("Other", ex);
+                App.logWriter("Change", ex);
             }
         }
 
@@ -540,114 +652,23 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("Other", ex);
+                App.logWriter("Change", ex);
             }
         }
 
-        private void libraryColorPick_Click(object sender, RoutedEventArgs e)
+        private void noteName_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             try
             {
-                CheckBox? chk;
-
-                foreach (object item in libraryColorStack.Children)
-                {
-                    chk = null;
-                    if (item is FrameworkElement)
-                    {
-                        chk = ((CheckBox?)(item as FrameworkElement));
-
-                        chk.IsChecked = false;
-                    }
-                }
-
-                chk = sender as CheckBox;
-
-                chk.IsChecked = true;
-
-                librarypreviewColor.Background = new BrushConverter().ConvertFromString(chk.Tag.ToString()) as SolidColorBrush;
+                Regex regex = new Regex("[^0-9a-zA-Z-ğüşöçıİĞÜŞÖÇ']");
+                e.Handled = regex.IsMatch(e.Text);
             }
             catch (Exception ex)
             {
-                App.logWriter("Other", ex);
+                App.logWriter("Change", ex);
             }
         }
 
         // ---------------- Changed Func ---------------- //
-
-        // ---------- MessageFunc FUNC ---------- //
-
-        private void alertFunc(string header, string detail, int timespan)
-        {
-            try
-            {
-                alertPopupHeader.Text = header;
-                alertPopupDetail.Text = detail;
-                alph.IsOpen = true;
-
-                App.timeSpan.Interval = TimeSpan.FromSeconds(timespan);
-                App.timeSpan.Start();
-                App.timeSpan.Tick += delegate
-                {
-                    alph.IsOpen = false;
-                    App.timeSpan.Stop();
-                };
-            }
-            catch (Exception ex)
-            {
-                App.logWriter("Other", ex);
-            }
-        }
-
-        private void infoFunc(string header, string detail, int timespan)
-        {
-            try
-            {
-                infoPopupHeader.Text = header;
-                infoPopupDetail.Text = detail;
-                inph.IsOpen = true;
-
-                App.timeSpan.Interval = TimeSpan.FromSeconds(timespan);
-                App.timeSpan.Start();
-                App.timeSpan.Tick += delegate
-                {
-                    inph.IsOpen = false;
-                    App.timeSpan.Stop();
-                };
-            }
-            catch (Exception ex)
-            {
-                App.logWriter("Other", ex);
-            }
-        }
-
-        private void Window_Closed(object sender, EventArgs e)
-        {
-            browser.Dispose();
-        }
-
-        private void succsessFunc(string header, string detail, int timespan)
-        {
-            try
-            {
-                successPopupHeader.Text = header;
-                successPopupDetail.Text = detail;
-                scph.IsOpen = true;
-
-                App.timeSpan.Interval = TimeSpan.FromSeconds(timespan);
-                App.timeSpan.Start();
-                App.timeSpan.Tick += delegate
-                {
-                    scph.IsOpen = false;
-                    App.timeSpan.Stop();
-                };
-            }
-            catch (Exception ex)
-            {
-                App.logWriter("Other", ex);
-            }
-        }
-
-        // ---------- MessageFunc FUNC ---------- //
     }
 }

@@ -8,4 +8,8 @@
     <FontFamily x:Key="PoppinsThin">pack://application:,,,/Resource/Fonts/#Poppins Thin</FontFamily>
     <FontFamily x:Key="PoppinsBlack">pack://application:,,,/Resource/Fonts/#Poppins Black</FontFamily>
     <FontFamily x:Key="XBZar">pack://application:,,,/Resource/Fonts/#XB Zar</FontFamily>
+    <FontFamily x:Key="MarckScript">pack://application:,,,/Resource/Fonts/#Marck Script</FontFamily>
+    <FontFamily x:Key="Allura">pack://application:,,,/Resource/Fonts/#Allura</FontFamily>
+    <FontFamily x:Key="Nothing">pack://application:,,,/Resource/Fonts/#Nothing You Could Do</FontFamily>
+    <FontFamily x:Key="AlexBrush">pack://application:,,,/Resource/Fonts/#Alex Brush</FontFamily>
 </ResourceDictionary>

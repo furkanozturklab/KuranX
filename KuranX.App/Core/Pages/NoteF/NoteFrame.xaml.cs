@@ -37,184 +37,215 @@ namespace KuranX.App.Core.Pages.NoteF
 
     public partial class NoteFrame : Page
     {
-        private string searchText, filterText;
+        private string searchText = "", filterText = "";
         private int lastPage = 0, NowPage = 1, selectedId;
         private bool filter;
         private List<Notes> dNotes = new List<Notes>();
 
         public NoteFrame()
         {
-            InitializeComponent();
+            try
+            {
+                InitializeComponent();
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("InitializeComponent", ex);
+            }
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            listBorder.Visibility = Visibility.Visible;
-            // App.loadTask = Task.Run(() => loadItem());
+            try
+            {
+                listBorder.Visibility = Visibility.Visible;
+                App.mainScreen.navigationWriter("notes", "");
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Loading Func", ex);
+            }
         }
 
         public Page PageCall()
         {
-            lastPage = 0;
-            NowPage = 1;
-            App.mainScreen.navigationWriter("notes", "");
-            filter = false;
-            searchText = "";
-            listview.IsChecked = true;
-            stackview.IsChecked = false;
-            listBorder.Visibility = Visibility.Visible;
-            stackBorder.Visibility = Visibility.Collapsed;
+            try
+            {
+                App.mainScreen.loadinGifContent.Visibility = Visibility.Hidden;
+                App.mainScreen.rightPanel.Visibility = Visibility.Visible;
+                lastPage = 0;
+                NowPage = 1;
+                App.mainScreen.navigationWriter("notes", "");
+                filter = false;
+                searchText = "";
+                listview.IsChecked = true;
+                stackview.IsChecked = false;
+                listBorder.Visibility = Visibility.Visible;
+                stackBorder.Visibility = Visibility.Collapsed;
 
-            App.loadTask = Task.Run(() => loadItem());
-            return this;
+                App.loadTask = Task.Run(() => loadItem());
+                return this;
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Loading Func", ex);
+                return this;
+            }
         }
 
         // -------------  Load Func ------------- //
 
         public void loadItem()
         {
-            using (var entitydb = new AyetContext())
+            try
             {
-                loadAni();
-
-                decimal totalcount = entitydb.Notes.Where(p => p.noteLocation == "Konularım" || p.noteLocation == "Kütüphane" || p.noteLocation == "PDF" || p.noteLocation == "Ayet" || p.noteLocation == "Kullanıcı").Count();
-                //var stackP = entitydb.Notes.Where(p => p.noteLocation == "Konularım" || p.noteLocation == "Kütüphane" || p.noteLocation == "PDF" || p.noteLocation == "Ayet" || p.noteLocation == "Kullanıcı").OrderByDescending(p => p.created).GroupBy(p => p.noteLocation).ToList();
-
-                App.mainScreen.navigationWriter("notes", "");
-
-                this.Dispatcher.Invoke(() =>
+                using (var entitydb = new AyetContext())
                 {
-                    listBorder.Visibility = Visibility.Visible;
-                    stackBorder.Visibility = Visibility.Collapsed;
-                });
+                    loadAni();
 
-                if (filter)
-                {
-                    if (searchText != "")
-                    {
-                        dNotes = entitydb.Notes.Where(p => EF.Functions.Like(p.noteHeader, "%" + searchText + "%")).Where(p => p.noteLocation == filterText).OrderByDescending(p => p.created).Skip(lastPage).Take(24).ToList();
-                        totalcount = entitydb.Notes.Where(p => EF.Functions.Like(p.noteHeader, "%" + searchText + "%")).Where(p => p.noteLocation == filterText).ToList().Count();
-                    }
-                    else
-                    {
-                        dNotes = entitydb.Notes.Where(p => p.noteLocation == filterText).OrderByDescending(p => p.created).Skip(lastPage).Take(24).ToList();
-                        totalcount = entitydb.Notes.Where(p => p.noteLocation == filterText).ToList().Count();
-                    }
-                }
-                else
-                {
-                    if (searchText != "")
-                    {
-                        dNotes = entitydb.Notes.Where(p => EF.Functions.Like(p.noteHeader, "%" + searchText + "%")).Where(p => p.noteLocation == "Konularım" || p.noteLocation == "Kütüphane" || p.noteLocation == "PDF" || p.noteLocation == "Ayet" || p.noteLocation == "Kullanıcı").OrderByDescending(p => p.created).Skip(lastPage).Take(24).ToList();
-                        totalcount = entitydb.Notes.Where(p => EF.Functions.Like(p.noteHeader, "%" + searchText + "%")).Where(p => p.noteLocation == "Konularım" || p.noteLocation == "Kütüphane" || p.noteLocation == "PDF" || p.noteLocation == "Ayet" || p.noteLocation == "Kullanıcı").ToList().Count();
-                    }
-                    else
-                    {
-                        dNotes = entitydb.Notes.Where(p => p.noteLocation == "Konularım" || p.noteLocation == "Kütüphane" || p.noteLocation == "PDF" || p.noteLocation == "Ayet" || p.noteLocation == "Kullanıcı").OrderByDescending(p => p.created).Skip(lastPage).Take(24).ToList();
-                        totalcount = entitydb.Notes.Where(p => p.noteLocation == "Konularım" || p.noteLocation == "Kütüphane" || p.noteLocation == "PDF" || p.noteLocation == "Ayet" || p.noteLocation == "Kullanıcı").ToList().Count();
-                    }
-                }
+                    decimal totalcount = entitydb.Notes.Where(p => p.noteLocation == "Konularım" || p.noteLocation == "Kütüphane" || p.noteLocation == "PDF" || p.noteLocation == "Ayet" || p.noteLocation == "Kullanıcı").Count();
+                    //var stackP = entitydb.Notes.Where(p => p.noteLocation == "Konularım" || p.noteLocation == "Kütüphane" || p.noteLocation == "PDF" || p.noteLocation == "Ayet" || p.noteLocation == "Kullanıcı").OrderByDescending(p => p.created).GroupBy(p => p.noteLocation).ToList();
 
-                for (int x = 1; x <= 24; x++)
-                {
+                    App.mainScreen.navigationWriter("notes", "");
+
                     this.Dispatcher.Invoke(() =>
                     {
-                        var sbItem = (Border)FindName("nt" + x);
-                        sbItem.Visibility = Visibility.Hidden;
+                        listBorder.Visibility = Visibility.Visible;
+                        stackBorder.Visibility = Visibility.Collapsed;
                     });
-                }
 
-                this.Dispatcher.Invoke(() =>
-                {
-                    subStat.Content = entitydb.Notes.Where(p => p.noteLocation == "Konularım").Count();
-                    libStat.Content = entitydb.Notes.Where(p => p.noteLocation == "Kütüphane").Count();
-                    verseStat.Content = entitydb.Notes.Where(p => p.noteLocation == "Ayet").Count();
-                    pdfStat.Content = entitydb.Notes.Where(p => p.noteLocation == "PDF").Count();
-                    userStat.Content = entitydb.Notes.Where(p => p.noteLocation == "Kullanıcı").Count();
-                });
-                int i = 1;
-
-                Thread.Sleep(200);
-
-                foreach (var item in dNotes)
-                {
-                    this.Dispatcher.Invoke(() =>
+                    if (filter)
                     {
-                        var sColor = (Border)FindName("ntColor" + i);
-                        switch (item.noteLocation)
+                        if (searchText != "")
                         {
-                            case "Konularım":
-                                sColor.Background = new BrushConverter().ConvertFrom("#FD7E14") as SolidColorBrush;
-                                break;
-
-                            case "Kütüphane":
-
-                                sColor.Background = new BrushConverter().ConvertFrom("#E33FA1") as SolidColorBrush;
-                                break;
-
-                            case "Ayet":
-
-                                sColor.Background = new BrushConverter().ConvertFrom("#0DCAF0") as SolidColorBrush;
-                                break;
-
-                            case "PDF":
-
-                                sColor.Background = new BrushConverter().ConvertFrom("#B30B00") as SolidColorBrush;
-                                break;
-
-                            default:
-                                sColor.Background = new BrushConverter().ConvertFrom("#ADB5BD") as SolidColorBrush;
-                                break;
+                            dNotes = entitydb.Notes.Where(p => EF.Functions.Like(p.noteHeader, "%" + searchText + "%")).Where(p => p.noteLocation == filterText).OrderByDescending(p => p.created).Skip(lastPage).Take(24).ToList();
+                            totalcount = entitydb.Notes.Where(p => EF.Functions.Like(p.noteHeader, "%" + searchText + "%")).Where(p => p.noteLocation == filterText).ToList().Count();
                         }
-
-                        var sName = (TextBlock)FindName("ntName" + i);
-                        sName.Text = item.noteHeader;
-
-                        var sCreated = (TextBlock)FindName("ntCreate" + i);
-                        sCreated.Text = item.created.ToString("D");
-
-                        var sBtnGo = (Button)FindName("ntBtnGo" + i);
-                        sBtnGo.Uid = item.notesId.ToString();
-
-                        var sBtnDel = (Button)FindName("ntBtnDel" + i);
-                        sBtnDel.Uid = item.notesId.ToString();
-
-                        var sbItem = (Border)FindName("nt" + i);
-                        sbItem.Visibility = Visibility.Visible;
-
-                        i++;
-                    });
-                }
-
-                i = 1;
-
-                this.Dispatcher.Invoke(() =>
-                {
-                    totalcountText.Tag = totalcount.ToString();
-
-                    if (dNotes.Count() != 0)
-                    {
-                        totalcount = Math.Ceiling(totalcount / 24);
-                        nowPageStatus.Tag = NowPage + " / " + totalcount;
-                        nextpageButton.Dispatcher.Invoke(() =>
+                        else
                         {
-                            if (NowPage != totalcount) nextpageButton.IsEnabled = true;
-                            else if (NowPage == totalcount) nextpageButton.IsEnabled = false;
-                        });
-                        previusPageButton.Dispatcher.Invoke(() =>
-                        {
-                            if (NowPage != 1) previusPageButton.IsEnabled = true;
-                            else if (NowPage == 1) previusPageButton.IsEnabled = false;
-                        });
+                            dNotes = entitydb.Notes.Where(p => p.noteLocation == filterText).OrderByDescending(p => p.created).Skip(lastPage).Take(24).ToList();
+                            totalcount = entitydb.Notes.Where(p => p.noteLocation == filterText).ToList().Count();
+                        }
                     }
                     else
                     {
-                        nowPageStatus.Tag = "-";
-                        nextpageButton.IsEnabled = false;
-                        previusPageButton.IsEnabled = false;
+                        if (searchText != "")
+                        {
+                            dNotes = entitydb.Notes.Where(p => EF.Functions.Like(p.noteHeader, "%" + searchText + "%")).Where(p => p.noteLocation == "Konularım" || p.noteLocation == "Kütüphane" || p.noteLocation == "PDF" || p.noteLocation == "Ayet" || p.noteLocation == "Kullanıcı").OrderByDescending(p => p.created).Skip(lastPage).Take(24).ToList();
+                            totalcount = entitydb.Notes.Where(p => EF.Functions.Like(p.noteHeader, "%" + searchText + "%")).Where(p => p.noteLocation == "Konularım" || p.noteLocation == "Kütüphane" || p.noteLocation == "PDF" || p.noteLocation == "Ayet" || p.noteLocation == "Kullanıcı").ToList().Count();
+                        }
+                        else
+                        {
+                            dNotes = entitydb.Notes.Where(p => p.noteLocation == "Konularım" || p.noteLocation == "Kütüphane" || p.noteLocation == "PDF" || p.noteLocation == "Ayet" || p.noteLocation == "Kullanıcı").OrderByDescending(p => p.created).Skip(lastPage).Take(24).ToList();
+                            totalcount = entitydb.Notes.Where(p => p.noteLocation == "Konularım" || p.noteLocation == "Kütüphane" || p.noteLocation == "PDF" || p.noteLocation == "Ayet" || p.noteLocation == "Kullanıcı").ToList().Count();
+                        }
                     }
-                });
-                loadAniComplated();
+
+                    for (int x = 1; x <= 24; x++)
+                    {
+                        this.Dispatcher.Invoke(() =>
+                        {
+                            var sbItem = (Border)FindName("nt" + x);
+                            sbItem.Visibility = Visibility.Hidden;
+                        });
+                    }
+
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        subStat.Content = entitydb.Notes.Where(p => p.noteLocation == "Konularım").Count();
+                        libStat.Content = entitydb.Notes.Where(p => p.noteLocation == "Kütüphane").Count();
+                        verseStat.Content = entitydb.Notes.Where(p => p.noteLocation == "Ayet").Count();
+                        pdfStat.Content = entitydb.Notes.Where(p => p.noteLocation == "PDF").Count();
+                        userStat.Content = entitydb.Notes.Where(p => p.noteLocation == "Kullanıcı").Count();
+                    });
+                    int i = 1;
+
+                    Thread.Sleep(200);
+
+                    foreach (var item in dNotes)
+                    {
+                        this.Dispatcher.Invoke(() =>
+                        {
+                            var sColor = (Border)FindName("ntColor" + i);
+                            switch (item.noteLocation)
+                            {
+                                case "Konularım":
+                                    sColor.Background = new BrushConverter().ConvertFrom("#FD7E14") as SolidColorBrush;
+                                    break;
+
+                                case "Kütüphane":
+
+                                    sColor.Background = new BrushConverter().ConvertFrom("#E33FA1") as SolidColorBrush;
+                                    break;
+
+                                case "Ayet":
+
+                                    sColor.Background = new BrushConverter().ConvertFrom("#0DCAF0") as SolidColorBrush;
+                                    break;
+
+                                case "PDF":
+
+                                    sColor.Background = new BrushConverter().ConvertFrom("#B30B00") as SolidColorBrush;
+                                    break;
+
+                                default:
+                                    sColor.Background = new BrushConverter().ConvertFrom("#ADB5BD") as SolidColorBrush;
+                                    break;
+                            }
+
+                            var sName = (TextBlock)FindName("ntName" + i);
+                            sName.Text = item.noteHeader;
+
+                            var sCreated = (TextBlock)FindName("ntCreate" + i);
+                            sCreated.Text = item.created.ToString("D");
+
+                            var sBtnGo = (Button)FindName("ntBtnGo" + i);
+                            sBtnGo.Uid = item.notesId.ToString();
+
+                            var sBtnDel = (Button)FindName("ntBtnDel" + i);
+                            sBtnDel.Uid = item.notesId.ToString();
+
+                            var sbItem = (Border)FindName("nt" + i);
+                            sbItem.Visibility = Visibility.Visible;
+
+                            i++;
+                        });
+                    }
+
+                    i = 1;
+
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        totalcountText.Tag = totalcount.ToString();
+
+                        if (dNotes.Count() != 0)
+                        {
+                            totalcount = Math.Ceiling(totalcount / 24);
+                            nowPageStatus.Tag = NowPage + " / " + totalcount;
+                            nextpageButton.Dispatcher.Invoke(() =>
+                            {
+                                if (NowPage != totalcount) nextpageButton.IsEnabled = true;
+                                else if (NowPage == totalcount) nextpageButton.IsEnabled = false;
+                            });
+                            previusPageButton.Dispatcher.Invoke(() =>
+                            {
+                                if (NowPage != 1) previusPageButton.IsEnabled = true;
+                                else if (NowPage == 1) previusPageButton.IsEnabled = false;
+                            });
+                        }
+                        else
+                        {
+                            nowPageStatus.Tag = "-";
+                            nextpageButton.IsEnabled = false;
+                            previusPageButton.IsEnabled = false;
+                        }
+                    });
+                    loadAniComplated();
+                }
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Loading Func", ex);
             }
         }
 
@@ -224,28 +255,35 @@ namespace KuranX.App.Core.Pages.NoteF
 
         private void filter_Click(object sender, RoutedEventArgs e)
         {
-            Button btn = sender as Button;
-            listview.IsChecked = true;
-            stackview.IsChecked = false;
-            lastPage = 0;
-            NowPage = 1;
-
-            if ((string)btn.Content == "Hepsi")
+            try
             {
-                filter = false;
-                filterText = "";
-                searchText = "";
-                SearchData.Text = "";
-            }
-            else
-            {
-                filter = true;
-                filterText = btn.Content.ToString();
-                searchText = "";
-                SearchData.Text = "";
-            }
+                var btn = sender as Button;
+                listview.IsChecked = true;
+                stackview.IsChecked = false;
+                lastPage = 0;
+                NowPage = 1;
 
-            App.loadTask = Task.Run(() => loadItem());
+                if ((string)btn.Content == "Hepsi")
+                {
+                    filter = false;
+                    filterText = "";
+                    searchText = "";
+                    SearchData.Text = "";
+                }
+                else
+                {
+                    filter = true;
+                    filterText = (string)btn.Content;
+                    searchText = "";
+                    SearchData.Text = "";
+                }
+
+                App.loadTask = Task.Run(() => loadItem());
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Click", ex);
+            }
         }
 
         private void SearchBtn_Click(object sender, RoutedEventArgs e)
@@ -283,42 +321,63 @@ namespace KuranX.App.Core.Pages.NoteF
 
         private void filterButton_Click(object sender, RoutedEventArgs e)
         {
-            if (hoverPopup.IsOpen)
+            try
             {
-                hoverPopup.IsOpen = false;
+                if (hoverPopup.IsOpen)
+                {
+                    hoverPopup.IsOpen = false;
+                }
+                else
+                {
+                    hoverPopup.IsOpen = true;
+                }
             }
-            else
+            catch (Exception ex)
             {
-                hoverPopup.IsOpen = true;
+                App.logWriter("Click", ex);
             }
         }
 
         private void addNewNote_Click(object sender, RoutedEventArgs e)
         {
-            popup_noteAddPopup.IsOpen = true;
-            noteType.Text = "Kullanıcı Notu";
+            try
+            {
+                popup_noteAddPopup.IsOpen = true;
+                noteType.Text = "Kullanıcı Notu";
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Click", ex);
+            }
         }
 
         private void viewchange_Click(object sender, RoutedEventArgs e)
         {
-            CheckBox chk = sender as CheckBox;
-            listview.IsChecked = false;
-            stackview.IsChecked = false;
-
-            chk.IsChecked = true;
-
-            if ((string)chk.Content == "Liste")
+            try
             {
-                listBorder.Visibility = Visibility.Visible;
-                stackBorder.Visibility = Visibility.Collapsed;
-            }
-            else
-            {
-                listBorder.Visibility = Visibility.Collapsed;
-                stackBorder.Visibility = Visibility.Visible;
-            }
+                CheckBox? chk = sender as CheckBox;
+                listview.IsChecked = false;
+                stackview.IsChecked = false;
 
-            hoverPopup.IsOpen = false;
+                chk.IsChecked = true;
+
+                if ((string)chk.Content == "Liste")
+                {
+                    listBorder.Visibility = Visibility.Visible;
+                    stackBorder.Visibility = Visibility.Collapsed;
+                }
+                else
+                {
+                    listBorder.Visibility = Visibility.Collapsed;
+                    stackBorder.Visibility = Visibility.Visible;
+                }
+
+                hoverPopup.IsOpen = false;
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Click", ex);
+            }
         }
 
         private void addNoteButton_Click(object sender, RoutedEventArgs e)
@@ -361,14 +420,14 @@ namespace KuranX.App.Core.Pages.NoteF
                                 {
                                     if (entitydb.Notes.Where(p => p.noteHeader == noteName.Text && p.noteLocation == "Kullanıcı").FirstOrDefault() != null)
                                     {
-                                        alertFunc("Not Ekleme Başarısız", "Aynı isimde not eklemiş olabilirsiniz lütfen kontrol edip yeniden deneyiniz.", 3);
+                                        App.mainScreen.alertFunc("Not Ekleme Başarısız", "Aynı isimde not eklemiş olabilirsiniz lütfen kontrol edip yeniden deneyiniz.", 3);
                                     }
                                     else
                                     {
                                         var dNotes = new Notes { noteHeader = noteName.Text, noteDetail = noteDetail.Text, sureId = 0, verseId = 0, modify = DateTime.Now, created = DateTime.Now, noteLocation = "Kullanıcı" };
                                         entitydb.Notes.Add(dNotes);
                                         entitydb.SaveChanges();
-                                        succsessFunc("Not Ekleme Başarılı", "Notunuz Eklenmiştir.", 3);
+                                        App.mainScreen.succsessFunc("Not Ekleme Başarılı", "Notunuz Eklenmiştir.", 3);
                                         noteName.Text = "";
                                         noteDetail.Text = "";
 
@@ -388,7 +447,7 @@ namespace KuranX.App.Core.Pages.NoteF
             }
             catch (Exception ex)
             {
-                App.logWriter("PopupAction", ex);
+                App.logWriter("Click", ex);
             }
         }
 
@@ -403,7 +462,7 @@ namespace KuranX.App.Core.Pages.NoteF
             }
             catch (Exception ex)
             {
-                App.logWriter("LoadEvent", ex);
+                App.logWriter("Click", ex);
             }
         }
 
@@ -421,7 +480,7 @@ namespace KuranX.App.Core.Pages.NoteF
             }
             catch (Exception ex)
             {
-                App.logWriter("LoadEvent", ex);
+                App.logWriter("Click", ex);
             }
         }
 
@@ -429,29 +488,43 @@ namespace KuranX.App.Core.Pages.NoteF
         {
             try
             {
-                Button btntemp = sender as Button;
-                var popuptemp = (Popup)FindName(btntemp.Uid);
+                var btntemp = sender as Button;
+                Popup popuptemp = (Popup)FindName(btntemp.Uid);
 
                 popuptemp.IsOpen = false;
             }
             catch (Exception ex)
             {
-                App.logWriter("Other", ex);
+                App.logWriter("Click", ex);
             }
         }
 
         private void gotoNotes_Click(object sender, RoutedEventArgs e)
         {
-            Button btn = sender as Button;
-            listBorder.Visibility = Visibility.Hidden;
-            App.mainframe.Content = App.navNoteItem.PageCall(int.Parse(btn.Uid));
+            try
+            {
+                var btn = sender as Button;
+                listBorder.Visibility = Visibility.Hidden;
+                App.mainframe.Content = App.navNoteItem.PageCall(int.Parse(btn.Uid));
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Click", ex);
+            }
         }
 
         private void deleteNotes_Click(object sender, RoutedEventArgs e)
         {
-            Button btn = sender as Button;
-            popup_deleteNote.IsOpen = true;
-            selectedId = int.Parse(btn.Uid);
+            try
+            {
+                var btn = sender as Button;
+                popup_deleteNote.IsOpen = true;
+                selectedId = int.Parse(btn.Uid);
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Click", ex);
+            }
         }
 
         private void deleteNotePopupBtn_Click(object sender, RoutedEventArgs e)
@@ -468,7 +541,7 @@ namespace KuranX.App.Core.Pages.NoteF
             }
             catch (Exception ex)
             {
-                App.logWriter("Remove", ex);
+                App.logWriter("Click", ex);
             }
         }
 
@@ -491,7 +564,7 @@ namespace KuranX.App.Core.Pages.NoteF
             }
             catch (Exception ex)
             {
-                App.logWriter("Search", ex);
+                App.logWriter("Changed", ex);
             }
         }
 
@@ -503,7 +576,7 @@ namespace KuranX.App.Core.Pages.NoteF
             }
             catch (Exception ex)
             {
-                App.logWriter("Search", ex);
+                App.logWriter("Change", ex);
             }
         }
 
@@ -515,7 +588,7 @@ namespace KuranX.App.Core.Pages.NoteF
             }
             catch (Exception ex)
             {
-                App.logWriter("Other", ex);
+                App.logWriter("Change", ex);
             }
         }
 
@@ -527,114 +600,58 @@ namespace KuranX.App.Core.Pages.NoteF
             }
             catch (Exception ex)
             {
-                App.logWriter("Other", ex);
+                App.logWriter("Change", ex);
             }
         }
 
         // ---------------- Changed Func ---------------- //
 
-        // ---------- MessageFunc FUNC ---------- //
-
-        private void alertFunc(string header, string detail, int timespan)
-        {
-            try
-            {
-                alertPopupHeader.Text = header;
-                alertPopupDetail.Text = detail;
-                alph.IsOpen = true;
-
-                App.timeSpan.Interval = TimeSpan.FromSeconds(timespan);
-                App.timeSpan.Start();
-                App.timeSpan.Tick += delegate
-                {
-                    alph.IsOpen = false;
-                    App.timeSpan.Stop();
-                };
-            }
-            catch (Exception ex)
-            {
-                App.logWriter("Other", ex);
-            }
-        }
-
-        private void infoFunc(string header, string detail, int timespan)
-        {
-            try
-            {
-                infoPopupHeader.Text = header;
-                infoPopupDetail.Text = detail;
-                inph.IsOpen = true;
-
-                App.timeSpan.Interval = TimeSpan.FromSeconds(timespan);
-                App.timeSpan.Start();
-                App.timeSpan.Tick += delegate
-                {
-                    inph.IsOpen = false;
-                    App.timeSpan.Stop();
-                };
-            }
-            catch (Exception ex)
-            {
-                App.logWriter("Other", ex);
-            }
-        }
-
-        private void succsessFunc(string header, string detail, int timespan)
-        {
-            try
-            {
-                successPopupHeader.Text = header;
-                successPopupDetail.Text = detail;
-                scph.IsOpen = true;
-
-                App.timeSpan.Interval = TimeSpan.FromSeconds(timespan);
-                App.timeSpan.Start();
-                App.timeSpan.Tick += delegate
-                {
-                    scph.IsOpen = false;
-                    App.timeSpan.Stop();
-                };
-            }
-            catch (Exception ex)
-            {
-                App.logWriter("Other", ex);
-            }
-        }
-
-        // ---------- MessageFunc FUNC ---------- //
-
         // ------------ Animation Func ------------ //
 
         public void loadAni()
         {
-            this.Dispatcher.Invoke(() =>
+            try
             {
-                SearchBtn.IsEnabled = false;
-                addNewNote.IsEnabled = false;
-                filterButton.IsEnabled = false;
-                filterAll.IsEnabled = false;
-                filterUser.IsEnabled = false;
-                filterSubject.IsEnabled = false;
+                this.Dispatcher.Invoke(() =>
+                {
+                    SearchBtn.IsEnabled = false;
+                    addNewNote.IsEnabled = false;
+                    filterButton.IsEnabled = false;
+                    filterAll.IsEnabled = false;
+                    filterUser.IsEnabled = false;
+                    filterSubject.IsEnabled = false;
 
-                filterVerse.IsEnabled = false;
-                filterPdf.IsEnabled = false;
-            });
+                    filterVerse.IsEnabled = false;
+                    filterPdf.IsEnabled = false;
+                });
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Animation", ex);
+            }
         }
 
         public void loadAniComplated()
         {
-            this.Dispatcher.Invoke(() =>
+            try
             {
-                SearchBtn.IsEnabled = true;
-                addNewNote.IsEnabled = true;
-                filterButton.IsEnabled = true;
-                filterAll.IsEnabled = true;
-                filterUser.IsEnabled = true;
-                filterSubject.IsEnabled = true;
+                this.Dispatcher.Invoke(() =>
+                {
+                    SearchBtn.IsEnabled = true;
+                    addNewNote.IsEnabled = true;
+                    filterButton.IsEnabled = true;
+                    filterAll.IsEnabled = true;
+                    filterUser.IsEnabled = true;
+                    filterSubject.IsEnabled = true;
 
-                filterVerse.IsEnabled = true;
-                filterPdf.IsEnabled = true;
-            });
+                    filterVerse.IsEnabled = true;
+                    filterPdf.IsEnabled = true;
+                });
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Animation", ex);
+            }
         }
 
         // ------------ Animation Func ------------ //

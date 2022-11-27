@@ -24,13 +24,20 @@ namespace KuranX.App.Core.Windows
     public partial class homeScreen : Window
     {
         private CheckBox? navCheckBox;
+
         private bool taskstatus = true;
 
         public homeScreen()
         {
-            InitializeComponent();
-
-            App.mainframe = (Frame)this.FindName("homeFrame");
+            try
+            {
+                InitializeComponent();
+                App.mainframe = (Frame)this.FindName("homeFrame");
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("InitializeComponent", ex);
+            }
         }
 
         // ------------ Load Func  ------------ //
@@ -39,31 +46,19 @@ namespace KuranX.App.Core.Windows
         {
             try
             {
-                using (var entitydb = new AyetContext())
-                {
-                    var user = entitydb.Users.FirstOrDefault();
-
-                    // hmwd_profileName.Text = user.FirstName + " " + user.LastName;
-
-                    // hmwd_profileImageBrush.ImageSource = (ImageSource)FindResource(user.AvatarUrl);
-                }
-
                 // BAŞARILI CALIŞAN
 
                 App.mainTask = Task.Run(() => welcoming());
                 App.mainTask = Task.Run(() => navigationWriter("verse", ""));
                 App.mainTask = Task.Run(() => remiderCycler_Func());
-
                 App.mainTask.Wait();
 
                 if (taskstatus) App.mainTask = Task.Run(() => tasksCycler_Func());
-
-                //App.mainframe.Content = App.navTestPage.PageCall();
-                App.mainframe.Content = App.navVersePage.PageCall(1, 1, "other");
+                App.mainframe.Content = App.navHomeFrame.PageCall();
             }
             catch (Exception ex)
             {
-                App.logWriter("LoadedFunc", ex);
+                App.logWriter("Loaded", ex);
             }
         }
 
@@ -184,7 +179,6 @@ namespace KuranX.App.Core.Windows
             try
             {
                 taskstatus = true;
-
                 using (var entitydb = new AyetContext())
                 {
                     while (true)
@@ -256,6 +250,15 @@ namespace KuranX.App.Core.Windows
         {
             try
             {
+                using (var entitydb = new AyetContext())
+                {
+                    var user = entitydb.Users.FirstOrDefault();
+
+                    this.Dispatcher.Invoke(() => hmwd_profileName.Text = user.firstName + " " + user.lastName);
+
+                    this.Dispatcher.Invoke(() => hmwd_profileImageBrush.ImageSource = (ImageSource)FindResource(user.avatarUrl));
+                }
+
                 int i = DateTime.Now.Hour;
 
                 this.Dispatcher.Invoke(() =>
@@ -352,15 +355,38 @@ namespace KuranX.App.Core.Windows
                 {
                     // eğer verseFrame de isem çalış
 
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        foreach (object item in hmwnd_leftNavControlStack.Children)
+                        {
+                            CheckBox? element = (item as FrameworkElement) as CheckBox;
+                            element.IsChecked = false;
+                        }
+                        specialNav.IsChecked = true;
+                    });
+
                     if (this.Dispatcher.Invoke(() => App.navVersePage.markButton.IsChecked == true))
                     {
-                        navClear();
                         // Verseframede işaretlemiş isem çalış
+
                         switch (this.Dispatcher.Invoke(() => navCheckBox.Content))
                         {
+                            case "AnaSayfa":
+                                this.Dispatcher.Invoke(() =>
+                                {
+                                    navClear();
+                                    navCheckBox.IsChecked = true;
+
+                                    App.mainframe.Content = App.navHomeFrame.PageCall();
+                                });
+
+                                break;
+
                             case "Ayetler":
                                 this.Dispatcher.Invoke(() =>
                                 {
+                                    navClear();
+                                    navCheckBox.IsChecked = true;
                                     App.currentDesktype = "DeskLanding";
                                     App.mainframe.Content = App.navSurePage.PageCall();
                                 });
@@ -370,6 +396,8 @@ namespace KuranX.App.Core.Windows
                             case "Konularım":
                                 this.Dispatcher.Invoke(() =>
                                 {
+                                    navClear();
+                                    navCheckBox.IsChecked = true;
                                     App.mainframe.Content = App.navSubjectFrame.PageCall();
                                 });
                                 break;
@@ -377,6 +405,8 @@ namespace KuranX.App.Core.Windows
                             case "Kütüphane":
                                 this.Dispatcher.Invoke(() =>
                                 {
+                                    navClear();
+                                    navCheckBox.IsChecked = true;
                                     App.mainframe.Content = App.navLibraryOpen.PageCall();
                                 });
                                 break;
@@ -384,6 +414,8 @@ namespace KuranX.App.Core.Windows
                             case "Notlar":
                                 this.Dispatcher.Invoke(() =>
                                 {
+                                    navClear();
+                                    navCheckBox.IsChecked = true;
                                     App.mainframe.Content = App.navNotesPage.PageCall();
                                 });
                                 break;
@@ -391,6 +423,8 @@ namespace KuranX.App.Core.Windows
                             case "Hatırlatıcı":
                                 this.Dispatcher.Invoke(() =>
                                 {
+                                    navClear();
+                                    navCheckBox.IsChecked = true;
                                     App.mainframe.Content = App.navRemiderPage.PageCall();
                                 });
                                 break;
@@ -398,6 +432,8 @@ namespace KuranX.App.Core.Windows
                             case "Sonuc":
                                 this.Dispatcher.Invoke(() =>
                                 {
+                                    navClear();
+                                    navCheckBox.IsChecked = true;
                                     App.mainframe.Content = App.navResultPage.PageCall();
                                 });
                                 break;
@@ -405,6 +441,8 @@ namespace KuranX.App.Core.Windows
                             default:
                                 this.Dispatcher.Invoke(() =>
                                 {
+                                    navClear();
+                                    navCheckBox.IsChecked = true;
                                     App.mainframe.Content = App.navTestPage;
                                 });
                                 break;
@@ -417,17 +455,23 @@ namespace KuranX.App.Core.Windows
                 {
                     // eğer verseFramede değilsem normal çalış
 
-                    navClear();
-                    this.Dispatcher.Invoke(() =>
-                    {
-                        navCheckBox.IsChecked = true;
-                    });
-
                     switch (this.Dispatcher.Invoke(() => navCheckBox.Content))
                     {
+                        case "AnaSayfa":
+                            this.Dispatcher.Invoke(() =>
+                            {
+                                navClear();
+                                navCheckBox.IsChecked = true;
+                                App.mainframe.Content = App.navHomeFrame.PageCall();
+                            });
+
+                            break;
+
                         case "Ayetler":
                             this.Dispatcher.Invoke(() =>
                             {
+                                navClear();
+                                navCheckBox.IsChecked = true;
                                 App.currentDesktype = "DeskLanding";
                                 App.mainframe.Content = App.navSurePage.PageCall();
                             });
@@ -437,6 +481,8 @@ namespace KuranX.App.Core.Windows
                         case "Konularım":
                             this.Dispatcher.Invoke(() =>
                             {
+                                navClear();
+                                navCheckBox.IsChecked = true;
                                 App.mainframe.Content = App.navSubjectFrame.PageCall();
                             });
                             break;
@@ -444,6 +490,8 @@ namespace KuranX.App.Core.Windows
                         case "Kütüphane":
                             this.Dispatcher.Invoke(() =>
                             {
+                                navClear();
+                                navCheckBox.IsChecked = true;
                                 App.mainframe.Content = App.navLibraryOpen.PageCall();
                             });
                             break;
@@ -451,6 +499,8 @@ namespace KuranX.App.Core.Windows
                         case "Notlar":
                             this.Dispatcher.Invoke(() =>
                             {
+                                navClear();
+                                navCheckBox.IsChecked = true;
                                 App.mainframe.Content = App.navNotesPage.PageCall();
                             });
                             break;
@@ -458,6 +508,8 @@ namespace KuranX.App.Core.Windows
                         case "Hatırlatıcı":
                             this.Dispatcher.Invoke(() =>
                             {
+                                navClear();
+                                navCheckBox.IsChecked = true;
                                 App.mainframe.Content = App.navRemiderPage.PageCall();
                             });
                             break;
@@ -465,6 +517,8 @@ namespace KuranX.App.Core.Windows
                         case "Sonuc":
                             this.Dispatcher.Invoke(() =>
                             {
+                                navClear();
+                                navCheckBox.IsChecked = true;
                                 App.mainframe.Content = App.navResultPage.PageCall();
                             });
                             break;
@@ -472,6 +526,8 @@ namespace KuranX.App.Core.Windows
                         default:
                             this.Dispatcher.Invoke(() =>
                             {
+                                navClear();
+                                navCheckBox.IsChecked = true;
                                 App.mainframe.Content = App.navTestPage;
                             });
                             break;
@@ -495,16 +551,23 @@ namespace KuranX.App.Core.Windows
 
         public void navClear()
         {
-            this.Dispatcher.Invoke(() =>
+            try
             {
-                loadinGifContent.Visibility = Visibility.Visible;
-                rightPanel.Visibility = Visibility.Hidden;
-                foreach (object item in hmwnd_leftNavControlStack.Children)
+                this.Dispatcher.Invoke(() =>
                 {
-                    CheckBox? element = (item as FrameworkElement) as CheckBox;
-                    element.IsChecked = false;
-                }
-            });
+                    loadinGifContent.Visibility = Visibility.Visible;
+                    rightPanel.Visibility = Visibility.Hidden;
+                    foreach (object item in hmwnd_leftNavControlStack.Children)
+                    {
+                        CheckBox? element = (item as FrameworkElement) as CheckBox;
+                        element.IsChecked = false;
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Loaded", ex);
+            }
         }
 
         // ------------ Special Func  ------------ //
@@ -513,19 +576,40 @@ namespace KuranX.App.Core.Windows
 
         private void appClosed_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            try
+            {
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Click", ex);
+            }
         }
 
         private void menuNavControl_Click(object sender, RoutedEventArgs e)
         {
-            navCheckBox = sender as CheckBox;
-            App.loadTask = Task.Run(() => menuTask((CheckBox)navCheckBox));
+            try
+            {
+                navCheckBox = sender as CheckBox;
+                App.loadTask = Task.Run(() => menuTask(navCheckBox));
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Click", ex);
+            }
         }
 
         private void adminOpen_Click(object sender, RoutedEventArgs e)
         {
-            AdminPanel ad = new AdminPanel();
-            ad.Show();
+            try
+            {
+                AdminPanel ad = new AdminPanel();
+                ad.Show();
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Click", ex);
+            }
         }
 
         private void popupAction_Click(object sender, RoutedEventArgs e)
@@ -545,7 +629,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("ClickFunc", ex);
+                App.logWriter("Click", ex);
             }
         }
 
@@ -566,13 +650,20 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("ClickFunc", ex);
+                App.logWriter("Click", ex);
             }
         }
 
         private void popupExit_Click(object sender, RoutedEventArgs e)
         {
-            lifeCyclerPopups.IsOpen = false;
+            try
+            {
+                lifeCyclerPopups.IsOpen = false;
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Click", ex);
+            }
         }
 
         private void hmwnd_sizeControl_Click(object sender, RoutedEventArgs e)
@@ -602,70 +693,105 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("ClickFunc", ex);
+                App.logWriter("Click", ex);
             }
         }
 
         private void fastexitBtn_Click(object sender, RoutedEventArgs e)
         {
-            popup_fastExitConfirm.IsOpen = false;
-
-            foreach (object item in hmwnd_leftNavControlStack.Children)
+            try
             {
-                CheckBox? element = (item as FrameworkElement) as CheckBox;
+                popup_fastExitConfirm.IsOpen = false;
 
-                element.IsChecked = false;
+                switch (navCheckBox.Content)
+                {
+                    case "AnaSayfa":
+                        this.Dispatcher.Invoke(() =>
+                        {
+                            navClear();
+                            navCheckBox.IsChecked = true;
+                            App.mainframe.Content = App.navHomeFrame.PageCall();
+                        });
+
+                        break;
+
+                    case "Ayetler":
+                        this.Dispatcher.Invoke(() =>
+                        {
+                            navClear();
+
+                            navCheckBox.IsChecked = true;
+                            App.currentDesktype = "DeskLanding";
+                            App.mainframe.Content = App.navSurePage.PageCall();
+                        });
+                        break;
+
+                    case "Konularım":
+                        this.Dispatcher.Invoke(() =>
+                        {
+                            navClear();
+
+                            navCheckBox.IsChecked = true;
+                            App.mainframe.Content = App.navSubjectFrame.PageCall();
+                        });
+                        break;
+
+                    case "Kütüphane":
+                        this.Dispatcher.Invoke(() =>
+                        {
+                            navClear();
+                            navCheckBox.IsChecked = true;
+                            App.mainframe.Content = App.navLibraryOpen.PageCall();
+                        });
+                        break;
+
+                    case "Notlar":
+                        this.Dispatcher.Invoke(() =>
+                        {
+                            navClear();
+                            navCheckBox.IsChecked = true;
+
+                            App.mainframe.Content = App.navNotesPage.PageCall();
+                        });
+                        break;
+
+                    case "Hatırlatıcı":
+                        this.Dispatcher.Invoke(() =>
+                        {
+                            navClear();
+                            navCheckBox.IsChecked = true;
+
+                            App.mainframe.Content = App.navRemiderPage.PageCall();
+                        });
+                        break;
+
+                    case "Sonuc":
+                        this.Dispatcher.Invoke(() =>
+                        {
+                            navClear();
+                            navCheckBox.IsChecked = true;
+
+                            App.mainframe.Content = App.navResultPage.PageCall();
+                        });
+                        break;
+
+                    default:
+                        this.Dispatcher.Invoke(() =>
+                        {
+                            navClear();
+                            navCheckBox.IsChecked = true;
+
+                            App.mainframe.Content = App.navTestPage;
+                        });
+                        break;
+                }
+
+                GC.Collect();
             }
-
-            navCheckBox.IsChecked = true;
-
-            switch (navCheckBox.Content)
+            catch (Exception ex)
             {
-                case "Ayetler":
-                    App.currentDesktype = "DeskLanding";
-
-                    App.mainframe.Content = App.navSurePage.PageCall();
-
-                    break;
-
-                case "Konularım":
-
-                    App.mainframe.Content = App.navSubjectFrame.PageCall();
-
-                    break;
-
-                case "Kütüphane":
-
-                    App.mainframe.Content = App.navLibraryOpen.PageCall();
-
-                    break;
-
-                case "Notlar":
-
-                    App.mainframe.Content = App.navNotesPage.PageCall();
-
-                    break;
-
-                case "Hatırlatıcı":
-
-                    App.mainframe.Content = App.navRemiderPage.PageCall();
-
-                    break;
-
-                case "Sonuc":
-
-                    App.mainframe.Content = App.navResultPage.PageCall();
-
-                    break;
-
-                default:
-
-                    App.mainframe.Content = App.navTestPage;
-
-                    break;
+                App.logWriter("Click", ex);
             }
-
-            GC.Collect();
         }
 
         private void popupClosed_Click(object sender, RoutedEventArgs e)
@@ -673,16 +799,97 @@ namespace KuranX.App.Core.Windows
             try
             {
                 var btntemp = sender as Button;
-                var popuptemp = (Popup)this.FindName(btntemp.Uid);
+                var popuptemp = (Popup)FindName(btntemp.Uid);
                 popuptemp.IsOpen = false;
                 btntemp = null;
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Click", ex);
+            }
+        }
+
+        private void leftHeaderButtonsProfile_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                this.Dispatcher.Invoke(() =>
+                {
+                    App.mainframe.Content = App.navUserFrame.PageCall();
+                });
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Click", ex);
+            }
+        }
+
+        // ------------ Click Func  ------------  //
+
+        public void alertFunc(string header, string detail, int timespan)
+        {
+            try
+            {
+                alertPopupHeader.Text = header;
+                alertPopupDetail.Text = detail;
+                alph.IsOpen = true;
+
+                App.timeSpan.Interval = TimeSpan.FromSeconds(timespan);
+                App.timeSpan.Start();
+                App.timeSpan.Tick += delegate
+                {
+                    alph.IsOpen = false;
+                    App.timeSpan.Stop();
+                };
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Message", ex);
+            }
+        }
+
+        public void succsessFunc(string header, string detail, int timespan)
+        {
+            try
+            {
+                successPopupHeader.Text = header;
+                successPopupDetail.Text = detail;
+                scph.IsOpen = true;
+
+                App.timeSpan.Interval = TimeSpan.FromSeconds(timespan);
+                App.timeSpan.Start();
+                App.timeSpan.Tick += delegate
+                {
+                    scph.IsOpen = false;
+                    App.timeSpan.Stop();
+                };
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Message", ex);
+            }
+        }
+
+        public void infoFunc(string header, string detail, int timespan)
+        {
+            try
+            {
+                infoPopupHeader.Text = header;
+                infoPopupDetail.Text = detail;
+                inph.IsOpen = true;
+
+                App.timeSpan.Interval = TimeSpan.FromSeconds(timespan);
+                App.timeSpan.Start();
+                App.timeSpan.Tick += delegate
+                {
+                    inph.IsOpen = false;
+                    App.timeSpan.Stop();
+                };
             }
             catch (Exception ex)
             {
                 App.logWriter("Other", ex);
             }
         }
-
-        // ------------ Click Func  ------------  //
     }
 }

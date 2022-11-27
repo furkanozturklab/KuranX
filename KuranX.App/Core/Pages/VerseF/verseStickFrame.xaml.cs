@@ -26,22 +26,37 @@ namespace KuranX.App.Core.Pages.VerseF
     /// </summary>
     public partial class verseStickFrame : Page
     {
-        private string intelWriter = "", getSure;
+        private string intelWriter = "", getSure = "";
         private int sSureId, sRelativeVerseId, getVerse, verseId, clearNav = 1, last = 0, currentP;
 
         public verseStickFrame()
         {
-            InitializeComponent();
+            try
+            {
+                InitializeComponent();
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("InitializeComponent", ex);
+            }
         }
 
         public Page PageCall(int sId, int vId, string getS, int gerR)
         {
-            sSureId = sId;
-            sRelativeVerseId = vId;
-            getSure = getS;
-            getVerse = gerR;
-            App.loadTask = Task.Run(() => loadVerseFunc(vId));
-            return this;
+            try
+            {
+                sSureId = sId;
+                sRelativeVerseId = vId;
+                getSure = getS;
+                getVerse = gerR;
+                App.loadTask = Task.Run(() => loadVerseFunc(vId));
+                return this;
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Loading", ex);
+                return this;
+            }
         }
 
         // ---------- Load Func ---------- //
@@ -79,7 +94,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("LoadFunc", ex);
+                App.logWriter("Loading", ex);
             }
         }
 
@@ -96,7 +111,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("LoadFunc", ex);
+                App.logWriter("Loading", ex);
             }
         }
 
@@ -122,93 +137,125 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("LoadFunc", ex);
+                App.logWriter("Loading", ex);
             }
         }
 
         public void loadNavFunc(int prev = 0)
         {
-            using (var entitydb = new AyetContext())
+            try
             {
-                for (int x = 1; x < 9; x++)
+                using (var entitydb = new AyetContext())
                 {
-                    this.Dispatcher.Invoke(() =>
+                    for (int x = 1; x < 9; x++)
                     {
-                        var vNav = (CheckBox)this.FindName("vb" + x);
-                        vNav.Visibility = Visibility.Collapsed;
-                        vNav.IsEnabled = true;
-                    });
-                }
-
-                last = sRelativeVerseId;
-
-                if (last % 9 == 0)
-
-                {
-                    last -= 2;
-                }
-                else
-                {
-                    if (sRelativeVerseId <= 8) last = 0;
-                    else last -= 2;
-                }
-
-                if (prev != 0) last -= prev;
-                else last -= 2;
-
-                var dVerseNav = entitydb.Verse.Where(p => p.sureId == sSureId).Select(p => new Verse() { verseId = p.verseId, relativeDesk = p.relativeDesk, status = p.status, verseCheck = p.verseCheck }).Skip(last).Take(8).ToList();
-                var tempVerse = new List<Verse>();
-
-                int i = 0;
-
-                foreach (var item in dVerseNav)
-                {
-                    this.Dispatcher.Invoke(() =>
-                    {
-                        i++;
-
-                        var vNav = (CheckBox)this.FindName("vb" + i);
-
-                        if (vNav != null)
+                        this.Dispatcher.Invoke(() =>
                         {
-                            vNav.Visibility = Visibility.Visible;
-                            vNav.Uid = item.verseId.ToString();
-                            vNav.IsChecked = item.verseCheck;
-                            vNav.Content = item.relativeDesk;
-                            vNav.Tag = item.status;
-                            vNav.SetValue(Extensions.DataStorage, item.relativeDesk.ToString());
-                        }
-                    });
-                }
+                            var vNav = (CheckBox)this.FindName("vb" + x);
+                            vNav.Visibility = Visibility.Collapsed;
+                            vNav.IsEnabled = true;
+                        });
+                    }
 
-                Thread.Sleep(300);
+                    last = sRelativeVerseId;
 
-                for (int x = 1; x < 9; x++)
-                {
-                    this.Dispatcher.Invoke(() =>
+                    if (last % 9 == 0)
+
                     {
-                        var vNav = (CheckBox)this.FindName("vb" + x);
-                        if (int.Parse((string)vNav.GetValue(Extensions.DataStorage).ToString()) == sRelativeVerseId) vNav.IsEnabled = false;
-                    });
+                        last -= 2;
+                    }
+                    else
+                    {
+                        if (sRelativeVerseId <= 8) last = 0;
+                        else last -= 2;
+                    }
+
+                    if (prev != 0) last -= prev;
+                    else last -= 2;
+
+                    var dVerseNav = entitydb.Verse.Where(p => p.sureId == sSureId).Select(p => new Verse() { verseId = p.verseId, relativeDesk = p.relativeDesk, status = p.status, verseCheck = p.verseCheck }).Skip(last).Take(8).ToList();
+                    var tempVerse = new List<Verse>();
+
+                    int i = 0;
+
+                    foreach (var item in dVerseNav)
+                    {
+                        this.Dispatcher.Invoke(() =>
+                        {
+                            i++;
+
+                            var vNav = (CheckBox)this.FindName("vb" + i);
+
+                            if (vNav != null)
+                            {
+                                vNav.Visibility = Visibility.Visible;
+                                vNav.Uid = item.verseId.ToString();
+                                vNav.IsChecked = item.verseCheck;
+                                vNav.Content = item.relativeDesk;
+                                vNav.Tag = item.status;
+                                vNav.SetValue(Extensions.DataStorage, item.relativeDesk.ToString());
+                            }
+                        });
+                    }
+
+                    Thread.Sleep(300);
+
+                    for (int x = 1; x < 9; x++)
+                    {
+                        this.Dispatcher.Invoke(() =>
+                        {
+                            var vNav = (CheckBox)this.FindName("vb" + x);
+                            if (int.Parse((string)vNav.GetValue(Extensions.DataStorage).ToString()) == sRelativeVerseId) vNav.IsEnabled = false;
+                        });
+                    }
+
+                    dVerseNav = null;
+                    tempVerse = null;
                 }
 
-                dVerseNav = null;
-                tempVerse = null;
+                this.Dispatcher.Invoke(() =>
+                {
+                    navstackPanel.Visibility = Visibility.Visible;
+                });
             }
-
-            this.Dispatcher.Invoke(() =>
+            catch (Exception ex)
             {
-                navstackPanel.Visibility = Visibility.Visible;
-            });
+                App.logWriter("Click", ex);
+            }
         }
 
         public void loadInterpreterFunc(string writer, int verseId)
         {
             // İnterpreter Load Func
+            // İnterpreter Load Func
             try
             {
                 using (var entitydb = new AyetContext())
                 {
+                    switch (writer)
+                    {
+                        case "Yorumcu 1":
+                            this.Dispatcher.Invoke(() => interpreterWriterCombo.SelectedIndex = 1);
+                            break;
+
+                        case "Yorumcu 2":
+                            this.Dispatcher.Invoke(() => interpreterWriterCombo.SelectedIndex = 2);
+                            break;
+
+                        case "Yorumcu 3":
+                            this.Dispatcher.Invoke(() => interpreterWriterCombo.SelectedIndex = 3);
+                            break;
+
+                        case "Mehmet Okuyan":
+                            this.Dispatcher.Invoke(() => interpreterWriterCombo.SelectedIndex = 4);
+                            break;
+
+                        default:
+                            this.Dispatcher.Invoke(() => interpreterWriterCombo.SelectedIndex = 0);
+
+                            break;
+                    }
+
                     this.Dispatcher.Invoke(() => loadDetail.Text = "");
                     this.Dispatcher.Invoke(() => tempLoadDetail.Text = "");
 
@@ -225,7 +272,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("LoadFunc", ex);
+                App.logWriter("Loading", ex);
             }
         }
 
@@ -242,7 +289,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("LoadFunc", ex);
+                App.logWriter("Loading", ex);
             }
         }
 
@@ -262,7 +309,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Other", ex);
+                App.logWriter("Click", ex);
             }
         }
 
@@ -297,7 +344,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("ClickFunc", ex);
+                App.logWriter("Click", ex);
             }
         }
 
@@ -329,7 +376,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("ClickFunc", ex);
+                App.logWriter("Click", ex);
             }
         }
 
@@ -390,7 +437,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("ClickFunc", ex);
+                App.logWriter("Click", ex);
             }
         }
 
@@ -442,13 +489,20 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("ClickFunc", ex);
+                App.logWriter("Click", ex);
             }
         }
 
         private void backVersesFrame_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.GoBack();
+            try
+            {
+                NavigationService.GoBack();
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Click", ex);
+            }
         }
 
         private void wordText_Click(object sender, RoutedEventArgs e)
@@ -459,36 +513,41 @@ namespace KuranX.App.Core.Pages.VerseF
 
                 using (var entitydb = new AyetContext())
                 {
-                    // var dWords = entitydb.Words.Where(p => p.sureId == dSure[0].sureId).Where(p => p.verseId == dVerse[0].VerseId).ToList();
-
-                    //DATA DÜZELTİLECEK
+                    var dWords = entitydb.Words.Where(p => p.sureId == sSureId && p.verseId == sRelativeVerseId).ToList();
 
                     dynamicWordDetail.Children.Clear();
-                    /*
-                    foreach (var item in null)
+
+                    foreach (var item in dWords)
                     {
                         StackPanel itemsStack = new StackPanel();
-                        TextBlock text = new TextBlock();
-                        TextBlock re = new TextBlock();
+                        TextBlock arp = new TextBlock();
+                        TextBlock tr = new TextBlock();
+                        TextBlock meal = new TextBlock();
+                        TextBlock root = new TextBlock();
 
-                        itemsStack.Style = (Style)FindResource("wordStack");
-                        text.Style = (Style)FindResource("wordDetail");
-                        re.Style = (Style)FindResource("wordDetail");
+                        itemsStack.Style = (Style)FindResource("pp_wordStack");
+                        arp.Style = (Style)FindResource("pp_wordDetailArp");
+                        tr.Style = (Style)FindResource("pp_wordDetail");
+                        meal.Style = (Style)FindResource("pp_wordDetail");
+                        root.Style = (Style)FindResource("pp_wordDetailArp");
 
-                        text.Text = item.WordText;
-                        re.Text = item.WordRe;
+                        arp.Text = item.arp_read;
+                        tr.Text = item.tr_read;
+                        meal.Text = item.word_meal;
+                        root.Text = item.root;
 
-                        itemsStack.Children.Add(text);
-                        itemsStack.Children.Add(re);
+                        itemsStack.Children.Add(arp);
+                        itemsStack.Children.Add(tr);
+                        itemsStack.Children.Add(meal);
+                        itemsStack.Children.Add(root);
 
                         dynamicWordDetail.Children.Add(itemsStack);
                     }
-                    */
                 }
             }
             catch (Exception ex)
             {
-                App.logWriter("Other", ex);
+                App.logWriter("Click", ex);
             }
         }
 
@@ -500,7 +559,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Other", ex);
+                App.logWriter("Click", ex);
             }
         }
 
@@ -520,12 +579,12 @@ namespace KuranX.App.Core.Pages.VerseF
                 }
                 else
                 {
-                    alertFunc("Ayet Mevcut Değil", "Ayet Sayısını Geçtiniz Gidile Bilecek Son Ayet Sayısı : " + loadVerseCount.Text + " Lütfen Tekrar Deneyiniz.", 3);
+                    App.mainScreen.alertFunc("Ayet Mevcut Değil", "Ayet Sayısını Geçtiniz Gidile Bilecek Son Ayet Sayısı : " + loadVerseCount.Text + " Lütfen Tekrar Deneyiniz.", 3);
                 }
             }
             catch (Exception ex)
             {
-                App.logWriter("PopupAction", ex);
+                App.logWriter("Click", ex);
             }
         }
 
@@ -551,38 +610,52 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("ClickFunc", ex);
+                App.logWriter("Change", ex);
             }
         }
 
         private void popupRelativeId_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            Regex regex = new Regex("[^0-9]+");
-            e.Handled = regex.IsMatch(e.Text);
+            try
+            {
+                Regex regex = new Regex("[^0-9]+");
+                e.Handled = regex.IsMatch(e.Text);
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Change", ex);
+            }
         }
 
         private void popupRelativeId_TextChanged(object sender, TextChangedEventArgs e)
         {
-            var textbox = (TextBox)sender;
-            if (!textbox.IsLoaded) return;
-
-            if (popupRelativeId.Text != "" && popupRelativeId.Text != null)
+            try
             {
-                if (int.Parse(popupRelativeId.Text) <= int.Parse(loadVerseCount.Text) && int.Parse(popupRelativeId.Text) > 0)
+                var textbox = (TextBox)sender;
+                if (!textbox.IsLoaded) return;
+
+                if (popupRelativeId.Text != "" && popupRelativeId.Text != null)
                 {
-                    loadVersePopup.IsEnabled = true;
-                    popupRelativeIdError.Content = "Ayet Mevcut Gidilebilir";
+                    if (int.Parse(popupRelativeId.Text) <= int.Parse(loadVerseCount.Text) && int.Parse(popupRelativeId.Text) > 0)
+                    {
+                        loadVersePopup.IsEnabled = true;
+                        popupRelativeIdError.Content = "Ayet Mevcut Gidilebilir";
+                    }
+                    else
+                    {
+                        loadVersePopup.IsEnabled = false;
+                        popupRelativeIdError.Content = "Ayet Mevcut Değil";
+                    }
                 }
                 else
                 {
                     loadVersePopup.IsEnabled = false;
-                    popupRelativeIdError.Content = "Ayet Mevcut Değil";
+                    popupRelativeIdError.Content = "Gitmek İstenilen Ayet Sırasını Giriniz";
                 }
             }
-            else
+            catch (Exception ex)
             {
-                loadVersePopup.IsEnabled = false;
-                popupRelativeIdError.Content = "Gitmek İstenilen Ayet Sırasını Giriniz";
+                App.logWriter("Change", ex);
             }
         }
 
@@ -592,38 +665,36 @@ namespace KuranX.App.Core.Pages.VerseF
 
         public void allPopupClosed()
         {
-            this.Dispatcher.Invoke(() =>
+            try
             {
-                popup_Words.IsOpen = false;
-            });
+                this.Dispatcher.Invoke(() =>
+                {
+                    popup_Words.IsOpen = false;
+                });
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Closed", ex);
+            }
         }
 
         // ----------- Other Func ------------ //
 
-        // ---------- MessageFunc FUNC ---------- //
-
-        private void alertFunc(string header, string detail, int timespan)
+        private void loadAni()
         {
             try
             {
-                alertPopupHeader.Text = header;
-                alertPopupDetail.Text = detail;
-                alph.IsOpen = true;
-
-                App.timeSpan.Interval = TimeSpan.FromSeconds(timespan);
-                App.timeSpan.Start();
-                App.timeSpan.Tick += delegate
+                this.Dispatcher.Invoke(() =>
                 {
-                    alph.IsOpen = false;
-                    App.timeSpan.Stop();
-                };
+                    headerBorder.Visibility = Visibility.Hidden;
+                    mainContent.Visibility = Visibility.Hidden;
+                    navstackPanel.Visibility = Visibility.Hidden;
+                });
             }
             catch (Exception ex)
             {
-                App.logWriter("Other", ex);
+                App.logWriter("Aniamtion", ex);
             }
         }
-
-        // ---------- MessageFunc FUNC ---------- //
     }
 }

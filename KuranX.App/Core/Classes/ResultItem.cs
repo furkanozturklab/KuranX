@@ -9,10 +9,10 @@ namespace KuranX.App.Core.Classes
     public class ResultItem
     {
         public int resultItemId { get; set; }
-        public int resultId { get; set; }
-        public int resultSubjectId { get; set; }
-        public int resultLibId { get; set; }
-        public int resultNoteId { get; set; }
-        public DateTime sendTime { get; set; }
+        public int resultId { get; set; } = 0;
+        public int resultSubjectId { get; set; } = 0;
+        public int resultLibId { get; set; } = 0;
+        public int resultNoteId { get; set; } = 0;
+        public DateTime sendTime { get; set; } = DateTime.Now;
     }
 }

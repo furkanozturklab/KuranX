@@ -29,105 +29,134 @@ namespace KuranX.App.Core.Pages.LibraryF
 
         public LibraryNoteItemsFrame()
         {
-            InitializeComponent();
+            try
+            {
+                InitializeComponent();
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("InitializeComponent", ex);
+            }
         }
 
         public object PageCall(int id)
         {
-            lastPage = 0;
-            NowPage = 1;
-            folderId = id;
-            App.loadTask = Task.Run(() => loadItem(folderId));
-            return this;
+            try
+            {
+                lastPage = 0;
+                NowPage = 1;
+                folderId = id;
+                App.loadTask = Task.Run(() => loadItem(folderId));
+                return this;
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Loading Func", ex);
+                return this;
+            }
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            App.mainScreen.navigationWriter("library", "Kütüphane Başlıkları," + loadHeader.Text);
+            try
+            {
+                App.mainScreen.navigationWriter("library", "Kütüphane Başlıkları," + loadHeader.Text);
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Loading Func", ex);
+            }
         }
 
         // --------------- Load Func --------------- //
 
         public void loadItem(int folderId)
         {
-            using (var entitydb = new AyetContext())
+            try
             {
-                loadAni();
-                var dlibrary = entitydb.Librarys.Where(p => p.libraryId == folderId).First();
-                var dNotes = entitydb.Notes.Where(p => p.libraryId == folderId).Skip(lastPage).Take(20).ToList();
-
-                Decimal totalcount = entitydb.Notes.Where(p => p.libraryId == folderId).Count();
-
-                this.Dispatcher.Invoke(() =>
+                using (var entitydb = new AyetContext())
                 {
-                    loadHeader.Text = dlibrary.libraryName;
-                    loadCreated.Text = dlibrary.created.ToString("D");
-                    loadHeaderColor.Background = new BrushConverter().ConvertFrom((string)dlibrary.libraryColor) as SolidColorBrush;
-                    App.mainScreen.navigationWriter("library", "Kütüphane Başlıkları," + loadHeader.Text);
-                });
+                    loadAni();
+                    var dlibrary = entitydb.Librarys.Where(p => p.libraryId == folderId).First();
+                    var dNotes = entitydb.Notes.Where(p => p.libraryId == folderId).Skip(lastPage).Take(20).ToList();
 
-                for (int x = 1; x <= 20; x++)
-                {
+                    Decimal totalcount = entitydb.Notes.Where(p => p.libraryId == folderId).Count();
+
                     this.Dispatcher.Invoke(() =>
                     {
-                        var sbItem = (Border)FindName("lni" + x);
-                        sbItem.Visibility = Visibility.Hidden;
+                        loadHeader.Text = dlibrary.libraryName;
+                        loadCreated.Text = dlibrary.created.ToString("D");
+                        loadHeaderColor.Background = new BrushConverter().ConvertFrom((string)dlibrary.libraryColor) as SolidColorBrush;
+                        App.mainScreen.navigationWriter("library", "Kütüphane Başlıkları," + loadHeader.Text);
                     });
-                }
 
-                int i = 1;
-                Thread.Sleep(200);
+                    for (int x = 1; x <= 20; x++)
+                    {
+                        this.Dispatcher.Invoke(() =>
+                        {
+                            var sbItem = (Border)FindName("lni" + x);
+                            sbItem.Visibility = Visibility.Hidden;
+                        });
+                    }
 
-                foreach (var item in dNotes)
-                {
+                    int i = 1;
+                    Thread.Sleep(200);
+
+                    foreach (var item in dNotes)
+                    {
+                        this.Dispatcher.Invoke(() =>
+                        {
+                            var sName = (TextBlock)FindName("lniName" + i);
+                            sName.Text = item.noteHeader;
+
+                            var sCreated = (TextBlock)FindName("lniCreate" + i);
+                            sCreated.Text = item.created.ToString("D");
+
+                            var sLocation = (TextBlock)FindName("lniLocation" + i);
+                            sLocation.Text = item.noteLocation;
+
+                            var sBtn = (Button)FindName("lniBtn" + i);
+                            sBtn.Uid = item.subjectId.ToString();
+
+                            var sbItem = (Border)FindName("lni" + i);
+                            sbItem.Visibility = Visibility.Visible;
+                            i++;
+                        });
+                    }
+
                     this.Dispatcher.Invoke(() =>
                     {
-                        var sName = (TextBlock)FindName("lniName" + i);
-                        sName.Text = item.noteHeader;
+                        totalcountText.Tag = totalcount.ToString();
 
-                        var sCreated = (TextBlock)FindName("lniCreate" + i);
-                        sCreated.Text = item.created.ToString("D");
-
-                        var sLocation = (TextBlock)FindName("lniLocation" + i);
-                        sLocation.Text = item.noteLocation;
-
-                        var sBtn = (Button)FindName("lniBtn" + i);
-                        sBtn.Uid = item.subjectId.ToString();
-
-                        var sbItem = (Border)FindName("lni" + i);
-                        sbItem.Visibility = Visibility.Visible;
-                        i++;
+                        if (dNotes.Count() != 0)
+                        {
+                            totalcount = Math.Ceiling(totalcount / 15);
+                            nowPageStatus.Tag = NowPage + " / " + totalcount.ToString();
+                            nextpageButton.Dispatcher.Invoke(() =>
+                            {
+                                if (NowPage != totalcount) nextpageButton.IsEnabled = true;
+                                else if (NowPage == totalcount) nextpageButton.IsEnabled = false;
+                            });
+                            previusPageButton.Dispatcher.Invoke(() =>
+                            {
+                                if (NowPage != 1) previusPageButton.IsEnabled = true;
+                                else if (NowPage == 1) previusPageButton.IsEnabled = false;
+                            });
+                        }
+                        else
+                        {
+                            nowPageStatus.Tag = "-";
+                            nextpageButton.IsEnabled = false;
+                            previusPageButton.IsEnabled = false;
+                        }
                     });
+
+                    loadAniComplated();
                 }
-
-                this.Dispatcher.Invoke(() =>
-                {
-                    totalcountText.Tag = totalcount.ToString();
-
-                    if (dNotes.Count() != 0)
-                    {
-                        totalcount = Math.Ceiling(totalcount / 15);
-                        nowPageStatus.Tag = NowPage + " / " + totalcount.ToString();
-                        nextpageButton.Dispatcher.Invoke(() =>
-                        {
-                            if (NowPage != totalcount) nextpageButton.IsEnabled = true;
-                            else if (NowPage == totalcount) nextpageButton.IsEnabled = false;
-                        });
-                        previusPageButton.Dispatcher.Invoke(() =>
-                        {
-                            if (NowPage != 1) previusPageButton.IsEnabled = true;
-                            else if (NowPage == 1) previusPageButton.IsEnabled = false;
-                        });
-                    }
-                    else
-                    {
-                        nowPageStatus.Tag = "-";
-                        nextpageButton.IsEnabled = false;
-                        previusPageButton.IsEnabled = false;
-                    }
-                });
-
-                loadAniComplated();
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Loading Func", ex);
             }
         }
 
@@ -137,13 +166,27 @@ namespace KuranX.App.Core.Pages.LibraryF
 
         private void libNoteItemsOpen_Click(object sender, RoutedEventArgs e)
         {
-            var btn = sender as Button;
-            App.mainframe.Content = App.navNoteItem.PageCall(int.Parse(btn.Uid));
+            try
+            {
+                var btn = sender as Button;
+                App.mainframe.Content = App.navNoteItem.PageCall(int.Parse(btn.Uid));
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Click", ex);
+            }
         }
 
         private void libraryFolderDeleteBtn_Click(object sender, RoutedEventArgs e)
         {
-            popup_LibraryDelete.IsOpen = true;
+            try
+            {
+                popup_LibraryDelete.IsOpen = true;
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Click", ex);
+            }
         }
 
         private void libraryFolderRenameBtn_Click(object sender, RoutedEventArgs e)
@@ -155,28 +198,35 @@ namespace KuranX.App.Core.Pages.LibraryF
             }
             catch (Exception ex)
             {
-                App.logWriter("Popup", ex);
+                App.logWriter("Click", ex);
             }
         }
 
         private void newNamePopup_Click(object sender, RoutedEventArgs e)
         {
-            using (var entitydb = new AyetContext())
+            try
             {
-                if (popupNewName.Text.Length >= 3)
+                using (var entitydb = new AyetContext())
                 {
-                    entitydb.Librarys.Where(p => p.libraryId == folderId).First().libraryName = popupNewName.Text;
-                    entitydb.Librarys.Where(p => p.libraryId == folderId).First().modify = DateTime.Now;
-                    loadHeader.Text = popupNewName.Text;
-                    entitydb.SaveChanges();
-                    succsessFunc("Güncelleme Başarılı", "Kütüphane başlığınız başarılı bir sekilde Değiştirilmiştir.", 3);
-                    popup_newName.IsOpen = false;
+                    if (popupNewName.Text.Length >= 3)
+                    {
+                        entitydb.Librarys.Where(p => p.libraryId == folderId).First().libraryName = popupNewName.Text;
+                        entitydb.Librarys.Where(p => p.libraryId == folderId).First().modify = DateTime.Now;
+                        loadHeader.Text = popupNewName.Text;
+                        entitydb.SaveChanges();
+                        App.mainScreen.succsessFunc("Güncelleme Başarılı", "Kütüphane başlığınız başarılı bir sekilde Değiştirilmiştir.", 3);
+                        popup_newName.IsOpen = false;
+                    }
+                    else
+                    {
+                        popupNewName.Focus();
+                        popupRelativeIdError.Content = "Kütüphane başlığının uzunluğu minimum 3 karakter olmalı";
+                    }
                 }
-                else
-                {
-                    popupNewName.Focus();
-                    popupRelativeIdError.Content = "Kütüphane başlığının uzunluğu minimum 3 karakter olmalı";
-                }
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Click", ex);
             }
         }
 
@@ -188,13 +238,20 @@ namespace KuranX.App.Core.Pages.LibraryF
             }
             catch (Exception ex)
             {
-                App.logWriter("Navigation", ex);
+                App.logWriter("Click", ex);
             }
         }
 
         private void sendResult_Click(object sender, RoutedEventArgs e)
         {
-            popup_sendResult.IsOpen = true;
+            try
+            {
+                popup_sendResult.IsOpen = true;
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Click", ex);
+            }
         }
 
         private void nextpageButton_Click(object sender, RoutedEventArgs e)
@@ -208,7 +265,7 @@ namespace KuranX.App.Core.Pages.LibraryF
             }
             catch (Exception ex)
             {
-                App.logWriter("LoadEvent", ex);
+                App.logWriter("Click", ex);
             }
         }
 
@@ -226,7 +283,7 @@ namespace KuranX.App.Core.Pages.LibraryF
             }
             catch (Exception ex)
             {
-                App.logWriter("LoadEvent", ex);
+                App.logWriter("Click", ex);
             }
         }
 
@@ -249,15 +306,15 @@ namespace KuranX.App.Core.Pages.LibraryF
             }
             catch (Exception ex)
             {
-                App.logWriter("Remove", ex);
+                App.logWriter("Click", ex);
             }
         }
 
         private void connectResultControl_Click(object sender, RoutedEventArgs e)
         {
-            using (var entitydb = new AyetContext())
+            try
             {
-                try
+                using (var entitydb = new AyetContext())
                 {
                     var item = popupResultSureId.SelectedItem as ComboBoxItem;
                     var dResult = entitydb.Results.Where(p => p.resultId == int.Parse(item.Uid)).FirstOrDefault();
@@ -269,18 +326,18 @@ namespace KuranX.App.Core.Pages.LibraryF
                         entitydb.ResultItems.Add(dTemp);
                         entitydb.SaveChanges();
                         popup_sendResult.IsOpen = false;
-                        succsessFunc("Gönderme Başarılı", "Kütüphane başlığı " + item.Content + " suresinin sonucuna gönderildi.", 3);
+                        App.mainScreen.succsessFunc("Gönderme Başarılı", "Kütüphane başlığı " + item.Content + " suresinin sonucuna gönderildi.", 3);
                     }
                     else
                     {
                         popup_sendResult.IsOpen = false;
-                        alertFunc("Gönderme Başarısız", "Kütüphane başlığı " + item.Content + " suresinin sonucuna daha önceden eklenmiştir yeniden ekleyemezsiniz.", 3);
+                        App.mainScreen.alertFunc("Gönderme Başarısız", "Kütüphane başlığı " + item.Content + " suresinin sonucuna daha önceden eklenmiştir yeniden ekleyemezsiniz.", 3);
                     }
                 }
-                catch (Exception ex)
-                {
-                    App.logWriter("Other", ex);
-                }
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Click", ex);
             }
         }
 
@@ -295,7 +352,7 @@ namespace KuranX.App.Core.Pages.LibraryF
             }
             catch (Exception ex)
             {
-                App.logWriter("Other", ex);
+                App.logWriter("Click", ex);
             }
         }
 
@@ -315,81 +372,11 @@ namespace KuranX.App.Core.Pages.LibraryF
             }
             catch (Exception ex)
             {
-                App.logWriter("Other", ex);
+                App.logWriter("Change", ex);
             }
         }
 
         // ------------- Change Func --------------- //
-
-        // --------------- MessageFunc FUNC --------------- //
-
-        private void alertFunc(string header, string detail, int timespan)
-        {
-            try
-            {
-                alertPopupHeader.Text = header;
-                alertPopupDetail.Text = detail;
-                alph.IsOpen = true;
-
-                App.timeSpan.Interval = TimeSpan.FromSeconds(timespan);
-                App.timeSpan.Start();
-                App.timeSpan.Tick += delegate
-                {
-                    alph.IsOpen = false;
-                    App.timeSpan.Stop();
-                };
-            }
-            catch (Exception ex)
-            {
-                App.logWriter("Other", ex);
-            }
-        }
-
-        private void infoFunc(string header, string detail, int timespan)
-        {
-            try
-            {
-                infoPopupHeader.Text = header;
-                infoPopupDetail.Text = detail;
-                inph.IsOpen = true;
-
-                App.timeSpan.Interval = TimeSpan.FromSeconds(timespan);
-                App.timeSpan.Start();
-                App.timeSpan.Tick += delegate
-                {
-                    inph.IsOpen = false;
-                    App.timeSpan.Stop();
-                };
-            }
-            catch (Exception ex)
-            {
-                App.logWriter("Other", ex);
-            }
-        }
-
-        private void succsessFunc(string header, string detail, int timespan)
-        {
-            try
-            {
-                successPopupHeader.Text = header;
-                successPopupDetail.Text = detail;
-                scph.IsOpen = true;
-
-                App.timeSpan.Interval = TimeSpan.FromSeconds(timespan);
-                App.timeSpan.Start();
-                App.timeSpan.Tick += delegate
-                {
-                    scph.IsOpen = false;
-                    App.timeSpan.Stop();
-                };
-            }
-            catch (Exception ex)
-            {
-                App.logWriter("Other", ex);
-            }
-        }
-
-        // --------------- MessageFunc FUNC --------------- //
 
         // --------------- TimeSpan FUNC --------------- //
 
@@ -404,7 +391,7 @@ namespace KuranX.App.Core.Pages.LibraryF
 
                 App.timeSpan.Interval = TimeSpan.FromSeconds(3);
                 App.timeSpan.Start();
-                succsessFunc("Silme Başarılı", "Kütüphane başlığı ve başlığa ait tüm notlar serbes bırakıldı. Kütüphaneye yönlendiriliyorsunuz...", 3);
+                App.mainScreen.succsessFunc("Silme Başarılı", "Kütüphane başlığı ve başlığa ait tüm notlar serbes bırakıldı. Kütüphaneye yönlendiriliyorsunuz...", 3);
                 App.timeSpan.Tick += delegate
                 {
                     App.timeSpan.Stop();
@@ -423,23 +410,37 @@ namespace KuranX.App.Core.Pages.LibraryF
 
         public void loadAni()
         {
-            this.Dispatcher.Invoke(() =>
+            try
             {
-                backPage.IsEnabled = false;
-                sendResult.IsEnabled = false;
-                libraryItemsDeleteBtn.IsEnabled = false;
-            });
+                this.Dispatcher.Invoke(() =>
+                {
+                    backPage.IsEnabled = false;
+                    sendResult.IsEnabled = false;
+                    libraryItemsDeleteBtn.IsEnabled = false;
+                });
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Animation", ex);
+            }
         }
 
         public void loadAniComplated()
         {
-            this.Dispatcher.Invoke(() =>
+            try
             {
-                backPage.IsEnabled = true;
-                sendResult.IsEnabled = true;
-                libraryItemsDeleteBtn.IsEnabled = true;
-                loadHeaderStack.Visibility = Visibility.Visible;
-            });
+                this.Dispatcher.Invoke(() =>
+                {
+                    backPage.IsEnabled = true;
+                    sendResult.IsEnabled = true;
+                    libraryItemsDeleteBtn.IsEnabled = true;
+                    loadHeaderStack.Visibility = Visibility.Visible;
+                });
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Animation", ex);
+            }
         }
 
         // ------------ Animation Func ------------ //

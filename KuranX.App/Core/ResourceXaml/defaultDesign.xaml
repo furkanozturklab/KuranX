@@ -723,4 +723,19 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <Style x:Key="messageBoxHeader" TargetType="TextBlock">
+        <Setter Property="TextAlignment" Value="Center" />
+        <Setter Property="FontSize" Value="22" />
+        <Setter Property="Foreground" Value="#1C1E2F" />
+        <Setter Property="FontFamily" Value="{DynamicResource PoppinsSemiBold}" />
+    </Style>
+
+    <Style x:Key="messageBoxDetail" TargetType="TextBlock">
+        <Setter Property="TextAlignment" Value="Center" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+        <Setter Property="Foreground" Value="#383C41" />
+        <Setter Property="FontFamily" Value="{DynamicResource PoppinsMedium}" />
+    </Style>
 </ResourceDictionary>

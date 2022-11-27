@@ -1,7 +1,8 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                    xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
-                    xmlns:extension="clr-namespace:KuranX.App.Core.Classes">
+                    xmlns:extension="clr-namespace:KuranX.App.Core.Classes"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
     <BitmapImage x:Key="profile_1" UriSource="/resource/images/Profile/profile_1.jpg" />
     <BitmapImage x:Key="profile_2" UriSource="/resource/images/Profile/profile_2.jpg" />
@@ -76,6 +77,141 @@
         <Setter Property="Width" Value="64" />
         <Setter Property="Height" Value="64" />
         <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality" />
+    </Style>
+
+    <Style TargetType="Ellipse" x:Key="prf_leftHeaderImage">
+        <Setter Property="Width" Value="128" />
+        <Setter Property="Height" Value="128" />
+        <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality" />
+    </Style>
+
+    <Style TargetType="Ellipse" x:Key="prf_previewleftHeaderImage">
+        <Setter Property="Width" Value="52" />
+        <Setter Property="Height" Value="52" />
+        <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality" />
+    </Style>
+
+    <Style TargetType="Button" x:Key="prf_editIconBtn">
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Margin" Value="10" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Ellipse x:Name="default_1" Grid.Column="0" Grid.Row="0" Style="{DynamicResource prf_previewleftHeaderImage}">
+                        <Ellipse.Fill>
+                            <ImageBrush x:Name="defaultBrush_1" RenderOptions.BitmapScalingMode="HighQuality" ImageSource="{Binding Path=Uid,RelativeSource={RelativeSource TemplatedParent}}" />
+                        </Ellipse.Fill>
+                    </Ellipse>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="Button" x:Key="prf_editImage">
+        <Setter Property="Width" Value="28" />
+        <Setter Property="Height" Value="28" />
+        <Setter Property="Background" Value="#820333" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Border CornerRadius="50" Background="{TemplateBinding Background}">
+                        <Icon:PackIconZondicons  Kind="EditPencil" Width="12" Height="12" Foreground="#FFF" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Cursor" Value="Hand" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="TextBlock" x:Key="prf_editBoxText">
+        <Setter Property="FontFamily" Value="{DynamicResource PoppinsMedium}" />
+        <Setter Property="Foreground" Value="#707A89" />
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="Margin" Value="10 5 10 5" />
+    </Style>
+
+    <Style TargetType="Label" x:Key="prf_editBoxErrorText">
+        <Setter Property="FontFamily" Value="{DynamicResource PoppinsMedium}" />
+        <Setter Property="Foreground" Value="#707A89" />
+        <Setter Property="FontSize" Value="10" />
+        <Setter Property="Height" Value="25" />
+        <Setter Property="Margin" Value="0 -5" />
+    </Style>
+
+    <Style x:Key="prf_DefaulTextBox" TargetType="TextBox">
+
+        <Setter Property="MinWidth" Value="150" />
+        <Setter Property="MinHeight" Value="30" />
+        <Setter Property="Foreground" Value="#1C1E2F" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="Padding" Value="5 2 5 2" />
+        <Setter Property="FontFamily" Value="{DynamicResource PoppinsMedium}" />
+        <Setter Property="Background" Value="#fff" />
+        <Setter Property="BorderBrush" Value="#ADB5BD" />
+        <Setter Property="TextAlignment" Value="Center" />
+
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TextBox}">
+                    <Border CornerRadius="5" x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+                        <ScrollViewer x:Name="PART_ContentHost" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsFocused" Value="true">
+                            <Setter Property="BorderBrush" TargetName="border" Value="#80F0433A" />
+                        </Trigger>
+                        <Trigger Property="IsReadOnly" Value="True">
+                            <Setter Property="Background" Value="#f3f2f7" TargetName="PART_ContentHost" />
+                            <Setter Property="BorderThickness" Value="0" />
+                            <Setter Property="TextAlignment" Value="Center" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="Button" x:Key="prf_savebtn">
+
+        <Setter Property="Width" Value="250" />
+        <Setter Property="Height" Value="35" />
+        <Setter Property="Margin" Value="10" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Border CornerRadius="5" x:Name="border" Background="#FFF" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <TextBlock TextAlignment="Center" x:Name="text" Text="{Binding Path=Content,RelativeSource={RelativeSource TemplatedParent}}" FontSize="{TemplateBinding FontSize}" FontFamily="{DynamicResource PoppinsMedium}" Foreground="#1C1E2F" />
+                        </StackPanel>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#820333" TargetName="border" />
+                            <Setter Property="Foreground" Value="#fff" TargetName="text" />
+                            <Setter Property="Cursor" Value="Hand" />
+                        </Trigger>
+
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="border" Property="Background" Value="#FFE4E6EF" />
+                            <Setter Property="Cursor" Value="No" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 
     <Style TargetType="TextBlock" x:Key="hmwnd_leftHeaderImageText">
@@ -461,4 +597,114 @@
     </Style>
 
     <!-- HomeScreen Default  -->
+
+    <!-- HomePage Default  -->
+
+    <Style x:Key="ProgressBarStyle1" TargetType="{x:Type ProgressBar}">
+        <Setter Property="Foreground" Value="#FF66E21F" />
+        <Setter Property="Background" Value="#FFADB5BD" />
+        <Setter Property="BorderBrush" Value="#FFADB5BD" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ProgressBar}">
+                    <Grid x:Name="TemplateRoot">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Determinate" />
+                                <VisualState x:Name="Indeterminate">
+                                    <Storyboard RepeatBehavior="Forever">
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="Animation" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)">
+                                            <EasingDoubleKeyFrame KeyTime="0" Value="0.25" />
+                                            <EasingDoubleKeyFrame KeyTime="0:0:1" Value="0.25" />
+                                            <EasingDoubleKeyFrame KeyTime="0:0:2" Value="0.25" />
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <PointAnimationUsingKeyFrames Storyboard.TargetName="Animation" Storyboard.TargetProperty="(UIElement.RenderTransformOrigin)">
+                                            <EasingPointKeyFrame KeyTime="0" Value="-0.5,0.5" />
+                                            <EasingPointKeyFrame KeyTime="0:0:1" Value="0.5,0.5" />
+                                            <EasingPointKeyFrame KeyTime="0:0:2" Value="1.5,0.5" />
+                                        </PointAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="5" />
+                        <Rectangle x:Name="PART_Track" />
+                        <Grid x:Name="PART_Indicator" ClipToBounds="true" HorizontalAlignment="Left">
+                            <Rectangle x:Name="Indicator" Fill="{TemplateBinding Foreground}" RadiusX="5" RadiusY="5" />
+                            <Rectangle x:Name="Animation" Fill="{TemplateBinding Foreground}" RenderTransformOrigin="0.5,0.5" RadiusX="5" RadiusY="5">
+                                <Rectangle.RenderTransform>
+                                    <TransformGroup>
+                                        <ScaleTransform />
+                                        <SkewTransform />
+                                        <RotateTransform />
+                                        <TranslateTransform />
+                                    </TransformGroup>
+                                </Rectangle.RenderTransform>
+                            </Rectangle>
+                        </Grid>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="Orientation" Value="Vertical">
+                            <Setter Property="LayoutTransform" TargetName="TemplateRoot">
+                                <Setter.Value>
+                                    <RotateTransform Angle="-90" />
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                        <Trigger Property="IsIndeterminate" Value="true">
+                            <Setter Property="Visibility" TargetName="Indicator" Value="Collapsed" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="hmw_nextverseClick" TargetType="Button">
+
+        <Setter Property="Foreground" Value="#1C1E2F" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
+                        <TextBlock x:Name="txt_trg" Text="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}}" FontSize="14" Foreground="{TemplateBinding Foreground}" FontFamily="{DynamicResource PoppinsSemiBold}" Margin="0 0 5 0 " />
+                        <Icon:PackIconIonicons x:Name="txt_ico" Kind="{Binding Path=Tag, RelativeSource={RelativeSource TemplatedParent}}" Foreground="{TemplateBinding Foreground}" Width="14" Height="14" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </StackPanel>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="txt_trg" Property="Foreground" Value="#F0433A" />
+                            <Setter TargetName="txt_ico" Property="Foreground" Value="#F0433A" />
+                            <Setter Property="Cursor" Value="Hand" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="hmw_statusPanelLeft" TargetType="TextBlock">
+
+        <Setter Property="TextAlignment" Value="Right" />
+        <Setter Property="Foreground" Value="#1C1E2F" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Margin" Value="0 0 20 0" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontFamily" Value="{DynamicResource PoppinsMedium}" />
+    </Style>
+
+    <Style x:Key="hmw_statusPanelRight" TargetType="TextBlock">
+
+        <Setter Property="TextAlignment" Value="Left" />
+        <Setter Property="Foreground" Value="#F0433A" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Margin" Value="20 0 0 0" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontFamily" Value="{DynamicResource PoppinsMedium}" />
+    </Style>
+
+    <!-- HomePage Default  -->
 </ResourceDictionary>

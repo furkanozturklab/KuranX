@@ -158,6 +158,7 @@
                 <RowDefinition Height="*" />
                 <RowDefinition Height="*" />
                 <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
             <StackPanel x:Name="val1" Orientation="Vertical" Grid.ColumnSpan="4" Grid.Column="1" HorizontalAlignment="Center">
@@ -168,41 +169,76 @@
                 </StackPanel>
             </StackPanel>
 
-            <StackPanel Grid.Row="1" Grid.ColumnSpan="4" Grid.Column="1" HorizontalAlignment="Center" Orientation="Horizontal">
+            <StackPanel Grid.Row="1" Grid.ColumnSpan="4" Grid.Column="0" HorizontalAlignment="Center" Orientation="Horizontal">
 
                 <Button x:Name="saveVerse" Content="Ayeti Kaydet" Tag="10" Style="{DynamicResource admin_Menubtn}" Width="200" Height="35" Click="saveVerse_Click" />
                 <Button x:Name="saveIntel" Content="Yorumu Kaydet" Tag="10" Style="{DynamicResource admin_Menubtn}" Width="200" Height="35" Click="saveIntel_Click" />
                 <Button x:Name="dynamicVerse" Content="Manuel Git" Tag="10" Style="{DynamicResource admin_Menubtn}" Width="200" Height="35" Click="dynamicVerse_Click" />
             </StackPanel>
 
-            <StackPanel Grid.Row="2" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Vertical">
+            <StackPanel Grid.Row="2" Grid.RowSpan="2"  Grid.Column="0" Grid.ColumnSpan="2" Orientation="Vertical">
                 <TextBlock Text="Ayet Arapca" TextAlignment="Center" FontSize="16" FontFamily="{DynamicResource PoppinsMedium}" Foreground="#1C1E2F" />
-                <TextBox TextWrapping="Wrap"  AcceptsReturn="True" TextAlignment="Justify" VerticalScrollBarVisibility="Visible" Height="150" Style="{DynamicResource pp_DefaulTextArea}" FontSize="14" Width="350" x:Name="ARABIC" />
+                <TextBox TextWrapping="Wrap"  AcceptsReturn="True" TextAlignment="Justify" VerticalScrollBarVisibility="Visible" Height="120" Style="{DynamicResource pp_DefaulTextAreaEdit}" FontFamily="{DynamicResource XBZar}" FontSize="14" Width="350" x:Name="ARABIC" />
+            </StackPanel>
+
+            <StackPanel Grid.Row="4"  Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Vertical">
+                <TextBlock Text="Ayet Türkçe" TextAlignment="Center" FontSize="16" FontFamily="{DynamicResource PoppinsMedium}" Foreground="#1C1E2F" />
+                <TextBox TextWrapping="Wrap"  AcceptsReturn="True" TextAlignment="Justify" VerticalScrollBarVisibility="Visible" Height="120" Style="{DynamicResource pp_DefaulTextAreaEdit}" FontSize="14" Width="350" x:Name="TR" />
             </StackPanel>
 
             <StackPanel Grid.Row="2" Grid.RowSpan="2" Grid.Column="2" Grid.ColumnSpan="2" Orientation="Vertical">
-                <TextBlock Text="Ayet Türkçe" TextAlignment="Center" FontSize="16" FontFamily="{DynamicResource PoppinsMedium}" Foreground="#1C1E2F" />
-                <TextBox TextWrapping="Wrap"  AcceptsReturn="True" TextAlignment="Justify" VerticalScrollBarVisibility="Visible" Height="150" Style="{DynamicResource pp_DefaulTextArea}" FontSize="14" Width="350" x:Name="TR" />
+                <TextBlock Text="Ayet Kısa Tefsiri" TextAlignment="Center" FontSize="16" FontFamily="{DynamicResource PoppinsMedium}" Foreground="#1C1E2F" />
+                <TextBox TextWrapping="Wrap"  AcceptsReturn="True" TextAlignment="Justify" VerticalScrollBarVisibility="Visible" Height="120" Style="{DynamicResource pp_DefaulTextAreaEdit}" FontSize="14" Width="350" x:Name="TEFS" />
             </StackPanel>
 
-            <StackPanel Grid.Row="2" Grid.RowSpan="2" Grid.Column="4" Grid.ColumnSpan="2" Orientation="Vertical">
+            <StackPanel Grid.Row="1" Grid.RowSpan="5" Grid.Column="4" Grid.ColumnSpan="2" Orientation="Vertical" Style="{DynamicResource aniEffectFadeStack}">
+                <TextBlock Text="Ayet Kelimeleri" TextAlignment="Center" FontSize="16" FontFamily="{DynamicResource PoppinsMedium}" Foreground="#1C1E2F" />
+
+                <ComboBox x:Name="selectedWord" Margin="20 5 20 0" Style="{DynamicResource sr_NavCombobox}" SelectedIndex="0" Height="25" SelectionChanged="selectedWord_SelectionChanged">
+                    <ComboBoxItem  Content="Sure Seciniz" Uid="0" Tag="0" />
+                </ComboBox>
+
+                <TextBlock Text="Arapça" TextAlignment="Center" FontSize="14" FontFamily="{DynamicResource PoppinsMedium}" Foreground="#1C1E2F" Margin="0 15 0 0" />
+                <TextBox TextWrapping="Wrap"  AcceptsReturn="True" TextAlignment="Justify" VerticalScrollBarVisibility="Visible" Height="50" Style="{DynamicResource pp_DefaulTextAreaEditArp}" FontSize="24" FontFamily="{DynamicResource XBZar}" Width="350" x:Name="wordArp" />
+
+                <TextBlock Text="Tr" TextAlignment="Center" FontSize="12" FontFamily="{DynamicResource PoppinsMedium}" Foreground="#1C1E2F" Margin="0 5 0 0" />
+
+                <TextBox TextWrapping="Wrap"  AcceptsReturn="True" TextAlignment="Justify" VerticalScrollBarVisibility="Visible" Height="40" Style="{DynamicResource pp_DefaulTextAreaEdit}" FontSize="12" Width="350" x:Name="wordTr" />
+
+                <TextBlock Text="Meal" TextAlignment="Center" FontSize="12" FontFamily="{DynamicResource PoppinsMedium}" Foreground="#1C1E2F" Margin="0 5 0 0" />
+
+                <TextBox TextWrapping="Wrap"  AcceptsReturn="True" TextAlignment="Justify" VerticalScrollBarVisibility="Visible" Height="40" Style="{DynamicResource pp_DefaulTextAreaEdit}" FontSize="12" Width="350" x:Name="wordmeal" />
+
+                <TextBlock Text="Kök" TextAlignment="Center" FontSize="12" FontFamily="{DynamicResource PoppinsMedium}" Foreground="#1C1E2F" Margin="0 5 0 0" />
+
+                <TextBox TextWrapping="Wrap"  AcceptsReturn="True" TextAlignment="Justify" VerticalScrollBarVisibility="Visible" Height="50" Style="{DynamicResource pp_DefaulTextAreaEditArp}" FontSize="24" FontFamily="{DynamicResource XBZar}" Width="350" x:Name="wordroot" />
+
+                <Button x:Name="wordDetailSave" Content="Kelime Köklerini Kaydet" Tag="10" Style="{DynamicResource admin_Menubtn}" Width="200" Height="35" Click="wordDetailSave_Click" />
+            </StackPanel>
+
+            <StackPanel Grid.Row="4" Grid.RowSpan="2" Grid.Column="2" Grid.ColumnSpan="2" Orientation="Vertical">
                 <TextBlock Text="Ayet Açıklama" TextAlignment="Center" FontSize="16" FontFamily="{DynamicResource PoppinsMedium}" Foreground="#1C1E2F" />
-                <TextBox TextWrapping="Wrap"  AcceptsReturn="True" TextAlignment="Justify" VerticalScrollBarVisibility="Visible" Height="150" Style="{DynamicResource pp_DefaulTextArea}" FontSize="14" Width="350" x:Name="DESC" />
+                <TextBox TextWrapping="Wrap"  AcceptsReturn="True" TextAlignment="Justify" VerticalScrollBarVisibility="Visible" Height="120" Style="{DynamicResource pp_DefaulTextAreaEdit}" FontSize="14" Width="350" x:Name="DESC" />
             </StackPanel>
 
-            <StackPanel Grid.Row="4" Grid.RowSpan="3" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Vertical">
+            <StackPanel Grid.Row="6" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="2"  Orientation="Vertical">
+                <TextBlock Text="Mehmet Okuyan" TextAlignment="Center" FontSize="16" FontFamily="{DynamicResource PoppinsMedium}" Foreground="#1C1E2F" />
+                <TextBox TextWrapping="Wrap" AcceptsReturn="True" TextAlignment="Justify" VerticalScrollBarVisibility="Visible" Height="120" Style="{DynamicResource pp_DefaulTextAreaEdit}" FontSize="14" Width="350" x:Name="intel0" />
+            </StackPanel>
+
+            <StackPanel Grid.Row="6" Grid.RowSpan="2" Grid.Column="2" Grid.ColumnSpan="2" Orientation="Vertical">
                 <TextBlock Text="1 Yorum TR" TextAlignment="Center" FontSize="16" FontFamily="{DynamicResource PoppinsMedium}" Foreground="#1C1E2F" />
-                <TextBox TextWrapping="Wrap" AcceptsReturn="True" TextAlignment="Justify" VerticalScrollBarVisibility="Visible" Height="230" Style="{DynamicResource pp_DefaulTextArea}" FontSize="14" Width="350" x:Name="intel1" />
+                <TextBox TextWrapping="Wrap" AcceptsReturn="True" TextAlignment="Justify" VerticalScrollBarVisibility="Visible" Height="120" Style="{DynamicResource pp_DefaulTextAreaEdit}" FontSize="14" Width="350" x:Name="intel1" />
             </StackPanel>
 
-            <StackPanel Grid.Row="4" Grid.RowSpan="3" Grid.Column="2" Grid.ColumnSpan="2" Orientation="Vertical">
-                <TextBlock Text="2 Yorum TR" TextAlignment="Center" FontSize="16" FontFamily="{DynamicResource PoppinsMedium}" Foreground="#1C1E2F" />
-                <TextBox TextWrapping="Wrap" AcceptsReturn="True" TextAlignment="Justify" VerticalScrollBarVisibility="Visible" Height="230" Style="{DynamicResource pp_DefaulTextArea}" FontSize="14" Width="350" x:Name="intel2" />
+            <StackPanel Grid.Row="6" Grid.RowSpan="2" Grid.Column="4"  Orientation="Vertical">
+                <TextBlock Text="2 Yorum ENG" TextAlignment="Center" FontSize="16" FontFamily="{DynamicResource PoppinsMedium}" Foreground="#1C1E2F" />
+                <TextBox TextWrapping="Wrap" AcceptsReturn="True" TextAlignment="Justify" VerticalScrollBarVisibility="Visible" Height="120" Style="{DynamicResource pp_DefaulTextAreaEdit}" FontSize="14" Width="150" x:Name="intel2" />
             </StackPanel>
 
-            <StackPanel Grid.Row="4" Grid.RowSpan="3" Grid.Column="4" Grid.ColumnSpan="2" Orientation="Vertical">
-                <TextBlock Text="3 Yorum ENG" TextAlignment="Center" FontSize="16" FontFamily="{DynamicResource PoppinsMedium}" Foreground="#1C1E2F" />
-                <TextBox TextWrapping="Wrap" AcceptsReturn="True" TextAlignment="Justify" VerticalScrollBarVisibility="Visible" Height="230" Style="{DynamicResource pp_DefaulTextArea}" FontSize="14" Width="350" x:Name="intel3" />
+            <StackPanel Grid.Row="6" Grid.RowSpan="2" Grid.Column="5"  Orientation="Vertical">
+                <TextBlock Text="3 Yorum GER" TextAlignment="Center" FontSize="16" FontFamily="{DynamicResource PoppinsMedium}" Foreground="#1C1E2F" />
+                <TextBox TextWrapping="Wrap" AcceptsReturn="True" TextAlignment="Justify" VerticalScrollBarVisibility="Visible" Height="120" Style="{DynamicResource pp_DefaulTextAreaEdit}" FontSize="14" Width="150" x:Name="intel3" />
             </StackPanel>
         </Grid>
     </Grid>

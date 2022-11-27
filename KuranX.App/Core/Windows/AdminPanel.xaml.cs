@@ -25,9 +25,9 @@ namespace KuranX.App.Core.Windows
     /// </summary>
     public partial class AdminPanel : Window
     {
-        protected string? _connectedString;
+        protected string _connectedString = "";
         private MySqlConnection connection;
-        private string? DbPath { get; set; }
+        private string DbPath { get; set; }
 
         public AdminPanel()
         {
@@ -92,7 +92,7 @@ namespace KuranX.App.Core.Windows
         {
             App.loadTask = Task.Run(() => wamp_sql());
             App.loadTask = Task.Run(() => lite_sql());
-            adminFrame.Content = new sqlEditPage();
+            adminFrame.Content = new sqlEditPage().PageCall();
         }
 
         private void btnwmp_Click(object sender, RoutedEventArgs e)
@@ -122,6 +122,11 @@ namespace KuranX.App.Core.Windows
         private void btnEditing_Click(object sender, RoutedEventArgs e)
         {
             adminFrame.Content = new sqlEditPage();
+        }
+
+        private void btnWmpEdit_Click(object sender, RoutedEventArgs e)
+        {
+            adminFrame.Content = new dataTransferPage().PageCall();
         }
     }
 }

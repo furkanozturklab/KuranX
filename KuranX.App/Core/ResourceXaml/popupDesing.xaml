@@ -124,6 +124,16 @@
         </Setter>
     </Style>
 
+    <Style TargetType="TextBox" x:Key="pp_DefaulTextAreaEdit" BasedOn="{StaticResource pp_DefaulTextArea}">
+
+        <Setter Property="Foreground" Value="#1C1E2F" />
+    </Style>
+
+    <Style TargetType="TextBox" x:Key="pp_DefaulTextAreaEditArp" BasedOn="{StaticResource pp_DefaulTextArea}">
+        <Setter Property="Padding" Value="10 4 10 4" />
+        <Setter Property="Foreground" Value="#1C1E2F" />
+    </Style>
+
     <Style x:Key="pp_dynamicItemTextHeader" TargetType="TextBlock">
 
         <Setter Property="Foreground" Value="#1C1E2F" />
@@ -356,6 +366,18 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        <Style.Triggers>
+            <Trigger Property="Visibility" Value="Visible">
+                <Trigger.EnterActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                             From="0.0" To="1.0" Duration="0:0:0.5" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.EnterActions>
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
     <Style x:Key="pp_ConnectItemsClosed" TargetType="Button" BasedOn="{StaticResource pp_ConnectItems}">
@@ -734,4 +756,30 @@
     </Style>
 
     <!-- Combobox-->
+
+    <!-- Words -->
+
+    <Style x:Key="pp_wordDetail" TargetType="TextBlock">
+
+        <Setter Property="Width" Value="200" />
+        <Setter Property="TextAlignment" Value="Center" />
+        <Setter Property="FontFamily" Value="{DynamicResource PoppinsMedium}" />
+        <Setter Property="Foreground" Value="#383C41" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+        <Setter Property="Margin" Value="10 0 10 0" />
+    </Style>
+
+    <Style x:Key="pp_wordDetailArp" TargetType="TextBlock" BasedOn="{StaticResource pp_wordDetail}">
+        <Setter Property="FontSize" Value="24" />
+        <Setter Property="FontFamily" Value="{DynamicResource XBZar}" />
+    </Style>
+
+    <Style x:Key="pp_wordStack" TargetType="StackPanel">
+
+        <Setter Property="Orientation" Value="Horizontal" />
+        <Setter Property="Margin" Value="0 10 0 10" />
+    </Style>
+
+    <!-- Words -->
 </ResourceDictionary>

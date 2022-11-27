@@ -18,6 +18,10 @@
 
 
   <ItemGroup>
+    <None Remove="Resource\Fonts\AlexBrush-Regular.ttf" />
+    <None Remove="Resource\Fonts\Allura-Regular.ttf" />
+    <None Remove="Resource\Fonts\MarckScript-Regular.ttf" />
+    <None Remove="Resource\Fonts\NothingYouCouldDo-Regular.ttf" />
     <None Remove="Resource\Fonts\XBZar.ttf" />
     <None Remove="Resource\Fonts\XBZarBd.ttf" />
     <None Remove="Resource\Fonts\XBZarBdIt.ttf" />
@@ -91,6 +95,18 @@
 
 
   <ItemGroup>
+    <Resource Include="Resource\Fonts\AlexBrush-Regular.ttf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Fonts\Allura-Regular.ttf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Fonts\MarckScript-Regular.ttf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Fonts\NothingYouCouldDo-Regular.ttf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resource\Fonts\XBZar.ttf">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>

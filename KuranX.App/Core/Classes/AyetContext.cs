@@ -46,7 +46,7 @@ namespace KuranX.App.Core.Classes
                 .IsRequired();
             modelBuilder.Entity<User>()
                 .Property(u => u.firstName)
-                .HasColumnName("user_fisrtName")
+                .HasColumnName("user_firstName")
                 .HasDefaultValue("First Name");
             modelBuilder.Entity<User>()
                 .Property(u => u.lastName)
@@ -73,6 +73,20 @@ namespace KuranX.App.Core.Classes
                 .HasColumnName("user_avatarUrl")
                 .HasDefaultValue("default");
 
+            modelBuilder.Entity<User>()
+                .Property(u => u.city)
+                .HasColumnName("user_city")
+                .HasDefaultValue("");
+            modelBuilder.Entity<User>()
+             .Property(u => u.country)
+             .HasColumnName("user_country")
+             .HasDefaultValue("");
+
+            modelBuilder.Entity<User>()
+                .Property(u => u.phone)
+                .HasColumnName("user_phone")
+                .HasDefaultValue("");
+
             //   SURE
             modelBuilder.Entity<Sure>()
                 .Property(u => u.userCheckCount)
@@ -97,6 +111,9 @@ namespace KuranX.App.Core.Classes
             modelBuilder.Entity<Verse>()
                 .Property(u => u.verseCheck)
                 .HasDefaultValue(false);
+            modelBuilder.Entity<Verse>()
+               .Property(u => u.commentary)
+               .HasDefaultValue("Wait");
 
             //   NOTES
             modelBuilder.Entity<Notes>()

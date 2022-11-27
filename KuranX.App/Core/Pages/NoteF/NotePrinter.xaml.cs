@@ -24,43 +24,57 @@ namespace KuranX.App.Core.Pages.NoteF
     {
         public NotePrinter()
         {
-            InitializeComponent();
+            try
+            {
+                InitializeComponent();
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("InitializeComponent", ex);
+            }
         }
 
         public Page notePrinterCall(int id)
         {
-            using (var entitydb = new AyetContext())
+            try
             {
-                var dNotes = entitydb.Notes.Where(p => p.notesId == id).FirstOrDefault();
-
-                header.Text = dNotes.noteHeader;
-                create.Text = dNotes.created.ToString("D");
-                location.Text = dNotes.noteLocation;
-                loadNoteDetail.Text = dNotes.noteDetail;
-
-                if (dNotes.sureId != 0)
+                using (var entitydb = new AyetContext())
                 {
-                    var dSure = entitydb.Sure.Where(p => p.sureId == dNotes.sureId).FirstOrDefault();
-                    infoText.Text = "Not Aldığınız Ayet " + Environment.NewLine + dSure.name + " suresini " + dNotes.verseId + " ayeti";
-                }
+                    var dNotes = entitydb.Notes.Where(p => p.notesId == id).FirstOrDefault();
 
-                // PDF Bağlanmış
-                if (dNotes.pdfFileId != 0)
-                {
-                    var dPdf = entitydb.PdfFile.Where(p => p.pdfFileId == dNotes.pdfFileId).FirstOrDefault();
-                    infoText.Text = "Not Aldığınız Dosya " + Environment.NewLine + dPdf.fileName;
-                }
+                    header.Text = dNotes.noteHeader;
+                    create.Text = dNotes.created.ToString("D");
+                    location.Text = dNotes.noteLocation;
+                    loadNoteDetail.Text = dNotes.noteDetail;
 
-                // Konu Bağlanmış
-                if (dNotes.subjectId != 0)
-                {
-                    var dSubject = entitydb.SubjectItems.Where(p => p.subjectItemsId == dNotes.subjectId).FirstOrDefault();
-                    var dx = entitydb.Subject.Where(p => p.subjectId == dSubject.subjectId).FirstOrDefault();
-                    infoText.Text = "Not Aldığınız Konu" + Environment.NewLine + dx.subjectName;
+                    if (dNotes.sureId != 0)
+                    {
+                        var dSure = entitydb.Sure.Where(p => p.sureId == dNotes.sureId).FirstOrDefault();
+                        infoText.Text = "Not Aldığınız Ayet " + Environment.NewLine + dSure.name + " suresini " + dNotes.verseId + " ayeti";
+                    }
+
+                    // PDF Bağlanmış
+                    if (dNotes.pdfFileId != 0)
+                    {
+                        var dPdf = entitydb.PdfFile.Where(p => p.pdfFileId == dNotes.pdfFileId).FirstOrDefault();
+                        infoText.Text = "Not Aldığınız Dosya " + Environment.NewLine + dPdf.fileName;
+                    }
+
+                    // Konu Bağlanmış
+                    if (dNotes.subjectId != 0)
+                    {
+                        var dSubject = entitydb.SubjectItems.Where(p => p.subjectItemsId == dNotes.subjectId).FirstOrDefault();
+                        var dx = entitydb.Subject.Where(p => p.subjectId == dSubject.subjectId).FirstOrDefault();
+                        infoText.Text = "Not Aldığınız Konu" + Environment.NewLine + dx.subjectName;
+                    }
                 }
+                return this;
             }
-
-            return this;
+            catch (Exception ex)
+            {
+                App.logWriter("Loading Func", ex);
+                return this;
+            }
         }
     }
 }

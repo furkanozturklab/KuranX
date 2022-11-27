@@ -4,7 +4,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="Sonuc Özetle" Height="768" Width="1366" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Icon="/Resource/Images/ico/pdf.ico" Loaded="Window_Loaded">
+        Title="Sonuc Özetle" Height="768" Width="1366" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Icon="/Resource/Images/ico/pdf.ico">
     <Grid>
 
         <Grid.RowDefinitions>

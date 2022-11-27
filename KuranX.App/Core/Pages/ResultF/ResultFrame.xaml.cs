@@ -27,100 +27,128 @@ namespace KuranX.App.Core.Pages.ResultF
 
         public ResultFrame()
         {
-            InitializeComponent();
+            try
+            {
+                InitializeComponent();
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("InitializeComponent", ex);
+            }
         }
 
         public Page PageCall()
         {
-            lastPage = 0;
-            NowPage = 1;
-            App.loadTask = Task.Run(() => loadItem());
-            return this;
+            try
+            {
+                lastPage = 0;
+                NowPage = 1;
+                App.loadTask = Task.Run(() => loadItem());
+                return this;
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Loading", ex);
+                return this;
+            }
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            gridContent.Visibility = Visibility.Visible;
-            App.mainScreen.navigationWriter("result", "");
-            App.loadTask = Task.Run(() => loadItem());
+            try
+            {
+                gridContent.Visibility = Visibility.Visible;
+                App.mainScreen.navigationWriter("result", "");
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("loading", ex);
+            }
         }
 
         // -------------- Load Func  -------------- //
 
         public void loadItem()
         {
-            using (var entitydb = new AyetContext())
+            try
             {
-                App.mainScreen.navigationWriter("result", "");
-                var dResults = entitydb.Results.Skip(lastPage).Take(16).ToList();
-                Decimal totalcount = entitydb.Results.Count();
-
-                for (int x = 1; x <= 16; x++)
+                using (var entitydb = new AyetContext())
                 {
-                    this.Dispatcher.Invoke(() =>
+                    App.mainScreen.navigationWriter("result", "");
+                    var dResults = entitydb.Results.Skip(lastPage).Take(16).ToList();
+                    Decimal totalcount = entitydb.Results.Count();
+
+                    for (int x = 1; x <= 16; x++)
                     {
-                        var sbItem = (Border)FindName("rs" + x);
-                        sbItem.Visibility = Visibility.Hidden;
-                    });
-                }
-                int i = 1;
-
-                Thread.Sleep(300);
-                foreach (var item in dResults)
-                {
-                    this.Dispatcher.Invoke(() =>
-                    {
-                        var sName = (TextBlock)FindName("rsName" + i);
-                        sName.Text = item.resultName;
-
-                        var sColor = (Border)FindName("rsColor" + i);
-                        sColor.Background = new BrushConverter().ConvertFrom((string)item.resultStatus) as SolidColorBrush;
-
-                        var sBtn = (Button)FindName("rsBtn" + i);
-                        sBtn.Uid = item.resultId.ToString();
-
-                        var sS = (Image)FindName("rsS" + i);
-                        sS.IsEnabled = (bool)item.resultSubject;
-
-                        var sL = (Image)FindName("rsL" + i);
-                        sL.IsEnabled = (bool)item.resultLib;
-
-                        var sN = (Image)FindName("rsN" + i);
-                        sN.IsEnabled = (bool)item.resultNotes;
-
-                        var sbItem = (Border)FindName("rs" + i);
-                        sbItem.Visibility = Visibility.Visible;
-
-                        i++;
-                    });
-                }
-
-                this.Dispatcher.Invoke(() =>
-                {
-                    totalcountText.Tag = totalcount.ToString();
-
-                    if (dResults.Count() != 0)
-                    {
-                        totalcount = Math.Ceiling(totalcount / 15);
-                        nowPageStatus.Tag = NowPage + " / " + totalcount;
-                        nextpageButton.Dispatcher.Invoke(() =>
+                        this.Dispatcher.Invoke(() =>
                         {
-                            if (NowPage != totalcount) nextpageButton.IsEnabled = true;
-                            else if (NowPage == totalcount) nextpageButton.IsEnabled = false;
-                        });
-                        previusPageButton.Dispatcher.Invoke(() =>
-                        {
-                            if (NowPage != 1) previusPageButton.IsEnabled = true;
-                            else if (NowPage == 1) previusPageButton.IsEnabled = false;
+                            var sbItem = (Border)FindName("rs" + x);
+                            sbItem.Visibility = Visibility.Hidden;
                         });
                     }
-                    else
+                    int i = 1;
+
+                    Thread.Sleep(300);
+                    foreach (var item in dResults)
                     {
-                        nowPageStatus.Tag = "-";
-                        nextpageButton.IsEnabled = false;
-                        previusPageButton.IsEnabled = false;
+                        this.Dispatcher.Invoke(() =>
+                        {
+                            var sName = (TextBlock)FindName("rsName" + i);
+                            sName.Text = item.resultName;
+
+                            var sColor = (Border)FindName("rsColor" + i);
+                            sColor.Background = new BrushConverter().ConvertFrom((string)item.resultStatus) as SolidColorBrush;
+
+                            var sBtn = (Button)FindName("rsBtn" + i);
+                            sBtn.Uid = item.resultId.ToString();
+
+                            var sS = (Image)FindName("rsS" + i);
+                            sS.IsEnabled = (bool)item.resultSubject;
+
+                            var sL = (Image)FindName("rsL" + i);
+                            sL.IsEnabled = (bool)item.resultLib;
+
+                            var sN = (Image)FindName("rsN" + i);
+                            sN.IsEnabled = (bool)item.resultNotes;
+
+                            var sbItem = (Border)FindName("rs" + i);
+                            sbItem.Visibility = Visibility.Visible;
+
+                            i++;
+                        });
                     }
-                });
+
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        totalcountText.Tag = totalcount.ToString();
+
+                        if (dResults.Count() != 0)
+                        {
+                            totalcount = Math.Ceiling(totalcount / 15);
+                            nowPageStatus.Tag = NowPage + " / " + totalcount;
+                            nextpageButton.Dispatcher.Invoke(() =>
+                            {
+                                if (NowPage != totalcount) nextpageButton.IsEnabled = true;
+                                else if (NowPage == totalcount) nextpageButton.IsEnabled = false;
+                            });
+                            previusPageButton.Dispatcher.Invoke(() =>
+                            {
+                                if (NowPage != 1) previusPageButton.IsEnabled = true;
+                                else if (NowPage == 1) previusPageButton.IsEnabled = false;
+                            });
+                        }
+                        else
+                        {
+                            nowPageStatus.Tag = "-";
+                            nextpageButton.IsEnabled = false;
+                            previusPageButton.IsEnabled = false;
+                        }
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Loading", ex);
             }
         }
 
@@ -130,9 +158,16 @@ namespace KuranX.App.Core.Pages.ResultF
 
         private void resultItemClick_Click(object sender, RoutedEventArgs e)
         {
-            var btn = sender as Button;
-            gridContent.Visibility = Visibility.Hidden;
-            App.mainframe.Content = App.navResultItem.PageCall(int.Parse(btn.Uid));
+            try
+            {
+                var btn = sender as Button;
+                gridContent.Visibility = Visibility.Hidden;
+                App.mainframe.Content = App.navResultItem.PageCall(int.Parse(btn.Uid));
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Click", ex);
+            }
         }
 
         private void nextpageButton_Click(object sender, RoutedEventArgs e)
@@ -147,7 +182,7 @@ namespace KuranX.App.Core.Pages.ResultF
             }
             catch (Exception ex)
             {
-                App.logWriter("LoadEvent", ex);
+                App.logWriter("Click", ex);
             }
         }
 
@@ -166,7 +201,7 @@ namespace KuranX.App.Core.Pages.ResultF
             }
             catch (Exception ex)
             {
-                App.logWriter("LoadEvent", ex);
+                App.logWriter("Click", ex);
             }
         }
 
@@ -190,7 +225,7 @@ namespace KuranX.App.Core.Pages.ResultF
             }
             catch (Exception ex)
             {
-                App.logWriter("SelectEvent", ex);
+                App.logWriter("Change", ex);
             }
         }
 
@@ -200,18 +235,32 @@ namespace KuranX.App.Core.Pages.ResultF
 
         public void loadAni()
         {
-            this.Dispatcher.Invoke(() =>
+            try
             {
-                fastsureCombobox.IsEnabled = false;
-            });
+                this.Dispatcher.Invoke(() =>
+                {
+                    fastsureCombobox.IsEnabled = false;
+                });
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Animation", ex);
+            }
         }
 
         public void loadAniComplated()
         {
-            this.Dispatcher.Invoke(() =>
+            try
             {
-                fastsureCombobox.IsEnabled = true;
-            });
+                this.Dispatcher.Invoke(() =>
+                {
+                    fastsureCombobox.IsEnabled = true;
+                });
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Animation", ex);
+            }
         }
 
         // ------------ Animation Func ------------ //

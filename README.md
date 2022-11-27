@@ -52,9 +52,9 @@
     * [x] ⚠️ ~~Not alırken 3000 karakter sınırı olsun // AYET~~
     * [x] ⚠️ verses panel ve resultpanel haric sonraki buttonlar ve önceki buttonlar düzgün çalışmıyor 
     * [x] ⚠️ filtrelemede  sonraki buttonlar ve önceki buttonlar düzgün çalışmıyor 
-    * [ ] ⚠️ Hatırlatıcılardaki sıralama sorunu var oder by date düzgün çalışmıyor 
+    * [x] ⚠️ Hatırlatıcılardaki sıralama sorunu var oder by date düzgün çalışmıyor 
     * [x] ⚠️ Kütüphane ve konu oluşturda popup boyutları ve uyarı mesajlarında görsel hata
-    * [ ] ⚠️ infor ayetler arasındaki konular yazı header değiştir. // NE YAZICAĞIMI HATIRLAMIYORUM   /// :: Ayetler arasındaki konular
+    * [x] ⚠️ infor ayetler arasındaki konular yazı header değiştir. // NE YAZICAĞIMI HATIRLAMIYORUM   /// :: Ayetler arasındaki konular
     * [x] ⚠️ işaretle de birden fazla işaretleme kala biliyor .
     * [x] ⚠️ Okuduklarım da okunan tüm veriler gösterilmiyor.
     * [x] ⚠️ işaret değiştiğinde okunmuşdan okunamış olarak geçiyor düzeltmem lazım.
@@ -70,22 +70,26 @@
     * [x] ⚠️ konuların notunda nota gidemiyoruz.
     * [x] ⚠️ Not silerkenki popup hatalı gösteriyor.
     * [x] ⚠️ Kütüphane Dosyaları silinemiyor.
-    * [ ] ⚠️ Tüm Panellerin Yükleme funclarını kontrol edelim
-    * [ ] ⚠️ Hatırlatıcı sildikten sonra işaretli kalıyor ve popupları acılıp kapanması bak
+    * [x] ⚠️ Tüm Panellerin Yükleme funclarını kontrol edelim
+    * [x] ⚠️ Hatırlatıcı sildikten sonra işaretli kalıyor ve popupları acılıp kapanması bak
     * [x] ⚠️ Sonuc konu ayet içeiriği fatiha kalmış statick sil 
     * [x] ⚠️ Kısa tefsir ayet arasındaki konular olarak Değiştir 
     * [x] ⚠️ Düşüncelerinizi paylaşını üst kısma al
-    * [ ] ⚠️ konularım yeni konu aç da takılma oluyor ?? 
+    * [-] ⚠️ konularım yeni konu aç da takılma oluyor ?? 
     * [x] ⚠️ Konu başlığı oluşturda kapat diyince eski veri kalıyor 
     * [x] ⚠️ karakter sınırlaması min 3 olacak sekilde değiştir.
-    * [ ] ⚠️ konuları listele alfabetik / arama ?
+    * [-] ⚠️ konuları listele alfabetik / arama ?
     * [x] ⚠️ konu panelinde konu başlığının adını değiştirme
     * [x] ⚠️ ayet değişince popuplar acık kalıyor
     * [x] ⚠️ sonuc metnine tıkalyınca sil
     * [x] ⚠️ ayet değğişince default yorumcu kalıyor yorumcu combobox değişik olsa bile
     * [x] ⚠️ anlambütünlüğü sureye git -> ayete git
     * [x] ⚠️ hatırlatıcı sayfasında yeni hatırlatıcıya ayet ekle
-    * [ ] ⚠️
+    * [ ] ⚠️ Lib panelinde pdf açarken takılma oluyor.
+    * [ ] ⚠️ ayet içinde musafa göre secip giridğinde fatiha 7 sonraki bakar aolması lazımken alak oluyor .
+    * [x] ⚠️ admin yorumu boş bırakıp kaydedince kayıt edilemiyor.
+    * [x] ⚠️ admin paneli tefsir bağlamamışım
+    * [ ] ⚠️ 
 
 ## Gelecek Güncellemeler:
 
@@ -123,9 +127,9 @@
 
 #### STATUS 
 
-> SON EKLENEN SORUN TARİHİ : 19.11.2022
+> SON EKLENEN SORUN TARİHİ : 27.11.2022
 >
-> SON ÇÖZÜLEN SORUN TARİHİ : 22.11.2022
+> SON ÇÖZÜLEN SORUN TARİHİ : 27.11.2022
 >
 > Toplam Çözülen Sorun : ?
 >

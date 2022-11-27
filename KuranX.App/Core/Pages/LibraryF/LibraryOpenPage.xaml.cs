@@ -22,20 +22,44 @@ namespace KuranX.App.Core.Pages.LibraryF
     {
         public LibraryOpenPage()
         {
-            InitializeComponent();
+            try
+            {
+                InitializeComponent();
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("InitializeComponent", ex);
+            }
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            App.mainScreen.navigationWriter("library", "");
-            libraryMain.Visibility = Visibility.Visible;
+            try
+            {
+                App.mainScreen.navigationWriter("library", "");
+                libraryMain.Visibility = Visibility.Visible;
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Loading Func", ex);
+            }
         }
 
         public Page PageCall()
         {
-            App.mainScreen.navigationWriter("library", "");
-            return this;
+            try
+            {
+                App.mainScreen.navigationWriter("library", "");
+                return this;
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Loading Func", ex);
+                return this;
+            }
         }
+
+        // -------------- Click Func  -------------- //
 
         private void libFileOpenFrame_Click(object sender, RoutedEventArgs e)
         {
@@ -46,7 +70,7 @@ namespace KuranX.App.Core.Pages.LibraryF
             }
             catch (Exception ex)
             {
-                App.logWriter("FrameLoad", ex);
+                App.logWriter("Click", ex);
             }
         }
 
@@ -59,8 +83,10 @@ namespace KuranX.App.Core.Pages.LibraryF
             }
             catch (Exception ex)
             {
-                App.logWriter("FrameLoad", ex);
+                App.logWriter("Click", ex);
             }
         }
+
+        // -------------- Click Func  -------------- //
     }
 }

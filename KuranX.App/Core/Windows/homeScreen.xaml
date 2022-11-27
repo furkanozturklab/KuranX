@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:gif="http://wpfanimatedgif.codeplex.com"
         xmlns:extension="clr-namespace:KuranX.App.Core.Classes"
+        xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
         mc:Ignorable="d"
         Title="homeScreen" Height="768" Width="1366" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" WindowStyle="None" AllowsTransparency="True" Loaded="Window_Loaded">
     <Grid>
@@ -127,7 +128,7 @@
                         </StackPanel>
 
                         <StackPanel Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Center">
-                            <Button x:Name="leftHeaderButtonsProfile" Style="{DynamicResource hmwnd_leftHeaderButton}" extension:Extensions.ExtendsStatus="false" />
+                            <Button x:Name="leftHeaderButtonsProfile" Style="{DynamicResource hmwnd_leftHeaderButton}" extension:Extensions.ExtendsStatus="false" Click="leftHeaderButtonsProfile_Click" Content="Profile" />
                         </StackPanel>
 
                         <StackPanel Grid.Row="4" VerticalAlignment="Top">
@@ -139,7 +140,7 @@
                 <Border Grid.Row="1" Padding="20 10 20 10">
                     <StackPanel x:Name="hmwnd_leftNavControlStack"  Orientation="Vertical" Margin="5 0 0 0">
                         <CheckBox IsChecked="False" Tag="/resource/images/icon/dashboard_rb.png" Uid="/resource/images/icon/dashboard_r.png" IsEnabled="True" Content="AnaSayfa" Style="{DynamicResource hmwnd_menuItems}" Click="menuNavControl_Click" extension:Extensions.ExtendsStatus="false" />
-                        <CheckBox IsChecked="False" Tag="/resource/images/icon/verse_rb.png" Uid="/resource/images/icon/verse_r.png" IsEnabled="True" Content="Ayetler" Style="{DynamicResource hmwnd_menuItems}"  Click="menuNavControl_Click" extension:Extensions.ExtendsStatus="false" />
+                        <CheckBox x:Name="specialNav" IsChecked="False" Tag="/resource/images/icon/verse_rb.png" Uid="/resource/images/icon/verse_r.png" IsEnabled="True" Content="Ayetler" Style="{DynamicResource hmwnd_menuItems}"  Click="menuNavControl_Click" extension:Extensions.ExtendsStatus="false" />
                         <CheckBox IsChecked="False" Tag="/resource/images/icon/subject_rb.png" Uid="/resource/images/icon/subject_r.png" IsEnabled="True" Content="Konularım" Style="{DynamicResource hmwnd_menuItems}"  Click="menuNavControl_Click" extension:Extensions.ExtendsStatus="false" />
                         <CheckBox IsChecked="False" Tag="/resource/images/icon/library_rb.png" Uid="/resource/images/icon/library_r.png" IsEnabled="True" Content="Kütüphane" Style="{DynamicResource hmwnd_menuItems}"  Click="menuNavControl_Click" extension:Extensions.ExtendsStatus="false" />
                         <CheckBox IsChecked="False" Tag="/resource/images/icon/notes_rb.png" Uid="/resource/images/icon/notes_r.png" IsEnabled="True" Content="Notlar" Style="{DynamicResource hmwnd_menuItems}"  Click="menuNavControl_Click" extension:Extensions.ExtendsStatus="false" />
@@ -171,6 +172,91 @@
         </Border>
 
         <Grid x:Name="rightgg"  Grid.Column="1"  Width="1116" Grid.ColumnSpan="2">
+
+            <Popup x:Name="alph" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="460" Height="200" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+                <Border  Style="{DynamicResource defaultBorderShadowEffect}" Width="440" Height="180">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <Grid Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="10" />
+                                <ColumnDefinition Width="90" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Border Grid.Column="0" Background="#F0433A" CornerRadius="5 0 0 5"></Border>
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <Icon:PackIconOcticons Kind="Alert" Width="48" Height="48" Foreground="#F0433A" />
+                            </StackPanel>
+                            <Border Grid.Column="2"  Padding="10 0 10 0">
+                                <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                    <TextBlock x:Name="alertPopupHeader" Text="" Style="{DynamicResource messageBoxHeader}" />
+                                    <TextBlock x:Name="alertPopupDetail" Text="" Style="{DynamicResource messageBoxDetail}" />
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+                    </Grid>
+                </Border>
+            </Popup>
+
+            <Popup x:Name="scph" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="460" Height="200" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+                <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="440" Height="180">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <Grid Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="10" />
+                                <ColumnDefinition Width="90" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Border Grid.Column="0" Background="#66E21F" CornerRadius="5 0 0 5"></Border>
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <Icon:PackIconIonicons Kind="CheckmarkMD" Width="48" Height="48" Foreground="#66E21F" />
+                            </StackPanel>
+                            <Border Grid.Column="2"  Padding="10 0 10 0">
+                                <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                    <TextBlock x:Name="successPopupHeader" Text="" Style="{DynamicResource messageBoxHeader}" />
+                                    <TextBlock x:Name="successPopupDetail" Text="" Style="{DynamicResource messageBoxDetail}" />
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+                    </Grid>
+                </Border>
+            </Popup>
+
+            <Popup x:Name="inph" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="460" Height="200" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+
+                <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="440" Height="180">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <Grid Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="10" />
+                                <ColumnDefinition Width="90" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Border Grid.Column="0" Background="#0D6EFD" CornerRadius="5 0 0 5"></Border>
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <Icon:PackIconUnicons Kind="Info" Width="48" Height="48" Foreground="#0D6EFD" />
+                            </StackPanel>
+                            <Border Grid.Column="2"  Padding="10 0 10 0">
+                                <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                    <TextBlock x:Name="infoPopupHeader" Text="" Style="{DynamicResource messageBoxHeader}" />
+                                    <TextBlock x:Name="infoPopupDetail" Text="" Style="{DynamicResource messageBoxDetail}" />
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+                    </Grid>
+                </Border>
+            </Popup>
 
             <StackPanel Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Right" Panel.ZIndex="7" Margin="0 10 0 0">
                 <Button Grid.Column="1" Style="{DynamicResource hmwnd_appclosedButton}"  Content="close" Click="appClosed_Click" />

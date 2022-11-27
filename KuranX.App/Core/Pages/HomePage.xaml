@@ -5,9 +5,134 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="clr-namespace:KuranX.App.Core.Pages"
       mc:Ignorable="d"
-       d:DesignHeight="708" d:DesignWidth="1115" d:MaxHeight="708" d:MaxWidth="1270" d:MinWidth="1115"
-      Title="HomePage" Loaded="Page_Loaded">
+      d:DesignHeight="708" d:DesignWidth="1115" d:MaxHeight="708" d:MaxWidth="1270" d:MinWidth="1115"
+      Title="HomePage" Loaded="Page_Loaded" Background="#FAFAFA">
 
     <Grid>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Grid.RowSpan="7" VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Vertical">
+            <TextBlock Text="KURAN X"  FontSize="128" FontFamily="{DynamicResource Allura}" TextAlignment="Center"  Foreground="#383C41" FontWeight="Bold" />
+            <TextBlock Text="Hoş Geldiniz"  FontSize="64" FontFamily="{DynamicResource Allura}" TextAlignment="Center"  Foreground="#383C41" FontWeight="Bold" />
+        </StackPanel>
+
+        <!--
+        <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4"  Style="{DynamicResource aniEffectFadeGrid}">
+
+            <Border Style="{DynamicResource defaultBorderShadowEffect}" Margin="20 5 20 5">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="20" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="20" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Visibility="Hidden" TextAlignment="Center" VerticalAlignment="Center" Grid.Row="0" Grid.ColumnSpan="3" Text="Hicrî Şemsî: 1401    Rûmî: 12 Teşrîn-i Sânî 1438    Kasım: 18" FontSize="12" FontFamily="{DynamicResource PoppinsMedium}" Foreground="#E21839" />
+
+                    <TextBlock x:Name="homeMonthly"  Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right" Text="" FontSize="32" Margin="0 0 50 0" FontFamily="{DynamicResource PoppinsMedium}" Foreground="#1C1E2F" />
+                    <TextBlock x:Name="homeDay" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Text="" FontSize="32" FontFamily="{DynamicResource PoppinsMedium}" Foreground="#E21839" />
+                    <TextBlock x:Name="homeDayName" Grid.Row="1" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Left" Text="" FontSize="32" Margin="50 0 0 0" FontFamily="{DynamicResource PoppinsMedium}" Foreground="#1C1E2F" />
+                    <TextBlock x:Name="homeYear" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Text="" FontSize="14" FontFamily="{DynamicResource PoppinsMedium}" Foreground="#1C1E2F" />
+                </Grid>
+            </Border>
+        </Grid>
+
+        <Border Style="{DynamicResource defaultBorderShadowEffect}" Margin="30" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="3">
+
+            <Grid>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="40" />
+                </Grid.RowDefinitions>
+
+                <Button Grid.Column="0" Grid.Row="0" Tag="RefreshMD" Content="Sıfırla" Style="{DynamicResource hmw_nextverseClick}" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0 0 10 0" />
+
+                <Grid Grid.Row="1">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="10" />
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Grid.Row="0" VerticalAlignment="Center">
+                        <TextBlock Text="%0" TextAlignment="Center" Foreground="#1C1E2F" FontSize="24" FontFamily="{DynamicResource PoppinsMedium}" />
+                        <TextBlock Text="İLERLEME" TextAlignment="Center" Foreground="#1C1E2F" FontSize="16" FontFamily="{DynamicResource PoppinsMedium}" />
+                    </StackPanel>
+                    <ProgressBar Style="{DynamicResource ProgressBarStyle1}" Value="50" Grid.Row="1" Margin="50 0 50 0" BorderThickness="0" />
+                </Grid>
+                <Grid Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="0 / 6192" VerticalAlignment="Center" Margin="10 0 0 0" Grid.Column="0" Foreground="#1C1E2F" FontSize="14" FontFamily="{DynamicResource PoppinsSemiBold}" />
+
+                    <Button Grid.Column="1" Tag="ArrowForwardiOS" Content="Sıradaki" Style="{DynamicResource hmw_nextverseClick}" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0 0 10 0" />
+                </Grid>
+            </Grid>
+        </Border>
+
+        <Border Style="{DynamicResource defaultBorderShadowEffect}" Margin="30" Grid.Row="3" Padding="10" Grid.Column="2" Grid.ColumnSpan="2" Grid.RowSpan="3">
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="Ziyaret Edilen Ayet " Grid.Column="0" Grid.Row="0" Style="{DynamicResource hmw_statusPanelLeft}" />
+                <TextBlock x:Name="val1" Text="0" Grid.Column="1" Grid.Row="0" Style="{DynamicResource hmw_statusPanelRight}" />
+                <TextBlock Text="Anlam Bütünlüğü Bağlantıları " Grid.Column="0" Grid.Row="1"  Style="{DynamicResource hmw_statusPanelLeft}" />
+                <TextBlock x:Name="val2" Text="0"  Grid.Column="1" Grid.Row="1" Style="{DynamicResource hmw_statusPanelRight}" />
+                <TextBlock Text="Notlar " Grid.Column="0" Grid.Row="2"  Style="{DynamicResource hmw_statusPanelLeft}" />
+                <TextBlock x:Name="val3" Text="0" Grid.Column="1" Grid.Row="2" Style="{DynamicResource hmw_statusPanelRight}" />
+                <TextBlock Text="Konular " Grid.Column="0" Grid.Row="3"  Style="{DynamicResource hmw_statusPanelLeft}" />
+                <TextBlock x:Name="val4" Text="0" Grid.Column="1" Grid.Row="3" Style="{DynamicResource hmw_statusPanelRight}" />
+                <TextBlock Text="Kütüphaneler " Grid.Column="0" Grid.Row="4"  Style="{DynamicResource hmw_statusPanelLeft}" />
+                <TextBlock x:Name="val5" Text="0" Grid.Column="1" Grid.Row="4" Style="{DynamicResource hmw_statusPanelRight}" />
+                <TextBlock Text="Dosyalar " Grid.Column="0" Grid.Row="5"  Style="{DynamicResource hmw_statusPanelLeft}" />
+                <TextBlock x:Name="val6" Text="0" Grid.Column="1" Grid.Row="5" Style="{DynamicResource hmw_statusPanelRight}" />
+                <TextBlock Text="Hatırlatıcılar " Grid.Column="0" Grid.Row="6"  Style="{DynamicResource hmw_statusPanelLeft}" />
+                <TextBlock x:Name="val7" Text="0" Grid.Column="1" Grid.Row="6" Style="{DynamicResource hmw_statusPanelRight}" />
+                <TextBlock Text="Geçirilen Süre " Grid.Column="0" Grid.Row="7"  Style="{DynamicResource hmw_statusPanelLeft}" />
+                <TextBlock x:Name="val8" Text="0" Grid.Column="1" Grid.Row="7" Style="{DynamicResource hmw_statusPanelRight}" />
+            </Grid>
+        </Border>
+
+        -->
     </Grid>
 </Page>

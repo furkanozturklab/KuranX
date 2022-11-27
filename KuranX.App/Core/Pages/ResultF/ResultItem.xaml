@@ -19,6 +19,44 @@
             <RowDefinition Height="90" />
         </Grid.RowDefinitions>
 
+        <!-- Popup -->
+
+        <Popup x:Name="popup_confirm" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="360" Height="190" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+
+            <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="340" Height="170">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50" />
+                        <RowDefinition Height="120" />
+                    </Grid.RowDefinitions>
+                    <Border  Grid.Row="0" Style="{DynamicResource pp_BorderHeader}">
+                        <TextBlock Text="Notu Sil" Style="{DynamicResource pp_HeaderText}" />
+                    </Border>
+                    <Grid Grid.Row="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="50" />
+                        </Grid.RowDefinitions>
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Width="280" Grid.Row="0">
+                            <TextBlock Text=" Notu silmek istediğinize emin misiniz bu işlem geri alınamaz. " TextWrapping="Wrap" TextAlignment="Center" FontFamily="{DynamicResource PoppinsMedium}" FontSize="14" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </StackPanel>
+                        <Grid Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="0">
+                                <Button x:Name="deleteSubjectPopupBtn" Style="{DynamicResource pp_DefaultButtonBstrp}" Tag="Trash" Content="Sil" HorizontalAlignment="Center" Click="deleteResult_Click" />
+                                <Button  Style="{DynamicResource pp_DefaultButtonClosed}" Tag="CloseBig" Content="Vazgeç" Uid="popup_confirm" HorizontalAlignment="Center" Click="popupClosed_Click" />
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </Border>
+        </Popup>
+
+        <!-- Popup -->
+
         <StackPanel Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center" SnapsToDevicePixels="True" UseLayoutRounding="True" x:Name="loadHeaderAni" Style="{DynamicResource aniEffectFadeStack}" Visibility="Visible">
 
             <Border Width="350" Height="80" Style="{DynamicResource defaultBorderShadowEffect}">
@@ -72,7 +110,7 @@
                                 <Button x:Name="libBtn1" Style="{DynamicResource rs_ItemOpenIcon}" Tag="ArrowRight" Click="gotoAction_Click" />
                             </Border>
                             <Border Width="24" Height="24" Margin="0 0 7 0">
-                                <Button x:Name="libDel1" Style="{DynamicResource rs_ItemOpenIcon}"  Tag="Trash" Click="deleteResult_Click" />
+                                <Button x:Name="libDel1" Style="{DynamicResource rs_ItemOpenIcon}"  Tag="Trash" Click="deleteResultPopup_Click" />
                             </Border>
                         </StackPanel>
                     </Border>
@@ -92,7 +130,7 @@
                                 <Button x:Name="libBtn2" Style="{DynamicResource rs_ItemOpenIcon}" Tag="ArrowRight" Click="gotoAction_Click" />
                             </Border>
                             <Border Width="24" Height="24" Margin="0 0 7 0">
-                                <Button x:Name="libDel2" Style="{DynamicResource rs_ItemOpenIcon}"  Tag="Trash" Click="deleteResult_Click" />
+                                <Button x:Name="libDel2" Style="{DynamicResource rs_ItemOpenIcon}"  Tag="Trash" Click="deleteResultPopup_Click" />
                             </Border>
                         </StackPanel>
                     </Border>
@@ -112,7 +150,7 @@
                                 <Button x:Name="libBtn3" Style="{DynamicResource rs_ItemOpenIcon}" Tag="ArrowRight" Click="gotoAction_Click" />
                             </Border>
                             <Border Width="24" Height="24" Margin="0 0 7 0">
-                                <Button x:Name="libDel3" Style="{DynamicResource rs_ItemOpenIcon}"  Tag="Trash" Click="deleteResult_Click" />
+                                <Button x:Name="libDel3" Style="{DynamicResource rs_ItemOpenIcon}"  Tag="Trash" Click="deleteResultPopup_Click" />
                             </Border>
                         </StackPanel>
                     </Border>
@@ -132,7 +170,7 @@
                                 <Button x:Name="libBtn4" Style="{DynamicResource rs_ItemOpenIcon}" Tag="ArrowRight" Click="gotoAction_Click" />
                             </Border>
                             <Border Width="24" Height="24" Margin="0 0 7 0">
-                                <Button x:Name="libDel4" Style="{DynamicResource rs_ItemOpenIcon}"  Tag="Trash" Click="deleteResult_Click" />
+                                <Button x:Name="libDel4" Style="{DynamicResource rs_ItemOpenIcon}"  Tag="Trash" Click="deleteResultPopup_Click" />
                             </Border>
                         </StackPanel>
                     </Border>
@@ -152,7 +190,7 @@
                                 <Button x:Name="libBtn5" Style="{DynamicResource rs_ItemOpenIcon}" Tag="ArrowRight" Click="gotoAction_Click" />
                             </Border>
                             <Border Width="24" Height="24" Margin="0 0 7 0">
-                                <Button x:Name="libDel5" Style="{DynamicResource rs_ItemOpenIcon}"  Tag="Trash" Click="deleteResult_Click" />
+                                <Button x:Name="libDel5" Style="{DynamicResource rs_ItemOpenIcon}"  Tag="Trash" Click="deleteResultPopup_Click" />
                             </Border>
                         </StackPanel>
                     </Border>
@@ -172,7 +210,7 @@
                                 <Button x:Name="libBtn6" Style="{DynamicResource rs_ItemOpenIcon}" Tag="ArrowRight" Click="gotoAction_Click" />
                             </Border>
                             <Border Width="24" Height="24" Margin="0 0 7 0">
-                                <Button x:Name="libDel6" Style="{DynamicResource rs_ItemOpenIcon}"  Tag="Trash" Click="deleteResult_Click" />
+                                <Button x:Name="libDel6" Style="{DynamicResource rs_ItemOpenIcon}"  Tag="Trash" Click="deleteResultPopup_Click" />
                             </Border>
                         </StackPanel>
                     </Border>
@@ -192,7 +230,7 @@
                                 <Button x:Name="libBtn7" Style="{DynamicResource rs_ItemOpenIcon}" Tag="ArrowRight" Click="gotoAction_Click" />
                             </Border>
                             <Border Width="24" Height="24" Margin="0 0 7 0">
-                                <Button x:Name="libDel7" Style="{DynamicResource rs_ItemOpenIcon}"  Tag="Trash" Click="deleteResult_Click" />
+                                <Button x:Name="libDel7" Style="{DynamicResource rs_ItemOpenIcon}"  Tag="Trash" Click="deleteResultPopup_Click" />
                             </Border>
                         </StackPanel>
                     </Border>
@@ -212,7 +250,7 @@
                                 <Button x:Name="libBtn8" Style="{DynamicResource rs_ItemOpenIcon}" Tag="ArrowRight" Click="gotoAction_Click" />
                             </Border>
                             <Border Width="24" Height="24" Margin="0 0 7 0">
-                                <Button x:Name="libDel8" Style="{DynamicResource rs_ItemOpenIcon}"  Tag="Trash" Click="deleteResult_Click" />
+                                <Button x:Name="libDel8" Style="{DynamicResource rs_ItemOpenIcon}"  Tag="Trash" Click="deleteResultPopup_Click" />
                             </Border>
                         </StackPanel>
                     </Border>
@@ -232,7 +270,7 @@
                                 <Button x:Name="libBtn9" Style="{DynamicResource rs_ItemOpenIcon}" Tag="ArrowRight" Click="gotoAction_Click" />
                             </Border>
                             <Border Width="24" Height="24" Margin="0 0 7 0">
-                                <Button x:Name="libDel9" Style="{DynamicResource rs_ItemOpenIcon}"  Tag="Trash" Click="deleteResult_Click" />
+                                <Button x:Name="libDel9" Style="{DynamicResource rs_ItemOpenIcon}"  Tag="Trash" Click="deleteResultPopup_Click" />
                             </Border>
                         </StackPanel>
                     </Border>
@@ -252,7 +290,7 @@
                                 <Button x:Name="libBtn10" Style="{DynamicResource rs_ItemOpenIcon}" Tag="ArrowRight" Click="gotoAction_Click" />
                             </Border>
                             <Border Width="24" Height="24" Margin="0 0 7 0">
-                                <Button x:Name="libDel10" Style="{DynamicResource rs_ItemOpenIcon}"  Tag="Trash" Click="deleteResult_Click" />
+                                <Button x:Name="libDel10" Style="{DynamicResource rs_ItemOpenIcon}"  Tag="Trash" Click="deleteResultPopup_Click" />
                             </Border>
                         </StackPanel>
                     </Border>
@@ -272,7 +310,7 @@
                                 <Button x:Name="libBtn11" Style="{DynamicResource rs_ItemOpenIcon}" Tag="ArrowRight" Click="gotoAction_Click" />
                             </Border>
                             <Border Width="24" Height="24" Margin="0 0 7 0">
-                                <Button x:Name="libDel11" Style="{DynamicResource rs_ItemOpenIcon}"  Tag="Trash" Click="deleteResult_Click" />
+                                <Button x:Name="libDel11" Style="{DynamicResource rs_ItemOpenIcon}"  Tag="Trash" Click="deleteResultPopup_Click" />
                             </Border>
                         </StackPanel>
                     </Border>
@@ -292,7 +330,7 @@
                                 <Button x:Name="libBtn12" Style="{DynamicResource rs_ItemOpenIcon}" Tag="ArrowRight" Click="gotoAction_Click" />
                             </Border>
                             <Border Width="24" Height="24" Margin="0 0 7 0">
-                                <Button x:Name="libDel12" Style="{DynamicResource rs_ItemOpenIcon}"  Tag="Trash" Click="deleteResult_Click" />
+                                <Button x:Name="libDel12" Style="{DynamicResource rs_ItemOpenIcon}"  Tag="Trash" Click="deleteResultPopup_Click" />
                             </Border>
                         </StackPanel>
                     </Border>
@@ -312,7 +350,7 @@
                                 <Button x:Name="libBtn13" Style="{DynamicResource rs_ItemOpenIcon}" Tag="ArrowRight" Click="gotoAction_Click" />
                             </Border>
                             <Border Width="24" Height="24" Margin="0 0 7 0">
-                                <Button x:Name="libDel13" Style="{DynamicResource rs_ItemOpenIcon}"  Tag="Trash" Click="deleteResult_Click" />
+                                <Button x:Name="libDel13" Style="{DynamicResource rs_ItemOpenIcon}"  Tag="Trash" Click="deleteResultPopup_Click" />
                             </Border>
                         </StackPanel>
                     </Border>
@@ -332,7 +370,7 @@
                                 <Button x:Name="libBtn14" Style="{DynamicResource rs_ItemOpenIcon}" Tag="ArrowRight" Click="gotoAction_Click" />
                             </Border>
                             <Border Width="24" Height="24" Margin="0 0 7 0">
-                                <Button x:Name="libDel14" Style="{DynamicResource rs_ItemOpenIcon}"  Tag="Trash" Click="deleteResult_Click" />
+                                <Button x:Name="libDel14" Style="{DynamicResource rs_ItemOpenIcon}"  Tag="Trash" Click="deleteResultPopup_Click" />
                             </Border>
                         </StackPanel>
                     </Border>
@@ -352,7 +390,7 @@
                                 <Button x:Name="libBtn15" Style="{DynamicResource rs_ItemOpenIcon}" Tag="ArrowRight" Click="gotoAction_Click" />
                             </Border>
                             <Border Width="24" Height="24" Margin="0 0 7 0">
-                                <Button x:Name="libDel15" Style="{DynamicResource rs_ItemOpenIcon}"  Tag="Trash" Click="deleteResult_Click" />
+                                <Button x:Name="libDel15" Style="{DynamicResource rs_ItemOpenIcon}"  Tag="Trash" Click="deleteResultPopup_Click" />
                             </Border>
                         </StackPanel>
                     </Border>
@@ -372,7 +410,7 @@
                                 <Button x:Name="libBtn16" Style="{DynamicResource rs_ItemOpenIcon}" Tag="ArrowRight" Click="gotoAction_Click" />
                             </Border>
                             <Border Width="24" Height="24" Margin="0 0 7 0">
-                                <Button x:Name="libDel16" Style="{DynamicResource rs_ItemOpenIcon}"  Tag="Trash" Click="deleteResult_Click" />
+                                <Button x:Name="libDel16" Style="{DynamicResource rs_ItemOpenIcon}"  Tag="Trash" Click="deleteResultPopup_Click" />
                             </Border>
                         </StackPanel>
                     </Border>
@@ -392,7 +430,7 @@
                                 <Button x:Name="libBtn17" Style="{DynamicResource rs_ItemOpenIcon}" Tag="ArrowRight" Click="gotoAction_Click" />
                             </Border>
                             <Border Width="24" Height="24" Margin="0 0 7 0">
-                                <Button x:Name="libDel17" Style="{DynamicResource rs_ItemOpenIcon}"  Tag="Trash" Click="deleteResult_Click" />
+                                <Button x:Name="libDel17" Style="{DynamicResource rs_ItemOpenIcon}"  Tag="Trash" Click="deleteResultPopup_Click" />
                             </Border>
                         </StackPanel>
                     </Border>
@@ -412,7 +450,7 @@
                                 <Button x:Name="libBtn18" Style="{DynamicResource rs_ItemOpenIcon}" Tag="ArrowRight" Click="gotoAction_Click" />
                             </Border>
                             <Border Width="24" Height="24" Margin="0 0 7 0">
-                                <Button x:Name="libDel18" Style="{DynamicResource rs_ItemOpenIcon}"  Tag="Trash" Click="deleteResult_Click" />
+                                <Button x:Name="libDel18" Style="{DynamicResource rs_ItemOpenIcon}"  Tag="Trash" Click="deleteResultPopup_Click" />
                             </Border>
                         </StackPanel>
                     </Border>
@@ -432,7 +470,7 @@
                                 <Button x:Name="libBtn19" Style="{DynamicResource rs_ItemOpenIcon}" Tag="ArrowRight" Click="gotoAction_Click" />
                             </Border>
                             <Border Width="24" Height="24" Margin="0 0 7 0">
-                                <Button x:Name="libDel19" Style="{DynamicResource rs_ItemOpenIcon}"  Tag="Trash" Click="deleteResult_Click" />
+                                <Button x:Name="libDel19" Style="{DynamicResource rs_ItemOpenIcon}"  Tag="Trash" Click="deleteResultPopup_Click" />
                             </Border>
                         </StackPanel>
                     </Border>
@@ -452,7 +490,7 @@
                                 <Button x:Name="libBtn20" Style="{DynamicResource rs_ItemOpenIcon}" Tag="ArrowRight" Click="gotoAction_Click" />
                             </Border>
                             <Border Width="24" Height="24" Margin="0 0 7 0">
-                                <Button x:Name="libDel20" Style="{DynamicResource rs_ItemOpenIcon}"  Tag="Trash" Click="deleteResult_Click" />
+                                <Button x:Name="libDel20" Style="{DynamicResource rs_ItemOpenIcon}"  Tag="Trash" Click="deleteResultPopup_Click" />
                             </Border>
                         </StackPanel>
                     </Border>

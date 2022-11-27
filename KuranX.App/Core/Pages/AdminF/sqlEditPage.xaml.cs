@@ -1,4 +1,5 @@
 ﻿using KuranX.App.Core.Classes;
+using KuranX.App.Core.Pages.SubjectF;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -33,6 +34,11 @@ namespace KuranX.App.Core.Pages.AdminF
             InitializeComponent();
         }
 
+        public Page PageCall()
+        {
+            return this;
+        }
+
         public void loadItem(int sId, int rId = 1)
         {
             try
@@ -41,18 +47,41 @@ namespace KuranX.App.Core.Pages.AdminF
                 {
                     dSure = entitydb.Sure.Where(p => p.sureId == sId).First();
                     dVerse = entitydb.Verse.Where(p => p.sureId == sId && p.relativeDesk == rId).First();
+                    var words = entitydb.Words.Where(p => p.sureId == sId && p.verseId == rId).ToList();
 
                     this.Dispatcher.Invoke(() =>
                     {
+                        selectedWord.Items.Clear();
+
+                        foreach (var item in words)
+                        {
+                            var cmbitem = new ComboBoxItem();
+
+                            cmbitem.Content = item.tr_read;
+                            cmbitem.Uid = item.wordsId.ToString();
+
+                            Debug.WriteLine(cmbitem.Tag);
+                            selectedWord.Items.Add(cmbitem);
+                        }
+
+                        selectedWord.SelectedIndex = 0;
+                        selectedWord.SelectedItem = 0;
+                    });
+
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        intel0.Text = "";
                         intel1.Text = "";
                         intel2.Text = "";
                         intel3.Text = "";
                     });
 
+                    var dintel0 = entitydb.Interpreter.Where(p => p.sureId == sId && p.verseId == rId && p.interpreterWriter == "Mehmet Okuyan").FirstOrDefault();
                     var dintel1 = entitydb.Interpreter.Where(p => p.sureId == sId && p.verseId == rId && p.interpreterWriter == "Yorumcu 1").FirstOrDefault();
                     var dintel2 = entitydb.Interpreter.Where(p => p.sureId == sId && p.verseId == rId && p.interpreterWriter == "Yorumcu 2").FirstOrDefault();
                     var dintel3 = entitydb.Interpreter.Where(p => p.sureId == sId && p.verseId == rId && p.interpreterWriter == "Yorumcu 3").FirstOrDefault();
 
+                    if (dintel0 != null) this.Dispatcher.Invoke(() => intel0.Text = dintel0.interpreterDetail);
                     if (dintel1 != null) this.Dispatcher.Invoke(() => intel1.Text = dintel1.interpreterDetail);
                     if (dintel2 != null) this.Dispatcher.Invoke(() => intel2.Text = dintel2.interpreterDetail);
                     if (dintel3 != null) this.Dispatcher.Invoke(() => intel3.Text = dintel3.interpreterDetail);
@@ -66,6 +95,7 @@ namespace KuranX.App.Core.Pages.AdminF
                         ARABIC.Text = dVerse.verseArabic;
                         TR.Text = dVerse.verseTr;
                         DESC.Text = dVerse.verseDesc;
+                        TEFS.Text = dVerse.commentary;
                         setname.Text = dSure.name;
                         setverse.Text = dVerse.relativeDesk.ToString();
                         setverse.IsReadOnly = false;
@@ -87,7 +117,7 @@ namespace KuranX.App.Core.Pages.AdminF
 
                 var item = selectSureCombobox.SelectedItem as ComboBoxItem;
 
-                if (int.Parse(item.Uid) != 0) App.loadTask = Task.Run(() => loadItem(this.Dispatcher.Invoke(() => int.Parse(item.Uid))));
+                if (int.Parse((string)item.Uid) != 0) App.loadTask = Task.Run(() => loadItem(this.Dispatcher.Invoke(() => int.Parse(item.Uid))));
             }
             catch (Exception ex)
             {
@@ -156,6 +186,11 @@ namespace KuranX.App.Core.Pages.AdminF
                         }
                     }
                 }
+                else
+                {
+                    sverse++;
+                    MessageBox.Show("Önceki Süreye Geciniz");
+                }
             }
             catch (Exception ex)
             {
@@ -184,7 +219,22 @@ namespace KuranX.App.Core.Pages.AdminF
                 {
                     using (var entitydb = new AyetContext())
                     {
-                        if (intel1.Text.Length > 0)
+                        if (intel0.Text.Length > 0 || intel0.Text == "")
+                        {
+                            if (entitydb.Interpreter.Where(p => p.sureId == ssure && p.verseId == sverse && p.interpreterWriter == "Mehmet Okuyan").Count() > 0)
+                            {
+                                entitydb.Interpreter.Where(p => p.sureId == ssure && p.verseId == sverse && p.interpreterWriter == "Mehmet Okuyan").First().interpreterDetail = intel0.Text;
+                                entitydb.SaveChanges();
+                            }
+                            else
+                            {
+                                var Integ = new Interpreter { verseId = sverse, sureId = ssure, interpreterWriter = "Mehmet Okuyan", interpreterDetail = intel0.Text };
+                                entitydb.Interpreter.Add(Integ);
+                                entitydb.SaveChanges();
+                            }
+                        }
+
+                        if (intel1.Text.Length > 0 || intel0.Text == "")
                         {
                             if (entitydb.Interpreter.Where(p => p.sureId == ssure && p.verseId == sverse && p.interpreterWriter == "Yorumcu 1").Count() > 0)
                             {
@@ -199,7 +249,7 @@ namespace KuranX.App.Core.Pages.AdminF
                             }
                         }
 
-                        if (intel2.Text.Length > 0)
+                        if (intel2.Text.Length > 0 || intel0.Text == "")
                         {
                             if (entitydb.Interpreter.Where(p => p.sureId == ssure && p.verseId == sverse && p.interpreterWriter == "Yorumcu 2").Count() > 0)
                             {
@@ -214,7 +264,7 @@ namespace KuranX.App.Core.Pages.AdminF
                             }
                         }
 
-                        if (intel3.Text.Length > 0)
+                        if (intel3.Text.Length > 0 || intel0.Text == "")
                         {
                             if (entitydb.Interpreter.Where(p => p.sureId == ssure && p.verseId == sverse && p.interpreterWriter == "Yorumcu 3").Count() > 0)
                             {
@@ -228,6 +278,8 @@ namespace KuranX.App.Core.Pages.AdminF
                                 entitydb.SaveChanges();
                             }
                         }
+
+                        MessageBox.Show("Güncelleme Başarılı");
                     }
                 }
                 else
@@ -252,9 +304,78 @@ namespace KuranX.App.Core.Pages.AdminF
                         entitydb.Verse.Where(p => p.sureId == ssure && p.relativeDesk == sverse).First().verseArabic = ARABIC.Text;
                         entitydb.Verse.Where(p => p.sureId == ssure && p.relativeDesk == sverse).First().verseTr = TR.Text;
                         entitydb.Verse.Where(p => p.sureId == ssure && p.relativeDesk == sverse).First().verseDesc = DESC.Text;
+                        entitydb.Verse.Where(p => p.sureId == ssure && p.relativeDesk == sverse).First().commentary = TEFS.Text;
 
+                        MessageBox.Show("Güncelleme Başarılı");
                         entitydb.SaveChanges();
                     }
+                }
+                else
+                {
+                    MessageBox.Show("Önce Sureyi ve ayeti seciniz.");
+                }
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Admin", ex);
+            }
+        }
+
+        private void loadWords(string uid)
+        {
+            using (var entitydb = new AyetContext())
+            {
+                var dword = entitydb.Words.Where(p => p.wordsId == int.Parse(uid)).First();
+
+                wordArp.Text = dword.arp_read;
+                wordTr.Text = dword.tr_read;
+                wordmeal.Text = dword.word_meal;
+                wordroot.Text = dword.root;
+            }
+        }
+
+        private void selectedWord_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                var item = selectedWord.SelectedItem as ComboBoxItem;
+                if (item != null)
+                {
+                    if (item.Uid != "0")
+                    {
+                        loadWords(item.Uid);
+                    }
+                }
+                item = null;
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("ClickFunc", ex);
+            }
+        }
+
+        private void wordDetailSave_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (ssure > 0)
+                {
+                    using (var entitydb = new AyetContext())
+                    {
+                        var item = selectedWord.SelectedItem as ComboBoxItem;
+
+                        entitydb.Words.Where(p => p.wordsId == int.Parse(item.Uid)).First().arp_read = wordArp.Text;
+                        entitydb.Words.Where(p => p.wordsId == int.Parse(item.Uid)).First().tr_read = wordTr.Text;
+                        entitydb.Words.Where(p => p.wordsId == int.Parse(item.Uid)).First().word_meal = wordmeal.Text;
+                        entitydb.Words.Where(p => p.wordsId == int.Parse(item.Uid)).First().root = wordroot.Text;
+
+                        MessageBox.Show("Güncelleme Başarılı");
+                        entitydb.SaveChanges();
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Önce Sureyi ve ayeti seciniz.");
                 }
             }
             catch (Exception ex)

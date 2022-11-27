@@ -19,91 +19,6 @@
 
         <!-- Popup -->
 
-        <Popup x:Name="alph" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="460" Height="200" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
-            <Border  Style="{DynamicResource defaultBorderShadowEffect}" Width="440" Height="180">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-
-                    <Grid Grid.Row="1">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="10" />
-                            <ColumnDefinition Width="90" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <Border Grid.Column="0" Background="#F0433A" CornerRadius="5 0 0 5"></Border>
-                        <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
-                            <Icon:PackIconOcticons Kind="Alert" Width="48" Height="48" Foreground="#F0433A" />
-                        </StackPanel>
-                        <Border Grid.Column="2"  Padding="10 0 10 0">
-                            <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center">
-                                <TextBlock x:Name="alertPopupHeader" Text="" TextAlignment="Center" FontSize="22" Margin="0,0,0,12" Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsSemiBold}" />
-                                <TextBlock x:Name="alertPopupDetail" Text="" TextAlignment="Center" TextWrapping="Wrap"  Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsMedium}" />
-                            </StackPanel>
-                        </Border>
-                    </Grid>
-                </Grid>
-            </Border>
-        </Popup>
-
-        <Popup x:Name="inph" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="460" Height="200" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
-
-            <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="440" Height="180">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-
-                    <Grid Grid.Row="1">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="10" />
-                            <ColumnDefinition Width="90" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <Border Grid.Column="0" Background="#0D6EFD" CornerRadius="5 0 0 5"></Border>
-                        <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
-                            <Icon:PackIconUnicons Kind="Info" Width="48" Height="48" Foreground="#0D6EFD" />
-                        </StackPanel>
-                        <Border Grid.Column="2"  Padding="10 0 10 0">
-                            <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center">
-                                <TextBlock x:Name="infoPopupHeader" Text="" TextAlignment="Center" FontSize="22" Margin="0,0,0,12" Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsSemiBold}" />
-                                <TextBlock x:Name="infoPopupDetail" Text="" TextAlignment="Center" TextWrapping="Wrap"  Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsMedium}" />
-                            </StackPanel>
-                        </Border>
-                    </Grid>
-                </Grid>
-            </Border>
-        </Popup>
-
-        <Popup x:Name="scph" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="460" Height="200" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
-            <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="440" Height="180">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-
-                    <Grid Grid.Row="1">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="10" />
-                            <ColumnDefinition Width="90" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <Border Grid.Column="0" Background="#66E21F" CornerRadius="5 0 0 5"></Border>
-                        <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
-                            <Icon:PackIconIonicons Kind="CheckmarkMD" Width="48" Height="48" Foreground="#66E21F" />
-                        </StackPanel>
-                        <Border Grid.Column="2"  Padding="10 0 10 0">
-                            <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center">
-                                <TextBlock x:Name="successPopupHeader" Text="" TextAlignment="Center" FontSize="22" Margin="0,0,0,12" Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsSemiBold}" />
-                                <TextBlock x:Name="successPopupDetail" Text="" TextAlignment="Center" TextWrapping="Wrap"  Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsMedium}" />
-                            </StackPanel>
-                        </Border>
-                    </Grid>
-                </Grid>
-            </Border>
-        </Popup>
-
         <!-- Note  -->
 
         <!-- İlk Not Penceresi -->
@@ -134,61 +49,13 @@
                                 <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
 
-                            <ItemsControl  Grid.Row="0" Grid.Column="0" x:Name="nd1">
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <Button Style="{DynamicResource pp_ConnectItemsBts}" Content="{Binding NoteHeader}" Uid="{Binding NotesId}" Tag="ArrowRight" Click="noteDetailPopup_Click" />
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-
-                            <ItemsControl  Grid.Row="0" Grid.Column="1" x:Name="nd2">
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <Button Style="{DynamicResource pp_ConnectItemsBts}" Content="{Binding NoteHeader}" Uid="{Binding NotesId}" Tag="ArrowRight" Click="noteDetailPopup_Click" />
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-
-                            <ItemsControl  Grid.Row="1" Grid.Column="0" x:Name="nd3">
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <Button Style="{DynamicResource pp_ConnectItemsBts}" Content="{Binding NoteHeader}" Uid="{Binding NotesId}" Tag="ArrowRight" Click="noteDetailPopup_Click" />
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-
-                            <ItemsControl  Grid.Row="1" Grid.Column="1" x:Name="nd4">
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <Button Style="{DynamicResource pp_ConnectItemsBts}" Content="{Binding NoteHeader}" Uid="{Binding NotesId}" Tag="ArrowRight" Click="noteDetailPopup_Click" />
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-
-                            <ItemsControl  Grid.Row="2" Grid.Column="0" x:Name="nd5">
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <Button Style="{DynamicResource pp_ConnectItemsBts}" Content="{Binding NoteHeader}" Uid="{Binding NotesId}" Tag="ArrowRight" Click="noteDetailPopup_Click" />
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-
-                            <ItemsControl  Grid.Row="2" Grid.Column="1" x:Name="nd6">
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <Button Style="{DynamicResource pp_ConnectItemsBts}" Content="{Binding NoteHeader}" Uid="{Binding NotesId}" Tag="ArrowRight" Click="noteDetailPopup_Click" />
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-
-                            <ItemsControl  Grid.Row="3" Grid.Column="0" x:Name="nd7">
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <Button Style="{DynamicResource pp_ConnectItemsBts}" Content="{Binding NoteHeader}" Uid="{Binding NotesId}" Tag="ArrowRight" Click="noteDetailPopup_Click" />
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
+                            <Button Grid.Row="0" Grid.Column="0" x:Name="nd1" Style="{DynamicResource pp_ConnectItemsBts}"  Tag="ArrowRight" Click="noteDetailPopup_Click" />
+                            <Button Grid.Row="0" Grid.Column="1" x:Name="nd2" Style="{DynamicResource pp_ConnectItemsBts}"  Tag="ArrowRight" Click="noteDetailPopup_Click" />
+                            <Button Grid.Row="1" Grid.Column="0" x:Name="nd3" Style="{DynamicResource pp_ConnectItemsBts}"  Tag="ArrowRight" Click="noteDetailPopup_Click" />
+                            <Button Grid.Row="1" Grid.Column="1" x:Name="nd4" Style="{DynamicResource pp_ConnectItemsBts}"  Tag="ArrowRight" Click="noteDetailPopup_Click" />
+                            <Button Grid.Row="2" Grid.Column="0" x:Name="nd5" Style="{DynamicResource pp_ConnectItemsBts}"  Tag="ArrowRight" Click="noteDetailPopup_Click" />
+                            <Button Grid.Row="2" Grid.Column="1" x:Name="nd6" Style="{DynamicResource pp_ConnectItemsBts}"  Tag="ArrowRight" Click="noteDetailPopup_Click" />
+                            <Button Grid.Row="3" Grid.Column="0" x:Name="nd7" Style="{DynamicResource pp_ConnectItemsBts}"  Tag="ArrowRight" Click="noteDetailPopup_Click" />
 
                             <Button  x:Name="allShowNoteButton" Visibility="Hidden" Grid.Row="3" Grid.Column="1" Style="{DynamicResource pp_ConnectItemsBts}" Content="Hepsini Göster" Tag="ArrowRight" Click="allShowNoteButton_Click" />
 
@@ -227,7 +94,7 @@
                             <TextBox Style="{DynamicResource pp_DefaulTextBox}" Width="300" x:Name="noteType" IsReadOnly="True" />
 
                             <TextBlock Text="Not Başlığı " FontFamily="{DynamicResource PoppinsSemiBold}" FontSize="14" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 20 0 0" />
-                            <TextBox Style="{DynamicResource pp_DefaulTextBox}" Width="300" x:Name="noteName" KeyDown="noteName_KeyDown" />
+                            <TextBox Style="{DynamicResource pp_DefaulTextBox}" Width="300" x:Name="noteName" KeyDown="noteName_KeyDown" PreviewTextInput="noteName_PreviewTextInput" />
                             <Label Visibility="Hidden" x:Name="noteAddPopupHeaderError" Style="{DynamicResource pp_DefaultTextBoxLabel}" Margin="0 5 0 0" />
 
                             <TextBlock Text="Not" FontFamily="{DynamicResource PoppinsSemiBold}" FontSize="14" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 5 0 0" />
@@ -429,6 +296,40 @@
         </Popup>
 
         <!-- Note  -->
+
+        <Popup x:Name="popup_deletePdf" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="360" Height="190" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+
+            <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="340" Height="170">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50" />
+                        <RowDefinition Height="120" />
+                    </Grid.RowDefinitions>
+                    <Border  Grid.Row="0" Style="{DynamicResource pp_BorderHeader}">
+                        <TextBlock Text="Pdf Sil" Style="{DynamicResource pp_HeaderText}" />
+                    </Border>
+                    <Grid Grid.Row="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="50" />
+                        </Grid.RowDefinitions>
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Width="280" Grid.Row="0">
+                            <TextBlock Text=" Pdf Dosyasını silmek istediğinize emin misiniz bu işlem geri alınamaz. " TextWrapping="Wrap" TextAlignment="Center" FontFamily="{DynamicResource PoppinsMedium}" FontSize="14" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </StackPanel>
+                        <Grid Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="0">
+                                <Button x:Name="deleteSubjectPopupBtn" Style="{DynamicResource pp_DefaultButtonBstrp}" Tag="Trash" Content="Sil" HorizontalAlignment="Center" Click="deletePdfPopupBtn_Click" />
+                                <Button  Style="{DynamicResource pp_DefaultButtonClosed}" Tag="CloseBig" Content="Vazgeç" Uid="popup_deletePdf" HorizontalAlignment="Center" Click="popupClosed_Click" />
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </Border>
+        </Popup>
 
         <!-- Popup  -->
 

@@ -29,106 +29,137 @@ namespace KuranX.App.Core.Pages.ReminderF
 
         public RemiderItem()
         {
-            InitializeComponent();
+            try
+            {
+                InitializeComponent();
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("InitializeComponent", ex);
+            }
         }
 
         public Page PageCall(int id)
         {
-            remiderId = id;
-            App.loadTask = Task.Run(() => loadItem(id));
-            return this;
+            try
+            {
+                remiderId = id;
+                App.loadTask = Task.Run(() => loadItem(id));
+                return this;
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Loading", ex);
+                return this;
+            }
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            loadHeaderStack.Visibility = Visibility.Visible;
-            controlBar.Visibility = Visibility.Visible;
-            remiderDetail.Visibility = Visibility.Visible;
+            try
+            {
+                loadHeaderStack.Visibility = Visibility.Visible;
+                controlBar.Visibility = Visibility.Visible;
+                remiderDetail.Visibility = Visibility.Visible;
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Loading", ex);
+            }
         }
 
         public void loadItem(int id)
         {
-            using (var entitydb = new AyetContext())
+            try
             {
-                loadAni();
-                var dRemider = entitydb.Remider.Where(p => p.remiderId == id).FirstOrDefault();
-
-                if (dRemider != null)
+                using (var entitydb = new AyetContext())
                 {
-                    cV = dRemider.connectVerseId;
-                    cS = dRemider.connectSureId;
+                    loadAni();
+                    var dRemider = entitydb.Remider.Where(p => p.remiderId == id).FirstOrDefault();
 
-                    if (dRemider.loopType == "False") App.mainScreen.navigationWriter("remider", "Tarih Bazlı Hatırlartıcı");
-                    else App.mainScreen.navigationWriter("remider", $"{dRemider.loopType} Bazlı Hatırlartıcı");
-
-                    switch (dRemider.loopType)
+                    if (dRemider != null)
                     {
-                        case "False":
-                            this.Dispatcher.Invoke(() =>
-                            {
-                                remiderType.Background = new BrushConverter().ConvertFrom("#ffc107") as SolidColorBrush;
-                                TimeSpan ts = dRemider.remiderDate - DateTime.Now;
-                                type.Text = "Hatırlatma İçin Kalan Süre : " + ts.Days.ToString() + " Gün " + ts.Hours.ToString() + " Saat " + ts.Minutes.ToString() + " Dakika";
-                                type.Foreground = new BrushConverter().ConvertFrom("#ffc107") as SolidColorBrush;
-                            });
-                            break;
+                        cV = dRemider.connectVerseId;
+                        cS = dRemider.connectSureId;
 
-                        case "Gün":
-                            this.Dispatcher.Invoke(() =>
-                            {
-                                remiderType.Background = new BrushConverter().ConvertFrom("#d63384") as SolidColorBrush;
-                                type.Text = "Günlük Olarak Tekrarlanıyor";
-                                type.Foreground = new BrushConverter().ConvertFrom("#d63384") as SolidColorBrush;
-                            });
-                            break;
+                        if (dRemider.loopType == "False") App.mainScreen.navigationWriter("remider", "Tarih Bazlı Hatırlartıcı");
+                        else App.mainScreen.navigationWriter("remider", $"{dRemider.loopType} Bazlı Hatırlartıcı");
 
-                        case "Hafta":
-                            this.Dispatcher.Invoke(() =>
-                            {
-                                remiderType.Background = new BrushConverter().ConvertFrom("#0d6efd") as SolidColorBrush;
-                                type.Text = "Haflık Olarak Tekrarlanıyor";
-                                type.Foreground = new BrushConverter().ConvertFrom("#0d6efd") as SolidColorBrush;
-                            });
-                            break;
+                        switch (dRemider.loopType)
+                        {
+                            case "False":
+                                this.Dispatcher.Invoke(() =>
+                                {
+                                    remiderType.Background = new BrushConverter().ConvertFrom("#ffc107") as SolidColorBrush;
+                                    TimeSpan ts = dRemider.remiderDate - DateTime.Now;
+                                    type.Text = "Hatırlatma İçin Kalan Süre : " + ts.Days.ToString() + " Gün " + ts.Hours.ToString() + " Saat " + ts.Minutes.ToString() + " Dakika";
+                                    type.Foreground = new BrushConverter().ConvertFrom("#ffc107") as SolidColorBrush;
+                                });
+                                break;
 
-                        case "Ay":
-                            this.Dispatcher.Invoke(() =>
-                            {
-                                remiderType.Background = new BrushConverter().ConvertFrom("#0dcaf0") as SolidColorBrush;
-                                type.Text = "Aylık Olarak Tekrarlanıyor";
-                                type.Foreground = new BrushConverter().ConvertFrom("#0dcaf0") as SolidColorBrush;
-                            });
-                            break;
+                            case "Gün":
+                                this.Dispatcher.Invoke(() =>
+                                {
+                                    remiderType.Background = new BrushConverter().ConvertFrom("#d63384") as SolidColorBrush;
+                                    type.Text = "Günlük Olarak Tekrarlanıyor";
+                                    type.Foreground = new BrushConverter().ConvertFrom("#d63384") as SolidColorBrush;
+                                });
+                                break;
 
-                        case "Yıl":
-                            this.Dispatcher.Invoke(() =>
-                            {
-                                remiderType.Background = new BrushConverter().ConvertFrom("#6610f2") as SolidColorBrush;
-                                type.Text = "Yıllık Olarak Tekrarlanıyor";
-                                type.Foreground = new BrushConverter().ConvertFrom("#6610f2") as SolidColorBrush;
-                            });
-                            break;
+                            case "Hafta":
+                                this.Dispatcher.Invoke(() =>
+                                {
+                                    remiderType.Background = new BrushConverter().ConvertFrom("#0d6efd") as SolidColorBrush;
+                                    type.Text = "Haflık Olarak Tekrarlanıyor";
+                                    type.Foreground = new BrushConverter().ConvertFrom("#0d6efd") as SolidColorBrush;
+                                });
+                                break;
+
+                            case "Ay":
+                                this.Dispatcher.Invoke(() =>
+                                {
+                                    remiderType.Background = new BrushConverter().ConvertFrom("#0dcaf0") as SolidColorBrush;
+                                    type.Text = "Aylık Olarak Tekrarlanıyor";
+                                    type.Foreground = new BrushConverter().ConvertFrom("#0dcaf0") as SolidColorBrush;
+                                });
+                                break;
+
+                            case "Yıl":
+                                this.Dispatcher.Invoke(() =>
+                                {
+                                    remiderType.Background = new BrushConverter().ConvertFrom("#6610f2") as SolidColorBrush;
+                                    type.Text = "Yıllık Olarak Tekrarlanıyor";
+                                    type.Foreground = new BrushConverter().ConvertFrom("#6610f2") as SolidColorBrush;
+                                });
+                                break;
+                        }
+
+                        this.Dispatcher.Invoke(() =>
+                        {
+                            header.Text = dRemider.remiderName;
+                            remiderDetail.Text = dRemider.remiderDetail;
+                            create.Text = dRemider.create.ToString("d") + " tarihinde oluşturulmuş.";
+                        });
                     }
+
+                    Thread.Sleep(300);
 
                     this.Dispatcher.Invoke(() =>
                     {
-                        header.Text = dRemider.remiderName;
-                        remiderDetail.Text = dRemider.remiderDetail;
-                        create.Text = dRemider.create.ToString("d") + " tarihinde oluşturulmuş.";
+                        if (dRemider.connectSureId == 0) gotoVerseButton.IsEnabled = false;
+                        else gotoVerseButton.IsEnabled = true;
                     });
+
+                    loadAniComplated();
                 }
-
-                Thread.Sleep(300);
-
-                this.Dispatcher.Invoke(() =>
-                {
-                    if (dRemider.connectSureId == 0) gotoVerseButton.IsEnabled = false;
-                    else gotoVerseButton.IsEnabled = true;
-                });
-
-                loadAniComplated();
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Loading Func", ex);
             }
         }
+
+        // --------------------- Loadind Func ---------------- //
 
         // --------------------- Click Func --------------------- //
 
@@ -140,7 +171,7 @@ namespace KuranX.App.Core.Pages.ReminderF
             }
             catch (Exception ex)
             {
-                App.logWriter("gotoBackButton_Click", ex);
+                App.logWriter("Click", ex);
             }
         }
 
@@ -152,7 +183,7 @@ namespace KuranX.App.Core.Pages.ReminderF
             }
             catch (Exception ex)
             {
-                App.logWriter("deleteButton_Click", ex);
+                App.logWriter("Click", ex);
             }
         }
 
@@ -168,7 +199,7 @@ namespace KuranX.App.Core.Pages.ReminderF
             }
             catch (Exception ex)
             {
-                App.logWriter("gotoVerseButton_Click", ex);
+                App.logWriter("Click", ex);
             }
         }
 
@@ -191,26 +222,7 @@ namespace KuranX.App.Core.Pages.ReminderF
             }
             catch (Exception ex)
             {
-                App.logWriter("deleteRemiderPopupBtn_Click", ex);
-            }
-        }
-
-        private void voidgobacktimer()
-        {
-            try
-            {
-                App.timeSpan.Interval = TimeSpan.FromSeconds(3);
-                App.timeSpan.Start();
-                succsessFunc("Hatırlatıcı Silme Başarılı", "Hatırlatıcı başaralı bir sekilde silinmiştir. Hatırlatıcı sayfasına yönlendiriliyorsunuz...", 3);
-                App.timeSpan.Tick += delegate
-                {
-                    App.timeSpan.Stop();
-                    NavigationService.GoBack();
-                };
-            }
-            catch (Exception ex)
-            {
-                App.logWriter("voidgobacktimer", ex);
+                App.logWriter("Click", ex);
             }
         }
 
@@ -218,14 +230,14 @@ namespace KuranX.App.Core.Pages.ReminderF
         {
             try
             {
-                Button btntemp = sender as Button;
+                var btntemp = sender as Button;
                 var popuptemp = (Popup)FindName(btntemp.Uid);
 
                 popuptemp.IsOpen = false;
             }
             catch (Exception ex)
             {
-                App.logWriter("Other", ex);
+                App.logWriter("Click", ex);
             }
         }
 
@@ -237,24 +249,47 @@ namespace KuranX.App.Core.Pages.ReminderF
                 {
                     if (remiderDetail.Text.Length < 8)
                     {
-                        alertFunc("Güncelleme Başarısız", "Yeni hatırlatıcı notunuz çok kısa minimum 8 karakter olmalıdır.", 3);
+                        App.mainScreen.alertFunc("Güncelleme Başarısız", "Yeni hatırlatıcı notunuz çok kısa minimum 8 karakter olmalıdır.", 3);
                     }
                     else
                     {
                         entitydb.Remider.Where(p => p.remiderId == remiderId).First().remiderDetail = remiderDetail.Text;
                         entitydb.SaveChanges();
-                        succsessFunc("Güncelleme Başarılı", "Hatırlatıcı notunuz güncellendi.", 3);
+                        App.mainScreen.succsessFunc("Güncelleme Başarılı", "Hatırlatıcı notunuz güncellendi.", 3);
                         saveButton.IsEnabled = false;
                     }
                 }
             }
             catch (Exception ex)
             {
-                App.logWriter("saveButton_Click", ex);
+                App.logWriter("Click", ex);
             }
         }
 
         // --------------------- Click Func --------------------- //
+
+        // --------------------- Timer Func --------------------- //
+
+        private void voidgobacktimer()
+        {
+            try
+            {
+                App.timeSpan.Interval = TimeSpan.FromSeconds(3);
+                App.timeSpan.Start();
+                App.mainScreen.succsessFunc("Hatırlatıcı Silme Başarılı", "Hatırlatıcı başaralı bir sekilde silinmiştir. Hatırlatıcı sayfasına yönlendiriliyorsunuz...", 3);
+                App.timeSpan.Tick += delegate
+                {
+                    App.timeSpan.Stop();
+                    NavigationService.GoBack();
+                };
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Timer", ex);
+            }
+        }
+
+        // --------------------- Timer Func --------------------- //
 
         // -------------------- Change Func -------------------- //
 
@@ -270,112 +305,56 @@ namespace KuranX.App.Core.Pages.ReminderF
             }
             catch (Exception ex)
             {
-                App.logWriter("remiderDetail_TextChanged", ex);
+                App.logWriter("Change", ex);
             }
         }
 
         // -------------------- Change Func -------------------- //
 
-        // ---------- MessageFunc FUNC ---------- //
-
-        private void alertFunc(string header, string detail, int timespan)
-        {
-            try
-            {
-                alertPopupHeader.Text = header;
-                alertPopupDetail.Text = detail;
-                alph.IsOpen = true;
-
-                App.timeSpan.Interval = TimeSpan.FromSeconds(timespan);
-                App.timeSpan.Start();
-                App.timeSpan.Tick += delegate
-                {
-                    alph.IsOpen = false;
-                    App.timeSpan.Stop();
-                };
-            }
-            catch (Exception ex)
-            {
-                App.logWriter("Other", ex);
-            }
-        }
-
-        private void infoFunc(string header, string detail, int timespan)
-        {
-            try
-            {
-                infoPopupHeader.Text = header;
-                infoPopupDetail.Text = detail;
-                inph.IsOpen = true;
-
-                App.timeSpan.Interval = TimeSpan.FromSeconds(timespan);
-                App.timeSpan.Start();
-                App.timeSpan.Tick += delegate
-                {
-                    inph.IsOpen = false;
-                    App.timeSpan.Stop();
-                };
-            }
-            catch (Exception ex)
-            {
-                App.logWriter("Other", ex);
-            }
-        }
-
-        private void succsessFunc(string header, string detail, int timespan)
-        {
-            try
-            {
-                successPopupHeader.Text = header;
-                successPopupDetail.Text = detail;
-                scph.IsOpen = true;
-
-                App.timeSpan.Interval = TimeSpan.FromSeconds(timespan);
-                App.timeSpan.Start();
-                App.timeSpan.Tick += delegate
-            {
-                scph.IsOpen = false;
-                App.timeSpan.Stop();
-            };
-            }
-            catch (Exception ex)
-            {
-                App.logWriter("Other", ex);
-            }
-        }
-
-        // ---------- MessageFunc FUNC ---------- //
-
         // ------------ Animation Func ------------ //
 
         public void loadAni()
         {
-            this.Dispatcher.Invoke(() =>
+            try
             {
-                gotoBackButton.IsEnabled = false;
-                gotoVerseButton.IsEnabled = false;
-                deleteButton.IsEnabled = false;
-                remiderDetail.IsEnabled = false;
-                gotoVerseButton.IsEnabled = false;
-                loadHeaderStack.Visibility = Visibility.Hidden;
-                controlBar.Visibility = Visibility.Hidden;
-                remiderDetail.Visibility = Visibility.Hidden;
-            });
+                this.Dispatcher.Invoke(() =>
+                {
+                    gotoBackButton.IsEnabled = false;
+                    gotoVerseButton.IsEnabled = false;
+                    deleteButton.IsEnabled = false;
+                    remiderDetail.IsEnabled = false;
+                    gotoVerseButton.IsEnabled = false;
+                    loadHeaderStack.Visibility = Visibility.Hidden;
+                    controlBar.Visibility = Visibility.Hidden;
+                    remiderDetail.Visibility = Visibility.Hidden;
+                });
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Animation", ex);
+            }
         }
 
         public void loadAniComplated()
         {
-            this.Dispatcher.Invoke(() =>
+            try
             {
-                gotoBackButton.IsEnabled = true;
-                deleteButton.IsEnabled = true;
-                remiderDetail.IsEnabled = true;
-                saveButton.IsEnabled = false;
+                this.Dispatcher.Invoke(() =>
+                {
+                    gotoBackButton.IsEnabled = true;
+                    deleteButton.IsEnabled = true;
+                    remiderDetail.IsEnabled = true;
+                    saveButton.IsEnabled = false;
 
-                loadHeaderStack.Visibility = Visibility.Visible;
-                controlBar.Visibility = Visibility.Visible;
-                remiderDetail.Visibility = Visibility.Visible;
-            });
+                    loadHeaderStack.Visibility = Visibility.Visible;
+                    controlBar.Visibility = Visibility.Visible;
+                    remiderDetail.Visibility = Visibility.Visible;
+                });
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Animation", ex);
+            }
         }
 
         // ------------ Animation Func ------------ //

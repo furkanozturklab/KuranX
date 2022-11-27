@@ -22,119 +22,158 @@ namespace KuranX.App.Core.Pages.SubjectF
     /// </summary>
     public partial class SubjectFrame : Page
     {
-        private string searchText;
+        private string searchText = "";
         private int lastPage = 0, NowPage = 1;
         private List<Subject> dSub = new List<Subject>();
         private Decimal totalcount = 0;
 
         public SubjectFrame()
         {
-            InitializeComponent();
+            try
+            {
+                InitializeComponent();
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("InitializeComponent", ex);
+            }
         }
 
         public Page PageCall()
         {
-            lastPage = 0;
-            NowPage = 1;
-            App.mainScreen.navigationWriter("subject", "");
-            App.loadTask = Task.Run(() => loadItem());
+            try
+            {
+                lastPage = 0;
+                NowPage = 1;
+                App.mainScreen.navigationWriter("subject", "");
+                App.loadTask = Task.Run(() => loadItem());
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Loading", ex);
+            }
 
             return this;
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            App.mainScreen.navigationWriter("subject", "");
-        }
-
-        public void loadItem()
-        {
-            using (var entitydb = new AyetContext())
+            try
             {
-                loadAni();
-                if (this.Dispatcher.Invoke(() => searchText != ""))
-                {
-                    dSub = entitydb.Subject.Where(p => EF.Functions.Like(p.subjectName, "%" + searchText + "%")).OrderByDescending(p => p.subjectId).Skip(lastPage).Take(18).ToList();
-                    totalcount = entitydb.Subject.Where(p => EF.Functions.Like(p.subjectName, "%" + searchText + "%")).Count();
-                }
-                else
-                {
-                    dSub = entitydb.Subject.OrderByDescending(p => p.subjectId).Skip(lastPage).Take(15).ToList();
-                    totalcount = entitydb.Subject.Count();
-                }
-
-                for (int x = 1; x <= 18; x++)
-                {
-                    this.Dispatcher.Invoke(() =>
-                    {
-                        var sbItem = (Border)FindName("sbItem" + x);
-                        sbItem.Visibility = Visibility.Hidden;
-                    });
-                }
-
-                int i = 1;
-
-                Thread.Sleep(300);
-
-                foreach (var item in dSub)
-                {
-                    this.Dispatcher.Invoke(() =>
-                    {
-                        var sColor = (Border)FindName("sbColor" + i);
-                        sColor.Background = new BrushConverter().ConvertFrom((string)item.subjectColor) as SolidColorBrush;
-
-                        var sName = (TextBlock)FindName("sbName" + i);
-                        sName.Text = item.subjectName;
-
-                        var sCreated = (TextBlock)FindName("sbCreated" + i);
-                        sCreated.Text = item.created.ToString("D");
-
-                        var sBtn = (Button)FindName("sbBtn" + i);
-                        sBtn.Uid = item.subjectId.ToString();
-
-                        var sbItem = (Border)FindName("sbItem" + i);
-                        sbItem.Visibility = Visibility.Visible;
-                        i++;
-                    });
-                }
-
-                this.Dispatcher.Invoke(() =>
-                {
-                    totalcountText.Tag = totalcount.ToString();
-
-                    if (dSub.Count() != 0)
-                    {
-                        totalcount = Math.Ceiling(totalcount / 18);
-                        nowPageStatus.Tag = NowPage + " / " + totalcount.ToString();
-                        nextpageButton.Dispatcher.Invoke(() =>
-                        {
-                            if (NowPage != totalcount) nextpageButton.IsEnabled = true;
-                            else if (NowPage == totalcount) nextpageButton.IsEnabled = false;
-                        });
-                        previusPageButton.Dispatcher.Invoke(() =>
-                        {
-                            if (NowPage != 1) previusPageButton.IsEnabled = true;
-                            else if (NowPage == 1) previusPageButton.IsEnabled = false;
-                        });
-                    }
-                    else
-                    {
-                        nowPageStatus.Tag = "-";
-                        nextpageButton.IsEnabled = false;
-                        previusPageButton.IsEnabled = false;
-                    }
-                });
-
-                loadAniComplated();
+                App.mainScreen.navigationWriter("subject", "");
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Loading", ex);
             }
         }
 
-        /* ---------------- Click Func ---------------- */
+        // ------------- Loading ------------- //
+
+        public void loadItem()
+        {
+            try
+            {
+                using (var entitydb = new AyetContext())
+                {
+                    loadAni();
+                    if (this.Dispatcher.Invoke(() => searchText != ""))
+                    {
+                        dSub = entitydb.Subject.Where(p => EF.Functions.Like(p.subjectName, "%" + searchText + "%")).OrderByDescending(p => p.subjectId).Skip(lastPage).Take(18).ToList();
+                        totalcount = entitydb.Subject.Where(p => EF.Functions.Like(p.subjectName, "%" + searchText + "%")).Count();
+                    }
+                    else
+                    {
+                        dSub = entitydb.Subject.OrderByDescending(p => p.subjectId).Skip(lastPage).Take(15).ToList();
+                        totalcount = entitydb.Subject.Count();
+                    }
+
+                    for (int x = 1; x <= 18; x++)
+                    {
+                        this.Dispatcher.Invoke(() =>
+                        {
+                            var sbItem = (Border)FindName("sbItem" + x);
+                            sbItem.Visibility = Visibility.Hidden;
+                        });
+                    }
+
+                    int i = 1;
+
+                    Thread.Sleep(300);
+
+                    foreach (var item in dSub)
+                    {
+                        this.Dispatcher.Invoke(() =>
+                        {
+                            var sColor = (Border)FindName("sbColor" + i);
+                            sColor.Background = new BrushConverter().ConvertFrom((string)item.subjectColor) as SolidColorBrush;
+
+                            var sName = (TextBlock)FindName("sbName" + i);
+                            sName.Text = item.subjectName;
+
+                            var sCreated = (TextBlock)FindName("sbCreated" + i);
+                            sCreated.Text = item.created.ToString("D");
+
+                            var sBtn = (Button)FindName("sbBtn" + i);
+                            sBtn.Uid = item.subjectId.ToString();
+
+                            var sbItem = (Border)FindName("sbItem" + i);
+                            sbItem.Visibility = Visibility.Visible;
+                            i++;
+                        });
+                    }
+
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        totalcountText.Tag = totalcount.ToString();
+
+                        if (dSub.Count() != 0)
+                        {
+                            totalcount = Math.Ceiling(totalcount / 18);
+                            nowPageStatus.Tag = NowPage + " / " + totalcount.ToString();
+                            nextpageButton.Dispatcher.Invoke(() =>
+                            {
+                                if (NowPage != totalcount) nextpageButton.IsEnabled = true;
+                                else if (NowPage == totalcount) nextpageButton.IsEnabled = false;
+                            });
+                            previusPageButton.Dispatcher.Invoke(() =>
+                            {
+                                if (NowPage != 1) previusPageButton.IsEnabled = true;
+                                else if (NowPage == 1) previusPageButton.IsEnabled = false;
+                            });
+                        }
+                        else
+                        {
+                            nowPageStatus.Tag = "-";
+                            nextpageButton.IsEnabled = false;
+                            previusPageButton.IsEnabled = false;
+                        }
+                    });
+
+                    loadAniComplated();
+                }
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Loading", ex);
+            }
+        }
+
+        // ------------- Loading ------------- //
+
+        // ------------- Click Func ------------- //
 
         private void openSubjectFolder_Click(object sender, RoutedEventArgs e)
         {
-            var btn = sender as Button;
-            App.mainframe.Content = App.navSubjectFolder.PageCall(int.Parse(btn.Uid));
+            try
+            {
+                var btn = sender as Button;
+                App.mainframe.Content = App.navSubjectFolder.PageCall(int.Parse(btn.Uid));
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Click", ex);
+            }
         }
 
         private void SearchBtn_Click(object sender, RoutedEventArgs e)
@@ -166,7 +205,7 @@ namespace KuranX.App.Core.Pages.SubjectF
             }
             catch (Exception ex)
             {
-                App.logWriter("SearchButton", ex);
+                App.logWriter("Click", ex);
             }
         }
 
@@ -185,7 +224,7 @@ namespace KuranX.App.Core.Pages.SubjectF
             }
             catch (Exception ex)
             {
-                App.logWriter("Other", ex);
+                App.logWriter("Click", ex);
             }
         }
 
@@ -195,7 +234,7 @@ namespace KuranX.App.Core.Pages.SubjectF
             {
                 if (subjectFolderHeader.Text.Length >= 3)
                 {
-                    if (subjectFolderHeader.Text.Length < 50)
+                    if (subjectFolderHeader.Text.Length < 150)
                     {
                         using (var entitydb = new AyetContext())
                         {
@@ -206,7 +245,7 @@ namespace KuranX.App.Core.Pages.SubjectF
                                 var dSubjectFolder = new Subject { subjectName = subjectpreviewName.Text, subjectColor = subjectpreviewColor.Background.ToString(), created = DateTime.Now, modify = DateTime.Now };
                                 entitydb.Subject.Add(dSubjectFolder);
                                 entitydb.SaveChanges();
-                                succsessFunc("Konu Başlığı ", " Yeni konu başlığı oluşturuldu artık ayetleri ekleye bilirsiniz.", 3);
+                                App.mainScreen.succsessFunc("Konu Başlığı ", " Yeni konu başlığı oluşturuldu artık ayetleri ekleye bilirsiniz.", 3);
 
                                 subjectpreviewName.Text = "";
                                 subjectFolderHeader.Text = "";
@@ -217,7 +256,7 @@ namespace KuranX.App.Core.Pages.SubjectF
                             }
                             else
                             {
-                                alertFunc("Konu Başlığı Oluşturulamadı ", " Daha önce aynı isimde bir konu zaten mevcut lütfen kontrol ediniz.", 3);
+                                App.mainScreen.alertFunc("Konu Başlığı Oluşturulamadı ", " Daha önce aynı isimde bir konu zaten mevcut lütfen kontrol ediniz.", 3);
                             }
                             dControl = null;
                         }
@@ -226,7 +265,7 @@ namespace KuranX.App.Core.Pages.SubjectF
                     {
                         subjectFolderHeader.Focus();
                         subjectHeaderFolderErrorMesssage.Visibility = Visibility.Visible;
-                        subjectHeaderFolderErrorMesssage.Content = "Konu başlığının çok uzun max 50 karakter olabilir";
+                        subjectHeaderFolderErrorMesssage.Content = "Konu başlığının çok uzun max 150 karakter olabilir";
                     }
                 }
                 else
@@ -238,7 +277,7 @@ namespace KuranX.App.Core.Pages.SubjectF
             }
             catch (Exception ex)
             {
-                App.logWriter("PopupAction", ex);
+                App.logWriter("Click", ex);
             }
         }
 
@@ -263,11 +302,11 @@ namespace KuranX.App.Core.Pages.SubjectF
 
                 chk.IsChecked = true;
 
-                subjectpreviewColor.Background = new BrushConverter().ConvertFromString(chk.Tag.ToString()) as SolidColorBrush;
+                subjectpreviewColor.Background = new BrushConverter().ConvertFromString((string)chk.Tag) as SolidColorBrush;
             }
             catch (Exception ex)
             {
-                App.logWriter("Other", ex);
+                App.logWriter("Click", ex);
             }
         }
 
@@ -282,7 +321,7 @@ namespace KuranX.App.Core.Pages.SubjectF
             }
             catch (Exception ex)
             {
-                App.logWriter("LoadEvent", ex);
+                App.logWriter("Click", ex);
             }
         }
 
@@ -300,24 +339,25 @@ namespace KuranX.App.Core.Pages.SubjectF
             }
             catch (Exception ex)
             {
-                App.logWriter("LoadEvent", ex);
+                App.logWriter("Click", ex);
             }
         }
 
-        /* ---------------- Click Func ---------------- */
-
-        /* ---------------- Popup Show Func ---------------- */
-
         private void addSubjectButton_Click(object sender, RoutedEventArgs e)
         {
-            popup_FolderSubjectPopup.IsOpen = true;
+            try
+            {
+                popup_FolderSubjectPopup.IsOpen = true;
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Click", ex);
+            }
         }
 
-        /* ---------------- Popup Show Func ---------------- */
+        // ------------- Click Func ------------- //
 
-        /* ---------------- Click Func ---------------- */
-
-        /* ---------------- Changed Func ---------------- */
+        // ------------- Change Func ------------- //
 
         private void SearchData_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -334,7 +374,7 @@ namespace KuranX.App.Core.Pages.SubjectF
             }
             catch (Exception ex)
             {
-                App.logWriter("Search", ex);
+                App.logWriter("Change", ex);
             }
         }
 
@@ -346,7 +386,7 @@ namespace KuranX.App.Core.Pages.SubjectF
             }
             catch (Exception ex)
             {
-                App.logWriter("Search", ex);
+                App.logWriter("Change", ex);
             }
         }
 
@@ -358,7 +398,7 @@ namespace KuranX.App.Core.Pages.SubjectF
             }
             catch (Exception ex)
             {
-                App.logWriter("Other", ex);
+                App.logWriter("Change", ex);
             }
         }
 
@@ -370,104 +410,48 @@ namespace KuranX.App.Core.Pages.SubjectF
             }
             catch (Exception ex)
             {
-                App.logWriter("Other", ex);
+                App.logWriter("Change", ex);
             }
         }
 
         /* ---------------- Changed Func ---------------- */
 
-        // ---------- MessageFunc FUNC ---------- //
-
-        private void alertFunc(string header, string detail, int timespan)
-        {
-            try
-            {
-                alertPopupHeader.Text = header;
-                alertPopupDetail.Text = detail;
-                alph.IsOpen = true;
-
-                App.timeSpan.Interval = TimeSpan.FromSeconds(timespan);
-                App.timeSpan.Start();
-                App.timeSpan.Tick += delegate
-                {
-                    alph.IsOpen = false;
-                    App.timeSpan.Stop();
-                };
-            }
-            catch (Exception ex)
-            {
-                App.logWriter("Other", ex);
-            }
-        }
-
-        private void infoFunc(string header, string detail, int timespan)
-        {
-            try
-            {
-                infoPopupHeader.Text = header;
-                infoPopupDetail.Text = detail;
-                inph.IsOpen = true;
-
-                App.timeSpan.Interval = TimeSpan.FromSeconds(timespan);
-                App.timeSpan.Start();
-                App.timeSpan.Tick += delegate
-                {
-                    inph.IsOpen = false;
-                    App.timeSpan.Stop();
-                };
-            }
-            catch (Exception ex)
-            {
-                App.logWriter("Other", ex);
-            }
-        }
-
-        private void succsessFunc(string header, string detail, int timespan)
-        {
-            try
-            {
-                successPopupHeader.Text = header;
-                successPopupDetail.Text = detail;
-                scph.IsOpen = true;
-
-                App.timeSpan.Interval = TimeSpan.FromSeconds(timespan);
-                App.timeSpan.Start();
-                App.timeSpan.Tick += delegate
-                {
-                    scph.IsOpen = false;
-                    App.timeSpan.Stop();
-                };
-            }
-            catch (Exception ex)
-            {
-                App.logWriter("Other", ex);
-            }
-        }
-
-        // ---------- MessageFunc FUNC ---------- //
-
         // ------------ Animation Func ------------ //
 
         public void loadAni()
         {
-            this.Dispatcher.Invoke(() =>
+            try
             {
-                // loadinGifContent.Visibility = Visibility.Visible;
-                SearchBtn.IsEnabled = false;
-                addSubjectButton.IsEnabled = false;
-                loadBorder.Visibility = Visibility.Hidden;
-            });
+                this.Dispatcher.Invoke(() =>
+                {
+                    // loadinGifContent.Visibility = Visibility.Visible;
+                    SearchBtn.IsEnabled = false;
+                    addSubjectButton.IsEnabled = false;
+                    loadBorder.Visibility = Visibility.Hidden;
+                });
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Animation", ex);
+            }
         }
 
         public void loadAniComplated()
         {
-            this.Dispatcher.Invoke(() =>
+            try
             {
-                //  loadinGifContent.Visibility = Visibility.Collapsed;
-                loadBorder.Visibility = Visibility.Visible;
-                SearchBtn.IsEnabled = true;
-                addSubjectButton.IsEnabled = true;
-            });
+                this.Dispatcher.Invoke(() =>
+                {
+                    //  loadinGifContent.Visibility = Visibility.Collapsed;
+                    loadBorder.Visibility = Visibility.Visible;
+                    SearchBtn.IsEnabled = true;
+                    addSubjectButton.IsEnabled = true;
+                });
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Animation", ex);
+            }
         }
 
         // ------------ Animation Func ------------ //

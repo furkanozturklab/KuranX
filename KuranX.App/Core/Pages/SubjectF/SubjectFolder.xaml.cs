@@ -16,8 +16,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Windows.Threading;
 
 namespace KuranX.App.Core.Pages.SubjectF
 {
@@ -30,109 +28,138 @@ namespace KuranX.App.Core.Pages.SubjectF
 
         public SubjectFolder()
         {
-            InitializeComponent();
+            try
+            {
+                InitializeComponent();
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("InitializeComponent", ex);
+            }
         }
 
         public object PageCall(int subId)
         {
-            lastPage = 0;
-            NowPage = 1;
-            subFolderId = subId;
-            loadHeaderGif.Visibility = Visibility.Visible;
-            App.loadTask = Task.Run(() => loadItem(subId));
+            try
+            {
+                lastPage = 0;
+                NowPage = 1;
+                subFolderId = subId;
+                loadHeaderGif.Visibility = Visibility.Visible;
+                App.loadTask = Task.Run(() => loadItem(subId));
 
-            return this;
+                return this;
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Loading", ex);
+                return this;
+            }
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            App.mainScreen.navigationWriter("subject", loadHeader.Text);
+            try
+            {
+                App.mainScreen.navigationWriter("subject", loadHeader.Text);
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Loading", ex);
+            }
         }
 
         // ------------- Load Func ------------- //
 
         public void loadItem(int id)
         {
-            using (var entitydb = new AyetContext())
+            try
             {
-                loadAni();
-                var dSubject = entitydb.Subject.Where(p => p.subjectId == id).FirstOrDefault();
-                var dSubjects = entitydb.SubjectItems.Where(p => p.subjectId == id).Skip(lastPage).Take(20).ToList();
-
-                Decimal totalcount = entitydb.SubjectItems.Where(p => p.subjectId == id).Count();
-
-                App.mainScreen.navigationWriter("subject", dSubject.subjectName);
-
-                this.Dispatcher.Invoke(() =>
+                using (var entitydb = new AyetContext())
                 {
-                    loadHeader.Text = dSubject.subjectName;
-                    loadCreated.Text = dSubject.created.ToString("D");
-                    loadHeaderColor.Background = (SolidColorBrush)new BrushConverter().ConvertFrom(dSubject.subjectColor);
-                    subjectItemsDeleteBtn.Uid = dSubject.subjectId.ToString();
-                });
+                    loadAni();
+                    var dSubject = entitydb.Subject.Where(p => p.subjectId == id).FirstOrDefault();
+                    var dSubjects = entitydb.SubjectItems.Where(p => p.subjectId == id).Skip(lastPage).Take(20).ToList();
 
-                for (int x = 1; x <= 20; x++)
-                {
+                    Decimal totalcount = entitydb.SubjectItems.Where(p => p.subjectId == id).Count();
+
+                    App.mainScreen.navigationWriter("subject", dSubject.subjectName);
+
                     this.Dispatcher.Invoke(() =>
                     {
-                        var sbItem = (StackPanel)FindName("sbItem" + x);
-                        sbItem.Visibility = Visibility.Hidden;
+                        loadHeader.Text = dSubject.subjectName;
+                        loadCreated.Text = dSubject.created.ToString("D");
+                        loadHeaderColor.Background = new BrushConverter().ConvertFrom(dSubject.subjectColor) as SolidColorBrush;
+                        subjectItemsDeleteBtn.Uid = dSubject.subjectId.ToString();
                     });
-                }
 
-                int i = 1;
+                    for (int x = 1; x <= 20; x++)
+                    {
+                        this.Dispatcher.Invoke(() =>
+                        {
+                            var sbItem = (StackPanel)FindName("sbItem" + x);
+                            sbItem.Visibility = Visibility.Hidden;
+                        });
+                    }
 
-                Thread.Sleep(200);
+                    int i = 1;
 
-                foreach (var item in dSubjects)
-                {
+                    Thread.Sleep(200);
+
+                    foreach (var item in dSubjects)
+                    {
+                        this.Dispatcher.Invoke(() =>
+                        {
+                            var sName = (TextBlock)FindName("sbName" + i);
+                            sName.Text = item.subjectName;
+
+                            var sCreated = (TextBlock)FindName("sbCreate" + i);
+                            sCreated.Text = item.created.ToString("D");
+
+                            var sBtn = (Button)FindName("sbBtn" + i);
+                            sBtn.Uid = item.subjectId.ToString();
+                            sBtn.Content = item.sureId.ToString();
+                            sBtn.Tag = item.verseId.ToString();
+
+                            var sbItem = (StackPanel)FindName("sbItem" + i);
+                            sbItem.Visibility = Visibility.Visible;
+                            i++;
+                        });
+                    }
+
                     this.Dispatcher.Invoke(() =>
                     {
-                        var sName = (TextBlock)FindName("sbName" + i);
-                        sName.Text = item.subjectName;
+                        totalcountText.Tag = totalcount.ToString();
 
-                        var sCreated = (TextBlock)FindName("sbCreate" + i);
-                        sCreated.Text = item.created.ToString("D");
-
-                        var sBtn = (Button)FindName("sbBtn" + i);
-                        sBtn.Uid = item.subjectId.ToString();
-                        sBtn.Content = item.sureId.ToString();
-                        sBtn.Tag = item.verseId.ToString();
-
-                        var sbItem = (StackPanel)FindName("sbItem" + i);
-                        sbItem.Visibility = Visibility.Visible;
-                        i++;
+                        if (dSubjects.Count() != 0)
+                        {
+                            totalcount = Math.Ceiling(totalcount / 15);
+                            nowPageStatus.Tag = NowPage + " / " + totalcount.ToString();
+                            nextpageButton.Dispatcher.Invoke(() =>
+                            {
+                                if (NowPage != totalcount) nextpageButton.IsEnabled = true;
+                                else if (NowPage == totalcount) nextpageButton.IsEnabled = false;
+                            });
+                            previusPageButton.Dispatcher.Invoke(() =>
+                            {
+                                if (NowPage != 1) previusPageButton.IsEnabled = true;
+                                else if (NowPage == 1) previusPageButton.IsEnabled = false;
+                            });
+                        }
+                        else
+                        {
+                            nowPageStatus.Tag = "-";
+                            nextpageButton.IsEnabled = false;
+                            previusPageButton.IsEnabled = false;
+                        }
                     });
+
+                    loadAniComplated();
                 }
-
-                this.Dispatcher.Invoke(() =>
-                {
-                    totalcountText.Tag = totalcount.ToString();
-
-                    if (dSubjects.Count() != 0)
-                    {
-                        totalcount = Math.Ceiling(totalcount / 15);
-                        nowPageStatus.Tag = NowPage + " / " + totalcount.ToString();
-                        nextpageButton.Dispatcher.Invoke(() =>
-                        {
-                            if (NowPage != totalcount) nextpageButton.IsEnabled = true;
-                            else if (NowPage == totalcount) nextpageButton.IsEnabled = false;
-                        });
-                        previusPageButton.Dispatcher.Invoke(() =>
-                        {
-                            if (NowPage != 1) previusPageButton.IsEnabled = true;
-                            else if (NowPage == 1) previusPageButton.IsEnabled = false;
-                        });
-                    }
-                    else
-                    {
-                        nowPageStatus.Tag = "-";
-                        nextpageButton.IsEnabled = false;
-                        previusPageButton.IsEnabled = false;
-                    }
-                });
-
-                loadAniComplated();
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Loading", ex);
             }
         }
 
@@ -142,30 +169,51 @@ namespace KuranX.App.Core.Pages.SubjectF
 
         private void subjectItemsOpen_Click(object sender, RoutedEventArgs e)
         {
-            var btn = sender as Button;
-            App.mainframe.Content = App.navSubjectItem.subjectItemsPageCall(int.Parse(btn.Uid), int.Parse(btn.Content.ToString()), int.Parse(btn.Tag.ToString()));
+            try
+            {
+                var btn = sender as Button;
+                App.mainframe.Content = App.navSubjectItem.subjectItemsPageCall(int.Parse(btn.Uid), int.Parse((string)btn.Content), int.Parse((string)btn.Tag));
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Click", ex);
+            }
         }
 
         private void newConnect_Click(object sender, RoutedEventArgs e)
         {
-            var item = popupNextSureId.SelectedItem as ComboBoxItem;
+            try
+            {
+                var item = popupNextSureId.SelectedItem as ComboBoxItem;
 
-            popupaddnewversecountErrortxt.Content = item.Content + " Süresini " + item.Tag + " Ayeti Mevcut";
+                popupaddnewversecountErrortxt.Content = item.Content + " Süresini " + item.Tag + " Ayeti Mevcut";
 
-            popup_addConnect.IsOpen = true;
+                popup_addConnect.IsOpen = true;
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Click", ex);
+            }
         }
 
         private void sendResult_Click(object sender, RoutedEventArgs e)
         {
-            popup_sendResult.IsOpen = true;
+            try
+            {
+                popup_sendResult.IsOpen = true;
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Click", ex);
+            }
         }
 
         private void popupClosed_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                Button btntemp = sender as Button;
-                var popuptemp = (Popup)FindName(btntemp.Uid);
+                var btntemp = sender as Button;
+                Popup popuptemp = (Popup)FindName(btntemp.Uid);
 
                 popupNextSureId.SelectedIndex = 0;
                 popupNextVerseId.Text = "1";
@@ -175,7 +223,7 @@ namespace KuranX.App.Core.Pages.SubjectF
             }
             catch (Exception ex)
             {
-                App.logWriter("Other", ex);
+                App.logWriter("Click", ex);
             }
         }
 
@@ -193,7 +241,7 @@ namespace KuranX.App.Core.Pages.SubjectF
 
                         if (dControl.Count != 0)
                         {
-                            alertFunc("Ayet Ekleme Başarısız", "Bu ayet Daha Önceden Eklenmiş Yeniden Ekleyemezsiniz.", 3);
+                            App.mainScreen.alertFunc("Ayet Ekleme Başarısız", "Bu ayet Daha Önceden Eklenmiş Yeniden Ekleyemezsiniz.", 3);
                             popup_addConnect.IsOpen = false;
                             popupNextVerseId.Text = "1";
                         }
@@ -202,7 +250,7 @@ namespace KuranX.App.Core.Pages.SubjectF
                             var dSubjectItem = new SubjectItems { subjectId = subFolderId, subjectNotesId = 0, sureId = int.Parse(item.Uid), verseId = int.Parse(popupNextVerseId.Text), created = DateTime.Now, modify = DateTime.Now, subjectName = item.Content + " Suresinin " + popupNextVerseId.Text + " Ayeti" };
                             entitydb.SubjectItems.Add(dSubjectItem);
                             entitydb.SaveChanges();
-                            succsessFunc("Ayet Ekleme Başarılı", "Seçmiş olduğunuz konuya ayet eklendi.", 3);
+                            App.mainScreen.succsessFunc("Ayet Ekleme Başarılı", "Seçmiş olduğunuz konuya ayet eklendi.", 3);
 
                             popup_addConnect.IsOpen = false;
                             popupNextVerseId.Text = "1";
@@ -211,13 +259,13 @@ namespace KuranX.App.Core.Pages.SubjectF
                     }
                     else
                     {
-                        alertFunc("Ayet Ekleme Başarısız", "Seçmiş olduğunuz konuya ayet eklenemedi.", 3);
+                        App.mainScreen.alertFunc("Ayet Ekleme Başarısız", "Seçmiş olduğunuz konuya ayet eklenemedi.", 3);
                     }
                 }
             }
             catch (Exception ex)
             {
-                App.logWriter("PopupAction", ex);
+                App.logWriter("Click", ex);
             }
         }
 
@@ -232,7 +280,7 @@ namespace KuranX.App.Core.Pages.SubjectF
             }
             catch (Exception ex)
             {
-                App.logWriter("LoadEvent", ex);
+                App.logWriter("Click", ex);
             }
         }
 
@@ -250,7 +298,7 @@ namespace KuranX.App.Core.Pages.SubjectF
             }
             catch (Exception ex)
             {
-                App.logWriter("LoadEvent", ex);
+                App.logWriter("Click", ex);
             }
         }
 
@@ -262,34 +310,38 @@ namespace KuranX.App.Core.Pages.SubjectF
             }
             catch (Exception ex)
             {
-                App.logWriter("Navigation", ex);
+                App.logWriter("Click", ex);
             }
         }
 
         private void connectResultControl_Click(object sender, RoutedEventArgs e)
         {
-            using (var entitydb = new AyetContext())
+            try
             {
-                var item = popupResultSureId.SelectedItem as ComboBoxItem;
-                var dResult = entitydb.Results.Where(p => p.resultId == int.Parse(item.Uid)).FirstOrDefault();
-
-                if (entitydb.ResultItems.Where(p => p.resultId == dResult.resultId && p.resultSubjectId == subFolderId).Count() == 0)
+                using (var entitydb = new AyetContext())
                 {
-                    dResult.resultSubject = true;
-                    var dTemp = new ResultItem { resultId = dResult.resultId, resultSubjectId = subFolderId, sendTime = DateTime.Now };
-                    entitydb.ResultItems.Add(dTemp);
-                    entitydb.SaveChanges();
-                    popup_sendResult.IsOpen = false;
-                    succsessFunc("Gönderme Başarılı", "Konu başlığı " + item.Content + " suresinin sonucuna gönderildi.", 3);
-                }
-                else
-                {
-                    popup_sendResult.IsOpen = false;
-                    alertFunc("Gönderme Başarısız", "Konu başlığı " + item.Content + " suresinin sonucuna daha önceden eklenmiştir yeniden ekleyemezsiniz.", 3);
-                }
-                /*
+                    var item = popupResultSureId.SelectedItem as ComboBoxItem;
+                    var dResult = entitydb.Results.Where(p => p.resultId == int.Parse(item.Uid)).FirstOrDefault();
 
-                */
+                    if (entitydb.ResultItems.Where(p => p.resultId == dResult.resultId && p.resultSubjectId == subFolderId).Count() == 0)
+                    {
+                        dResult.resultSubject = true;
+                        var dTemp = new ResultItem { resultId = dResult.resultId, resultSubjectId = subFolderId, sendTime = DateTime.Now };
+                        entitydb.ResultItems.Add(dTemp);
+                        entitydb.SaveChanges();
+                        popup_sendResult.IsOpen = false;
+                        App.mainScreen.succsessFunc("Gönderme Başarılı", "Konu başlığı " + item.Content + " suresinin sonucuna gönderildi.", 3);
+                    }
+                    else
+                    {
+                        popup_sendResult.IsOpen = false;
+                        App.mainScreen.alertFunc("Gönderme Başarısız", "Konu başlığı " + item.Content + " suresinin sonucuna daha önceden eklenmiştir yeniden ekleyemezsiniz.", 3);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Click", ex);
             }
         }
 
@@ -309,114 +361,34 @@ namespace KuranX.App.Core.Pages.SubjectF
             }
             catch (Exception ex)
             {
-                App.logWriter("Remove", ex);
+                App.logWriter("Click", ex);
             }
         }
 
         private void newNamePopup_Click(object sender, RoutedEventArgs e)
         {
-            using (var entitydb = new AyetContext())
+            try
             {
-                if (popupNewName.Text.Length >= 3)
+                using (var entitydb = new AyetContext())
                 {
-                    entitydb.Subject.Where(p => p.subjectId == subFolderId).First().subjectName = popupNewName.Text;
-                    loadHeader.Text = popupNewName.Text;
-                    entitydb.SaveChanges();
-                    succsessFunc("Güncelleme Başarılı", "Konu başlığınız başarılı bir sekilde Değiştirilmiştir.", 3);
-                    popup_newName.IsOpen = false;
+                    if (popupNewName.Text.Length >= 3)
+                    {
+                        entitydb.Subject.Where(p => p.subjectId == subFolderId).First().subjectName = popupNewName.Text;
+                        loadHeader.Text = popupNewName.Text;
+                        entitydb.SaveChanges();
+                        App.mainScreen.succsessFunc("Güncelleme Başarılı", "Konu başlığınız başarılı bir sekilde Değiştirilmiştir.", 3);
+                        popup_newName.IsOpen = false;
+                    }
+                    else
+                    {
+                        popupNewName.Focus();
+                        popupRelativeIdError.Content = "Konu başlığının uzunluğu minimum 3 karakter olmalı";
+                    }
                 }
-                else
-                {
-                    popupNewName.Focus();
-                    popupRelativeIdError.Content = "Konu başlığının uzunluğu minimum 3 karakter olmalı";
-                }
-            }
-        }
-
-        // ------------- Click Func ------------- //
-
-        // ---------- MessageFunc FUNC ---------- //
-
-        private void alertFunc(string header, string detail, int timespan)
-        {
-            try
-            {
-                alertPopupHeader.Text = header;
-                alertPopupDetail.Text = detail;
-                alph.IsOpen = true;
-
-                App.timeSpan.Interval = TimeSpan.FromSeconds(timespan);
-                App.timeSpan.Start();
-                App.timeSpan.Tick += delegate
-                {
-                    alph.IsOpen = false;
-                    App.timeSpan.Stop();
-                };
             }
             catch (Exception ex)
             {
-                App.logWriter("Other", ex);
-            }
-        }
-
-        private void infoFunc(string header, string detail, int timespan)
-        {
-            try
-            {
-                infoPopupHeader.Text = header;
-                infoPopupDetail.Text = detail;
-                inph.IsOpen = true;
-
-                App.timeSpan.Interval = TimeSpan.FromSeconds(timespan);
-                App.timeSpan.Start();
-                App.timeSpan.Tick += delegate
-                {
-                    inph.IsOpen = false;
-                    App.timeSpan.Stop();
-                };
-            }
-            catch (Exception ex)
-            {
-                App.logWriter("Other", ex);
-            }
-        }
-
-        private void succsessFunc(string header, string detail, int timespan)
-        {
-            try
-            {
-                successPopupHeader.Text = header;
-                successPopupDetail.Text = detail;
-                scph.IsOpen = true;
-
-                App.timeSpan.Interval = TimeSpan.FromSeconds(timespan);
-                App.timeSpan.Start();
-                App.timeSpan.Tick += delegate
-                {
-                    scph.IsOpen = false;
-                    App.timeSpan.Stop();
-                };
-            }
-            catch (Exception ex)
-            {
-                App.logWriter("Other", ex);
-            }
-        }
-
-        // ---------- MessageFunc FUNC ---------- //
-
-        // ---------- SelectionChanged FUNC ---------- //
-
-        private void popupNextSureId_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            var comboBox = (ComboBox)sender;
-            if (!comboBox.IsLoaded) return;
-
-            var item = popupNextSureId.SelectedItem as ComboBoxItem;
-
-            if (item != null)
-            {
-                popupcomboboxLabel.Text = $"Secilebilecek Ayet Sayısı {item.Tag}";
+                App.logWriter("Click", ex);
             }
         }
 
@@ -428,7 +400,7 @@ namespace KuranX.App.Core.Pages.SubjectF
             }
             catch (Exception ex)
             {
-                App.logWriter("Popup", ex);
+                App.logWriter("Click", ex);
             }
         }
 
@@ -441,40 +413,78 @@ namespace KuranX.App.Core.Pages.SubjectF
             }
             catch (Exception ex)
             {
-                App.logWriter("Popup", ex);
+                App.logWriter("Click", ex);
+            }
+        }
+
+        // ------------- Click Func ------------- //
+
+        // ---------- SelectionChanged FUNC ---------- //
+
+        private void popupNextSureId_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                var comboBox = (ComboBox)sender;
+                if (!comboBox.IsLoaded) return;
+
+                var item = popupNextSureId.SelectedItem as ComboBoxItem;
+
+                if (item != null)
+                {
+                    popupcomboboxLabel.Text = $"Secilebilecek Ayet Sayısı {item.Tag}";
+                }
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Change", ex);
             }
         }
 
         private void popupNextVerseId_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            Regex regex = new Regex("[^0-9]+");
-            e.Handled = regex.IsMatch(e.Text);
+            try
+            {
+                Regex regex = new Regex("[^0-9]+");
+                e.Handled = regex.IsMatch(e.Text);
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Change", ex);
+            }
         }
 
         private void popupNextVerseId_TextChanged(object sender, TextChangedEventArgs e)
         {
-            var item = popupNextSureId.SelectedItem as ComboBoxItem;
-
-            var textbox = (TextBox)sender;
-            if (!textbox.IsLoaded) return;
-
-            if (popupNextVerseId.Text != "" && popupNextVerseId.Text != null)
+            try
             {
-                if (int.Parse(popupNextVerseId.Text) <= int.Parse(item.Tag.ToString()) && int.Parse(popupNextVerseId.Text) > 0)
+                var item = popupNextSureId.SelectedItem as ComboBoxItem;
+
+                var textbox = (TextBox)sender;
+                if (!textbox.IsLoaded) return;
+
+                if (popupNextVerseId.Text != "" && popupNextVerseId.Text != null)
                 {
-                    addnewConnectSubject.IsEnabled = true;
-                    popupaddnewversecountErrortxt.Content = "Ayet Mevcut Eklene Bilir";
+                    if (int.Parse(popupNextVerseId.Text) <= int.Parse((string)item.Tag) && int.Parse(popupNextVerseId.Text) > 0)
+                    {
+                        addnewConnectSubject.IsEnabled = true;
+                        popupaddnewversecountErrortxt.Content = "Ayet Mevcut Eklene Bilir";
+                    }
+                    else
+                    {
+                        addnewConnectSubject.IsEnabled = false;
+                        popupaddnewversecountErrortxt.Content = "Ayet Mevcut Değil üst sınır " + item.Tag;
+                    }
                 }
                 else
                 {
                     addnewConnectSubject.IsEnabled = false;
-                    popupaddnewversecountErrortxt.Content = "Ayet Mevcut Değil üst sınır " + item.Tag;
+                    popupaddnewversecountErrortxt.Content = "Lütfen Ayet Sırasını Giriniz";
                 }
             }
-            else
+            catch (Exception ex)
             {
-                addnewConnectSubject.IsEnabled = false;
-                popupaddnewversecountErrortxt.Content = "Lütfen Ayet Sırasını Giriniz";
+                App.logWriter("Change", ex);
             }
         }
 
@@ -490,7 +500,7 @@ namespace KuranX.App.Core.Pages.SubjectF
             }
             catch (Exception ex)
             {
-                App.logWriter("Other", ex);
+                App.logWriter("Change", ex);
             }
         }
 
@@ -510,7 +520,7 @@ namespace KuranX.App.Core.Pages.SubjectF
 
                 App.timeSpan.Interval = TimeSpan.FromSeconds(3);
                 App.timeSpan.Start();
-                succsessFunc("Konu Silme Başarılı", "Konuya ait tüm notlar ve eklenen ayetlerle birlikte silindi. Konularıma yönlendiriliyorsunuz...", 3);
+                App.mainScreen.succsessFunc("Konu Silme Başarılı", "Konuya ait tüm notlar ve eklenen ayetlerle birlikte silindi. Konularıma yönlendiriliyorsunuz...", 3);
                 App.timeSpan.Tick += delegate
                 {
                     App.timeSpan.Stop();
@@ -529,26 +539,40 @@ namespace KuranX.App.Core.Pages.SubjectF
 
         public void loadAni()
         {
-            this.Dispatcher.Invoke(() =>
+            try
             {
-                subjectItemsDeleteBtn.IsEnabled = false;
-                backPage.IsEnabled = false;
-                sendResult.IsEnabled = false;
-                newConnect.IsEnabled = false;
-            });
+                this.Dispatcher.Invoke(() =>
+                {
+                    subjectItemsDeleteBtn.IsEnabled = false;
+                    backPage.IsEnabled = false;
+                    sendResult.IsEnabled = false;
+                    newConnect.IsEnabled = false;
+                });
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Animation", ex);
+            }
         }
 
         public void loadAniComplated()
         {
-            this.Dispatcher.Invoke(() =>
+            try
             {
-                loadHeaderGif.Visibility = Visibility.Collapsed;
-                loadStack.Visibility = Visibility.Visible;
-                subjectItemsDeleteBtn.IsEnabled = true;
-                backPage.IsEnabled = true;
-                sendResult.IsEnabled = true;
-                newConnect.IsEnabled = true;
-            });
+                this.Dispatcher.Invoke(() =>
+                {
+                    loadHeaderGif.Visibility = Visibility.Collapsed;
+                    loadStack.Visibility = Visibility.Visible;
+                    subjectItemsDeleteBtn.IsEnabled = true;
+                    backPage.IsEnabled = true;
+                    sendResult.IsEnabled = true;
+                    newConnect.IsEnabled = true;
+                });
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Animation", ex);
+            }
         }
 
         // ------------ Animation Func ------------ //

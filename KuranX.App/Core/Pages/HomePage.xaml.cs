@@ -1,4 +1,5 @@
-﻿using System;
+﻿using KuranX.App.Core.Classes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,18 +23,40 @@ namespace KuranX.App.Core.Pages
     {
         public HomePage()
         {
-            InitializeComponent();
+            try
+            {
+                InitializeComponent();
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("InitializeComponent", ex);
+            }
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            App.mainScreen.navigationWriter("home", "");
+            try
+            {
+                App.mainScreen.navigationWriter("home", "");
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Loading", ex);
+            }
         }
 
         public Page PageCall()
         {
-            App.mainScreen.navigationWriter("home", "");
-            return this;
+            try
+            {
+                App.mainScreen.navigationWriter("home", "");
+                return this;
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Loading", ex);
+                return this;
+            }
         }
     }
 }

@@ -27,75 +27,137 @@ namespace KuranX.App.Core.Pages.SubjectF
     public partial class SubjectItem : Page
     {
         public int sSureId, sverseId, verseId, subId, subItemsId;
+        private string intelWriter = "";
 
         public SubjectItem()
         {
-            InitializeComponent();
+            try
+            {
+                InitializeComponent();
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("InitializeComponent", ex);
+            }
         }
 
         public object subjectItemsPageCall(int SubID, int SureId, int VerseId)
         {
-            subId = SubID;
-            sSureId = SureId;
-            verseId = VerseId;
-            App.loadTask = Task.Run(() => loadItem(SubID, SureId, VerseId));
-            return this;
+            try
+            {
+                subId = SubID;
+                sSureId = SureId;
+                verseId = VerseId;
+                App.loadTask = Task.Run(() => loadItem(SubID, SureId, VerseId));
+                return this;
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Loading", ex);
+                return this;
+            }
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            App.mainScreen.navigationWriter("subject", loadHeader.Text + "," + loadBackHeader.Text);
+            try
+            {
+                App.mainScreen.navigationWriter("subject", loadHeader.Text + "," + loadBackHeader.Text);
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Loading", ex);
+            }
         }
 
         // ---------- Load FUNC ---------- //
 
         public void loadItem(int SubID, int SureId, int VerseId)
         {
-            using (var entitydb = new AyetContext())
+            try
             {
-                loadAni();
-                var dSub = entitydb.Subject.Where(p => p.subjectId == SubID).First();
-                subItemsId = entitydb.SubjectItems.Where(p => p.subjectId == subId).First().subjectItemsId;
-                var dSure = entitydb.Sure.Where(p => p.sureId == SureId).Select(p => new Sure { name = p.name }).First();
-                var dVerse = entitydb.Verse.Where(p => p.sureId == SureId && p.relativeDesk == VerseId).First();
-
-                this.Dispatcher.Invoke(() =>
+                using (var entitydb = new AyetContext())
                 {
-                    loadBgColor.Background = (SolidColorBrush)new BrushConverter().ConvertFrom(dSub.subjectColor);
-                    loadHeader.Text = dSub.subjectName;
-                    loadCreated.Text = dSub.created.ToString("D");
-                    loadBackHeader.Text = $"{dSure.name} Suresinin {VerseId} Ayeti";
+                    loadAni();
+                    var dSub = entitydb.Subject.Where(p => p.subjectId == SubID).First();
+                    subItemsId = entitydb.SubjectItems.Where(p => p.subjectId == subId).First().subjectItemsId;
+                    var dSure = entitydb.Sure.Where(p => p.sureId == SureId).Select(p => new Sure { name = p.name }).First();
+                    var dVerse = entitydb.Verse.Where(p => p.sureId == SureId && p.relativeDesk == VerseId).First();
 
-                    App.mainScreen.navigationWriter("subject", loadHeader.Text + "," + loadBackHeader.Text);
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        loadBgColor.Background = new BrushConverter().ConvertFrom(dSub.subjectColor) as SolidColorBrush;
+                        loadHeader.Text = dSub.subjectName;
+                        loadCreated.Text = dSub.created.ToString("D");
+                        loadBackHeader.Text = $"{dSure.name} Suresinin {VerseId} Ayeti";
 
-                    loadVerseTr.Text = dVerse.verseTr;
-                    loadVerseArb.Text = dVerse.verseArabic;
-                    sverseId = (int)dVerse.verseId;
-                    loadInterpreterFunc("", sverseId);
-                });
-                Thread.Sleep(200);
+                        App.mainScreen.navigationWriter("subject", loadHeader.Text + "," + loadBackHeader.Text);
 
-                loadAniComplated();
+                        loadVerseTr.Text = dVerse.verseTr;
+                        loadVerseArb.Text = dVerse.verseArabic;
+                        sverseId = (int)dVerse.verseId;
+                        loadInterpreterFunc("", sverseId);
+                    });
+                    Thread.Sleep(200);
+
+                    loadAniComplated();
+                }
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Loading", ex);
             }
         }
 
         public void loadInterpreterFunc(string writer, int verseId)
         {
             // İnterpreter Load Func
+
             try
             {
                 using (var entitydb = new AyetContext())
                 {
-                    if (writer == "") writer = "Mehmet Okuyan";
-                    verseId--;
-                    var dInter = entitydb.Interpreter.Where(p => p.sureId == sSureId && p.verseId == verseId && p.interpreterWriter == writer).First();
-                    loadItemsInterpreter(dInter);
+                    switch (writer)
+                    {
+                        case "Yorumcu 1":
+                            this.Dispatcher.Invoke(() => interpreterWriterCombo.SelectedIndex = 1);
+                            break;
+
+                        case "Yorumcu 2":
+                            this.Dispatcher.Invoke(() => interpreterWriterCombo.SelectedIndex = 2);
+                            break;
+
+                        case "Yorumcu 3":
+                            this.Dispatcher.Invoke(() => interpreterWriterCombo.SelectedIndex = 3);
+                            break;
+
+                        case "Mehmet Okuyan":
+                            this.Dispatcher.Invoke(() => interpreterWriterCombo.SelectedIndex = 4);
+                            break;
+
+                        default:
+                            this.Dispatcher.Invoke(() => interpreterWriterCombo.SelectedIndex = 0);
+
+                            break;
+                    }
+
+                    this.Dispatcher.Invoke(() => loadDetail.Text = "");
+                    this.Dispatcher.Invoke(() => tempLoadDetail.Text = "");
+
+                    if (writer == "") writer = "Yorumcu 1";
+                    var dInter = entitydb.Interpreter.Where(p => p.sureId == sSureId && p.verseId == verseId && p.interpreterWriter == writer).FirstOrDefault();
+
+                    if (dInter != null)
+                    {
+                        loadItemsInterpreter(dInter);
+                    }
+
                     dInter = null;
                 }
             }
             catch (Exception ex)
             {
-                App.logWriter("LoadFunc", ex);
+                App.logWriter("Loading", ex);
             }
         }
 
@@ -112,7 +174,7 @@ namespace KuranX.App.Core.Pages.SubjectF
             }
             catch (Exception ex)
             {
-                App.logWriter("LoadFunc", ex);
+                App.logWriter("Loading", ex);
             }
         }
 
@@ -123,15 +185,15 @@ namespace KuranX.App.Core.Pages.SubjectF
                 using (var entitydb = new AyetContext())
                 {
                     var dNotes = entitydb.Notes.Where(p => p.sureId == sSureId && p.verseId == verseId && p.noteLocation == "Konularım").ToList();
-                    var dTempNotes = new List<Notes>();
+
                     int i = 1;
 
-                    for (int x = 1; x < 8; x++)
+                    for (int x = 1; x <= 7; x++)
                     {
                         this.Dispatcher.Invoke(() =>
                         {
-                            var itemslist = (ItemsControl)FindName("nd" + x);
-                            itemslist.ItemsSource = null;
+                            var sbItem = (Button)FindName("nd" + x);
+                            sbItem.Visibility = Visibility.Hidden;
                         });
                     }
 
@@ -139,29 +201,26 @@ namespace KuranX.App.Core.Pages.SubjectF
                     {
                         if (i == 8)
                         {
-                            allShowNoteButton.Dispatcher.Invoke(() =>
-                            {
-                                allShowNoteButton.Visibility = Visibility.Visible;
-                            });
-
+                            this.Dispatcher.Invoke(() => allShowNoteButton.Visibility = Visibility.Visible);
                             break;
                         }
 
                         this.Dispatcher.Invoke(() =>
                         {
-                            var dControlTemp = (ItemsControl)FindName("nd" + i);
-                            dTempNotes.Add(item);
-                            dControlTemp.ItemsSource = dTempNotes;
-                            dTempNotes.Clear();
-                        });
+                            var sButton = (Button)FindName("nd" + i);
+                            sButton.Content = item.noteHeader;
+                            sButton.Uid = item.notesId.ToString();
 
-                        i++;
+                            var sbItem = (Button)FindName("nd" + i);
+                            sbItem.Visibility = Visibility.Visible;
+                            i++;
+                        });
                     }
                 }
             }
             catch (Exception ex)
             {
-                App.logWriter("NoteConnect", ex);
+                App.logWriter("Loading", ex);
             }
         }
 
@@ -171,7 +230,14 @@ namespace KuranX.App.Core.Pages.SubjectF
 
         private void openVerseButton_Click(object sender, RoutedEventArgs e)
         {
-            App.mainframe.Content = App.navVersePage.PageCall(sSureId, verseId, "Subject");
+            try
+            {
+                App.mainframe.Content = App.navVersePage.PageCall(sSureId, verseId, "Subject");
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Click", ex);
+            }
         }
 
         private void changeloadDetail_Click(object sender, EventArgs e)
@@ -205,7 +271,7 @@ namespace KuranX.App.Core.Pages.SubjectF
             }
             catch (Exception ex)
             {
-                App.logWriter("ClickFunc", ex);
+                App.logWriter("Click", ex);
             }
         }
 
@@ -217,36 +283,41 @@ namespace KuranX.App.Core.Pages.SubjectF
 
                 using (var entitydb = new AyetContext())
                 {
-                    // var dWords = entitydb.Words.Where(p => p.sureId == dSure[0].sureId).Where(p => p.verseId == dVerse[0].VerseId).ToList();
-
-                    //DATA DÜZELTİLECEK
+                    var dWords = entitydb.Words.Where(p => p.sureId == sSureId && p.verseId == verseId).ToList();
 
                     dynamicWordDetail.Children.Clear();
-                    /*
-                    foreach (var item in null)
+
+                    foreach (var item in dWords)
                     {
                         StackPanel itemsStack = new StackPanel();
-                        TextBlock text = new TextBlock();
-                        TextBlock re = new TextBlock();
+                        TextBlock arp = new TextBlock();
+                        TextBlock tr = new TextBlock();
+                        TextBlock meal = new TextBlock();
+                        TextBlock root = new TextBlock();
 
-                        itemsStack.Style = (Style)FindResource("wordStack");
-                        text.Style = (Style)FindResource("wordDetail");
-                        re.Style = (Style)FindResource("wordDetail");
+                        itemsStack.Style = (Style)FindResource("pp_wordStack");
+                        arp.Style = (Style)FindResource("pp_wordDetailArp");
+                        tr.Style = (Style)FindResource("pp_wordDetail");
+                        meal.Style = (Style)FindResource("pp_wordDetail");
+                        root.Style = (Style)FindResource("pp_wordDetailArp");
 
-                        text.Text = item.WordText;
-                        re.Text = item.WordRe;
+                        arp.Text = item.arp_read;
+                        tr.Text = item.tr_read;
+                        meal.Text = item.word_meal;
+                        root.Text = item.root;
 
-                        itemsStack.Children.Add(text);
-                        itemsStack.Children.Add(re);
+                        itemsStack.Children.Add(arp);
+                        itemsStack.Children.Add(tr);
+                        itemsStack.Children.Add(meal);
+                        itemsStack.Children.Add(root);
 
                         dynamicWordDetail.Children.Add(itemsStack);
                     }
-                    */
                 }
             }
             catch (Exception ex)
             {
-                App.logWriter("Other", ex);
+                App.logWriter("Click", ex);
             }
         }
 
@@ -262,7 +333,7 @@ namespace KuranX.App.Core.Pages.SubjectF
             }
             catch (Exception ex)
             {
-                App.logWriter("Other", ex);
+                App.logWriter("Click", ex);
             }
         }
 
@@ -274,7 +345,7 @@ namespace KuranX.App.Core.Pages.SubjectF
             }
             catch (Exception ex)
             {
-                App.logWriter("Navigation", ex);
+                App.logWriter("Click", ex);
             }
         }
 
@@ -283,11 +354,11 @@ namespace KuranX.App.Core.Pages.SubjectF
             try
             {
                 popup_Note.IsOpen = true;
-                App.loadTask = Task.Run(noteConnect);
+                App.loadTask = Task.Run(() => noteConnect());
             }
             catch (Exception ex)
             {
-                App.logWriter("NoteButton", ex);
+                App.logWriter("Click", ex);
             }
         }
 
@@ -301,7 +372,7 @@ namespace KuranX.App.Core.Pages.SubjectF
             }
             catch (Exception ex)
             {
-                App.logWriter("Other", ex);
+                App.logWriter("Click", ex);
             }
         }
 
@@ -359,14 +430,14 @@ namespace KuranX.App.Core.Pages.SubjectF
                                 {
                                     if (entitydb.Notes.Where(p => p.noteHeader == noteName.Text && p.sureId == sSureId && p.verseId == verseId).FirstOrDefault() != null)
                                     {
-                                        alertFunc("Not Ekleme Başarısız", "Aynı isimde not eklemiş olabilirsiniz lütfen kontrol edip yeniden deneyiniz.", 3);
+                                        App.mainScreen.alertFunc("Not Ekleme Başarısız", "Aynı isimde not eklemiş olabilirsiniz lütfen kontrol edip yeniden deneyiniz.", 3);
                                     }
                                     else
                                     {
                                         var dNotes = new Notes { noteHeader = noteName.Text, noteDetail = noteDetail.Text, sureId = sSureId, verseId = verseId, modify = DateTime.Now, created = DateTime.Now, noteLocation = "Konularım", subjectId = subItemsId };
                                         entitydb.Notes.Add(dNotes);
                                         entitydb.SaveChanges();
-                                        succsessFunc("Not Ekleme Başarılı", loadBackHeader.Text + " Not Eklendiniz.", 3);
+                                        App.mainScreen.succsessFunc("Not Ekleme Başarılı", loadBackHeader.Text + " Not Eklendiniz.", 3);
                                         App.loadTask = Task.Run(noteConnect);
 
                                         dNotes = null;
@@ -383,7 +454,7 @@ namespace KuranX.App.Core.Pages.SubjectF
             }
             catch (Exception ex)
             {
-                App.logWriter("PopupAction", ex);
+                App.logWriter("Click", ex);
             }
         }
 
@@ -433,7 +504,7 @@ namespace KuranX.App.Core.Pages.SubjectF
             }
             catch (Exception ex)
             {
-                App.logWriter("PopupAction", ex);
+                App.logWriter("Click", ex);
             }
         }
 
@@ -447,13 +518,13 @@ namespace KuranX.App.Core.Pages.SubjectF
             }
             catch (Exception ex)
             {
-                App.logWriter("Other", ex);
+                App.logWriter("Click", ex);
             }
         }
 
         // ---------- CLİCK FUNC ---------- //
 
-        // ---------- SelectionChanged FUNC ---------- //
+        // ---------- Changed FUNC ---------- //
 
         private void interpreterWriterCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -465,20 +536,17 @@ namespace KuranX.App.Core.Pages.SubjectF
                 {
                     if (item.Uid != "0")
                     {
-                        loadInterpreterFunc(item.Content.ToString(), sverseId);
+                        intelWriter = (string)item.Tag;
+                        loadInterpreterFunc((string)item.Tag, verseId);
                     }
                 }
                 item = null;
             }
             catch (Exception ex)
             {
-                App.logWriter("ClickFunc", ex);
+                App.logWriter("Change", ex);
             }
         }
-
-        // ---------- SelectionChanged FUNC ---------- //
-
-        // ---------- Simple && Clear Func ---------- //
 
         private void noteName_KeyDown(object sender, KeyEventArgs e)
         {
@@ -488,7 +556,7 @@ namespace KuranX.App.Core.Pages.SubjectF
             }
             catch (Exception ex)
             {
-                App.logWriter("Other", ex);
+                App.logWriter("Change", ex);
             }
         }
 
@@ -500,104 +568,48 @@ namespace KuranX.App.Core.Pages.SubjectF
             }
             catch (Exception ex)
             {
-                App.logWriter("Other", ex);
+                App.logWriter("Change", ex);
             }
         }
 
-        // ---------- Simple && Clear Func ---------- //
-
-        // ---------- MessageFunc FUNC ---------- //
-
-        private void alertFunc(string header, string detail, int timespan)
-        {
-            try
-            {
-                alertPopupHeader.Text = header;
-                alertPopupDetail.Text = detail;
-                alph.IsOpen = true;
-
-                App.timeSpan.Interval = TimeSpan.FromSeconds(timespan);
-                App.timeSpan.Start();
-                App.timeSpan.Tick += delegate
-                {
-                    alph.IsOpen = false;
-                    App.timeSpan.Stop();
-                };
-            }
-            catch (Exception ex)
-            {
-                App.logWriter("Other", ex);
-            }
-        }
-
-        private void infoFunc(string header, string detail, int timespan)
-        {
-            try
-            {
-                infoPopupHeader.Text = header;
-                infoPopupDetail.Text = detail;
-                inph.IsOpen = true;
-
-                App.timeSpan.Interval = TimeSpan.FromSeconds(timespan);
-                App.timeSpan.Start();
-                App.timeSpan.Tick += delegate
-                {
-                    inph.IsOpen = false;
-                    App.timeSpan.Stop();
-                };
-            }
-            catch (Exception ex)
-            {
-                App.logWriter("Other", ex);
-            }
-        }
-
-        private void succsessFunc(string header, string detail, int timespan)
-        {
-            try
-            {
-                successPopupHeader.Text = header;
-                successPopupDetail.Text = detail;
-                scph.IsOpen = true;
-
-                App.timeSpan.Interval = TimeSpan.FromSeconds(timespan);
-                App.timeSpan.Start();
-                App.timeSpan.Tick += delegate
-                {
-                    scph.IsOpen = false;
-                    App.timeSpan.Stop();
-                };
-            }
-            catch (Exception ex)
-            {
-                App.logWriter("Other", ex);
-            }
-        }
-
-        // ---------- MessageFunc FUNC ---------- //
+        // ---------- Changed FUNC ---------- //
 
         // ---------- Animation Func ----------- //
 
         private void loadAni()
         {
-            this.Dispatcher.Invoke(() =>
+            try
             {
-                loadHeaderStack.Visibility = Visibility.Hidden;
-                loadBackHeader.Visibility = Visibility.Hidden;
-                loadControlAni.Visibility = Visibility.Hidden;
-                loadContentGrid.Visibility = Visibility.Hidden;
-            });
+                this.Dispatcher.Invoke(() =>
+                {
+                    loadHeaderStack.Visibility = Visibility.Hidden;
+                    loadBackHeader.Visibility = Visibility.Hidden;
+                    loadControlAni.Visibility = Visibility.Hidden;
+                    loadContentGrid.Visibility = Visibility.Hidden;
+                });
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Animation", ex);
+            }
         }
 
         private void loadAniComplated()
         {
-            this.Dispatcher.Invoke(() =>
+            try
             {
-                loadHeaderStack.Visibility = Visibility.Visible;
-                loadBackHeader.Visibility = Visibility.Visible;
-                loadControlAni.Visibility = Visibility.Visible;
-                loadContentGrid.Visibility = Visibility.Visible;
-            });
+                this.Dispatcher.Invoke(() =>
+                {
+                    loadHeaderStack.Visibility = Visibility.Visible;
+                    loadBackHeader.Visibility = Visibility.Visible;
+                    loadControlAni.Visibility = Visibility.Visible;
+                    loadContentGrid.Visibility = Visibility.Visible;
+                });
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Animation", ex);
+            }
         }
     }
 }

@@ -38,6 +38,7 @@ namespace KuranX.App
         public static homeScreen mainScreen = new homeScreen();
 
         public static HomePage navHomeFrame = new HomePage();
+        public static UserPage navUserFrame = new UserPage();
 
         // VERSE PANEL
 
