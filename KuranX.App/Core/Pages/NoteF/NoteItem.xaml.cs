@@ -1,24 +1,29 @@
 ﻿using KuranX.App.Core.Classes;
-using KuranX.App.Core.Pages.LibraryF;
 using KuranX.App.Core.Pages.VerseF;
+using KuranX.App.Core.Windows;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.ConstrainedExecution;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Documents.Serialization;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
 using System.Windows.Threading;
-using System.Windows.Xps;
 using System.Windows.Xps.Packaging;
+using System.Windows.Xps;
+using System.Diagnostics;
+using System.Threading;
 
 namespace KuranX.App.Core.Pages.NoteF
 {
@@ -27,12 +32,9 @@ namespace KuranX.App.Core.Pages.NoteF
     /// </summary>
     public partial class NoteItem : Page
     {
-        private Notes dNotes = new Notes();
-        private Task loadTask;
-        private DispatcherTimer? timeSpan = new DispatcherTimer(DispatcherPriority.Render);
-        private int selectedId, cSr, cVr, cPd, cSb;
+        private int noteId, cSr, cVr, cPd, cSb;
         private bool tempCheck = false;
-        private string gototype, navLocation;
+        private string gototype = "";
 
         public NoteItem()
         {
@@ -46,184 +48,138 @@ namespace KuranX.App.Core.Pages.NoteF
             }
         }
 
-        public NoteItem(int notesid, string location) : this()
+        public Page PageCall(int id)
         {
             try
             {
-                selectedId = notesid;
-                navLocation = location;
+                noteId = id;
+                App.loadTask = Task.Run(() => loadItem());
+                return this;
             }
             catch (Exception ex)
             {
-                App.logWriter("InitializeComponent", ex);
+                App.logWriter("Loading Func", ex);
+                return this;
             }
         }
 
-        private void Page_Loaded(object sender, RoutedEventArgs e)
+        // ------------- Loading Func ------------- //
+
+        public void loadScreen(int id)
         {
             try
             {
-                loadTask = new Task(noteLoad);
-                loadTask.Start();
+                this.Dispatcher.Invoke(() =>
+                {
+                    PdfViewer dViewer = new PdfViewer(id);
+                    dViewer.Show();
+                });
             }
             catch (Exception ex)
             {
-                App.logWriter("Page_Loaded", ex);
+                App.logWriter("Loading", ex);
             }
         }
 
-        private void noteLoad()
+        public void loadItem()
         {
             try
             {
                 using (var entitydb = new AyetContext())
                 {
-                    loadAni();
-                    dNotes = entitydb.Notes.Where(p => p.NotesId == selectedId).FirstOrDefault();
+                    var dNote = entitydb.Notes.Where(p => p.notesId == noteId).FirstOrDefault();
 
+                    loadAni();
                     this.Dispatcher.Invoke(() =>
                     {
-                        gotoVerseButton.IsEnabled = false;
-                        gotoVerseButton.Content = "Kullanıcı";
-                        gotoVerseButton.Tag = "People";
-                        header.Text = dNotes.NoteHeader;
-
-                        create.Text = dNotes.Created.ToString();
-                        location.Text = dNotes.NoteLocation;
-                        noteDetail.Text = dNotes.NoteDetail;
-
-                        switch (dNotes.NoteLocation)
+                        infoText.Text = "";
+                        loadHeader.Text = dNote.noteHeader;
+                        loadCreate.Text = dNote.created.ToString("D");
+                        loadLocation.Text = dNote.noteLocation;
+                        loadNoteDetail.Text = dNote.noteDetail;
+                        switch (dNote.noteLocation)
                         {
                             case "Konularım":
-                                noteType.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#FD7E14");
+                                noteType.Background = new BrushConverter().ConvertFrom("#FD7E14") as SolidColorBrush;
                                 break;
 
                             case "Kütüphane":
-                                noteType.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#E33FA1");
+                                noteType.Background = new BrushConverter().ConvertFrom("#E33FA1") as SolidColorBrush;
                                 break;
 
                             case "Ayet":
-                                noteType.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#0DCAF0");
+                                noteType.Background = new BrushConverter().ConvertFrom("#0DCAF0") as SolidColorBrush;
                                 break;
 
                             case "PDF":
-                                noteType.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#B30B00");
+                                noteType.Background = new BrushConverter().ConvertFrom("#B30B00") as SolidColorBrush;
                                 break;
 
                             default:
-                                noteType.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#ADB5BD");
+                                noteType.Background = new BrushConverter().ConvertFrom("#ADB5BD") as SolidColorBrush;
                                 break;
                         }
 
+                        // Kullanıcı Notu Gelmiş İse
+                        gotoVerseButton.IsEnabled = false;
+                        gotoVerseButton.Content = "Kullanıcı";
+                        gotoVerseButton.Tag = "People";
+
+                        App.mainScreen.navigationWriter("notes", "Kullanıcı Notu");
+
                         // Sure Bağlanmış
-                        if (dNotes.SureId != 0)
+                        if (dNote.sureId != 0)
                         {
                             gotoVerseButton.IsEnabled = true;
                             gotoVerseButton.Content = "Ayete Git";
                             gotoVerseButton.Tag = "ArrowRight";
-                            var dSure = entitydb.Sure.Where(p => p.sureId == dNotes.SureId).FirstOrDefault();
-
-                            infoText.Text = "Not Aldığınız Ayet " + Environment.NewLine + dSure.Name + " suresini " + dNotes.VerseId + " ayeti";
+                            var dSure = entitydb.Sure.Where(p => p.sureId == dNote.sureId).FirstOrDefault();
+                            App.mainScreen.navigationWriter("notes", "Sure Notu");
+                            infoText.Text = "Not Aldığınız Ayet " + Environment.NewLine + dSure.name + " suresini " + dNote.verseId + " ayeti";
                             cSr = (int)dSure.sureId;
-                            cVr = (int)dNotes.VerseId;
+                            cVr = (int)dNote.verseId;
                             gototype = "Verse";
                         }
 
                         // PDF Bağlanmış
-                        if (dNotes.PdfFileId != 0)
+                        if (dNote.pdfFileId != 0)
                         {
                             gotoVerseButton.IsEnabled = true;
                             gotoVerseButton.Content = "Pdf e Git";
                             gotoVerseButton.Tag = "ArrowRight";
-                            var dPdf = entitydb.PdfFile.Where(p => p.PdfFileId == dNotes.PdfFileId).FirstOrDefault();
-                            infoText.Text = "Not Aldığınız Dosya " + Environment.NewLine + dPdf.FileName;
-                            cPd = (int)dNotes.PdfFileId;
+                            gotoVerseButton.Style = (Style)FindResource("defaultActionButonBstrpRed");
+                            App.mainScreen.navigationWriter("notes", "Pdf Notu");
+                            var dPdf = entitydb.PdfFile.Where(p => p.pdfFileId == dNote.pdfFileId).FirstOrDefault();
+                            infoText.Text = "Not Aldığınız Dosya " + Environment.NewLine + dPdf.fileName;
+                            cPd = (int)dNote.pdfFileId;
                             gototype = "Pdf";
                         }
 
                         // Konu Bağlanmış
-                        if (dNotes.SubjectId != 0)
+                        if (dNote.subjectId != 0)
                         {
                             gotoVerseButton.IsEnabled = true;
                             gotoVerseButton.Content = "Konuya Git";
                             gotoVerseButton.Tag = "ArrowRight";
-                            var dSubject = entitydb.SubjectItems.Where(p => p.SubjectItemsId == dNotes.SubjectId).FirstOrDefault();
-                            var dx = entitydb.Subject.Where(p => p.SubjectId == dSubject.SubjectId).FirstOrDefault();
-                            infoText.Text = "Not Aldığınız Konu" + Environment.NewLine + dx.SubjectName;
-                            cSb = (int)dNotes.SubjectId;
+
+                            App.mainScreen.navigationWriter("notes", "Konu Notu");
+                            var dSubject = entitydb.SubjectItems.Where(p => p.subjectItemsId == dNote.subjectId).FirstOrDefault();
+
+                            Debug.WriteLine(dSubject.subjectId);
+
+                            var dx = entitydb.Subject.Where(p => p.subjectId == dSubject.subjectId).FirstOrDefault();
+                            infoText.Text = "Not Aldığınız Konu" + Environment.NewLine + dx.subjectName;
+                            cSb = (int)dNote.subjectId;
                             gototype = "Subject";
                         }
                     });
-                    Thread.Sleep(200);
+                    Thread.Sleep(300);
                     loadAniComplated();
                 }
             }
             catch (Exception ex)
             {
-                App.logWriter("noteLoad", ex);
-            }
-        }
-
-        private void gotoVerseButton_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                switch (gototype)
-                {
-                    case "Verse":
-
-                        App.mainframe.Content = new verseFrame(cSr, cVr, "Notes");
-
-                        break;
-
-                    case "Pdf":
-                        App.mainframe.Content = new libraryOpenFile(cPd);
-                        break;
-
-                    case "Subject":
-
-                        using (var entitydbsb = new AyetContext())
-                        {
-                            var dSubjectItems = entitydbsb.SubjectItems.Where(p => p.SubjectItemsId == cSb).FirstOrDefault();
-
-                            var dSubject = entitydbsb.Subject.Where(p => p.SubjectId == (int)dSubjectItems.SubjectId).FirstOrDefault();
-
-                            App.mainframe.Content = new SubjectF.SubjectItemFrame(cSb, dSubjectItems.SubjectName, dSubject.SubjectName, dSubjectItems.Created.ToString(), (SolidColorBrush)new BrushConverter().ConvertFrom(dSubject.SubjectColor));
-                        }
-
-                        break;
-                }
-            }
-            catch (Exception ex)
-            {
-                App.logWriter("gotoVerseButton_Click", ex);
-            }
-        }
-
-        private void popupClosed_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                Button btntemp = sender as Button;
-                var popuptemp = (Popup)this.FindName(btntemp.Uid);
-
-                popuptemp.IsOpen = false;
-            }
-            catch (Exception ex)
-            {
-                App.logWriter("popupClosed_Click", ex);
-            }
-        }
-
-        private void printButton_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                Printer_Func(this);
-            }
-            catch (Exception ex)
-            {
-                App.logWriter("printButton_Click", ex);
+                App.logWriter("Loading Func", ex);
             }
         }
 
@@ -232,12 +188,12 @@ namespace KuranX.App.Core.Pages.NoteF
             try
             {
                 if (File.Exists("print_previw.xps") == true) File.Delete("print_previw.xps");
-                XpsDocument doc = new XpsDocument("print_previw.xps", FileAccess.ReadWrite);
+                XpsDocument? doc = new XpsDocument("print_previw.xps", FileAccess.ReadWrite);
 
-                XpsDocumentWriter writer = XpsDocument.CreateXpsDocumentWriter(doc);
-                SerializerWriterCollator output_Document = writer.CreateVisualsCollator();
+                XpsDocumentWriter? writer = XpsDocument.CreateXpsDocumentWriter(doc);
+                SerializerWriterCollator? output_Document = writer.CreateVisualsCollator();
                 output_Document.BeginBatchWrite();
-                output_Document.Write(new NotePrinter(selectedId));
+                output_Document.Write(App.notePrinter.notePrinterCall(noteId));
                 output_Document.EndBatchWrite();
 
                 FixedDocumentSequence preview = doc.GetFixedDocumentSequence();
@@ -259,11 +215,15 @@ namespace KuranX.App.Core.Pages.NoteF
             }
             catch (Exception ex)
             {
-                App.logWriter("Printer_Func", ex);
+                App.logWriter("Loading Func", ex);
             }
         }
 
-        private void gotoBackButton_Click(object sender, RoutedEventArgs e)
+        // ------------- Loading Func ------------- //
+
+        // ------------- Click Func ------------- //
+
+        private void BackButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -271,7 +231,40 @@ namespace KuranX.App.Core.Pages.NoteF
             }
             catch (Exception ex)
             {
-                App.logWriter("gotoBackButton_Click", ex);
+                App.logWriter("Click", ex);
+            }
+        }
+
+        private void gotoVerseButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                switch (gototype)
+                {
+                    case "Verse":
+                        App.mainframe.Content = App.navVersePage.PageCall(cSr, cVr, "Notes");
+                        break;
+
+                    case "Pdf":
+
+                        App.loadTask = Task.Run(() => loadScreen(cPd));
+
+                        break;
+
+                    case "Subject":
+
+                        using (var entitydbsb = new AyetContext())
+                        {
+                            var dSubjectItems = entitydbsb.SubjectItems.Where(p => p.subjectItemsId == cSb).FirstOrDefault();
+                            App.mainframe.Content = App.navSubjectItem.subjectItemsPageCall((int)dSubjectItems.subjectId, (int)dSubjectItems.sureId, (int)dSubjectItems.verseId);
+                        }
+
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Click", ex);
             }
         }
 
@@ -279,11 +272,48 @@ namespace KuranX.App.Core.Pages.NoteF
         {
             try
             {
-                deleteNotepopup.IsOpen = true;
+                popup_DeleteConfirm.IsOpen = true;
             }
             catch (Exception ex)
             {
-                App.logWriter("deleteButton_Click", ex);
+                App.logWriter("Click", ex);
+            }
+        }
+
+        private void sendResult_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                popup_sendResultItems.IsOpen = true;
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Click", ex);
+            }
+        }
+
+        private void saveButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                using (var entitydb = new AyetContext())
+                {
+                    if (loadNoteDetail.Text.Length < 8)
+                    {
+                        App.mainScreen.alertFunc("Güncelleme Başarısız", "Yeni notunuz çok kısa minimum 8 karakter olmalıdır.", 3);
+                    }
+                    else
+                    {
+                        entitydb.Notes.Where(p => p.notesId == noteId).First().noteDetail = loadNoteDetail.Text;
+                        entitydb.SaveChanges();
+                        App.mainScreen.succsessFunc("Güncelleme Başarılı", "Notunuz başarılı bir sekilde güncellendi.", 3);
+                        saveButton.IsEnabled = false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Click", ex);
             }
         }
 
@@ -293,97 +323,110 @@ namespace KuranX.App.Core.Pages.NoteF
             {
                 using (var entitydb = new AyetContext())
                 {
-                    gotoBackButton.IsEnabled = false;
+                    BackButton.IsEnabled = false;
                     gotoVerseButton.IsEnabled = false;
                     sendResult.IsEnabled = false;
                     printButton.IsEnabled = false;
                     deleteButton.IsEnabled = false;
                     saveButton.IsEnabled = false;
-                    entitydb.Notes.RemoveRange(entitydb.Notes.Where(p => p.NotesId == selectedId));
+                    entitydb.Notes.RemoveRange(entitydb.Notes.Where(p => p.notesId == noteId));
                     entitydb.SaveChanges();
-                    deleteNotepopup.IsOpen = false;
+                    popup_DeleteConfirm.IsOpen = false;
                     voidgobacktimer();
                 }
             }
             catch (Exception ex)
             {
-                App.logWriter("deleteNotePopupBtn_Click", ex);
+                App.logWriter("Click", ex);
             }
         }
+
+        private void popupClosed_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var btntemp = sender as Button;
+                Popup popuptemp = (Popup)FindName(btntemp.Uid);
+
+                popuptemp.IsOpen = false;
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Click", ex);
+            }
+        }
+
+        private void connectResultControl_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                using (var entitydb = new AyetContext())
+                {
+                    var item = popupResultSureId.SelectedItem as ComboBoxItem;
+                    var dResult = entitydb.Results.Where(p => p.resultId == int.Parse(item.Uid)).FirstOrDefault();
+
+                    if (entitydb.ResultItems.Where(p => p.resultId == dResult.resultId && p.resultNoteId == noteId).Count() == 0)
+                    {
+                        dResult.resultNotes = true;
+                        var dTemp = new ResultItem { resultId = dResult.resultId, resultNoteId = noteId, sendTime = DateTime.Now };
+                        entitydb.ResultItems.Add(dTemp);
+                        entitydb.SaveChanges();
+                        popup_sendResultItems.IsOpen = false;
+                        App.mainScreen.succsessFunc("Gönderme Başarılı", "Notunuz " + item.Content + " suresinin sonucuna gönderildi.", 3);
+                    }
+                    else
+                    {
+                        popup_sendResultItems.IsOpen = false;
+                        App.mainScreen.alertFunc("Gönderme Başarısız", "Notunuz " + item.Content + " suresinin sonucuna daha önceden eklenmiştir yeniden ekleyemezsiniz.", 3);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("", ex);
+            }
+        }
+
+        private void printButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Printer_Func(this);
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Click", ex);
+            }
+        }
+
+        // ------------- Click Func ------------- //
+
+        // -------------- Timer Func -------------- //
 
         private void voidgobacktimer()
         {
             try
             {
-                timeSpan.Interval = TimeSpan.FromSeconds(3);
-                timeSpan.Start();
-                succsessFunc("Not Silme Başarılı", "Notunuz başaralı bir sekilde silinmiştir. Notlarım sayfasına yönlendiriliyorsunuz...", 3);
-                timeSpan.Tick += delegate
+                App.timeSpan.Interval = TimeSpan.FromSeconds(3);
+                App.timeSpan.Start();
+                App.mainScreen.succsessFunc("Not Silme Başarılı", "Notunuz başaralı bir sekilde silinmiştir. Notlarım sayfasına yönlendiriliyorsunuz...", 3);
+                App.timeSpan.Tick += delegate
                 {
-                    timeSpan.Stop();
+                    App.timeSpan.Stop();
                     NavigationService.GoBack();
                 };
             }
             catch (Exception ex)
             {
-                App.logWriter("voidgobacktimer", ex);
+                App.logWriter("TimeSpan", ex);
             }
         }
 
-        private void succsessFunc(string header, string detail, int timespan)
-        {
-            try
-            {
-                successPopupHeader.Text = header;
-                successPopupDetail.Text = detail;
-                scph.IsOpen = true;
+        // -------------- Timer Func -------------- //
 
-                timeSpan.Interval = TimeSpan.FromSeconds(timespan);
-                timeSpan.Start();
-                timeSpan.Tick += delegate
-                {
-                    scph.IsOpen = false;
-                    timeSpan.Stop();
-                };
-            }
-            catch (Exception ex)
-            {
-                App.logWriter("succsessFunc", ex);
-            }
-        }
+        // ------------- Changed Func ------------- //
 
-        private void loadAni()
-        {
-            try
-            {
-                this.Dispatcher.Invoke(() =>
-            {
-                loadinGifContent.Visibility = Visibility.Visible;
-            });
-            }
-            catch (Exception ex)
-            {
-                App.logWriter("loadAni", ex);
-            }
-        }
-
-        private void loadAniComplated()
-        {
-            try
-            {
-                this.Dispatcher.Invoke(() =>
-            {
-                loadinGifContent.Visibility = Visibility.Collapsed;
-                loadBorder.Visibility = Visibility.Visible;
-            });
-            }
-            catch (Exception ex)
-            {
-                App.logWriter("loadAniComplated", ex);
-            }
-        }
-
-        private void noteDetail_TextChanged(object sender, TextChangedEventArgs e)
+        private void loadNoteDetail_TextChanged(object sender, TextChangedEventArgs e)
         {
             try
             {
@@ -395,240 +438,46 @@ namespace KuranX.App.Core.Pages.NoteF
             }
             catch (Exception ex)
             {
-                App.logWriter("noteDetail_TextChanged", ex);
+                App.logWriter("Change", ex);
             }
         }
 
-        private void saveButton_Click(object sender, RoutedEventArgs e)
+        // ------------- Changed Func ------------- //
+
+        // ---------- Animation Func -------------- //
+
+        private void loadAni()
         {
             try
             {
-                using (var entitydb = new AyetContext())
+                this.Dispatcher.Invoke(() =>
                 {
-                    dNotes.NoteDetail = noteDetail.Text;
-                    entitydb.Notes.Update(dNotes);
-                    entitydb.SaveChanges();
-                    saveButton.IsEnabled = false;
-                }
+                    loadNoteDetail.Visibility = Visibility.Hidden;
+                    loadHeaderStack.Visibility = Visibility.Hidden;
+                    controlBar.Visibility = Visibility.Hidden;
+                });
             }
             catch (Exception ex)
             {
-                App.logWriter("saveButton_Click", ex);
+                App.logWriter("Animation", ex);
             }
         }
 
-        private void alertFunc(string header, string detail, int timespan)
+        private void loadAniComplated()
         {
             try
             {
-                alertPopupHeader.Text = header;
-                alertPopupDetail.Text = detail;
-                alph.IsOpen = true;
-
-                timeSpan.Interval = TimeSpan.FromSeconds(timespan);
-                timeSpan.Start();
-                timeSpan.Tick += delegate
+                this.Dispatcher.Invoke(() =>
                 {
-                    alph.IsOpen = false;
-                    timeSpan.Stop();
-                };
+                    loadNoteDetail.Visibility = Visibility.Visible;
+                    loadHeaderStack.Visibility = Visibility.Visible;
+
+                    controlBar.Visibility = Visibility.Visible;
+                });
             }
             catch (Exception ex)
             {
-                App.logWriter("Other", ex);
-            }
-        }
-
-        // --------------------------------------   SEND KÜTÜPHANE FİLES ------------------------------- //
-
-        private void newLibFolder_Click(object sender, RoutedEventArgs e)
-        {
-            addFolderLibHeaderPopup.IsOpen = true;
-        }
-
-        private void addLib_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                using (var entitydb = new AyetContext())
-                {
-                    var item = selectedLibFolder.SelectedItem as ComboBoxItem;
-
-                    if (item != null)
-                    {
-                        if (entitydb.Notes.Where(p => p.NotesId == selectedId && p.LibraryId != 0).Count() != 0)
-                        {
-                            alertFunc("Kütüphane Ekleme Başarısız", "Bu Not Daha Önceden Eklenmiş Yeniden Ekleyemezsiniz.", 3);
-                        }
-                        else
-                        {
-                            entitydb.Notes.Where(p => p.NotesId == selectedId).FirstOrDefault().LibraryId = int.Parse(item.Uid);
-                            entitydb.SaveChanges();
-                            succsessFunc("Kütüphane Ekleme Başarılı", "Seçmiş olduğunuz not kütüphaneye eklendi.", 3);
-                            addLibPopup.IsOpen = false;
-                        }
-                    }
-                    else
-                    {
-                        popupaddLibError.Visibility = Visibility.Visible;
-                        popupaddLibError.Text = "Lütfen Konuyu Seçiniz";
-                        selectedLibFolder.Focus();
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                App.logWriter("PopupAction", ex);
-            }
-        }
-
-        private void libFolderLoad()
-        {
-            try
-            {
-                using (var entitydb = new AyetContext())
-                {
-                    var dLibFolder = entitydb.Librarys.ToList();
-
-                    selectedLibFolder.Items.Clear();
-                    foreach (var item in dLibFolder)
-                    {
-                        var cmbitem = new ComboBoxItem();
-
-                        cmbitem.Content = item.LibraryName;
-                        cmbitem.Uid = item.LibraryId.ToString();
-                        selectedLibFolder.Items.Add(cmbitem);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                App.logWriter("LoadEvent", ex);
-            }
-        }
-
-        private void libFolderHeader_KeyDown(object sender, KeyEventArgs e)
-        {
-            try
-            {
-                libHeaderFolderErrorMesssage.Visibility = Visibility.Hidden;
-            }
-            catch (Exception ex)
-            {
-                App.logWriter("Other", ex);
-            }
-        }
-
-        private void libFolderHeader_KeyUp(object sender, KeyEventArgs e)
-        {
-            try
-            {
-                libpreviewName.Text = libFolderHeader.Text;
-            }
-            catch (Exception ex)
-            {
-                App.logWriter("Other", ex);
-            }
-        }
-
-        private void libraryColorPick_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                CheckBox chk;
-
-                foreach (object item in libColorStack.Children)
-                {
-                    chk = null;
-                    if (item is FrameworkElement)
-                    {
-                        chk = ((CheckBox?)(item as FrameworkElement));
-
-                        chk.IsChecked = false;
-                    }
-                }
-
-                chk = sender as CheckBox;
-
-                chk.IsChecked = true;
-
-                libpreviewColor.Background = new BrushConverter().ConvertFromString(chk.Tag.ToString()) as SolidColorBrush;
-            }
-            catch (Exception ex)
-            {
-                App.logWriter("Other", ex);
-            }
-        }
-
-        private void addfolderLibraryHeader_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                if (libFolderHeader.Text.Length >= 8)
-                {
-                    using (var entitydb = new AyetContext())
-                    {
-                        var dControl = entitydb.Librarys.Where(p => p.LibraryName == libpreviewName.Text).ToList();
-
-                        if (dControl.Count == 0)
-                        {
-                            var dLibFolder = new Library { LibraryName = libpreviewName.Text, LibraryColor = libpreviewColor.Background.ToString(), Created = DateTime.Now, Modify = DateTime.Now };
-                            entitydb.Librarys.Add(dLibFolder);
-                            entitydb.SaveChanges();
-                            succsessFunc("Kütphane Başlığı ", " Yeni kütüphane başlığı oluşturuldu artık veri ekleye bilirsiniz.", 3);
-                            libFolderLoad();
-                            libpreviewName.Text = "";
-                            libFolderHeader.Text = "";
-                            addFolderLibHeaderPopup.IsOpen = false;
-                        }
-                        else
-                        {
-                            alertFunc("Kütphane Başlığı Oluşturulamadı ", " Daha önce aynı isimde bir konu zaten mevcut lütfen kontrol ediniz.", 3);
-                        }
-                    }
-                }
-                else
-                {
-                    libFolderHeader.Focus();
-                    libHeaderFolderErrorMesssage.Visibility = Visibility.Visible;
-                    libHeaderFolderErrorMesssage.Content = "Kütphane başlığının uzunluğu minimum 8 karakter olmalı";
-                }
-            }
-            catch (Exception ex)
-            {
-                App.logWriter("PopupAction", ex);
-            }
-        }
-
-        private void sendResult_Click(object sender, RoutedEventArgs e)
-        {
-            sendResultItemsPopup.IsOpen = true;
-        }
-
-        private void connectResultControl_Click(object sender, RoutedEventArgs e)
-        {
-            using (var entitydb = new AyetContext())
-            {
-                var item = popupResultSureId.SelectedItem as ComboBoxItem;
-                var dResult = entitydb.Results.Where(p => p.ResultId == int.Parse(item.Uid)).FirstOrDefault();
-
-                if (entitydb.ResultItems.Where(p => p.ResultId == dResult.ResultId && p.ResultNoteId == selectedId).Count() == 0)
-                {
-                    dResult.ResultNotes = "true";
-                    var dTemp = new ResultItem { ResultId = dResult.ResultId, ResultNoteId = selectedId, SendTime = DateTime.Now };
-                    entitydb.ResultItems.Add(dTemp);
-                    entitydb.SaveChanges();
-                    sendResultItemsPopup.IsOpen = false;
-                    succsessFunc("Gönderme Başarılı", "Notunuz " + item.Content + " suresinin sonucuna gönderildi.", 3);
-                }
-                else
-                {
-                    sendResultItemsPopup.IsOpen = false;
-                    alertFunc("Gönderme Başarısız", "Notunuz " + item.Content + " suresinin sonucuna daha önceden eklenmiştir yeniden ekleyemezsiniz.", 3);
-                }
-                /*
-
-                */
+                App.logWriter("Animation", ex);
             }
         }
     }

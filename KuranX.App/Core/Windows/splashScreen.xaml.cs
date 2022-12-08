@@ -23,14 +23,16 @@ namespace KuranX.App.Core.Windows
         public splashScreen() => InitializeComponent();
 
         private int time = 30;
-        private DispatcherTimer timer;
+        private DispatcherTimer? timer;
 
         private void splashScreenWindow_Loaded(object sender, RoutedEventArgs e)
         {
+            /*
             timer = new DispatcherTimer(DispatcherPriority.Loaded);
             timer.Interval = new TimeSpan(0, 0, 1);
             timer.Tick += Timer_Tick;
             timer.Start();
+            */
         }
 
         private void Timer_Tick(object sender, EventArgs e)

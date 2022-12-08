@@ -12,105 +12,24 @@
 
     <Grid>
 
-        <Grid x:Name="loadinGifContent" Grid.Row="1" Background="#FAFAFA" Panel.ZIndex="5" Visibility="Collapsed">
-            <Image gif:ImageBehavior.AnimatedSource="/Resource/Images/Gif/Spinner800.gif" Width="250" Height="250"  RenderOptions.BitmapScalingMode="HighQuality" />
-        </Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100" />
+            <RowDefinition Height="70" />
+            <RowDefinition Height="490" />
+        </Grid.RowDefinitions>
 
-        <Popup x:Name="alph" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="460" Height="200" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
-            <Border  Style="{DynamicResource defaultBorderShadowEffect}" Width="440" Height="180">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
+        <!-- Popup -->
 
-                    <Grid Grid.Row="1">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="10" />
-                            <ColumnDefinition Width="90" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <Border Grid.Column="0" Background="#F0433A" CornerRadius="5 0 0 5"></Border>
-                        <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
-                            <Icon:PackIconOcticons Kind="Alert" Width="48" Height="48" Foreground="#F0433A" />
-                        </StackPanel>
-                        <Border Grid.Column="2"  Padding="10 0 10 0">
-                            <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center">
-                                <TextBlock x:Name="alertPopupHeader" Text="" TextAlignment="Center" FontSize="22" Margin="0,0,0,12" Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsSemiBold}" />
-                                <TextBlock x:Name="alertPopupDetail" Text="" TextAlignment="Center" TextWrapping="Wrap"  Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsMedium}" />
-                            </StackPanel>
-                        </Border>
-                    </Grid>
-                </Grid>
-            </Border>
-        </Popup>
+        <Popup x:Name="popup_DeleteConfirm" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="360" Height="210" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
 
-        <Popup x:Name="inph" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="460" Height="200" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
-
-            <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="440" Height="180">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-
-                    <Grid Grid.Row="1">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="10" />
-                            <ColumnDefinition Width="90" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <Border Grid.Column="0" Background="#0D6EFD" CornerRadius="5 0 0 5"></Border>
-                        <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
-                            <Icon:PackIconUnicons Kind="Info" Width="48" Height="48" Foreground="#0D6EFD" />
-                        </StackPanel>
-                        <Border Grid.Column="2"  Padding="10 0 10 0">
-                            <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center">
-                                <TextBlock x:Name="infoPopupHeader" Text="" TextAlignment="Center" FontSize="22" Margin="0,0,0,12" Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsSemiBold}" />
-                                <TextBlock x:Name="infoPopupDetail" Text="" TextAlignment="Center" TextWrapping="Wrap"  Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsMedium}" />
-                            </StackPanel>
-                        </Border>
-                    </Grid>
-                </Grid>
-            </Border>
-        </Popup>
-
-        <Popup x:Name="scph" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="460" Height="200" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
-            <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="440" Height="180">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-
-                    <Grid Grid.Row="1">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="10" />
-                            <ColumnDefinition Width="90" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <Border Grid.Column="0" Background="#66E21F" CornerRadius="5 0 0 5"></Border>
-                        <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
-                            <Icon:PackIconIonicons Kind="CheckmarkMD" Width="48" Height="48" Foreground="#66E21F" />
-                        </StackPanel>
-                        <Border Grid.Column="2"  Padding="10 0 10 0">
-                            <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center">
-                                <TextBlock x:Name="successPopupHeader" Text="" TextAlignment="Center" FontSize="22" Margin="0,0,0,12" Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsSemiBold}" />
-                                <TextBlock x:Name="successPopupDetail" Text="" TextAlignment="Center" TextWrapping="Wrap"  Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsMedium}" />
-                            </StackPanel>
-                        </Border>
-                    </Grid>
-                </Grid>
-            </Border>
-        </Popup>
-
-        <Popup x:Name="deleteNotepopup" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="300" Height="190" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
-
-            <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="280" Height="170">
+            <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="340" Height="190">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="50" />
-                        <RowDefinition Height="120" />
+                        <RowDefinition Height="140" />
                     </Grid.RowDefinitions>
-                    <Border  Grid.Row="0" Style="{DynamicResource headerBorderTemp}">
-                        <TextBlock Text="Hatırlatıcıyı Sil" Style="{DynamicResource popupHeaderText}" />
+                    <Border  Grid.Row="0" Style="{DynamicResource pp_BorderHeader}">
+                        <TextBlock Text="Hatırlatıcıyı Sil" Style="{DynamicResource pp_HeaderText}" />
                     </Border>
                     <Grid Grid.Row="1">
                         <Grid.RowDefinitions>
@@ -118,7 +37,7 @@
                             <RowDefinition Height="50" />
                         </Grid.RowDefinitions>
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Width="280" Grid.Row="0">
-                            <TextBlock Text=" Hatırlatıcıyı istediğinize eminmisiniz bu işlem geri alınamaz. " TextWrapping="Wrap" TextAlignment="Center" FontFamily="{DynamicResource PoppinsMedium}" FontSize="14" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            <TextBlock Text=" Hatırlatıcıyı silmek istediğinize emin misiniz bu işlem geri alınamaz. " TextWrapping="Wrap" TextAlignment="Center" FontFamily="{DynamicResource PoppinsMedium}" FontSize="14" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </StackPanel>
                         <Grid Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
                             <Grid.ColumnDefinitions>
@@ -126,8 +45,8 @@
                             </Grid.ColumnDefinitions>
 
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="0">
-                                <Button x:Name="deleteSubjectPopupBtn" Style="{DynamicResource popupDefaultButtonRest}" Tag="Trash" Content="Sil" HorizontalAlignment="Center" Click="deleteRemiderPopupBtn_Click" />
-                                <Button  Style="{DynamicResource popupDefaultButtonClosed}" Tag="CloseBig" Content="Vazgeç" Uid="deleteNotepopup" HorizontalAlignment="Center" Click="popupClosed_Click" />
+                                <Button x:Name="deleteSubjectPopupBtn" Style="{DynamicResource pp_DefaultButtonBstrp}" Tag="Trash" Content="Sil" HorizontalAlignment="Center" Click="deleteRemiderPopupBtn_Click" />
+                                <Button  Style="{DynamicResource pp_DefaultButtonClosed}" Tag="CloseBig" Content="Vazgeç" Uid="popup_DeleteConfirm" HorizontalAlignment="Center" Click="popupClosed_Click" />
                             </StackPanel>
                         </Grid>
                     </Grid>
@@ -135,52 +54,60 @@
             </Border>
         </Popup>
 
-        <Border Padding="10 5 10 5" Style="{DynamicResource aniEffectFadeBorder}" x:Name="loadBorder" Visibility="Hidden">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="100" />
-                    <RowDefinition Height="70" />
-                    <RowDefinition Height="490" />
-                </Grid.RowDefinitions>
+        <!-- Popup -->
 
-                <StackPanel Grid.Row="0" Orientation="Vertical" VerticalAlignment="Center">
-                    <Border Style="{DynamicResource frameTab}">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="10" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <Border Grid.Column="0"  CornerRadius="5 0 0 5" x:Name="remiderType" />
-                            <StackPanel Grid.Column="1" Orientation="Vertical" VerticalAlignment="Center" Margin="10 5 10 5">
-                                <TextBlock x:Name="header" Text="Remider NAME" Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsSemiBold}" FontSize="16" />
-                                <TextBlock x:Name="create" Text="CREATE" Foreground="#7B7B7B" FontFamily="{DynamicResource PoppinsMedium}" FontSize="11" Margin="0 5 0 5" />
-                                <TextBlock x:Name="type" Text="Type"  FontFamily="{DynamicResource PoppinsMedium}" FontSize="11" />
-                            </StackPanel>
-                        </Grid>
-                    </Border>
-                </StackPanel>
-                <Grid Grid.Row="1"  Grid.ColumnSpan="2">
+        <StackPanel Grid.Row="0" Orientation="Vertical" VerticalAlignment="Center">
 
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
+            <Border Style="{DynamicResource frameTab}">
+                <Grid>
 
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="*" />
+                        <RowDefinition />
                     </Grid.RowDefinitions>
-                    <Button x:Name="gotoBackButton" Grid.Column="0" Style="{DynamicResource noteControlBackBtn}" Tag="ArrowLeft" Content="Geri Dön" Click="gotoBackButton_Click" />
-                    <Button x:Name="gotoVerseButton" Grid.Column="1" Style="{DynamicResource noteControlBackGo}" Tag="ArrowRight" Content="Ayete Git" Click="gotoVerseButton_Click" />
-                    <Button x:Name="deleteButton" Grid.Column="2" Style="{DynamicResource noteControlBackDelete}"  Width="200" Tag="Trash" Content="Hatırlatıcıyı Sil" Click="deleteButton_Click" />
-                    <Button x:Name="saveButton" Grid.Column="3" IsEnabled="False" Style="{DynamicResource noteControlBackSave}" Tag="Save" Content="Kaydet" Click="saveButton_Click" />
-                </Grid>
-                <Border Grid.Row="3" Grid.ColumnSpan="2" Padding="10" Background="#fff" Style="{DynamicResource defaultBorderShadowEffect}">
 
-                    <TextBox x:Name="remiderDetail" TextWrapping="Wrap" AcceptsReturn="True" MaxLength="3500" Style="{DynamicResource noteDetailTxtBox}" Text="" TextChanged="noteDetail_TextChanged" />
-                </Border>
+                    <Grid x:Name="loadHeaderStack" Grid.Row="0"  Style="{DynamicResource aniEffectFadeGrid}" Visibility="Hidden">
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Border Grid.Column="0"  CornerRadius="5 0 0 5" x:Name="remiderType" />
+                        <StackPanel Grid.Column="1" Orientation="Vertical" VerticalAlignment="Center" Margin="10 5 10 5">
+                            <TextBlock x:Name="header" Text="Remider NAME" Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsSemiBold}" FontSize="16" />
+                            <TextBlock x:Name="create" Text="CREATE" Foreground="#7B7B7B" FontFamily="{DynamicResource PoppinsMedium}" FontSize="11" Margin="0 5 0 5" />
+                            <TextBlock x:Name="type" Text="Type"  FontFamily="{DynamicResource PoppinsMedium}" FontSize="11" />
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </Border>
+        </StackPanel>
+
+        <Grid Grid.Row="1"  Grid.ColumnSpan="2" Style="{DynamicResource aniEffectFadeGrid}" Visibility="Hidden" x:Name="controlBar">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Button x:Name="gotoBackButton" Grid.Column="0" Style="{DynamicResource defaultActionButonBstrpDark}" Tag="ArrowLeft" Content="Geri Dön" Click="gotoBackButton_Click" />
+            <Button x:Name="gotoVerseButton" Grid.Column="1" Style="{DynamicResource defaultActionButonBstrpGreen}" Tag="ArrowRight" Content="Ayete Git" Click="gotoVerseButton_Click" />
+            <Button x:Name="deleteButton" Grid.Column="2" Style="{DynamicResource defaultActionButonBstrpRedd}"  Width="200" Tag="Trash" Content="Hatırlatıcıyı Sil" Click="deleteButton_Click" />
+            <Button x:Name="saveButton" Grid.Column="3" IsEnabled="False" Style="{DynamicResource defaultActionButonBstrpDynamicSave}" Tag="Save" Content="Kaydet" Click="saveButton_Click" />
+        </Grid>
+
+        <Border Grid.Row="3" Grid.ColumnSpan="2" Padding="10" Background="#fff" Style="{DynamicResource defaultBorderShadowEffect}">
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <TextBox x:Name="remiderDetail" TextWrapping="Wrap" AcceptsReturn="True" MaxLength="3500" Style="{DynamicResource nt_DetailTxtBox}" Text="" TextChanged="remiderDetail_TextChanged" />
             </Grid>
         </Border>
     </Grid>

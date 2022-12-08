@@ -16,37 +16,33 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0" Margin="15 0 15 0" Orientation="Vertical" VerticalAlignment="Center">
-            <Border Style="{DynamicResource versesTab}" Background="Transparent" Margin="0">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <StackPanel Grid.Column="0" Orientation="Vertical" Margin="10 5 10 5">
-                        <TextBlock SnapsToDevicePixels="True" UseLayoutRounding="True" RenderOptions.BitmapScalingMode="HighQuality" x:Name="header" Text="Note NAME" Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsSemiBold}" FontSize="24" />
-                        <TextBlock SnapsToDevicePixels="True" UseLayoutRounding="True" RenderOptions.BitmapScalingMode="HighQuality" x:Name="create" Text="CREATE" Foreground="#7B7B7B" FontFamily="{DynamicResource PoppinsMedium}" FontSize="14" Margin="0 5 0 5" />
-                    </StackPanel>
 
-                    <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal" Grid.Row="1">
-                        <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="15 0 15 0">
-                            <Image x:Name="subico" IsEnabled="False" Style="{DynamicResource resultItemsIconSubject}" />
-                            <TextBlock x:Name="subcount" SnapsToDevicePixels="True" UseLayoutRounding="True" RenderOptions.BitmapScalingMode="HighQuality" Text="" TextAlignment="Center" FontFamily="{DynamicResource PoppinsMedium}" Margin="0 5 0 0" Foreground="#1C1E2F" />
-                        </StackPanel>
-                        <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="15 0 15 0">
-                            <Image x:Name="libico" IsEnabled="False" Style="{DynamicResource resultItemsIconLib}" />
-                            <TextBlock x:Name="libcount" SnapsToDevicePixels="True" UseLayoutRounding="True" RenderOptions.BitmapScalingMode="HighQuality" Text="0 Adet Kütüphane" TextAlignment="Center" FontFamily="{DynamicResource PoppinsMedium}" Margin="0 5 0 0" Foreground="#1C1E2F" />
-                        </StackPanel>
-                        <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="15 0 15 0">
-                            <Image x:Name="noteico" IsEnabled="False" Style="{DynamicResource resultItemsIconNotes}" />
-                            <TextBlock x:Name="notecount" SnapsToDevicePixels="True" UseLayoutRounding="True" RenderOptions.BitmapScalingMode="HighQuality"  Text="0 Adet Not" TextAlignment="Center" FontFamily="{DynamicResource PoppinsMedium}" Margin="0 5 0 0" Foreground="#1C1E2F" />
-                        </StackPanel>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0" Orientation="Vertical" Margin="10 5 10 5">
+                    <TextBlock SnapsToDevicePixels="True" UseLayoutRounding="True" RenderOptions.BitmapScalingMode="HighQuality" x:Name="header" Text="Note NAME" Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsSemiBold}" FontSize="24" />
+                    <TextBlock SnapsToDevicePixels="True" UseLayoutRounding="True" RenderOptions.BitmapScalingMode="HighQuality" x:Name="create" Text="CREATE" Foreground="#7B7B7B" FontFamily="{DynamicResource PoppinsMedium}" FontSize="14" Margin="0 5 0 5" />
+                </StackPanel>
+                <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal" Grid.Row="1">
+                    <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="15 0 15 0">
+                        <Image x:Name="subico" IsEnabled="False" Style="{DynamicResource rs_ItemsIconSubject}" />
+                        <TextBlock x:Name="subcount" SnapsToDevicePixels="True" UseLayoutRounding="True" RenderOptions.BitmapScalingMode="HighQuality" Text="0 Adet Konu" TextAlignment="Center" FontFamily="{DynamicResource PoppinsMedium}" Margin="0 5 0 0" Foreground="#1C1E2F" />
                     </StackPanel>
-                </Grid>
-            </Border>
+                    <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="15 0 15 0">
+                        <Image x:Name="libico" IsEnabled="False" Style="{DynamicResource rs_ItemsIconLib}" />
+                        <TextBlock x:Name="libcount" SnapsToDevicePixels="True" UseLayoutRounding="True" RenderOptions.BitmapScalingMode="HighQuality" Text="0 Adet Kütüphane" TextAlignment="Center" FontFamily="{DynamicResource PoppinsMedium}" Margin="0 5 0 0" Foreground="#1C1E2F" />
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="15 0 15 0">
+                        <Image x:Name="noteico" IsEnabled="False" Style="{DynamicResource rs_ItemsIconNotes}" />
+                        <TextBlock x:Name="notecount" SnapsToDevicePixels="True" UseLayoutRounding="True" RenderOptions.BitmapScalingMode="HighQuality"  Text="0 Adet Not" TextAlignment="Center" FontFamily="{DynamicResource PoppinsMedium}" Margin="0 5 0 0" Foreground="#1C1E2F" />
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
         </StackPanel>
 
-        <Border Grid.Row="1" Padding="10" Background="Transparent" Style="{DynamicResource defaultBorderShadowEffect}">
-            <TextBox x:Name="noteDetail" SnapsToDevicePixels="True" UseLayoutRounding="True" RenderOptions.BitmapScalingMode="HighQuality" TextAlignment="Justify" FontSize="12" TextWrapping="Wrap" Background="Transparent" AcceptsReturn="True" Style="{DynamicResource noteDetailTxtBox}" Text="" />
-        </Border>
+        <TextBox Grid.Row="1"  x:Name="noteDetail" SnapsToDevicePixels="True" UseLayoutRounding="True" RenderOptions.BitmapScalingMode="HighQuality" TextAlignment="Justify" FontSize="12" TextWrapping="Wrap" Background="Transparent" AcceptsReturn="True" Style="{DynamicResource nt_DetailTxtBox}" Text="" />
     </Grid>
 </Page>

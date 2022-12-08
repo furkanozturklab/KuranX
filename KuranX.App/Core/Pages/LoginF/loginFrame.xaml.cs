@@ -93,7 +93,7 @@ namespace KuranX.App.Core.Pages.LoginF
 
                     using (var db = new AyetContext())
                     {
-                        var checkuser = db.Users.Where(u => u.Email == userEmail.Text).FirstOrDefault();
+                        var checkuser = db.Users.Where(u => u.email == userEmail.Text).FirstOrDefault();
 
                         if (checkuser == null)
                         {
@@ -103,7 +103,7 @@ namespace KuranX.App.Core.Pages.LoginF
                         }
                         else
                         {
-                            if (checkuser.Password == userPsw.Password)
+                            if (checkuser.password == userPsw.Password)
                             {
                                 homeScreen homeScreen = new homeScreen();
                                 homeScreen.Show();

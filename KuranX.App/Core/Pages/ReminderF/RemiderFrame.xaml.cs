@@ -1,10 +1,12 @@
 ﻿using KuranX.App.Core.Classes;
-using MySqlX.XDevAPI.Common;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.NetworkInformation;
+using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -18,6 +20,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using System.Xml.Linq;
 
 namespace KuranX.App.Core.Pages.ReminderF
 {
@@ -26,231 +29,227 @@ namespace KuranX.App.Core.Pages.ReminderF
     /// </summary>
     public partial class RemiderFrame : Page
     {
-        private List<Remider> dRemider, tempRemider = new List<Remider>();
-        private int selectedId, NowPage = 1, lastRemider = 0;
-        private DispatcherTimer? timeSpan = new DispatcherTimer(DispatcherPriority.Render);
-        private Task loadTask;
-        private bool remiderType = false, filter = false;
-        private string filterTxt;
+        private bool filter, remiderType = false;
+        private string filterText = "";
+        private int lastPage = 0, NowPage = 1, selectedId;
+        private List<Remider> dRemider = new List<Remider>();
 
         public RemiderFrame()
         {
-            InitializeComponent();
+            try
+            {
+                InitializeComponent();
+                remiderDay.DisplayDateStart = DateTime.Now.AddDays(1);
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("InitializeComponent", ex);
+            }
         }
 
-        //-------------------------- LOAD FUNC  --------------------------//
+        public Page PageCall()
+        {
+            try
+            {
+                lastPage = 0;
+                NowPage = 1;
+                App.loadTask = Task.Run(() => loadItem());
+                return this;
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Loading", ex);
+                return this;
+            }
+        }
 
-        private void loadRemider()
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                viewRemider.Visibility = Visibility.Visible;
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("LoadingFunc", ex);
+            }
+        }
+
+        // ---------------- Loading Func -------------------- //
+
+        public void loadItem()
         {
             try
             {
                 using (var entitydb = new AyetContext())
                 {
                     loadAni();
-
                     Decimal totalcount = entitydb.Remider.Count();
+
+                    App.mainScreen.navigationWriter("remider", "");
 
                     if (filter)
                     {
-                        dRemider = entitydb.Remider.Where(p => p.LoopType == filterTxt).OrderBy(p => p.Priority).Skip(lastRemider).Take(7).ToList();
+                        dRemider = entitydb.Remider.Where(p => p.loopType == filterText).OrderBy(p => p.priority).Skip(lastPage).Take(6).ToList();
                         totalcount = dRemider.Count;
                     }
                     else
                     {
-                        dRemider = entitydb.Remider.OrderBy(p => p.Priority).Skip(lastRemider).Take(7).ToList();
+                        dRemider = entitydb.Remider.OrderBy(p => p.priority).Skip(lastPage).Take(6).ToList();
                     }
 
-                    this.Dispatcher.Invoke(() =>
+                    for (int x = 1; x <= 6; x++)
                     {
-                        for (int x = 1; x < 7; x++)
+                        this.Dispatcher.Invoke(() =>
                         {
-                            ItemsControl itemslist = (ItemsControl)this.FindName("cb" + x);
-                            itemslist.ItemsSource = null;
-                        }
-                        int i = 1;
+                            var sbItem = (Border)FindName("cb" + x);
+                            sbItem.Visibility = Visibility.Hidden;
+                        });
+                    }
 
-                        foreach (var item in dRemider)
+                    int i = 1;
+
+                    Thread.Sleep(200);
+
+                    foreach (var item in dRemider)
+                    {
+                        this.Dispatcher.InvokeAsync(() =>
                         {
-                            tempRemider.Add(item);
+                            var sColor = (Border)FindName("cbTypeColor" + i);
+                            var sColor2 = (Border)FindName("cbBtTypeColor" + i);
+                            var sBtnStat = (TextBlock)FindName("cbStatus" + i);
 
-                            switch (tempRemider[0].LoopType)
+                            switch (item.loopType)
                             {
                                 case "False":
-                                    tempRemider[0].LoopType = "#ffc107";
-                                    tempRemider[0].Status = tempRemider[0].RemiderDate.ToString("d") + " Tarihin de Hatırlatılacak";
+                                    sColor.Background = new BrushConverter().ConvertFrom("#ffc107") as SolidColorBrush;
+                                    sColor2.Background = new BrushConverter().ConvertFrom("#ffc107") as SolidColorBrush;
+                                    sBtnStat.Text = item.remiderDate.ToString("d") + " Tarihin de Hatırlatılacak";
                                     break;
 
                                 case "Gün":
-                                    tempRemider[0].LoopType = "#d63384";
-                                    tempRemider[0].Status = "Günlük Olarak Tekrarlanıyor";
+                                    sColor.Background = new BrushConverter().ConvertFrom("#d63384") as SolidColorBrush;
+                                    sColor2.Background = new BrushConverter().ConvertFrom("#d63384") as SolidColorBrush;
+                                    sBtnStat.Text = "Günlük Olarak Tekrarlanıyor";
                                     break;
 
                                 case "Hafta":
-                                    tempRemider[0].LoopType = "#0d6efd";
-                                    tempRemider[0].Status = "Haftalık Olarak Tekrarlanıyor";
+                                    sColor.Background = new BrushConverter().ConvertFrom("#0d6efd") as SolidColorBrush;
+                                    sColor2.Background = new BrushConverter().ConvertFrom("#0d6efd") as SolidColorBrush;
+                                    sBtnStat.Text = "Haftalık Olarak Tekrarlanıyor";
                                     break;
 
                                 case "Ay":
-                                    tempRemider[0].LoopType = "#0dcaf0";
-                                    tempRemider[0].Status = "Aylık Olarak Tekrarlanıyor";
+                                    sColor.Background = new BrushConverter().ConvertFrom("#0dcaf0") as SolidColorBrush;
+                                    sColor2.Background = new BrushConverter().ConvertFrom("#0dcaf0") as SolidColorBrush;
+                                    sBtnStat.Text = "Aylık Olarak Tekrarlanıyor";
                                     break;
 
                                 case "Yıl":
-                                    tempRemider[0].LoopType = "#6610f2";
-                                    tempRemider[0].Status = "Yıllık Olarak Tekrarlanıyor";
+                                    sColor.Background = new BrushConverter().ConvertFrom("#6610f2") as SolidColorBrush;
+                                    sColor2.Background = new BrushConverter().ConvertFrom("#6610f2") as SolidColorBrush;
+                                    sBtnStat.Text = "Yıllık Olarak Tekrarlanıyor";
                                     break;
                             }
 
-                            ItemsControl itemslist = (ItemsControl)this.FindName("cb" + i);
-                            itemslist.ItemsSource = tempRemider;
-                            tempRemider.Clear();
+                            var sName = (TextBlock)FindName("cbName" + i);
+                            var sDetail = (TextBlock)FindName("cbDetail" + i);
+                            var sBtnDel = (Button)FindName("cbBtnDel" + i);
+                            var sBtnGo = (Button)FindName("cbBtnGo" + i);
+
+                            sName.Text = item.remiderName;
+                            sDetail.Text = item.remiderDetail;
+                            sBtnDel.Uid = item.remiderId.ToString();
+                            sBtnGo.Uid = item.remiderId.ToString();
+
+                            var sbItem = (Border)FindName("cb" + i);
+                            sbItem.Visibility = Visibility.Visible;
+
                             i++;
-
-                            if (i == 7) break; // 7 den fazla varmı kontrol etmek için koydum
-                        }
-
-                        Thread.Sleep(200);
-                        this.Dispatcher.Invoke(() =>
-                        {
-                            totalcountText.Tag = totalcount.ToString();
-
-                            if (dRemider.Count() != 0)
-                            {
-                                totalcount = Math.Ceiling(totalcount / 6);
-                                nowPageStatus.Tag = NowPage + " / " + totalcount;
-                                nextpageButton.Dispatcher.Invoke(() =>
-                                {
-                                    if (NowPage != totalcount) nextpageButton.IsEnabled = true;
-                                    else if (NowPage == totalcount) nextpageButton.IsEnabled = false;
-                                });
-                                previusPageButton.Dispatcher.Invoke(() =>
-                                {
-                                    if (NowPage != 1) previusPageButton.IsEnabled = true;
-                                    else if (NowPage == 1) previusPageButton.IsEnabled = false;
-                                });
-                            }
-                            else
-                            {
-                                nowPageStatus.Tag = "-";
-                                nextpageButton.IsEnabled = false;
-                                previusPageButton.IsEnabled = false;
-                            }
                         });
-                    });
+                    }
+                    this.Dispatcher.InvokeAsync(() =>
+                    {
+                        totalcountText.Tag = totalcount.ToString();
 
+                        if (dRemider.Count() != 0)
+                        {
+                            totalcount = Math.Ceiling(totalcount / 6);
+                            nowPageStatus.Tag = NowPage + " / " + totalcount;
+                            nextpageButton.Dispatcher.Invoke(() =>
+                            {
+                                if (NowPage != totalcount) nextpageButton.IsEnabled = true;
+                                else if (NowPage == totalcount) nextpageButton.IsEnabled = false;
+                            });
+                            previusPageButton.Dispatcher.Invoke(() =>
+                            {
+                                if (NowPage != 1) previusPageButton.IsEnabled = true;
+                                else if (NowPage == 1) previusPageButton.IsEnabled = false;
+                            });
+                        }
+                        else
+                        {
+                            nowPageStatus.Tag = "-";
+                            nextpageButton.IsEnabled = false;
+                            previusPageButton.IsEnabled = false;
+                        }
+                    });
                     loadAniComplated();
                 }
             }
             catch (Exception ex)
             {
+                App.logWriter("Loading Func", ex);
             }
         }
 
-        private void Page_Loaded(object sender, RoutedEventArgs e)
-        {
-            loadTask = new Task(loadRemider);
-            loadTask.Start();
-        }
-
-        //-------------------------- LOAD FUNC  --------------------------//
-
-        //-------------------------- POPUP OPEN FUNC  --------------------------//
-
-        private void remiderDelay_Click(object sender, RoutedEventArgs e)
-        {
-            var btn = sender as Button;
-            selectedId = int.Parse(btn.Uid);
-            deleteRemiderpopup.IsOpen = true;
-        }
-
-        private void popupClosed_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                Button btntemp = sender as Button;
-                var popuptemp = (Popup)this.FindName(btntemp.Uid);
-
-                popuptemp.IsOpen = false;
-            }
-            catch (Exception ex)
-            {
-                App.logWriter("Other", ex);
-            }
-        }
-
-        private void succsessFunc(string header, string detail, int timespan)
-        {
-            try
-            {
-                successPopupHeader.Text = header;
-                successPopupDetail.Text = detail;
-                scph.IsOpen = true;
-
-                timeSpan.Interval = TimeSpan.FromSeconds(timespan);
-                timeSpan.Start();
-                timeSpan.Tick += delegate
-                {
-                    scph.IsOpen = false;
-                    timeSpan.Stop();
-                };
-            }
-            catch (Exception ex)
-            {
-                App.logWriter("Other", ex);
-            }
-        }
+        // ---------------- Click Func ---------------- //
 
         private void newRemider_Click(object sender, RoutedEventArgs e)
         {
-            remiderAddPopup.IsOpen = true;
-        }
-
-        //-------------------------- POPUP OPEN FUNC  --------------------------//
-
-        //-------------------------- ACTİONS FUNC  --------------------------//
-
-        private void filter_Click(object sender, RoutedEventArgs e)
-        {
-            Button btn = sender as Button;
-
-            if ((string)btn.Uid == "Hepsi")
-            {
-                filter = false;
-            }
-            else
-            {
-                filter = true;
-                filterTxt = btn.Uid.ToString();
-            }
-
-            loadTask = new Task(loadRemider);
-            loadTask.Start();
-        }
-
-        private void remiderDetail_Click(object sender, RoutedEventArgs e)
-        {
-            var btn = sender as Button;
-            viewRemider.Visibility = Visibility.Hidden;
-            App.mainframe.Content = new RemiderItem(int.Parse(btn.Uid.ToString()));
-        }
-
-        private void deleteRemiderPopupBtn_Click(object sender, RoutedEventArgs e)
-        {
             try
             {
-                using (var entitydb = new AyetContext())
-                {
-                    entitydb.Remider.RemoveRange(entitydb.Remider.Where(p => p.RemiderId == selectedId));
-                    entitydb.SaveChanges();
-                    succsessFunc("Hatırlatıcı Silme Başarılı", "Hatırlatıcı başaralı bir sekilde silinmiştir...", 3);
-                    deleteRemiderpopup.IsOpen = false;
-                    loadTask = new Task(loadRemider);
-                    loadTask.Start();
-                }
+                popup_remiderAddPopup.IsOpen = true;
             }
             catch (Exception ex)
             {
-                App.logWriter("deleteRemiderPopupBtn_Click", ex);
+                App.logWriter("Click", ex);
+            }
+        }
+
+        private void remiderVerseAddButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                popup_VerseSelect.IsOpen = true;
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Click", ex);
+            }
+        }
+
+        private void filter_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var btn = sender as Button;
+
+                if ((string)btn.Uid == "Hepsi")
+                {
+                    filter = false;
+                }
+                else
+                {
+                    filter = true;
+                    filterText = (string)btn.Uid.ToString();
+                }
+
+                App.loadTask = Task.Run(() => loadItem());
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Click", ex);
             }
         }
 
@@ -259,14 +258,13 @@ namespace KuranX.App.Core.Pages.ReminderF
             try
             {
                 nextpageButton.IsEnabled = false;
-                lastRemider += 6;
+                lastPage += 6;
                 NowPage++;
-                loadTask = new Task(loadRemider);
-                loadTask.Start();
+                App.loadTask = Task.Run(() => loadItem());
             }
             catch (Exception ex)
             {
-                App.logWriter("LoadEvent", ex);
+                App.logWriter("Click", ex);
             }
         }
 
@@ -274,38 +272,42 @@ namespace KuranX.App.Core.Pages.ReminderF
         {
             try
             {
-                if (lastRemider >= 6)
+                if (lastPage >= 6)
                 {
                     previusPageButton.IsEnabled = false;
-                    lastRemider -= 6;
+                    lastPage -= 6;
                     NowPage--;
-                    loadTask = new Task(loadRemider);
-                    loadTask.Start();
+                    App.loadTask = Task.Run(() => loadItem());
                 }
             }
             catch (Exception ex)
             {
-                App.logWriter("LoadEvent", ex);
+                App.logWriter("Click", ex);
             }
         }
 
         private void remiderTypeChangeButton_Click(object sender, RoutedEventArgs e)
         {
-            Debug.WriteLine(loopType.Visibility.ToString());
-
-            if (loopType.Visibility.ToString() == "Hidden")
+            try
             {
-                remiderType = true;
-                loopType.Visibility = Visibility.Visible;
-                dayType.Visibility = Visibility.Hidden;
-                remiderAddPopupDateError.Visibility = Visibility.Hidden;
+                if (loopType.Visibility.ToString() == "Hidden")
+                {
+                    remiderType = true;
+                    loopType.Visibility = Visibility.Visible;
+                    dayType.Visibility = Visibility.Hidden;
+                    remiderAddPopupDateError.Visibility = Visibility.Hidden;
+                }
+                else
+                {
+                    remiderType = false;
+                    loopType.Visibility = Visibility.Hidden;
+                    dayType.Visibility = Visibility.Visible;
+                    remiderAddPopupDateError.Visibility = Visibility.Hidden;
+                }
             }
-            else
+            catch (Exception ex)
             {
-                remiderType = false;
-                loopType.Visibility = Visibility.Hidden;
-                dayType.Visibility = Visibility.Visible;
-                remiderAddPopupDateError.Visibility = Visibility.Hidden;
+                App.logWriter("Click", ex);
             }
         }
 
@@ -313,111 +315,218 @@ namespace KuranX.App.Core.Pages.ReminderF
         {
             try
             {
-                if (remiderName.Text.Length >= 5)
+                if (remiderName.Text.Length >= 3)
                 {
-                    if (remiderDetail.Text.Length >= 5)
+                    if (remiderName.Text.Length < 150)
                     {
-                        if (remiderType == false)
+                        if (remiderDetail.Text.Length >= 3)
                         {
-                            if (remiderDay.SelectedDate != null)
+                            if (remiderType == false)
                             {
-                                using (var entitydb = new AyetContext())
+                                if (remiderDay.SelectedDate != null)
                                 {
-                                    var newRemider = new Remider { ConnectSureId = 0, ConnectVerseId = 0, RemiderDate = (DateTime)remiderDay.SelectedDate, RemiderDetail = remiderDetail.Text, RemiderName = remiderName.Text, Create = DateTime.Now, Priority = 1, LastAction = DateTime.Now };
+                                    using (var entitydb = new AyetContext())
+                                    {
+                                        var newRemider = new Remider();
 
-                                    entitydb.Remider.Add(newRemider);
-                                    entitydb.SaveChanges();
-                                    succsessFunc("Hatırlatıcı Oluşturuldu.", "Yeni hatırlatıcınız oluşturuldu", 3);
+                                        if (sId.Text != "0") newRemider = new Remider { connectSureId = int.Parse(sId.Text), connectVerseId = int.Parse(vId.Text), remiderDate = (DateTime)remiderDay.SelectedDate, remiderDetail = remiderDetail.Text, remiderName = remiderName.Text, create = DateTime.Now, priority = 1, lastAction = DateTime.Now };
+                                        else newRemider = new Remider { connectSureId = 0, connectVerseId = 0, remiderDate = (DateTime)remiderDay.SelectedDate, remiderDetail = remiderDetail.Text, remiderName = remiderName.Text, create = DateTime.Now, priority = 1, lastAction = DateTime.Now };
 
-                                    remiderAddPopup.IsOpen = false;
-                                    remiderName.Text = "";
-                                    remiderDetail.Text = "";
-                                    remiderDay.SelectedDate = null;
+                                        entitydb.Remider.Add(newRemider);
+                                        entitydb.SaveChanges();
+                                        App.mainScreen.succsessFunc("Ekleme Başarılı", "Yeni bir hatırlatıcınız oluşturuldu", 3);
 
-                                    loadTask = new Task(loadRemider);
-                                    loadTask.Start();
+                                        popup_remiderAddPopup.IsOpen = false;
+                                        remiderName.Text = "";
+                                        remiderDetail.Text = "";
+                                        remiderConnectVerse.Text = "Ayet Secilmemiş";
+
+                                        sId.Text = "0";
+                                        vId.Text = "0";
+
+                                        remiderDay.SelectedDate = null;
+                                        App.loadTask = Task.Run(() => loadItem());
+                                    }
+                                }
+                                else
+                                {
+                                    remiderAddPopupDateError.Visibility = Visibility.Visible;
+                                    remiderDay.Focus();
+                                    remiderAddPopupDateError.Content = "Hatırlatıcı için gün secmelisiniz.";
                                 }
                             }
                             else
                             {
-                                remiderAddPopupDateError.Visibility = Visibility.Visible;
-                                remiderDay.Focus();
-                                remiderAddPopupDateError.Content = "Hatırlatıcı için gün secmelisiniz.";
+                                var ditem = loopSelectedType.SelectedItem as ComboBoxItem;
+
+                                if (ditem.Uid != "select")
+                                {
+                                    using (var entitydb = new AyetContext())
+                                    {
+                                        int pr = 0;
+                                        switch (ditem.Uid)
+                                        {
+                                            case "Gün":
+                                                pr = 2;
+                                                break;
+
+                                            case "Hafta":
+                                                pr = 3;
+                                                break;
+
+                                            case "Ay":
+                                                pr = 4;
+                                                break;
+
+                                            case "Yıl":
+                                                pr = 5;
+                                                break;
+                                        }
+                                        var newRemider = new Remider { connectSureId = 0, connectVerseId = 0, remiderDate = new DateTime(1, 1, 1, 0, 0, 0, 0), remiderDetail = remiderDetail.Text, remiderName = remiderName.Text, create = DateTime.Now, loopType = ditem.Uid.ToString(), status = "Wait", priority = pr, lastAction = DateTime.Now };
+
+                                        entitydb.Remider.Add(newRemider);
+                                        entitydb.SaveChanges();
+                                        App.mainScreen.succsessFunc("Hatırlatıcı Oluşturuldu.", "Yeni hatırlatıcınız oluşturuldu", 3);
+
+                                        popup_remiderAddPopup.IsOpen = false;
+                                        remiderName.Text = "";
+                                        remiderDetail.Text = "";
+                                        remiderConnectVerse.Text = "Ayet Secilmemiş";
+                                        sId.Text = "0";
+                                        vId.Text = "0";
+                                        loopSelectedType.SelectedIndex = 0;
+
+                                        App.loadTask = Task.Run(() => loadItem());
+                                    }
+                                }
+                                else
+                                {
+                                    remiderAddPopupDateError.Visibility = Visibility.Visible;
+                                    loopSelectedType.Focus();
+                                    remiderAddPopupDateError.Content = "Hatırlatma Aralığını Secmelisiniz.";
+                                }
+                                ditem = null;
                             }
                         }
                         else
                         {
-                            var ditem = loopSelectedType.SelectedItem as ComboBoxItem;
-
-                            if (ditem.Uid != "select")
-                            {
-                                using (var entitydb = new AyetContext())
-                                {
-                                    int pr = 0;
-                                    switch (ditem.Uid)
-                                    {
-                                        case "Gün":
-                                            pr = 2;
-                                            break;
-
-                                        case "Hafta":
-                                            pr = 3;
-                                            break;
-
-                                        case "Ay":
-                                            pr = 4;
-                                            break;
-
-                                        case "Yıl":
-                                            pr = 5;
-                                            break;
-                                    }
-                                    var newRemider = new Remider { ConnectSureId = 0, ConnectVerseId = 0, RemiderDate = new DateTime(1, 1, 1, 0, 0, 0, 0), RemiderDetail = remiderDetail.Text, RemiderName = remiderName.Text, Create = DateTime.Now, LoopType = ditem.Uid.ToString(), Status = "Run", Priority = pr, LastAction = DateTime.Now };
-
-                                    entitydb.Remider.Add(newRemider);
-                                    entitydb.SaveChanges();
-                                    succsessFunc("Hatırlatıcı Oluşturuldu.", "Yeni hatırlatıcınız oluşturuldu", 3);
-
-                                    remiderAddPopup.IsOpen = false;
-                                    remiderName.Text = "";
-                                    remiderDetail.Text = "";
-                                    loopSelectedType.SelectedIndex = 0;
-
-                                    loadTask = new Task(loadRemider);
-                                    loadTask.Start();
-                                }
-                            }
-                            else
-                            {
-                                remiderAddPopupDateError.Visibility = Visibility.Visible;
-                                loopSelectedType.Focus();
-                                remiderAddPopupDateError.Content = "Hatırlatma Aralığını Secmelisiniz.";
-                            }
+                            remiderAddPopupDetailError.Visibility = Visibility.Visible;
+                            remiderDetail.Focus();
+                            remiderAddPopupDetailError.Content = "Hatırlatıcı notu Yeterince Uzun Değil. Min 3 Karakter Olmalıdır";
                         }
                     }
                     else
                     {
-                        remiderAddPopupDetailError.Visibility = Visibility.Visible;
-                        remiderDetail.Focus();
-                        remiderAddPopupDetailError.Content = "Hatırlatıcı notu Yeterince Uzun Değil. Min 5 Karakter Olmalıdır";
+                        remiderAddPopupHeaderError.Visibility = Visibility.Visible;
+                        remiderName.Focus();
+                        remiderAddPopupHeaderError.Content = "Hatırlatıcı İsmi Çok Uzun. Max 150 Karakter Olabilir";
                     }
                 }
                 else
                 {
                     remiderAddPopupHeaderError.Visibility = Visibility.Visible;
                     remiderName.Focus();
-                    remiderAddPopupHeaderError.Content = "Hatırlatıcı İsmi Yeterince Uzun Değil. Min 5 Karakter Olmalıdır";
+                    remiderAddPopupHeaderError.Content = "Hatırlatıcı İsmi Yeterince Uzun Değil. Min 3 Karakter Olmalıdır";
                 }
             }
             catch (Exception ex)
             {
-                App.logWriter("PopupAction", ex);
+                App.logWriter("Click", ex);
             }
         }
 
-        //-------------------------- ACTİONS FUNC  --------------------------//
+        private void remiderDelete_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var btn = sender as Button;
+                selectedId = int.Parse(btn.Uid);
+                popup_DeleteConfirm.IsOpen = true;
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Click", ex);
+            }
+        }
 
-        //-------------------------- KEYDOWN FUNC  --------------------------//
+        private void remiderDetail_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var btn = sender as Button;
+                viewRemider.Visibility = Visibility.Hidden;
+                App.mainframe.Content = App.navRemiderItem.PageCall(int.Parse(btn.Uid.ToString()));
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Click", ex);
+            }
+        }
+
+        private void deleteRemiderPopupBtn_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                using (var entitydb = new AyetContext())
+                {
+                    entitydb.Remider.RemoveRange(entitydb.Remider.Where(p => p.remiderId == selectedId));
+                    entitydb.Tasks.RemoveRange(entitydb.Tasks.Where(p => p.missonsId == selectedId));
+                    entitydb.SaveChanges();
+                    popup_DeleteConfirm.IsOpen = false;
+                    App.mainScreen.succsessFunc("Hatırlatıcı Silme Başarılı", "Hatırlatıcı başaralı bir sekilde silinmiştir.", 3);
+                    App.loadTask = Task.Run(() => loadItem());
+                }
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Click", ex);
+            }
+        }
+
+        private void remiderAddVersePopup_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var item = popupNextSureId.SelectedItem as ComboBoxItem;
+
+                sId.Text = (string)item.Uid;
+                vId.Text = popupRelativeId.Text;
+                remiderConnectVerse.Text = (string)item.Content + " suresini " + popupRelativeId.Text + " ayeti"; ;
+
+                popup_VerseSelect.IsOpen = false;
+                popupNextSureId.SelectedIndex = 0;
+                popupRelativeId.Text = "1";
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Click", ex);
+            }
+        }
+
+        private void popupClosed_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var btntemp = sender as Button;
+                var popuptemp = (Popup)FindName(btntemp.Uid);
+                popuptemp.IsOpen = false;
+
+                remiderName.Text = "";
+                popupNextSureId.SelectedIndex = 0;
+                popupRelativeId.Text = "1";
+                remiderConnectVerse.Text = "Ayet Seçilmemiş";
+
+                btntemp = null;
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Click", ex);
+            }
+        }
+
+        // ---------------- Click Func ---------------- //
+
+        // ---------------- Change Func -------------------- //
 
         private void remiderName_KeyDown(object sender, KeyEventArgs e)
         {
@@ -427,7 +536,7 @@ namespace KuranX.App.Core.Pages.ReminderF
             }
             catch (Exception ex)
             {
-                App.logWriter("Other", ex);
+                App.logWriter("Change", ex);
             }
         }
 
@@ -439,62 +548,123 @@ namespace KuranX.App.Core.Pages.ReminderF
             }
             catch (Exception ex)
             {
-                App.logWriter("Other", ex);
+                App.logWriter("Change", ex);
             }
         }
 
-        //-------------------------- KEYDOWN FUNC  --------------------------//
+        private void popupNextSureId_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            // Nav NextUpdate Click
+            try
+            {
+                var item = popupNextSureId.SelectedItem as ComboBoxItem;
+                if (item != null)
+                {
+                    if (item.Uid != "0")
+                    {
+                        if (popupRelativeIdError != null) popupRelativeIdError.Content = item.Content + " Surenin " + item.Tag + " ayeti mevcut";
+                    }
+                }
+                item = null;
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Change", ex);
+            }
+        }
 
-        //-------------------------- Animations FUNC  --------------------------//
+        private void popupRelativeId_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            try
+            {
+                Regex regex = new Regex("[^0-9]+");
+                e.Handled = regex.IsMatch(e.Text);
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Change", ex);
+            }
+        }
 
-        private void loadAni()
+        private void popupRelativeId_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            try
+            {
+                var textbox = (TextBox)sender;
+                var item = popupNextSureId.SelectedItem as ComboBoxItem;
+                if (!textbox.IsLoaded) return;
+
+                if (popupRelativeId.Text != "" && popupRelativeId.Text != null)
+                {
+                    if (int.Parse(popupRelativeId.Text) <= int.Parse(item.Tag.ToString()) && int.Parse(popupRelativeId.Text) > 0)
+                    {
+                        loadVersePopup.IsEnabled = true;
+                        popupRelativeIdError.Content = "Ayet Mevcut Eklene Bilir";
+                    }
+                    else
+                    {
+                        loadVersePopup.IsEnabled = false;
+                        popupRelativeIdError.Content = "Ayet Mevcut Değil";
+                    }
+                }
+                else
+                {
+                    loadVersePopup.IsEnabled = false;
+                    popupRelativeIdError.Content = "Eklemek İstenilen Ayet Sırasını Giriniz";
+                }
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Change", ex);
+            }
+        }
+
+        // ---------------- Change Func -------------------- //
+
+        // ------------ Animation Func ------------ //
+
+        public void loadAni()
         {
             try
             {
                 this.Dispatcher.Invoke(() =>
                 {
+                    addRemider.IsEnabled = false;
                     filterAll.IsEnabled = false;
                     filterDatetime.IsEnabled = false;
                     filterDay.IsEnabled = false;
                     filterWeek.IsEnabled = false;
                     filterMonth.IsEnabled = false;
-                    newRemider.IsEnabled = true;
                     filterYears.IsEnabled = false;
-                    loadinItemsGifContent.Visibility = Visibility.Visible;
-                    viewRemider.Visibility = Visibility.Hidden;
                 });
             }
             catch (Exception ex)
             {
-                App.logWriter("loadAni", ex);
+                App.logWriter("Animation", ex);
             }
         }
 
-        private void loadAniComplated()
+        public void loadAniComplated()
         {
             try
             {
                 this.Dispatcher.Invoke(() =>
                 {
+                    addRemider.IsEnabled = true;
                     filterAll.IsEnabled = true;
                     filterDatetime.IsEnabled = true;
                     filterDay.IsEnabled = true;
                     filterWeek.IsEnabled = true;
                     filterMonth.IsEnabled = true;
                     filterYears.IsEnabled = true;
-                    newRemider.IsEnabled = true;
-                    viewRemider.Visibility = Visibility.Visible;
-                    loadinGifContent.Visibility = Visibility.Collapsed;
-                    loadinItemsGifContent.Visibility = Visibility.Collapsed;
-                    loadGrid.Visibility = Visibility.Visible;
                 });
             }
             catch (Exception ex)
             {
-                App.logWriter("loadAniComplated", ex);
+                App.logWriter("Animation", ex);
             }
         }
 
-        //-------------------------- Animations FUNC  --------------------------//
+        // ------------ Animation Func ------------ //
     }
 }

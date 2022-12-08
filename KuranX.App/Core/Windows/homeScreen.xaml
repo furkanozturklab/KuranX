@@ -3,7 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:KuranX.App.Core.Windows"
+        xmlns:gif="http://wpfanimatedgif.codeplex.com"
+        xmlns:extension="clr-namespace:KuranX.App.Core.Classes"
         xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
         mc:Ignorable="d"
         Title="homeScreen" Height="768" Width="1366" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" WindowStyle="None" AllowsTransparency="True" Loaded="Window_Loaded">
@@ -13,188 +14,295 @@
             <ColumnDefinition Width="auto" x:Name="rightcol" />
         </Grid.ColumnDefinitions>
 
-        <Grid x:Name="leftgg" Grid.Column="0" Width="250" Margin="0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="250" />
-                <RowDefinition Height="458" />
-                <RowDefinition Height="60" />
-            </Grid.RowDefinitions>
+        <!-- POPUP -->
 
-            <Border x:Name="hmwnd_leftHeaderContent" Style="{DynamicResource ResourceKey=hmwnd_leftHeaderContent}" UseLayoutRounding="True">
+        <Popup x:Name="popup_fastExitConfirm" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="380" Height="220" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
 
+            <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="360" Height="200">
                 <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="50" />
+                        <RowDefinition Height="150" />
                     </Grid.RowDefinitions>
+                    <Border  Grid.Row="0" Style="{DynamicResource pp_BorderHeader}">
+                        <TextBlock Text="İşaretleme Yapılmadı" Style="{DynamicResource pp_HeaderText}" />
+                    </Border>
+                    <Grid Grid.Row="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="50" />
+                        </Grid.RowDefinitions>
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Width="340" Grid.Row="0">
+                            <TextBlock Text="Kaldığınız yeri işaretlemediniz &#x0a; çıkmak istediğinize emin misiniz  ? " TextAlignment="Center" FontFamily="{DynamicResource PoppinsMedium}" FontSize="14" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </StackPanel>
+                        <Grid Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
 
-                    <StackPanel x:Name="hmwnd_leftRow0"  Style="{DynamicResource ResourceKey=hmwnd_leftHeaderText}">
-                        <TextBlock x:Name="hmwnd_headerH1"  Text="Hoşgeldiniz"  Style="{DynamicResource ResourceKey=hmwnd_leftHeaderTexth1}" />
-                        <TextBlock x:Name="hmwnd_headerH2" Text="İyi Sabahlar" Style="{DynamicResource ResourceKey=hmwnd_leftHeaderTexth2}" />
-                    </StackPanel>
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="0">
+                                <Button x:Name="fastexitBtn" Style="{DynamicResource pp_DefaultButtonBstrp}" Tag="Check2" Content="Çık" HorizontalAlignment="Center" Click="fastexitBtn_Click" />
+                                <Button  Style="{DynamicResource pp_DefaultButtonClosed}" Tag="CloseBig" Content="Vazgeç" Uid="popup_fastExitConfirm" HorizontalAlignment="Center" Click="popupClosed_Click" />
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </Border>
+        </Popup>
 
-                    <StackPanel x:Name="hmwnd_leftRow1" Style="{DynamicResource ResourceKey=hmwnd_leftExtends}" HorizontalAlignment="Left">
+        <!-- POPUP -->
 
-                        <Button x:Name="enterFullScreenIcon" Style="{StaticResource ResourceKey=enterfullscreenIcon}" Click="enterFullScreenIcon_Click">
-                            <Button.Triggers>
-                                <EventTrigger RoutedEvent="Button.Click">
-                                    <BeginStoryboard>
-                                        <Storyboard>
-                                            <DoubleAnimation From="250" To="95" Duration="0:0:1" Storyboard.TargetName="leftgg" Storyboard.TargetProperty="(Grid.Width)" />
-                                            <DoubleAnimation From="1116" To="1271" Duration="0:0:1" Storyboard.TargetName="rightgg" Storyboard.TargetProperty="(Grid.Width)" />
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </EventTrigger>
-                            </Button.Triggers>
-                        </Button>
+        <Border x:Name="leftgg" Grid.Column="0" Width="250" BorderThickness="0 0 1 0 " BorderBrush="#E1E3E6">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="250" />
+                    <RowDefinition Height="458" />
+                    <RowDefinition Height="60" />
+                </Grid.RowDefinitions>
 
-                        <Button x:Name="exitFullScreenIcon" Style="{StaticResource ResourceKey=exitfullscreenIcon}" Click="exitFullScreenIcon_Click">
-                            <Button.Triggers>
-                                <EventTrigger RoutedEvent="Button.Click">
-                                    <BeginStoryboard>
-                                        <Storyboard>
-                                            <DoubleAnimation From="95" To="250" Duration="0:0:1" Storyboard.TargetName="leftgg" Storyboard.TargetProperty="(Grid.Width)" />
-                                            <DoubleAnimation From="1271" To="1116" Duration="0:0:1" Storyboard.TargetName="rightgg" Storyboard.TargetProperty="(Grid.Width)" />
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </EventTrigger>
-                            </Button.Triggers>
-                        </Button>
-                    </StackPanel>
+                <Border x:Name="hmwnd_leftHeaderContent" Style="{DynamicResource hmwnd_leftHeaderContent}" UseLayoutRounding="True">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
 
-                    <Border x:Name="hmwnd_leftRow2" Style="{DynamicResource ResourceKey=hmwnd_leftProfileDetail}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="45" />
+                            <RowDefinition Height="24" />
+                            <RowDefinition Height="115" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="6" />
+                        </Grid.RowDefinitions>
 
-                        <StackPanel Orientation="Vertical">
+                        <TextBlock Text="Demo" Style="{DynamicResource hmwnd_demoText}" Panel.ZIndex="10" Margin="0,-36,-51,0">
+                            <TextBlock.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform />
+                                    <SkewTransform />
+                                    <RotateTransform Angle="40" />
+                                    <TranslateTransform />
+                                </TransformGroup>
+                            </TextBlock.RenderTransform>
+                        </TextBlock>
+
+                        <StackPanel Grid.Row="0">
+                            <TextBlock x:Name="hmwnd_headerH1" Text="Hoşgeldiniz"  Style="{DynamicResource hmwnd_leftHeader}" />
+                            <TextBlock x:Name="hmwnd_headerH2" Text="" Style="{DynamicResource hmwnd_leftHeaderSub}" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Left">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <CheckBox x:Name="hmwnd_sizeControl" Grid.Row="0" IsChecked="False" ToolTip="Ekran Boyut Değiştirme" Style="{DynamicResource ExtendedButton}" Visibility="Visible" Click="hmwnd_sizeControl_Click">
+                                    <CheckBox.Triggers>
+                                        <EventTrigger RoutedEvent="CheckBox.Unchecked">
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation From="105" To="250" Duration="0:0:0.8" Storyboard.TargetName="leftgg" Storyboard.TargetProperty="(Grid.Width)" />
+                                                    <DoubleAnimation From="1271" To="1116" Duration="0:0:0.8" Storyboard.TargetName="rightgg" Storyboard.TargetProperty="(Grid.Width)" />
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </EventTrigger>
+                                        <EventTrigger RoutedEvent="CheckBox.Checked">
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation From="250" To="105" Duration="0:0:0.8" Storyboard.TargetName="leftgg" Storyboard.TargetProperty="(Grid.Width)" />
+                                                    <DoubleAnimation From="1116" To="1271" Duration="0:0:0.8" Storyboard.TargetName="rightgg" Storyboard.TargetProperty="(Grid.Width)" />
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </EventTrigger>
+                                    </CheckBox.Triggers>
+                                </CheckBox>
+                            </Grid>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Vertical" Grid.Row="2">
                             <Ellipse x:Name="hmwd_profileImage" Style="{DynamicResource hmwnd_leftHeaderImage}" Margin="0,8,0,0">
                                 <Ellipse.Fill>
-                                    <ImageBrush x:Name="hmwd_profileImageBrush" RenderOptions.BitmapScalingMode="HighQuality" ImageSource="/resource/images/other/defaultProfileImage.png" />
+                                    <ImageBrush x:Uid="" x:Name="hmwd_profileImageBrush" RenderOptions.BitmapScalingMode="HighQuality" ImageSource="/resource/images/other/defaultProfileImage.png" />
                                 </Ellipse.Fill>
                             </Ellipse>
                             <TextBlock x:Name="hmwd_profileName" Style="{DynamicResource ResourceKey=hmwnd_leftHeaderImageText}" Text="Meltdown Öztürk" />
                         </StackPanel>
-                    </Border>
 
-                    <StackPanel x:Name="hmwnd_leftRow3" Style="{DynamicResource ResourceKey=hmwnd_leftActionButtons}" HorizontalAlignment="Center">
+                        <StackPanel Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Button x:Name="leftHeaderButtonsProfile" Style="{DynamicResource hmwnd_leftHeaderButton}" extension:Extensions.ExtendsStatus="false" Click="leftHeaderButtonsProfile_Click" Content="Profile" />
+                        </StackPanel>
 
-                        <Button x:Name="leftHeaderButtonsProfile" Style="{DynamicResource ResourceKey=hmwnd_leftHeaderButtons}" Grid.Column="0">
-                            <StackPanel Orientation="Horizontal">
-                                <Icon:PackIconFontAwesome x:Name="leftHeaderButtonsProfileIcon" Kind="UserAltSolid" Width="10" Height="10"  VerticalAlignment="Center" />
-                                <TextBlock Text="Profil" Margin="5 0,0,0" />
+                        <StackPanel Grid.Row="4" VerticalAlignment="Top">
+                            <Separator Background="#E1E3E6" Height="2" Margin="0,4,0,4" />
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <Border Grid.Row="1" Padding="20 10 20 10">
+                    <StackPanel x:Name="hmwnd_leftNavControlStack"  Orientation="Vertical" Margin="5 0 0 0">
+                        <CheckBox IsChecked="False" Tag="/resource/images/icon/dashboard_rb.png" Uid="/resource/images/icon/dashboard_r.png" IsEnabled="True" Content="AnaSayfa" Style="{DynamicResource hmwnd_menuItems}" Click="menuNavControl_Click" extension:Extensions.ExtendsStatus="false" />
+                        <CheckBox x:Name="specialNav" IsChecked="False" Tag="/resource/images/icon/verse_rb.png" Uid="/resource/images/icon/verse_r.png" IsEnabled="True" Content="Ayetler" Style="{DynamicResource hmwnd_menuItems}"  Click="menuNavControl_Click" extension:Extensions.ExtendsStatus="false" />
+                        <CheckBox IsChecked="False" Tag="/resource/images/icon/subject_rb.png" Uid="/resource/images/icon/subject_r.png" IsEnabled="True" Content="Konularım" Style="{DynamicResource hmwnd_menuItems}"  Click="menuNavControl_Click" extension:Extensions.ExtendsStatus="false" />
+                        <CheckBox IsChecked="False" Tag="/resource/images/icon/library_rb.png" Uid="/resource/images/icon/library_r.png" IsEnabled="True" Content="Kütüphane" Style="{DynamicResource hmwnd_menuItems}"  Click="menuNavControl_Click" extension:Extensions.ExtendsStatus="false" />
+                        <CheckBox IsChecked="False" Tag="/resource/images/icon/notes_rb.png" Uid="/resource/images/icon/notes_r.png" IsEnabled="True" Content="Notlar" Style="{DynamicResource hmwnd_menuItems}"  Click="menuNavControl_Click" extension:Extensions.ExtendsStatus="false" />
+                        <CheckBox IsChecked="False" Tag="/resource/images/icon/remider_rb.png" Uid="/resource/images/icon/remider_r.png" IsEnabled="True" Content="Hatırlatıcı" Style="{DynamicResource hmwnd_menuItems}"  Click="menuNavControl_Click" extension:Extensions.ExtendsStatus="false" />
+                        <CheckBox IsChecked="False" Tag="/resource/images/icon/result_rb.png" Uid="/resource/images/icon/result_r.png" IsEnabled="True" Content="Sonuc" Style="{DynamicResource hmwnd_menuItems}"  Click="menuNavControl_Click" extension:Extensions.ExtendsStatus="false" />
+                        <CheckBox IsChecked="False" Tag="/resource/images/icon/help_rb.png" Uid="/resource/images/icon/help_r.png" IsEnabled="True" Content="Kullanıcı Yardımı" Style="{DynamicResource hmwnd_menuItems}"  Click="menuNavControl_Click" extension:Extensions.ExtendsStatus="false" />
+                    </StackPanel>
+                </Border>
+                <Border Grid.Row="2" Padding="5 0 5 0">
+
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <StackPanel Grid.Row="0" Orientation="Horizontal"  VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Button Style="{DynamicResource hmwnd_leftSetting}" ToolTip="Ayarlar Menüsü" />
+                            <Button Style="{DynamicResource hmwnd_leftFeed}" ToolTip="Geri Bildirim" />
+                            <Button Style="{DynamicResource hmwnd_leftAdmin}" Click="adminOpen_Click" Visibility="Visible" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <TextBlock  Text="Version 0.2.0" Style="{DynamicResource hmwnd_leftVersionText}" />
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Border>
+
+        <Grid x:Name="rightgg"  Grid.Column="1"  Width="1116" Grid.ColumnSpan="2">
+
+            <Popup x:Name="alph" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="460" Height="200" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+                <Border  Style="{DynamicResource defaultBorderShadowEffect}" Width="440" Height="180">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <Grid Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="10" />
+                                <ColumnDefinition Width="90" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Border Grid.Column="0" Background="#F0433A" CornerRadius="5 0 0 5"></Border>
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <Icon:PackIconOcticons Kind="Alert" Width="48" Height="48" Foreground="#F0433A" />
                             </StackPanel>
-                        </Button>
-                    </StackPanel>
+                            <Border Grid.Column="2"  Padding="10 0 10 0">
+                                <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                    <TextBlock x:Name="alertPopupHeader" Text="" Style="{DynamicResource messageBoxHeader}" />
+                                    <TextBlock x:Name="alertPopupDetail" Text="" Style="{DynamicResource messageBoxDetail}" />
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+                    </Grid>
+                </Border>
+            </Popup>
 
-                    <StackPanel Grid.Row="4" Height="10">
-                        <Separator Background="#E1E3E6" Height="2" Margin="0,4,0,4" />
-                    </StackPanel>
-                </Grid>
-            </Border>
+            <Popup x:Name="scph" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="460" Height="200" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+                <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="440" Height="180">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
 
-            <Border x:Name="hmwnd_leftMenuContent" Style="{DynamicResource ResourceKey=hmwnd_leftMenuContent}" UseLayoutRounding="True">
+                        <Grid Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="10" />
+                                <ColumnDefinition Width="90" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Border Grid.Column="0" Background="#66E21F" CornerRadius="5 0 0 5"></Border>
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <Icon:PackIconIonicons Kind="CheckmarkMD" Width="48" Height="48" Foreground="#66E21F" />
+                            </StackPanel>
+                            <Border Grid.Column="2"  Padding="10 0 10 0">
+                                <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                    <TextBlock x:Name="successPopupHeader" Text="" Style="{DynamicResource messageBoxHeader}" />
+                                    <TextBlock x:Name="successPopupDetail" Text="" Style="{DynamicResource messageBoxDetail}" />
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+                    </Grid>
+                </Border>
+            </Popup>
 
-                <StackPanel Orientation="Vertical" x:Name="menuButton">
-                    <Button Uid="nav_verses" Style="{DynamicResource hmwnd_menuButton}" Tag="/resource/images/icon/verse_r.png" Content="Ayetler" Click="navEnter_Click" />
-                    <Button Uid="nav_subject" Style="{DynamicResource hmwnd_menuButton}" Tag="/resource/images/icon/subject_r.png" Content="Konularım" Click="navEnter_Click" />
-                    <Button Uid="nav_library" Style="{DynamicResource hmwnd_menuButton}" Tag="/resource/images/icon/library_r.png" Content="Kütüphane" Click="navEnter_Click" />
-                    <Button Uid="nav_notes" Style="{DynamicResource hmwnd_menuButton}" Tag="/resource/images/icon/notes_r.png" Content="Notlar" Click="navEnter_Click" />
-                    <Button Uid="nav_reminder" Style="{DynamicResource hmwnd_menuButton}" Tag="/resource/images/icon/remider_r.png" Content="Hatırlatıcı" Click="navEnter_Click" />
-                    <Button Uid="nav_result" Style="{DynamicResource hmwnd_menuButton}" Tag="/resource/images/icon/result_r.png" Content="Sonuc" Click="navEnter_Click" />
-                    <Button Uid="nav_help" Style="{DynamicResource hmwnd_menuButton}" Tag="/resource/images/icon/help_r.png" Content="Kullanıcı Yardımı" Click="navEnter_Click" />
-                </StackPanel>
-            </Border>
+            <Popup x:Name="inph" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="460" Height="200" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
 
-            <Border Grid.Row="2" Padding="5 0 5 0">
+                <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="440" Height="180">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
 
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
+                        <Grid Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="10" />
+                                <ColumnDefinition Width="90" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Border Grid.Column="0" Background="#0D6EFD" CornerRadius="5 0 0 5"></Border>
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <Icon:PackIconUnicons Kind="Info" Width="48" Height="48" Foreground="#0D6EFD" />
+                            </StackPanel>
+                            <Border Grid.Column="2"  Padding="10 0 10 0">
+                                <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                    <TextBlock x:Name="infoPopupHeader" Text="" Style="{DynamicResource messageBoxHeader}" />
+                                    <TextBlock x:Name="infoPopupDetail" Text="" Style="{DynamicResource messageBoxDetail}" />
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+                    </Grid>
+                </Border>
+            </Popup>
 
-                    <StackPanel Grid.Column="0" Orientation="Horizontal"  VerticalAlignment="Center" HorizontalAlignment="Left">
-                        <Button Style="{DynamicResource hmwnd_leftSetting}" />
-                        <Button Style="{DynamicResource hmwnd_leftFeed}" />
-                        <Button Style="{DynamicResource hmwnd_leftAdmin}" Click="adminOpen_Click" />
-                    </StackPanel>
+            <StackPanel Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Right" Panel.ZIndex="7" Margin="0 10 0 0">
+                <Button Grid.Column="1" Style="{DynamicResource hmwnd_appclosedButton}"  Content="close" Click="appClosed_Click" />
+            </StackPanel>
 
-                    <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
-                        <TextBlock  Text="Version 0.1.0" Style="{DynamicResource hmwnd_leftVersionText}" />
-                    </StackPanel>
-                </Grid>
-            </Border>
-        </Grid>
-
-        <Grid x:Name="rightgg"  Grid.Column="1"  Width="1116">
+            <Grid x:Name="loadinGifContent" Grid.Row="0" Background="#FAFAFA" Panel.ZIndex="5" Visibility="Collapsed">
+                <Image gif:ImageBehavior.AnimatedSource="/Resource/Images/Gif/Spinner800.gif" Width="250" Height="250"  RenderOptions.BitmapScalingMode="HighQuality" />
+            </Grid>
 
             <Popup x:Name="lifeCyclerPopups" IsOpen="False" AllowsTransparency="True" Width="340" Height="90" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade" Placement="Top" VerticalOffset="50" HorizontalOffset="750" PlacementTarget="{Binding ElementName=homeFrame}">
-                <Border Style="{DynamicResource defaultBorderShadowEffect}" VerticalAlignment="Center" Height="70" Width="320">
-                    <StackPanel Height="70" Orientation="Horizontal" VerticalAlignment="Center">
-                        <Border x:Name="lifeCyclerPopupBorder" Width="10" Height="70" CornerRadius="5,0,0,5" />
-                        <StackPanel x:Name="lifeCyclerPopupsTxtStck" Orientation="Vertical" Width="270" VerticalAlignment="Center" HorizontalAlignment="Center">
-                            <TextBlock Text="" x:Name="lifeCyclerPopupsText" Style="{DynamicResource lifeCyclerPopupHeader}" VerticalAlignment="Center" TextAlignment="Center" HorizontalAlignment="Center" />
-                        </StackPanel>
-                        <StackPanel x:Name="lifeCyclerPopupsActStck" Width="40" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
-                            <Button x:Name="lifePopupGoActionButton" Style="{DynamicResource lifeClosedPopup}" Margin="8 0 8 0" Uid="" Click="popupAction_Click" Tag="" />
-                            <Button x:Name="lifePopupGoDobuleActionButton" Style="{DynamicResource lifeDoubleActionPopup}" Margin="8 0 8 0" Uid="" Tag="" Click="popupActionDouble_Click" />
+                <Border Style="{DynamicResource defaultBorderShadowEffect}" VerticalAlignment="Center" Height="60" Width="320">
+                    <StackPanel Height="60" Orientation="Horizontal" VerticalAlignment="Center">
+                        <Border x:Name="lifeCyclerPopupBorder" Width="10" Height="60" CornerRadius="5,0,0,5" />
+                        <Border Padding="10 0 10 0" x:Name="lifeCyclerPopupsTxtStck" Width="210" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <TextBlock Text="Deneme" Width="190" x:Name="lifeCyclerPopupsText" Style="{DynamicResource hmwnd_lifeCyclerPopupHeader}" />
+                        </Border>
+                        <StackPanel x:Name="lifeCyclerPopupsActStck" Width="100" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Button x:Name="lifePopupGoDobuleActionButton" ToolTip="Ayete Git" Style="{DynamicResource hmwnd_lifeDoubleActionPopup}" Click="popupActionDouble_Click" />
+                            <Button x:Name="lifePopupGoActionButton" ToolTip="Hatırlatıcıya Git" Style="{DynamicResource hmwnd_lifeActionPopup}" Click="popupAction_Click" />
+                            <Button x:Name="lifePopupExit" ToolTip="Kapat" Style="{DynamicResource hmwnd_lifeExitPopup}" Click="popupExit_Click" />
                         </StackPanel>
                     </StackPanel>
                 </Border>
             </Popup>
 
-            <Border x:Name="border" Style="{DynamicResource ResourceKey=rightPanelBorder}">
-                <Grid>
+            <Border Style="{DynamicResource rightPanelBorder}">
+                <Grid x:Name="rightPanel" Style="{DynamicResource aniEffectFadeGrid}" Visibility="Visible">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="60" />
+                        <RowDefinition Height="50" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
-
                     <Grid Grid.Row="0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <StackPanel Orientation="Horizontal" Grid.Column="0" Margin="25,0,0,0" HorizontalAlignment="Left">
-                            <TextBlock x:Name="UserLocationText" Text="" Style="{DynamicResource ResourceKey=navigationLocationText}" />
-                        </StackPanel>
-
-                        <StackPanel Grid.Column="1">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="34" />
-                                    <ColumnDefinition Width="75" />
-                                </Grid.ColumnDefinitions>
-
-                                <Border Style="{DynamicResource hicriTime}" Grid.Column="0">
-                                    <StackPanel Orientation="Vertical">
-                                        <TextBlock Style="{DynamicResource ResourceKey=hicriTimeText}" Text="31 Temmuz Pazar"></TextBlock>
-                                        <TextBlock Style="{DynamicResource ResourceKey=hicriTimeText}" Text="2 Muharrem 1444"></TextBlock>
-                                    </StackPanel>
-                                </Border>
-
-                                <Button Grid.Column="1" Style="{DynamicResource ResourceKey=appclosedButton}"  Content="close" Click="appClosed_Click" />
-
-                                <TextBlock Text="Demo" Style="{DynamicResource ResourceKey=demoText}" Panel.ZIndex="10"  Grid.Column="2" Margin="0,0,-30,0">
-                                    <TextBlock.RenderTransform>
-                                        <TransformGroup>
-                                            <ScaleTransform />
-                                            <SkewTransform />
-                                            <RotateTransform Angle="49.507" />
-                                            <TranslateTransform />
-                                        </TransformGroup>
-                                    </TextBlock.RenderTransform>
-                                </TextBlock>
-                            </Grid>
+                        <StackPanel x:Name="NavigationStack" Orientation="Horizontal" Grid.Column="0" Margin="25,0,0,0" HorizontalAlignment="Left">
+                            <Button x:Name="baseNavigation" Style="{DynamicResource hmwnd_navgationIcons}" />
+                            <StackPanel x:Name="NavigationStackItems" Orientation="Horizontal">
+                            </StackPanel>
                         </StackPanel>
                     </Grid>
 
-                    <Frame Grid.Row="1" Style="{DynamicResource ResourceKey=contentFrame}"  NavigationUIVisibility="Hidden" x:Name="homeFrame" Content="Frame" Padding="15,15,15,0" Grid.IsSharedSizeScope="True" />
+                    <Grid x:Name="MainFrameGrid" Grid.Row="1">
+                        <Frame  Style="{DynamicResource contentFrame}"  NavigationUIVisibility="Hidden" x:Name="homeFrame" Content="Frame" Padding="10,0,15,0" Grid.IsSharedSizeScope="True" Navigated="homeFrame_Navigated" />
+                    </Grid>
                 </Grid>
             </Border>
         </Grid>

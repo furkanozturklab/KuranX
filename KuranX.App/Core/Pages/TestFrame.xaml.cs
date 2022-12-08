@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Org.BouncyCastle.Utilities;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -22,17 +24,88 @@ namespace KuranX.App.Core.Pages
     /// </summary>
     public partial class TestFrame : Page
     {
+        private ArrayList findİndex = new ArrayList();
+
         public TestFrame()
         {
             InitializeComponent();
         }
 
-        private void popupClosed_Click(object sender, RoutedEventArgs e)
+        public Page PageCall()
         {
-            Button btntemp = sender as Button;
-            var popuptemp = (Popup)this.FindName(btntemp.Uid);
+            return this;
+        }
 
-            // popuptemp.IsOpen = false;
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            /*
+            var starindex = 0;
+            findİndex.Clear();
+
+            // İndex Arama
+            while (true)
+            {
+                starindex = searchDataContent.Text.IndexOf("dizgi", ++starindex);
+                if (starindex == -1) break;
+                findİndex.Add(starindex);
+            }
+
+            Debug.WriteLine(findİndex.Count);
+
+            int id = 0;
+
+            foreach (var item in findİndex)
+            {
+                var dataTextBlock = new TextBlock();
+                var tempLoc = new TextBlock();
+                var tempborder = new Border();
+                var tempstackpanel = new StackPanel();
+                var tempButton = new Button();
+
+                tempborder.Style = (Style)FindResource("pp_searchResultPanelBorder");
+                tempLoc.Style = (Style)FindResource("pp_searchResultLocation");
+                dataTextBlock.Style = (Style)FindResource("pp_searchResultText");
+                tempButton.Style = (Style)FindResource("pp_dynamicItemSearchButton");
+                tempstackpanel.HorizontalAlignment = HorizontalAlignment.Left;
+
+                id = int.Parse(item.ToString());
+
+                id -= 20;
+
+                if (id < 0)
+                {
+                    searchDataContent.SelectionStart = 0;
+                    searchDataContent.SelectionLength = int.Parse(item.ToString());
+                }
+                else
+                {
+                    searchDataContent.SelectionStart = id;
+                    searchDataContent.SelectionLength = 20;
+                }
+
+                dataTextBlock.Text = " ... " + searchDataContent.SelectedText;
+                dataTextBlock.Inlines.Add(new Run("dizgi") { Foreground = Brushes.Red });
+
+                id = ("dizgi").Length + int.Parse(item.ToString());
+
+                searchDataContent.SelectionStart = id;
+                searchDataContent.SelectionLength = 20;
+
+                dataTextBlock.Inlines.Add(searchDataContent.SelectedText + " ... ");
+
+                tempLoc.Text = "Yorum";
+
+                tempstackpanel.Children.Add(dataTextBlock);
+                tempstackpanel.Children.Add(tempLoc);
+                tempstackpanel.Children.Add(tempButton);
+                tempborder.Child = tempstackpanel;
+
+                resultDataContent.Children.Add(tempborder);
+
+                dataTextBlock = null;
+            }
+
+            */
         }
     }
 }

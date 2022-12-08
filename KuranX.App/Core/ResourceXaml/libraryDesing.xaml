@@ -3,19 +3,20 @@
                     xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <Style TargetType="Image" x:Key="hmwnd_menuIcon">
+    <!-- Open page -->
+    <Style TargetType="Image" x:Key="lib_menuIcon">
         <Setter Property="Width" Value="28" />
         <Setter Property="Height" Value="28" />
         <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality" />
     </Style>
 
-    <Style x:Key="libraryHeader" TargetType="Button">
+    <Style x:Key="lib_OpenHeader" TargetType="Button">
 
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate>
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
-                        <Image x:Name="menuIconItemCtrlTmp" Source="{Binding Path=Tag , RelativeSource={RelativeSource TemplatedParent}}" Style="{StaticResource ResourceKey=hmwnd_menuIcon}" />
+                        <Image x:Name="menuIconItemCtrlTmp" Source="{Binding Path=Tag , RelativeSource={RelativeSource TemplatedParent}}" Style="{StaticResource lib_menuIcon}" />
                         <TextBlock Text="Kütüphane" Margin="10 0 0 0" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#1C1E2F" FontSize="22" FontFamily="{DynamicResource PoppinsSemiBold}" />
                     </StackPanel>
                 </ControlTemplate>
@@ -23,23 +24,23 @@
         </Setter>
     </Style>
 
-    <Style x:Key="libraryItems" TargetType="Button">
+    <Style x:Key="lib_baseItem" TargetType="Button">
 
         <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="Height" Value="100" />
+        <Setter Property="Height" Value="80" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate>
-                    <Border Style="{DynamicResource defaultBorderShadowEffect}" UseLayoutRounding="True" SnapsToDevicePixels="True" Width="350" Height="100">
+                    <Border Style="{DynamicResource defaultBorderShadowEffect}" UseLayoutRounding="True" SnapsToDevicePixels="True" Width="350" Height="80">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="350" />
                             </Grid.ColumnDefinitions>
-                            <StackPanel Width="350" Grid.Column="0" Height="100" HorizontalAlignment="Left" Orientation="Horizontal" Panel.ZIndex="1">
-                                <Border x:Name="Uza" Panel.ZIndex="2" Width="10" Height="100" Background="{Binding Path=Tag , RelativeSource={RelativeSource TemplatedParent}}" CornerRadius="5 0 0 5" HorizontalAlignment="Left" />
+                            <StackPanel Width="350" Grid.Column="0" Height="80" HorizontalAlignment="Left" Orientation="Horizontal" Panel.ZIndex="1">
+                                <Border x:Name="Uza" Panel.ZIndex="2" Width="10" Height="80" Background="{Binding Path=Tag , RelativeSource={RelativeSource TemplatedParent}}" CornerRadius="5 0 0 5" HorizontalAlignment="Left" />
                             </StackPanel>
-                            <StackPanel Width="350" Grid.Column="0" Height="100" HorizontalAlignment="Left" Orientation="Horizontal" Panel.ZIndex="2">
+                            <StackPanel Width="350" Grid.Column="0" Height="80" HorizontalAlignment="Left" Orientation="Horizontal" Panel.ZIndex="2">
                                 <TextBlock x:Name="ContentText" Width="280" TextAlignment="Center" Text="{Binding Path=Content , RelativeSource={RelativeSource TemplatedParent}}" Foreground="#1C1E2F" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="24" FontFamily="{DynamicResource PoppinsMedium}" />
                                 <Icon:PackIconEvaIcons x:Name="ContentTextArrow" Kind="ArrowForward" Width="36" Height="36"  Foreground="#1C1E2F" VerticalAlignment="Center" HorizontalAlignment="Right" />
                             </StackPanel>
@@ -72,8 +73,11 @@
             </Setter.Value>
         </Setter>
     </Style>
+    <!-- Open page -->
 
-    <Style x:Key="libraryFileHeader" TargetType="Button">
+    <!-- LibraryFileFrame -->
+
+    <Style x:Key="lib_FileHeader" TargetType="Button">
         <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="Width" Value="300" />
@@ -95,61 +99,25 @@
         </Setter>
     </Style>
 
-    <Style x:Key="libraryNoteHeader" TargetType="Button">
-        <Setter Property="UseLayoutRounding" Value="True" />
-        <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="Width" Value="300" />
-        <Setter Property="Height" Value="90" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate>
-                    <Border Width="300" Height="90" Style="{DynamicResource defaultBorderShadowEffect}">
-                        <StackPanel Orientation="Vertical">
-                            <Border Height="10" Background="{Binding Path=Uid, RelativeSource={RelativeSource TemplatedParent}}" Width="300" CornerRadius="5 5 0 0" />
-                            <Border Height="80"  HorizontalAlignment="Center" VerticalAlignment="Center">
-                                <TextBlock Height="34" Text="{Binding Path=Tag, RelativeSource={RelativeSource TemplatedParent}}" Foreground="#1C1E2F" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="22" FontFamily="{DynamicResource PoppinsSemiBold}" />
-                            </Border>
-                        </StackPanel>
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
+    <Style x:Key="lib_fileFolderHeader" TargetType="TextBlock">
+
+        <Setter Property="Width" Value="150" />
+        <Setter Property="TextWrapping" Value="NoWrap" />
+        <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+        <Setter Property="Foreground" Value="#1C1E2F" />
+        <Setter Property="FontFamily" Value="{DynamicResource PoppinsMedium}" />
+        <Setter Property="FontSize" Value="14" />
     </Style>
 
-    <Style x:Key="newFileButton" TargetType="Button">
+    <Style x:Key="lib_fileFolderDate" TargetType="TextBlock">
 
-        <Setter Property="Width" Value="200" />
-        <Setter Property="Height" Value="40" />
-        <Setter Property="Margin" Value="0 15 0 10" />
-        <Setter Property="UseLayoutRounding" Value="True" />
-        <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate>
-                    <Border x:Name="borderFocus" Width="200" Height="40" Style="{DynamicResource defaultBorderShadowEffect}">
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <Icon:PackIconUnicons  x:Name="iconFocus"  Kind="FileImport" Foreground="#1C1E2F" Width="18" Height="18" />
-                            <TextBlock x:Name="textFocus" Text="Yeni Dosya Yükle" Margin="5 0 0 0" Foreground="#1C1E2F"  FontFamily="{DynamicResource PoppinsMedium}" FontSize="12" VerticalAlignment="Center"  HorizontalAlignment="Center" TextAlignment="Center" />
-                        </StackPanel>
-                    </Border>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="#F0433A" TargetName="borderFocus" />
-                            <Setter Property="Foreground" Value="#ffffff" TargetName="iconFocus" />
-                            <Setter Property="Foreground" Value="#ffffff" TargetName="textFocus" />
-                            <Setter Property="Cursor" Value="Hand" />
-                        </Trigger>
-                        <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="borderFocus" Property="Background" Value="#FFE4E6EF" />
-                            <Setter Property="Cursor" Value="No" />
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
+        <Setter Property="Width" Value="150" />
+        <Setter Property="Foreground" Value="#7B7B7B" />
+        <Setter Property="FontFamily" Value="{DynamicResource PoppinsRegular}" />
+        <Setter Property="FontSize" Value="10" />
     </Style>
 
-    <Style x:Key="fileItemOpenIcon" TargetType="Button">
+    <Style x:Key="lib_fileItemOpenIcon" TargetType="Button">
 
         <Setter Property="Width" Value="24" />
         <Setter Property="Height" Value="24" />
@@ -173,44 +141,7 @@
         </Setter>
     </Style>
 
-    <Style x:Key="fileTypeItemOpenIcon" TargetType="Button">
-
-        <Setter Property="Width" Value="24" />
-        <Setter Property="Height" Value="24" />
-        <Setter Property="Background" Value="{x:Null}" />
-        <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="IsEnabled" Value="False" />
-
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate>
-                    <TextBlock Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center">
-                        <Icon:PackIconCodicons x:Name="txt_trg" Kind="FilePdf" Width="20" Height="20" Foreground="#1C1E2F" VerticalAlignment="Center"  HorizontalAlignment="Center" />
-                    </TextBlock>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <Style x:Key="fileFolderHeader" TargetType="TextBlock">
-
-        <Setter Property="Width" Value="150" />
-        <Setter Property="TextWrapping" Value="NoWrap" />
-        <Setter Property="TextTrimming" Value="CharacterEllipsis" />
-        <Setter Property="Foreground" Value="#1C1E2F" />
-        <Setter Property="FontFamily" Value="{DynamicResource PoppinsMedium}" />
-        <Setter Property="FontSize" Value="14" />
-    </Style>
-
-    <Style x:Key="fileFolderDate" TargetType="TextBlock">
-
-        <Setter Property="Width" Value="150" />
-        <Setter Property="Foreground" Value="#7B7B7B" />
-        <Setter Property="FontFamily" Value="{DynamicResource PoppinsRegular}" />
-        <Setter Property="FontSize" Value="10" />
-    </Style>
-
-    <Style x:Key="progressBarTemp" TargetType="ProgressBar">
+    <Style x:Key="lib_progressBarTemp" TargetType="ProgressBar">
         <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="Template">
@@ -225,7 +156,7 @@
         </Setter>
     </Style>
 
-    <Style x:Key="loadFileIcon" TargetType="Button">
+    <Style x:Key="lib_loadFileIcon" TargetType="Button">
         <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="Background" Value="Transparent" />
@@ -240,34 +171,46 @@
         </Setter>
     </Style>
 
-    <Style x:Key="libnotesbutton" TargetType="Button">
+    <!-- Lib Note Folder -->
+
+    <Style x:Key="lib_FolderHeader" TargetType="Button">
         <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Margin" Value="10 0 0 0" />
+        <Setter Property="Width" Value="300" />
+        <Setter Property="Height" Value="90" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Border Width="300" Height="90" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Vertical">
+                            <Border Height="10" Background="{Binding Path=Uid, RelativeSource={RelativeSource TemplatedParent}}" Width="300" CornerRadius="5 5 0 0" />
+                            <Border Height="80"  HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <TextBlock Height="34" Text="{Binding Path=Tag, RelativeSource={RelativeSource TemplatedParent}}" Foreground="#1C1E2F" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="22" FontFamily="{DynamicResource PoppinsSemiBold}" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="lib_FolderOpenIcon" TargetType="Button">
+
+        <Setter Property="Width" Value="24" />
+        <Setter Property="Height" Value="24" />
+        <Setter Property="Background" Value="{x:Null}" />
         <Setter Property="BorderThickness" Value="0" />
 
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate>
-                    <Border x:Name="border" Background="Transparent" BorderBrush="#E1E3E6" BorderThickness="1" CornerRadius="5" Padding="20 5 20 5">
-                        <StackPanel Orientation="Horizontal">
-                            <Icon:PackIconBootstrapIcons x:Name="icon" Kind="{Binding Path=Tag, RelativeSource={RelativeSource TemplatedParent}}" Width="16" Height="16"  Foreground="#1C1E2F" VerticalAlignment="Center"  HorizontalAlignment="Center" />
-                            <TextBlock  x:Name="text" Text="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}}" FontSize="12" FontFamily="{DynamicResource PoppinsMedium}" Margin="10 0 0 0" Foreground="#1C1E2F" VerticalAlignment="Center"  HorizontalAlignment="Center" />
-                        </StackPanel>
-                    </Border>
+                    <TextBlock Width="24" Height="24">
+                        <Icon:PackIconBootstrapIcons x:Name="txt_trg" Kind="BoxArrowRight" Width="24" Height="24" />
+                    </TextBlock>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="#820333" TargetName="border" />
-                            <Setter Property="Foreground" Value="#FFFFFF" TargetName="icon" />
-                            <Setter Property="Foreground" Value="#FFFFFF" TargetName="text" />
+                            <Setter TargetName="txt_trg" Property="Foreground" Value="#F0433A" />
                             <Setter Property="Cursor" Value="Hand" />
-                        </Trigger>
-
-                        <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Background" Value="#820333" TargetName="border" />
-                            <Setter Property="Foreground" Value="#FFFFFF" TargetName="icon" />
-                            <Setter Property="Foreground" Value="#FFFFFF" TargetName="text" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -275,21 +218,59 @@
         </Setter>
     </Style>
 
-    <Style x:Key="noteDetail" TargetType="TextBox">
-        <Setter Property="Background" Value="{x:Null}" />
-        <Setter Property="BorderBrush" Value="#ADB5BD" />
-        <Setter Property="Foreground" Value="#383C41" />
-        <Setter Property="FontSize" Value="16" />
+    <!-- Lib Note Folder -->
+
+    <!-- lib Note Items-->
+
+    <Style x:Key="lib_folderHeader" TargetType="TextBlock">
+
+        <Setter Property="Width" Value="180" />
+        <Setter Property="TextWrapping" Value="NoWrap" />
+        <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+        <Setter Property="Foreground" Value="#1C1E2F" />
         <Setter Property="FontFamily" Value="{DynamicResource PoppinsMedium}" />
-        <Setter Property="Padding" Value="5" />
+        <Setter Property="FontSize" Value="14" />
+    </Style>
+
+    <Style x:Key="lib_folderDate" TargetType="TextBlock">
+
+        <Setter Property="Width" Value="180" />
+        <Setter Property="Foreground" Value="#7B7B7B" />
+        <Setter Property="FontFamily" Value="{DynamicResource PoppinsRegular}" />
+        <Setter Property="FontSize" Value="10" />
+    </Style>
+
+    <Style x:Key="lib_FolderLoc" TargetType="TextBlock">
+
+        <Setter Property="Width" Value="180" />
+        <Setter Property="Foreground" Value="#F0433A" />
+        <Setter Property="FontFamily" Value="{DynamicResource PoppinsMedium}" />
+        <Setter Property="FontSize" Value="10" />
+    </Style>
+
+    <Style x:Key="lib_itemOpenGoIcon" TargetType="Button">
+
+        <Setter Property="Width" Value="24" />
+        <Setter Property="Height" Value="24" />
+        <Setter Property="Background" Value="{x:Null}" />
+        <Setter Property="BorderThickness" Value="0" />
+
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type TextBox}">
-                    <Border  x:Name="border" CornerRadius="5" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
-                        <ScrollViewer x:Name="PART_ContentHost" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden" />
-                    </Border>
+                <ControlTemplate>
+                    <TextBlock Width="24" Height="24">
+                        <Icon:PackIconBootstrapIcons x:Name="txt_trg" Kind="ArrowRight" Width="24" Height="24" />
+                    </TextBlock>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="txt_trg" Property="Foreground" Value="#F0433A" />
+                            <Setter Property="Cursor" Value="Hand" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
+
+    <!-- lib Note Items-->
 </ResourceDictionary>

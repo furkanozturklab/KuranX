@@ -4,12 +4,13 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="clr-namespace:KuranX.App.Core.Pages"
-       xmlns:sys="clr-namespace:System;assembly=mscorlib"
-       xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
-       xmlns:gif="http://wpfanimatedgif.codeplex.com"
+      xmlns:sys="clr-namespace:System;assembly=mscorlib"
+      xmlns:extension="clr-namespace:KuranX.App.Core.Classes"
+      xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
+      xmlns:gif="http://wpfanimatedgif.codeplex.com"
       mc:Ignorable="d"
       d:DesignHeight="708" d:DesignWidth="1115" d:MaxHeight="708" d:MaxWidth="1270" d:MinWidth="1115"
-      Title="TestFrame" Background="#FAFAFA">
+      Title="TestFrame" Background="#FAFAFA" Loaded="Page_Loaded">
 
     <Grid>
 

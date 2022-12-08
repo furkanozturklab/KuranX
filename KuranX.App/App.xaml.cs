@@ -1,15 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using KuranX.App.Core.Pages;
+using KuranX.App.Core.Pages.LibraryF;
+using KuranX.App.Core.Pages.NoteF;
+using KuranX.App.Core.Pages.ReminderF;
+using KuranX.App.Core.Pages.ResultF;
+using KuranX.App.Core.Pages.SubjectF;
+using KuranX.App.Core.Pages.VerseF;
+using KuranX.App.Core.Windows;
+using System;
 using System.Configuration;
-using System.Data;
+
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using static Org.BouncyCastle.Math.EC.ECCurve;
+using System.Windows.Threading;
 
 namespace KuranX.App
 {
@@ -19,11 +24,64 @@ namespace KuranX.App
     public partial class App : Application
     {
         public static Frame? mainframe;
-        public static string currentDesktype = "DeskLanding", currentLanding = "Hepsi", lastLocation = "App";
-        public static int[] currentVersesPageD = new int[2];
-        public static TextBlock locationTxt;
-        public static bool selectedBlock = true;
+        public static string currentDesktype = "DeskLanding";
+
+        public static DispatcherTimer timeSpan = new DispatcherTimer(DispatcherPriority.Render);
+        public static DispatcherTimer lifeCycler = new DispatcherTimer(DispatcherPriority.Render);
+        public static Task? loadTask;
+        public static Task? mainTask;
+
         public static Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+
+        // Main PANEL
+
+        public static homeScreen mainScreen = new homeScreen();
+
+        public static HomePage navHomeFrame = new HomePage();
+        public static UserPage navUserFrame = new UserPage();
+
+        // VERSE PANEL
+
+        public static sureFrame navSurePage = new sureFrame();
+        public static verseFrame navVersePage = new verseFrame();
+        public static verseStickFrame navVerseStickPage = new verseStickFrame();
+
+        // SUBJECT PANEL
+        public static SubjectFrame navSubjectFrame = new SubjectFrame();
+
+        public static SubjectFolder navSubjectFolder = new SubjectFolder();
+        public static SubjectItem navSubjectItem = new SubjectItem();
+
+        // LİBRARY PANEL
+
+        public static LibraryOpenPage navLibraryOpen = new LibraryOpenPage();
+        public static LibraryFileFrame navLibraryFileFrame = new LibraryFileFrame();
+        public static LibraryNoteItemsFrame navLibraryNoteItemsFrame = new LibraryNoteItemsFrame();
+        public static LibraryNoteFolderFrame navLibraryNoteFolderFrame = new LibraryNoteFolderFrame();
+
+        // NOTE PANEL
+
+        public static NoteFrame navNotesPage = new NoteFrame();
+        public static NoteItem navNoteItem = new NoteItem();
+        public static NotePrinter notePrinter = new NotePrinter();
+
+        // RESULT PANEL
+
+        public static ResultFrame navResultPage = new ResultFrame();
+        public static ResultItem navResultItem = new ResultItem();
+        public static ResultPrinter navResultPrinter = new ResultPrinter();
+
+        // REMİDER PANEL
+
+        public static RemiderFrame navRemiderPage = new RemiderFrame();
+        public static RemiderItem navRemiderItem = new RemiderItem();
+
+        public static TestFrame navTestPage = new TestFrame();
+
+        public void App_Startup(object sender, StartupEventArgs e)
+        {
+            mainScreen.Show();
+        }
 
         public static void logWriter(string type, Exception exe)
         {
@@ -47,14 +105,6 @@ namespace KuranX.App
                 config.AppSettings.Settings["TaskLastStatus"].Value = "UpdateWait";
                 ConfigurationManager.RefreshSection("appSettings");
                 config.Save(ConfigurationSaveMode.Modified);
-            }
-        }
-
-        public static void processKiller()
-        {
-            foreach (var item in Process.GetProcesses())
-            {
-                if (item.ProcessName == "CefSharp.BrowserSubprocess") item.Kill();
             }
         }
     }

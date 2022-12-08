@@ -2,7 +2,23 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                           xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks">
 
-    <Style x:Key="remiderExtendedButton" TargetType="CheckBox">
+    <Style x:Key="rr_ItemHeader" TargetType="TextBlock">
+
+        <Setter Property="Foreground" Value="#1C1E2F" />
+        <Setter Property="FontFamily" Value="{DynamicResource PoppinsMedium}" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="Padding" Value="10 5 10 0" />
+    </Style>
+
+    <Style x:Key="rr_ItemSubHeader" TargetType="TextBlock">
+
+        <Setter Property="Foreground" Value="#7B7B7B" />
+        <Setter Property="FontFamily" Value="{DynamicResource PoppinsMedium}" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="Padding" Value="10 0 10 0" />
+    </Style>
+
+    <Style x:Key="rr_ExtendedButton" TargetType="CheckBox">
 
         <Setter Property="Width" Value="24" />
         <Setter Property="Height" Value="24" />
@@ -33,7 +49,18 @@
         </Setter>
     </Style>
 
-    <Style x:Key="controlButton" TargetType="Button">
+    <Style x:Key="rr_ItemDetail" TargetType="TextBlock">
+
+        <Setter Property="Height" Value="90" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+        <Setter Property="Foreground" Value="#1C1E2F" />
+        <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+        <Setter Property="FontFamily" Value="{DynamicResource PoppinsMedium}" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="Padding" Value="10 0 10 0" />
+    </Style>
+
+    <Style x:Key="rr_controlButton" TargetType="Button">
 
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="UseLayoutRounding" Value="True" />
@@ -46,7 +73,7 @@
         <Setter Property="Foreground"  Value="#1C1E2F" />
     </Style>
 
-    <Style x:Key="controlDefaultButton" TargetType="Button" BasedOn="{StaticResource controlButton}">
+    <Style x:Key="rr_controlDefaultButton" TargetType="Button" BasedOn="{StaticResource rr_controlButton}">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate>
@@ -67,32 +94,5 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-    </Style>
-
-    <Style x:Key="remiderItemHeader" TargetType="TextBlock">
-
-        <Setter Property="Foreground" Value="#1C1E2F" />
-        <Setter Property="FontFamily" Value="{DynamicResource PoppinsMedium}" />
-        <Setter Property="FontSize" Value="16" />
-        <Setter Property="Padding" Value="10 5 10 0" />
-    </Style>
-
-    <Style x:Key="remiderItemSubHeader" TargetType="TextBlock">
-
-        <Setter Property="Foreground" Value="#7B7B7B" />
-        <Setter Property="FontFamily" Value="{DynamicResource PoppinsMedium}" />
-        <Setter Property="FontSize" Value="11" />
-        <Setter Property="Padding" Value="10 0 10 0" />
-    </Style>
-
-    <Style x:Key="remiderItemDetail" TargetType="TextBlock">
-
-        <Setter Property="Height" Value="90" />
-        <Setter Property="TextWrapping" Value="Wrap" />
-        <Setter Property="Foreground" Value="#1C1E2F" />
-        <Setter Property="TextTrimming" Value="CharacterEllipsis" />
-        <Setter Property="FontFamily" Value="{DynamicResource PoppinsRegular}" />
-        <Setter Property="FontSize" Value="12" />
-        <Setter Property="Padding" Value="10 0 10 0" />
     </Style>
 </ResourceDictionary>

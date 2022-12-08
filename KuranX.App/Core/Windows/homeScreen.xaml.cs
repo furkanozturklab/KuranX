@@ -1,19 +1,20 @@
 ﻿using System;
-using System.Configuration;
 using System.Diagnostics;
-using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Automation.Peers;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using System.Windows.Markup;
 using System.Windows.Media;
+using System.Windows.Navigation;
 using System.Windows.Threading;
+
 using KuranX.App.Core.Classes;
 using KuranX.App.Core.Pages;
-using Microsoft.VisualBasic;
+using Microsoft.EntityFrameworkCore;
 
 namespace KuranX.App.Core.Windows
 {
@@ -22,320 +23,872 @@ namespace KuranX.App.Core.Windows
     /// </summary>
     public partial class homeScreen : Window
     {
-        private DispatcherTimer lifeCycles = new DispatcherTimer(DispatcherPriority.Render);
-        private Task lifeCyclesTask, configTask;
-        private Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+        private CheckBox? navCheckBox;
+
+        private bool taskstatus = true;
 
         public homeScreen()
         {
-            InitializeComponent();
-            App.currentVersesPageD[0] = 1;
-            App.currentVersesPageD[1] = 0;
-            App.mainframe = (Frame)this.FindName("homeFrame");
-            App.locationTxt = (TextBlock)this.FindName("UserLocationText");
-            App.locationTxt.Text = "Ayetler";
+            try
+            {
+                InitializeComponent();
+                App.mainframe = (Frame)this.FindName("homeFrame");
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("InitializeComponent", ex);
+            }
         }
 
-        private void config_Func()
+        // ------------ Load Func  ------------ //
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            lifeCyclesTask = new Task(remiderCycler_Func);
-            lifeCyclesTask.Start();
+            try
+            {
+                // BAŞARILI CALIŞAN
+
+                App.mainTask = Task.Run(() => welcoming());
+                App.mainTask = Task.Run(() => navigationWriter("verse", ""));
+                App.mainTask = Task.Run(() => remiderCycler_Func());
+                App.mainTask.Wait();
+
+                if (taskstatus) App.mainTask = Task.Run(() => tasksCycler_Func());
+                App.mainframe.Content = App.navHomeFrame.PageCall();
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Loaded", ex);
+            }
         }
+
+        private void homeFrame_Navigated(object sender, NavigationEventArgs e)
+        {
+        }
+
+        // ------------ Load Func  ------------ //
+
+        // ------------ Special Func  ------------ //
 
         private void remiderCycler_Func()
         {
             // APP LİFECYCLER MİSSİONS
 
-            using (var entitydb = new AyetContext())
+            try
             {
-                var dRemider = entitydb.Remider.Where(p => p.LastAction < DateTime.Now && p.Status == "Run").ToList();
-
-                foreach (var item in dRemider)
+                using (var entitydb = new AyetContext())
                 {
-                    switch (item.LoopType)
+                    var dRemider = entitydb.Remider.Where(p => p.lastAction < DateTime.Now && p.status == "Wait" || p.status == "Run").ToList();
+
+                    foreach (var item in dRemider)
                     {
-                        case "False":
-                            if (item.RemiderDate.ToString("d") == DateTime.Now.ToString("d") && item.LastAction.ToString("d") != DateTime.Now.ToString("d"))
-                            {
-                                if (entitydb.Tasks.Where(p => p.MissonsId == item.RemiderId && p.MissonsType == "Remider").Count() == 0)
+                        if (item.remiderDate < DateTime.Now && item.status == "Added")
+                        {
+                            entitydb.Remider.RemoveRange(entitydb.Remider.Where(p => p.remiderId == item.remiderId));
+                            entitydb.SaveChanges();
+                            continue;
+                        }
+
+                        switch (item.loopType)
+                        {
+                            case "False":
+                                if (item.remiderDate.ToString("d") == DateTime.Now.ToString("d") && item.lastAction.ToString("d") != DateTime.Now.ToString("d"))
                                 {
-                                    entitydb.Remider.Where(p => p.RemiderId == item.RemiderId).FirstOrDefault().LastAction = DateTime.Now;
-                                    var newD = new Tasks { MissonsId = item.RemiderId, MissonsColor = "#ffc107", MissonsRepeart = 5, MissonsTime = 5, MissonsType = "Remider" };
-                                    entitydb.Tasks.Add(newD);
+                                    if (entitydb.Tasks.Where(p => p.missonsId == item.remiderId && p.missonsType == "Remider").Count() == 0)
+                                    {
+                                        entitydb.Remider.Where(p => p.remiderId == item.remiderId).FirstOrDefault().lastAction = DateTime.Now;
+                                        var newD = new Tasks { missonsId = item.remiderId, missonsColor = "#ffc107", missonsRepeart = 5, missonsTime = 5, missonsType = "Remider" };
+
+                                        entitydb.Remider.Where(p => p.remiderId == item.remiderId).First().status = "Added";
+                                        entitydb.Tasks.Add(newD);
+                                    }
                                 }
-                            }
-                            break;
+                                break;
 
-                        case "Gün":
+                            case "Gün":
 
-                            if (item.LastAction.AddDays(1).ToString("d") == DateTime.Now.ToString("d"))
-                            {
-                                if (entitydb.Tasks.Where(p => p.MissonsId == item.RemiderId && p.MissonsType == "Remider").Count() == 0)
+                                if (item.lastAction.AddDays(1).ToString("d") == DateTime.Now.ToString("d"))
                                 {
-                                    entitydb.Remider.Where(p => p.RemiderId == item.RemiderId).FirstOrDefault().LastAction = DateTime.Now;
-                                    var newD = new Tasks { MissonsId = item.RemiderId, MissonsColor = "#d63384", MissonsRepeart = 5, MissonsTime = 5, MissonsType = "Remider" };
-                                    entitydb.Tasks.Add(newD);
+                                    if (entitydb.Tasks.Where(p => p.missonsId == item.remiderId && p.missonsType == "Remider").Count() == 0)
+                                    {
+                                        entitydb.Remider.Where(p => p.remiderId == item.remiderId).FirstOrDefault().lastAction = DateTime.Now;
+
+                                        var newD = new Tasks { missonsId = item.remiderId, missonsColor = "#d63384", missonsRepeart = 5, missonsTime = 5, missonsType = "Remider" };
+                                        entitydb.Remider.Where(p => p.remiderId == item.remiderId).First().status = "Run";
+                                        entitydb.Tasks.Add(newD);
+                                    }
                                 }
-                            }
-                            break;
+                                break;
 
-                        case "Hafta":
+                            case "Hafta":
 
-                            if (item.LastAction.AddDays(7).ToString("d") == DateTime.Now.ToString("d"))
-                            {
-                                if (entitydb.Tasks.Where(p => p.MissonsId == item.RemiderId && p.MissonsType == "Remider").Count() == 0)
+                                if (item.lastAction.AddDays(7).ToString("d") == DateTime.Now.ToString("d"))
                                 {
-                                    entitydb.Remider.Where(p => p.RemiderId == item.RemiderId).FirstOrDefault().LastAction = DateTime.Now;
-                                    var newD = new Tasks { MissonsId = item.RemiderId, MissonsColor = "#0d6efd", MissonsRepeart = 5, MissonsTime = 5, MissonsType = "Remider" };
-                                    entitydb.Tasks.Add(newD);
-                                }
-                            }
-                            break;
+                                    if (entitydb.Tasks.Where(p => p.missonsId == item.remiderId && p.missonsType == "Remider").Count() == 0)
+                                    {
+                                        entitydb.Remider.Where(p => p.remiderId == item.remiderId).FirstOrDefault().lastAction = DateTime.Now;
 
-                        case "Ay":
-                            if (item.LastAction.AddMonths(1).ToString("d") == DateTime.Now.ToString("d"))
-                            {
-                                if (entitydb.Tasks.Where(p => p.MissonsId == item.RemiderId && p.MissonsType == "Remider").Count() == 0)
-                                {
-                                    entitydb.Remider.Where(p => p.RemiderId == item.RemiderId).FirstOrDefault().LastAction = DateTime.Now;
-                                    var newD = new Tasks { MissonsId = item.RemiderId, MissonsColor = "#0dcaf0", MissonsRepeart = 5, MissonsTime = 5, MissonsType = "Remider" };
-                                    entitydb.Tasks.Add(newD);
+                                        var newD = new Tasks { missonsId = item.remiderId, missonsColor = "#0d6efd", missonsRepeart = 5, missonsTime = 5, missonsType = "Remider" };
+                                        entitydb.Remider.Where(p => p.remiderId == item.remiderId).First().status = "Run";
+                                        entitydb.Tasks.Add(newD);
+                                    }
                                 }
-                            }
-                            break;
+                                break;
 
-                        case "Yıl":
-                            if (item.LastAction.AddYears(1).ToString("d") == DateTime.Now.ToString("d"))
-                            {
-                                if (entitydb.Tasks.Where(p => p.MissonsId == item.RemiderId && p.MissonsType == "Remider").Count() == 0)
+                            case "Ay":
+                                if (item.lastAction.AddMonths(1).ToString("d") == DateTime.Now.ToString("d"))
                                 {
-                                    entitydb.Remider.Where(p => p.RemiderId == item.RemiderId).FirstOrDefault().LastAction = DateTime.Now;
-                                    var newD = new Tasks { MissonsId = item.RemiderId, MissonsColor = "#6610f2", MissonsRepeart = 5, MissonsTime = 5, MissonsType = "Remider" };
-                                    entitydb.Tasks.Add(newD);
+                                    if (entitydb.Tasks.Where(p => p.missonsId == item.remiderId && p.missonsType == "Remider").Count() == 0)
+                                    {
+                                        entitydb.Remider.Where(p => p.remiderId == item.remiderId).FirstOrDefault().lastAction = DateTime.Now;
+
+                                        var newD = new Tasks { missonsId = item.remiderId, missonsColor = "#0dcaf0", missonsRepeart = 5, missonsTime = 5, missonsType = "Remider" };
+                                        entitydb.Remider.Where(p => p.remiderId == item.remiderId).First().status = "Run";
+                                        entitydb.Tasks.Add(newD);
+                                    }
                                 }
-                            }
-                            break;
+                                break;
+
+                            case "Yıl":
+                                if (item.lastAction.AddYears(1).ToString("d") == DateTime.Now.ToString("d"))
+                                {
+                                    if (entitydb.Tasks.Where(p => p.missonsId == item.remiderId && p.missonsType == "Remider").Count() == 0)
+                                    {
+                                        entitydb.Remider.Where(p => p.remiderId == item.remiderId).FirstOrDefault().lastAction = DateTime.Now;
+
+                                        var newD = new Tasks { missonsId = item.remiderId, missonsColor = "#6610f2", missonsRepeart = 5, missonsTime = 5, missonsType = "Remider" };
+                                        entitydb.Remider.Where(p => p.remiderId == item.remiderId).First().status = "Run";
+                                        entitydb.Tasks.Add(newD);
+                                    }
+                                }
+                                break;
+                        }
+
+                        entitydb.SaveChanges();
                     }
-
-                    if (item.RemiderDate != DateTime.Parse("0001-01-01 00:00:00") && item.RemiderDate < DateTime.Now)
-                    {
-                        entitydb.Remider.RemoveRange(entitydb.Remider.Where(p => p.RemiderId == item.RemiderId));
-                        entitydb.Verse.Where(p => p.RelativeDesk == item.ConnectVerseId && p.SureId == item.ConnectSureId).FirstOrDefault().RemiderCheck = "false";
-                    }
-
-                    entitydb.SaveChanges();
                 }
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("SpecialFunc", ex);
             }
         }
 
         private void tasksCycler_Func()
         {
-            using (var entitydb = new AyetContext())
+            try
             {
-                while (true)
+                taskstatus = true;
+                using (var entitydb = new AyetContext())
                 {
-                    var TasksLoad = entitydb.Tasks.ToList();
-
-                    foreach (var item in TasksLoad)
+                    while (true)
                     {
-                        Thread.Sleep(5000); // 5 sn // 10 sn // 30 sn // 60 sn // 120 sn // 240 sn // Sırdaki göreve gecme süresi
-                        var dRemider = entitydb.Remider.Where(p => p.RemiderId == item.MissonsId).FirstOrDefault();
+                        var TasksLoad = entitydb.Tasks.ToList();
 
-                        if (dRemider != null)
+                        foreach (var item in TasksLoad)
                         {
-                            entitydb.Tasks.Where(p => p.MissonsId == dRemider.RemiderId).FirstOrDefault().MissonsRepeart--;
-                            if (entitydb.Tasks.Where(p => p.MissonsId == dRemider.RemiderId).FirstOrDefault().MissonsRepeart == 0) entitydb.Tasks.RemoveRange(entitydb.Tasks.Where(p => p.TasksId == item.TasksId));
-                            entitydb.SaveChanges();
+                            // 5sn sonra sıradaki göreve geç
+                            Thread.Sleep(5000); // 5 sn // 10 sn // 30 sn // 60 sn // 120 sn // 240 sn // Sırdaki göreve gecme süresi
 
-                            this.Dispatcher.Invoke(() =>
+                            var dRemider = entitydb.Remider.Where(p => p.remiderId == item.missonsId).FirstOrDefault();
+
+                            if (dRemider != null)
                             {
-                                lifeCyclerPopups.IsOpen = true;
-                                lifeCyclerPopupsText.Text = dRemider.RemiderName;
-                                lifePopupGoActionButton.Uid = dRemider.RemiderId.ToString();
-                                lifePopupGoActionButton.Tag = "Remider";
-                                if (dRemider.ConnectSureId == 0) lifePopupGoDobuleActionButton.Visibility = Visibility.Collapsed;
-                                else
+                                entitydb.Tasks.Where(p => p.missonsId == dRemider.remiderId).First().missonsRepeart--;
+
+                                if (entitydb.Tasks.Where(p => p.missonsId == dRemider.remiderId).First().missonsRepeart == 0) entitydb.Tasks.RemoveRange(entitydb.Tasks.Where(p => p.tasksId == item.tasksId));
+
+                                entitydb.SaveChanges();
+
+                                this.Dispatcher.Invoke(() =>
                                 {
-                                    lifePopupGoDobuleActionButton.Visibility = Visibility.Visible;
-                                    lifeCyclerPopupsTxtStck.Width = 230;
-                                    lifeCyclerPopupsActStck.Width = 80;
-                                    lifePopupGoDobuleActionButton.Uid = dRemider.RemiderId.ToString();
-                                }
-                                lifeCyclerPopupBorder.Background = (SolidColorBrush)new BrushConverter().ConvertFrom(item.MissonsColor);
-                            });
+                                    lifeCyclerPopups.IsOpen = true;
 
-                            Thread.Sleep(10000); // 5 sn // 10 sn // 30 sn // 60 sn // 120 sn // 240 sn // Ekranda bekleme süresi
+                                    lifeCyclerPopupsText.Text = dRemider.remiderName;
+                                    lifePopupGoActionButton.Uid = dRemider.remiderId.ToString();
+                                    lifePopupGoActionButton.Tag = "Remider";
+                                    if (dRemider.connectSureId == 0)
+                                    {
+                                        lifePopupGoDobuleActionButton.Visibility = Visibility.Hidden;
+                                    }
+                                    else
+                                    {
+                                        lifePopupGoDobuleActionButton.Visibility = Visibility.Visible;
+                                        lifePopupGoDobuleActionButton.Uid = dRemider.remiderId.ToString();
+                                    }
 
-                            this.Dispatcher.Invoke(() =>
-                            {
-                                lifeCyclerPopups.IsOpen = false;
-                                lifeCyclerPopupsText.Text = "";
-                                lifePopupGoActionButton.Uid = "";
-                                lifePopupGoActionButton.Tag = "";
-                            });
+                                    lifeCyclerPopupBorder.Background = new BrushConverter().ConvertFrom(item.missonsColor) as SolidColorBrush;
+                                });
+
+                                // Missiontime * 10000 -> Mission time 5 -> 5*10000 = 50000mm -> 50 sn
+                                Thread.Sleep(item.missonsTime * 10000); // 5 sn // 10 sn // 30 sn // 60 sn // 120 sn // 240 sn // Ekranda bekleme süresi
+
+                                this.Dispatcher.Invoke(() =>
+                                {
+                                    lifeCyclerPopups.IsOpen = false;
+                                    lifeCyclerPopupsText.Text = "";
+                                    lifePopupGoActionButton.Uid = "";
+                                    lifePopupGoActionButton.Tag = "";
+                                });
+                            }
+                        }
+                        if (TasksLoad.Count == 0)
+                        {
+                            taskstatus = false;
+                            break;
                         }
                     }
-                    if (TasksLoad.Count == 0) break;
                 }
             }
-        }
-
-        private void enterFullScreenIcon_Click(object sender, RoutedEventArgs e)
-        {
-            leftHeaderButtonsProfile.Style = (Style)FindResource("hmwnd_leftHeaderButtonsActive");
-            leftHeaderButtonsProfileIcon.Style = (Style)FindResource("IconFontHidden");
-            hmwnd_headerH1.Style = (Style)FindResource("hmwnd_leftHeaderTexth1Active");
-            hmwnd_headerH2.Style = (Style)FindResource("hmwnd_leftHeaderTexth2Active");
-            hmwd_profileImage.Style = (Style)FindResource("hmwnd_leftHeaderImageActive");
-
-            foreach (var tb in menuButton.Children.OfType<Button>())
+            catch (Exception ex)
             {
-                tb.Style = (Style)FindResource("hmwnd_menuButtonActive");
+                App.logWriter("SpecialFunc", ex);
             }
-
-            enterFullScreenIcon.Visibility = Visibility.Collapsed;
-            exitFullScreenIcon.Visibility = Visibility.Visible;
         }
 
-        private void exitFullScreenIcon_Click(object sender, RoutedEventArgs e)
+        private void welcoming()
         {
-            leftHeaderButtonsProfile.Style = (Style)FindResource("hmwnd_leftHeaderButtons");
-            leftHeaderButtonsProfileIcon.Style = null;
-            hmwnd_headerH1.Style = (Style)FindResource("hmwnd_leftHeaderTexth1");
-            hmwnd_headerH2.Style = (Style)FindResource("hmwnd_leftHeaderTexth2");
-            hmwd_profileImage.Style = (Style)FindResource("hmwnd_leftHeaderImageActive");
-
-            foreach (var tb in menuButton.Children.OfType<Button>())
+            try
             {
-                tb.Style = (Style)FindResource("hmwnd_menuButton");
+                using (var entitydb = new AyetContext())
+                {
+                    var user = entitydb.Users.FirstOrDefault();
+
+                    this.Dispatcher.Invoke(() => hmwd_profileName.Text = user.firstName + " " + user.lastName);
+
+                    this.Dispatcher.Invoke(() => hmwd_profileImageBrush.ImageSource = (ImageSource)FindResource(user.avatarUrl));
+                }
+
+                int i = DateTime.Now.Hour;
+
+                this.Dispatcher.Invoke(() =>
+                {
+                    if (i >= 0 && i <= 7) hmwnd_headerH2.Text = "İyi Geceler";
+                    if (i > 7 && i <= 11) hmwnd_headerH2.Text = "İyi Sabahlar";
+                    if (i > 11 && i <= 18) hmwnd_headerH2.Text = "İyi Günler";
+                    if (i > 18 && i <= 24) hmwnd_headerH2.Text = "İyi Akşamlar";
+                });
             }
-
-            enterFullScreenIcon.Visibility = Visibility.Visible;
-            exitFullScreenIcon.Visibility = Visibility.Collapsed;
+            catch (Exception ex)
+            {
+                App.logWriter("SpecialFunc", ex);
+            }
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
+        public void navigationWriter(string baseicon, string location)
         {
-            configTask = new Task(config_Func);
-            configTask.Start();
+            try
+            {
+                this.Dispatcher.Invoke(() =>
+                {
+                    NavigationStackItems.Children.Clear();
 
-            configTask.Wait();
+                    switch (baseicon)
+                    {
+                        case "home":
+                            baseNavigation.Tag = "/resource/images/icon/dashboard_r.png";
+                            break;
 
-            lifeCyclesTask = new Task(tasksCycler_Func);
-            lifeCyclesTask.Start();
+                        case "verse":
+                            baseNavigation.Tag = "/resource/images/icon/verse_r.png";
+                            break;
 
-            App.locationTxt.Text = "AnaSayfa";
+                        case "subject":
+                            baseNavigation.Tag = "/resource/images/icon/subject_r.png";
+                            break;
 
-            //App.mainframe.Content = new Pages.VerseF.versesFrame(App.currentVersesPageD[0], App.currentVersesPageD[1], "Hepsi");
+                        case "library":
+                            baseNavigation.Tag = "/resource/images/icon/library_r.png";
+                            break;
 
-            // App.mainframe.Content = new Pages.VerseF.verseFrame(1, 1, "Other");
+                        case "notes":
+                            baseNavigation.Tag = "/resource/images/icon/notes_r.png";
+                            break;
 
-            // App.mainframe.Content = new Pages.SubjectF.SubjectFrame();
+                        case "remider":
+                            baseNavigation.Tag = "/resource/images/icon/remider_r.png";
+                            break;
 
-            // App.mainframe.Content = new SubjectItemsFrame();
+                        case "result":
+                            baseNavigation.Tag = "/resource/images/icon/result_r.png";
+                            break;
 
-            // App.mainframe.Content = new Pages.SubjectF.SubjectFrame();
+                        case "help":
+                            baseNavigation.Tag = "/resource/images/icon/help_r.png";
+                            break;
 
-            // App.mainframe.Content = new Pages.SubjectF.SubjectItemFrame(13, "Fâtiha Suresinin 1 Ayeti", "Meltdown", "31.08.2022 19:54:27", (SolidColorBrush)new BrushConverter().ConvertFrom("#FFFFC107"));
+                        default:
+                            baseNavigation.Tag = "/resource/images/icon/dashboard_r.png";
+                            break;
+                    }
 
-            //App.mainframe.Content = new Pages.LibraryF.libraryFrame();
+                    if (location != "")
+                    {
+                        var locations = location.Split(",");
 
-            // App.mainframe.Content = new Pages.LibraryF.libraryFileItemsFrame();
+                        foreach (var item in locations)
+                        {
+                            var sp_btn = new Button();
+                            var lc_txb = new TextBlock();
+                            sp_btn.Style = (Style)FindResource("navigationSperator");
+                            lc_txb.Style = (Style)FindResource("navigationLocationText");
 
-            // App.mainframe.Content = new Pages.LibraryF.libraryPublisherItemsFrame();
+                            lc_txb.Text = item.ToString();
 
-            // App.mainframe.Content = new Pages.LibraryF.libraryOpenFile();
-
-            // App.mainframe.Content = new Pages.LibraryF.libraryNote();
-
-            // App.mainframe.Content = new Pages.NoteF.NotesFrame();
-
-            // App.mainframe.Content = new Pages.NoteF.NoteItem(61);
-
-            // App.mainframe.Content = new Pages.ReminderF.RemiderFrame();
-
-            // App.mainframe.Content = new Pages.ResultF.ResultFrame();
-
-            App.mainframe.Content = new Pages.ResultF.ResultItem(1);
-
-            resultScreen rssc = new resultScreen(1);
-            rssc.Show();
+                            NavigationStackItems.Children.Add(sp_btn);
+                            NavigationStackItems.Children.Add(lc_txb);
+                        }
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("SpecialFunc", ex);
+            }
         }
+
+        public void menuTask(CheckBox navCheckBox)
+        {
+            try
+            {
+                if (this.Dispatcher.Invoke(() => App.mainframe.Content.ToString().Split('.').Last() == "verseFrame"))
+                {
+                    // eğer verseFrame de isem çalış
+
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        foreach (object item in hmwnd_leftNavControlStack.Children)
+                        {
+                            CheckBox? element = (item as FrameworkElement) as CheckBox;
+                            element.IsChecked = false;
+                        }
+                        specialNav.IsChecked = true;
+                    });
+
+                    if (this.Dispatcher.Invoke(() => App.navVersePage.markButton.IsChecked == true))
+                    {
+                        // Verseframede işaretlemiş isem çalış
+
+                        switch (this.Dispatcher.Invoke(() => navCheckBox.Content))
+                        {
+                            case "AnaSayfa":
+                                this.Dispatcher.Invoke(() =>
+                                {
+                                    navClear();
+                                    navCheckBox.IsChecked = true;
+
+                                    App.mainframe.Content = App.navHomeFrame.PageCall();
+                                });
+
+                                break;
+
+                            case "Ayetler":
+                                this.Dispatcher.Invoke(() =>
+                                {
+                                    navClear();
+                                    navCheckBox.IsChecked = true;
+                                    App.currentDesktype = "DeskLanding";
+                                    App.mainframe.Content = App.navSurePage.PageCall();
+                                });
+
+                                break;
+
+                            case "Konularım":
+                                this.Dispatcher.Invoke(() =>
+                                {
+                                    navClear();
+                                    navCheckBox.IsChecked = true;
+                                    App.mainframe.Content = App.navSubjectFrame.PageCall();
+                                });
+                                break;
+
+                            case "Kütüphane":
+                                this.Dispatcher.Invoke(() =>
+                                {
+                                    navClear();
+                                    navCheckBox.IsChecked = true;
+                                    App.mainframe.Content = App.navLibraryOpen.PageCall();
+                                });
+                                break;
+
+                            case "Notlar":
+                                this.Dispatcher.Invoke(() =>
+                                {
+                                    navClear();
+                                    navCheckBox.IsChecked = true;
+                                    App.mainframe.Content = App.navNotesPage.PageCall();
+                                });
+                                break;
+
+                            case "Hatırlatıcı":
+                                this.Dispatcher.Invoke(() =>
+                                {
+                                    navClear();
+                                    navCheckBox.IsChecked = true;
+                                    App.mainframe.Content = App.navRemiderPage.PageCall();
+                                });
+                                break;
+
+                            case "Sonuc":
+                                this.Dispatcher.Invoke(() =>
+                                {
+                                    navClear();
+                                    navCheckBox.IsChecked = true;
+                                    App.mainframe.Content = App.navResultPage.PageCall();
+                                });
+                                break;
+
+                            default:
+                                this.Dispatcher.Invoke(() =>
+                                {
+                                    navClear();
+                                    navCheckBox.IsChecked = true;
+                                    App.mainframe.Content = App.navTestPage;
+                                });
+                                break;
+                        }
+                    }
+                    else this.Dispatcher.Invoke(() => popup_fastExitConfirm.IsOpen = true);
+                    // Eğer işaretlenmemiş ise popup aç
+                }
+                else
+                {
+                    // eğer verseFramede değilsem normal çalış
+
+                    switch (this.Dispatcher.Invoke(() => navCheckBox.Content))
+                    {
+                        case "AnaSayfa":
+                            this.Dispatcher.Invoke(() =>
+                            {
+                                navClear();
+                                navCheckBox.IsChecked = true;
+                                App.mainframe.Content = App.navHomeFrame.PageCall();
+                            });
+
+                            break;
+
+                        case "Ayetler":
+                            this.Dispatcher.Invoke(() =>
+                            {
+                                navClear();
+                                navCheckBox.IsChecked = true;
+                                App.currentDesktype = "DeskLanding";
+                                App.mainframe.Content = App.navSurePage.PageCall();
+                            });
+
+                            break;
+
+                        case "Konularım":
+                            this.Dispatcher.Invoke(() =>
+                            {
+                                navClear();
+                                navCheckBox.IsChecked = true;
+                                App.mainframe.Content = App.navSubjectFrame.PageCall();
+                            });
+                            break;
+
+                        case "Kütüphane":
+                            this.Dispatcher.Invoke(() =>
+                            {
+                                navClear();
+                                navCheckBox.IsChecked = true;
+                                App.mainframe.Content = App.navLibraryOpen.PageCall();
+                            });
+                            break;
+
+                        case "Notlar":
+                            this.Dispatcher.Invoke(() =>
+                            {
+                                navClear();
+                                navCheckBox.IsChecked = true;
+                                App.mainframe.Content = App.navNotesPage.PageCall();
+                            });
+                            break;
+
+                        case "Hatırlatıcı":
+                            this.Dispatcher.Invoke(() =>
+                            {
+                                navClear();
+                                navCheckBox.IsChecked = true;
+                                App.mainframe.Content = App.navRemiderPage.PageCall();
+                            });
+                            break;
+
+                        case "Sonuc":
+                            this.Dispatcher.Invoke(() =>
+                            {
+                                navClear();
+                                navCheckBox.IsChecked = true;
+                                App.mainframe.Content = App.navResultPage.PageCall();
+                            });
+                            break;
+
+                        default:
+                            this.Dispatcher.Invoke(() =>
+                            {
+                                navClear();
+                                navCheckBox.IsChecked = true;
+                                App.mainframe.Content = App.navTestPage;
+                            });
+                            break;
+                    }
+                    Thread.Sleep(500);
+                }
+
+                this.Dispatcher.Invoke(() =>
+                {
+                    loadinGifContent.Visibility = Visibility.Hidden;
+                    rightPanel.Visibility = Visibility.Visible;
+                });
+
+                GC.Collect();
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("ClickFunc", ex);
+            }
+        }
+
+        public void navClear()
+        {
+            try
+            {
+                this.Dispatcher.Invoke(() =>
+                {
+                    loadinGifContent.Visibility = Visibility.Visible;
+                    rightPanel.Visibility = Visibility.Hidden;
+                    foreach (object item in hmwnd_leftNavControlStack.Children)
+                    {
+                        CheckBox? element = (item as FrameworkElement) as CheckBox;
+                        element.IsChecked = false;
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Loaded", ex);
+            }
+        }
+
+        // ------------ Special Func  ------------ //
+
+        // ------------ Click Func  ------------  //
 
         private void appClosed_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            try
+            {
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Click", ex);
+            }
         }
 
-        private void navEnter_Click(object sender, RoutedEventArgs e)
+        private void menuNavControl_Click(object sender, RoutedEventArgs e)
         {
-            var btn_nav = sender as Button;
-
-            foreach (object item in menuButton.Children)
+            try
             {
+                navCheckBox = sender as CheckBox;
+                App.loadTask = Task.Run(() => menuTask(navCheckBox));
             }
-
-            switch (btn_nav.Uid)
+            catch (Exception ex)
             {
-                case "nav_verses":
-                    App.currentDesktype = "DeskLanding";
-                    App.mainframe.Content = new Pages.VerseF.versesFrame(1, 0, "Hepsi");
-                    break;
-
-                case "nav_subject":
-                    App.mainframe.Content = new Pages.SubjectF.SubjectFrame();
-                    break;
-
-                case "nav_library":
-                    App.mainframe.Content = new Pages.LibraryF.libraryFrame();
-                    break;
-
-                case "nav_notes":
-                    App.mainframe.Content = new Pages.NoteF.NotesFrame();
-                    break;
-
-                case "nav_reminder":
-                    App.mainframe.Content = new Pages.ReminderF.RemiderFrame();
-                    break;
-
-                case "nav_result":
-                    App.mainframe.Content = new Pages.ResultF.ResultFrame();
-                    break;
-
-                default:
-                    App.mainframe.Content = new TestFrame();
-
-                    break;
+                App.logWriter("Click", ex);
             }
         }
 
         private void adminOpen_Click(object sender, RoutedEventArgs e)
         {
-            AdminScreen adm = new AdminScreen();
-            adm.Show();
+            try
+            {
+                AdminPanel ad = new AdminPanel();
+                ad.Show();
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Click", ex);
+            }
         }
 
         private void popupAction_Click(object sender, RoutedEventArgs e)
         {
-            var btn = sender as Button;
-
-            using (var entitydb = new AyetContext())
+            try
             {
-                var dRemider = entitydb.Remider.Where(p => p.RemiderId == int.Parse(btn.Uid)).FirstOrDefault();
-                if (dRemider != null && dRemider.ConnectSureId != 0) App.mainframe.Content = new Pages.ReminderF.RemiderItem(dRemider.RemiderId);
-                lifeCyclerPopups.IsOpen = false;
+                var btn = sender as Button;
+
+                using (var entitydb = new AyetContext())
+                {
+                    var dRemider = entitydb.Remider.Where(p => p.remiderId == int.Parse(btn.Uid)).FirstOrDefault();
+
+                    if (dRemider != null) App.mainframe.Content = App.navRemiderItem.PageCall(dRemider.remiderId);
+
+                    lifeCyclerPopups.IsOpen = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Click", ex);
             }
         }
 
         private void popupActionDouble_Click(object sender, RoutedEventArgs e)
         {
-            var btn = sender as Button;
-
-            using (var entitydb = new AyetContext())
+            try
             {
-                var dRemider = entitydb.Remider.Where(p => p.RemiderId == int.Parse(btn.Uid)).FirstOrDefault();
-                if (dRemider != null && dRemider.ConnectSureId != 0) App.mainframe.Content = new Pages.VerseF.verseFrame(dRemider.ConnectSureId, dRemider.ConnectVerseId, "Remider");
+                var btn = sender as Button;
+
+                using (var entitydb = new AyetContext())
+                {
+                    var dRemider = entitydb.Remider.Where(p => p.remiderId == int.Parse(btn.Uid)).FirstOrDefault();
+
+                    if (dRemider != null && dRemider.connectSureId != 0) App.mainframe.Content = App.navVersePage.PageCall(dRemider.connectSureId, dRemider.connectVerseId, "Remider");
+
+                    lifeCyclerPopups.IsOpen = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Click", ex);
+            }
+        }
+
+        private void popupExit_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
                 lifeCyclerPopups.IsOpen = false;
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Click", ex);
+            }
+        }
+
+        private void hmwnd_sizeControl_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                CheckBox? cb = sender as CheckBox;
+
+                if (cb.IsChecked == false)
+                {
+                    foreach (object item in hmwnd_leftNavControlStack.Children)
+                    {
+                        var element = (item as FrameworkElement) as CheckBox;
+                        element.SetValue(Extensions.ExtendsStatus, false);
+                        leftHeaderButtonsProfile.SetValue(Extensions.ExtendsStatus, false);
+                    }
+                }
+                else
+                {
+                    foreach (object item in hmwnd_leftNavControlStack.Children)
+                    {
+                        var element = (item as FrameworkElement) as CheckBox;
+                        element.SetValue(Extensions.ExtendsStatus, true);
+                        leftHeaderButtonsProfile.SetValue(Extensions.ExtendsStatus, true);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Click", ex);
+            }
+        }
+
+        private void fastexitBtn_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                popup_fastExitConfirm.IsOpen = false;
+
+                switch (navCheckBox.Content)
+                {
+                    case "AnaSayfa":
+                        this.Dispatcher.Invoke(() =>
+                        {
+                            navClear();
+                            navCheckBox.IsChecked = true;
+                            App.mainframe.Content = App.navHomeFrame.PageCall();
+                        });
+
+                        break;
+
+                    case "Ayetler":
+                        this.Dispatcher.Invoke(() =>
+                        {
+                            navClear();
+
+                            navCheckBox.IsChecked = true;
+                            App.currentDesktype = "DeskLanding";
+                            App.mainframe.Content = App.navSurePage.PageCall();
+                        });
+                        break;
+
+                    case "Konularım":
+                        this.Dispatcher.Invoke(() =>
+                        {
+                            navClear();
+
+                            navCheckBox.IsChecked = true;
+                            App.mainframe.Content = App.navSubjectFrame.PageCall();
+                        });
+                        break;
+
+                    case "Kütüphane":
+                        this.Dispatcher.Invoke(() =>
+                        {
+                            navClear();
+                            navCheckBox.IsChecked = true;
+                            App.mainframe.Content = App.navLibraryOpen.PageCall();
+                        });
+                        break;
+
+                    case "Notlar":
+                        this.Dispatcher.Invoke(() =>
+                        {
+                            navClear();
+                            navCheckBox.IsChecked = true;
+
+                            App.mainframe.Content = App.navNotesPage.PageCall();
+                        });
+                        break;
+
+                    case "Hatırlatıcı":
+                        this.Dispatcher.Invoke(() =>
+                        {
+                            navClear();
+                            navCheckBox.IsChecked = true;
+
+                            App.mainframe.Content = App.navRemiderPage.PageCall();
+                        });
+                        break;
+
+                    case "Sonuc":
+                        this.Dispatcher.Invoke(() =>
+                        {
+                            navClear();
+                            navCheckBox.IsChecked = true;
+
+                            App.mainframe.Content = App.navResultPage.PageCall();
+                        });
+                        break;
+
+                    default:
+                        this.Dispatcher.Invoke(() =>
+                        {
+                            navClear();
+                            navCheckBox.IsChecked = true;
+
+                            App.mainframe.Content = App.navTestPage;
+                        });
+                        break;
+                }
+
+                GC.Collect();
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Click", ex);
+            }
+        }
+
+        private void popupClosed_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var btntemp = sender as Button;
+                var popuptemp = (Popup)FindName(btntemp.Uid);
+                popuptemp.IsOpen = false;
+                btntemp = null;
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Click", ex);
+            }
+        }
+
+        private void leftHeaderButtonsProfile_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                this.Dispatcher.Invoke(() =>
+                {
+                    App.mainframe.Content = App.navUserFrame.PageCall();
+                });
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Click", ex);
+            }
+        }
+
+        // ------------ Click Func  ------------  //
+
+        public void alertFunc(string header, string detail, int timespan)
+        {
+            try
+            {
+                alertPopupHeader.Text = header;
+                alertPopupDetail.Text = detail;
+                alph.IsOpen = true;
+
+                App.timeSpan.Interval = TimeSpan.FromSeconds(timespan);
+                App.timeSpan.Start();
+                App.timeSpan.Tick += delegate
+                {
+                    alph.IsOpen = false;
+                    App.timeSpan.Stop();
+                };
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Message", ex);
+            }
+        }
+
+        public void succsessFunc(string header, string detail, int timespan)
+        {
+            try
+            {
+                successPopupHeader.Text = header;
+                successPopupDetail.Text = detail;
+                scph.IsOpen = true;
+
+                App.timeSpan.Interval = TimeSpan.FromSeconds(timespan);
+                App.timeSpan.Start();
+                App.timeSpan.Tick += delegate
+                {
+                    scph.IsOpen = false;
+                    App.timeSpan.Stop();
+                };
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Message", ex);
+            }
+        }
+
+        public void infoFunc(string header, string detail, int timespan)
+        {
+            try
+            {
+                infoPopupHeader.Text = header;
+                infoPopupDetail.Text = detail;
+                inph.IsOpen = true;
+
+                App.timeSpan.Interval = TimeSpan.FromSeconds(timespan);
+                App.timeSpan.Start();
+                App.timeSpan.Tick += delegate
+                {
+                    inph.IsOpen = false;
+                    App.timeSpan.Stop();
+                };
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Other", ex);
             }
         }
     }

@@ -8,17 +8,16 @@ namespace KuranX.App.Core.Classes
 {
     public class Remider
     {
-        public int RemiderId { get; set; }
-        public string RemiderName { get; set; }
-        public string RemiderDetail { get; set; }
-        public string LoopType { get; set; }
-        public string Status { get; set; }
-
-        public DateTime RemiderDate { get; set; }
-        public DateTime Create { get; set; } = DateTime.Now;
-        public DateTime LastAction { get; set; } = DateTime.Now;
-        public int ConnectVerseId { get; set; }
-        public int ConnectSureId { get; set; }
-        public int Priority { get; set; }
+        public int remiderId { get; set; }
+        public string remiderName { get; set; } = "Default";
+        public string remiderDetail { get; set; } = "Default";
+        public string loopType { get; set; } = "Default";
+        public string status { get; set; } = "Default";
+        public DateTime remiderDate { get; set; }
+        public DateTime create { get; set; } = DateTime.Now;
+        public DateTime lastAction { get; set; } = DateTime.Now;
+        public int connectVerseId { get; set; } = 0;
+        public int connectSureId { get; set; } = 0;
+        public int priority { get; set; } = 0;
     }
 }

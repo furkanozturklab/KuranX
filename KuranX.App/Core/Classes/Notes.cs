@@ -8,19 +8,17 @@ namespace KuranX.App.Core.Classes
 {
     public class Notes
     {
-        public int NotesId { get; set; }
-        public int? VerseId { get; set; }
-        public int? SureId { get; set; }
-        public int? SubjectId { get; set; }
-        public int? PdfFileId { get; set; }
-        public int? PdfPageId { get; set; }
-        public int? LibraryId { get; set; }
-        public string? NoteHeader { get; set; }
-        public string? NoteDetail { get; set; }
-        public string? NoteLocation { get; set; }
-        public string? NoteStatus { get; set; }
+        public int notesId { get; set; }
+        public int verseId { get; set; } = 0;
+        public int sureId { get; set; } = 0;
+        public int subjectId { get; set; } = 0;
+        public int pdfFileId { get; set; } = 0;
+        public int libraryId { get; set; } = 0;
+        public string noteHeader { get; set; } = "Default";
+        public string noteDetail { get; set; } = "Default";
+        public string noteLocation { get; set; } = "Default";
 
-        public DateTime Created { get; set; } = DateTime.Now;
-        public DateTime Modify { get; set; } = DateTime.Now;
+        public DateTime created { get; set; } = DateTime.Now;
+        public DateTime modify { get; set; } = DateTime.Now;
     }
 }
