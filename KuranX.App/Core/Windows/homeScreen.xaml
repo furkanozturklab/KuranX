@@ -16,35 +16,43 @@
 
         <!-- POPUP -->
 
-        <Popup x:Name="popup_fastExitConfirm" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="380" Height="220" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
-
-            <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="360" Height="200">
+        <Popup x:Name="pp_moveBar" IsOpen="False" Placement="RelativePoint" AllowsTransparency="True" Width="470" Height="90" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade" HorizontalOffset="543" VerticalOffset="10">
+            <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="450" Height="70">
                 <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="50" />
-                        <RowDefinition Height="150" />
-                    </Grid.RowDefinitions>
-                    <Border  Grid.Row="0" Style="{DynamicResource pp_BorderHeader}">
-                        <TextBlock Text="İşaretleme Yapılmadı" Style="{DynamicResource pp_HeaderText}" />
-                    </Border>
-                    <Grid Grid.Row="1">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="50" />
-                        </Grid.RowDefinitions>
-                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Width="340" Grid.Row="0">
-                            <TextBlock Text="Kaldığınız yeri işaretlemediniz &#x0a; çıkmak istediğinize emin misiniz  ? " TextAlignment="Center" FontFamily="{DynamicResource PoppinsMedium}" FontSize="14" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                        </StackPanel>
-                        <Grid Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-
-                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="0">
-                                <Button x:Name="fastexitBtn" Style="{DynamicResource pp_DefaultButtonBstrp}" Tag="Check2" Content="Çık" HorizontalAlignment="Center" Click="fastexitBtn_Click" />
-                                <Button  Style="{DynamicResource pp_DefaultButtonClosed}" Tag="CloseBig" Content="Vazgeç" Uid="popup_fastExitConfirm" HorizontalAlignment="Center" Click="popupClosed_Click" />
-                            </StackPanel>
-                        </Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="150" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid Margin="5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Column="0" Tag="CellularMD" x:Name="pp_M1" Style="{DynamicResource pp_moveWindowIcon}" Click="ppMoveActionOfset_Click" Uid="UpLeft" RenderTransformOrigin="0.5,0.5">
+                            <Button.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform />
+                                    <SkewTransform />
+                                    <RotateTransform Angle="180" />
+                                    <TranslateTransform />
+                                </TransformGroup>
+                            </Button.RenderTransform>
+                        </Button>
+                        <Button Grid.Column="1" Tag="RefreshMD" x:Name="pp_M2" Style="{DynamicResource pp_moveWindowIcon}" Click="ppMoveActionOfset_Click" Uid="Reset" />
+                        <Button Grid.Column="2" Tag="CloseMD" x:Name="pp_M3" Style="{DynamicResource pp_moveWindowIcon}" Click="ppMoveActionOfset_Click" Uid="Close" />
+                    </Grid>
+                    <Grid Grid.Column="1" Margin="10 15">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Column="0" Tag="ArrowBackiOS" x:Name="pp_M4" Style="{DynamicResource pp_moveWindowIcon}" Click="ppMoveActionOfset_Click" Uid="Left" />
+                        <Button Grid.Column="1" Tag="ArrowUpiOS"  x:Name="pp_M5" Style="{DynamicResource pp_moveWindowIcon}" Click="ppMoveActionOfset_Click"  Uid="Top" />
+                        <Button Grid.Column="2" Tag="ArrowDowniOS" x:Name="pp_M6" Style="{DynamicResource pp_moveWindowIcon}" Click="ppMoveActionOfset_Click" Uid="Bottom" />
+                        <Button Grid.Column="3" Tag="ArrowForwardiOS" x:Name="pp_M7" Style="{DynamicResource pp_moveWindowIcon}" Click="ppMoveActionOfset_Click" Uid="Right" />
                     </Grid>
                 </Grid>
             </Border>
@@ -52,7 +60,7 @@
 
         <!-- POPUP -->
 
-        <Border x:Name="leftgg" Grid.Column="0" Width="250" BorderThickness="0 0 1 0 " BorderBrush="#E1E3E6">
+        <Border x:Name="leftgg" Grid.Column="0" Width="250" BorderThickness="0 0 1 0 " BorderBrush="{DynamicResource Base.BorderBrush.Default}" Background="{DynamicResource Base.Panel.Left}">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="250" />
@@ -124,7 +132,7 @@
                                     <ImageBrush x:Uid="" x:Name="hmwd_profileImageBrush" RenderOptions.BitmapScalingMode="HighQuality" ImageSource="/resource/images/other/defaultProfileImage.png" />
                                 </Ellipse.Fill>
                             </Ellipse>
-                            <TextBlock x:Name="hmwd_profileName" Style="{DynamicResource ResourceKey=hmwnd_leftHeaderImageText}" Text="Meltdown Öztürk" />
+                            <TextBlock x:Name="hmwd_profileName" Style="{DynamicResource hmwnd_leftHeaderImageText}" Text="Meltdown Öztürk" />
                         </StackPanel>
 
                         <StackPanel Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Center">
@@ -139,7 +147,7 @@
 
                 <Border Grid.Row="1" Padding="20 10 20 10">
                     <StackPanel x:Name="hmwnd_leftNavControlStack"  Orientation="Vertical" Margin="5 0 0 0">
-                        <CheckBox IsChecked="False" Tag="/resource/images/icon/dashboard_rb.png" Uid="/resource/images/icon/dashboard_r.png" IsEnabled="True" Content="AnaSayfa" Style="{DynamicResource hmwnd_menuItems}" Click="menuNavControl_Click" extension:Extensions.ExtendsStatus="false" />
+                        <CheckBox x:Name="homeNav" IsChecked="False" Tag="/resource/images/icon/dashboard_rb.png" Uid="/resource/images/icon/dashboard_r.png" IsEnabled="True" Content="AnaSayfa" Style="{DynamicResource hmwnd_menuItems}" Click="menuNavControl_Click" extension:Extensions.ExtendsStatus="false" />
                         <CheckBox x:Name="specialNav" IsChecked="False" Tag="/resource/images/icon/verse_rb.png" Uid="/resource/images/icon/verse_r.png" IsEnabled="True" Content="Ayetler" Style="{DynamicResource hmwnd_menuItems}"  Click="menuNavControl_Click" extension:Extensions.ExtendsStatus="false" />
                         <CheckBox IsChecked="False" Tag="/resource/images/icon/subject_rb.png" Uid="/resource/images/icon/subject_r.png" IsEnabled="True" Content="Konularım" Style="{DynamicResource hmwnd_menuItems}"  Click="menuNavControl_Click" extension:Extensions.ExtendsStatus="false" />
                         <CheckBox IsChecked="False" Tag="/resource/images/icon/library_rb.png" Uid="/resource/images/icon/library_r.png" IsEnabled="True" Content="Kütüphane" Style="{DynamicResource hmwnd_menuItems}"  Click="menuNavControl_Click" extension:Extensions.ExtendsStatus="false" />
@@ -158,13 +166,14 @@
                         </Grid.RowDefinitions>
 
                         <StackPanel Grid.Row="0" Orientation="Horizontal"  VerticalAlignment="Center" HorizontalAlignment="Center">
-                            <Button Style="{DynamicResource hmwnd_leftSetting}" ToolTip="Ayarlar Menüsü" />
-                            <Button Style="{DynamicResource hmwnd_leftFeed}" ToolTip="Geri Bildirim" />
+                            <Button Style="{DynamicResource hmwnd_leftSetting}" Click="settings_Click" ToolTip="Ayarlar Menüsü" />
+                            <Button Style="{DynamicResource hmwnd_leftFeed}" ToolTip="Geri Bildirim" Click="contact_Click" />
                             <Button Style="{DynamicResource hmwnd_leftAdmin}" Click="adminOpen_Click" Visibility="Visible" />
+                            <Button Style="{DynamicResource hmwnd_leftExit}" Click="userExit_Click" Visibility="Visible" />
                         </StackPanel>
 
                         <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
-                            <TextBlock  Text="Version 0.2.0" Style="{DynamicResource hmwnd_leftVersionText}" />
+                            <TextBlock x:Name="AppVersion"  Text="Version 0.2.0" Style="{DynamicResource hmwnd_leftVersionText}" />
                         </StackPanel>
                     </Grid>
                 </Border>
@@ -172,6 +181,545 @@
         </Border>
 
         <Grid x:Name="rightgg"  Grid.Column="1"  Width="1116" Grid.ColumnSpan="2">
+
+            <Popup x:Name="popup_fastExitConfirm" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="380" Height="220" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+
+                <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="360" Height="200">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="50" />
+                            <RowDefinition Height="150" />
+                        </Grid.RowDefinitions>
+                        <Border  Grid.Row="0" Style="{DynamicResource pp_BorderHeader}">
+                            <TextBlock Text="İşaretleme Yapılmadı" Style="{DynamicResource pp_HeaderText}" />
+                        </Border>
+                        <Grid Grid.Row="1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="50" />
+                            </Grid.RowDefinitions>
+                            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Width="340" Grid.Row="0">
+                                <TextBlock Text="Kaldığınız yeri işaretlemediniz &#x0a; çıkmak istediğinize emin misiniz  ? " TextAlignment="Center" FontFamily="{DynamicResource PoppinsMedium}" FontSize="14" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </StackPanel>
+                            <Grid Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="0">
+                                    <Button x:Name="fastexitBtn" Style="{DynamicResource pp_DefaultButtonBstrp}" Tag="Check2" Content="Çık" HorizontalAlignment="Center" Click="fastexitBtn_Click" />
+                                    <Button  Style="{DynamicResource pp_DefaultButtonClosed}" Tag="CloseBig" Content="Vazgeç" Uid="popup_fastExitConfirm" HorizontalAlignment="Center" Click="popupClosed_Click" />
+                                </StackPanel>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </Border>
+            </Popup>
+
+            <Popup x:Name="popup_editImage" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="400" Height="220" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+                <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="380" Height="200">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="50" />
+                            <RowDefinition Height="150" />
+                        </Grid.RowDefinitions>
+                        <Border  Grid.Row="0" Style="{DynamicResource pp_BorderHeader}">
+                            <TextBlock Text="Profil Resmi Seç" Style="{DynamicResource pp_HeaderText}" />
+                        </Border>
+                        <Grid Grid.Row="1">
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="50" />
+                            </Grid.RowDefinitions>
+
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+
+                                <Button Uid="/resource/images/profile/profile_1.jpg" Tag="profile_1" Style="{DynamicResource prf_editIconBtn}" Click="changeImage_Click" />
+                                <Button Uid="/resource/images/profile/profile_2.jpg" Tag="profile_2" Style="{DynamicResource prf_editIconBtn}" Click="changeImage_Click" />
+                                <Button Uid="/resource/images/profile/profile_3.jpg" Tag="profile_3" Style="{DynamicResource prf_editIconBtn}" Click="changeImage_Click" />
+                                <Button Uid="/resource/images/profile/profile_4.jpg" Tag="profile_4" Style="{DynamicResource prf_editIconBtn}" Click="changeImage_Click" />
+                                <Button Uid="/resource/images/profile/profile_5.jpg" Tag="profile_5" Style="{DynamicResource prf_editIconBtn}" Click="changeImage_Click" />
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="1">
+                                <Button Style="{DynamicResource pp_DefaultButtonClosed}" Tag="CloseBig" Content="Vazgeç" Uid="popup_editImage" HorizontalAlignment="Center" Click="popupClosed_Click" />
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
+                </Border>
+            </Popup>
+
+            <Popup x:Name="popup_profileMain" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="620" Height="670" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+                <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="600" Height="650">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="50" />
+                            <RowDefinition Height="600" />
+                        </Grid.RowDefinitions>
+                        <Border  Grid.Row="0" Style="{DynamicResource pp_BorderHeader}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="48" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="48" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="1" Text="Profili Düzenle" Style="{DynamicResource pp_HeaderText}" />
+                                <Button Content="Move" Tag="MoveiOS" Click="popuverMove_Click" Uid="popup_profileMain" Style="{DynamicResource pp_moveBaseIcon}" Background="Transparent" />
+                            </Grid>
+                        </Border>
+                        <Grid Grid.Row="1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="50" />
+                            </Grid.RowDefinitions>
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+
+                                <Grid Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="3">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <Ellipse x:Name="pp_profileImage" Grid.Column="0" Grid.Row="0" Style="{DynamicResource prf_leftHeaderImage}" Margin="0,8,0,0">
+                                        <Ellipse.Fill>
+                                            <ImageBrush x:Uid="" x:Name="pp_profileImageBrush" RenderOptions.BitmapScalingMode="HighQuality" ImageSource="/resource/images/other/defaultProfileImage.png" />
+                                        </Ellipse.Fill>
+                                    </Ellipse>
+                                </Grid>
+
+                                <Button x:Name="prEditImage" Grid.Row="2" Grid.Column="2" Margin="15 10 10 0" Style="{DynamicResource prf_editImage}" HorizontalAlignment="Left" VerticalAlignment="Top" Click="prEditImage_Click" />
+
+                                <StackPanel Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="2" Margin="20 5 20 5">
+                                    <TextBlock Text="İsim"  Style="{DynamicResource pp_settingsHeader}" />
+                                    <Grid Margin="0 5 0 0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="32" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="32" />
+                                        </Grid.RowDefinitions>
+                                        <Button Grid.Column="0" Grid.Row="0" Tag="FormatColorText" Style="{DynamicResource pp_settingsIconBox}" />
+                                        <TextBox x:Name="userName" Style="{DynamicResource pp_settingsTextBox}" Grid.Column="1" Grid.Row="0" Text="" TextChanged="userName_TextChanged" PreviewTextInput="userName_PreviewTextInput" />
+                                    </Grid>
+                                    <Label x:Name="userNameErr" Content="* Zorunlu Alan " Style="{DynamicResource pp_settingsInfo}" />
+                                </StackPanel>
+
+                                <StackPanel Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2" Grid.RowSpan="2" Margin="20 5 20 5">
+                                    <TextBlock Text="Soy İsim"  Style="{DynamicResource pp_settingsHeader}" />
+                                    <Grid Margin="0 5 0 0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="32" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="32" />
+                                        </Grid.RowDefinitions>
+                                        <Button Grid.Column="0" Grid.Row="0" Tag="FormatColorText" Style="{DynamicResource pp_settingsIconBox}" />
+                                        <TextBox  x:Name="userLastName" Style="{DynamicResource pp_settingsTextBox}" Grid.Column="1" Grid.Row="0" Text="" PreviewTextInput="userName_PreviewTextInput" TextChanged="userLastName_TextChanged" />
+                                    </Grid>
+                                    <Label x:Name="userLastNameErr" Content="* Zorunlu Alan " Style="{DynamicResource pp_settingsInfo}" />
+                                </StackPanel>
+
+                                <StackPanel Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="2" Margin="20 5 20 5">
+                                    <TextBlock Text="Email"  Style="{DynamicResource pp_settingsHeader}" />
+                                    <Grid Margin="0 5 0 0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="32" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="32" />
+                                        </Grid.RowDefinitions>
+                                        <Button Grid.Column="0" Grid.Row="0" Tag="Email" Style="{DynamicResource pp_settingsIconBox}" />
+                                        <TextBox x:Name="userEmail" Style="{DynamicResource pp_settingsTextBox}" Grid.Column="1" Grid.Row="0" Text="" TextChanged="userEmail_TextChanged" PreviewTextInput="userEmail_PreviewTextInput" />
+                                    </Grid>
+                                    <Label x:Name="userEmailErr" Content="* Zorunlu Alan " Style="{DynamicResource pp_settingsInfo}" />
+                                </StackPanel>
+
+                                <StackPanel Grid.Row="5" Grid.Column="2" Grid.ColumnSpan="2" Grid.RowSpan="2" Margin="20 5 20 5">
+                                    <TextBlock Text="Pin"  Style="{DynamicResource pp_settingsHeader}" />
+                                    <Grid Margin="0 5 0 0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="32" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="32" />
+                                        </Grid.RowDefinitions>
+                                        <Button Grid.Column="0" Grid.Row="0" Tag="KeyVariant" Style="{DynamicResource pp_settingsIconBox}" />
+                                        <TextBox x:Name="userPin" Style="{DynamicResource pp_settingsTextBox}" Grid.Column="1" Grid.Row="0" Text="" PreviewTextInput="userPin_PreviewTextInput" TextChanged="userPin_TextChanged" />
+                                    </Grid>
+                                    <Label x:Name="userPinErr" Content="* Boş Bırakılabilir " Style="{DynamicResource pp_settingsInfo}" />
+                                </StackPanel>
+
+                                <StackPanel Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="2" Margin="20 5 20 5">
+                                    <TextBlock Text="Gizli Sorunuz"  Style="{DynamicResource pp_settingsHeader}" />
+                                    <Grid Margin="0 5 0 0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="32" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="32" />
+                                        </Grid.RowDefinitions>
+                                        <Button Grid.Column="0" Grid.Row="0" Tag="Eye" Style="{DynamicResource pp_settingsIconBox}" />
+                                        <TextBox x:Name="userScreetQuestion" Style="{DynamicResource pp_settingsTextBox}" Grid.Column="1" Grid.Row="0" Text="" PreviewTextInput="userName_PreviewTextInput" TextChanged="userScreetQuestion_TextChanged" />
+                                    </Grid>
+                                    <Label x:Name="userScreetQuestionErr" Content="* Zorunlu Alan " Style="{DynamicResource pp_settingsInfo}" />
+                                </StackPanel>
+
+                                <StackPanel Grid.Row="7" Grid.Column="2" Grid.ColumnSpan="2" Grid.RowSpan="2" Margin="20 5 20 5">
+                                    <TextBlock Text="Gizli Soru Cevabınız"  Style="{DynamicResource pp_settingsHeader}" />
+                                    <Grid Margin="0 5 0 0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="32" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="32" />
+                                        </Grid.RowDefinitions>
+                                        <Button Grid.Column="0" Grid.Row="0" Tag="Eye" Style="{DynamicResource pp_settingsIconBox}" />
+                                        <TextBox x:Name="userScreetQuestionAnw" Style="{DynamicResource pp_settingsTextBox}" Grid.Column="1" Grid.Row="0" Text="" PreviewTextInput="userName_PreviewTextInput" TextChanged="userScreetQuestionAnw_TextChanged" />
+                                    </Grid>
+                                    <Label x:Name="userScreetQuestionAnwErr" Content="* Zorunlu Alan " Style="{DynamicResource pp_settingsInfo}" />
+                                </StackPanel>
+                            </Grid>
+
+                            <Grid Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="0">
+                                    <Button x:Name="saveProfile" Style="{DynamicResource pp_DefaultButtonBstrp}" Tag="Check2" Content="Kaydet" HorizontalAlignment="Center" Click="saveProfile_Click" />
+                                    <Button  Style="{DynamicResource pp_DefaultButtonClosed}" Tag="CloseBig" Content="Vazgeç" Uid="popup_profileMain" HorizontalAlignment="Center" Click="popupClosed_Click" />
+                                </StackPanel>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </Border>
+            </Popup>
+
+            <Popup x:Name="popup_Contact" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="620" Height="670" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+
+                <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="600" Height="650">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="50" />
+                            <RowDefinition Height="600" />
+                        </Grid.RowDefinitions>
+                        <Border  Grid.Row="0" Style="{DynamicResource pp_BorderHeader}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="48" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="48" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="1" Text="İletişim" Style="{DynamicResource pp_HeaderText}" />
+                                <Button Content="Move" Tag="MoveiOS" Click="popuverMove_Click" Uid="popup_Contact" Style="{DynamicResource pp_moveBaseIcon}" Background="Transparent" />
+                            </Grid>
+                        </Border>
+                        <Grid Grid.Row="1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="50" />
+                            </Grid.RowDefinitions>
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+
+                                <Grid Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="3">
+                                    <Button Style="{DynamicResource contactHeader}" />
+                                </Grid>
+
+                                <StackPanel Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4" Grid.RowSpan="2" Margin="20 5 20 5">
+                                    <TextBlock Text="İsim Soyisim"  Style="{DynamicResource prf_editBoxText}" />
+                                    <TextBox x:Name="firstName" Style="{DynamicResource prf_DefaulTextBox}" PreviewTextInput="userName_PreviewTextInput" KeyDown="contactfirstName_KeyDown" />
+                                    <Label x:Name="nameerr" Content="* Zorunlu Alan" Style="{DynamicResource prf_editBoxErrorText}" />
+                                </StackPanel>
+
+                                <StackPanel Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="4" Grid.RowSpan="2" Margin="20 5 20 5">
+                                    <TextBlock Text="E posta"  Style="{DynamicResource prf_editBoxText}" />
+                                    <TextBox x:Name="email" Style="{DynamicResource prf_DefaulTextBox}" PreviewTextInput="userEmail_PreviewTextInput" KeyDown="contactEmail_KeyDown" />
+                                    <Label x:Name="emailerr" Content="* Zorunlu Alan" Style="{DynamicResource prf_editBoxErrorText}" />
+                                </StackPanel>
+
+                                <StackPanel Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="4" Grid.RowSpan="4" Margin="20 5 20 5">
+                                    <TextBlock Text="Mesaj"  Style="{DynamicResource prf_editBoxText}" />
+                                    <TextBox x:Name="note" Style="{DynamicResource contactDetail}" KeyDown="contactNote_KeyDown" PreviewTextInput="userName_PreviewTextInput" />
+                                    <Label x:Name="detailerr" Content="* Hangi konu hakkında konuşmak istersin ?" Style="{DynamicResource prf_editBoxErrorText}" />
+                                </StackPanel>
+                            </Grid>
+
+                            <Grid Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="0">
+                                    <Button x:Name="sendContact" Style="{DynamicResource pp_DefaultButtonSend}" Tag="SendiOS" Content="Gönder" HorizontalAlignment="Center" Click="sendBtn_Click" />
+                                    <Button  Style="{DynamicResource pp_DefaultButtonClosed}" Tag="CloseBig" Content="Vazgeç" Uid="popup_Contact" HorizontalAlignment="Center" Click="popupClosed_Click" />
+                                </StackPanel>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </Border>
+            </Popup>
+
+            <Popup x:Name="popup_settingsPage" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="820" Height="708" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+                <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="800" Height="688">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="50" />
+                            <RowDefinition Height="638" />
+                        </Grid.RowDefinitions>
+                        <Border  Grid.Row="0" Style="{DynamicResource pp_BorderHeader}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="48" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="48" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="1" Text="Program Ayarları" Style="{DynamicResource pp_HeaderText}" />
+                                <Button Content="Move" Tag="MoveiOS" Click="popuverMove_Click" Uid="popup_settingsPage" Style="{DynamicResource pp_moveBaseIcon}" Background="Transparent" />
+                            </Grid>
+                        </Border>
+                        <Grid Grid.Row="1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="50" />
+                            </Grid.RowDefinitions>
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Text="Sistem Ayarları" Grid.Row="0" Grid.Column="0"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="24" Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsMedium}" />
+
+                                <StackPanel Orientation="Vertical" VerticalAlignment="Center" Grid.Column="0" Grid.Row="1" Grid.RowSpan="2" Margin="10">
+                                    <TextBlock Text="Animasyon Süresi"  Style="{DynamicResource pp_settingsHeader}" />
+                                    <Grid Margin="0 5 0 0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="32" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="32" />
+                                        </Grid.RowDefinitions>
+
+                                        <Button Grid.Column="0" Grid.Row="0" Tag="Speedometer" Style="{DynamicResource pp_settingsIconBox}" />
+
+                                        <TextBox x:Name="st_aniSecond" Style="{DynamicResource pp_settingsTextBox}" Grid.Column="1" Grid.Row="0" Text="" PreviewTextInput="st_PreviewTextInput" />
+                                    </Grid>
+
+                                    <Label x:Name="st_aniSecondErr" Content="* Milisaniye Cinsinden ( 1000mm -> 1sn ) " Style="{DynamicResource pp_settingsInfo}" />
+                                </StackPanel>
+
+                                <StackPanel Orientation="Vertical" VerticalAlignment="Center" Grid.Column="0" Grid.Row="3" Grid.RowSpan="2" Margin="10">
+                                    <TextBlock Text="Açılış Ayarı"  Style="{DynamicResource pp_settingsHeader}" />
+                                    <Grid Margin="0 5 0 0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="32" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="32" />
+                                        </Grid.RowDefinitions>
+
+                                        <Button Grid.Column="0" Grid.Row="0" Tag="RayStartArrow" Style="{DynamicResource pp_settingsIconBox}" />
+
+                                        <ComboBox x:Name="st_start" Style="{DynamicResource settingCombobox}" Margin="0" SelectedIndex="0" Grid.Column="1" Grid.Row="0" UseLayoutRounding="True" SnapsToDevicePixels="True">
+                                            <ComboBoxItem Content="Kullanıcı Girişi" Tag="false" />
+                                            <ComboBoxItem Content="Otomatik Giriş" Tag="true" />
+                                        </ComboBox>
+                                    </Grid>
+
+                                    <Label Content="* Otomatik girişte giriş ekranı gösterilmez " Style="{DynamicResource pp_settingsInfo}" />
+                                </StackPanel>
+
+                                <StackPanel Orientation="Vertical" VerticalAlignment="Center" Grid.Column="0" Grid.Row="5" Grid.RowSpan="2" Margin="10">
+                                    <TextBlock Text="Bildirim Süresi"  Style="{DynamicResource pp_settingsHeader}" />
+                                    <Grid Margin="0 5 0 0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="32" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="32" />
+                                        </Grid.RowDefinitions>
+
+                                        <Button Grid.Column="0" Grid.Row="0" Tag="InformationVariant" Style="{DynamicResource pp_settingsIconBox}" />
+
+                                        <TextBox x:Name="st_warningSecond" Style="{DynamicResource pp_settingsTextBox}" Grid.Column="1" Grid.Row="0" Text="" PreviewTextInput="st_PreviewTextInput" />
+                                    </Grid>
+
+                                    <Label x:Name="st_warningSecondErr" Content="* Bildirimlerin Ekranda Kalma Süresi (Sn cinsinden) " Style="{DynamicResource pp_settingsInfo}" />
+                                </StackPanel>
+
+                                <StackPanel Orientation="Vertical" VerticalAlignment="Center" Grid.Column="0" Grid.Row="7" Grid.RowSpan="2" Margin="10">
+                                    <TextBlock Text="Sıfırlama"  Style="{DynamicResource pp_settingsHeader}" TextAlignment="Center" />
+                                    <Grid Margin="0 10 0 0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="32" />
+                                        </Grid.RowDefinitions>
+
+                                        <Button Grid.Column="0" Grid.Row="0" Content="Verileri Sıfırla" Tag="ArrowCounterclockwise" Style="{DynamicResource pp_DefaultButtonBstrp}" />
+                                        <Button Grid.Column="1" Grid.Row="0" Content="Hesabı Sil" Tag="TrashMD" Style="{DynamicResource pp_DefaultButtonSend}" />
+                                    </Grid>
+
+                                    <Label Content="! Bu işlemler kalıcı olduğunu unutmayınız " Style="{DynamicResource pp_settingsInfo}" Margin="0 10 0 0" />
+                                </StackPanel>
+
+                                <TextBlock Text="Hatırlatıcı Ayarları" Grid.Row="0" Grid.Column="1"   VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="24" Foreground="#1C1E2F" FontFamily="{DynamicResource PoppinsMedium}" />
+
+                                <StackPanel Orientation="Vertical" VerticalAlignment="Center" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" Margin="10">
+                                    <TextBlock Text="Hatırlatıcı Süresi"  Style="{DynamicResource pp_settingsHeader}" />
+                                    <Grid Margin="0 5 0 0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="32" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="32" />
+                                        </Grid.RowDefinitions>
+
+                                        <Button Grid.Column="0" Grid.Row="0" Tag="Bell" Style="{DynamicResource pp_settingsIconBox}" />
+
+                                        <TextBox x:Name="st_remiderTime" Style="{DynamicResource pp_settingsTextBox}" Grid.Column="1" Grid.Row="0" Text="" PreviewTextInput="st_PreviewTextInput" />
+                                    </Grid>
+
+                                    <Label x:Name="st_remiderTimeErr" Content="* Hatırlatıcıların Ekranda Kalma Süresi (Sn cinsinden) " Style="{DynamicResource pp_settingsInfo}" />
+                                </StackPanel>
+
+                                <StackPanel Orientation="Vertical" VerticalAlignment="Center" Grid.Column="1" Grid.Row="3" Grid.RowSpan="2" Margin="10">
+                                    <TextBlock Text="Hatırlatıcı Tekrarlama Süresi"  Style="{DynamicResource pp_settingsHeader}" />
+                                    <Grid Margin="0 5 0 0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="32" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="32" />
+                                        </Grid.RowDefinitions>
+
+                                        <Button Grid.Column="0" Grid.Row="0" Tag="Bell" Style="{DynamicResource pp_settingsIconBox}" />
+
+                                        <TextBox x:Name="st_remiderRepeartTime" Style="{DynamicResource pp_settingsTextBox}" Grid.Column="1" Grid.Row="0" Text="" PreviewTextInput="st_PreviewTextInput" />
+                                    </Grid>
+
+                                    <Label x:Name="st_remiderRepeartTimeErr" Content="* Sıradaki Hatırlatıcıyı Bekleme Süresi (Sn cinsinden)" Style="{DynamicResource pp_settingsInfo}" />
+                                </StackPanel>
+
+                                <StackPanel Orientation="Vertical" VerticalAlignment="Center" Grid.Column="1" Grid.Row="5" Grid.RowSpan="2" Margin="10">
+                                    <TextBlock Text="Hatırlatıcı Tekrarlama Sayısı"  Style="{DynamicResource pp_settingsHeader}" />
+                                    <Grid Margin="0 5 0 0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="32" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="32" />
+                                        </Grid.RowDefinitions>
+
+                                        <Button Grid.Column="0" Grid.Row="0" Tag="Bell" Style="{DynamicResource pp_settingsIconBox}" />
+
+                                        <TextBox x:Name="st_remiderCount" Style="{DynamicResource pp_settingsTextBox}" Grid.Column="1" Grid.Row="0" Text="" PreviewTextInput="st_PreviewTextInput" />
+                                    </Grid>
+
+                                    <Label x:Name="st_remiderCountErr" Content="* Hatırlatıcnını Tekrarlama Sayısı " Style="{DynamicResource pp_settingsInfo}" />
+                                </StackPanel>
+
+                                <StackPanel Orientation="Vertical" VerticalAlignment="Center" Grid.Column="2" Grid.Row="7" Grid.RowSpan="2" Margin="10">
+                                    <TextBlock Text="Güncelleme"  Style="{DynamicResource pp_settingsHeader}" TextAlignment="Center" />
+                                    <Grid Margin="0 10 0 0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="32" />
+                                        </Grid.RowDefinitions>
+
+                                        <Button Grid.Column="0" Grid.Row="0" Content="Güncelleme Kontrol" Tag="ArrowRepeat" Style="{DynamicResource pp_DefaultButtonBstrp}" />
+                                        <Button Grid.Column="1" Grid.Row="0" Content="Sürüm Notları" Tag="GitBranchiOS" Style="{DynamicResource pp_DefaultButtonSend}" />
+                                    </Grid>
+
+                                    <Label x:Name="settingsVersion" Content="0.2.1 Beta -> release date 05/12/2022" Style="{DynamicResource pp_settingsInfo}" Margin="0 10 0 0" />
+                                </StackPanel>
+                            </Grid>
+
+                            <Grid Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="0">
+                                    <Button x:Name="settingSave" Style="{DynamicResource pp_DefaultButtonBstrp}" Tag="Check2" Content="Kaydet" HorizontalAlignment="Center" Click="settingSave_Click" />
+                                    <Button  Style="{DynamicResource pp_DefaultButtonClosed}" Tag="CloseBig" Content="Vazgeç" Uid="popup_settingsPage" HorizontalAlignment="Center" Click="popupClosed_Click" />
+                                </StackPanel>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </Border>
+            </Popup>
 
             <Popup x:Name="alph" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="460" Height="200" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
                 <Border  Style="{DynamicResource defaultBorderShadowEffect}" Width="440" Height="180">
@@ -186,7 +734,7 @@
                                 <ColumnDefinition Width="90" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <Border Grid.Column="0" Background="#F0433A" CornerRadius="5 0 0 5"></Border>
+                            <Border Grid.Column="0" Background="#F0433A" CornerRadius="5 0 0 5" />
                             <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
                                 <Icon:PackIconOcticons Kind="Alert" Width="48" Height="48" Foreground="#F0433A" />
                             </StackPanel>
@@ -214,7 +762,7 @@
                                 <ColumnDefinition Width="90" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <Border Grid.Column="0" Background="#66E21F" CornerRadius="5 0 0 5"></Border>
+                            <Border Grid.Column="0" Background="#66E21F" CornerRadius="5 0 0 5" />
                             <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
                                 <Icon:PackIconIonicons Kind="CheckmarkMD" Width="48" Height="48" Foreground="#66E21F" />
                             </StackPanel>
@@ -243,7 +791,7 @@
                                 <ColumnDefinition Width="90" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <Border Grid.Column="0" Background="#0D6EFD" CornerRadius="5 0 0 5"></Border>
+                            <Border Grid.Column="0" Background="#0D6EFD" CornerRadius="5 0 0 5" />
                             <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
                                 <Icon:PackIconUnicons Kind="Info" Width="48" Height="48" Foreground="#0D6EFD" />
                             </StackPanel>
@@ -301,7 +849,8 @@
                     </Grid>
 
                     <Grid x:Name="MainFrameGrid" Grid.Row="1">
-                        <Frame  Style="{DynamicResource contentFrame}"  NavigationUIVisibility="Hidden" x:Name="homeFrame" Content="Frame" Padding="10,0,15,0" Grid.IsSharedSizeScope="True" Navigated="homeFrame_Navigated" />
+                        <Frame  Style="{DynamicResource contentFrame}"  NavigationUIVisibility="Hidden" x:Name="homeFrame" Content="Frame" Panel.ZIndex="2" Padding="10,0,15,0" Grid.IsSharedSizeScope="True" Navigated="homeFrame_Navigated" />
+                        <Frame  Style="{DynamicResource contentFrame}"  NavigationUIVisibility="Hidden" Visibility="Collapsed" x:Name="secondFrame" Content="SecondFrame" Panel.ZIndex="3" Padding="10,0,15,0" Grid.IsSharedSizeScope="True" />
                     </Grid>
                 </Grid>
             </Border>

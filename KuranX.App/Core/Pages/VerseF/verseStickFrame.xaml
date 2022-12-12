@@ -13,7 +13,7 @@
       d:DesignHeight="708" d:DesignWidth="1115" d:MaxHeight="708" d:MaxWidth="1270" d:MinWidth="1115" Background="#FAFAFA"
       Title="verseStickFrame">
 
-    <Grid>
+    <Grid Style="{DynamicResource aniEffectFadeGrid}" Visibility="Hidden" x:Name="stickHomeGrid">
 
         <Grid>
 
@@ -275,11 +275,10 @@
                                 <StackPanel Orientation="Horizontal" Grid.Column="0">
                                     <TextBlock Text="Yorumlayan" FontFamily="{DynamicResource PoppinsMedium}" FontSize="14" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" />
                                     <ComboBox x:Name="interpreterWriterCombo"  Style="{DynamicResource sr_NavCombobox}" SelectedIndex="0" Margin="10,0,0,0" SelectionChanged="interpreterWriterCombo_SelectionChanged">
-                                        <ComboBoxItem  Content="Yorumcuyu Seçin" Uid="0" />
-                                        <ComboBoxItem  Content="Yorumcu 1 Tr" Uid="1" Tag="Yorumcu 1" />
-                                        <ComboBoxItem  Content="Yorumcu 2 Eng" Uid="2" Tag="Yorumcu 2" />
-                                        <ComboBoxItem  Content="Yorumcu 3 Ger" Uid="3" Tag="Yorumcu 3" />
-                                        <ComboBoxItem  Content="Mehmet Okuyan" Uid="4" Tag="Mehmet Okuyan" />
+                                        <ComboBoxItem  Content="Yorumcu Türkçe" Uid="1" Tag="Yorumcu 1" />
+                                        <ComboBoxItem  Content="Yorumcu Türkçe 2" Uid="2" Tag="Mehmet Okuyan" />
+                                        <ComboBoxItem  Content="Yorumcu İngilizce" Uid="3" Tag="Yorumcu 2" />
+                                        <ComboBoxItem  Content="Yorumcu Almanca" Uid="4" Tag="Yorumcu 3" />
                                     </ComboBox>
                                 </StackPanel>
 

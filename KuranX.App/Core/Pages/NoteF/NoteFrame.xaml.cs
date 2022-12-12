@@ -160,7 +160,7 @@ namespace KuranX.App.Core.Pages.NoteF
                     });
                     int i = 1;
 
-                    Thread.Sleep(200);
+                    Thread.Sleep(int.Parse(App.config.AppSettings.Settings["app_animationSpeed"].Value));
 
                     foreach (var item in dNotes)
                     {
@@ -420,14 +420,14 @@ namespace KuranX.App.Core.Pages.NoteF
                                 {
                                     if (entitydb.Notes.Where(p => p.noteHeader == noteName.Text && p.noteLocation == "Kullanıcı").FirstOrDefault() != null)
                                     {
-                                        App.mainScreen.alertFunc("Not Ekleme Başarısız", "Aynı isimde not eklemiş olabilirsiniz lütfen kontrol edip yeniden deneyiniz.", 3);
+                                        App.mainScreen.alertFunc("İşlem Başarısız", "Aynı isimde not eklemiş olabilirsiniz lütfen notu ismini kontrol edip yeniden deneyiniz.", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
                                     }
                                     else
                                     {
                                         var dNotes = new Notes { noteHeader = noteName.Text, noteDetail = noteDetail.Text, sureId = 0, verseId = 0, modify = DateTime.Now, created = DateTime.Now, noteLocation = "Kullanıcı" };
                                         entitydb.Notes.Add(dNotes);
                                         entitydb.SaveChanges();
-                                        App.mainScreen.succsessFunc("Not Ekleme Başarılı", "Notunuz Eklenmiştir.", 3);
+                                        App.mainScreen.succsessFunc("İşlem Başarılı", "Notunuz başarılı bir sekilde eklenmiştir.", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
                                         noteName.Text = "";
                                         noteDetail.Text = "";
 
@@ -655,5 +655,66 @@ namespace KuranX.App.Core.Pages.NoteF
         }
 
         // ------------ Animation Func ------------ //
+
+        // ----------- Popuper Spec Func ----------- //
+
+        public void popuverMove_Click(object sender, RoutedEventArgs e)
+        {
+            var btn = sender as Button;
+            ppMoveConfing((string)btn.Uid);
+            moveControlName.Text = (string)btn.Content;
+            pp_moveBar.IsOpen = true;
+        }
+
+        public void ppMoveActionOfset_Click(object sender, RoutedEventArgs e)
+        {
+            var btntemp = sender as Button;
+            var movePP = (Popup)FindName((string)btntemp.Content);
+
+            switch (btntemp.Uid.ToString())
+            {
+                case "Left":
+                    movePP.HorizontalOffset -= 50;
+                    break;
+
+                case "Top":
+                    movePP.VerticalOffset -= 50;
+                    break;
+
+                case "Bottom":
+                    movePP.VerticalOffset += 50;
+                    break;
+
+                case "Right":
+                    movePP.HorizontalOffset += 50;
+                    break;
+
+                case "UpLeft":
+                    movePP.Placement = PlacementMode.Absolute;
+                    movePP.VerticalOffset = 0;
+                    movePP.HorizontalOffset = 0;
+                    break;
+
+                case "Reset":
+                    movePP.Placement = PlacementMode.Center;
+                    movePP.VerticalOffset = 0;
+                    movePP.HorizontalOffset = 0;
+                    break;
+
+                case "Close":
+                    pp_moveBar.IsOpen = false;
+                    break;
+            }
+        }
+
+        public void ppMoveConfing(string ppmove)
+        {
+            Debug.WriteLine(ppmove);
+            for (int i = 1; i < 8; i++)
+            {
+                var btn = FindName("pp_M" + i) as Button;
+                btn.Content = ppmove;
+            }
+        }
     }
 }

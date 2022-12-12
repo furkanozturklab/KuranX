@@ -123,7 +123,7 @@ namespace KuranX.App.Core.Pages.ResultF
                         countLib.Content = entitydb.ResultItems.Where(p => p.resultLibId != 0).Count();
                         countNot.Content = entitydb.ResultItems.Where(p => p.resultNoteId != 0).Count();
                         loadHeader.Text = dResult.resultName;
-                        loadBgColor.Background = new BrushConverter().ConvertFrom(dResult.resultStatus) as SolidColorBrush;
+                        loadBgColor.Background = new BrushConverter().ConvertFrom("#ADB5BD") as SolidColorBrush;
                     });
                     for (int x = 1; x <= 20; x++)
                     {
@@ -136,7 +136,7 @@ namespace KuranX.App.Core.Pages.ResultF
 
                     int i = 1;
 
-                    Thread.Sleep(300);
+                    Thread.Sleep(int.Parse(App.config.AppSettings.Settings["app_animationSpeed"].Value));
 
                     foreach (var item in dResultItems)
                     {

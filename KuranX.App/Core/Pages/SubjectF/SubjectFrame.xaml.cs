@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -45,6 +47,8 @@ namespace KuranX.App.Core.Pages.SubjectF
             {
                 lastPage = 0;
                 NowPage = 1;
+                App.mainScreen.loadinGifContent.Visibility = Visibility.Hidden;
+                App.mainScreen.rightPanel.Visibility = Visibility.Visible;
                 App.mainScreen.navigationWriter("subject", "");
                 App.loadTask = Task.Run(() => loadItem());
             }
@@ -99,7 +103,7 @@ namespace KuranX.App.Core.Pages.SubjectF
 
                     int i = 1;
 
-                    Thread.Sleep(300);
+                    Thread.Sleep(int.Parse(App.config.AppSettings.Settings["app_animationSpeed"].Value));
 
                     foreach (var item in dSub)
                     {
@@ -238,14 +242,14 @@ namespace KuranX.App.Core.Pages.SubjectF
                     {
                         using (var entitydb = new AyetContext())
                         {
-                            var dControl = entitydb.Subject.Where(p => p.subjectName == subjectpreviewName.Text).ToList();
+                            var dControl = entitydb.Subject.Where(p => p.subjectName == CultureInfo.CurrentCulture.TextInfo.ToTitleCase(subjectpreviewName.Text)).ToList();
 
                             if (dControl.Count == 0)
                             {
-                                var dSubjectFolder = new Subject { subjectName = subjectpreviewName.Text, subjectColor = subjectpreviewColor.Background.ToString(), created = DateTime.Now, modify = DateTime.Now };
+                                var dSubjectFolder = new Subject { subjectName = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(subjectpreviewName.Text), subjectColor = subjectpreviewColor.Background.ToString(), created = DateTime.Now, modify = DateTime.Now };
                                 entitydb.Subject.Add(dSubjectFolder);
                                 entitydb.SaveChanges();
-                                App.mainScreen.succsessFunc("Konu Başlığı ", " Yeni konu başlığı oluşturuldu artık ayetleri ekleye bilirsiniz.", 3);
+                                App.mainScreen.succsessFunc("İşlem Başarılı", " Yeni konu başlığı başarılı bir sekilde oluşturuldu artık ayetleri ekleye bilirsiniz.", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
 
                                 subjectpreviewName.Text = "";
                                 subjectFolderHeader.Text = "";
@@ -256,7 +260,7 @@ namespace KuranX.App.Core.Pages.SubjectF
                             }
                             else
                             {
-                                App.mainScreen.alertFunc("Konu Başlığı Oluşturulamadı ", " Daha önce aynı isimde bir konu zaten mevcut lütfen kontrol ediniz.", 3);
+                                App.mainScreen.alertFunc("İşlem Başarısız", " Daha önce aynı isimde bir konu zaten mevcut lütfen konu başlığınızı kontrol ediniz.", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
                             }
                             dControl = null;
                         }
@@ -407,6 +411,19 @@ namespace KuranX.App.Core.Pages.SubjectF
             try
             {
                 subjectpreviewName.Text = subjectFolderHeader.Text;
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Change", ex);
+            }
+        }
+
+        private void subjectFolderHeader_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            try
+            {
+                Regex regex = new Regex("[^0-9a-zA-Z-ğüşöçıİĞÜŞÖÇ?.*()']");
+                e.Handled = regex.IsMatch(e.Text);
             }
             catch (Exception ex)
             {

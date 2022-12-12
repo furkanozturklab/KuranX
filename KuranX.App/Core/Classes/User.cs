@@ -12,14 +12,10 @@ namespace KuranX.App.Core.Classes
         public string email { get; set; } = "none";
         public string firstName { get; set; } = "First Name";
         public string lastName { get; set; } = "Last Name";
-        public string phone { get; set; } = "";
+        public string pin { get; set; } = "";
+        public string screetQuestion { get; set; } = "Değiştiriniz";
+        public string screetQuestionAnw { get; set; } = "Yeni Değeri Girin";
 
-        public string password { get; set; } = "1230";
-        public string screetQuestion { get; set; } = "Screet Question";
-        public string screetQuestionAnswer { get; set; } = "Screet Question Answer";
-
-        public string city { get; set; } = "";
-        public string country { get; set; } = "";
         public DateTime createDate { get; set; } = DateTime.Now;
 
         public DateTime updateDate { get; set; } = DateTime.Now;

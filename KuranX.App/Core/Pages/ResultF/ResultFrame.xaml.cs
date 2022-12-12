@@ -43,6 +43,8 @@ namespace KuranX.App.Core.Pages.ResultF
             {
                 lastPage = 0;
                 NowPage = 1;
+                App.mainScreen.loadinGifContent.Visibility = Visibility.Hidden;
+                App.mainScreen.rightPanel.Visibility = Visibility.Visible;
                 App.loadTask = Task.Run(() => loadItem());
                 return this;
             }
@@ -88,7 +90,7 @@ namespace KuranX.App.Core.Pages.ResultF
                     }
                     int i = 1;
 
-                    Thread.Sleep(300);
+                    Thread.Sleep(int.Parse(App.config.AppSettings.Settings["app_animationSpeed"].Value));
                     foreach (var item in dResults)
                     {
                         this.Dispatcher.Invoke(() =>
@@ -97,7 +99,7 @@ namespace KuranX.App.Core.Pages.ResultF
                             sName.Text = item.resultName;
 
                             var sColor = (Border)FindName("rsColor" + i);
-                            sColor.Background = new BrushConverter().ConvertFrom((string)item.resultStatus) as SolidColorBrush;
+                            sColor.Background = new BrushConverter().ConvertFrom("#ADB5BD") as SolidColorBrush;
 
                             var sBtn = (Button)FindName("rsBtn" + i);
                             sBtn.Uid = item.resultId.ToString();

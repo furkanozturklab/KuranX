@@ -40,7 +40,7 @@
                             </Grid.RowDefinitions>
                             <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Width="320" Grid.Row="0">
                                 <TextBlock Text="Konu Başlığı" FontFamily="{DynamicResource PoppinsSemiBold}" FontSize="14" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0" />
-                                <TextBox Style="{DynamicResource pp_DefaulTextBox}" Width="280" x:Name="subjectFolderHeader" KeyDown="subjectFolderHeader_KeyDown" KeyUp="subjectFolderHeader_KeyUp" />
+                                <TextBox Style="{DynamicResource pp_DefaulTextBox}" Width="280" x:Name="subjectFolderHeader" KeyDown="subjectFolderHeader_KeyDown" KeyUp="subjectFolderHeader_KeyUp" PreviewTextInput="subjectFolderHeader_PreviewTextInput" />
                                 <Label Visibility="Visible" x:Name="subjectHeaderFolderErrorMesssage" Style="{DynamicResource pp_DefaultTextBoxLabel}" Margin="0 5 0 5" />
 
                                 <TextBlock Text="Konu Rengi" FontFamily="{DynamicResource PoppinsSemiBold}" FontSize="14" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0" />

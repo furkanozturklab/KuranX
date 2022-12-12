@@ -11,6 +11,7 @@
 
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/Resource/Fonts/Fonts.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Core/ResourceXaml/baseColor.xaml" />
 
                 <ResourceDictionary Source="pack://application:,,,/Core/ResourceXaml/defaultDesign.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/Core/ResourceXaml/splashDesign.xaml" />

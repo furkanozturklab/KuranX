@@ -101,87 +101,99 @@ namespace KuranX.App.Core.Windows
                     loadAni();
                     dResul = entitydb.Results.Where(p => p.resultId == selectedResultId).FirstOrDefault();
 
-                    this.Title = dResul.resultName + " Sonucu";
-                    screenHeader.Text = dResul.resultName;
-                    resultNoteDetail.Text = dResul.resultFinallyNote;
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        this.Title = dResul.resultName + " Sonucu";
+                        screenHeader.Text = dResul.resultName;
+                        resultNoteDetail.Text = dResul.resultFinallyNote;
+                    });
 
                     if (dResul.resultNotes == true)
                     {
-                        var cmdef = new ComboBoxItem();
-                        noteico.IsEnabled = true;
-
-                        noteItems.Items.Clear();
-                        cmdef.Content = "Not Başlığını Seçiniz";
-                        cmdef.Uid = "0";
-                        noteItems.Items.Add(cmdef);
-                        noteItems.SelectedIndex = 0;
-
-                        var dlistNotes = entitydb.ResultItems.Where(p => p.resultId == selectedResultId && p.resultNoteId != 0).ToList();
-
-                        foreach (var item in dlistNotes)
+                        this.Dispatcher.Invoke(() =>
                         {
-                            var rItem = entitydb.Notes.Where(p => p.notesId == item.resultNoteId).FirstOrDefault();
-                            var cmbitem = new ComboBoxItem();
-                            cmbitem.Content = rItem.noteHeader;
-                            cmbitem.Uid = rItem.notesId.ToString();
-                            noteItems.Items.Add(cmbitem);
-                        }
+                            var cmdef = new ComboBoxItem();
+                            noteico.IsEnabled = true;
+
+                            noteItems.Items.Clear();
+                            cmdef.Content = "Not Başlığını Seçiniz";
+                            cmdef.Uid = "0";
+                            noteItems.Items.Add(cmdef);
+                            noteItems.SelectedIndex = 0;
+
+                            var dlistNotes = entitydb.ResultItems.Where(p => p.resultId == selectedResultId && p.resultNoteId != 0).ToList();
+
+                            foreach (var item in dlistNotes)
+                            {
+                                var rItem = entitydb.Notes.Where(p => p.notesId == item.resultNoteId).FirstOrDefault();
+                                var cmbitem = new ComboBoxItem();
+                                cmbitem.Content = rItem.noteHeader;
+                                cmbitem.Uid = rItem.notesId.ToString();
+                                noteItems.Items.Add(cmbitem);
+                            }
+                        });
                     }
 
                     if (dResul.resultSubject == true)
                     {
-                        subico.IsEnabled = true;
-
-                        subjectItems.Items.Clear();
-                        subjectItemsNot.Items.Clear();
-
-                        var cmdef5 = new ComboBoxItem();
-                        cmdef5.Content = "Konu İçeriğini Seçiniz";
-                        cmdef5.Uid = "0";
-                        subjectItems.Items.Add(cmdef5);
-                        subjectItems.SelectedIndex = 0;
-
-                        var cmdef6 = new ComboBoxItem();
-                        cmdef6.Content = "Konu Ayetini Seçiniz";
-                        cmdef6.Uid = "0";
-                        subjectItemsNot.Items.Add(cmdef6);
-                        subjectItemsNot.SelectedIndex = 0;
-
-                        var dListSubject = entitydb.ResultItems.Where(p => p.resultId == selectedResultId && p.resultSubjectId != 0).ToList();
-
-                        foreach (var item in dListSubject)
+                        this.Dispatcher.Invoke(() =>
                         {
-                            var cmbitem = new ComboBoxItem();
+                            subico.IsEnabled = true;
 
-                            var rItem = entitydb.Subject.Where(p => p.subjectId == item.resultSubjectId).FirstOrDefault();
-                            cmbitem.Content = rItem.subjectName;
-                            cmbitem.Uid = rItem.subjectId.ToString();
-                            subjectBase.Items.Add(cmbitem);
-                        }
+                            subjectItems.Items.Clear();
+                            subjectItemsNot.Items.Clear();
+
+                            var cmdef5 = new ComboBoxItem();
+                            cmdef5.Content = "Konu İçeriğini Seçiniz";
+                            cmdef5.Uid = "0";
+                            subjectItems.Items.Add(cmdef5);
+                            subjectItems.SelectedIndex = 0;
+
+                            var cmdef6 = new ComboBoxItem();
+                            cmdef6.Content = "Konu Ayetini Seçiniz";
+                            cmdef6.Uid = "0";
+                            subjectItemsNot.Items.Add(cmdef6);
+                            subjectItemsNot.SelectedIndex = 0;
+
+                            var dListSubject = entitydb.ResultItems.Where(p => p.resultId == selectedResultId && p.resultSubjectId != 0).ToList();
+
+                            foreach (var item in dListSubject)
+                            {
+                                var cmbitem = new ComboBoxItem();
+
+                                var rItem = entitydb.Subject.Where(p => p.subjectId == item.resultSubjectId).FirstOrDefault();
+                                cmbitem.Content = rItem.subjectName;
+                                cmbitem.Uid = rItem.subjectId.ToString();
+                                subjectBase.Items.Add(cmbitem);
+                            }
+                        });
                     }
 
                     if (dResul.resultLib == true)
                     {
-                        var cmdef = new ComboBoxItem();
-                        libico.IsEnabled = true;
-
-                        libraryItems.Items.Clear();
-                        cmdef.Content = "Kütüphane İçeriğini Seçiniz";
-                        cmdef.Uid = "0";
-                        libraryItems.Items.Add(cmdef);
-                        libraryItems.SelectedIndex = 0;
-
-                        var dListLibrary = entitydb.ResultItems.Where(p => p.resultId == selectedResultId && p.resultLibId != 0).ToList();
-
-                        foreach (var item in dListLibrary)
+                        this.Dispatcher.Invoke(() =>
                         {
-                            var cmbitem = new ComboBoxItem();
+                            var cmdef = new ComboBoxItem();
+                            libico.IsEnabled = true;
 
-                            var rItem = entitydb.Librarys.Where(p => p.libraryId == item.resultLibId).FirstOrDefault();
-                            cmbitem.Content = rItem.libraryName;
-                            cmbitem.Uid = rItem.libraryId.ToString();
-                            libraryBase.Items.Add(cmbitem);
-                        }
+                            libraryItems.Items.Clear();
+                            cmdef.Content = "Kütüphane İçeriğini Seçiniz";
+                            cmdef.Uid = "0";
+                            libraryItems.Items.Add(cmdef);
+                            libraryItems.SelectedIndex = 0;
+
+                            var dListLibrary = entitydb.ResultItems.Where(p => p.resultId == selectedResultId && p.resultLibId != 0).ToList();
+
+                            foreach (var item in dListLibrary)
+                            {
+                                var cmbitem = new ComboBoxItem();
+
+                                var rItem = entitydb.Librarys.Where(p => p.libraryId == item.resultLibId).FirstOrDefault();
+                                cmbitem.Content = rItem.libraryName;
+                                cmbitem.Uid = rItem.libraryId.ToString();
+                                libraryBase.Items.Add(cmbitem);
+                            }
+                        });
                     }
                     loadAniComplated();
                 }
