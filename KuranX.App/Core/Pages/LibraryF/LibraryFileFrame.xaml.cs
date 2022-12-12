@@ -118,7 +118,7 @@ namespace KuranX.App.Core.Pages.LibraryF
                     }
                     int i = 1;
 
-                    Thread.Sleep(300);
+                    Thread.Sleep(int.Parse(App.config.AppSettings.Settings["app_animationSpeed"].Value));
 
                     foreach (var item in dPdf)
                     {
@@ -227,7 +227,7 @@ namespace KuranX.App.Core.Pages.LibraryF
                     }
                     else
                     {
-                        App.mainScreen.alertFunc("Yükleme Hatası", "Dosya yükleme işlemi sırasında hata oluştu", 3);
+                        App.mainScreen.alertFunc("İşlem Başarısız", "Dosya yükleme işlemi sırasında hata oluştu ve dosyanız yüklenemedi lütfen tekrar deneyiniz.", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
                         loadAniComplated();
                     }
                 });
@@ -322,12 +322,12 @@ namespace KuranX.App.Core.Pages.LibraryF
 
                         entitydb.SaveChanges();
                         popup_DeleteConfirm.IsOpen = false;
-                        App.mainScreen.succsessFunc("Dosya Silme ", " Dosya başarılı bir sekilde silinmiştir.", 3);
+                        App.mainScreen.succsessFunc("İşlem Başarılı", " Dosyanız başarılı bir sekilde silinmiştir.", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
                         App.loadTask = Task.Run(() => loadItem());
                     }
                     else
                     {
-                        App.mainScreen.alertFunc("Dosya Silme", "Dosya mevcut değil silinemedi lütfen dosyanın varlığından emin olunuz.", 3);
+                        App.mainScreen.alertFunc("İşlem Başarısız", "Dosyanız silinemedi lütfen dosyanın varlığından emin olunuz.", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
                         loadAniComplated();
                     }
                 }

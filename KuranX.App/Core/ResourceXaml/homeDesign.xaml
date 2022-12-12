@@ -2,11 +2,14 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                    xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
                     xmlns:extension="clr-namespace:KuranX.App.Core.Classes"
+                        xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
     <BitmapImage x:Key="profile_1" UriSource="/resource/images/Profile/profile_1.jpg" />
     <BitmapImage x:Key="profile_2" UriSource="/resource/images/Profile/profile_2.jpg" />
     <BitmapImage x:Key="profile_3" UriSource="/resource/images/Profile/profile_3.jpg" />
+    <BitmapImage x:Key="profile_4" UriSource="/resource/images/Profile/profile_4.jpg" />
+    <BitmapImage x:Key="profile_5" UriSource="/resource/images/Profile/profile_5.jpg" />
 
     <!-- Main Navigation Bar -->
 
@@ -20,7 +23,7 @@
     <!-- ROW 0 WELCOME TEXTS-->
 
     <Style TargetType="TextBlock" x:Key="hmwnd_leftHeader">
-        <Setter Property="Foreground" Value="#383C41" />
+        <Setter Property="Foreground" Value="{DynamicResource Base.Text.Header}" />
         <Setter Property="FontFamily" Value="{DynamicResource PoppinsMedium}" />
         <Setter Property="FontSize" Value="15" />
         <Setter Property="HorizontalAlignment" Value="Left" />
@@ -31,7 +34,7 @@
 
     <Style TargetType="TextBlock" x:Key="hmwnd_leftHeaderSub" BasedOn="{StaticResource hmwnd_leftHeader}">
         <Setter Property="FontSize" Value="12" />
-        <Setter Property="Foreground" Value="#707A89" />
+        <Setter Property="Foreground" Value="{DynamicResource Base.Text.Sub}" />
     </Style>
 
     <!-- ROW 0 WELCOME TEXTS-->
@@ -80,8 +83,8 @@
     </Style>
 
     <Style TargetType="Ellipse" x:Key="prf_leftHeaderImage">
-        <Setter Property="Width" Value="128" />
-        <Setter Property="Height" Value="128" />
+        <Setter Property="Width" Value="100" />
+        <Setter Property="Height" Value="100" />
         <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality" />
     </Style>
 
@@ -109,8 +112,8 @@
     </Style>
 
     <Style TargetType="Button" x:Key="prf_editImage">
-        <Setter Property="Width" Value="28" />
-        <Setter Property="Height" Value="28" />
+        <Setter Property="Width" Value="24" />
+        <Setter Property="Height" Value="24" />
         <Setter Property="Background" Value="#820333" />
         <Setter Property="BorderBrush" Value="Transparent" />
         <Setter Property="BorderThickness" Value="0" />
@@ -223,7 +226,7 @@
         <Setter Property="TextWrapping" Value="Wrap" />
         <Setter Property="HorizontalAlignment" Value="Center" />
         <Setter Property="VerticalAlignment" Value="Center" />
-        <Setter Property="Foreground" Value="#383C41" />
+        <Setter Property="Foreground" Value="{DynamicResource Base.Text.Header}" />
         <Setter Property="FontFamily" Value="{DynamicResource PoppinsMedium}" />
     </Style>
 
@@ -234,7 +237,7 @@
     <Style TargetType="Button" x:Key="hmwnd_leftHeaderButton">
         <Setter Property="Background" Value="Transparent" />
 
-        <Setter Property="Foreground" Value="#11243D" />
+        <Setter Property="Foreground" Value="{DynamicResource Base.Text.Content}" />
         <Setter Property="Margin" Value="5 0 5 0" />
         <Setter Property="Opacity" Value="1" />
         <Setter Property="Height" Value="30" />
@@ -402,6 +405,18 @@
         </Setter>
     </Style>
 
+    <Style x:Key="hmwnd_leftExit" TargetType="Button" BasedOn="{StaticResource hmwnd_leftButton}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <TextBlock Width="24" Height="24">
+                        <Icon:PackIconUnicons Kind="Signout" Width="24" Height="24"  HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </TextBlock>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style x:Key="hmwnd_leftAdmin" TargetType="Button" BasedOn="{StaticResource hmwnd_leftButton}">
         <Setter Property="Template">
             <Setter.Value>
@@ -469,6 +484,7 @@
     <Style TargetType="Frame" x:Key="contentFrame">
         <Setter Property="Margin" Value="0" />
         <Setter Property="Padding" Value="0" />
+        <Setter Property="Background" Value="{DynamicResource Base.Panel.Right}" />
     </Style>
 
     <Style x:Key="hmwnd_navgationIcons" TargetType="{x:Type Button}">
@@ -706,5 +722,236 @@
         <Setter Property="FontFamily" Value="{DynamicResource PoppinsMedium}" />
     </Style>
 
+    <Style x:Key="pp_settingsHeader" TargetType="TextBlock">
+
+        <Setter Property="FontFamily" Value="{DynamicResource PoppinsRegular}" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="Foreground" Value="#3F4254" />
+    </Style>
+
+    <Style x:Key="pp_settingsIconBox" TargetType="Button">
+        <Setter Property="FontFamily" Value="{DynamicResource PoppinsRegular}" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="Foreground" Value="#3F4254" />
+        <Setter Property="Background" Value="#F3F6F9" />
+        <Setter Property="BorderBrush" Value="#E4E6EF" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1">
+                        <Icon:PackIconMaterial Kind="{Binding Path=Tag, RelativeSource={RelativeSource TemplatedParent}}" Width="16" Height="16" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="pp_settingsInfo" TargetType="Label">
+        <Setter Property="FontFamily" Value="{DynamicResource PoppinsRegular}" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="Foreground" Value="#3F4254" />
+    </Style>
+
+    <SolidColorBrush x:Key="TextBox.Static.Border" Color="#E4E6EF" />
+    <SolidColorBrush x:Key="TextBox.MouseOver.Border" Color="#FF7EB4EA" />
+    <SolidColorBrush x:Key="TextBox.Focus.Border" Color="#FF569DE5" />
+
+    <Style x:Key="pp_settingsTextBox" TargetType="{x:Type TextBox}">
+        <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" />
+        <Setter Property="BorderBrush" Value="{StaticResource TextBox.Static.Border}" />
+        <Setter Property="Foreground" Value="#3F4254" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Padding" Value="5 2 5 0" />
+        <Setter Property="Height" Value="32" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="FontFamily" Value="DynamicResource PoppinsRegular" />
+        <Setter Property="TextAlignment" Value="Center" />
+        <Setter Property="KeyboardNavigation.TabNavigation" Value="None" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="AllowDrop" Value="true" />
+        <Setter Property="ScrollViewer.PanningMode" Value="VerticalFirst" />
+        <Setter Property="Stylus.IsFlicksEnabled" Value="False" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TextBox}">
+                    <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="True">
+                        <ScrollViewer x:Name="PART_ContentHost" Focusable="false" VerticalAlignment="Center" HorizontalAlignment="Left" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Opacity" TargetName="border" Value="0.56" />
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource TextBox.MouseOver.Border}" />
+                        </Trigger>
+                        <Trigger Property="IsKeyboardFocused" Value="true">
+                            <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource TextBox.Focus.Border}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsInactiveSelectionHighlightEnabled" Value="true" />
+                    <Condition Property="IsSelectionActive" Value="false" />
+                </MultiTrigger.Conditions>
+                <Setter Property="SelectionBrush" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}" />
+            </MultiTrigger>
+        </Style.Triggers>
+    </Style>
+
     <!-- HomePage Default  -->
+
+    <!-- Special Combobox-->
+
+    <ControlTemplate x:Key="settingComboBoxToggleButton" TargetType="ToggleButton">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="20" />
+            </Grid.ColumnDefinitions>
+            <Border
+              x:Name="Border"
+              Grid.ColumnSpan="2"
+              CornerRadius="0"
+              Background="#ffffff"
+              BorderBrush="#E4E6EF"
+              BorderThickness="1">
+            </Border>
+            <Border
+              Grid.Column="0"
+              CornerRadius="5,0,0,5"
+              Margin="1"
+              Background="#ffffff"
+              BorderBrush="#E4E6EF"
+              BorderThickness="0" />
+            <Path
+              x:Name="Arrow"
+              Grid.Column="1"
+              Fill="#3F4254"
+              HorizontalAlignment="Center"
+              VerticalAlignment="Center"
+              Data="M 0 0 L 4 4 L 8 0 Z" />
+        </Grid>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="settingComboBoxTextBox" TargetType="TextBox">
+        <Border x:Name="PART_ContentHost" Focusable="False" Background="{TemplateBinding Background}" />
+    </ControlTemplate>
+
+    <Style TargetType="ComboBox" x:Key="settingCombobox">
+        <Setter Property="SnapsToDevicePixels" Value="true" />
+        <Setter Property="Height" Value="32" />
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
+        <Setter Property="ScrollViewer.CanContentScroll" Value="true" />
+        <Setter Property="Padding" Value="15 0 15 0" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="FontFamily" Value="{DynamicResource PoppinsMedium}" />
+        <Setter Property="Foreground" Value="#3F4254" />
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ComboBox">
+                    <Grid>
+                        <ToggleButton
+                            Name="ToggleButton"
+                            Template="{StaticResource settingComboBoxToggleButton}"
+                            Grid.Column="2"
+                            Focusable="false"
+                            IsChecked="{Binding Path=IsDropDownOpen,Mode=TwoWay,RelativeSource={RelativeSource TemplatedParent}}"
+                            ClickMode="Press">
+                        </ToggleButton>
+                        <ContentPresenter
+                            Name="ContentSite"
+                            IsHitTestVisible="False"
+                            Content="{TemplateBinding SelectionBoxItem}"
+                            ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                            ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                            Margin="10 0 0 0"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Left" />
+                        <TextBox x:Name="PART_EditableTextBox"
+                            Style="{x:Null}"
+                            Template="{StaticResource settingComboBoxTextBox}"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Margin="0"
+                            Focusable="True"
+                            Background="Transparent"
+                            Visibility="Hidden" />
+                        <Popup
+                            Name="Popup"
+                            Placement="Bottom"
+                            IsOpen="{TemplateBinding IsDropDownOpen}"
+                            AllowsTransparency="True"
+                            Focusable="False"
+                            PopupAnimation="Slide">
+                            <Grid
+                              Name="DropDown"
+                              SnapsToDevicePixels="True"
+                              MinWidth="{TemplateBinding ActualWidth}"
+                              MaxHeight="{TemplateBinding MaxDropDownHeight}">
+                                <Border
+                                    x:Name="DropDownBorder"
+                                    Background="#FFFFFF"
+                                    BorderThickness="1"
+                                    BorderBrush="#E4E6EF" />
+                                <ScrollViewer Margin="0" SnapsToDevicePixels="True">
+                                    <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
+                                </ScrollViewer>
+                            </Grid>
+                        </Popup>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="HasItems" Value="false">
+                            <Setter TargetName="DropDownBorder" Property="MinHeight" Value="150" />
+                        </Trigger>
+                        <Trigger Property="IsGrouping" Value="true">
+                            <Setter Property="ScrollViewer.CanContentScroll" Value="false" />
+                        </Trigger>
+                        <Trigger SourceName="Popup" Property="Popup.AllowsTransparency" Value="true">
+                            <Setter TargetName="DropDownBorder" Property="CornerRadius" Value="0" />
+                            <Setter TargetName="DropDownBorder" Property="Margin" Value="0" />
+                        </Trigger>
+                        <Trigger Property="IsEditable" Value="true">
+                            <Setter Property="IsTabStop" Value="false" />
+                            <Setter TargetName="PART_EditableTextBox" Property="Visibility"    Value="Visible" />
+                            <Setter TargetName="ContentSite" Property="Visibility" Value="Hidden" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Specail Combobox -->
+
+    <Style x:Key="pp_settingsChangeColor" TargetType="CheckBox">
+
+        <Setter Property="Width" Value="24" />
+        <Setter Property="Height" Value="24" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="BorderBrush" Value="{x:Null}" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Margin" Value="7 0 7 0" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Border Background="{Binding Path=Tag, RelativeSource={RelativeSource TemplatedParent}}" CornerRadius="5" BorderThickness="2" BorderBrush="{Binding BorderBrush}">
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsChecked" Value="True">
+                <Setter Property="BorderBrush" Value="#FFACACAC" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
 </ResourceDictionary>

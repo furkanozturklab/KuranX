@@ -7,6 +7,10 @@
     <UseWPF>true</UseWPF>
     <Platforms>AnyCPU;x86</Platforms>
     <PlatformTarget>AnyCPU</PlatformTarget>
+    <AssemblyName>KuranSünnetullah</AssemblyName>
+    <Company>ozturklab</Company>
+    <Authors>Furkan ÖZTÜRK</Authors>
+    <Description>Bu program sedat çömlekçioğu tarafından hayata geçirilmiştir.</Description>
   </PropertyGroup>
 
   <ItemGroup>
@@ -47,6 +51,8 @@
     <None Remove="Resource\Images\Icon\help_rbo.png" />
     <None Remove="Resource\Images\Icon\help_rbr.png" />
     <None Remove="Resource\Images\Icon\help_rbx.png" />
+    <None Remove="Resource\Images\Icon\key_r.png" />
+    <None Remove="Resource\Images\Icon\key_rb.png" />
     <None Remove="Resource\Images\Icon\library_r.png" />
     <None Remove="Resource\Images\Icon\library_rb.png" />
     <None Remove="Resource\Images\Icon\library_rbg.png" />
@@ -80,6 +86,8 @@
     <None Remove="Resource\Images\Icon\subject_rbr.png" />
     <None Remove="Resource\Images\Icon\subject_rbx.png" />
     <None Remove="Resource\Images\Icon\tick_b.png" />
+    <None Remove="Resource\Images\Icon\user_r.png" />
+    <None Remove="Resource\Images\Icon\user_rb.png" />
     <None Remove="Resource\Images\Icon\verse_r.png" />
     <None Remove="Resource\Images\Icon\verse_rb.png" />
     <None Remove="Resource\Images\Icon\verse_rbg.png" />
@@ -91,6 +99,8 @@
     <None Remove="Resource\Images\Profile\profile_1.jpg" />
     <None Remove="Resource\Images\Profile\profile_2.jpg" />
     <None Remove="Resource\Images\Profile\profile_3.jpg" />
+    <None Remove="Resource\Images\Profile\profile_4.jpg" />
+    <None Remove="Resource\Images\Profile\profile_5.jpg" />
   </ItemGroup>
 
 
@@ -136,6 +146,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="MySql.Data" Version="8.0.31" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
     <PackageReference Include="WpfAnimatedGif" Version="2.0.2" />
   </ItemGroup>
 
@@ -198,6 +209,12 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resource\Images\Icon\help_rbx.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Images\Icon\key_r.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Images\Icon\key_rb.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resource\Images\Icon\library_r.png">
@@ -299,6 +316,12 @@
     <Resource Include="Resource\Images\Icon\tick_b.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resource\Images\Icon\user_r.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Images\Icon\user_rb.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resource\Images\Icon\verse_r.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
@@ -361,6 +384,12 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resource\Images\Profile\profile_3.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Images\Profile\profile_4.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Images\Profile\profile_5.jpg">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>

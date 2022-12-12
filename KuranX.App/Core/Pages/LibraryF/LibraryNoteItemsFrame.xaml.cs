@@ -100,7 +100,7 @@ namespace KuranX.App.Core.Pages.LibraryF
                     }
 
                     int i = 1;
-                    Thread.Sleep(200);
+                    Thread.Sleep(int.Parse(App.config.AppSettings.Settings["app_animationSpeed"].Value));
 
                     foreach (var item in dNotes)
                     {
@@ -214,7 +214,7 @@ namespace KuranX.App.Core.Pages.LibraryF
                         entitydb.Librarys.Where(p => p.libraryId == folderId).First().modify = DateTime.Now;
                         loadHeader.Text = popupNewName.Text;
                         entitydb.SaveChanges();
-                        App.mainScreen.succsessFunc("Güncelleme Başarılı", "Kütüphane başlığınız başarılı bir sekilde Değiştirilmiştir.", 3);
+                        App.mainScreen.succsessFunc("İşlem Başarılı", "Kütüphane başlığınız başarılı bir sekilde değiştirilmiştir.", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
                         popup_newName.IsOpen = false;
                     }
                     else
@@ -326,12 +326,12 @@ namespace KuranX.App.Core.Pages.LibraryF
                         entitydb.ResultItems.Add(dTemp);
                         entitydb.SaveChanges();
                         popup_sendResult.IsOpen = false;
-                        App.mainScreen.succsessFunc("Gönderme Başarılı", "Kütüphane başlığı " + item.Content + " suresinin sonucuna gönderildi.", 3);
+                        App.mainScreen.succsessFunc("İşlem Başarılı", "Kütüphane başlığı " + item.Content + " suresinin sonucuna gönderildi.", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
                     }
                     else
                     {
                         popup_sendResult.IsOpen = false;
-                        App.mainScreen.alertFunc("Gönderme Başarısız", "Kütüphane başlığı " + item.Content + " suresinin sonucuna daha önceden eklenmiştir yeniden ekleyemezsiniz.", 3);
+                        App.mainScreen.alertFunc("İşlem Başarısız", "Kütüphane başlığı " + item.Content + " suresinin sonucuna daha önceden eklenmiştir yeniden ekleyemezsiniz.", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
                     }
                 }
             }
@@ -391,7 +391,7 @@ namespace KuranX.App.Core.Pages.LibraryF
 
                 App.timeSpan.Interval = TimeSpan.FromSeconds(3);
                 App.timeSpan.Start();
-                App.mainScreen.succsessFunc("Silme Başarılı", "Kütüphane başlığı ve başlığa ait tüm notlar serbes bırakıldı. Kütüphaneye yönlendiriliyorsunuz...", 3);
+                App.mainScreen.succsessFunc("İşlem Başarılı", "Kütüphane başlığı ve başlığa ait tüm notlar serbes bırakıldı. Kütüphaneye yönlendiriliyorsunuz...", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
                 App.timeSpan.Tick += delegate
                 {
                     App.timeSpan.Stop();
@@ -444,5 +444,66 @@ namespace KuranX.App.Core.Pages.LibraryF
         }
 
         // ------------ Animation Func ------------ //
+
+        // ----------- Popuper Spec Func ----------- //
+
+        public void popuverMove_Click(object sender, RoutedEventArgs e)
+        {
+            var btn = sender as Button;
+            ppMoveConfing((string)btn.Uid);
+            moveControlName.Text = (string)btn.Content;
+            pp_moveBar.IsOpen = true;
+        }
+
+        public void ppMoveActionOfset_Click(object sender, RoutedEventArgs e)
+        {
+            var btntemp = sender as Button;
+            var movePP = (Popup)FindName((string)btntemp.Content);
+
+            switch (btntemp.Uid.ToString())
+            {
+                case "Left":
+                    movePP.HorizontalOffset -= 50;
+                    break;
+
+                case "Top":
+                    movePP.VerticalOffset -= 50;
+                    break;
+
+                case "Bottom":
+                    movePP.VerticalOffset += 50;
+                    break;
+
+                case "Right":
+                    movePP.HorizontalOffset += 50;
+                    break;
+
+                case "UpLeft":
+                    movePP.Placement = PlacementMode.Absolute;
+                    movePP.VerticalOffset = 0;
+                    movePP.HorizontalOffset = 0;
+                    break;
+
+                case "Reset":
+                    movePP.Placement = PlacementMode.Center;
+                    movePP.VerticalOffset = 0;
+                    movePP.HorizontalOffset = 0;
+                    break;
+
+                case "Close":
+                    pp_moveBar.IsOpen = false;
+                    break;
+            }
+        }
+
+        public void ppMoveConfing(string ppmove)
+        {
+            Debug.WriteLine(ppmove);
+            for (int i = 1; i < 8; i++)
+            {
+                var btn = FindName("pp_M" + i) as Button;
+                btn.Content = ppmove;
+            }
+        }
     }
 }

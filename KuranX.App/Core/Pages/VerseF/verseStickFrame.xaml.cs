@@ -3,6 +3,7 @@ using KuranX.App.Core.Pages.NoteF;
 using KuranX.App.Core.Pages.ReminderF;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -26,7 +27,7 @@ namespace KuranX.App.Core.Pages.VerseF
     /// </summary>
     public partial class verseStickFrame : Page
     {
-        private string intelWriter = "", getSure = "";
+        private string intelWriter = App.InterpreterWriter, getSure = "";
         private int sSureId, sRelativeVerseId, getVerse, verseId, clearNav = 1, last = 0, currentP;
 
         public verseStickFrame()
@@ -45,10 +46,12 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+                stickHomeGrid.Visibility = Visibility.Collapsed;
                 sSureId = sId;
                 sRelativeVerseId = vId;
                 getSure = getS;
                 getVerse = gerR;
+                intelWriter = App.InterpreterWriter;
                 App.loadTask = Task.Run(() => loadVerseFunc(vId));
                 return this;
             }
@@ -86,6 +89,8 @@ namespace KuranX.App.Core.Pages.VerseF
                         mainContent.Visibility = Visibility.Visible;
                         if (dSure.name == "Fâtiha" && sRelativeVerseId == 1) NavUpdatePrevSingle.IsEnabled = false;
                         else NavUpdatePrevSingle.IsEnabled = true;
+
+                        stickHomeGrid.Visibility = Visibility.Visible;
                     });
 
                     dSure = null;
@@ -173,7 +178,7 @@ namespace KuranX.App.Core.Pages.VerseF
                     if (prev != 0) last -= prev;
                     else last -= 2;
 
-                    var dVerseNav = entitydb.Verse.Where(p => p.sureId == sSureId).Select(p => new Verse() { verseId = p.verseId, relativeDesk = p.relativeDesk, status = p.status, verseCheck = p.verseCheck }).Skip(last).Take(8).ToList();
+                    var dVerseNav = entitydb.Verse.Where(p => p.sureId == sSureId).Select(p => new Verse() { verseId = p.verseId, relativeDesk = p.relativeDesk, verseCheck = p.verseCheck }).Skip(last).Take(8).ToList();
                     var tempVerse = new List<Verse>();
 
                     int i = 0;
@@ -192,13 +197,20 @@ namespace KuranX.App.Core.Pages.VerseF
                                 vNav.Uid = item.verseId.ToString();
                                 vNav.IsChecked = item.verseCheck;
                                 vNav.Content = item.relativeDesk;
-                                vNav.Tag = item.status;
+                                if (item.verseCheck)
+                                {
+                                    vNav.Tag = "#66E21F";
+                                }
+                                else
+                                {
+                                    vNav.Tag = "#FFFFFF";
+                                }
                                 vNav.SetValue(Extensions.DataStorage, item.relativeDesk.ToString());
                             }
                         });
                     }
 
-                    Thread.Sleep(300);
+                    Thread.Sleep(int.Parse(App.config.AppSettings.Settings["app_animationSpeed"].Value));
 
                     for (int x = 1; x < 9; x++)
                     {
@@ -235,7 +247,7 @@ namespace KuranX.App.Core.Pages.VerseF
                     switch (writer)
                     {
                         case "Yorumcu 1":
-                            this.Dispatcher.Invoke(() => interpreterWriterCombo.SelectedIndex = 1);
+                            this.Dispatcher.Invoke(() => interpreterWriterCombo.SelectedIndex = 0);
                             break;
 
                         case "Yorumcu 2":
@@ -247,7 +259,7 @@ namespace KuranX.App.Core.Pages.VerseF
                             break;
 
                         case "Mehmet Okuyan":
-                            this.Dispatcher.Invoke(() => interpreterWriterCombo.SelectedIndex = 4);
+                            this.Dispatcher.Invoke(() => interpreterWriterCombo.SelectedIndex = 1);
                             break;
 
                         default:
@@ -264,6 +276,7 @@ namespace KuranX.App.Core.Pages.VerseF
 
                     if (dInter != null)
                     {
+                        App.InterpreterWriter = writer;
                         loadItemsInterpreter(dInter);
                     }
 
@@ -398,7 +411,9 @@ namespace KuranX.App.Core.Pages.VerseF
                 }
                 else
                 {
-                    if (App.currentDesktype == "DeskLanding")
+                    var desktype = App.navSurePage.deskingCombobox.SelectedItem as ComboBoxItem;
+
+                    if ((string)desktype.Tag == "DeskLanding")
                     {
                         int xc = 0;
                         using (var entitydb = new AyetContext())
@@ -459,7 +474,9 @@ namespace KuranX.App.Core.Pages.VerseF
                 }
                 else
                 {
-                    if (App.currentDesktype == "DeskLanding")
+                    var desktype = App.navSurePage.deskingCombobox.SelectedItem as ComboBoxItem;
+
+                    if ((string)desktype.Tag == "DeskLanding")
                     {
                         using (var entitydb = new AyetContext())
                         {
@@ -497,7 +514,8 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
-                NavigationService.GoBack();
+                App.secondFrame.Visibility = Visibility.Collapsed;
+                stickHomeGrid.Visibility = Visibility.Collapsed;
             }
             catch (Exception ex)
             {
@@ -579,7 +597,7 @@ namespace KuranX.App.Core.Pages.VerseF
                 }
                 else
                 {
-                    App.mainScreen.alertFunc("Ayet Mevcut Değil", "Ayet Sayısını Geçtiniz Gidile Bilecek Son Ayet Sayısı : " + loadVerseCount.Text + " Lütfen Tekrar Deneyiniz.", 3);
+                    App.mainScreen.alertFunc("İşlem Başarısız", "Ayet sayısını geçtiniz gidile bilecek son ayet sayısı : " + loadVerseCount.Text + " lütfen tekrar deneyiniz.", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
                 }
             }
             catch (Exception ex)

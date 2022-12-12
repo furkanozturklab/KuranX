@@ -782,4 +782,87 @@
     </Style>
 
     <!-- Words -->
+
+    <Style x:Key="pp_moveWindow" TargetType="Button">
+
+        <Setter Property="Background" Value="{x:Null}" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Margin" Value="2" />
+        <Setter Property="BorderBrush" Value="{x:Null}" />
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Border x:Name="moveWindowBase" CornerRadius="1" Background="#CACDD1" BorderBrush="#7B7D81" BorderThickness="1" />
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#454E5E" TargetName="moveWindowBase" />
+                            <Setter Property="BorderBrush" Value="#454E5E" TargetName="moveWindowBase" />
+                            <Setter Property="Cursor" Value="Hand" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="pp_moveWindowIcon" TargetType="Button">
+
+        <Setter Property="Background" Value="{x:Null}" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Margin" Value="2" />
+        <Setter Property="BorderBrush" Value="{x:Null}" />
+        <Setter Property="Foreground" Value="#7B7D81" />
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Border x:Name="moveWindowBase" CornerRadius="1" Background="#CACDD1" BorderBrush="#7B7D81" BorderThickness="1">
+                        <Icon:PackIconIonicons x:Name="moveWindowIco" Kind="{Binding Path=Tag, RelativeSource={RelativeSource TemplatedParent}}" Foreground="{TemplateBinding Foreground}" Width="16" Height="16" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#454E5E" TargetName="moveWindowBase" />
+                            <Setter Property="BorderBrush" Value="#454E5E" TargetName="moveWindowBase" />
+                            <Setter Property="Foreground" Value="#FFF" TargetName="moveWindowIco" />
+                            <Setter Property="Cursor" Value="Hand" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="pp_moveBaseIcon" TargetType="Button">
+
+        <Setter Property="Background" Value="{x:Null}" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="Width" Value="24" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="Height" Value="24" />
+        <Setter Property="BorderBrush" Value="{x:Null}" />
+        <Setter Property="Foreground" Value="#FFF" />
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <TextBlock x:Name="moveWindowBase">
+                        <Icon:PackIconIonicons x:Name="moveWindowIco" Kind="{Binding Path=Tag, RelativeSource={RelativeSource TemplatedParent}}" Foreground="{TemplateBinding Foreground}" Width="24" Height="24" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    </TextBlock>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Foreground" Value="#FFF" TargetName="moveWindowIco" />
+                            <Setter Property="Cursor" Value="Hand" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>

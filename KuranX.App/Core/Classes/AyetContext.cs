@@ -26,7 +26,7 @@ namespace KuranX.App.Core.Classes
 
         public AyetContext()
         {
-            var folder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "KuranX");
+            var folder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "KuranSunnetullah");
             Directory.CreateDirectory(folder);
             DbPath = Path.Combine(folder, "Ayet.db");
         }
@@ -52,14 +52,7 @@ namespace KuranX.App.Core.Classes
                 .Property(u => u.lastName)
                 .HasColumnName("user_lastName")
                 .HasDefaultValue("Last Name");
-            modelBuilder.Entity<User>()
-                .Property(u => u.password)
-                .HasDefaultValue("1230")
-                .HasColumnName("user_password");
-            modelBuilder.Entity<User>()
-                .Property(u => u.screetQuestion)
-                .HasColumnName("user_screetQuestion")
-                .HasDefaultValue("Screet Question");
+
             modelBuilder.Entity<User>()
                 .Property(u => u.createDate)
                 .HasColumnName("user_createDate")
@@ -72,20 +65,14 @@ namespace KuranX.App.Core.Classes
                 .Property(u => u.avatarUrl)
                 .HasColumnName("user_avatarUrl")
                 .HasDefaultValue("default");
-
             modelBuilder.Entity<User>()
-                .Property(u => u.city)
-                .HasColumnName("user_city")
-                .HasDefaultValue("");
+               .Property(u => u.screetQuestion)
+               .HasColumnName("user_screetQuestion")
+               .HasDefaultValue("Değiştiriniz");
             modelBuilder.Entity<User>()
-             .Property(u => u.country)
-             .HasColumnName("user_country")
-             .HasDefaultValue("");
-
-            modelBuilder.Entity<User>()
-                .Property(u => u.phone)
-                .HasColumnName("user_phone")
-                .HasDefaultValue("");
+               .Property(u => u.screetQuestionAnw)
+               .HasColumnName("user_screetAnw")
+               .HasDefaultValue("Yeni Değeri Girin");
 
             //   SURE
             modelBuilder.Entity<Sure>()
@@ -132,6 +119,11 @@ namespace KuranX.App.Core.Classes
                .Property(u => u.libraryId)
                .HasDefaultValue(0);
 
+            // INTEGRİTY
+            modelBuilder.Entity<Integrity>()
+                .Property(u => u.integrityProtected)
+                .HasDefaultValue(0);
+
             // PDF
             modelBuilder.Entity<PdfFile>()
                 .Property(u => u.fileType)
@@ -160,10 +152,6 @@ namespace KuranX.App.Core.Classes
             modelBuilder.Entity<Result>()
                 .Property(u => u.resultLib)
                 .HasDefaultValue(false);
-
-            modelBuilder.Entity<Result>()
-               .Property(u => u.resultStatus)
-               .HasDefaultValue("#ADB5BD");
             modelBuilder.Entity<Result>()
                 .Property(u => u.resultFinallyNote)
                 .HasDefaultValue("Sonuç Metninizi buraya yaza bilirsiniz.");

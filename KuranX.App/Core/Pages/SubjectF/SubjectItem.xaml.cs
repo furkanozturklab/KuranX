@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Security.Cryptography.Pkcs;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -96,9 +97,9 @@ namespace KuranX.App.Core.Pages.SubjectF
                         loadVerseTr.Text = dVerse.verseTr;
                         loadVerseArb.Text = dVerse.verseArabic;
                         sverseId = (int)dVerse.verseId;
-                        loadInterpreterFunc("", sverseId);
+                        loadInterpreterFunc(App.InterpreterWriter, sverseId);
                     });
-                    Thread.Sleep(200);
+                    Thread.Sleep(int.Parse(App.config.AppSettings.Settings["app_animationSpeed"].Value));
 
                     loadAniComplated();
                 }
@@ -120,7 +121,7 @@ namespace KuranX.App.Core.Pages.SubjectF
                     switch (writer)
                     {
                         case "Yorumcu 1":
-                            this.Dispatcher.Invoke(() => interpreterWriterCombo.SelectedIndex = 1);
+                            this.Dispatcher.Invoke(() => interpreterWriterCombo.SelectedIndex = 0);
                             break;
 
                         case "Yorumcu 2":
@@ -132,7 +133,7 @@ namespace KuranX.App.Core.Pages.SubjectF
                             break;
 
                         case "Mehmet Okuyan":
-                            this.Dispatcher.Invoke(() => interpreterWriterCombo.SelectedIndex = 4);
+                            this.Dispatcher.Invoke(() => interpreterWriterCombo.SelectedIndex = 1);
                             break;
 
                         default:
@@ -149,6 +150,7 @@ namespace KuranX.App.Core.Pages.SubjectF
 
                     if (dInter != null)
                     {
+                        App.InterpreterWriter = writer;
                         loadItemsInterpreter(dInter);
                     }
 
@@ -430,14 +432,14 @@ namespace KuranX.App.Core.Pages.SubjectF
                                 {
                                     if (entitydb.Notes.Where(p => p.noteHeader == noteName.Text && p.sureId == sSureId && p.verseId == verseId).FirstOrDefault() != null)
                                     {
-                                        App.mainScreen.alertFunc("Not Ekleme Başarısız", "Aynı isimde not eklemiş olabilirsiniz lütfen kontrol edip yeniden deneyiniz.", 3);
+                                        App.mainScreen.alertFunc("İşlem Başarısız", "Aynı isimde not eklemiş olabilirsiniz lütfen kontrol edip yeniden deneyiniz.", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
                                     }
                                     else
                                     {
                                         var dNotes = new Notes { noteHeader = noteName.Text, noteDetail = noteDetail.Text, sureId = sSureId, verseId = verseId, modify = DateTime.Now, created = DateTime.Now, noteLocation = "Konularım", subjectId = subItemsId };
                                         entitydb.Notes.Add(dNotes);
                                         entitydb.SaveChanges();
-                                        App.mainScreen.succsessFunc("Not Ekleme Başarılı", loadBackHeader.Text + " Not Eklendiniz.", 3);
+                                        App.mainScreen.succsessFunc("İşlem Başarılı", loadBackHeader.Text + " Not Eklendiniz.", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
                                         App.loadTask = Task.Run(noteConnect);
 
                                         dNotes = null;
@@ -548,6 +550,19 @@ namespace KuranX.App.Core.Pages.SubjectF
             }
         }
 
+        private void noteName_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            try
+            {
+                Regex regex = new Regex("[^0-9a-zA-Z-ğüşöçıİĞÜŞÖÇ']");
+                e.Handled = regex.IsMatch(e.Text);
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Change", ex);
+            }
+        }
+
         private void noteName_KeyDown(object sender, KeyEventArgs e)
         {
             try
@@ -609,6 +624,67 @@ namespace KuranX.App.Core.Pages.SubjectF
             catch (Exception ex)
             {
                 App.logWriter("Animation", ex);
+            }
+        }
+
+        // ----------- Popuper Spec Func ----------- //
+
+        public void popuverMove_Click(object sender, RoutedEventArgs e)
+        {
+            var btn = sender as Button;
+            ppMoveConfing((string)btn.Uid);
+            moveControlName.Text = (string)btn.Content;
+            pp_moveBar.IsOpen = true;
+        }
+
+        public void ppMoveActionOfset_Click(object sender, RoutedEventArgs e)
+        {
+            var btntemp = sender as Button;
+            var movePP = (Popup)FindName((string)btntemp.Content);
+
+            switch (btntemp.Uid.ToString())
+            {
+                case "Left":
+                    movePP.HorizontalOffset -= 50;
+                    break;
+
+                case "Top":
+                    movePP.VerticalOffset -= 50;
+                    break;
+
+                case "Bottom":
+                    movePP.VerticalOffset += 50;
+                    break;
+
+                case "Right":
+                    movePP.HorizontalOffset += 50;
+                    break;
+
+                case "UpLeft":
+                    movePP.Placement = PlacementMode.Absolute;
+                    movePP.VerticalOffset = 0;
+                    movePP.HorizontalOffset = 0;
+                    break;
+
+                case "Reset":
+                    movePP.Placement = PlacementMode.Center;
+                    movePP.VerticalOffset = 0;
+                    movePP.HorizontalOffset = 0;
+                    break;
+
+                case "Close":
+                    pp_moveBar.IsOpen = false;
+                    break;
+            }
+        }
+
+        public void ppMoveConfing(string ppmove)
+        {
+            Debug.WriteLine(ppmove);
+            for (int i = 1; i < 8; i++)
+            {
+                var btn = FindName("pp_M" + i) as Button;
+                btn.Content = ppmove;
             }
         }
     }

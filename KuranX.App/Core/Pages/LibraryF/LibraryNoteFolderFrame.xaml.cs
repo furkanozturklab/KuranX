@@ -85,7 +85,7 @@ namespace KuranX.App.Core.Pages.LibraryF
 
                     int i = 1;
 
-                    Thread.Sleep(300);
+                    Thread.Sleep(int.Parse(App.config.AppSettings.Settings["app_animationSpeed"].Value));
 
                     foreach (var item in dLibrarys)
                     {
@@ -233,7 +233,7 @@ namespace KuranX.App.Core.Pages.LibraryF
                                 var dlibraryFolder = new Classes.Library { libraryName = librarypreviewName.Text, libraryColor = librarypreviewColor.Background.ToString(), created = DateTime.Now, modify = DateTime.Now };
                                 entitydb.Librarys.Add(dlibraryFolder);
                                 entitydb.SaveChanges();
-                                App.mainScreen.succsessFunc("Kütüphane Başlığı ", " Yeni kütüphane başlığı oluşturuldu artık veri ekleye bilirsiniz.", 3);
+                                App.mainScreen.succsessFunc("İşlem Başarılı", " Yeni kütüphane başlığı oluşturuldu artık veri ekleye bilirsiniz.", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
 
                                 librarypreviewName.Text = "Önizlem";
                                 libraryFolderHeader.Text = "";
@@ -244,7 +244,7 @@ namespace KuranX.App.Core.Pages.LibraryF
                             }
                             else
                             {
-                                App.mainScreen.alertFunc("Kütüphane Başlığı Oluşturulamadı ", " Daha önce aynı isimde bir konu zaten mevcut lütfen kontrol ediniz.", 3);
+                                App.mainScreen.alertFunc("İşlem Başarısız", " Daha önce aynı isimde bir kütüphane başlığı zaten mevcut lütfen kontrol ediniz.", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
                             }
                             dControl = null;
                         }

@@ -1,13 +1,16 @@
 ﻿using System;
+using System.Configuration;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Automation.Peers;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Navigation;
 using System.Windows.Threading;
@@ -15,6 +18,7 @@ using System.Windows.Threading;
 using KuranX.App.Core.Classes;
 using KuranX.App.Core.Pages;
 using Microsoft.EntityFrameworkCore;
+using static Org.BouncyCastle.Math.EC.ECCurve;
 
 namespace KuranX.App.Core.Windows
 {
@@ -33,6 +37,9 @@ namespace KuranX.App.Core.Windows
             {
                 InitializeComponent();
                 App.mainframe = (Frame)this.FindName("homeFrame");
+                App.secondFrame = (Frame)this.FindName("secondFrame");
+                AppVersion.Text = "Version " + App.config.AppSettings.Settings["application_version"].Value;
+                settingsVersion.Content = "build" + App.config.AppSettings.Settings["application_type"].Value + "_" + App.config.AppSettings.Settings["application_platform"].Value + "_" + App.config.AppSettings.Settings["application_version"].Value;
             }
             catch (Exception ex)
             {
@@ -54,7 +61,7 @@ namespace KuranX.App.Core.Windows
                 App.mainTask.Wait();
 
                 if (taskstatus) App.mainTask = Task.Run(() => tasksCycler_Func());
-                App.mainframe.Content = App.navHomeFrame.PageCall();
+                App.mainframe.Content = App.navTestPage.PageCall();
             }
             catch (Exception ex)
             {
@@ -97,7 +104,7 @@ namespace KuranX.App.Core.Windows
                                     if (entitydb.Tasks.Where(p => p.missonsId == item.remiderId && p.missonsType == "Remider").Count() == 0)
                                     {
                                         entitydb.Remider.Where(p => p.remiderId == item.remiderId).FirstOrDefault().lastAction = DateTime.Now;
-                                        var newD = new Tasks { missonsId = item.remiderId, missonsColor = "#ffc107", missonsRepeart = 5, missonsTime = 5, missonsType = "Remider" };
+                                        var newD = new Tasks { missonsId = item.remiderId, missonsColor = "#ffc107", missonsRepeart = int.Parse(App.config.AppSettings.Settings["app_remiderCount"].Value), missonsTime = int.Parse(App.config.AppSettings.Settings["app_remiderWaitTime"].Value), missonsType = "Remider" };
 
                                         entitydb.Remider.Where(p => p.remiderId == item.remiderId).First().status = "Added";
                                         entitydb.Tasks.Add(newD);
@@ -113,7 +120,7 @@ namespace KuranX.App.Core.Windows
                                     {
                                         entitydb.Remider.Where(p => p.remiderId == item.remiderId).FirstOrDefault().lastAction = DateTime.Now;
 
-                                        var newD = new Tasks { missonsId = item.remiderId, missonsColor = "#d63384", missonsRepeart = 5, missonsTime = 5, missonsType = "Remider" };
+                                        var newD = new Tasks { missonsId = item.remiderId, missonsColor = "#d63384", missonsRepeart = int.Parse(App.config.AppSettings.Settings["app_remiderCount"].Value), missonsTime = int.Parse(App.config.AppSettings.Settings["app_remiderWaitTime"].Value), missonsType = "Remider" };
                                         entitydb.Remider.Where(p => p.remiderId == item.remiderId).First().status = "Run";
                                         entitydb.Tasks.Add(newD);
                                     }
@@ -128,7 +135,7 @@ namespace KuranX.App.Core.Windows
                                     {
                                         entitydb.Remider.Where(p => p.remiderId == item.remiderId).FirstOrDefault().lastAction = DateTime.Now;
 
-                                        var newD = new Tasks { missonsId = item.remiderId, missonsColor = "#0d6efd", missonsRepeart = 5, missonsTime = 5, missonsType = "Remider" };
+                                        var newD = new Tasks { missonsId = item.remiderId, missonsColor = "#0d6efd", missonsRepeart = int.Parse(App.config.AppSettings.Settings["app_remiderCount"].Value), missonsTime = int.Parse(App.config.AppSettings.Settings["app_remiderWaitTime"].Value), missonsType = "Remider" };
                                         entitydb.Remider.Where(p => p.remiderId == item.remiderId).First().status = "Run";
                                         entitydb.Tasks.Add(newD);
                                     }
@@ -142,7 +149,7 @@ namespace KuranX.App.Core.Windows
                                     {
                                         entitydb.Remider.Where(p => p.remiderId == item.remiderId).FirstOrDefault().lastAction = DateTime.Now;
 
-                                        var newD = new Tasks { missonsId = item.remiderId, missonsColor = "#0dcaf0", missonsRepeart = 5, missonsTime = 5, missonsType = "Remider" };
+                                        var newD = new Tasks { missonsId = item.remiderId, missonsColor = "#0dcaf0", missonsRepeart = int.Parse(App.config.AppSettings.Settings["app_remiderCount"].Value), missonsTime = int.Parse(App.config.AppSettings.Settings["app_remiderWaitTime"].Value), missonsType = "Remider" };
                                         entitydb.Remider.Where(p => p.remiderId == item.remiderId).First().status = "Run";
                                         entitydb.Tasks.Add(newD);
                                     }
@@ -156,7 +163,7 @@ namespace KuranX.App.Core.Windows
                                     {
                                         entitydb.Remider.Where(p => p.remiderId == item.remiderId).FirstOrDefault().lastAction = DateTime.Now;
 
-                                        var newD = new Tasks { missonsId = item.remiderId, missonsColor = "#6610f2", missonsRepeart = 5, missonsTime = 5, missonsType = "Remider" };
+                                        var newD = new Tasks { missonsId = item.remiderId, missonsColor = "#6610f2", missonsRepeart = int.Parse(App.config.AppSettings.Settings["app_remiderCount"].Value), missonsTime = int.Parse(App.config.AppSettings.Settings["app_remiderWaitTime"].Value), missonsType = "Remider" };
                                         entitydb.Remider.Where(p => p.remiderId == item.remiderId).First().status = "Run";
                                         entitydb.Tasks.Add(newD);
                                     }
@@ -188,7 +195,7 @@ namespace KuranX.App.Core.Windows
                         foreach (var item in TasksLoad)
                         {
                             // 5sn sonra sıradaki göreve geç
-                            Thread.Sleep(5000); // 5 sn // 10 sn // 30 sn // 60 sn // 120 sn // 240 sn // Sırdaki göreve gecme süresi
+                            Thread.Sleep(int.Parse(App.config.AppSettings.Settings["app_remiderWaitTime"].Value) * 1000); // 5 sn // 10 sn // 30 sn // 60 sn // 120 sn // 240 sn // Sırdaki göreve gecme süresi
 
                             var dRemider = entitydb.Remider.Where(p => p.remiderId == item.missonsId).FirstOrDefault();
 
@@ -387,7 +394,6 @@ namespace KuranX.App.Core.Windows
                                 {
                                     navClear();
                                     navCheckBox.IsChecked = true;
-                                    App.currentDesktype = "DeskLanding";
                                     App.mainframe.Content = App.navSurePage.PageCall();
                                 });
 
@@ -472,7 +478,6 @@ namespace KuranX.App.Core.Windows
                             {
                                 navClear();
                                 navCheckBox.IsChecked = true;
-                                App.currentDesktype = "DeskLanding";
                                 App.mainframe.Content = App.navSurePage.PageCall();
                             });
 
@@ -612,6 +617,30 @@ namespace KuranX.App.Core.Windows
             }
         }
 
+        private void userExit_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                MessageBoxResult result = MessageBox.Show("Oturumunuzu kapatmak üzeresiniz bu işlem sonucunda yeniden giriş yapmanız gerekiyor devam etmek istiyor musunuz ?", "Oturum Sonlandırma", MessageBoxButton.YesNo, MessageBoxImage.Information);
+
+                if (result == MessageBoxResult.Yes)
+                {
+                    App.config.AppSettings.Settings["user_rememberMe"].Value = "false";
+                    App.config.AppSettings.Settings["user_autoLogin"].Value = "false";
+                    App.config.AppSettings.Settings["user_pin"].Value = "";
+                    App.config.Save(ConfigurationSaveMode.Modified);
+                    loginScreen lg = new loginScreen();
+                    lg.Show();
+                    this.Hide();
+                    GC.Collect();
+                }
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Click", ex);
+            }
+        }
+
         private void popupAction_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -721,7 +750,6 @@ namespace KuranX.App.Core.Windows
                             navClear();
 
                             navCheckBox.IsChecked = true;
-                            App.currentDesktype = "DeskLanding";
                             App.mainframe.Content = App.navSurePage.PageCall();
                         });
                         break;
@@ -815,7 +843,8 @@ namespace KuranX.App.Core.Windows
             {
                 this.Dispatcher.Invoke(() =>
                 {
-                    App.mainframe.Content = App.navUserFrame.PageCall();
+                    App.loadTask = Task.Run(() => loadProfile());
+                    popup_profileMain.IsOpen = true;
                 });
             }
             catch (Exception ex)
@@ -889,6 +918,500 @@ namespace KuranX.App.Core.Windows
             catch (Exception ex)
             {
                 App.logWriter("Other", ex);
+            }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+        }
+
+        // ---------------------  PROFİLE POPUP FUNC --------------------- //
+
+        private void loadProfile()
+        {
+            using (var entitydb = new AyetContext())
+            {
+                var dProfile = entitydb.Users.FirstOrDefault();
+
+                if (dProfile != null)
+                {
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        userName.Text = dProfile.firstName;
+                        userLastName.Text = dProfile.lastName;
+                        userEmail.Text = dProfile.email;
+                        userPin.Text = dProfile.pin;
+                        userScreetQuestion.Text = dProfile.screetQuestion;
+                        userScreetQuestionAnw.Text = dProfile.screetQuestionAnw;
+                        pp_profileImageBrush.ImageSource = (ImageSource)FindResource(dProfile.avatarUrl);
+                    });
+                }
+            }
+        }
+
+        private void userName_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            userNameErr.Content = "* Zorunlu Alan ";
+        }
+
+        private void userLastName_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            userLastNameErr.Content = "* Zorunlu Alan ";
+        }
+
+        private void userEmail_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            userEmailErr.Content = "* Zorunlu Alan ";
+        }
+
+        private void userPin_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            userPinErr.Content = "* Boş Bırakılabilir ";
+        }
+
+        private void userScreetQuestion_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            userScreetQuestionErr.Content = "* Zorunlu Alan ";
+        }
+
+        private void userScreetQuestionAnw_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            userScreetQuestionAnwErr.Content = "* Zorunlu Alan ";
+        }
+
+        private void userName_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
+        {
+            try
+            {
+                Regex regex = new Regex("[^0-9a-zA-ZğüşöçıİĞÜŞÖÇ)']");
+                e.Handled = regex.IsMatch(e.Text);
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Change", ex);
+            }
+        }
+
+        private void userEmail_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
+        {
+            try
+            {
+                Regex regex = new Regex("[^0-9a-zA-Z-@ğüşöçıİĞÜŞÖÇ?._ ']");
+                e.Handled = regex.IsMatch(e.Text);
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Change", ex);
+            }
+        }
+
+        private void userPin_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
+        {
+            try
+            {
+                Regex regex = new Regex("[^0-9]+");
+                e.Handled = regex.IsMatch(e.Text);
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Change", ex);
+            }
+        }
+
+        private void saveProfileFunc()
+        {
+            if (IsValidEmail(this.Dispatcher.Invoke(() => userEmail.Text)))
+            {
+                if (this.Dispatcher.Invoke(() => userName.Text.Length) >= 3)
+                {
+                    if (this.Dispatcher.Invoke(() => userLastName.Text.Length) >= 3)
+                    {
+                        if (this.Dispatcher.Invoke(() => userScreetQuestion.Text.Length) >= 3)
+                        {
+                            if (this.Dispatcher.Invoke(() => userScreetQuestionAnw.Text.Length) >= 3)
+                            {
+                                using (var entitydb = new AyetContext())
+                                {
+                                    var dUser = entitydb.Users.FirstOrDefault();
+
+                                    if (dUser != null)
+                                    {
+                                        this.Dispatcher.Invoke(() =>
+                                        {
+                                            dUser.email = userEmail.Text;
+                                            dUser.lastName = userLastName.Text;
+                                            dUser.firstName = userName.Text;
+                                            dUser.screetQuestion = userScreetQuestion.Text;
+                                            dUser.screetQuestionAnw = userScreetQuestionAnw.Text;
+                                            dUser.pin = userPin.Text;
+                                            App.mainScreen.hmwd_profileName.Text = dUser.firstName + " " + dUser.lastName;
+                                            entitydb.SaveChanges();
+                                            App.mainScreen.succsessFunc("İşlem Başarılı", "Profil bilgileriniz başarılı bir sekilde güncellenmiştir.", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
+                                        });
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                this.Dispatcher.Invoke(() =>
+                                {
+                                    userScreetQuestionAnwErr.Content = "Minimum 3 karakter olmak zorunda.";
+                                    userScreetQuestionAnw.Focus();
+                                });
+                            }
+                        }
+                        else
+                        {
+                            this.Dispatcher.Invoke(() =>
+                            {
+                                userScreetQuestionErr.Content = "Minimum 3 karakter olmak zorunda.";
+                                userScreetQuestion.Focus();
+                            });
+                        }
+                    }
+                    else
+                    {
+                        this.Dispatcher.Invoke(() =>
+                        {
+                            userLastNameErr.Content = "Minimum 3 karakter olmak zorunda.";
+                            userLastName.Focus();
+                        });
+                    }
+                }
+                else
+                {
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        userNameErr.Content = "Minimum 3 karakter olmak zorunda.";
+                        userName.Focus();
+                    });
+                }
+            }
+            else
+            {
+                this.Dispatcher.Invoke(() =>
+                {
+                    userEmail.Focus();
+                    userEmailErr.Content = "* Geçerli bir email adresi giriniz. ";
+                });
+            }
+        }
+
+        private void saveProfile_Click(object sender, RoutedEventArgs e)
+        {
+            App.mainTask = Task.Run(() => saveProfileFunc());
+        }
+
+        private bool IsValidEmail(string email)
+        {
+            var trimmedEmail = email.Trim();
+
+            if (trimmedEmail.EndsWith("."))
+            {
+                return false;
+            }
+            try
+            {
+                var addr = new System.Net.Mail.MailAddress(email);
+                return addr.Address == trimmedEmail;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private void saveImageFunc(Button btntemp)
+        {
+            try
+            {
+                using (var entitydb = new AyetContext())
+                {
+                    entitydb.Users.First().avatarUrl = this.Dispatcher.Invoke(() => btntemp.Tag.ToString());
+                    entitydb.SaveChanges();
+
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        hmwd_profileImageBrush.ImageSource = (ImageSource)FindResource(btntemp.Tag);
+                        pp_profileImageBrush.ImageSource = (ImageSource)FindResource(btntemp.Tag);
+                        App.mainScreen.hmwd_profileImageBrush.ImageSource = (ImageSource)FindResource(btntemp.Tag);
+                        App.mainScreen.succsessFunc("İşlem Başarılı", "Profil resminiz başarılı bir sekilde güncellenmiştir.", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
+                        popup_editImage.IsOpen = false;
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Change", ex);
+            }
+        }
+
+        private void changeImage_Click(object sender, RoutedEventArgs e)
+        {
+            var btntemp = sender as Button;
+            App.mainTask = Task.Run(() => saveImageFunc(btntemp));
+        }
+
+        private void prEditImage_Click(object sender, RoutedEventArgs e)
+        {
+            popup_editImage.IsOpen = true;
+        }
+
+        // -------- settings ------------ //
+
+        private void settings_Click(object sender, RoutedEventArgs e)
+        {
+            st_aniSecond.Text = App.config.AppSettings.Settings["app_animationSpeed"].Value;
+            st_warningSecond.Text = App.config.AppSettings.Settings["app_warningShowTime"].Value;
+            st_remiderCount.Text = App.config.AppSettings.Settings["app_remiderCount"].Value;
+            st_remiderRepeartTime.Text = App.config.AppSettings.Settings["app_remiderWaitTime"].Value;
+            st_remiderTime.Text = App.config.AppSettings.Settings["app_remiderTime"].Value;
+
+            switch (App.config.AppSettings.Settings["user_autoLogin"].Value)
+            {
+                case "false":
+                    st_start.SelectedIndex = 0;
+                    break;
+
+                case "true":
+                    st_start.SelectedIndex = 1;
+                    break;
+            }
+            popup_settingsPage.IsOpen = true;
+        }
+
+        private void settingSave_Click(object sender, RoutedEventArgs e)
+        {
+            if (int.Parse(st_aniSecond.Text) > 0 && int.Parse(st_aniSecond.Text) <= 10000 && IsNumeric(st_aniSecond.Text))
+            {
+                if (int.Parse(st_warningSecond.Text) > 0 && int.Parse(st_warningSecond.Text) <= 30 && IsNumeric(st_warningSecond.Text))
+                {
+                    if (int.Parse(st_remiderTime.Text) > 0 && int.Parse(st_remiderTime.Text) <= 240 && IsNumeric(st_remiderTime.Text))
+                    {
+                        if (int.Parse(st_remiderRepeartTime.Text) > 0 && int.Parse(st_remiderRepeartTime.Text) <= 3600 && IsNumeric(st_remiderRepeartTime.Text))
+                        {
+                            if (int.Parse(st_remiderCount.Text) > 0 && int.Parse(st_remiderCount.Text) <= 30 && IsNumeric(st_remiderCount.Text))
+                            {
+                                var item = st_start.SelectedItem as ComboBoxItem;
+                                if (item != null)
+                                {
+                                    switch (item.Tag)
+                                    {
+                                        case "false":
+                                            App.config.AppSettings.Settings["user_autoLogin"].Value = "false";
+                                            break;
+
+                                        case "true":
+                                            App.config.AppSettings.Settings["user_autoLogin"].Value = "true";
+                                            break;
+                                    }
+
+                                    App.config.AppSettings.Settings["app_animationSpeed"].Value = st_aniSecond.Text;
+                                    App.config.AppSettings.Settings["app_remiderTime"].Value = st_remiderTime.Text;
+                                    App.config.AppSettings.Settings["app_remiderWaitTime"].Value = st_remiderRepeartTime.Text;
+                                    App.config.AppSettings.Settings["app_remiderCount"].Value = st_remiderCount.Text;
+                                    App.config.AppSettings.Settings["app_warningShowTime"].Value = st_warningSecond.Text;
+                                    App.config.Save(ConfigurationSaveMode.Modified);
+                                    succsessFunc("İşlem Başarılı", "Ayarlarınız başarılı bir sekilde güncellenemiştir.", int.Parse((App.config.AppSettings.Settings["app_warningShowTime"].Value)));
+                                    popup_settingsPage.IsOpen = false;
+                                }
+                            }
+                            else
+                            {
+                                if (int.Parse(st_remiderCount.Text) > 3600) st_remiderCountErr.Content = "Maksimum tekrarlama sayısı aşıldı Max:30";
+                                st_remiderCount.Focus();
+                            }
+                        }
+                        else
+                        {
+                            if (int.Parse(st_remiderRepeartTime.Text) > 3600) st_remiderRepeartTimeErr.Content = "3600 sn den uzun değerler kabul edilmez.";
+                            st_remiderRepeartTime.Focus();
+                        }
+                    }
+                    else
+                    {
+                        if (int.Parse(st_remiderTime.Text) > 240) st_remiderTimeErr.Content = "240 sn den uzun değerler kabul edilmez.";
+                        st_remiderTime.Focus();
+                    }
+                }
+                else
+                {
+                    if (int.Parse(st_warningSecond.Text) > 30) st_warningSecondErr.Content = "30 sn den uzun değerler kabul edilmez.";
+                    st_warningSecond.Focus();
+                }
+            }
+            else
+            {
+                if (!IsNumeric(st_aniSecond.Text)) st_aniSecondErr.Content = "Lütfen sayısal bir değer giriniz.";
+                else st_aniSecondErr.Content = "Lütfen 0 dan büyük bir değer giriniz.";
+
+                if (int.Parse(st_aniSecond.Text) > 10000) st_aniSecondErr.Content = "Maksimum üst sınırı geçtiniz Max:10000";
+                st_aniSecond.Focus();
+            }
+        }
+
+        private void st_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
+        {
+            try
+            {
+                Regex regex = new Regex("[^0-9]+");
+                e.Handled = regex.IsMatch(e.Text);
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Change", ex);
+            }
+        }
+
+        public bool IsNumeric(string value)
+        {
+            if (int.TryParse(value, out int numericValue)) return true;
+            else return false;
+        }
+
+        // ------------ Contact ----------------- //
+
+        private void contact_Click(object sender, RoutedEventArgs e)
+        {
+            popup_Contact.IsOpen = true;
+        }
+
+        private void contactfirstName_KeyDown(object sender, KeyEventArgs e)
+        {
+            try
+            {
+                nameerr.Content = "*Zorunlu Alan";
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Change", ex);
+            }
+        }
+
+        private void contactEmail_KeyDown(object sender, KeyEventArgs e)
+        {
+            try
+            {
+                emailerr.Content = "*Zorunlu Alan";
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Change", ex);
+            }
+        }
+
+        private void contactNote_KeyDown(object sender, KeyEventArgs e)
+        {
+            try
+            {
+                detailerr.Content = "* Hangi konu hakkında konuşmak istersin ?";
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Change", ex);
+            }
+        }
+
+        private void sendBtn_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (firstName.Text.Length >= 3)
+                {
+                    if (email.Text.Length >= 3)
+                    {
+                        if (IsValidEmail(email.Text))
+                        {
+                            if (note.Text.Length >= 3)
+                            {
+                                Debug.WriteLine("Send Email");
+                            }
+                            else
+                            {
+                                detailerr.Content = "Minimum 3 Karakter olmak zorunda !";
+                                note.Focus();
+                            }
+                        }
+                        else
+                        {
+                            emailerr.Content = "Lütfen geçerli bir email adresi giriniz.";
+                            email.Focus();
+                        }
+                    }
+                    else
+                    {
+                        emailerr.Content = "Minimum 3 karakter olmak zorunda !";
+                        email.Focus();
+                    }
+                }
+                else
+                {
+                    nameerr.Content = "Minimum 3 karakter olmak zorunda !";
+                    firstName.Focus();
+                }
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Click", ex);
+            }
+        }
+
+        public void popuverMove_Click(object sender, RoutedEventArgs e)
+        {
+            var btn = sender as Button;
+            ppMoveConfing((string)btn.Uid);
+            if ((bool)pp_moveBar.IsOpen == true) pp_moveBar.IsOpen = false;
+            else pp_moveBar.IsOpen = true;
+        }
+
+        public void ppMoveActionOfset_Click(object sender, RoutedEventArgs e)
+        {
+            var btntemp = sender as Button;
+            var movePP = (Popup)FindName((string)btntemp.Content);
+
+            switch (btntemp.Uid.ToString())
+            {
+                case "Left":
+                    movePP.HorizontalOffset -= 50;
+                    break;
+
+                case "Top":
+                    movePP.VerticalOffset -= 50;
+                    break;
+
+                case "Bottom":
+                    movePP.VerticalOffset += 50;
+                    break;
+
+                case "Right":
+                    movePP.HorizontalOffset += 50;
+                    break;
+
+                case "UpLeft":
+                    movePP.Placement = PlacementMode.Absolute;
+                    movePP.VerticalOffset = 0;
+                    movePP.HorizontalOffset = 0;
+                    break;
+
+                case "Reset":
+                    movePP.Placement = PlacementMode.Center;
+                    movePP.VerticalOffset = 0;
+                    movePP.HorizontalOffset = 0;
+                    break;
+
+                case "Close":
+                    pp_moveBar.IsOpen = false;
+                    break;
+            }
+        }
+
+        public void ppMoveConfing(string ppmove)
+        {
+            Debug.WriteLine(ppmove);
+            for (int i = 1; i < 8; i++)
+            {
+                var btn = FindName("pp_M" + i) as Button;
+                btn.Content = ppmove;
             }
         }
     }

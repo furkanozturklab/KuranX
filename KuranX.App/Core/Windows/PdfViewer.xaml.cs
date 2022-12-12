@@ -304,7 +304,7 @@ namespace KuranX.App.Core.Windows
             {
                 popup_noteAddPopup.IsOpen = true;
                 noteConnectVerse.Text = loadHeader.Text;
-                noteType.Text = "Kütüphane Notu";
+                noteType.Text = "PDF Notu";
             }
             catch (Exception ex)
             {
@@ -372,7 +372,7 @@ namespace KuranX.App.Core.Windows
                                 var dlibraryFolder = new Classes.Library { libraryName = librarypreviewName.Text, libraryColor = librarypreviewColor.Background.ToString(), created = DateTime.Now, modify = DateTime.Now };
                                 entitydb.Librarys.Add(dlibraryFolder);
                                 entitydb.SaveChanges();
-                                App.mainScreen.succsessFunc("Kütüphane Başlığı ", " Yeni kütüphane başlığı oluşturuldu artık veri ekleye bilirsiniz.", 3);
+                                App.mainScreen.succsessFunc("İşlem Başarılı", " Yeni kütüphane başlığı oluşturuldu artık veri ekleye bilirsiniz.", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
 
                                 librarypreviewName.Text = "";
                                 libraryFolderHeader.Text = "";
@@ -383,7 +383,7 @@ namespace KuranX.App.Core.Windows
                             }
                             else
                             {
-                                App.mainScreen.alertFunc("Kütüphane Başlığı Oluşturulamadı ", " Daha önce aynı isimde bir konu zaten mevcut lütfen kontrol ediniz.", 3);
+                                App.mainScreen.alertFunc("İşlem Başarısız", " Daha önce aynı isimde bir konu zaten mevcut lütfen kontrol ediniz.", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
                             }
                             dControl = null;
                         }
@@ -439,13 +439,13 @@ namespace KuranX.App.Core.Windows
                     {
                         if (entitydb.Notes.Where(p => p.notesId == selectedNoteId && p.libraryId != 0).Count() != 0)
                         {
-                            App.mainScreen.alertFunc("Kütüphane Ekleme Başarısız", "Bu Not Daha Önceden Eklenmiş Yeniden Ekleyemezsiniz.", 3);
+                            App.mainScreen.alertFunc("İşlem Başarısız", "Bu not daha önceden kütüphaneye eklenmiş yeniden ekleyemezsiniz.", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
                         }
                         else
                         {
                             entitydb.Notes.Where(p => p.notesId == selectedNoteId).FirstOrDefault().libraryId = int.Parse(item.Uid);
                             entitydb.SaveChanges();
-                            App.mainScreen.succsessFunc("Kütüphane Ekleme Başarılı", "Seçmiş olduğunuz not kütüphaneye eklendi.", 3);
+                            App.mainScreen.succsessFunc("İşlem Başarılı", "Seçmiş olduğunuz not kütüphaneye eklendi.", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
                             popup_SendNote.IsOpen = false;
                         }
                     }
@@ -505,7 +505,7 @@ namespace KuranX.App.Core.Windows
                                 {
                                     if (entitydb.Notes.Where(p => p.noteHeader == noteName.Text).Where(p => p.noteLocation == "PDF").FirstOrDefault() != null)
                                     {
-                                        App.mainScreen.alertFunc("Not Ekleme Başarısız", "Aynı isimde not eklemiş olabilirsiniz lütfen kontrol edip yeniden deneyiniz.", 3);
+                                        App.mainScreen.alertFunc("İşlem Başarısız", "Aynı isimde not eklemiş olabilirsiniz lütfen kontrol edip yeniden deneyiniz.", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
                                     }
                                     else
                                     {
@@ -522,7 +522,7 @@ namespace KuranX.App.Core.Windows
                                         entitydb.Notes.Add(dNotes);
                                         entitydb.SaveChanges();
 
-                                        App.mainScreen.succsessFunc("Ekleme Başarılı", loadHeader.Text + " Pdf e Not Eklendiniz.", 3);
+                                        App.mainScreen.succsessFunc("İşlem Başarılı", loadHeader.Text + " Pdf e notunuz başarılı bir sekilde eklendi.", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
 
                                         App.loadTask = Task.Run(() => noteConnect());
 
@@ -670,5 +670,66 @@ namespace KuranX.App.Core.Windows
         }
 
         // ---------------- Changed Func ---------------- //
+
+        // ----------- Popuper Spec Func ----------- //
+
+        public void popuverMove_Click(object sender, RoutedEventArgs e)
+        {
+            var btn = sender as Button;
+            ppMoveConfing((string)btn.Uid);
+            moveControlName.Text = (string)btn.Content;
+            pp_moveBar.IsOpen = true;
+        }
+
+        public void ppMoveActionOfset_Click(object sender, RoutedEventArgs e)
+        {
+            var btntemp = sender as Button;
+            var movePP = (Popup)FindName((string)btntemp.Content);
+
+            switch (btntemp.Uid.ToString())
+            {
+                case "Left":
+                    movePP.HorizontalOffset -= 50;
+                    break;
+
+                case "Top":
+                    movePP.VerticalOffset -= 50;
+                    break;
+
+                case "Bottom":
+                    movePP.VerticalOffset += 50;
+                    break;
+
+                case "Right":
+                    movePP.HorizontalOffset += 50;
+                    break;
+
+                case "UpLeft":
+                    movePP.Placement = PlacementMode.Absolute;
+                    movePP.VerticalOffset = 0;
+                    movePP.HorizontalOffset = 0;
+                    break;
+
+                case "Reset":
+                    movePP.Placement = PlacementMode.Center;
+                    movePP.VerticalOffset = 0;
+                    movePP.HorizontalOffset = 0;
+                    break;
+
+                case "Close":
+                    pp_moveBar.IsOpen = false;
+                    break;
+            }
+        }
+
+        public void ppMoveConfing(string ppmove)
+        {
+            Debug.WriteLine(ppmove);
+            for (int i = 1; i < 8; i++)
+            {
+                var btn = FindName("pp_M" + i) as Button;
+                btn.Content = ppmove;
+            }
+        }
     }
 }

@@ -142,7 +142,7 @@ namespace KuranX.App.Core.Pages.ReminderF
                         });
                     }
 
-                    Thread.Sleep(300);
+                    Thread.Sleep(int.Parse(App.config.AppSettings.Settings["app_animationSpeed"].Value));
 
                     this.Dispatcher.Invoke(() =>
                     {
@@ -247,15 +247,15 @@ namespace KuranX.App.Core.Pages.ReminderF
             {
                 using (var entitydb = new AyetContext())
                 {
-                    if (remiderDetail.Text.Length < 8)
+                    if (remiderDetail.Text.Length <= 3)
                     {
-                        App.mainScreen.alertFunc("Güncelleme Başarısız", "Yeni hatırlatıcı notunuz çok kısa minimum 8 karakter olmalıdır.", 3);
+                        App.mainScreen.alertFunc("İşlem Başarısız", "Yeni hatırlatıcı notunuz çok kısa minimum 3 karakter olmalıdır.", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
                     }
                     else
                     {
                         entitydb.Remider.Where(p => p.remiderId == remiderId).First().remiderDetail = remiderDetail.Text;
                         entitydb.SaveChanges();
-                        App.mainScreen.succsessFunc("Güncelleme Başarılı", "Hatırlatıcı notunuz güncellendi.", 3);
+                        App.mainScreen.succsessFunc("İşlem Başarılı", "Hatırlatıcı notunuz güncellendi.", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
                         saveButton.IsEnabled = false;
                     }
                 }
@@ -276,7 +276,7 @@ namespace KuranX.App.Core.Pages.ReminderF
             {
                 App.timeSpan.Interval = TimeSpan.FromSeconds(3);
                 App.timeSpan.Start();
-                App.mainScreen.succsessFunc("Hatırlatıcı Silme Başarılı", "Hatırlatıcı başaralı bir sekilde silinmiştir. Hatırlatıcı sayfasına yönlendiriliyorsunuz...", 3);
+                App.mainScreen.succsessFunc("İşlem Başarılı", "Hatırlatıcı başaralı bir sekilde silinmiştir. Hatırlatıcı sayfasına yönlendiriliyorsunuz...", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
                 App.timeSpan.Tick += delegate
                 {
                     App.timeSpan.Stop();

@@ -149,7 +149,7 @@
                 <ControlTemplate TargetType="{x:Type ProgressBar}">
                     <Grid>
                         <Border Name="PART_Track" CornerRadius="4" Background="#dbdbdb" BorderBrush="Transparent" BorderThickness="1" />
-                        <Border Name="PART_Indicator" CornerRadius="4" Background="#23d160" BorderBrush="Transparent"  BorderThickness="1" HorizontalAlignment="Left" />
+                        <Border Name="PART_Indicator" CornerRadius="4" Background="#66E21F" BorderBrush="Transparent"  BorderThickness="1" HorizontalAlignment="Left" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

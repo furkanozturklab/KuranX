@@ -10,18 +10,6 @@
         <Setter Property="TextElement.FontFamily" Value="../../Resource/Fonts/#XBZar" />
     </Style>
 
-    <Style x:Key="defaultBorderShadowEffect" TargetType="Border">
-        <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="UseLayoutRounding" Value="True" />
-        <Setter Property="Background" Value="#FFFFFF" />
-        <Setter Property="CornerRadius" Value="5 5 5 5" />
-        <Setter Property="Effect">
-            <Setter.Value>
-                <DropShadowEffect BlurRadius="15" Opacity="0.15"  ShadowDepth="1" Direction="-25" Color="Black" />
-            </Setter.Value>
-        </Setter>
-    </Style>
-
     <!-- Default -->
 
     <!-- Border -->
@@ -82,7 +70,7 @@
         <Setter Property="Margin" Value="15 5 30 5" />
         <Setter Property="TextTrimming" Value="CharacterEllipsis" />
         <Setter Property="FontSize" Value="24" />
-        <Setter Property="Foreground" Value="#FF1C1E2F" />
+        <Setter Property="Foreground" Value="{DynamicResource Base.Text.Content}" />
         <Setter Property="FontFamily" Value="{DynamicResource XBZar}" />
     </Style>
 
@@ -91,23 +79,26 @@
         <Setter Property="TextTrimming" Value="CharacterEllipsis" />
         <Setter Property="FontSize" Value="24" />
         <Setter Property="VerticalAlignment" Value="Center" />
-        <Setter Property="Foreground" Value="#FF1C1E2F" />
+        <Setter Property="Foreground" Value="{DynamicResource Base.Text.Content}" />
         <Setter Property="FontFamily" Value="{DynamicResource PoppinsMedium}" />
     </Style>
 
     <Style x:Key="vrs_loadDetailInterpreter" TargetType="TextBlock">
         <Setter Property="FontFamily" Value="{DynamicResource PoppinsRegular}" />
-        <Setter Property="FontSize" Value="22" />
+        <Setter Property="FontSize" Value="26" />
+        <Setter Property="Foreground" Value="{DynamicResource Base.Text.Content}" />
     </Style>
 
     <Style x:Key="vrs_loadDetailTr" TargetType="TextBlock">
         <Setter Property="FontFamily" Value="{DynamicResource PoppinsMedium}" />
-        <Setter Property="FontSize" Value="22" />
+        <Setter Property="FontSize" Value="24" />
+        <Setter Property="Foreground" Value="{DynamicResource Base.Text.Content}" />
     </Style>
 
     <Style x:Key="vrs_loadDetailArp" TargetType="TextBlock">
         <Setter Property="FontFamily" Value="{DynamicResource XBZar}" />
-        <Setter Property="FontSize" Value="26" />
+        <Setter Property="FontSize" Value="32" />
+        <Setter Property="Foreground" Value="{DynamicResource Base.Text.Content}" />
     </Style>
 
     <!-- Textblock -->

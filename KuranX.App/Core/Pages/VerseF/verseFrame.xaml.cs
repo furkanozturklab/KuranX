@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -25,7 +26,7 @@ namespace KuranX.App.Core.Pages.VerseF
     {
         private int sSureId, sRelativeVerseId, verseId, currentP, clearNav = 1, last = 0, starindex = 0;
         public int[] feedPoint = new int[4];
-        private string navLocation = "Click", meaningPattern = "", intelWriter = "";
+        private string navLocation = "Click", meaningPattern = "", intelWriter = App.InterpreterWriter;
         private bool remiderType = false;
         private ArrayList findIndex = new ArrayList();
 
@@ -49,7 +50,7 @@ namespace KuranX.App.Core.Pages.VerseF
                 sRelativeVerseId = relativeVerseId;
                 navLocation = Location;
                 intelWriter = interpreter;
-
+                intelWriter = App.InterpreterWriter;
                 loadAni();
                 App.loadTask = Task.Run(() => loadVerseFunc(relativeVerseId));
 
@@ -124,7 +125,7 @@ namespace KuranX.App.Core.Pages.VerseF
                     switch (writer)
                     {
                         case "Yorumcu 1":
-                            this.Dispatcher.Invoke(() => interpreterWriterCombo.SelectedIndex = 1);
+                            this.Dispatcher.Invoke(() => interpreterWriterCombo.SelectedIndex = 0);
                             break;
 
                         case "Yorumcu 2":
@@ -136,7 +137,7 @@ namespace KuranX.App.Core.Pages.VerseF
                             break;
 
                         case "Mehmet Okuyan":
-                            this.Dispatcher.Invoke(() => interpreterWriterCombo.SelectedIndex = 4);
+                            this.Dispatcher.Invoke(() => interpreterWriterCombo.SelectedIndex = 1);
                             break;
 
                         default:
@@ -153,6 +154,7 @@ namespace KuranX.App.Core.Pages.VerseF
 
                     if (dInter != null)
                     {
+                        App.InterpreterWriter = writer;
                         loadItemsInterpreter(dInter);
                     }
 
@@ -195,7 +197,7 @@ namespace KuranX.App.Core.Pages.VerseF
                 if (prev != 0) last -= prev;
                 else last -= 2;
 
-                var dVerseNav = entitydb.Verse.Where(p => p.sureId == sSureId).Select(p => new Verse() { verseId = p.verseId, relativeDesk = p.relativeDesk, status = p.status, verseCheck = p.verseCheck }).Skip(last).Take(8).ToList();
+                var dVerseNav = entitydb.Verse.Where(p => p.sureId == sSureId).Select(p => new Verse() { verseId = p.verseId, relativeDesk = p.relativeDesk, verseCheck = p.verseCheck }).Skip(last).Take(8).ToList();
                 var tempVerse = new List<Verse>();
 
                 int i = 0;
@@ -214,13 +216,22 @@ namespace KuranX.App.Core.Pages.VerseF
                             vNav.Uid = item.verseId.ToString();
                             vNav.IsChecked = item.verseCheck;
                             vNav.Content = item.relativeDesk;
-                            vNav.Tag = item.status;
+
+                            if (item.verseCheck)
+                            {
+                                vNav.Tag = "#66E21F";
+                            }
+                            else
+                            {
+                                vNav.Tag = "#FFFFFF";
+                            }
+
                             vNav.SetValue(Extensions.DataStorage, item.relativeDesk.ToString());
                         }
                     });
                 }
 
-                Thread.Sleep(300);
+                Thread.Sleep(int.Parse(App.config.AppSettings.Settings["app_animationSpeed"].Value));
 
                 for (int x = 1; x < 9; x++)
                 {
@@ -443,7 +454,7 @@ namespace KuranX.App.Core.Pages.VerseF
             {
                 using (var entitydb = new AyetContext())
                 {
-                    var dSubjectFolder = entitydb.Subject.OrderByDescending(p => p.subjectName).ToList();
+                    var dSubjectFolder = entitydb.Subject.OrderBy(p => p.subjectName).ToList();
 
                     this.Dispatcher.Invoke(() =>
                     {
@@ -560,7 +571,9 @@ namespace KuranX.App.Core.Pages.VerseF
                 }
                 else
                 {
-                    if (App.currentDesktype == "DeskLanding")
+                    var desktype = App.navSurePage.deskingCombobox.SelectedItem as ComboBoxItem;
+
+                    if ((string)desktype.Tag == "DeskLanding")
                     {
                         int xc = 0;
                         using (var entitydb = new AyetContext())
@@ -623,7 +636,9 @@ namespace KuranX.App.Core.Pages.VerseF
                 }
                 else
                 {
-                    if (App.currentDesktype == "DeskLanding")
+                    var desktype = App.navSurePage.deskingCombobox.SelectedItem as ComboBoxItem;
+
+                    if ((string)desktype.Tag == "DeskLanding")
                     {
                         using (var entitydb = new AyetContext())
                         {
@@ -636,7 +651,6 @@ namespace KuranX.App.Core.Pages.VerseF
                             }
                             xc++;
                             var listxc = entitydb.Sure.OrderBy(p => p.deskLanding).Where(p => p.deskLanding == xc).First();
-
                             headerBorder.Visibility = Visibility.Hidden;
                             App.mainframe.Content = App.navVersePage.PageCall((int)listxc.sureId, 1, "Verse");
 
@@ -663,7 +677,7 @@ namespace KuranX.App.Core.Pages.VerseF
             {
                 if (markButton.IsChecked == true)
                 {
-                    NavigationService.GoBack();
+                    App.mainframe.Content = App.navSurePage.PageCall();
                 }
                 else
                 {
@@ -680,7 +694,7 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
-                NavigationService.GoBack();
+                App.mainframe.Content = App.navSurePage.PageCall();
             }
             catch (Exception ex)
             {
@@ -714,7 +728,7 @@ namespace KuranX.App.Core.Pages.VerseF
                     if (chk.IsChecked.ToString() == "True")
                     {
                         verseUpdate.verseCheck = true;
-                        verseUpdate.status = "#66E21F";
+
                         sureUpdate.userCheckCount++;
 
                         if (sureUpdate.userCheckCount == sureUpdate.numberOfVerses)
@@ -727,9 +741,11 @@ namespace KuranX.App.Core.Pages.VerseF
                     else
                     {
                         verseUpdate.verseCheck = false;
-                        verseUpdate.status = "#FFFFFF";
-
                         sureUpdate.complated = false;
+
+                        if (verseUpdate.markCheck == true) sureUpdate.status = "#0D6EFD";
+                        else sureUpdate.status = "#ADB5BD";
+
                         if (sureUpdate.userCheckCount != 0) sureUpdate.userCheckCount--;
                     }
                     entitydb.SaveChanges();
@@ -754,6 +770,7 @@ namespace KuranX.App.Core.Pages.VerseF
                 if (control == false)
                 {
                     btn.IsChecked = true;
+
                     popup_remiderControlPopup.IsOpen = true;
 
                     using (var entitydb = new AyetContext())
@@ -992,7 +1009,7 @@ namespace KuranX.App.Core.Pages.VerseF
             {
                 var contentb = sender as Button;
                 textDesc.Text = contentb.Uid.ToString();
-                popupHeaderTextDesc.Text = loadHeader.Text + " Suresinin Ayetler Arasındaki Konular";
+                popupHeaderTextDesc.Text = loadHeader.Text + " Suresinin Ayetleri Arasındaki Konular";
                 popup_descVersePopup.IsOpen = true;
                 contentb = null;
             }
@@ -1168,7 +1185,7 @@ namespace KuranX.App.Core.Pages.VerseF
                 }
                 else
                 {
-                    App.mainScreen.alertFunc("Ayet Mevcut Değil", "Ayet Sayısını Geçtiniz Gidile Bilecek Son Ayet Sayısı : " + loadVerseCount.Text + " Lütfen Tekrar Deneyiniz.", 3);
+                    App.mainScreen.alertFunc("İşlem Başarısız", "Ayet sayısını geçtiniz gidile bilecek son ayet sayısı : " + loadVerseCount.Text + " lütfen tekrar deneyiniz.", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
                 }
             }
             catch (Exception ex)
@@ -1231,14 +1248,14 @@ namespace KuranX.App.Core.Pages.VerseF
                                 {
                                     if (entitydb.Notes.Where(p => p.noteHeader == noteName.Text && p.sureId == sSureId && p.verseId == sRelativeVerseId).FirstOrDefault() != null)
                                     {
-                                        App.mainScreen.alertFunc("Not Ekleme Başarısız", "Aynı isimde not eklemiş olabilirsiniz lütfen kontrol edip yeniden deneyiniz.", 3);
+                                        App.mainScreen.alertFunc("İşlem Başarısız", "Aynı isimde not eklemiş olabilirsiniz lütfen kontrol edip yeniden deneyiniz.", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
                                     }
                                     else
                                     {
                                         var dNotes = new Notes { noteHeader = noteName.Text, noteDetail = noteDetail.Text, sureId = sSureId, verseId = sRelativeVerseId, modify = DateTime.Now, created = DateTime.Now, noteLocation = "Ayet" };
                                         entitydb.Notes.Add(dNotes);
                                         entitydb.SaveChanges();
-                                        App.mainScreen.succsessFunc("Not Ekleme Başarılı", loadHeader.Text + " Surenin " + sRelativeVerseId + " Ayetine Not Eklendiniz.", 3);
+                                        App.mainScreen.succsessFunc("İşlem Başarılı", loadHeader.Text + " surenin " + sRelativeVerseId + " ayetine not eklendiniz.", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
                                         App.loadTask = Task.Run(noteConnect);
                                         dNotes = null;
                                     }
@@ -1313,7 +1330,8 @@ namespace KuranX.App.Core.Pages.VerseF
             try
             {
                 var item = popupNextSureId.SelectedItem as ComboBoxItem;
-                App.mainframe.Content = App.navVerseStickPage.PageCall(int.Parse(item.Uid), int.Parse(popupNextVerseId.Text), loadHeader.Text, sRelativeVerseId);
+                App.secondFrame.Content = App.navVerseStickPage.PageCall(int.Parse(item.Uid), int.Parse(popupNextVerseId.Text), loadHeader.Text, sRelativeVerseId);
+                App.secondFrame.Visibility = Visibility.Visible;
             }
             catch (Exception ex)
             {
@@ -1355,7 +1373,7 @@ namespace KuranX.App.Core.Pages.VerseF
 
                                         if (dControl.Count > 0)
                                         {
-                                            App.mainScreen.alertFunc("Hatırlatıcı Oluşturulamadı.", "Yeni hatırlatıcınız oluşturulamadı daha önceden oluşturulmuş olabilir.", 3);
+                                            App.mainScreen.alertFunc("İşlem Başarısız", "Yeni hatırlatıcınız oluşturulamadı daha önceden oluşturulmuş olabilir.", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
                                             popup_remiderAddPopup.IsOpen = false;
                                             remiderName.Text = "";
                                             remiderDetail.Text = "";
@@ -1367,7 +1385,7 @@ namespace KuranX.App.Core.Pages.VerseF
                                             entitydb.Verse.Where(p => p.sureId == sSureId && p.relativeDesk == sRelativeVerseId).First().remiderCheck = true;
                                             entitydb.Remider.Add(newRemider);
                                             entitydb.SaveChanges();
-                                            App.mainScreen.succsessFunc("Hatırlatıcı Oluşturuldu.", "Yeni hatırlatıcınız başarılı bir sekilde oluşturuldu", 3);
+                                            App.mainScreen.succsessFunc("İşlem Başarılı", "Yeni hatırlatıcınız başarılı bir sekilde oluşturuldu", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
 
                                             popup_remiderAddPopup.IsOpen = false;
                                             remiderName.Text = "";
@@ -1401,7 +1419,7 @@ namespace KuranX.App.Core.Pages.VerseF
 
                                         if (dControl.Count > 0)
                                         {
-                                            App.mainScreen.alertFunc("Hatırlatıcı Oluşturulamadı.", "Yeni hatırlatıcınız oluşturulamadı daha önceden oluşturulmuş olabilir.", 3);
+                                            App.mainScreen.alertFunc("İşlem Başarısız", "Yeni hatırlatıcınız oluşturulamadı daha önceden oluşturulmuş olabilir.", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
                                             popup_remiderAddPopup.IsOpen = false;
                                             remiderName.Text = "";
                                             remiderDetail.Text = "";
@@ -1432,7 +1450,7 @@ namespace KuranX.App.Core.Pages.VerseF
                                             entitydb.Verse.Where(p => p.sureId == sSureId && p.relativeDesk == sRelativeVerseId).FirstOrDefault().remiderCheck = true;
                                             entitydb.Remider.Add(newRemider);
                                             entitydb.SaveChanges();
-                                            App.mainScreen.succsessFunc("Hatırlatıcı Oluşturuldu.", "Yeni hatırlatıcınız başarılı bir sekilde oluşturuldu", 3);
+                                            App.mainScreen.succsessFunc("İşlem Başarılı", "Yeni hatırlatıcınız başarılı bir sekilde oluşturuldu", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
 
                                             popup_remiderAddPopup.IsOpen = false;
                                             remiderName.Text = "";
@@ -1494,7 +1512,7 @@ namespace KuranX.App.Core.Pages.VerseF
                     popup_remiderDeleteConfirm.IsOpen = false;
                     popup_remiderControlPopup.IsOpen = false;
                     App.loadTask = Task.Run(() => singleItemsControl(sRelativeVerseId));
-                    App.mainScreen.succsessFunc("Hatırlatıcı Silindi ", " Hatırlatıcı başarılır bir sekilde silindi yeniden hatırlatıcı oluştura bilirsiniz...", 3);
+                    App.mainScreen.succsessFunc("İşlem Başarılı", " Hatırlatıcı başarılır bir sekilde silindi yeniden hatırlatıcı oluştura bilirsiniz...", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
                 }
             }
             catch (Exception ex)
@@ -1517,7 +1535,7 @@ namespace KuranX.App.Core.Pages.VerseF
 
                         if (dControl.Count != 0)
                         {
-                            App.mainScreen.alertFunc("Ayet Ekleme Başarısız", "Bu ayet Daha Önceden Eklenmiş Yeniden Ekleyemezsiniz.", 3);
+                            App.mainScreen.alertFunc("İşlem Başarısız", "Bu ayet daha önceden eklenmiş yeniden ekleyemezsiniz.", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
                         }
                         else
                         {
@@ -1525,7 +1543,7 @@ namespace KuranX.App.Core.Pages.VerseF
                             entitydb.SubjectItems.Add(dSubjectItem);
                             entitydb.SaveChanges();
                             popup_addSubjectPopup.IsOpen = false;
-                            App.mainScreen.succsessFunc("Ayet Ekleme Başarılı", "Seçmiş olduğunuz konuya ayet eklendi.", 3);
+                            App.mainScreen.succsessFunc("İşlem Başarılı", "Seçmiş olduğunuz konuya ayet eklendi.", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
                             dSubjectItem = null;
                         }
                         dControl = null;
@@ -1555,14 +1573,14 @@ namespace KuranX.App.Core.Pages.VerseF
                     {
                         using (var entitydb = new AyetContext())
                         {
-                            var dControl = entitydb.Subject.Where(p => p.subjectName == subjectpreviewName.Text).ToList();
+                            var dControl = entitydb.Subject.Where(p => p.subjectName == CultureInfo.CurrentCulture.TextInfo.ToTitleCase(subjectpreviewName.Text)).ToList();
 
                             if (dControl.Count == 0)
                             {
-                                var dSubjectFolder = new Subject { subjectName = subjectpreviewName.Text, subjectColor = subjectpreviewColor.Background.ToString(), created = DateTime.Now, modify = DateTime.Now };
+                                var dSubjectFolder = new Subject { subjectName = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(subjectpreviewName.Text), subjectColor = subjectpreviewColor.Background.ToString(), created = DateTime.Now, modify = DateTime.Now };
                                 entitydb.Subject.Add(dSubjectFolder);
                                 entitydb.SaveChanges();
-                                App.mainScreen.succsessFunc("Konu Başlığı ", " Yeni konu başlığı oluşturuldu artık ayetleri ekleye bilirsiniz.", 3);
+                                App.mainScreen.succsessFunc("İşlem Başarılı", " Yeni konu başlığı oluşturuldu artık ayetleri ekleye bilirsiniz.", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
 
                                 subjectpreviewName.Text = "";
                                 subjectFolderHeader.Text = "";
@@ -1573,7 +1591,7 @@ namespace KuranX.App.Core.Pages.VerseF
                             }
                             else
                             {
-                                App.mainScreen.alertFunc("Konu Başlığı Oluşturulamadı ", " Daha önce aynı isimde bir konu zaten mevcut lütfen kontrol ediniz.", 3);
+                                App.mainScreen.alertFunc("İşlem Başarısız", " Daha önce aynı isimde bir konu zaten mevcut lütfen konu başlığınızı kontrol ediniz.", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
                             }
                             dControl = null;
                         }
@@ -1704,7 +1722,7 @@ namespace KuranX.App.Core.Pages.VerseF
                                         {
                                             if (entitydb.Integrity.Where(p => p.integrityName == meaningName.Text).FirstOrDefault() != null)
                                             {
-                                                App.mainScreen.alertFunc("Bağlantı Ekleme Başarısız", "Aynı isimli bağlantı eklemiş olabilirsiniz lütfen kontrol edip yeniden deneyiniz.", 3);
+                                                App.mainScreen.alertFunc("İşlem Başarısız", "Aynı isimli bağlantı eklemiş olabilirsiniz lütfen kontrol edip yeniden deneyiniz.", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
                                                 meaningName.Text = "";
                                                 meaningConnectNote.Text = "";
                                                 meaningpopupNextSureId.SelectedIndex = 0;
@@ -1716,7 +1734,7 @@ namespace KuranX.App.Core.Pages.VerseF
                                                 var dIntegrity = new Integrity { integrityName = meaningName.Text, connectSureId = sSureId, connectVerseId = sRelativeVerseId, connectedSureId = int.Parse(tmpcbxi.Uid), connectedVerseId = int.Parse(meaningConnectVerse.Text), created = DateTime.Now, modify = DateTime.Now, integrityNote = meaningConnectNote.Text };
                                                 entitydb.Integrity.Add(dIntegrity);
                                                 entitydb.SaveChanges();
-                                                App.mainScreen.succsessFunc("Bağlantı Oluşturuldu.", "Yeni bağlantınız oluşturuldu.", 3);
+                                                App.mainScreen.succsessFunc("İşlem Başarılı", "Yeni bağlantınız oluşturuldu.", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
                                                 meaningName.Text = "";
                                                 meaningConnectNote.Text = "";
                                                 meaningpopupNextSureId.SelectedIndex = 0;
@@ -1781,7 +1799,8 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
-                App.mainframe.Content = App.navVerseStickPage.PageCall(int.Parse(meaningDTempSureId.Text), int.Parse(meaningDTempVerseId.Text), loadHeader.Text, sRelativeVerseId);
+                App.secondFrame.Content = App.navVerseStickPage.PageCall(int.Parse(meaningDTempSureId.Text), int.Parse(meaningDTempVerseId.Text), loadHeader.Text, sRelativeVerseId);
+                App.secondFrame.Visibility = Visibility.Visible;
             }
             catch (Exception ex)
             {
@@ -1799,7 +1818,7 @@ namespace KuranX.App.Core.Pages.VerseF
                     {
                         entitydb.Integrity.Where(p => p.integrityId == int.Parse(meaningDId.Text)).First().integrityNote = meaningEditNote.Text;
                         meaningOpenDetailText.Text = meaningEditNote.Text;
-                        App.mainScreen.succsessFunc("Bağlantı Düzeltildi ", " Anlam Bütünlüğü Bağlantınızın Notu Düzeltildi...", 3);
+                        App.mainScreen.succsessFunc("İşlem Başarılı", " Anlam bütünlüğü bağlantınızın notu düzeltildi...", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
                         popup_meaningEditPopup.IsOpen = false;
                     }
                     else
@@ -1828,7 +1847,7 @@ namespace KuranX.App.Core.Pages.VerseF
                     popup_meainingConnectDetailText.IsOpen = false;
                     App.loadTask = Task.Run(() => loadMeaning());
 
-                    App.mainScreen.succsessFunc("Bağlantı Kaldırıldı ", " Anlam Bütünlüğü Bağlantısı Silindi...", 3);
+                    App.mainScreen.succsessFunc("İşlem Başarılı", " Anlam bütünlüğü bağlantısı silindi...", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
                 }
             }
             catch (Exception ex)
@@ -1846,7 +1865,6 @@ namespace KuranX.App.Core.Pages.VerseF
                     foreach (var item in entitydb.Verse.Where(p => p.sureId == sSureId))
                     {
                         item.verseCheck = false;
-                        item.status = "#FFFFFF";
                     }
 
                     var sureUpdate = entitydb.Sure.Where(p => p.sureId == sSureId).FirstOrDefault();
@@ -1866,7 +1884,7 @@ namespace KuranX.App.Core.Pages.VerseF
 
                     entitydb.SaveChanges();
 
-                    App.mainScreen.succsessFunc("İlerleme Silindi ", " Suredeki ilerlemeniz başarılı bir şekilde sıfırlandı...", 3);
+                    App.mainScreen.succsessFunc("İşlem Başarılı", " Suredeki ilerlemeniz başarılı bir şekilde sıfırlandı...", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
                     popup_resetVerseConfirm.IsOpen = false;
 
                     navstackPanel.Visibility = Visibility.Hidden;
@@ -1951,7 +1969,7 @@ namespace KuranX.App.Core.Pages.VerseF
                     else
                     {
                         SearchData.Focus();
-                        App.mainScreen.alertFunc("Başarısız İşlem", "Arama yapmak için minimum 3 karakter girmeniz gerekemetedir.", 3);
+                        App.mainScreen.alertFunc("İşlem Başarısız", "Arama yapmak için minimum 3 karakter girmeniz gerekemetedir.", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
                     }
                 }
             }
@@ -2493,6 +2511,45 @@ namespace KuranX.App.Core.Pages.VerseF
             }
         }
 
+        private void subjectFolderHeader_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            try
+            {
+                Regex regex = new Regex("[^0-9a-zA-Z-ğüşöçıİĞÜŞÖÇ?.*()']");
+                e.Handled = regex.IsMatch(e.Text);
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Change", ex);
+            }
+        }
+
+        private void meaningName_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            try
+            {
+                Regex regex = new Regex("[^0-9a-zA-Z-ğüşöçıİĞÜŞÖÇ?.*()']");
+                e.Handled = regex.IsMatch(e.Text);
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Change", ex);
+            }
+        }
+
+        private void remiderName_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            try
+            {
+                Regex regex = new Regex("[^0-9a-zA-Z-ğüşöçıİĞÜŞÖÇ?.*()']");
+                e.Handled = regex.IsMatch(e.Text);
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Change", ex);
+            }
+        }
+
         private void meaningEditDetail_KeyDown(object sender, KeyEventArgs e)
         {
             try
@@ -2535,7 +2592,7 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
-                Regex regex = new Regex("[^0-9a-zA-Z-ğüşöçıİĞÜŞÖÇ']");
+                Regex regex = new Regex("[^0-9a-zA-Z-ğüşöçıİĞÜŞÖÇ?.*()']");
                 e.Handled = regex.IsMatch(e.Text);
             }
             catch (Exception ex)
@@ -2666,6 +2723,67 @@ namespace KuranX.App.Core.Pages.VerseF
             catch (Exception ex)
             {
                 App.logWriter("Aniamtion", ex);
+            }
+        }
+
+        // ----------- Popuper Spec Func ----------- //
+
+        public void popuverMove_Click(object sender, RoutedEventArgs e)
+        {
+            var btn = sender as Button;
+            ppMoveConfing((string)btn.Uid);
+            moveControlName.Text = (string)btn.Content;
+            pp_moveBar.IsOpen = true;
+        }
+
+        public void ppMoveActionOfset_Click(object sender, RoutedEventArgs e)
+        {
+            var btntemp = sender as Button;
+            var movePP = (Popup)FindName((string)btntemp.Content);
+
+            switch (btntemp.Uid.ToString())
+            {
+                case "Left":
+                    movePP.HorizontalOffset -= 50;
+                    break;
+
+                case "Top":
+                    movePP.VerticalOffset -= 50;
+                    break;
+
+                case "Bottom":
+                    movePP.VerticalOffset += 50;
+                    break;
+
+                case "Right":
+                    movePP.HorizontalOffset += 50;
+                    break;
+
+                case "UpLeft":
+                    movePP.Placement = PlacementMode.Absolute;
+                    movePP.VerticalOffset = 0;
+                    movePP.HorizontalOffset = 0;
+                    break;
+
+                case "Reset":
+                    movePP.Placement = PlacementMode.Center;
+                    movePP.VerticalOffset = 0;
+                    movePP.HorizontalOffset = 0;
+                    break;
+
+                case "Close":
+                    pp_moveBar.IsOpen = false;
+                    break;
+            }
+        }
+
+        public void ppMoveConfing(string ppmove)
+        {
+            Debug.WriteLine(ppmove);
+            for (int i = 1; i < 8; i++)
+            {
+                var btn = FindName("pp_M" + i) as Button;
+                btn.Content = ppmove;
             }
         }
     }

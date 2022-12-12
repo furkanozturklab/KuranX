@@ -25,7 +25,7 @@ namespace KuranX.App.Core.Pages.VerseF
     /// </summary>
     public partial class sureFrame : Page
     {
-        private ComboBoxItem? deskItem, landItem;
+        public ComboBoxItem? deskItem, landItem;
         private int lastPage = 0, NowPage = 1, i, cControl, clist;
         private List<Sure> dSure = new List<Sure>();
         private string readType = "All";
@@ -47,6 +47,8 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+                App.mainScreen.loadinGifContent.Visibility = Visibility.Hidden;
+                App.mainScreen.rightPanel.Visibility = Visibility.Visible;
                 loadContent.Visibility = Visibility.Visible;
             }
             catch (Exception ex)
@@ -58,9 +60,14 @@ namespace KuranX.App.Core.Pages.VerseF
         public Page PageCall()
         {
             try
-            {
+
+            {   /*
                 lastPage = 0;
                 NowPage = 1;
+                */
+
+                App.mainScreen.loadinGifContent.Visibility = Visibility.Hidden;
+                App.mainScreen.rightPanel.Visibility = Visibility.Visible;
                 App.loadTask = Task.Run(() => loadItem());
                 return this;
             }
@@ -284,7 +291,7 @@ namespace KuranX.App.Core.Pages.VerseF
                         }
                     }
 
-                    Thread.Sleep(200);
+                    Thread.Sleep(int.Parse(App.config.AppSettings.Settings["app_animationSpeed"].Value));
 
                     this.Dispatcher.Invoke(() =>
                     {
@@ -549,7 +556,7 @@ namespace KuranX.App.Core.Pages.VerseF
                     }
                     else
                     {
-                        App.mainScreen.alertFunc("Kaldığım Yere Gidilemedi", "Henüz bir yer işaretlemediğinizden kaldığınız yere gidilemez", 3);
+                        App.mainScreen.alertFunc("İşlem Başarısız", "Henüz bir yer işaretlemediğinizden kaldığınız yere gidilemez lütfen önce işaretlediğinizden emin olunuz.", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
                     }
                 }
             }

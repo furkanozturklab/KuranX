@@ -46,6 +46,11 @@ namespace KuranX.App.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<bool>("integrityProtected")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasDefaultValue(false);
+
                     b.Property<DateTime>("modify")
                         .HasColumnType("TEXT");
 
@@ -270,12 +275,6 @@ namespace KuranX.App.Migrations
                         .HasColumnType("INTEGER")
                         .HasDefaultValue(false);
 
-                    b.Property<string>("resultStatus")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT")
-                        .HasDefaultValue("#ADB5BD");
-
                     b.Property<bool>("resultSubject")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER")
@@ -313,7 +312,7 @@ namespace KuranX.App.Migrations
                     b.Property<DateTime>("sendTime")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT")
-                        .HasDefaultValue(new DateTime(2022, 11, 26, 21, 41, 14, 53, DateTimeKind.Local).AddTicks(6840));
+                        .HasDefaultValue(new DateTime(2022, 12, 2, 10, 39, 12, 533, DateTimeKind.Local).AddTicks(7662));
 
                     b.HasKey("resultItemId");
 
@@ -476,24 +475,10 @@ namespace KuranX.App.Migrations
                         .HasDefaultValue("default")
                         .HasColumnName("user_avatarUrl");
 
-                    b.Property<string>("city")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT")
-                        .HasDefaultValue("")
-                        .HasColumnName("user_city");
-
-                    b.Property<string>("country")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT")
-                        .HasDefaultValue("")
-                        .HasColumnName("user_country");
-
                     b.Property<DateTime>("createDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT")
-                        .HasDefaultValue(new DateTime(2022, 11, 26, 21, 41, 14, 53, DateTimeKind.Local).AddTicks(2318))
+                        .HasDefaultValue(new DateTime(2022, 12, 2, 10, 39, 12, 533, DateTimeKind.Local).AddTicks(3237))
                         .HasColumnName("user_createDate");
 
                     b.Property<string>("email")
@@ -517,35 +502,28 @@ namespace KuranX.App.Migrations
                         .HasDefaultValue("Last Name")
                         .HasColumnName("user_lastName");
 
-                    b.Property<string>("password")
+                    b.Property<string>("pin")
                         .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT")
-                        .HasDefaultValue("1230")
-                        .HasColumnName("user_password");
-
-                    b.Property<string>("phone")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT")
-                        .HasDefaultValue("")
-                        .HasColumnName("user_phone");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("screetQuestion")
                         .IsRequired()
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT")
-                        .HasDefaultValue("Screet Question")
+                        .HasDefaultValue("Değiştiriniz")
                         .HasColumnName("user_screetQuestion");
 
-                    b.Property<string>("screetQuestionAnswer")
+                    b.Property<string>("screetQuestionAnw")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT")
+                        .HasDefaultValue("Yeni Değeri Girin")
+                        .HasColumnName("user_screetAnw");
 
                     b.Property<DateTime>("updateDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT")
-                        .HasDefaultValue(new DateTime(2022, 11, 26, 21, 41, 14, 53, DateTimeKind.Local).AddTicks(2487))
+                        .HasDefaultValue(new DateTime(2022, 12, 2, 10, 39, 12, 533, DateTimeKind.Local).AddTicks(3399))
                         .HasColumnName("user_updateDate");
 
                     b.HasKey("userId");
@@ -577,10 +555,6 @@ namespace KuranX.App.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER")
                         .HasDefaultValue(false);
-
-                    b.Property<string>("status")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
 
                     b.Property<int>("sureId")
                         .HasColumnType("INTEGER");

@@ -78,7 +78,7 @@
     * [-] ⚠️ konularım yeni konu aç da takılma oluyor ?? 
     * [x] ⚠️ Konu başlığı oluşturda kapat diyince eski veri kalıyor 
     * [x] ⚠️ karakter sınırlaması min 3 olacak sekilde değiştir.
-    * [-] ⚠️ konuları listele alfabetik / arama ?
+    * [x] ⚠️ konuları listele alfabetik / arama ?
     * [x] ⚠️ konu panelinde konu başlığının adını değiştirme
     * [x] ⚠️ ayet değişince popuplar acık kalıyor
     * [x] ⚠️ sonuc metnine tıkalyınca sil
@@ -86,27 +86,43 @@
     * [x] ⚠️ anlambütünlüğü sureye git -> ayete git
     * [x] ⚠️ hatırlatıcı sayfasında yeni hatırlatıcıya ayet ekle
     * [ ] ⚠️ Lib panelinde pdf açarken takılma oluyor.
-    * [ ] ⚠️ ayet içinde musafa göre secip giridğinde fatiha 7 sonraki bakar aolması lazımken alak oluyor .
+    * [x] ⚠️ ayet içinde musafa göre secip giridğinde fatiha 7 sonraki bakar aolması lazımken alak oluyor .
     * [x] ⚠️ admin yorumu boş bırakıp kaydedince kayıt edilemiyor.
     * [x] ⚠️ admin paneli tefsir bağlamamışım
+    * [x] ⚠️ yorumcuların adı
+    * [x] ⚠️ yorumcu ilk secile tüm ayetlerde aynı kalsın 
+    * [x] ⚠️ kütüphane notu -> Pdf notu
+    * [x] ⚠️ yorumu getir -> yorumu göster
+    * [x] ⚠️ admin yorumcu save boş calısmıyor.
+    * [?] ⚠️ remider kısmında renk sorunu
+    * [ ] ⚠️ try catch hata düşünce ana sayfaya yönlendirip uyarı verdirme yapılmadı..
+    * [x] ⚠️ yorumcu secinizi yorumcu 1 gelin
+    * [x] ⚠️ tamamı okuyunca renk değişmiyor ana panel.
+    * [-] ⚠️ Anlam bütünlüğü yapınca ayete gitde parçalanma oluryor.
+    * [x] ⚠️ Hatırlatıcılarda renk ve hatırlatma yapmıyor ? 
+    * [x] ⚠️ konu ayetin içinde yorumcu ing secilince parçalanıyor.crash
+    * [x] ⚠️ versestick de 2 gizli frame kullan.
+    * [x] ⚠️ fatiha süresinin ayetleri arasındaki text düzeltmesi
+    * [x] ⚠️ sonuc açılmıyor.
+    * [x] ⚠️ okuduklarımını bir tana silince renk değişmiyor..
     * [ ] ⚠️ 
 
 ## Gelecek Güncellemeler:
 
 * ### Public
 	
-	* [ ] 🆕 Kelime kökleri düzeltilecek "Acil değil" "Farklı bir kaynaktan alıcaz"
-	* [-] 🆕 ~~ Görünümde liste yapmaya çalış.  "Acil değil" ~~
+	* [x] 🆕 Kelime kökleri düzeltilecek "Acil değil" "Farklı bir kaynaktan alıcaz"
+	* [-] 🆕 ~~ Görünümde liste yapmaya çalış.  "Acil değil" ~~ iPTAL OLDU
 	* [x] 🆕 secili ayet kırmız kalsın.
-	* [ ] 🆕 Try catch bloklarında catch kısımlarına girerse new window oluşturup anasayfaya yönlendir kullanııcya uyarı ver.
-	* [ ] 🆕 Admin Ayarlarını acıp kapanıp acıla bilen buttonlar oluştur.
+	* [x] 🆕 Try catch bloklarında catch kısımlarına girerse new window oluşturup anasayfaya yönlendir kullanııcya uyarı ver
+	* [x] 🆕 Admin Ayarlarını acıp kapanıp acıla bilen buttonlar oluştur.
 	* [x] 🆕 Anlam bütünlükleri Fatihadan bağlayınca Nisadada gözüksün
 	* [x] 🆕 Ayet okurken işaretlemeden cıkınca uyarı ver
-	* [ ] 🆕 Popupları haraket ettirmek ?
+	* [-] 🆕 Popupları haraket ettirmek ?
 	* [x] 🆕 Editor Secimini Gizle
 	* [x] 🆕 anlam bütünlüğü okurkan düzeltme olsun yazılı şeyler düzeltilemiyor. ve silme olsun
 	* [x] 🆕 editor girişi için anlambütünlüğü başşığını baypass et   öRNEK :  Fatiha 1 Ayetini Nisa 7 Ayetine Bağlantısı
-	* [ ] 🆕 Ayetlerde yorumcuların içinde search 
+	* [x] 🆕 Ayetlerde yorumcuların içinde search 
 	* [x] 🆕 Yeni Yorumcu
 	* [x] 🆕 Notlar stack yapısını result yapısı ile eşitle result daha iyi 
 	* [ ] 🆕
@@ -127,14 +143,14 @@
 
 #### STATUS 
 
-> SON EKLENEN SORUN TARİHİ : 27.11.2022
+> SON EKLENEN SORUN TARİHİ : 01.12.2022
 >
-> SON ÇÖZÜLEN SORUN TARİHİ : 27.11.2022
+> SON ÇÖZÜLEN SORUN TARİHİ : 01.12.2022
 >
 > Toplam Çözülen Sorun : ?
 >
 > SON GÜNCELLEME TARİHİ : 22.11.2022
 >
-> VERSİYON PUBLİC : 0.2.0  Alpha
+> VERSİYON PUBLİC : 0.2.0  Beta
 >
 

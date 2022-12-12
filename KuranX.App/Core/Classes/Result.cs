@@ -16,7 +16,7 @@ namespace KuranX.App.Core.Classes
 
         public bool resultNotes { get; set; } = false;
         public bool resultSubject { get; set; } = false;
-        public string resultStatus { get; set; } = "Default";
+
         public string resultFinallyNote { get; set; } = "Default";
     }
 }

@@ -19,6 +19,53 @@
 
         <!-- Popup -->
 
+        <Popup x:Name="pp_moveBar" IsOpen="False" Placement="RelativePoint" AllowsTransparency="True" Width="470" Height="115" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade" HorizontalOffset="322" VerticalOffset="-20">
+            <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="450" Height="95">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="25" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="150" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid Margin="5" Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Column="0" Tag="CellularMD" ToolTip="Sol üste taşı" x:Name="pp_M1" Style="{DynamicResource pp_moveWindowIcon}" Click="ppMoveActionOfset_Click" Uid="UpLeft" RenderTransformOrigin="0.5,0.5">
+                            <Button.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform />
+                                    <SkewTransform />
+                                    <RotateTransform Angle="180" />
+                                    <TranslateTransform />
+                                </TransformGroup>
+                            </Button.RenderTransform>
+                        </Button>
+                        <Button Grid.Column="1" Tag="RefreshMD" ToolTip="Orjinal Posizyonuna getir" x:Name="pp_M2" Style="{DynamicResource pp_moveWindowIcon}" Click="ppMoveActionOfset_Click" Uid="Reset" />
+                        <Button Grid.Column="2" Tag="CloseMD" ToolTip="Kontrolcüyü kapat" x:Name="pp_M3" Style="{DynamicResource pp_moveWindowIcon}" Click="ppMoveActionOfset_Click" Uid="Close" />
+                    </Grid>
+                    <Grid Grid.Column="1" Margin="10 15" Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Column="0" Tag="ArrowBackiOS" ToolTip="Sola sürükle" x:Name="pp_M4" Style="{DynamicResource pp_moveWindowIcon}" Click="ppMoveActionOfset_Click" Uid="Left" />
+                        <Button Grid.Column="1" Tag="ArrowUpiOS"  ToolTip="Yukarı sürükle" x:Name="pp_M5" Style="{DynamicResource pp_moveWindowIcon}" Click="ppMoveActionOfset_Click"  Uid="Top" />
+                        <Button Grid.Column="2" Tag="ArrowDowniOS" ToolTip="Aşa sürükle" x:Name="pp_M6" Style="{DynamicResource pp_moveWindowIcon}" Click="ppMoveActionOfset_Click" Uid="Bottom" />
+                        <Button Grid.Column="3" Tag="ArrowForwardiOS" ToolTip="Sağ sürükle" x:Name="pp_M7" Style="{DynamicResource pp_moveWindowIcon}" Click="ppMoveActionOfset_Click" Uid="Right" />
+                    </Grid>
+                    <TextBlock x:Name="moveControlName" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Text="İletişim" TextAlignment="Center" FontFamily="{DynamicResource PoppinsMedium}" VerticalAlignment="Center" Foreground="#1C1E2F" FontSize="14" FontWeight="Bold" />
+                </Grid>
+            </Border>
+        </Popup>
+
         <Popup x:Name="popup_remiderAddPopup" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="400" Height="650" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
             <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="380" Height="630">
                 <Grid>
@@ -27,7 +74,15 @@
                         <RowDefinition Height="580" />
                     </Grid.RowDefinitions>
                     <Border  Grid.Row="0" Style="{DynamicResource pp_BorderHeader}">
-                        <TextBlock Text="Hatırlatıcı Oluştur" Style="{DynamicResource pp_HeaderText}" />
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="48" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="48" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="1" Text="Hatırlatıcı Oluştur" Style="{DynamicResource pp_HeaderText}" />
+                            <Button Content="Hatırlatıcı Oluştur" Tag="MoveiOS" Click="popuverMove_Click" Uid="popup_remiderAddPopup" Style="{DynamicResource pp_moveBaseIcon}" Background="Transparent" />
+                        </Grid>
                     </Border>
                     <Grid Grid.Row="1">
                         <Grid.RowDefinitions>
@@ -37,7 +92,7 @@
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Width="320" Grid.Row="0">
 
                             <TextBlock Text="Hatırlatıcı Adı " FontFamily="{DynamicResource PoppinsSemiBold}" FontSize="14" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 20 0 5" />
-                            <TextBox Style="{DynamicResource pp_DefaulTextBox}" Width="280" x:Name="remiderName" KeyDown="remiderName_KeyDown" />
+                            <TextBox Style="{DynamicResource pp_DefaulTextBox}" Width="280" x:Name="remiderName" KeyDown="remiderName_KeyDown" PreviewTextInput="remiderName_PreviewTextInput" />
                             <Label Visibility="Hidden" Height="25" x:Name="remiderAddPopupHeaderError" Style="{DynamicResource pp_DefaultTextBoxLabel}" />
 
                             <StackPanel Orientation="Vertical">
@@ -151,7 +206,15 @@
                         <RowDefinition Height="250" />
                     </Grid.RowDefinitions>
                     <Border  Grid.Row="0" Style="{DynamicResource pp_BorderHeader}">
-                        <TextBlock Text="Ayete Seç" Style="{DynamicResource pp_HeaderText}" />
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="48" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="48" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="1" Text="Ayet Seç" Style="{DynamicResource pp_HeaderText}" />
+                            <Button Content="Ayet Seç" Tag="MoveiOS" Click="popuverMove_Click" Uid="popup_VerseSelect" Style="{DynamicResource pp_moveBaseIcon}" Background="Transparent" />
+                        </Grid>
                     </Border>
                     <Grid Grid.Row="1">
                         <Grid.RowDefinitions>
@@ -781,7 +844,7 @@
                 </StackPanel>
 
                 <StackPanel Style="{DynamicResource frameItemsOffsetNav}">
-                    <Button x:Name="filterDatetime" IsEnabled="False" Tag="#ffc107" Content="Tarih" Uid="False" Style="{DynamicResource nt_pageColorControl}" Click="filter_Click" />
+                    <Button x:Name="filterDatetime" IsEnabled="False" Tag="# " Content="Tarih" Uid="False" Style="{DynamicResource nt_pageColorControl}" Click="filter_Click" />
                 </StackPanel>
 
                 <StackPanel Style="{DynamicResource frameItemsOffsetNav}">

@@ -175,7 +175,7 @@ namespace KuranX.App.Core.Pages.AdminF
                             newVe.sureId = (int)rdr[0];
                             newVe.verseId = (int)rdr[1];
                             newVe.relativeDesk = ch;
-                            newVe.status = "#FFFFFF";
+
                             newVe.verseArabic = (string)rdr[4];
                             newVe.verseTr = (string)rdr[5];
                             newVe.verseDesc = (string)rdr[6];

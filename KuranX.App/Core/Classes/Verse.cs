@@ -18,9 +18,7 @@ namespace KuranX.App.Core.Classes
 
         public string commentary { get; set; } = "Wait";
         public bool verseCheck { get; set; } = false;
-
         public bool markCheck { get; set; } = false;
         public bool remiderCheck { get; set; } = false;
-        public string status { get; set; } = "#FFFFFF";
     }
 }

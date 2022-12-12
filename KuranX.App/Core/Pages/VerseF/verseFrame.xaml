@@ -14,6 +14,53 @@
       Title="VerseFrame" Background="#FAFAFA" Loaded="Page_Loaded">
     <Grid>
 
+        <Popup x:Name="pp_moveBar" IsOpen="False" Placement="RelativePoint" AllowsTransparency="True" Width="470" Height="115" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade" HorizontalOffset="322" VerticalOffset="-20">
+            <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="450" Height="95">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="25" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="150" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid Margin="5" Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Column="0" Tag="CellularMD" ToolTip="Sol üste taşı" x:Name="pp_M1" Style="{DynamicResource pp_moveWindowIcon}" Click="ppMoveActionOfset_Click" Uid="UpLeft" RenderTransformOrigin="0.5,0.5">
+                            <Button.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform />
+                                    <SkewTransform />
+                                    <RotateTransform Angle="180" />
+                                    <TranslateTransform />
+                                </TransformGroup>
+                            </Button.RenderTransform>
+                        </Button>
+                        <Button Grid.Column="1" Tag="RefreshMD" ToolTip="Orjinal Posizyonuna getir" x:Name="pp_M2" Style="{DynamicResource pp_moveWindowIcon}" Click="ppMoveActionOfset_Click" Uid="Reset" />
+                        <Button Grid.Column="2" Tag="CloseMD" ToolTip="Kontrolcüyü kapat" x:Name="pp_M3" Style="{DynamicResource pp_moveWindowIcon}" Click="ppMoveActionOfset_Click" Uid="Close" />
+                    </Grid>
+                    <Grid Grid.Column="1" Margin="10 15" Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Column="0" Tag="ArrowBackiOS" ToolTip="Sola sürükle" x:Name="pp_M4" Style="{DynamicResource pp_moveWindowIcon}" Click="ppMoveActionOfset_Click" Uid="Left" />
+                        <Button Grid.Column="1" Tag="ArrowUpiOS"  ToolTip="Yukarı sürükle" x:Name="pp_M5" Style="{DynamicResource pp_moveWindowIcon}" Click="ppMoveActionOfset_Click"  Uid="Top" />
+                        <Button Grid.Column="2" Tag="ArrowDowniOS" ToolTip="Aşa sürükle" x:Name="pp_M6" Style="{DynamicResource pp_moveWindowIcon}" Click="ppMoveActionOfset_Click" Uid="Bottom" />
+                        <Button Grid.Column="3" Tag="ArrowForwardiOS" ToolTip="Sağ sürükle" x:Name="pp_M7" Style="{DynamicResource pp_moveWindowIcon}" Click="ppMoveActionOfset_Click" Uid="Right" />
+                    </Grid>
+                    <TextBlock x:Name="moveControlName" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Text="İletişim" TextAlignment="Center" FontFamily="{DynamicResource PoppinsMedium}" VerticalAlignment="Center" Foreground="#1C1E2F" FontSize="14" FontWeight="Bold" />
+                </Grid>
+            </Border>
+        </Popup>
+
         <Grid>
 
             <Grid.RowDefinitions>
@@ -72,7 +119,17 @@
                             <RowDefinition Height="280" />
                         </Grid.RowDefinitions>
                         <Border  Grid.Row="0" Style="{DynamicResource pp_BorderHeader}">
-                            <TextBlock Text="Notlar" Style="{DynamicResource pp_HeaderText}" />
+                            <Border  Grid.Row="0" Style="{DynamicResource pp_BorderHeader}">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="48" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="48" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="1" Text="Notlar" Style="{DynamicResource pp_HeaderText}" />
+                                    <Button Content="Notlar" Tag="MoveiOS" Click="popuverMove_Click" Uid="popup_Note" Style="{DynamicResource pp_moveBaseIcon}" Background="Transparent" />
+                                </Grid>
+                            </Border>
                         </Border>
                         <Grid Grid.Row="1">
 
@@ -116,7 +173,15 @@
                             <RowDefinition Height="530" />
                         </Grid.RowDefinitions>
                         <Border  Grid.Row="0" Style="{DynamicResource pp_BorderHeader}">
-                            <TextBlock Text="Yeni Not" Style="{DynamicResource pp_HeaderText}" />
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="48" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="48" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="1" Text="Yeni Not" Style="{DynamicResource pp_HeaderText}" />
+                                <Button Content="Yeni Not" Tag="MoveiOS" Click="popuverMove_Click" Uid="popup_noteAddPopup" Style="{DynamicResource pp_moveBaseIcon}" Background="Transparent" />
+                            </Grid>
                         </Border>
                         <Grid Grid.Row="1">
                             <Grid.RowDefinitions>
@@ -163,7 +228,15 @@
                             <RowDefinition Height="530" />
                         </Grid.RowDefinitions>
                         <Border  Grid.Row="0" Style="{DynamicResource pp_BorderHeader}">
-                            <TextBlock Text="Tüm Notlar" Style="{DynamicResource pp_HeaderText}" />
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="48" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="48" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="1" Text="Tüm Notlar" Style="{DynamicResource pp_HeaderText}" />
+                                <Button Content="Tüm Notlar" Tag="MoveiOS" Click="popuverMove_Click" Uid="popup_notesAllShowPopup" Style="{DynamicResource pp_moveBaseIcon}" Background="Transparent" />
+                            </Grid>
                         </Border>
                         <Grid Grid.Row="1">
                             <Grid>
@@ -202,7 +275,15 @@
                             <RowDefinition Height="300" />
                         </Grid.RowDefinitions>
                         <Border  Grid.Row="0" Style="{DynamicResource pp_BorderHeader}">
-                            <TextBlock Text="Ayeti Konuya Ekle" Style="{DynamicResource pp_HeaderText}" />
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="48" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="48" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="1" Text="Ayeti Konuya Ekle" Style="{DynamicResource pp_HeaderText}" />
+                                <Button Content="Ayeti Konuya Ekle" Tag="MoveiOS" Click="popuverMove_Click" Uid="popup_addSubjectPopup" Style="{DynamicResource pp_moveBaseIcon}" Background="Transparent" />
+                            </Grid>
                         </Border>
                         <Grid Grid.Row="1">
                             <Grid>
@@ -248,7 +329,15 @@
                             <RowDefinition Height="380" />
                         </Grid.RowDefinitions>
                         <Border  Grid.Row="0" Style="{DynamicResource pp_BorderHeader}">
-                            <TextBlock Text="Konu Oluştur" Style="{DynamicResource pp_HeaderText}" />
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="48" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="48" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="1" Text="Konu Oluştur" Style="{DynamicResource pp_HeaderText}" />
+                                <Button Content="Konu Oluştur" Tag="MoveiOS" Click="popuverMove_Click" Uid="popup_FolderSubjectPopup" Style="{DynamicResource pp_moveBaseIcon}" Background="Transparent" />
+                            </Grid>
                         </Border>
                         <Grid Grid.Row="1">
                             <Grid>
@@ -261,7 +350,7 @@
                                 </Grid.RowDefinitions>
                                 <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Width="320" Grid.Row="0">
                                     <TextBlock Text="Konu Başlığı" FontFamily="{DynamicResource PoppinsSemiBold}" FontSize="14" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0" />
-                                    <TextBox Style="{DynamicResource pp_DefaulTextBox}" Width="280" x:Name="subjectFolderHeader" KeyDown="subjectFolderHeader_KeyDown" KeyUp="subjectFolderHeader_KeyUp" />
+                                    <TextBox Style="{DynamicResource pp_DefaulTextBox}" Width="280" x:Name="subjectFolderHeader" KeyDown="subjectFolderHeader_KeyDown" KeyUp="subjectFolderHeader_KeyUp" PreviewTextInput="subjectFolderHeader_PreviewTextInput" />
                                     <Label Visibility="Visible" x:Name="subjectHeaderFolderError" Style="{DynamicResource pp_DefaultTextBoxLabel}" Margin="0 5 0 5" />
 
                                     <TextBlock Text="Konu Rengi" FontFamily="{DynamicResource PoppinsSemiBold}" FontSize="14" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0" />
@@ -309,7 +398,15 @@
                             <RowDefinition Height="280" />
                         </Grid.RowDefinitions>
                         <Border  Grid.Row="0" Style="{DynamicResource pp_BorderHeader}">
-                            <TextBlock Text="Bağlantılı Ayetler" Style="{DynamicResource pp_HeaderText}" />
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="48" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="48" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="1" Text="Anlam Bütünlüğü" Style="{DynamicResource pp_HeaderText}" />
+                                <Button Content="Anlam Bütünlüğü" Tag="MoveiOS" Click="popuverMove_Click" Uid="popup_Meaning" Style="{DynamicResource pp_moveBaseIcon}" Background="Transparent" />
+                            </Grid>
                         </Border>
                         <Grid Grid.Row="1">
                             <Grid>
@@ -352,7 +449,15 @@
                             <RowDefinition Height="530" />
                         </Grid.RowDefinitions>
                         <Border  Grid.Row="0" Style="{DynamicResource pp_BorderHeader}">
-                            <TextBlock Text="Tüm Bağlantılar" Style="{DynamicResource pp_HeaderText}" />
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="48" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="48" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="1" Text="Tüm Bağlantılar" Style="{DynamicResource pp_HeaderText}" />
+                                <Button Content="Tüm Bağlantılar" Tag="MoveiOS" Click="popuverMove_Click" Uid="popup_meainingAllShowPopup" Style="{DynamicResource pp_moveBaseIcon}" Background="Transparent" />
+                            </Grid>
                         </Border>
                         <Grid Grid.Row="1">
                             <Grid>
@@ -387,7 +492,15 @@
                             <RowDefinition Height="620" />
                         </Grid.RowDefinitions>
                         <Border  Grid.Row="0" Style="{DynamicResource pp_BorderHeader}">
-                            <TextBlock Text="Yeni Anlam Bütünlüğü Ekle" Style="{DynamicResource pp_HeaderText}" />
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="48" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="48" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="1" Text="Yeni Anlam Bütünlüğü Ekle" Style="{DynamicResource pp_HeaderText}" />
+                                <Button Content="Yeni Anlam Bütünlüğü Ekle" Tag="MoveiOS" Click="popuverMove_Click" Uid="popup_meaningAddPopup" Style="{DynamicResource pp_moveBaseIcon}" Background="Transparent" />
+                            </Grid>
                         </Border>
                         <Grid Grid.Row="1">
                             <Grid.RowDefinitions>
@@ -400,7 +513,7 @@
                                 <TextBox IsReadOnly="True" Style="{DynamicResource pp_DefaulTextBox}" Width="280" x:Name="meaningAttachVerse" />
 
                                 <TextBlock Text="Anlam Bütünlüğü Başlığı " FontFamily="{DynamicResource PoppinsSemiBold}" FontSize="14" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 20 0 0" />
-                                <TextBox Style="{DynamicResource pp_DefaulTextBox}" Width="280" x:Name="meaningName" KeyDown="meaningName_KeyDown" />
+                                <TextBox Style="{DynamicResource pp_DefaulTextBox}" Width="280" x:Name="meaningName" KeyDown="meaningName_KeyDown" PreviewTextInput="meaningName_PreviewTextInput" />
                                 <Label Visibility="Hidden" x:Name="meaningNameAddPopupHeaderError" Style="{DynamicResource pp_DefaultTextBoxLabel}" Margin="0 5 0 0" />
 
                                 <TextBlock Text="Bağlantı Sure " FontFamily="{DynamicResource PoppinsSemiBold}" FontSize="14" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" />
@@ -553,7 +666,15 @@
                             <RowDefinition Height="280" />
                         </Grid.RowDefinitions>
                         <Border  Grid.Row="0" Style="{DynamicResource pp_BorderHeader}">
-                            <TextBlock  x:Name="meaningDetailTextHeader" MaxWidth="460" Style="{DynamicResource pp_HeaderText}" />
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="48" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="48" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="1" x:Name="meaningDetailTextHeader"  MaxWidth="400" Style="{DynamicResource pp_HeaderText}" />
+                                <Button Content="Anlam Bütünlüğü Detay" Tag="MoveiOS" Click="popuverMove_Click" Uid="popup_meainingConnectDetailText" Style="{DynamicResource pp_moveBaseIcon}" Background="Transparent" />
+                            </Grid>
                         </Border>
                         <Grid Grid.Row="1">
                             <Grid>
@@ -574,7 +695,7 @@
                                 <TextBlock VerticalAlignment="Center" FontSize="12" Padding="10 0 10 0" Grid.Row="1" x:Name="meaningOpenDetailTextConnect" Foreground="#F0433A" FontFamily="{DynamicResource PoppinsSemiBold}" Text="" />
 
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="2">
-                                    <Button x:Name="meaningOpenDetailTextBack" Style="{DynamicResource pp_DefaultButtonBstrp}" Tag="ArrowLeft" Content="Geri Dön" HorizontalAlignment="Center" Click="meaningOpenDetailTextBack_Click" />
+                                    <Button x:Name="meaningOpenDetailTextBack" Style="{DynamicResource pp_DefaultButtonBstrp}" Tag="ArrowLeft" Content="Kapat" HorizontalAlignment="Center" Click="meaningOpenDetailTextBack_Click" />
                                     <Button x:Name="meaningOpenDetailEdit" Style="{DynamicResource pp_DefaultButtonBstrp}" Tag="InputCursorText" Content="Yazıyı Düzenle" HorizontalAlignment="Center" Click="editMeaningButton_Click" />
                                     <Button x:Name="meaningOpenDetailDelete" Style="{DynamicResource pp_DefaultButtonBstrp}" Tag="Trash" Content="Bağlantıyı Kaldır" HorizontalAlignment="Center" Click="deleteMeaningButton_Click" />
                                     <Button x:Name="meaningOpenSureSticky" Style="{DynamicResource pp_DefaultButtonGo}" Tag="ArrowRight" Content="Ayete Git" Uid="popup_meainingConnectDetailText" HorizontalAlignment="Center" Click="meaningOpenSure_Click" />
@@ -593,7 +714,15 @@
                             <RowDefinition Height="280" />
                         </Grid.RowDefinitions>
                         <Border  Grid.Row="0" Style="{DynamicResource pp_BorderHeader}">
-                            <TextBlock Text="Anlam Bütünlüğünü Düzelt" Style="{DynamicResource pp_HeaderText}" />
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="48" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="48" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="1" Text="Anlam Bütünlüğünü Düzelt" Style="{DynamicResource pp_HeaderText}" />
+                                <Button Content="Anlam Bütünlüğünü Düzelt" Tag="MoveiOS" Click="popuverMove_Click" Uid="popup_meaningEditPopup" Style="{DynamicResource pp_moveBaseIcon}" Background="Transparent" />
+                            </Grid>
                         </Border>
                         <Grid Grid.Row="1">
                             <Grid.RowDefinitions>
@@ -628,7 +757,7 @@
                             <RowDefinition Height="150" />
                         </Grid.RowDefinitions>
                         <Border  Grid.Row="0" Style="{DynamicResource pp_BorderHeader}">
-                            <TextBlock Text="Konuyu Sil" Style="{DynamicResource pp_HeaderText}" />
+                            <TextBlock Text="Bağlantıyı Sil" Style="{DynamicResource pp_HeaderText}" />
                         </Border>
                         <Grid Grid.Row="1">
                             <Grid.RowDefinitions>
@@ -665,7 +794,15 @@
                             <RowDefinition Height="150" />
                         </Grid.RowDefinitions>
                         <Border  Grid.Row="0" Style="{DynamicResource pp_BorderHeader}">
-                            <TextBlock Text="Hatırlatıcı" Style="{DynamicResource pp_HeaderText}" />
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="48" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="48" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="1" Text="Hatırlatıcı" Style="{DynamicResource pp_HeaderText}" />
+                                <Button Content="Hatırlatıcı" Tag="MoveiOS" Click="popuverMove_Click" Uid="popup_remiderControlPopup" Style="{DynamicResource pp_moveBaseIcon}" Background="Transparent" />
+                            </Grid>
                         </Border>
                         <Grid Grid.Row="1">
                             <Grid.RowDefinitions>
@@ -704,7 +841,15 @@
                             <RowDefinition Height="580" />
                         </Grid.RowDefinitions>
                         <Border  Grid.Row="0" Style="{DynamicResource pp_BorderHeader}">
-                            <TextBlock Text="Hatırlatıcı Oluştur" Style="{DynamicResource pp_HeaderText}" />
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="48" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="48" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="1" Text="Hatırlatıcı Oluştur" Style="{DynamicResource pp_HeaderText}" />
+                                <Button Content="Hatırlatıcı Oluştur" Tag="MoveiOS" Click="popuverMove_Click" Uid="popup_remiderAddPopup" Style="{DynamicResource pp_moveBaseIcon}" Background="Transparent" />
+                            </Grid>
                         </Border>
                         <Grid Grid.Row="1">
                             <Grid.RowDefinitions>
@@ -717,7 +862,7 @@
                                 <TextBox Style="{DynamicResource pp_DefaulTextBox}" Width="280" x:Name="remiderConnectVerse" IsReadOnly="True" />
 
                                 <TextBlock Text="Hatırlatıcı Adı " FontFamily="{DynamicResource PoppinsSemiBold}" FontSize="14" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 20 0 5" />
-                                <TextBox Style="{DynamicResource pp_DefaulTextBox}" Width="280" x:Name="remiderName" KeyDown="remiderName_KeyDown" />
+                                <TextBox Style="{DynamicResource pp_DefaulTextBox}" Width="280" x:Name="remiderName" KeyDown="remiderName_KeyDown" PreviewTextInput="remiderName_PreviewTextInput" />
                                 <Label Visibility="Hidden" Height="25" x:Name="remiderAddPopupHeaderError" Style="{DynamicResource pp_DefaultTextBoxLabel}" />
 
                                 <StackPanel Orientation="Vertical">
@@ -827,7 +972,15 @@
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
                         <Border  Grid.Row="0" Style="{DynamicResource pp_BorderHeader}">
-                            <TextBlock x:Name="popupHeaderTextDesc" Text="" Style="{DynamicResource pp_HeaderText}" />
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="48" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="48" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="1" x:Name="popupHeaderTextDesc" Style="{DynamicResource pp_HeaderText}" />
+                                <Button Content="Açıklama" Tag="MoveiOS" Click="popuverMove_Click" Uid="popup_descVersePopup" Style="{DynamicResource pp_moveBaseIcon}" Background="Transparent" />
+                            </Grid>
                         </Border>
                         <Grid Grid.Row="1">
                             <Grid.RowDefinitions>
@@ -861,8 +1014,17 @@
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
                         <Border  Grid.Row="0" Style="{DynamicResource pp_BorderHeader}">
-                            <TextBlock x:Name="popupHeaderTextCommentary" Text="" Style="{DynamicResource pp_HeaderText}" />
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="48" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="48" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="1" x:Name="popupHeaderTextCommentary" Style="{DynamicResource pp_HeaderText}" />
+                                <Button Content="Yorum" Tag="MoveiOS" Click="popuverMove_Click" Uid="popup_commentaryVersePopup" Style="{DynamicResource pp_moveBaseIcon}" Background="Transparent" />
+                            </Grid>
                         </Border>
+
                         <Grid Grid.Row="1">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*" />
@@ -900,7 +1062,15 @@
                             <RowDefinition Height="470" />
                         </Grid.RowDefinitions>
                         <Border  Grid.Row="0" Style="{DynamicResource pp_BorderHeader}">
-                            <TextBlock Text="AYET GERİ BİLDİRİMİ" Style="{DynamicResource pp_HeaderText}" />
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="48" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="48" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="1" Text="Ayet Geri Bildirimi" Style="{DynamicResource pp_HeaderText}" />
+                                <Button Content="Ayet Geri Bildirimi" Tag="MoveiOS" Click="popuverMove_Click" Uid="popup_feedbackOpenPopup" Style="{DynamicResource pp_moveBaseIcon}" Background="Transparent" />
+                            </Grid>
                         </Border>
                         <Grid Grid.Row="1">
                             <Grid.RowDefinitions>
@@ -910,13 +1080,7 @@
                             <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Width="400" Grid.Row="0">
 
                                 <TextBlock Text="Seçili Ayeti" FontFamily="{DynamicResource PoppinsSemiBold}" FontSize="14" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0" />
-                                <TextBox Style="{DynamicResource pp_DefaulTextBox}" Width="380" x:Name="feedbackConnectVerse" IsReadOnly="True">
-                                    <TextBox.Resources>
-                                        <Style TargetType="{x:Type Border}">
-                                            <Setter Property="CornerRadius" Value="5" />
-                                        </Style>
-                                    </TextBox.Resources>
-                                </TextBox>
+                                <TextBox Style="{DynamicResource pp_DefaulTextBox}" Width="380" x:Name="feedbackConnectVerse" IsReadOnly="True" />
 
                                 <Grid Margin="0 20 0 0">
                                     <Grid.ColumnDefinitions>
@@ -1137,7 +1301,15 @@
                             <RowDefinition Height="530" />
                         </Grid.RowDefinitions>
                         <Border  Grid.Row="0" Style="{DynamicResource pp_BorderHeader}">
-                            <TextBlock Text="Kelime Kökleri" Style="{DynamicResource pp_HeaderText}" />
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="48" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="48" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="1" Text="Kelime Kökleri" Style="{DynamicResource pp_HeaderText}" />
+                                <Button Content="Kelime Kökleri" Tag="MoveiOS" Click="popuverMove_Click" Uid="popup_Words" Style="{DynamicResource pp_moveBaseIcon}" Background="Transparent" />
+                            </Grid>
                         </Border>
                         <Grid Grid.Row="1">
                             <Grid>
@@ -1506,11 +1678,10 @@
                                 <StackPanel Orientation="Horizontal" Grid.Column="0">
                                     <TextBlock Text="Yorumlayan" FontFamily="{DynamicResource PoppinsMedium}" FontSize="14" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" />
                                     <ComboBox x:Name="interpreterWriterCombo"  Style="{DynamicResource sr_NavCombobox}" SelectedIndex="0" Margin="10,0,0,0" SelectionChanged="interpreterWriterCombo_SelectionChanged">
-                                        <ComboBoxItem  Content="Yorumcuyu Seçin" Uid="0" />
-                                        <ComboBoxItem  Content="Yorumcu 1 Tr" Uid="1" Tag="Yorumcu 1" />
-                                        <ComboBoxItem  Content="Yorumcu 2 Eng" Uid="2" Tag="Yorumcu 2" />
-                                        <ComboBoxItem  Content="Yorumcu 3 Ger" Uid="3" Tag="Yorumcu 3" />
-                                        <ComboBoxItem  Content="Mehmet Okuyan" Uid="4" Tag="Mehmet Okuyan" />
+                                        <ComboBoxItem  Content="Yorumcu Türkçe" Uid="1" Tag="Yorumcu 1" />
+                                        <ComboBoxItem  Content="Yorumcu Türkçe 2" Uid="2" Tag="Mehmet Okuyan" />
+                                        <ComboBoxItem  Content="Yorumcu İngilizce" Uid="3" Tag="Yorumcu 2" />
+                                        <ComboBoxItem  Content="Yorumcu Almanca" Uid="4" Tag="Yorumcu 3" />
                                     </ComboBox>
                                 </StackPanel>
 

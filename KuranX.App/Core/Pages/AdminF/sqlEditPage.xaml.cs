@@ -234,7 +234,7 @@ namespace KuranX.App.Core.Pages.AdminF
                             }
                         }
 
-                        if (intel1.Text.Length > 0 || intel0.Text == "")
+                        if (intel1.Text.Length > 0 || intel1.Text == "")
                         {
                             if (entitydb.Interpreter.Where(p => p.sureId == ssure && p.verseId == sverse && p.interpreterWriter == "Yorumcu 1").Count() > 0)
                             {
@@ -249,7 +249,7 @@ namespace KuranX.App.Core.Pages.AdminF
                             }
                         }
 
-                        if (intel2.Text.Length > 0 || intel0.Text == "")
+                        if (intel2.Text.Length > 0 || intel2.Text == "")
                         {
                             if (entitydb.Interpreter.Where(p => p.sureId == ssure && p.verseId == sverse && p.interpreterWriter == "Yorumcu 2").Count() > 0)
                             {
@@ -264,7 +264,7 @@ namespace KuranX.App.Core.Pages.AdminF
                             }
                         }
 
-                        if (intel3.Text.Length > 0 || intel0.Text == "")
+                        if (intel3.Text.Length > 0 || intel3.Text == "")
                         {
                             if (entitydb.Interpreter.Where(p => p.sureId == ssure && p.verseId == sverse && p.interpreterWriter == "Yorumcu 3").Count() > 0)
                             {

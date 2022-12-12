@@ -4,15 +4,114 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:KuranX.App.Core.Windows"
+            xmlns:gif="http://wpfanimatedgif.codeplex.com"
          mc:Ignorable="d"
-        Title="LoginScreen" Height="500" Width="800" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None" Loaded="LoginScreenWindow_Loaded">
+        Title="LoginScreen" Height="540" Width="840" ResizeMode="NoResize" WindowStartupLocation="CenterScreen"  AllowsTransparency="True" Background="Transparent" WindowStyle="None" Loaded="LoginScreenWindow_Loaded">
 
-    <Grid x:Name="mainGrid" Width="800" Height="500" Margin="0,0,0,0">
+    <Grid x:Name="mainGrid" Width="800" Height="500" Margin="0,0,0,0" Background="#FFF">
+
+        <Grid.Effect>
+            <DropShadowEffect BlurRadius="15" Direction="-90"
+                              RenderingBias="Quality" ShadowDepth="2" />
+        </Grid.Effect>
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="400" />
             <ColumnDefinition Width="400" />
         </Grid.ColumnDefinitions>
+
+        <Popup x:Name="popup_removePin" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="390" Height="370" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+            <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="370" Height="350">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="50" />
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Orientation="Vertical" VerticalAlignment="Center">
+                        <StackPanel Margin="20 5 20 25">
+                            <TextBlock Text="Gizli Sorunuz"  Style="{DynamicResource pp_settingsHeader}" TextAlignment="Center" HorizontalAlignment="Center" />
+                            <Grid Margin="0 5 0 0" Background="#f3f2f7">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="32" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="32" />
+                                </Grid.RowDefinitions>
+                                <Button Grid.Column="0" Grid.Row="0" Tag="FormatColorText" Style="{DynamicResource pp_settingsIconBox}" />
+                                <TextBox x:Name="userScreetQuestion" IsReadOnly="True" Style="{DynamicResource pp_settingsTextBox}" Grid.Column="1" Grid.Row="0" Text="" />
+                            </Grid>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Vertical" VerticalAlignment="Center">
+                            <StackPanel Margin="20 25 20 5">
+                                <TextBlock Text="Gizli Sorunuz Cevabı"  Style="{DynamicResource pp_settingsHeader}" TextAlignment="Center" HorizontalAlignment="Center" />
+                                <Grid Margin="0 5 0 0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="32" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="32" />
+                                    </Grid.RowDefinitions>
+                                    <Button Grid.Column="0" Grid.Row="0" Tag="FormatColorText" Style="{DynamicResource pp_settingsIconBox}" />
+                                    <TextBox x:Name="userScreetQuestionAnw" Style="{DynamicResource pp_settingsTextBox}" Grid.Column="1" Grid.Row="0" Text="" />
+                                </Grid>
+                                <Label x:Name="userScreetQuestionAnwErr" Content="* Zorunlu Alan " Style="{DynamicResource pp_settingsInfo}" />
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <Grid Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="0">
+                            <Button x:Name="popupScreetCheck"  Style="{DynamicResource pp_DefaultButtonClosed}" Tag="Check" Content="Cevapla"  HorizontalAlignment="Center"  Width="150" Click="popupScreetCheck_Click" />
+                            <Button x:Name="popupClosed" Style="{DynamicResource pp_DefaultButtonClosed}" Tag="CloseBig" Content="Kapat" Uid="popup_removePin" HorizontalAlignment="Center"  Width="150" Click="popupClosed_Click" />
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </Border>
+        </Popup>
+
+        <Popup x:Name="popup_privacyPolicy" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="390" Height="420" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+            <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="370" Height="400">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="50" />
+                    </Grid.RowDefinitions>
+
+                    <ScrollViewer Grid.Row="0" Visibility="Visible" CanContentScroll="True"  HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Visible" VerticalAlignment="Top" Padding="20">
+                        <StackPanel VerticalAlignment="Top" HorizontalAlignment="Center" Orientation="Vertical">
+
+                            <TextBlock Text="Program Kullanım Şartları" TextWrapping="Wrap" FontFamily="{DynamicResource PoppinsMedium}" FontSize="16" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 5 0 5" />
+
+                            <TextBlock Text="1-Lorem Ipsum is simply dummy text of the printing and  many typesetting industry.  "  Style="{DynamicResource privacyText}" />
+                            <TextBlock Text="2-Lorem Ipsum is simply dummy text of the printing and  many typesetting industry.  "  Style="{DynamicResource privacyText}" />
+                            <TextBlock Text="3-Lorem Ipsum is simply dummy text of the printing and  many typesetting industry.  "  Style="{DynamicResource privacyText}" />
+                            <TextBlock Text="4-Lorem Ipsum is simply dummy text of the printing and  many typesetting industry.  "  Style="{DynamicResource privacyText}" />
+                            <TextBlock Text="5-Lorem Ipsum is simply dummy text of the printing and  many typesetting industry.  "  Style="{DynamicResource privacyText}" />
+                            <TextBlock Text="6-Lorem Ipsum is simply dummy text of the printing and  many typesetting industry.  "  Style="{DynamicResource privacyText}" />
+                            <TextBlock Text="7-Lorem Ipsum is simply dummy text of the printing and  many typesetting industry.  "  Style="{DynamicResource privacyText}" />
+                        </StackPanel>
+                    </ScrollViewer>
+
+                    <Grid Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="0">
+                            <Button x:Name="checkPrivacy" Style="{DynamicResource pp_DefaultButtonBstrp}" Tag="Check2" Content="Okudum Anladım Kabul Ediyorum" Uid="popup_commentaryVersePopup" HorizontalAlignment="Center"  Width="250" Click="checkPrivacy_Click" />
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </Border>
+        </Popup>
 
         <Grid Grid.Column="0" x:Name="leftGrid" Width="400" Height="500">
             <Grid.Background>
@@ -20,8 +119,183 @@
             </Grid.Background>
         </Grid>
 
-        <Grid Grid.Column="1" x:Name="rightGrid" Width="400" Height="500"  Background="#FFFAFAFA">
-            <Frame NavigationUIVisibility="Hidden" x:Name="loginFrame" Content="Frame" />
+        <Grid x:Name="loadinGifContent" Grid.Row="0" Grid.Column="1" Background="#FAFAFA" Panel.ZIndex="5" Visibility="Visible">
+            <Image gif:ImageBehavior.AnimatedSource="/Resource/Images/Gif/Spinner800.gif" Width="150" Height="150"  RenderOptions.BitmapScalingMode="HighQuality" />
+        </Grid>
+
+        <Grid Grid.Column="1" x:Name="loginHomeGrid" Style="{DynamicResource loginresgrid}" Visibility="Visible">
+
+            <StackPanel VerticalAlignment="Center" Orientation="Vertical" Width="400">
+
+                <!-- Login Header Text -->
+                <TextBlock  Text="Kuran X" Style="{DynamicResource lgfrm_headerText}" FontFamily="{DynamicResource Allura}" FontSize="36" FontWeight="Bold" />
+                <TextBlock  Text="Hoş Geldiniz" Style="{DynamicResource lgfrm_headerText}" FontFamily="{DynamicResource Allura}" FontSize="64" FontWeight="Bold" Width="320" Height="80" VerticalAlignment="Center" TextAlignment="Center" />
+
+                <!-- LOGİN PANEL ACTİONS STACKPANEL  -->
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" UseLayoutRounding="True" SnapsToDevicePixels="True">
+                    <Button x:Name="loginHomeBtn" Content="Giriş" Style="{DynamicResource lgfrm_acitonsButton}" Click="loginHomeBtn_Click" />
+                    <Button x:Name="registerHomePageBtn" Visibility="Collapsed" Content="Hesap Oluştur" Style="{DynamicResource lgfrm_acitonsButton}" Click="registerHomePageBtn_Click" />
+                </StackPanel>
+            </StackPanel>
+            <!-- Copyright Text  -->
+            <TextBlock Style="{DynamicResource copyright_txt}" />
+        </Grid>
+
+        <Grid Grid.Column="1" x:Name="loginGrid" Style="{DynamicResource loginresgrid}" Visibility="Hidden">
+
+            <StackPanel VerticalAlignment="Center">
+
+                <Ellipse x:Name="login_profileImage" Style="{DynamicResource lgfrm_leftHeaderImage}" Margin="0,8,0,0">
+                    <Ellipse.Fill>
+                        <ImageBrush x:Uid="" x:Name="login_profileImageBrush" RenderOptions.BitmapScalingMode="HighQuality" ImageSource="/resource/images/other/defaultProfileImage.png" />
+                    </Ellipse.Fill>
+                </Ellipse>
+                <TextBlock x:Name="login_profileName" Style="{DynamicResource hmwnd_leftHeaderImageText}" Text="Meltdown Öztürk" FontSize="16" Margin="0 20 0 20" />
+
+                <!-- EMAIL INPUT BOX  -->
+                <Border x:Name="emailBox"  Style="{DynamicResource lgfrm_inputBox}" Margin="0">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Image Style="{DynamicResource lgfrm_inputBoxIcon}" Source="/Resource/Images/Icon/key_r.png" />
+                        <TextBlock Style="{DynamicResource lgfrm_inputTextHint}" x:Name="userPinHint" Text="Pin Giriniz" MouseDown="userPinHint_MouseDown" />
+                        <TextBox Style="{DynamicResource lgfrm_userEmailInput}" x:Name="userPin" LostFocus="userPin_LostFocus" TextChanged="userPin_TextChanged" PreviewTextInput="userPin_PreviewTextInput" />
+                    </Grid>
+                </Border>
+
+                <TextBlock x:Name="loginPinReturnMessage" Style="{DynamicResource lgfrm_returnMessage}" Margin="0 3 0 3" Text="Pin Hatalı" />
+
+                <Grid Width="300">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Border x:Name="remmeberMeContainer" Grid.Column="0" Style="{DynamicResource lgfrm_rememberMeCheck}" MouseDown="remmeberMeContainer_MouseDown" Margin="0 0 0 0">
+                        <Grid Height="20">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="18" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <Border x:Name="rememberCheckBox" Grid.Column="0" Style="{DynamicResource lgfrm_rememberMeCheckbox}">
+                                <Image Source="/Resource/Images/Icon/tick_b.png" Style="{DynamicResource lgfrm_rememberMeCheckImage}" />
+                            </Border>
+                            <TextBlock x:Name="rememberMeText" Grid.Column="1" Style="{DynamicResource lgfrm_rememberMeText}" />
+                        </Grid>
+                    </Border>
+
+                    <Button x:Name="resetPin" Content="Pin Unuttum" Style="{DynamicResource restartPinBtn}" Grid.Column="1" Click="resetPin_Click" />
+                </Grid>
+
+                <!-- PASSWORD INPUT BOX  -->
+
+                <!-- LOGİN PANEL ACTİONS STACKPANEL  -->
+                <StackPanel x:Name="loginActionPanel" Style="{DynamicResource lgfrm_loginActions}">
+
+                    <!-- REMEMBER ME AND FORGOT PASSWORD -->
+
+                    <!-- LOGİN BUTTON AND REGİSTER BUTTON -->
+                    <Grid x:Name="loginActionButtons" Style="{DynamicResource gridOffset}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Button  x:Name="loginBtn" Grid.Column="0" Content="Giriş" Style="{DynamicResource lgfrm_acitonsButton}" Click="loginBtn_Click" />
+                    </Grid>
+                </StackPanel>
+            </StackPanel>
+            <!-- Copyright Text  -->
+            <TextBlock Style="{DynamicResource copyright_txt}" />
+        </Grid>
+
+        <Grid Grid.Column="1" x:Name="registerGrid" Style="{DynamicResource loginresgrid}" Visibility="Hidden">
+
+            <StackPanel VerticalAlignment="Center" Orientation="Vertical">
+
+                <TextBlock x:Name="registerHeader" Text="Kayıt Ol" Style="{DynamicResource lgfrm_headerText}" />
+
+                <!-- EMAIL INPUT BOX  -->
+                <Border x:Name="registereEmailBox" Style="{DynamicResource lgfrm_inputBox}" Margin="0">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Image Style="{DynamicResource lgfrm_inputBoxIcon}" Source="/resource/images/icon/email_rb.png" />
+                        <TextBlock Style="{DynamicResource lgfrm_inputTextHint}" x:Name="rgstUserEmailHint" Text="Email Adresiniz" MouseDown="rgstUserEmailHint_MouseDown" />
+                        <TextBox Style="{DynamicResource lgfrm_userEmailInput}" x:Name="rgstUserEmail" TextChanged="rgstUserEmail_TextChanged" LostFocus="rgstUserEmail_LostFocus" />
+                    </Grid>
+                </Border>
+                <TextBlock x:Name="loginResEmailReturnMessage" Style="{DynamicResource lgfrm_returnMessage}" Margin="0 3 0 3" />
+
+                <Border x:Name="nameBox" Style="{DynamicResource lgfrm_inputBox}" Margin="0">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Image Style="{DynamicResource lgfrm_inputBoxIcon}" Source="/resource/images/icon/user_rb.png" />
+                        <TextBlock Style="{DynamicResource lgfrm_inputTextHint}" x:Name="rgstUserNameHint" Text="İsminiz" MouseDown="rgstUserNameHint_MouseDown" />
+                        <TextBox Style="{DynamicResource lgfrm_userEmailInput}" x:Name="rgstUserName" TextChanged="rgstUserName_TextChanged" LostFocus="rgstUserName_LostFocus" />
+                    </Grid>
+                </Border>
+
+                <TextBlock x:Name="loginResNameReturnMessage" Style="{DynamicResource lgfrm_returnMessage}" Margin="0 3 0 3" />
+
+                <Border x:Name="lastnameBox" Style="{DynamicResource lgfrm_inputBox}" Margin="0">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Image Style="{DynamicResource lgfrm_inputBoxIcon}" Source="/resource/images/icon/user_rb.png" />
+                        <TextBlock Style="{DynamicResource lgfrm_inputTextHint}" x:Name="rgstUserLastNameHint" Text="Soy İsminiz" MouseDown="rgstUserLastNameHint_MouseDown" />
+                        <TextBox Style="{DynamicResource lgfrm_userEmailInput}" x:Name="rgstUserLastName" LostFocus="rgstUserLastName_LostFocus" TextChanged="rgstUserLastName_TextChanged" />
+                    </Grid>
+                </Border>
+
+                <TextBlock x:Name="loginResLastNameReturnMessage" Style="{DynamicResource lgfrm_returnMessage}" Margin="0 3 0 3" />
+
+                <Border x:Name="pinBox" Style="{DynamicResource lgfrm_inputBox}" Margin="0">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Image Style="{DynamicResource lgfrm_inputBoxIcon}" Source="/resource/images/icon/key_rb.png" />
+                        <TextBlock Style="{DynamicResource lgfrm_inputTextHint}" x:Name="rgstUserPinHint" Text="Pin" MouseDown="rgstUserPinHint_MouseDown" />
+                        <TextBox Style="{DynamicResource lgfrm_userEmailInput}" x:Name="rgstUserPin" PreviewTextInput="userPin_PreviewTextInput" TextChanged="rgstUserPin_TextChanged" />
+                    </Grid>
+                </Border>
+
+                <TextBlock x:Name="loginResPinReturnMessage" Style="{DynamicResource lgfrm_returnMessage}" Margin="0 3 0 3" Visibility="Visible" Text="* Boş bırakılabilir." Foreground="#7B7B7B" />
+
+                <Border x:Name="termofuseContainer" Grid.Column="0" Style="{DynamicResource lgfrm_termsOfUseMeCheck}" MouseDown="termofuseContainer_MouseDown" Margin="65 5 0 0">
+                    <Grid Height="16">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="14" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Border x:Name="termofuseCheckBox" Grid.Column="0" Style="{DynamicResource lgfrm_termsOfUseCheckbox}">
+                            <Image Source="/resource/images/icon/tick_b.png" Style="{DynamicResource lgfrm_termsOfUseCheckImage}" />
+                        </Border>
+                        <TextBlock x:Name="termofuseText" Grid.Column="1" Style="{DynamicResource lgfrm_termsOfUseText}" />
+                    </Grid>
+                </Border>
+
+                <StackPanel x:Name="registerActionPanel" Style="{DynamicResource lgfrm_loginActions}">
+
+                    <!-- LOGİN BUTTON AND REGİSTER BUTTON -->
+                    <Grid x:Name="loginRegisterActionButtons" Style="{DynamicResource gridOffset}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Button x:Name="loginBackBtn" Grid.Column="0" Content="Geri" Style="{DynamicResource lgfrm_acitonsButton}" Click="loginBackBtn_Click" />
+                        <Button x:Name="registerBtn" Grid.Column="1" Content="Hesabı Oluştur" Style="{DynamicResource lgfrm_acitonsButton}" Click="registerBtn_Click" />
+                    </Grid>
+                </StackPanel>
+            </StackPanel>
+
+            <TextBlock Style="{DynamicResource copyright_txt}" />
         </Grid>
     </Grid>
 </Window>

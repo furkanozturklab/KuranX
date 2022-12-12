@@ -173,7 +173,7 @@ namespace KuranX.App.Core.Pages.NoteF
                             gototype = "Subject";
                         }
                     });
-                    Thread.Sleep(300);
+                    Thread.Sleep(int.Parse(App.config.AppSettings.Settings["app_animationSpeed"].Value));
                     loadAniComplated();
                 }
             }
@@ -298,15 +298,15 @@ namespace KuranX.App.Core.Pages.NoteF
             {
                 using (var entitydb = new AyetContext())
                 {
-                    if (loadNoteDetail.Text.Length < 8)
+                    if (loadNoteDetail.Text.Length < 3)
                     {
-                        App.mainScreen.alertFunc("Güncelleme Başarısız", "Yeni notunuz çok kısa minimum 8 karakter olmalıdır.", 3);
+                        App.mainScreen.alertFunc("İşlem Başarısız", "Yeni notunuz çok kısa minimum 3 karakter olmalıdır.", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
                     }
                     else
                     {
                         entitydb.Notes.Where(p => p.notesId == noteId).First().noteDetail = loadNoteDetail.Text;
                         entitydb.SaveChanges();
-                        App.mainScreen.succsessFunc("Güncelleme Başarılı", "Notunuz başarılı bir sekilde güncellendi.", 3);
+                        App.mainScreen.succsessFunc("İşlem Başarılı", "Notunuz başarılı bir sekilde güncellendi.", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
                         saveButton.IsEnabled = false;
                     }
                 }
@@ -372,12 +372,12 @@ namespace KuranX.App.Core.Pages.NoteF
                         entitydb.ResultItems.Add(dTemp);
                         entitydb.SaveChanges();
                         popup_sendResultItems.IsOpen = false;
-                        App.mainScreen.succsessFunc("Gönderme Başarılı", "Notunuz " + item.Content + " suresinin sonucuna gönderildi.", 3);
+                        App.mainScreen.succsessFunc("İşlem Başarılı", "Notunuz " + item.Content + " suresinin sonucuna gönderildi.", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
                     }
                     else
                     {
                         popup_sendResultItems.IsOpen = false;
-                        App.mainScreen.alertFunc("Gönderme Başarısız", "Notunuz " + item.Content + " suresinin sonucuna daha önceden eklenmiştir yeniden ekleyemezsiniz.", 3);
+                        App.mainScreen.alertFunc("İşlem Başarısız", "Notunuz " + item.Content + " suresinin sonucuna daha önceden eklenmiştir ve yeniden ekleyemezsiniz.", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
                     }
                 }
             }
@@ -409,7 +409,7 @@ namespace KuranX.App.Core.Pages.NoteF
             {
                 App.timeSpan.Interval = TimeSpan.FromSeconds(3);
                 App.timeSpan.Start();
-                App.mainScreen.succsessFunc("Not Silme Başarılı", "Notunuz başaralı bir sekilde silinmiştir. Notlarım sayfasına yönlendiriliyorsunuz...", 3);
+                App.mainScreen.succsessFunc("İşlem Başarılı", "Notunuz başaralı bir sekilde silinmiştir. Notlarım sayfasına yönlendiriliyorsunuz...", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
                 App.timeSpan.Tick += delegate
                 {
                     App.timeSpan.Stop();

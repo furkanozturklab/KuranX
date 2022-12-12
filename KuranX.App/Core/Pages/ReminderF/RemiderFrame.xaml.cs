@@ -53,6 +53,8 @@ namespace KuranX.App.Core.Pages.ReminderF
             {
                 lastPage = 0;
                 NowPage = 1;
+                App.mainScreen.loadinGifContent.Visibility = Visibility.Hidden;
+                App.mainScreen.rightPanel.Visibility = Visibility.Visible;
                 App.loadTask = Task.Run(() => loadItem());
                 return this;
             }
@@ -109,11 +111,11 @@ namespace KuranX.App.Core.Pages.ReminderF
 
                     int i = 1;
 
-                    Thread.Sleep(200);
+                    Thread.Sleep(int.Parse(App.config.AppSettings.Settings["app_animationSpeed"].Value));
 
                     foreach (var item in dRemider)
                     {
-                        this.Dispatcher.InvokeAsync(() =>
+                        this.Dispatcher.Invoke(() =>
                         {
                             var sColor = (Border)FindName("cbTypeColor" + i);
                             var sColor2 = (Border)FindName("cbBtTypeColor" + i);
@@ -121,7 +123,7 @@ namespace KuranX.App.Core.Pages.ReminderF
 
                             switch (item.loopType)
                             {
-                                case "False":
+                                case "Default":
                                     sColor.Background = new BrushConverter().ConvertFrom("#ffc107") as SolidColorBrush;
                                     sColor2.Background = new BrushConverter().ConvertFrom("#ffc107") as SolidColorBrush;
                                     sBtnStat.Text = item.remiderDate.ToString("d") + " Tarihin de Hatırlatılacak";
@@ -334,7 +336,7 @@ namespace KuranX.App.Core.Pages.ReminderF
 
                                         entitydb.Remider.Add(newRemider);
                                         entitydb.SaveChanges();
-                                        App.mainScreen.succsessFunc("Ekleme Başarılı", "Yeni bir hatırlatıcınız oluşturuldu", 3);
+                                        App.mainScreen.succsessFunc("İşlem Başarılı", "Yeni bir hatırlatıcınız oluşturuldu", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
 
                                         popup_remiderAddPopup.IsOpen = false;
                                         remiderName.Text = "";
@@ -386,7 +388,7 @@ namespace KuranX.App.Core.Pages.ReminderF
 
                                         entitydb.Remider.Add(newRemider);
                                         entitydb.SaveChanges();
-                                        App.mainScreen.succsessFunc("Hatırlatıcı Oluşturuldu.", "Yeni hatırlatıcınız oluşturuldu", 3);
+                                        App.mainScreen.succsessFunc("İşlem Başarılı", "Yeni hatırlatıcınız oluşturuldu", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
 
                                         popup_remiderAddPopup.IsOpen = false;
                                         remiderName.Text = "";
@@ -473,7 +475,7 @@ namespace KuranX.App.Core.Pages.ReminderF
                     entitydb.Tasks.RemoveRange(entitydb.Tasks.Where(p => p.missonsId == selectedId));
                     entitydb.SaveChanges();
                     popup_DeleteConfirm.IsOpen = false;
-                    App.mainScreen.succsessFunc("Hatırlatıcı Silme Başarılı", "Hatırlatıcı başaralı bir sekilde silinmiştir.", 3);
+                    App.mainScreen.succsessFunc("İşlem Başarılı", "Hatırlatıcı başaralı bir sekilde silinmiştir.", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
                     App.loadTask = Task.Run(() => loadItem());
                 }
             }
@@ -586,6 +588,19 @@ namespace KuranX.App.Core.Pages.ReminderF
             }
         }
 
+        private void remiderName_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            try
+            {
+                Regex regex = new Regex("[^0-9a-zA-Z-ğüşöçıİĞÜŞÖÇ']");
+                e.Handled = regex.IsMatch(e.Text);
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Change", ex);
+            }
+        }
+
         private void popupRelativeId_TextChanged(object sender, TextChangedEventArgs e)
         {
             try
@@ -666,5 +681,66 @@ namespace KuranX.App.Core.Pages.ReminderF
         }
 
         // ------------ Animation Func ------------ //
+
+        // ----------- Popuper Spec Func ----------- //
+
+        public void popuverMove_Click(object sender, RoutedEventArgs e)
+        {
+            var btn = sender as Button;
+            ppMoveConfing((string)btn.Uid);
+            moveControlName.Text = (string)btn.Content;
+            pp_moveBar.IsOpen = true;
+        }
+
+        public void ppMoveActionOfset_Click(object sender, RoutedEventArgs e)
+        {
+            var btntemp = sender as Button;
+            var movePP = (Popup)FindName((string)btntemp.Content);
+
+            switch (btntemp.Uid.ToString())
+            {
+                case "Left":
+                    movePP.HorizontalOffset -= 50;
+                    break;
+
+                case "Top":
+                    movePP.VerticalOffset -= 50;
+                    break;
+
+                case "Bottom":
+                    movePP.VerticalOffset += 50;
+                    break;
+
+                case "Right":
+                    movePP.HorizontalOffset += 50;
+                    break;
+
+                case "UpLeft":
+                    movePP.Placement = PlacementMode.Absolute;
+                    movePP.VerticalOffset = 0;
+                    movePP.HorizontalOffset = 0;
+                    break;
+
+                case "Reset":
+                    movePP.Placement = PlacementMode.Center;
+                    movePP.VerticalOffset = 0;
+                    movePP.HorizontalOffset = 0;
+                    break;
+
+                case "Close":
+                    pp_moveBar.IsOpen = false;
+                    break;
+            }
+        }
+
+        public void ppMoveConfing(string ppmove)
+        {
+            Debug.WriteLine(ppmove);
+            for (int i = 1; i < 8; i++)
+            {
+                var btn = FindName("pp_M" + i) as Button;
+                btn.Content = ppmove;
+            }
+        }
     }
 }
