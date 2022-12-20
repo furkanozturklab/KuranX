@@ -1,0 +1,77 @@
+﻿<Page x:Class="KuranX.App.Core.Pages.UserHelpPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="clr-namespace:KuranX.App.Core.Pages"
+  mc:Ignorable="d"
+      d:DesignHeight="708" d:DesignWidth="1115" d:MaxHeight="708" d:MaxWidth="1270" d:MinWidth="1115"
+      Title="UserHelp" Background="#FAFAFA">
+
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="120" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" Padding="20 0 20 0" x:Name="loadBorderHeader">
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="15" />
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0" Margin="0 0 0 0 ">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+
+                    <Button Grid.Column="0" Style="{DynamicResource helpButton}" Tag="/resource/images/icon/dashboard_rb.png" Uid="/resource/images/icon/dashboard_r.png" Content="Program" Click="helpsMain_Click" />
+                    <Button Grid.Column="1" Style="{DynamicResource helpButton}" Tag="/resource/images/icon/verse_rb.png" Uid="/resource/images/icon/verse_r.png" Content="Ayteler" Click="helpsMain_Click" />
+                    <Button Grid.Column="2" Style="{DynamicResource helpButton}" Tag="/resource/images/icon/subject_rb.png" Uid="/resource/images/icon/subject_r.png" Content="Konular" Click="helpsMain_Click" />
+                    <Button Grid.Column="3" Style="{DynamicResource helpButton}" Tag="/resource/images/icon/library_rb.png" Uid="/resource/images/icon/library_r.png" Content="Kütüphane" Click="helpsMain_Click" />
+                    <Button Grid.Column="4" Style="{DynamicResource helpButton}" Tag="/resource/images/icon/notes_rb.png" Uid="/resource/images/icon/notes_r.png" Content="Notlar" Click="helpsMain_Click" />
+                    <Button Grid.Column="5" Style="{DynamicResource helpButton}" Tag="/resource/images/icon/remider_rb.png" Uid="/resource/images/icon/remider_r.png" Content="Hatırlatıcılar" Click="helpsMain_Click" />
+                    <Button Grid.Column="6" Style="{DynamicResource helpButton}" Tag="/resource/images/icon/result_rb.png" Uid="/resource/images/icon/result_r.png" Content="Sonuc" Click="helpsMain_Click" />
+                </Grid>
+                <StackPanel Grid.Row="1" VerticalAlignment="Top">
+                    <Separator Background="#E1E3E6" Height="2" Margin="0,4,0,4" />
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+
+                <ColumnDefinition Width="200" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <ScrollViewer Margin="0 10 0 40" Grid.Column="0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                <StackPanel x:Name="helpsItems" Orientation="Vertical" Margin="5 5">
+                </StackPanel>
+            </ScrollViewer>
+
+            <Grid Grid.Column="1">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="130" />
+                </Grid.RowDefinitions>
+
+                <Image x:Name="helpImage" Stretch="UniformToFill" Margin="10" Style="{DynamicResource helpImage}" />
+
+                <ScrollViewer Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                    <TextBlock x:Name="helpsDesc" Text="" Style="{DynamicResource helpDescText}" />
+                </ScrollViewer>
+            </Grid>
+        </Grid>
+    </Grid>
+</Page>

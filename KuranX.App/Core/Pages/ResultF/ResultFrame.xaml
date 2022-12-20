@@ -28,16 +28,16 @@
 
         <Grid Grid.Row="1" Style="{DynamicResource aniEffectFadeGrid}" Visibility="Visible" x:Name="gridContent">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="270" />
-                <ColumnDefinition Width="270" />
-                <ColumnDefinition Width="270" />
-                <ColumnDefinition Width="270" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="130" />
-                <RowDefinition Height="130" />
-                <RowDefinition Height="130" />
-                <RowDefinition Height="130" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
             <Border x:Name="rs1" Grid.Column="0" Grid.Row="0" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">

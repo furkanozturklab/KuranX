@@ -5,6 +5,9 @@
 
     <!-- ROOT STYLE -->
 
+    <BitmapImage x:Key="help_1" UriSource="/resource/images/Helps/help_1.png" />
+    <BitmapImage x:Key="help_2" UriSource="/resource/images/Helps/help_2.png" />
+
     <sys:Double x:Key="inputWidth">260</sys:Double>
     <sys:Double x:Key="inputHeight">41</sys:Double>
     <sys:Double x:Key="icon16">16</sys:Double>
@@ -19,12 +22,17 @@
         <Setter Property="Margin" Value="0 30" />
     </Style>
 
+    <Style x:Key="{x:Type Popup}" TargetType="{x:Type Popup}">
+
+        <Setter Property="AllowsTransparency" Value="True" />
+    </Style>
+
     <!-- ROOT STYLE -->
 
     <!-- Mixed Style -->
 
     <Style TargetType="TextBlock" x:Key="copyright_txt">
-        <Setter Property="Text" Value="Copyright @ 2022 All rights reserved" />
+        <Setter Property="Text" Value="Copyright @ 2023 All rights reserved" />
         <Setter Property="VerticalAlignment" Value="Bottom" />
         <Setter Property="HorizontalAlignment" Value="Center" />
         <Setter Property="Margin" Value="0 0 0 10" />

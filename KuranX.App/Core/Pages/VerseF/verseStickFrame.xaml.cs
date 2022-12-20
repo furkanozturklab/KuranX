@@ -428,7 +428,7 @@ namespace KuranX.App.Core.Pages.VerseF
                             var listxc = entitydb.Sure.OrderBy(p => p.deskLanding).Where(p => p.deskLanding == xc).FirstOrDefault();
 
                             headerBorder.Visibility = Visibility.Hidden;
-                            App.mainframe.Content = App.navVersePage.PageCall((int)listxc.sureId, (int)listxc.numberOfVerses, "Verse");
+                            App.secondFrame.Content = App.navVerseStickPage.PageCall((int)listxc.sureId, (int)listxc.numberOfVerses, loadHeader.Text, sRelativeVerseId);
 
                             listx = null;
                             listxc = null;
@@ -443,7 +443,7 @@ namespace KuranX.App.Core.Pages.VerseF
                             var BeforeD = entitydb.Sure.Where(p => p.sureId == selectedSure).Select(p => new Sure() { numberOfVerses = p.numberOfVerses }).FirstOrDefault();
 
                             headerBorder.Visibility = Visibility.Hidden;
-                            App.mainframe.Content = App.navVersePage.PageCall(--sSureId, (int)BeforeD.numberOfVerses, "Verse");
+                            App.secondFrame.Content = App.navVerseStickPage.PageCall(--sSureId, (int)BeforeD.numberOfVerses, loadHeader.Text, sRelativeVerseId);
 
                             BeforeD = null;
                         }
@@ -491,7 +491,7 @@ namespace KuranX.App.Core.Pages.VerseF
                             var listxc = entitydb.Sure.OrderBy(p => p.deskLanding).Where(p => p.deskLanding == xc).First();
 
                             headerBorder.Visibility = Visibility.Hidden;
-                            App.mainframe.Content = App.navVersePage.PageCall((int)listxc.sureId, 1, "Verse");
+                            App.secondFrame.Content = App.navVerseStickPage.PageCall((int)listxc.sureId, 1, loadHeader.Text, sRelativeVerseId);
 
                             listx = null;
                             listxc = null;
@@ -500,7 +500,7 @@ namespace KuranX.App.Core.Pages.VerseF
                     else
                     {
                         headerBorder.Visibility = Visibility.Hidden;
-                        App.mainframe.Content = App.navVersePage.PageCall(++sSureId, 1, "Verse");
+                        App.secondFrame.Content = App.navVerseStickPage.PageCall(++sSureId, 1, loadHeader.Text, sRelativeVerseId);
                     }
                 }
             }

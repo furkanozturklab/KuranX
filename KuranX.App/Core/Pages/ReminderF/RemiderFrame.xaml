@@ -844,7 +844,7 @@
                 </StackPanel>
 
                 <StackPanel Style="{DynamicResource frameItemsOffsetNav}">
-                    <Button x:Name="filterDatetime" IsEnabled="False" Tag="# " Content="Tarih" Uid="False" Style="{DynamicResource nt_pageColorControl}" Click="filter_Click" />
+                    <Button x:Name="filterDatetime" IsEnabled="False" Tag="#ffc107" Content="Tarih" Uid="False" Style="{DynamicResource nt_pageColorControl}" Click="filter_Click" />
                 </StackPanel>
 
                 <StackPanel Style="{DynamicResource frameItemsOffsetNav}">

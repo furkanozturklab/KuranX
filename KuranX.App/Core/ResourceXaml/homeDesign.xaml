@@ -467,7 +467,33 @@
             <Setter.Value>
                 <ControlTemplate>
                     <TextBlock VerticalAlignment="Center" Height="24" Width="24">
-                          <Icon:PackIconVaadinIcons Kind="CloseBig" Width="24" Height="24" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                          <Icon:PackIconEvaIcons Kind="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}}" Width="24" Height="24" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    </TextBlock>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Opacity" Value="1" />
+                <Setter Property="Cursor" Value="Hand" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style TargetType="Button" x:Key="hmwnd_appFullButton">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="#383C41" />
+        <Setter Property="Opacity" Value="0.60" />
+        <Setter Property="Height" Value="24" />
+        <Setter Property="Margin" Value="0 0 20 0" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Bottom" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <TextBlock VerticalAlignment="Center" Height="24" Width="24">
+                          <Icon:PackIconFontAwesome  Kind="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}}" Width="24" Height="24" VerticalAlignment="Center" HorizontalAlignment="Center" />
                     </TextBlock>
                 </ControlTemplate>
             </Setter.Value>
@@ -953,5 +979,116 @@
                 <Setter Property="BorderBrush" Value="#FFACACAC" />
             </Trigger>
         </Style.Triggers>
+    </Style>
+
+    <Style x:Key="helpButton" TargetType="Button">
+
+        <Setter Property="Background" Value="{x:Null}" />
+        <Setter Property="BorderBrush" Value="{x:Null}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Margin" Value="0 5 0 5" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <StackPanel Orientation="Vertical">
+                        <Image x:Name="icoImage" Grid.Column="0" Source="{Binding Path=Tag, RelativeSource={RelativeSource TemplatedParent}}" Width="32" Height="32" RenderOptions.BitmapScalingMode="HighQuality" HorizontalAlignment="Center" />
+                        <TextBlock Text="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}}" FontFamily="{DynamicResource PoppinsMedium}" FontSize="16" Foreground="#1C1E2F" TextAlignment="Center" Margin="0 5 0 0" />
+                    </StackPanel>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Source" Value="{Binding Path=Uid, RelativeSource={RelativeSource TemplatedParent}}" TargetName="icoImage" />
+                            <Setter Property="Cursor" Value="Hand" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="helpBase" TargetType="Button">
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="UseLayoutRounding" Value="True" />
+        <Setter Property="BorderThickness" Value="0,0,0,0" />
+        <Setter Property="BorderBrush" Value="{x:Null}" />
+        <Setter Property="Background" Value="#FFF" />
+        <Setter Property="Margin" Value="10" />
+        <Setter Property="Foreground"  Value="#1C1E2F" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="UseLayoutRounding" Value="True" />
+    </Style>
+
+    <Style x:Key="helpSection" TargetType="Button" BasedOn="{StaticResource helpBase}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Border x:Name="bg_temp" Padding="20,5,20,5" Style="{DynamicResource defaultBorderShadowEffect}" Background="{TemplateBinding Background}">
+                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal">
+                            <TextBlock x:Name="txt_temp" Text="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}}" FontFamily="{DynamicResource PoppinsMedium}" Foreground="{TemplateBinding Foreground}" />
+                        </StackPanel>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="bg_temp" Property="Background" Value="#F0433A" />
+                            <Setter TargetName="txt_temp" Property="Foreground" Value="#FFFFFF" />
+                            <Setter Property="Cursor" Value="Hand" />
+                        </Trigger>
+
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="bg_temp" Property="Background" Value="#FFE4E6EF" />
+                            <Setter  TargetName="bg_temp" Property="Cursor" Value="No" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="helpDescText" TargetType="TextBlock">
+
+        <Setter Property="FontFamily" Value="{DynamicResource PoppinsRegular}" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="Foreground" Value="#1C1E2F" />
+        <Style.Triggers>
+            <Trigger Property="Visibility" Value="Visible">
+                <Trigger.EnterActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                             From="0.0" To="1.0" Duration="0:0:0.5" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.EnterActions>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="helpImage" TargetType="Image">
+
+        <Style.Triggers>
+            <Trigger Property="Visibility" Value="Visible">
+                <Trigger.EnterActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                             From="0.0" To="1.0" Duration="0:0:0.5" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.EnterActions>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="updateText" TargetType="TextBlock">
+        <Setter Property="TextWrapping" Value="Wrap" />
+        <Setter Property="FontFamily" Value="{DynamicResource PoppinsRegular}" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Foreground" Value="#383C41" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Margin" Value="0 5 0 5" />
     </Style>
 </ResourceDictionary>

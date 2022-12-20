@@ -7,8 +7,16 @@
       mc:Ignorable="d"
       d:DesignHeight="708" d:DesignWidth="1115" d:MaxHeight="708" d:MaxWidth="1270" d:MinWidth="1115"
       Title="HomePage" Loaded="Page_Loaded" Background="#FAFAFA">
-
-    <Grid>
+    <Page.Resources>
+        <Style x:Key="textInfo" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="24" />
+            <Setter Property="FontFamily" Value="{DynamicResource PoppinsMedium}" />
+            <Setter Property="TextAlignment" Value="Center" />
+            <Setter Property="Foreground" Value="#383C41" />
+            <Setter Property="FontWeight" Value="Bold" />
+        </Style>
+    </Page.Resources>
+    <Grid Visibility="Visible">
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
@@ -28,8 +36,27 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Grid.RowSpan="7" VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Vertical">
+
+            <!--
             <TextBlock Text="KURAN X"  FontSize="128" FontFamily="{DynamicResource Allura}" TextAlignment="Center"  Foreground="#383C41" FontWeight="Bold" />
             <TextBlock Text="Hoş Geldiniz"  FontSize="64" FontFamily="{DynamicResource Allura}" TextAlignment="Center"  Foreground="#383C41" FontWeight="Bold" />
+         -->
+
+            <TextBlock Text="Rahman Rahim Allah'ın ismiyle" Style="{DynamicResource textInfo}" />
+            <TextBlock Text="Hamd alemlerin Rabbi Allah'a mahsusdur" Style="{DynamicResource textInfo}" />
+            <TextBlock Text="Kur'an okuyacağın zaman kovulmuş şeytandan Allah'a sığın" Style="{DynamicResource textInfo}" />
+            <TextBlock Text="Sorumlu varlıklara ve kıyamete kadar tüm çağlara uyarıcı olması için kuluna" Style="{DynamicResource textInfo}" />
+            <TextBlock Text="hakkı batıldan ayıran kitabı indiren Allah yüceler yücesidir" Style="{DynamicResource textInfo}" />
+            <TextBlock Text="Bunlar gercekleri açıklayan apaçık kitabın ayetleridir" Style="{DynamicResource textInfo}" />
+            <TextBlock Text="Doğrusu biz size dinin hükülerini açıklayan ayetler , sizden önce" Style="{DynamicResource textInfo}" />
+            <TextBlock Text="gelip geçen toplumların hayatlarından ibretli örnekler ve" Style="{DynamicResource textInfo}" />
+            <TextBlock Text="Allah'a saygı duyup duyarlı olanlar için öğut indirdik" Style="{DynamicResource textInfo}" />
+            <TextBlock Text="" Style="{DynamicResource textInfo}" />
+            <TextBlock Text="Şüphesiz bu Kur'an da Allah'a kulluk etmek isteyen kimseler için" Style="{DynamicResource textInfo}" />
+            <TextBlock Text="yeterli bilgi ve ögüt vardır." Style="{DynamicResource textInfo}" />
+            <TextBlock Text="Şüphesiz ki Rabbin Allah güçlüdür , çok merhametlidir " Style="{DynamicResource textInfo}" />
+            <TextBlock Text="" Style="{DynamicResource textInfo}" />
+            <TextBlock Text="Fatiha 1 , Fatiha 2 , Nah 198 , Furkan 1 , Şuara 2 , Nur 34 , Enbiya 106 , Şuara 9" Style="{DynamicResource textInfo}" FontSize="28"  Foreground="#F0433A" />
         </StackPanel>
 
         <!--

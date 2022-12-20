@@ -46,7 +46,7 @@
     * [x] ⚠️ ~~İiniş ve musaf sıraları yanlış wamp da doğru db de yerleri yanlış~~
     * [x] ⚠️ ~~Son sureden sonra ileri git kapalı olmalı ama acık kontrol et. // SORUN NAV CUBUKLARI İLE OLMUYOR NAV İTEMLERİNE TIKLAYINCA ~~
     * [x] ⚠️ ~~Pdf dosyası headerı bulanık ? / Pencere ac dikkatli bak ~~
-    * [-] ⚠️ CefhSharp cok ram yiyor işin bitince kapatmam lazım // KISMI KAPATMA SAĞLADIM 
+    * [x] ⚠️ CefhSharp cok ram yiyor işin bitince kapatmam lazım // KISMI KAPATMA SAĞLADIM 
     * [x] ⚠️ ~~Yorumcuyu değiştirdğimde yorumu getir aktif ise değiştiriyor ama biz göremiyoruz yorumcu değişince + yorumu getir click lenmiş gibi olmalı~~
     * [x] ⚠️ ~~Aynı not isim ile not eklene biliyor~~
     * [x] ⚠️ ~~Not alırken 3000 karakter sınırı olsun // AYET~~
@@ -85,7 +85,7 @@
     * [x] ⚠️ ayet değğişince default yorumcu kalıyor yorumcu combobox değişik olsa bile
     * [x] ⚠️ anlambütünlüğü sureye git -> ayete git
     * [x] ⚠️ hatırlatıcı sayfasında yeni hatırlatıcıya ayet ekle
-    * [ ] ⚠️ Lib panelinde pdf açarken takılma oluyor.
+    * [-] ⚠️ Lib panelinde pdf açarken takılma oluyor.
     * [x] ⚠️ ayet içinde musafa göre secip giridğinde fatiha 7 sonraki bakar aolması lazımken alak oluyor .
     * [x] ⚠️ admin yorumu boş bırakıp kaydedince kayıt edilemiyor.
     * [x] ⚠️ admin paneli tefsir bağlamamışım
@@ -94,8 +94,8 @@
     * [x] ⚠️ kütüphane notu -> Pdf notu
     * [x] ⚠️ yorumu getir -> yorumu göster
     * [x] ⚠️ admin yorumcu save boş calısmıyor.
-    * [?] ⚠️ remider kısmında renk sorunu
-    * [ ] ⚠️ try catch hata düşünce ana sayfaya yönlendirip uyarı verdirme yapılmadı..
+    * [x] ⚠️ remider kısmında renk sorunu
+    * [x] ⚠️ try catch hata düşünce ana sayfaya yönlendirip uyarı verdirme yapılmadı..
     * [x] ⚠️ yorumcu secinizi yorumcu 1 gelin
     * [x] ⚠️ tamamı okuyunca renk değişmiyor ana panel.
     * [-] ⚠️ Anlam bütünlüğü yapınca ayete gitde parçalanma oluryor.
@@ -105,7 +105,19 @@
     * [x] ⚠️ fatiha süresinin ayetleri arasındaki text düzeltmesi
     * [x] ⚠️ sonuc açılmıyor.
     * [x] ⚠️ okuduklarımını bir tana silince renk değişmiyor..
+    * [ ] ⚠️ Tarih bazlı hatırlatıcı günü geçtiğinde silinmiyor hatırlatılmıyor.
+    * [x] ⚠️ Dosya yüklenemiyor.
+    * [x] ⚠️ Popup kapanınca kontrolü kapanmıyor
+    * [x] ⚠️ Ayetten nota gitti geri döndü geri dönünce sure syafasına gidiyor.
+    * [x] ⚠️ Konularım ayete git diye dğiştir
+    * [x] ⚠️ Ayetler arasındaki konular değişmiyor.
+    * [x] ⚠️ aramada kapatınca sonuc next prev hayla gözüküyor
+    * [x] ⚠️ PDF NOTU -> KÜTÜPHANE NOTU
+    * [x] ⚠️ Kütüphane notu yığındaki fazlalık var 
+    * [x] ⚠️ pin hatırlatma çalışmıyor.
+    * [ ] ⚠️ Popup işlem yapıp kapanırsa kontrol kapanmıyor kapat ile kapanıyor ama.
     * [ ] ⚠️ 
+
 
 ## Gelecek Güncellemeler:
 
@@ -118,7 +130,7 @@
 	* [x] 🆕 Admin Ayarlarını acıp kapanıp acıla bilen buttonlar oluştur.
 	* [x] 🆕 Anlam bütünlükleri Fatihadan bağlayınca Nisadada gözüksün
 	* [x] 🆕 Ayet okurken işaretlemeden cıkınca uyarı ver
-	* [-] 🆕 Popupları haraket ettirmek ?
+	* [x] 🆕 Popupları haraket ettirmek ?
 	* [x] 🆕 Editor Secimini Gizle
 	* [x] 🆕 anlam bütünlüğü okurkan düzeltme olsun yazılı şeyler düzeltilemiyor. ve silme olsun
 	* [x] 🆕 editor girişi için anlambütünlüğü başşığını baypass et   öRNEK :  Fatiha 1 Ayetini Nisa 7 Ayetine Bağlantısı
@@ -143,14 +155,14 @@
 
 #### STATUS 
 
-> SON EKLENEN SORUN TARİHİ : 01.12.2022
+> SON EKLENEN SORUN TARİHİ : 18.12.2022
 >
-> SON ÇÖZÜLEN SORUN TARİHİ : 01.12.2022
+> SON ÇÖZÜLEN SORUN TARİHİ : 18.12.2022
 >
 > Toplam Çözülen Sorun : ?
 >
-> SON GÜNCELLEME TARİHİ : 22.11.2022
+> SON GÜNCELLEME TARİHİ : 18.12.2022
 >
-> VERSİYON PUBLİC : 0.2.0  Beta
+> VERSİYON PUBLİC : 0.3.1  Beta
 >
 

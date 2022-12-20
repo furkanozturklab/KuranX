@@ -116,7 +116,7 @@ namespace KuranX.App.Core.Pages.LibraryF
                             sLocation.Text = item.noteLocation;
 
                             var sBtn = (Button)FindName("lniBtn" + i);
-                            sBtn.Uid = item.subjectId.ToString();
+                            sBtn.Uid = item.notesId.ToString();
 
                             var sbItem = (Border)FindName("lni" + i);
                             sbItem.Visibility = Visibility.Visible;

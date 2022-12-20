@@ -1,4 +1,5 @@
-﻿using KuranX.App.Core.Classes;
+﻿using Google.Protobuf.WellKnownTypes;
+using KuranX.App.Core.Classes;
 using KuranX.App.Core.Pages;
 using KuranX.App.Core.Pages.LibraryF;
 using KuranX.App.Core.Pages.NoteF;
@@ -14,7 +15,11 @@ using System.Configuration;
 
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
+using System.Net;
 using System.Net.Http;
+using System.Net.Mail;
+using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -81,8 +86,16 @@ namespace KuranX.App
         public static RemiderFrame navRemiderPage = new RemiderFrame();
         public static RemiderItem navRemiderItem = new RemiderItem();
 
+        // Helper Panel
+
+        public static UserHelpPage navUserHelp = new UserHelpPage();
+
         public static TestFrame navTestPage = new TestFrame();
         public static string InterpreterWriter = "";
+        public static bool starup = true;
+
+        public static ApiPostProjectNotes returnPostNotes;
+        public static ApiPostProject returnPostProject;
 
         private void ExecuteAsAdmin(string fileName)
         {
@@ -93,48 +106,118 @@ namespace KuranX.App
             proc.Start();
         }
 
-        private async Task versionCheck()
+        private async Task apiPostRun(Dictionary<string, string> data, string action)
         {
-            using (var client = new HttpClient())
+            try
             {
-                var postingdata = new Dictionary<string, string>
-                    {
-                    { "post_securityCode","meltdown"},
-                    { "post_projectid", "3" },
-                    { "post_table", "table_project" },
-                    { "post_action", "GET" }
-                    };
+                using (var client = new HttpClient())
+                {
+                    var endpoint = new Uri(config.AppSettings.Settings["api_adress"].Value);
+                    var content = new FormUrlEncodedContent(data);
+                    var result = await client.PostAsync(endpoint, content);
+                    string json = result.Content.ReadAsStringAsync().Result;
 
-                var endpoint = new Uri(config.AppSettings.Settings["api_adress"].Value);
-                var content = new FormUrlEncodedContent(postingdata);
-                var result = await client.PostAsync(endpoint, content);
-                string json = result.Content.ReadAsStringAsync().Result;
+                    if (action == "version") returnPostProject = JsonConvert.DeserializeObject<ApiPostProject>(json);
+                    if (action == "UpdateNotes") returnPostNotes = JsonConvert.DeserializeObject<ApiPostProjectNotes>(json);
 
-                ApiPostProject appInfo = JsonConvert.DeserializeObject<ApiPostProject>(json);
-
-                lastversion = appInfo.Data[0].project_version_x86;
+                    lastversion = returnPostProject.Data[0].project_version_x86;
+                    starup = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                starup = false;
+                logWriter("AppStartUp", ex);
             }
         }
 
         public async void App_Startup(object sender, StartupEventArgs e)
         {
-            loadTask = Task.Run(() => versionCheck());
-            await loadTask;
+            try
+            {
+                config.AppSettings.Settings["application_location"].Value = AppDomain.CurrentDomain.BaseDirectory;
+                config.Save(ConfigurationSaveMode.Modified);
 
-            if (config.AppSettings.Settings["application_version"].Value != lastversion)
-            {
-                MessageBox.Show("Yeni güncelleme mevcut devam etmeden önce güncelleme yapılmalı.");
-                ExecuteAsAdmin(AppDomain.CurrentDomain.BaseDirectory + @"Updater\Updater.exe");
-                Current.Shutdown();
-            }
-            else
-            {
-                if (config.AppSettings.Settings["user_autoLogin"].Value == "true") this.Dispatcher.Invoke(() => mainScreen.Show());
+                if (NetworkInterface.GetIsNetworkAvailable() == true)
+                {
+                    var postingdata = new Dictionary<string, string>
+                    {
+                    { config.AppSettings.Settings["api_tokenName"].Value, config.AppSettings.Settings["api_token"].Value},
+                    { "post_projectid", "3" },
+                    { "post_table", "table_project" },
+                    { "post_action", "GET" }
+                    };
+
+                    loadTask = Task.Run(() => apiPostRun(postingdata, "version"));
+                    await loadTask;
+
+                    postingdata = new Dictionary<string, string>
+                    {
+                            { config.AppSettings.Settings["api_tokenName"].Value, config.AppSettings.Settings["api_token"].Value},
+                            { "post_projectid", config.AppSettings.Settings["application_id"].Value },
+                            { "post_action", "POST" },
+                            { "post_type", "UpdateNotes" },
+                            { "post_version", lastversion },
+                            { "post_platform", config.AppSettings.Settings["application_platform"].Value },
+                    };
+
+                    loadTask = Task.Run(() => apiPostRun(postingdata, "UpdateNotes"));
+                    await loadTask;
+
+                    if (starup == false)
+                    {
+                        if (config.AppSettings.Settings["user_autoLogin"].Value == "true") this.Dispatcher.Invoke(() => mainScreen.Show());
+                        else
+                        {
+                            loginScreen lg = new loginScreen();
+                            lg.Show();
+                        }
+                    }
+                    else
+                    {
+                        if (config.AppSettings.Settings["application_version"].Value != lastversion)
+                        {
+                            MessageBox.Show("Yeni güncelleme mevcut devam etmeden önce güncelleme yapılmalı.");
+                            ExecuteAsAdmin(AppDomain.CurrentDomain.BaseDirectory + @"Updater\Updater.exe");
+                            Current.Shutdown();
+                        }
+                        else
+                        {
+                            if (config.AppSettings.Settings["user_autoLogin"].Value == "true")
+                            {
+                                using (var entitydb = new AyetContext())
+                                {
+                                    if (entitydb.Users.Count() > 0) this.Dispatcher.Invoke(() => mainScreen.Show());
+                                    else
+                                    {
+                                        config.AppSettings.Settings["user_pin"].Value = "";
+                                        config.AppSettings.Settings["user_rememberMe"].Value = "false";
+                                        config.AppSettings.Settings["user_autoLogin"].Value = "false";
+                                        config.Save(ConfigurationSaveMode.Modified);
+                                        MessageBox.Show("Lütfen Yeniden Başlatınız...");
+                                        Current.Shutdown();
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                loginScreen lg = new loginScreen();
+                                lg.Show();
+                            }
+                        }
+                    }
+                }
                 else
                 {
+                    MessageBox.Show("İnternet bağlantısı yok eski bir versiyon kullanıyor olabilirsiniz.");
                     loginScreen lg = new loginScreen();
                     lg.Show();
                 }
+            }
+            catch (Exception ex)
+            {
+                starup = false;
+                logWriter("AppStartUp", ex);
             }
         }
 
@@ -150,16 +233,38 @@ namespace KuranX.App
             File.AppendAllText("log.txt", Environment.NewLine);
             File.AppendAllText("log.txt", "[Error Message]");
             File.AppendAllText("log.txt", exe.Message);
+
+            mainframe.Content = navHomeFrame.PageCall();
+            mainScreen.alertFunc("Hata Oluştu", "Program bir hata ile karşılaştı ve log dosyası oluşturuldu bu hatayı alma devam ederseniz log dosyanızı bize gönderiniz.", 5);
         }
 
-        public static void apploadsystem()
+        public static bool sendMail(string subject, string body)
         {
-            if (config.AppSettings.Settings["TaskLastUpdate"].Value != DateTime.Now.ToString("d"))
+            try
             {
-                config.AppSettings.Settings["TaskLastUpdate"].Value = DateTime.Now.ToString("d");
-                config.AppSettings.Settings["TaskLastStatus"].Value = "UpdateWait";
-                ConfigurationManager.RefreshSection("appSettings");
-                config.Save(ConfigurationSaveMode.Modified);
+                SmtpClient client = new SmtpClient();
+                client.Port = 587;
+                client.Host = "smtp.outlook.com";
+                client.EnableSsl = true;
+                client.Credentials = new NetworkCredential("kuransunnetullah@outlook.com", "muhammed1AB");
+
+                MailMessage mail = new MailMessage();
+                mail.From = new MailAddress("kuransunnetullah@outlook.com", "Kuransunetullah Application Support");
+                mail.To.Add("kuransunnetullah@outlook.com");
+                mail.Subject = subject;
+                mail.IsBodyHtml = true;
+                mail.Body = body;
+
+                client.Send(mail);
+
+                mainScreen.succsessFunc("İşlem Başarılı", "Mail başarılı bir sekilde tarfımıza ulaştı size en kısa zamanda size geri dönüş yapıcaz.", int.Parse(config.AppSettings.Settings["app_warningShowTime"].Value));
+                return true;
+            }
+            catch (Exception ex)
+            {
+                logWriter("Mail", ex);
+                mainScreen.alertFunc("İşlem Başarısız", "Mail gönderilemedi lütfen daha sonra tekrar deneyiniz.", int.Parse(config.AppSettings.Settings["app_warningShowTime"].Value));
+                return false;
             }
         }
     }

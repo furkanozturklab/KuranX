@@ -86,7 +86,7 @@ namespace KuranX.App.Core.Windows
             {
                 using (var entitydb = new AyetContext())
                 {
-                    var dNotes = entitydb.Notes.Where(p => p.pdfFileId == currentPdfId).Where(p => p.noteLocation == "PDF").ToList();
+                    var dNotes = entitydb.Notes.Where(p => p.pdfFileId == currentPdfId).Where(p => p.noteLocation == "Kütüphane").ToList();
 
                     int i = 1;
 
@@ -175,7 +175,7 @@ namespace KuranX.App.Core.Windows
             {
                 using (var entitydb = new AyetContext())
                 {
-                    Debug.WriteLine(entitydb.PdfFile.Where(p => p.pdfFileId == currentPdfId).First().fileUrl);
+                    browser.Dispose();
                     File.Delete(entitydb.PdfFile.Where(p => p.pdfFileId == currentPdfId).First().fileUrl);
                     entitydb.PdfFile.RemoveRange(entitydb.PdfFile.Where(p => p.pdfFileId == currentPdfId));
                     entitydb.Notes.RemoveRange(entitydb.Notes.Where(p => p.pdfFileId == currentPdfId));
@@ -334,18 +334,18 @@ namespace KuranX.App.Core.Windows
             }
         }
 
-        private void backButton_Click(object sender, RoutedEventArgs e)
+        private async void backButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                App.loadTask = Task.Run(() =>
+                Task closeTask = Task.Run(() =>
                 {
-                    this.Dispatcher.Invoke(() =>
-                    {
-                        browser.Dispose();
-                        this.Close();
-                    });
+                    this.Dispatcher.Invoke(() => browser.Dispose());
                 });
+
+                await closeTask;
+
+                this.Dispatcher.Invoke(() => this.Close());
             }
             catch (Exception ex)
             {
@@ -516,7 +516,7 @@ namespace KuranX.App.Core.Windows
                                             pdfFileId = currentPdfId,
                                             modify = DateTime.Now,
                                             created = DateTime.Now,
-                                            noteLocation = "PDF",
+                                            noteLocation = "Kütüphane",
                                         };
 
                                         entitydb.Notes.Add(dNotes);

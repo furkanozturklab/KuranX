@@ -1,4 +1,6 @@
 ﻿using KuranX.App.Core.Classes;
+using Microsoft.Data.Sqlite;
+using Microsoft.Extensions.Options;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
@@ -206,13 +208,13 @@ namespace KuranX.App.Core.Pages.AdminF
         {
             using (var entitydb = new AyetContext())
             {
-                if (entitydb.Interpreter.Count() > 0)
+                if (false)
                 {
                     MessageBox.Show("Daha Önceden İşlem Yapılmış");
                 }
                 else
                 {
-                    string sql = "select * from interpreter;";
+                    string sql = @"select * from interpreter where interpreter_writer='Ömer Çelik'";
                     MySqlCommand cmd = new MySqlCommand(sql, connection);
                     MySqlDataReader rdr = cmd.ExecuteReader();
 
@@ -235,7 +237,7 @@ namespace KuranX.App.Core.Pages.AdminF
                         i++;
 
                         entitydb.Interpreter.Add(newIn);
-                        this.Dispatcher.Invoke(() => log.Items.Add(" -> " + DateTime.Now + ":" + newIn.interpreterWriter + " verse id VERİ EKLENDİ"));
+                        this.Dispatcher.Invoke(() => Debug.WriteLine(" -> " + DateTime.Now + ":" + newIn.interpreterWriter + " verse id VERİ EKLENDİ"));
                     }
 
                     entitydb.SaveChanges();
@@ -246,6 +248,16 @@ namespace KuranX.App.Core.Pages.AdminF
         private void addInterpreter_Click(object sender, RoutedEventArgs e)
         {
             App.mainTask = Task.Run(() => addInterFunc());
+        }
+
+        private void button_Click(object sender, RoutedEventArgs e)
+        {
+            var conn = new SqliteConnection(@"Data Source=C:\Users\furka\AppData\Roaming\KuranSunnetullah\ayet.db");
+            conn.Open();
+
+            var command = conn.CreateCommand();
+            command.CommandText = "PRAGMA key = meltdown;";
+            command.ExecuteNonQuery();
         }
     }
 }

@@ -117,9 +117,18 @@
             <Grid.Background>
                 <ImageBrush ImageSource="/Resource/Images/Background/loginLeftPlan.png" />
             </Grid.Background>
+
+            <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <TextBlock Text="Bizler bu Kur'an'a mirasçıyız" Foreground="#FFF" FontFamily="{DynamicResource Allura}" FontSize="34" FontWeight="SemiBold" TextAlignment="Center" />
+                <TextBlock Text="Apaçık Kur'an'ın mucize" Foreground="#FFF" FontFamily="{DynamicResource Allura}" FontSize="34" FontWeight="SemiBold" TextAlignment="Center" />
+                <TextBlock Text="Ayetlerinden başka bir" Foreground="#FFF" FontFamily="{DynamicResource Allura}" FontSize="34" FontWeight="SemiBold" TextAlignment="Center" />
+                <TextBlock Text="Mucize bekleyenler " Foreground="#FFF" FontFamily="{DynamicResource Allura}" FontSize="34" FontWeight="SemiBold" TextAlignment="Center" />
+                <TextBlock Text="Kaybetmeye mahkumdur" Foreground="#FFF" FontFamily="{DynamicResource Allura}" FontSize="34" FontWeight="SemiBold" TextAlignment="Center" />
+                <TextBlock Text="Halktan Sedat Abi" Foreground="#FFF" FontFamily="{DynamicResource Allura}" FontSize="28" FontWeight="SemiBold" TextAlignment="Right" Margin="10" />
+            </StackPanel>
         </Grid>
 
-        <Grid x:Name="loadinGifContent" Grid.Row="0" Grid.Column="1" Background="#FAFAFA" Panel.ZIndex="5" Visibility="Visible">
+        <Grid x:Name="loadinGifContent" Grid.Row="0" Grid.Column="1" Background="#FAFAFA" Panel.ZIndex="5" Visibility="Collapsed">
             <Image gif:ImageBehavior.AnimatedSource="/Resource/Images/Gif/Spinner800.gif" Width="150" Height="150"  RenderOptions.BitmapScalingMode="HighQuality" />
         </Grid>
 
@@ -128,7 +137,7 @@
             <StackPanel VerticalAlignment="Center" Orientation="Vertical" Width="400">
 
                 <!-- Login Header Text -->
-                <TextBlock  Text="Kuran X" Style="{DynamicResource lgfrm_headerText}" FontFamily="{DynamicResource Allura}" FontSize="36" FontWeight="Bold" />
+                <TextBlock  Text="Kur'an Sünnetullah" Style="{DynamicResource lgfrm_headerText}" FontFamily="{DynamicResource Allura}" FontSize="36" FontWeight="Bold" />
                 <TextBlock  Text="Hoş Geldiniz" Style="{DynamicResource lgfrm_headerText}" FontFamily="{DynamicResource Allura}" FontSize="64" FontWeight="Bold" Width="320" Height="80" VerticalAlignment="Center" TextAlignment="Center" />
 
                 <!-- LOGİN PANEL ACTİONS STACKPANEL  -->

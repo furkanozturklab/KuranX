@@ -194,7 +194,7 @@ namespace KuranX.App.Core.Pages.LibraryF
                         popup_fileUp.IsOpen = true;
 
                         string fileS = string.Format("{0} {1}", (new FileInfo(openFileDialog.FileName).Length / 1.049e+6).ToString("0.0"), "Mb");
-                        var newSoruceLocation = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)) + @"\KuranX\UploadFile\" + openFileDialog.FileName.Split(@"\").Last();
+                        var newSoruceLocation = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)) + @"\KuranSunnetullah\UploadFile\" + openFileDialog.FileName.Split(@"\").Last();
 
                         using (var entitydb = new AyetContext())
                         {

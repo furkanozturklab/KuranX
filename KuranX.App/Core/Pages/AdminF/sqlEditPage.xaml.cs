@@ -211,6 +211,16 @@ namespace KuranX.App.Core.Pages.AdminF
             }
         }
 
+        private void openIntel_Click(object sender, RoutedEventArgs e)
+        {
+            popup_inter.IsOpen = true;
+        }
+
+        private void exitIntel_Click(object sender, RoutedEventArgs e)
+        {
+            popup_inter.IsOpen = false;
+        }
+
         private void saveIntel_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -279,11 +289,14 @@ namespace KuranX.App.Core.Pages.AdminF
                             }
                         }
 
+                        popup_inter.IsOpen = false;
                         MessageBox.Show("Güncelleme Başarılı");
+
                     }
                 }
                 else
                 {
+                    popup_inter.IsOpen = false;
                     MessageBox.Show("Önce Sureyi ve ayeti seciniz.");
                 }
             }

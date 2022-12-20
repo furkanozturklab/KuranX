@@ -104,15 +104,11 @@ namespace KuranX.App.Core.Pages.NoteF
                                 break;
 
                             case "Kütüphane":
-                                noteType.Background = new BrushConverter().ConvertFrom("#E33FA1") as SolidColorBrush;
+                                noteType.Background = new BrushConverter().ConvertFrom("#B30B00") as SolidColorBrush;
                                 break;
 
                             case "Ayet":
                                 noteType.Background = new BrushConverter().ConvertFrom("#0DCAF0") as SolidColorBrush;
-                                break;
-
-                            case "PDF":
-                                noteType.Background = new BrushConverter().ConvertFrom("#B30B00") as SolidColorBrush;
                                 break;
 
                             default:

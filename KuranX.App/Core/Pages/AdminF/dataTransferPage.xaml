@@ -38,5 +38,6 @@
                 </ListBox>
             </Border>
         </Border>
+        <Button x:Name="button" Grid.Column="3" Content="Button" HorizontalAlignment="Left" Margin="16,30,0,0" Grid.Row="2" VerticalAlignment="Top" Height="73" Width="142" Click="button_Click" />
     </Grid>
 </Page>

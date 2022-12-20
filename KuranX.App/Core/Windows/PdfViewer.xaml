@@ -455,8 +455,7 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <Button x:Name="backButton" Grid.Column="2" Content="Kapat" Tag="ArrowLeft" Style="{DynamicResource defaultActionButonBstrpRed}" Click="backButton_Click" />
-                <Button x:Name="noteButton" Grid.Column="3" Content="Not Al-Oku" Tag="JournalBookmark" Style="{DynamicResource defaultActionButonBstrpPurple}" Click="noteButton_Click" />
+                <Button x:Name="noteButton" Width="250" Grid.Column="2" Grid.ColumnSpan="2" Content="Not Al-Oku" Tag="JournalBookmark" Style="{DynamicResource defaultActionButonBstrpPurple}" Click="noteButton_Click" />
             </Grid>
         </Border>
 

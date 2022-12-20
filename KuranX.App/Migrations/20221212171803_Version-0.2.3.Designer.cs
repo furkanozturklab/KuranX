@@ -3,6 +3,7 @@ using System;
 using KuranX.App.Core.Classes;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KuranX.App.Migrations
 {
     [DbContext(typeof(AyetContext))]
-    partial class AyetContextModelSnapshot : ModelSnapshot
+    [Migration("20221212171803_Version-0.2.3")]
+    partial class Version023
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.0");
@@ -312,7 +315,7 @@ namespace KuranX.App.Migrations
                     b.Property<DateTime>("sendTime")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT")
-                        .HasDefaultValue(new DateTime(2022, 12, 19, 11, 46, 54, 248, DateTimeKind.Local).AddTicks(7174));
+                        .HasDefaultValue(new DateTime(2022, 12, 12, 20, 18, 3, 627, DateTimeKind.Local).AddTicks(1122));
 
                     b.HasKey("resultItemId");
 
@@ -478,7 +481,7 @@ namespace KuranX.App.Migrations
                     b.Property<DateTime>("createDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT")
-                        .HasDefaultValue(new DateTime(2022, 12, 19, 11, 46, 54, 248, DateTimeKind.Local).AddTicks(2356))
+                        .HasDefaultValue(new DateTime(2022, 12, 12, 20, 18, 3, 626, DateTimeKind.Local).AddTicks(6146))
                         .HasColumnName("user_createDate");
 
                     b.Property<string>("email")
@@ -523,7 +526,7 @@ namespace KuranX.App.Migrations
                     b.Property<DateTime>("updateDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT")
-                        .HasDefaultValue(new DateTime(2022, 12, 19, 11, 46, 54, 248, DateTimeKind.Local).AddTicks(2494))
+                        .HasDefaultValue(new DateTime(2022, 12, 12, 20, 18, 3, 626, DateTimeKind.Local).AddTicks(6299))
                         .HasColumnName("user_updateDate");
 
                     b.HasKey("userId");

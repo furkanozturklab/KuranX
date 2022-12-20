@@ -331,8 +331,30 @@ namespace KuranX.App.Core.Pages.ReminderF
                                     {
                                         var newRemider = new Remider();
 
-                                        if (sId.Text != "0") newRemider = new Remider { connectSureId = int.Parse(sId.Text), connectVerseId = int.Parse(vId.Text), remiderDate = (DateTime)remiderDay.SelectedDate, remiderDetail = remiderDetail.Text, remiderName = remiderName.Text, create = DateTime.Now, priority = 1, lastAction = DateTime.Now };
-                                        else newRemider = new Remider { connectSureId = 0, connectVerseId = 0, remiderDate = (DateTime)remiderDay.SelectedDate, remiderDetail = remiderDetail.Text, remiderName = remiderName.Text, create = DateTime.Now, priority = 1, lastAction = DateTime.Now };
+                                        if (sId.Text != "0") newRemider = new Remider
+                                        {
+                                            connectSureId = int.Parse(sId.Text),
+                                            connectVerseId = int.Parse(vId.Text),
+                                            remiderDate = (DateTime)remiderDay.SelectedDate,
+                                            remiderDetail = remiderDetail.Text,
+                                            remiderName = remiderName.Text,
+                                            create = DateTime.Now,
+                                            priority = 1,
+                                            lastAction = DateTime.Now,
+                                            status = "Wait"
+                                        };
+                                        else newRemider = new Remider
+                                        {
+                                            connectSureId = 0,
+                                            connectVerseId = 0,
+                                            remiderDate = (DateTime)remiderDay.SelectedDate,
+                                            remiderDetail = remiderDetail.Text,
+                                            remiderName = remiderName.Text,
+                                            create = DateTime.Now,
+                                            priority = 1,
+                                            lastAction = DateTime.Now,
+                                            status = "Wait"
+                                        };
 
                                         entitydb.Remider.Add(newRemider);
                                         entitydb.SaveChanges();
@@ -384,7 +406,19 @@ namespace KuranX.App.Core.Pages.ReminderF
                                                 pr = 5;
                                                 break;
                                         }
-                                        var newRemider = new Remider { connectSureId = 0, connectVerseId = 0, remiderDate = new DateTime(1, 1, 1, 0, 0, 0, 0), remiderDetail = remiderDetail.Text, remiderName = remiderName.Text, create = DateTime.Now, loopType = ditem.Uid.ToString(), status = "Wait", priority = pr, lastAction = DateTime.Now };
+                                        var newRemider = new Remider
+                                        {
+                                            connectSureId = 0,
+                                            connectVerseId = 0,
+                                            remiderDate = new DateTime(1, 1, 1, 0, 0, 0, 0),
+                                            remiderDetail = remiderDetail.Text,
+                                            remiderName = remiderName.Text,
+                                            create = DateTime.Now,
+                                            loopType = ditem.Uid.ToString(),
+                                            status = "Wait",
+                                            priority = pr,
+                                            lastAction = DateTime.Now
+                                        };
 
                                         entitydb.Remider.Add(newRemider);
                                         entitydb.SaveChanges();
@@ -512,6 +546,7 @@ namespace KuranX.App.Core.Pages.ReminderF
                 var btntemp = sender as Button;
                 var popuptemp = (Popup)FindName(btntemp.Uid);
                 popuptemp.IsOpen = false;
+                pp_moveBar.IsOpen = false;
 
                 remiderName.Text = "";
                 popupNextSureId.SelectedIndex = 0;

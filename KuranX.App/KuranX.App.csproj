@@ -37,6 +37,8 @@
     <None Remove="Resource\Images\Gif\Pulse300.gif" />
     <None Remove="Resource\Images\Gif\Pulse50.gif" />
     <None Remove="Resource\Images\Gif\Spinner800.gif" />
+    <None Remove="Resource\Images\Helps\help_1.png" />
+    <None Remove="Resource\Images\Helps\help_2.png" />
     <None Remove="Resource\Images\Icon\dashboard_r.png" />
     <None Remove="Resource\Images\Icon\dashboard_rb.png" />
     <None Remove="Resource\Images\Icon\dashboard_rbg.png" />
@@ -140,8 +142,9 @@
 
   <ItemGroup>
     <PackageReference Include="MahApps.Metro.IconPacks" Version="4.11.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.0">
+    <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="7.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -167,6 +170,12 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resource\Images\Gif\Spinner800.gif">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Images\Helps\help_1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Images\Helps\help_2.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resource\Images\Icon\dashboard_r.png">

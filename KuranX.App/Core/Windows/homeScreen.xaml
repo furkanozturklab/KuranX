@@ -7,64 +7,23 @@
         xmlns:extension="clr-namespace:KuranX.App.Core.Classes"
         xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
         mc:Ignorable="d"
-        Title="homeScreen" Height="768" Width="1366" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" WindowStyle="None" AllowsTransparency="True" Loaded="Window_Loaded">
+        Title="homeScreen" Height="768" MinWidth="1366" WindowStartupLocation="CenterScreen"  WindowStyle="None" AllowsTransparency="True" Loaded="Window_Loaded">
+
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto" x:Name="leftcol" />
-            <ColumnDefinition Width="auto" x:Name="rightcol" />
+            <ColumnDefinition Width="250" x:Name="leftcol" />
+            <ColumnDefinition Width="*" x:Name="rightcol" />
         </Grid.ColumnDefinitions>
 
         <!-- POPUP -->
 
-        <Popup x:Name="pp_moveBar" IsOpen="False" Placement="RelativePoint" AllowsTransparency="True" Width="470" Height="90" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade" HorizontalOffset="543" VerticalOffset="10">
-            <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="450" Height="70">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="150" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <Grid Margin="5">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
-                        <Button Grid.Column="0" Tag="CellularMD" x:Name="pp_M1" Style="{DynamicResource pp_moveWindowIcon}" Click="ppMoveActionOfset_Click" Uid="UpLeft" RenderTransformOrigin="0.5,0.5">
-                            <Button.RenderTransform>
-                                <TransformGroup>
-                                    <ScaleTransform />
-                                    <SkewTransform />
-                                    <RotateTransform Angle="180" />
-                                    <TranslateTransform />
-                                </TransformGroup>
-                            </Button.RenderTransform>
-                        </Button>
-                        <Button Grid.Column="1" Tag="RefreshMD" x:Name="pp_M2" Style="{DynamicResource pp_moveWindowIcon}" Click="ppMoveActionOfset_Click" Uid="Reset" />
-                        <Button Grid.Column="2" Tag="CloseMD" x:Name="pp_M3" Style="{DynamicResource pp_moveWindowIcon}" Click="ppMoveActionOfset_Click" Uid="Close" />
-                    </Grid>
-                    <Grid Grid.Column="1" Margin="10 15">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
-                        <Button Grid.Column="0" Tag="ArrowBackiOS" x:Name="pp_M4" Style="{DynamicResource pp_moveWindowIcon}" Click="ppMoveActionOfset_Click" Uid="Left" />
-                        <Button Grid.Column="1" Tag="ArrowUpiOS"  x:Name="pp_M5" Style="{DynamicResource pp_moveWindowIcon}" Click="ppMoveActionOfset_Click"  Uid="Top" />
-                        <Button Grid.Column="2" Tag="ArrowDowniOS" x:Name="pp_M6" Style="{DynamicResource pp_moveWindowIcon}" Click="ppMoveActionOfset_Click" Uid="Bottom" />
-                        <Button Grid.Column="3" Tag="ArrowForwardiOS" x:Name="pp_M7" Style="{DynamicResource pp_moveWindowIcon}" Click="ppMoveActionOfset_Click" Uid="Right" />
-                    </Grid>
-                </Grid>
-            </Border>
-        </Popup>
-
         <!-- POPUP -->
 
-        <Border x:Name="leftgg" Grid.Column="0" Width="250" BorderThickness="0 0 1 0 " BorderBrush="{DynamicResource Base.BorderBrush.Default}" Background="{DynamicResource Base.Panel.Left}">
+        <Border x:Name="leftgg" Grid.Column="0" BorderThickness="0 0 1 0 " BorderBrush="{DynamicResource Base.BorderBrush.Default}" Background="{DynamicResource Base.Panel.Left}">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="250" />
-                    <RowDefinition Height="458" />
+                    <RowDefinition Height="*" />
                     <RowDefinition Height="60" />
                 </Grid.RowDefinitions>
 
@@ -82,7 +41,7 @@
                             <RowDefinition Height="6" />
                         </Grid.RowDefinitions>
 
-                        <TextBlock Text="Demo" Style="{DynamicResource hmwnd_demoText}" Panel.ZIndex="10" Margin="0,-36,-51,0">
+                        <TextBlock Text="Beta" Style="{DynamicResource hmwnd_demoText}" Panel.ZIndex="10" Margin="0,-36,-51,0">
                             <TextBlock.RenderTransform>
                                 <TransformGroup>
                                     <ScaleTransform />
@@ -98,6 +57,7 @@
                             <TextBlock x:Name="hmwnd_headerH2" Text="" Style="{DynamicResource hmwnd_leftHeaderSub}" />
                         </StackPanel>
 
+                        <!--
                         <StackPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Left">
                             <Grid>
                                 <Grid.RowDefinitions>
@@ -108,16 +68,16 @@
                                         <EventTrigger RoutedEvent="CheckBox.Unchecked">
                                             <BeginStoryboard>
                                                 <Storyboard>
-                                                    <DoubleAnimation From="105" To="250" Duration="0:0:0.8" Storyboard.TargetName="leftgg" Storyboard.TargetProperty="(Grid.Width)" />
-                                                    <DoubleAnimation From="1271" To="1116" Duration="0:0:0.8" Storyboard.TargetName="rightgg" Storyboard.TargetProperty="(Grid.Width)" />
+                                                    <DoubleAnimation From="105" To="250" Duration="0:0:0.8" Storyboard.TargetName="leftcol" Storyboard.TargetProperty="(Grid.Width)" />
+                                                    <DoubleAnimation From="105" To="250" Duration="0:0:0.8" Storyboard.TargetName="leftgg" Storyboard.TargetProperty="(Border.Width)" />
                                                 </Storyboard>
                                             </BeginStoryboard>
                                         </EventTrigger>
                                         <EventTrigger RoutedEvent="CheckBox.Checked">
                                             <BeginStoryboard>
                                                 <Storyboard>
-                                                    <DoubleAnimation From="250" To="105" Duration="0:0:0.8" Storyboard.TargetName="leftgg" Storyboard.TargetProperty="(Grid.Width)" />
-                                                    <DoubleAnimation From="1116" To="1271" Duration="0:0:0.8" Storyboard.TargetName="rightgg" Storyboard.TargetProperty="(Grid.Width)" />
+                                                    <DoubleAnimation From="250" To="105" Duration="0:0:0.8" Storyboard.TargetName="leftcol" Storyboard.TargetProperty="(Grid.Width)" />
+                                                    <DoubleAnimation From="250" To="105" Duration="0:0:0.8" Storyboard.TargetName="leftgg" Storyboard.TargetProperty="(Border.Width)" />
                                                 </Storyboard>
                                             </BeginStoryboard>
                                         </EventTrigger>
@@ -125,6 +85,7 @@
                                 </CheckBox>
                             </Grid>
                         </StackPanel>
+                        -->
 
                         <StackPanel Orientation="Vertical" Grid.Row="2">
                             <Ellipse x:Name="hmwd_profileImage" Style="{DynamicResource hmwnd_leftHeaderImage}" Margin="0,8,0,0">
@@ -180,7 +141,58 @@
             </Grid>
         </Border>
 
-        <Grid x:Name="rightgg"  Grid.Column="1"  Width="1116" Grid.ColumnSpan="2">
+        <Grid x:Name="rightgg"  Grid.Column="1"  Grid.ColumnSpan="2">
+
+            <Popup x:Name="pp_moveBar" IsOpen="False" Placement="RelativePoint" AllowsTransparency="True" Width="470" Height="115" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade" HorizontalOffset="322" VerticalOffset="20">
+                <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="450" Height="95">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="25" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="150" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid Margin="5" Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Button Grid.Column="0" Tag="CellularMD" ToolTip="Sol üste taşı" x:Name="pp_M1" Style="{DynamicResource pp_moveWindowIcon}" Click="ppMoveActionOfset_Click" Uid="UpLeft" RenderTransformOrigin="0.5,0.5">
+                                <Button.RenderTransform>
+                                    <TransformGroup>
+                                        <ScaleTransform />
+                                        <SkewTransform />
+                                        <RotateTransform Angle="180" />
+                                        <TranslateTransform />
+                                    </TransformGroup>
+                                </Button.RenderTransform>
+                            </Button>
+                            <Button Grid.Column="1" Tag="RefreshMD" ToolTip="Orjinal Posizyonuna getir" x:Name="pp_M2" Style="{DynamicResource pp_moveWindowIcon}" Click="ppMoveActionOfset_Click" Uid="Reset" />
+                            <Button Grid.Column="2" Tag="CloseMD" ToolTip="Kontrolcüyü kapat" x:Name="pp_M3" Style="{DynamicResource pp_moveWindowIcon}" Click="ppMoveActionOfset_Click" Uid="Close" />
+                        </Grid>
+                        <Grid Grid.Column="1" Margin="10 15" Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Button Grid.Column="0" Tag="ArrowBackiOS" ToolTip="Sola sürükle" x:Name="pp_M4" Style="{DynamicResource pp_moveWindowIcon}" Click="ppMoveActionOfset_Click" Uid="Left" />
+                            <Button Grid.Column="1" Tag="ArrowUpiOS"  ToolTip="Yukarı sürükle" x:Name="pp_M5" Style="{DynamicResource pp_moveWindowIcon}" Click="ppMoveActionOfset_Click"  Uid="Top" />
+                            <Button Grid.Column="2" Tag="ArrowDowniOS" ToolTip="Aşa sürükle" x:Name="pp_M6" Style="{DynamicResource pp_moveWindowIcon}" Click="ppMoveActionOfset_Click" Uid="Bottom" />
+                            <Button Grid.Column="3" Tag="ArrowForwardiOS" ToolTip="Sağ sürükle" x:Name="pp_M7" Style="{DynamicResource pp_moveWindowIcon}" Click="ppMoveActionOfset_Click" Uid="Right" />
+                            <Button Grid.Column="4" Tag="EyePlusOutline" ToolTip="Görünümü Artır" x:Name="pp_M8" Style="{DynamicResource pp_moveWindowIconEye}" Click="ppMoveActionOpacity_Click" Uid="Up" />
+                            <Button Grid.Column="5" Tag="EyeMinusOutline" ToolTip="Görünümü Kıs" x:Name="pp_M9" Style="{DynamicResource pp_moveWindowIconEye}" Click="ppMoveActionOpacity_Click" Uid="Down" />
+                        </Grid>
+                        <TextBlock x:Name="moveControlName" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Text="İletişim" TextAlignment="Center" FontFamily="{DynamicResource PoppinsMedium}" VerticalAlignment="Center" Foreground="#1C1E2F" FontSize="14" FontWeight="Bold" />
+                    </Grid>
+                </Border>
+            </Popup>
 
             <Popup x:Name="popup_fastExitConfirm" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="380" Height="220" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
 
@@ -489,7 +501,7 @@
                                 <StackPanel Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="4" Grid.RowSpan="4" Margin="20 5 20 5">
                                     <TextBlock Text="Mesaj"  Style="{DynamicResource prf_editBoxText}" />
                                     <TextBox x:Name="note" Style="{DynamicResource contactDetail}" KeyDown="contactNote_KeyDown" PreviewTextInput="userName_PreviewTextInput" />
-                                    <Label x:Name="detailerr" Content="* Hangi konu hakkında konuşmak istersin ?" Style="{DynamicResource prf_editBoxErrorText}" />
+                                    <Label x:Name="detailerr" Content="* Lütfen düşünçelerinizi bizimle paylaşın ?" Style="{DynamicResource prf_editBoxErrorText}" />
                                 </StackPanel>
                             </Grid>
 
@@ -499,7 +511,7 @@
                                 </Grid.ColumnDefinitions>
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="0">
                                     <Button x:Name="sendContact" Style="{DynamicResource pp_DefaultButtonSend}" Tag="SendiOS" Content="Gönder" HorizontalAlignment="Center" Click="sendBtn_Click" />
-                                    <Button  Style="{DynamicResource pp_DefaultButtonClosed}" Tag="CloseBig" Content="Vazgeç" Uid="popup_Contact" HorizontalAlignment="Center" Click="popupClosed_Click" />
+                                    <Button x:Name="closeContact" Style="{DynamicResource pp_DefaultButtonClosed}" Tag="CloseBig" Content="Vazgeç" Uid="popup_Contact" HorizontalAlignment="Center" Click="popupClosed_Click" />
                                 </StackPanel>
                             </Grid>
                         </Grid>
@@ -622,8 +634,8 @@
                                             <RowDefinition Height="32" />
                                         </Grid.RowDefinitions>
 
-                                        <Button Grid.Column="0" Grid.Row="0" Content="Verileri Sıfırla" Tag="ArrowCounterclockwise" Style="{DynamicResource pp_DefaultButtonBstrp}" />
-                                        <Button Grid.Column="1" Grid.Row="0" Content="Hesabı Sil" Tag="TrashMD" Style="{DynamicResource pp_DefaultButtonSend}" />
+                                        <Button x:Name="deleteData" Grid.Column="0" Grid.Row="0" Content="Verileri Sıfırla" Tag="ArrowCounterclockwise" Style="{DynamicResource pp_DefaultButtonBstrp}" Click="deleteData_Click" />
+                                        <Button x:Name="deleteProfile"  Grid.Column="1" Grid.Row="0" Content="Hesabı Sil" Tag="TrashMD" Style="{DynamicResource pp_DefaultButtonSend}" Click="deleteProfile_Click" />
                                     </Grid>
 
                                     <Label Content="! Bu işlemler kalıcı olduğunu unutmayınız " Style="{DynamicResource pp_settingsInfo}" Margin="0 10 0 0" />
@@ -693,14 +705,12 @@
                                     <Grid Margin="0 10 0 0">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="*" />
                                         </Grid.ColumnDefinitions>
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="32" />
                                         </Grid.RowDefinitions>
 
-                                        <Button Grid.Column="0" Grid.Row="0" Content="Güncelleme Kontrol" Tag="ArrowRepeat" Style="{DynamicResource pp_DefaultButtonBstrp}" />
-                                        <Button Grid.Column="1" Grid.Row="0" Content="Sürüm Notları" Tag="GitBranchiOS" Style="{DynamicResource pp_DefaultButtonSend}" />
+                                        <Button x:Name="versionText" Grid.Column="1" Grid.Row="0" Content="Sürüm Notları" Tag="GitBranchiOS" Style="{DynamicResource pp_DefaultButtonSend}" Click="versionText_Click" />
                                     </Grid>
 
                                     <Label x:Name="settingsVersion" Content="0.2.1 Beta -> release date 05/12/2022" Style="{DynamicResource pp_settingsInfo}" Margin="0 10 0 0" />
@@ -806,8 +816,42 @@
                 </Border>
             </Popup>
 
-            <StackPanel Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Right" Panel.ZIndex="7" Margin="0 10 0 0">
-                <Button Grid.Column="1" Style="{DynamicResource hmwnd_appclosedButton}"  Content="close" Click="appClosed_Click" />
+            <Popup x:Name="popup_updateNotes" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="470" Height="520" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+                <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="450" Height="500">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="50" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="25" />
+                            <RowDefinition Height="50" />
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="Güncelleme Notları" TextWrapping="Wrap" FontFamily="{DynamicResource PoppinsMedium}" FontSize="16" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 5 0 5" />
+
+                        <ScrollViewer Grid.Row="1" Visibility="Visible" CanContentScroll="True"  HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Visible" VerticalAlignment="Top" Padding="10">
+                            <StackPanel x:Name="updateNoteStack" VerticalAlignment="Top" Orientation="Vertical">
+                            </StackPanel>
+                        </ScrollViewer>
+
+                        <TextBlock x:Name="updateInfo" Grid.Row="2" Text="" TextAlignment="Left" Padding="10 0 0 0" VerticalAlignment="Center" FontSize="12" FontFamily="{DynamicResource PoppinsMedium}" Foreground="#C9283E" />
+
+                        <Grid Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="0">
+                                <Button x:Name="exeStart" Style="{DynamicResource pp_DefaultButtonBstrp}" Tag="BoxArrowRight" Content="Programa Dön" Uid="popup_updateNotes" HorizontalAlignment="Center"  Width="250" Click="openExe_Click" />
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
+                </Border>
+            </Popup>
+
+            <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Right" Panel.ZIndex="7" Margin="0 10 0 0">
+
+                <Button Style="{DynamicResource hmwnd_appclosedButton}"  Content="MinusOutline" Click="appMin_Click" />
+                <Button Style="{DynamicResource hmwnd_appFullButton}"  Content="ExpandSolid" Click="appFull_Click" />
+                <Button Style="{DynamicResource hmwnd_appclosedButton}"  Content="CloseOutline" Click="appClosed_Click" />
             </StackPanel>
 
             <Grid x:Name="loadinGifContent" Grid.Row="0" Background="#FAFAFA" Panel.ZIndex="5" Visibility="Collapsed">

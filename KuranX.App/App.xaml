@@ -14,7 +14,6 @@
                 <ResourceDictionary Source="pack://application:,,,/Core/ResourceXaml/baseColor.xaml" />
 
                 <ResourceDictionary Source="pack://application:,,,/Core/ResourceXaml/defaultDesign.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/Core/ResourceXaml/splashDesign.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/Core/ResourceXaml/loginDesign.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/Core/ResourceXaml/homeDesign.xaml" />
 

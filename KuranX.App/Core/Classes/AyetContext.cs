@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.Data.Sqlite;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.IO;
 
@@ -21,6 +22,7 @@ namespace KuranX.App.Core.Classes
         public DbSet<Result> Results { get; set; }
         public DbSet<ResultItem> ResultItems { get; set; }
         public DbSet<Library> Librarys { get; set; }
+        public DbSet<Userhelp> UserHelp { get; set; }
 
         public string DbPath { get; }
 
@@ -31,7 +33,10 @@ namespace KuranX.App.Core.Classes
             DbPath = Path.Combine(folder, "Ayet.db");
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseSqlite($"Data Source={DbPath}");
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlite($"Data Source={DbPath}");
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -133,7 +138,7 @@ namespace KuranX.App.Core.Classes
 
             modelBuilder.Entity<Remider>()
                 .Property(u => u.loopType)
-                .HasDefaultValue("False");
+                .HasDefaultValue("Default");
 
             modelBuilder.Entity<Remider>()
                .Property(u => u.status)

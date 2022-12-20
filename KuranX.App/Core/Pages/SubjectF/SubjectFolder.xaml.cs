@@ -215,7 +215,7 @@ namespace KuranX.App.Core.Pages.SubjectF
             {
                 var btntemp = sender as Button;
                 Popup popuptemp = (Popup)FindName(btntemp.Uid);
-
+                pp_moveBar.IsOpen = false;
                 popupNextSureId.SelectedIndex = 0;
                 popupNextVerseId.Text = "1";
                 popupNewName.Text = "";
