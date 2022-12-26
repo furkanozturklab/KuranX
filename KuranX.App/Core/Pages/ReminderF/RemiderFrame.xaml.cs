@@ -406,7 +406,23 @@ namespace KuranX.App.Core.Pages.ReminderF
                                                 pr = 5;
                                                 break;
                                         }
-                                        var newRemider = new Remider
+
+                                        var newRemider = new Remider();
+
+                                        if (sId.Text != "0") newRemider = new Remider
+                                        {
+                                            connectSureId = int.Parse(sId.Text),
+                                            connectVerseId = int.Parse(vId.Text),
+                                            remiderDate = new DateTime(1, 1, 1, 0, 0, 0, 0),
+                                            remiderDetail = remiderDetail.Text,
+                                            remiderName = remiderName.Text,
+                                            create = DateTime.Now,
+                                            loopType = ditem.Uid.ToString(),
+                                            status = "Wait",
+                                            priority = pr,
+                                            lastAction = DateTime.Now
+                                        };
+                                        else newRemider = new Remider
                                         {
                                             connectSureId = 0,
                                             connectVerseId = 0,
@@ -770,7 +786,6 @@ namespace KuranX.App.Core.Pages.ReminderF
 
         public void ppMoveConfing(string ppmove)
         {
-            Debug.WriteLine(ppmove);
             for (int i = 1; i < 8; i++)
             {
                 var btn = FindName("pp_M" + i) as Button;

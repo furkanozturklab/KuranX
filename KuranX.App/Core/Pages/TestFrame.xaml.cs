@@ -50,8 +50,6 @@ namespace KuranX.App.Core.Pages
                 findİndex.Add(starindex);
             }
 
-            Debug.WriteLine(findİndex.Count);
-
             int id = 0;
 
             foreach (var item in findİndex)

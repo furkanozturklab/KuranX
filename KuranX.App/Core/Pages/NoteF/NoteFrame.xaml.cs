@@ -703,7 +703,6 @@ namespace KuranX.App.Core.Pages.NoteF
 
         public void ppMoveConfing(string ppmove)
         {
-            Debug.WriteLine(ppmove);
             for (int i = 1; i < 8; i++)
             {
                 var btn = FindName("pp_M" + i) as Button;

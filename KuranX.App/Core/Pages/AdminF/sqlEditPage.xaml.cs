@@ -77,7 +77,7 @@ namespace KuranX.App.Core.Pages.AdminF
                     });
 
                     var dintel0 = entitydb.Interpreter.Where(p => p.sureId == sId && p.verseId == rId && p.interpreterWriter == "Mehmet Okuyan").FirstOrDefault();
-                    var dintel1 = entitydb.Interpreter.Where(p => p.sureId == sId && p.verseId == rId && p.interpreterWriter == "Yorumcu 1").FirstOrDefault();
+                    var dintel1 = entitydb.Interpreter.Where(p => p.sureId == sId && p.verseId == rId && p.interpreterWriter == "Ömer Çelik").FirstOrDefault();
                     var dintel2 = entitydb.Interpreter.Where(p => p.sureId == sId && p.verseId == rId && p.interpreterWriter == "Yorumcu 2").FirstOrDefault();
                     var dintel3 = entitydb.Interpreter.Where(p => p.sureId == sId && p.verseId == rId && p.interpreterWriter == "Yorumcu 3").FirstOrDefault();
 
@@ -246,14 +246,14 @@ namespace KuranX.App.Core.Pages.AdminF
 
                         if (intel1.Text.Length > 0 || intel1.Text == "")
                         {
-                            if (entitydb.Interpreter.Where(p => p.sureId == ssure && p.verseId == sverse && p.interpreterWriter == "Yorumcu 1").Count() > 0)
+                            if (entitydb.Interpreter.Where(p => p.sureId == ssure && p.verseId == sverse && p.interpreterWriter == "Ömer Çelik").Count() > 0)
                             {
-                                entitydb.Interpreter.Where(p => p.sureId == ssure && p.verseId == sverse && p.interpreterWriter == "Yorumcu 1").First().interpreterDetail = intel1.Text;
+                                entitydb.Interpreter.Where(p => p.sureId == ssure && p.verseId == sverse && p.interpreterWriter == "Ömer Çelik").First().interpreterDetail = intel1.Text;
                                 entitydb.SaveChanges();
                             }
                             else
                             {
-                                var Integ = new Interpreter { verseId = sverse, sureId = ssure, interpreterWriter = "Yorumcu 1", interpreterDetail = intel1.Text };
+                                var Integ = new Interpreter { verseId = sverse, sureId = ssure, interpreterWriter = "Ömer Çelik", interpreterDetail = intel1.Text };
                                 entitydb.Interpreter.Add(Integ);
                                 entitydb.SaveChanges();
                             }
@@ -291,7 +291,6 @@ namespace KuranX.App.Core.Pages.AdminF
 
                         popup_inter.IsOpen = false;
                         MessageBox.Show("Güncelleme Başarılı");
-
                     }
                 }
                 else

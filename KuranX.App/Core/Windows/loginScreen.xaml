@@ -119,12 +119,12 @@
             </Grid.Background>
 
             <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
-                <TextBlock Text="Bizler bu Kur'an'a mirasçıyız" Foreground="#FFF" FontFamily="{DynamicResource Allura}" FontSize="34" FontWeight="SemiBold" TextAlignment="Center" />
-                <TextBlock Text="Apaçık Kur'an'ın mucize" Foreground="#FFF" FontFamily="{DynamicResource Allura}" FontSize="34" FontWeight="SemiBold" TextAlignment="Center" />
-                <TextBlock Text="Ayetlerinden başka bir" Foreground="#FFF" FontFamily="{DynamicResource Allura}" FontSize="34" FontWeight="SemiBold" TextAlignment="Center" />
-                <TextBlock Text="Mucize bekleyenler " Foreground="#FFF" FontFamily="{DynamicResource Allura}" FontSize="34" FontWeight="SemiBold" TextAlignment="Center" />
-                <TextBlock Text="Kaybetmeye mahkumdur" Foreground="#FFF" FontFamily="{DynamicResource Allura}" FontSize="34" FontWeight="SemiBold" TextAlignment="Center" />
-                <TextBlock Text="Halktan Sedat Abi" Foreground="#FFF" FontFamily="{DynamicResource Allura}" FontSize="28" FontWeight="SemiBold" TextAlignment="Right" Margin="10" />
+                <TextBlock Text="Bizler bu Kur'an'a mirasçıyız" Foreground="#FFF" FontFamily="{DynamicResource PoppinsMedium}" FontSize="22" FontWeight="SemiBold" TextAlignment="Center" />
+                <TextBlock Text="Apaçık Kur'an'ın mucize" Foreground="#FFF" FontFamily="{DynamicResource PoppinsMedium}" FontSize="22" FontWeight="SemiBold" TextAlignment="Center" />
+                <TextBlock Text="Ayetlerinden başka bir" Foreground="#FFF" FontFamily="{DynamicResource PoppinsMedium}" FontSize="22" FontWeight="SemiBold" TextAlignment="Center" />
+                <TextBlock Text="Mucize bekleyenler " Foreground="#FFF" FontFamily="{DynamicResource PoppinsMedium}" FontSize="22" FontWeight="SemiBold" TextAlignment="Center" />
+                <TextBlock Text="Kaybetmeye mahkumdur" Foreground="#FFF" FontFamily="{DynamicResource PoppinsMedium}" FontSize="22" FontWeight="SemiBold" TextAlignment="Center" />
+                <TextBlock Text="Halktan Sedat Abi" Foreground="#FFF" FontFamily="{DynamicResource PoppinsMedium}" FontSize="24" FontWeight="SemiBold" TextAlignment="Right" Margin="10" />
             </StackPanel>
         </Grid>
 

@@ -1014,7 +1014,6 @@ namespace KuranX.App.Core.Windows
         {
             try
             {
-                Debug.WriteLine("Çalıştım = ");
                 using (var entitydb = new AyetContext())
                 {
                     var dProfile = entitydb.Users.FirstOrDefault();

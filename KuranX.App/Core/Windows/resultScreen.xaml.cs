@@ -234,10 +234,6 @@ namespace KuranX.App.Core.Windows
                             noteNoteDetail.Text = dNotes.noteDetail;
                         }
                     }
-                    else
-                    {
-                        Debug.WriteLine("İşlem Yapma 0 Geldi");
-                    }
                 }
             }
             catch (Exception ex)
@@ -283,10 +279,6 @@ namespace KuranX.App.Core.Windows
                             }
                         }
                     }
-                    else
-                    {
-                        Debug.WriteLine("İşlem Yapma 0 Geldi");
-                    }
                 }
             }
             catch (Exception ex)
@@ -326,10 +318,6 @@ namespace KuranX.App.Core.Windows
                             }
                         }
                     }
-                    else
-                    {
-                        Debug.WriteLine("İşlem Yapma 0 Geldi");
-                    }
                 }
             }
             catch (Exception ex)
@@ -357,10 +345,6 @@ namespace KuranX.App.Core.Windows
                             subNameSubHeader.Text = "Konularım / " + subbase.Content + " / " + subheader.Content;
                             subNoteDetail.Text = dNoteItem.noteDetail;
                         }
-                    }
-                    else
-                    {
-                        Debug.WriteLine("İşlem Yapma 0 Geldi");
                     }
                 }
             }
@@ -431,10 +415,6 @@ namespace KuranX.App.Core.Windows
                             libNameSubHeader.Text = "Kütüphane / " + sublib.Content + " / " + dNotes.noteLocation + " Notu";
                             libNoteDetail.Text = dNotes.noteDetail;
                         }
-                    }
-                    else
-                    {
-                        Debug.WriteLine("İşlem Yapma 0 Geldi");
                     }
                 }
             }

@@ -221,7 +221,6 @@ namespace KuranX.App.Core.Windows
 
                 using (var entitydb = new AyetContext())
                 {
-                    Debug.WriteLine(currentPdfId);
                     var dPdf = entitydb.Notes.Where(p => p.pdfFileId == currentPdfId).ToList();
 
                     foreach (var item in dPdf)
@@ -724,7 +723,6 @@ namespace KuranX.App.Core.Windows
 
         public void ppMoveConfing(string ppmove)
         {
-            Debug.WriteLine(ppmove);
             for (int i = 1; i < 8; i++)
             {
                 var btn = FindName("pp_M" + i) as Button;

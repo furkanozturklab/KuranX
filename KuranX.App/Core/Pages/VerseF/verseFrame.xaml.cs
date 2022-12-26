@@ -39,6 +39,7 @@ namespace KuranX.App.Core.Pages.VerseF
             try
             {
                 InitializeComponent();
+                remiderDay.DisplayDateStart = DateTime.Now.AddDays(1);
             }
             catch (Exception ex)
             {
@@ -686,8 +687,14 @@ namespace KuranX.App.Core.Pages.VerseF
             {
                 if (markButton.IsChecked == true)
                 {
-                    NavigationService.GoBack();
-                    //App.mainframe.Content = App.navSurePage.PageCall();
+                    if (App.beforeFrameName == "Sure")
+                    {
+                        App.mainframe.Content = App.navSurePage.PageCall();
+                    }
+                    else
+                    {
+                        NavigationService.GoBack();
+                    }
                 }
                 else
                 {
@@ -704,8 +711,14 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
-                NavigationService.GoBack();
-                //App.mainframe.Content = App.navSurePage.PageCall();
+                if (App.beforeFrameName == "Sure")
+                {
+                    App.mainframe.Content = App.navSurePage.PageCall();
+                }
+                else
+                {
+                    NavigationService.GoBack();
+                }
             }
             catch (Exception ex)
             {
@@ -1434,7 +1447,19 @@ namespace KuranX.App.Core.Pages.VerseF
                                         }
                                         else
                                         {
-                                            var newRemider = new Remider { connectSureId = sSureId, connectVerseId = sRelativeVerseId, remiderDate = (DateTime)remiderDay.SelectedDate, remiderDetail = remiderDetail.Text, remiderName = remiderName.Text, create = DateTime.Now, priority = 1, lastAction = DateTime.Now, status = "Run" };
+                                            var newRemider = new Remider
+                                            {
+                                                connectSureId = sSureId,
+                                                connectVerseId = sRelativeVerseId,
+                                                remiderDate = (DateTime)remiderDay.SelectedDate,
+                                                remiderDetail = remiderDetail.Text,
+                                                remiderName = remiderName.Text,
+                                                create = DateTime.Now,
+                                                priority = 1,
+                                                lastAction = DateTime.Now,
+                                                status = "Run"
+                                            };
+
                                             entitydb.Verse.Where(p => p.sureId == sSureId && p.relativeDesk == sRelativeVerseId).First().remiderCheck = true;
                                             entitydb.Remider.Add(newRemider);
                                             entitydb.SaveChanges();
@@ -1855,6 +1880,7 @@ namespace KuranX.App.Core.Pages.VerseF
                 App.secondFrame.Content = App.navVerseStickPage.PageCall(int.Parse(meaningDTempSureId.Text), int.Parse(meaningDTempVerseId.Text), loadHeader.Text, sRelativeVerseId);
                 App.secondFrame.Visibility = Visibility.Visible;
                 popup_Meaning.IsOpen = false;
+                popup_meainingConnectDetailText.IsOpen = false;
             }
             catch (Exception ex)
             {
@@ -2835,7 +2861,6 @@ namespace KuranX.App.Core.Pages.VerseF
 
         public void ppMoveConfing(string ppmove)
         {
-            Debug.WriteLine(ppmove);
             for (int i = 1; i < 10; i++)
             {
                 var btn = FindName("pp_M" + i) as Button;

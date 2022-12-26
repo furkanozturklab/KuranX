@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.ConstrainedExecution;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -195,7 +196,8 @@ namespace KuranX.App.Core.Pages.ReminderF
                 controlBar.Visibility = Visibility.Hidden;
                 remiderDetail.Visibility = Visibility.Hidden;
 
-                App.mainframe.Content = App.navVersePage.PageCall(cS, cV, "Remider");
+                App.secondFrame.Content = App.navVerseStickPage.PageCall(cS, cV, "", 0, "Remider");
+                App.secondFrame.Visibility = Visibility.Visible;
             }
             catch (Exception ex)
             {

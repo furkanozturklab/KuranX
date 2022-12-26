@@ -234,7 +234,8 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             try
             {
-                App.mainframe.Content = App.navVersePage.PageCall(sSureId, verseId, "Subject");
+                App.secondFrame.Content = App.navVerseStickPage.PageCall(sSureId, verseId, loadHeader.Text, 0, "Subject");
+                App.secondFrame.Visibility = Visibility.Visible;
             }
             catch (Exception ex)
             {
@@ -680,7 +681,6 @@ namespace KuranX.App.Core.Pages.SubjectF
 
         public void ppMoveConfing(string ppmove)
         {
-            Debug.WriteLine(ppmove);
             for (int i = 1; i < 8; i++)
             {
                 var btn = FindName("pp_M" + i) as Button;

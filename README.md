@@ -105,7 +105,7 @@
     * [x] ⚠️ fatiha süresinin ayetleri arasındaki text düzeltmesi
     * [x] ⚠️ sonuc açılmıyor.
     * [x] ⚠️ okuduklarımını bir tana silince renk değişmiyor..
-    * [ ] ⚠️ Tarih bazlı hatırlatıcı günü geçtiğinde silinmiyor hatırlatılmıyor.
+    * [x] ⚠️ Tarih bazlı hatırlatıcı günü geçtiğinde silinmiyor hatırlatılmıyor.
     * [x] ⚠️ Dosya yüklenemiyor.
     * [x] ⚠️ Popup kapanınca kontrolü kapanmıyor
     * [x] ⚠️ Ayetten nota gitti geri döndü geri dönünce sure syafasına gidiyor.
@@ -116,7 +116,14 @@
     * [x] ⚠️ Kütüphane notu yığındaki fazlalık var 
     * [x] ⚠️ pin hatırlatma çalışmıyor.
     * [ ] ⚠️ Popup işlem yapıp kapanırsa kontrol kapanmıyor kapat ile kapanıyor ama.
-    * [ ] ⚠️ 
+    * [x] ⚠️ login sayfasındaki sol yazıyı normal yazıya cek.
+    * [x] ⚠️ duha 11 okuyunca yeşil olmuyor güncelleyince .
+    * [x] ⚠️ okuudm işaretleridim ışıklarında sorun var işaretlenmediğindede işratlemiş kalıyor.
+    * [x] ⚠️ Notlardan ayete gidince stickverse gitsin.
+    * [x] ⚠️ sticky de anlambütünlüğü gösterme .
+    * [x] ⚠️ hatırlatıcı ayete git sticky gitsin.
+    * [x] ⚠️ admin panelinde 1 yorumcu göstermiyor.
+    * 
 
 
 ## Gelecek Güncellemeler:
@@ -137,7 +144,7 @@
 	* [x] 🆕 Ayetlerde yorumcuların içinde search 
 	* [x] 🆕 Yeni Yorumcu
 	* [x] 🆕 Notlar stack yapısını result yapısı ile eşitle result daha iyi 
-	* [ ] 🆕
+	* [ ] 🆕 Kütüğphane revize et -> 
 
 
 ## KOD DÜZENLEMERİ:

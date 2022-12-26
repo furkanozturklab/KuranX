@@ -161,8 +161,6 @@ namespace KuranX.App.Core.Pages.NoteF
                             App.mainScreen.navigationWriter("notes", "Konu Notu");
                             var dSubject = entitydb.SubjectItems.Where(p => p.subjectItemsId == dNote.subjectId).FirstOrDefault();
 
-                            Debug.WriteLine(dSubject.subjectId);
-
                             var dx = entitydb.Subject.Where(p => p.subjectId == dSubject.subjectId).FirstOrDefault();
                             infoText.Text = "Not Aldığınız Konu" + Environment.NewLine + dx.subjectName;
                             cSb = (int)dNote.subjectId;
@@ -238,7 +236,10 @@ namespace KuranX.App.Core.Pages.NoteF
                 switch (gototype)
                 {
                     case "Verse":
-                        App.mainframe.Content = App.navVersePage.PageCall(cSr, cVr, "Notes");
+
+                        App.secondFrame.Content = App.navVerseStickPage.PageCall(cSr, cVr, loadHeader.Text, 0, "Note");
+                        App.secondFrame.Visibility = Visibility.Visible;
+
                         break;
 
                     case "Pdf":

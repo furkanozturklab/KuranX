@@ -195,14 +195,14 @@
                                     <TextBlock x:Name="loadDesc" Text="" Style="{DynamicResource vrs_HeaderLocationTxtAlt}" />
                                 </StackPanel>
 
-                                <StackPanel  Grid.Column="3" Orientation="Vertical" Margin="0,0,20,0">
+                                <StackPanel x:Name="getS"  Grid.Column="3" Orientation="Vertical" Margin="0,0,20,0">
                                     <Border Padding="15,0,15,0" BorderBrush="#E1E3E6" BorderThickness="0,0,0,1">
-                                        <TextBlock Text="Gelinen Sure" Style="{DynamicResource vrs_HeaderLocationTxt}" />
+                                        <TextBlock x:Name="getSText"  Text="Gelinen Sure" Style="{DynamicResource vrs_HeaderLocationTxt}" />
                                     </Border>
                                     <TextBlock x:Name="loadSure" Text="" Foreground="#F0433A" Style="{DynamicResource vrs_HeaderLocationTxtAlt}" />
                                 </StackPanel>
 
-                                <StackPanel  Grid.Column="4" Orientation="Vertical" Margin="0,0,20,0">
+                                <StackPanel x:Name="getR"  Grid.Column="4" Orientation="Vertical" Margin="0,0,20,0">
                                     <Border Padding="15,0,15,0" BorderBrush="#E1E3E6" BorderThickness="0,0,0,1">
                                         <TextBlock Text="Gelinen Ayet" Style="{DynamicResource vrs_HeaderLocationTxt}" />
                                     </Border>

@@ -92,6 +92,7 @@ namespace KuranX.App
 
         public static TestFrame navTestPage = new TestFrame();
         public static string InterpreterWriter = "";
+        public static string beforeFrameName = "";
         public static bool starup = true;
 
         public static ApiPostProjectNotes returnPostNotes;

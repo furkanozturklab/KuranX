@@ -50,6 +50,7 @@ namespace KuranX.App.Core.Pages.VerseF
                 App.mainScreen.loadinGifContent.Visibility = Visibility.Hidden;
                 App.mainScreen.rightPanel.Visibility = Visibility.Visible;
                 loadContent.Visibility = Visibility.Visible;
+                //App.loadTask = Task.Run(() => loadItem());
             }
             catch (Exception ex)
             {
@@ -376,7 +377,11 @@ namespace KuranX.App.Core.Pages.VerseF
                 if (!comboBox.IsLoaded) return;
 
                 var item = fastsureCombobox.SelectedItem as ComboBoxItem;
-                if (item.Uid != "0") App.mainframe.Content = App.navVersePage.PageCall(int.Parse(item.Uid), 1, "Hepsi");
+                if (item.Uid != "0")
+                {
+                    App.beforeFrameName = "Sure";
+                    App.mainframe.Content = App.navVersePage.PageCall(int.Parse(item.Uid), 1, "Hepsi");
+                }
             }
             catch (Exception ex)
             {
@@ -471,6 +476,7 @@ namespace KuranX.App.Core.Pages.VerseF
             {
                 var btn = sender as Button;
                 loadContent.Visibility = Visibility.Hidden;
+                App.beforeFrameName = "Sure";
                 App.mainframe.Content = App.navVersePage.PageCall(int.Parse((string)btn.Tag), 1, "Sure");
             }
             catch (Exception ex)
@@ -519,6 +525,7 @@ namespace KuranX.App.Core.Pages.VerseF
             try
             {
                 loadContent.Visibility = Visibility.Hidden;
+                App.beforeFrameName = "Sure";
                 App.mainframe.Content = App.navVersePage.PageCall(int.Parse(popupSureId.Text), int.Parse(popupRelativeId.Text), "Verse");
             }
             catch (Exception ex)
@@ -552,6 +559,7 @@ namespace KuranX.App.Core.Pages.VerseF
 
                     if (selectedS != null)
                     {
+                        App.beforeFrameName = "Sure";
                         App.mainframe.Content = App.navVersePage.PageCall((int)selectedS.sureId, (int)selectedS.userLastRelativeVerse, "Verse");
                     }
                     else

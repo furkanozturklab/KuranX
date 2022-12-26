@@ -749,7 +749,6 @@ namespace KuranX.App.Core.Windows
                 {
                     this.Dispatcher.Invoke(() =>
                     {
-                        Debug.WriteLine("Run =");
                         if (userScreetQuestionAnw.Text == screetanw) userScreetQuestionAnwErr.Content = "Pin Kodunuz : " + pin;
                         else userScreetQuestionAnwErr.Content = "Cevap Hatalı Lütfen Tekrar Deneyiniz.";
                     });

@@ -27,7 +27,7 @@ namespace KuranX.App.Core.Pages.VerseF
     /// </summary>
     public partial class verseStickFrame : Page
     {
-        private string intelWriter = App.InterpreterWriter, getSure = "";
+        private string intelWriter = App.InterpreterWriter, getSure = "", sLocation = "";
         private int sSureId, sRelativeVerseId, getVerse, verseId, clearNav = 1, last = 0, currentP;
 
         public verseStickFrame()
@@ -42,15 +42,18 @@ namespace KuranX.App.Core.Pages.VerseF
             }
         }
 
-        public Page PageCall(int sId, int vId, string getS, int gerR)
+        public Page PageCall(int sId, int vId, string getS, int gerR, string location = "default")
         {
             try
             {
                 stickHomeGrid.Visibility = Visibility.Collapsed;
                 sSureId = sId;
                 sRelativeVerseId = vId;
+                sLocation = location;
+
                 getSure = getS;
                 getVerse = gerR;
+
                 intelWriter = App.InterpreterWriter;
                 App.loadTask = Task.Run(() => loadVerseFunc(vId));
                 return this;
@@ -134,8 +137,35 @@ namespace KuranX.App.Core.Pages.VerseF
                     loadDeskLanding.Text = dSure.deskLanding.ToString();
                     loadDeskMushaf.Text = dSure.deskMushaf.ToString();
 
-                    loadSure.Text = getSure;
-                    loadVerse.Text = getVerse.ToString();
+                    if (sLocation != "default")
+                    {
+                        switch (sLocation)
+                        {
+                            case "Note":
+
+                                getSText.Text = "Gelinene Yer";
+                                loadSure.Text = "Notlar";
+                                getR.Visibility = Visibility.Hidden;
+                                break;
+
+                            case "Subject":
+                                getSText.Text = "Gelinene Yer";
+                                loadSure.Text = "Konular";
+                                getR.Visibility = Visibility.Hidden;
+                                break;
+
+                            case "Remider":
+                                getSText.Text = "Gelinene Yer";
+                                loadSure.Text = "Hatırlatıcı";
+                                getR.Visibility = Visibility.Hidden;
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        loadSure.Text = getSure;
+                        loadVerse.Text = getVerse.ToString();
+                    }
 
                     headerBorder.Visibility = Visibility.Visible;
                 });
