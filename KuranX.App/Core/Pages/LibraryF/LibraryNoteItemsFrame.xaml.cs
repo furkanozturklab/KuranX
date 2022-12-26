@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -47,6 +48,7 @@ namespace KuranX.App.Core.Pages.LibraryF
                 NowPage = 1;
                 folderId = id;
                 App.loadTask = Task.Run(() => loadItem(folderId));
+                loadBorder.IsEnabled = true;
                 return this;
             }
             catch (Exception ex)
@@ -293,14 +295,11 @@ namespace KuranX.App.Core.Pages.LibraryF
             {
                 using (var entitydb = new AyetContext())
                 {
-                    var dUpdate = entitydb.Notes.Where(p => p.libraryId == folderId).ToList();
-
-                    foreach (var d in dUpdate)
-                    {
-                        d.libraryId = 0;
-                    }
+                    entitydb.Notes.RemoveRange(entitydb.Notes.Where(p => p.libraryId == folderId));
                     entitydb.Librarys.RemoveRange(entitydb.Librarys.Where(p => p.libraryId == folderId));
                     entitydb.SaveChanges();
+                    loadBorder.IsEnabled = false;
+                    popup_LibraryDelete.IsOpen = false;
                     voidgobacktimer();
                 }
             }
@@ -341,14 +340,152 @@ namespace KuranX.App.Core.Pages.LibraryF
             }
         }
 
+        private void verseAddButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                popup_VerseSelect.IsOpen = true;
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Click", ex);
+            }
+        }
+
+        private void addNewNote_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                popup_noteAddPopup.IsOpen = true;
+                noteType.Text = "Kütüphane Notu";
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Click", ex);
+            }
+        }
+
+        private void addNoteButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (noteName.Text.Length <= 3)
+                {
+                    noteAddPopupHeaderError.Visibility = Visibility.Visible;
+                    noteName.Focus();
+                    noteAddPopupHeaderError.Content = "Not Başlığı Yeterince Uzun Değil. Min 3 Karakter Olmalıdır.";
+                }
+                else
+                {
+                    if (noteName.Text.Length > 150)
+                    {
+                        noteAddPopupHeaderError.Visibility = Visibility.Visible;
+                        noteName.Focus();
+                        noteAddPopupHeaderError.Content = "Not Başlığı Çok Uzun. Max 150 Karakter Olabilir.";
+                    }
+                    else
+                    {
+                        if (noteDetail.Text.Length <= 3)
+                        {
+                            noteAddPopupDetailError.Visibility = Visibility.Visible;
+                            noteDetail.Focus();
+                            noteAddPopupDetailError.Content = "Not İçeriği Yeterince Uzun Değil. Min 3 Karakter Olmalıdır";
+                        }
+                        else
+                        {
+                            if (noteDetail.Text.Length >= 3000)
+                            {
+                                noteAddPopupDetailError.Visibility = Visibility.Visible;
+                                noteDetail.Focus();
+                                noteAddPopupDetailError.Content = "Not İçeriği 3000 Maximum karakterden fazla olamaz.";
+                            }
+                            else
+                            {
+                                using (var entitydb = new AyetContext())
+                                {
+                                    if (entitydb.Notes.Where(p => p.noteHeader == noteName.Text && p.libraryId == folderId).FirstOrDefault() != null)
+                                    {
+                                        App.mainScreen.alertFunc("İşlem Başarısız", "Aynı isimde not eklemiş olabilirsiniz lütfen notu ismini kontrol edip yeniden deneyiniz.", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
+                                    }
+                                    else
+                                    {
+                                        var dNotes = new Notes();
+                                        if (sId.Text != "0") dNotes = new Notes
+                                        {
+                                            noteHeader = noteName.Text,
+                                            noteDetail = noteDetail.Text,
+                                            libraryId = folderId,
+                                            sureId = int.Parse(sId.Text),
+                                            verseId = int.Parse(vId.Text),
+                                            modify = DateTime.Now,
+                                            created = DateTime.Now,
+                                            noteLocation = "Kütüphane"
+                                        };
+                                        else dNotes = new Notes
+                                        {
+                                            noteHeader = noteName.Text,
+                                            noteDetail = noteDetail.Text,
+                                            sureId = 0,
+                                            libraryId = folderId,
+                                            verseId = 0,
+                                            modify = DateTime.Now,
+                                            created = DateTime.Now,
+                                            noteLocation = "Kütüphane"
+                                        };
+                                        entitydb.Notes.Add(dNotes);
+                                        entitydb.SaveChanges();
+                                        App.mainScreen.succsessFunc("İşlem Başarılı", "Notunuz başarılı bir sekilde eklenmiştir.", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
+                                        noteName.Text = "";
+                                        noteDetail.Text = "";
+
+                                        App.loadTask = Task.Run(() => loadItem(folderId));
+
+                                        dNotes = null;
+                                    }
+
+                                    noteName.Text = "";
+                                    noteDetail.Text = "";
+                                }
+                                popup_noteAddPopup.IsOpen = false;
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Click", ex);
+            }
+        }
+
         private void popupClosed_Click(object sender, RoutedEventArgs e)
         {
             try
             {
                 var btntemp = sender as Button;
                 var popuptemp = (Popup)FindName((string)btntemp.Uid.ToString());
-
+                pp_moveBar.IsOpen = false;
                 popuptemp.IsOpen = false;
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Click", ex);
+            }
+        }
+
+        private void libAddVersePopup_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var item = popupNextSureId.SelectedItem as ComboBoxItem;
+
+                sId.Text = (string)item.Uid;
+                vId.Text = popupRelativeId.Text;
+                remiderConnectVerse.Text = (string)item.Content + " suresini " + popupRelativeId.Text + " ayeti"; ;
+
+                popup_VerseSelect.IsOpen = false;
+                popupNextSureId.SelectedIndex = 0;
+                popupRelativeId.Text = "1";
             }
             catch (Exception ex)
             {
@@ -364,11 +501,102 @@ namespace KuranX.App.Core.Pages.LibraryF
         {
         }
 
+        private void popupNextSureId_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            // Nav NextUpdate Click
+            try
+            {
+                var item = popupNextSureId.SelectedItem as ComboBoxItem;
+                if (item != null)
+                {
+                    if (item.Uid != "0")
+                    {
+                        if (popupRelativeIdError != null) popupRelativeIdError.Content = item.Content + " Surenin " + item.Tag + " ayeti mevcut";
+                    }
+                }
+                item = null;
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Change", ex);
+            }
+        }
+
+        private void popupRelativeId_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            try
+            {
+                Regex regex = new Regex("[^0-9]+");
+                e.Handled = regex.IsMatch(e.Text);
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Change", ex);
+            }
+        }
+
+        private void popupRelativeId_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            try
+            {
+                var textbox = (TextBox)sender;
+                var item = popupNextSureId.SelectedItem as ComboBoxItem;
+                if (!textbox.IsLoaded) return;
+
+                if (popupRelativeId.Text != "" && popupRelativeId.Text != null)
+                {
+                    if (int.Parse(popupRelativeId.Text) <= int.Parse(item.Tag.ToString()) && int.Parse(popupRelativeId.Text) > 0)
+                    {
+                        loadVersePopup.IsEnabled = true;
+                        popupRelativeIdError.Content = "Ayet Mevcut Eklene Bilir";
+                    }
+                    else
+                    {
+                        loadVersePopup.IsEnabled = false;
+                        popupRelativeIdError.Content = "Ayet Mevcut Değil";
+                    }
+                }
+                else
+                {
+                    loadVersePopup.IsEnabled = false;
+                    popupRelativeIdError.Content = "Eklemek İstenilen Ayet Sırasını Giriniz";
+                }
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Change", ex);
+            }
+        }
+
         private void popupNewName_KeyDown(object sender, KeyEventArgs e)
         {
             try
             {
                 popupRelativeIdError.Content = "Yeni Konu Başlığını Giriniz";
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Change", ex);
+            }
+        }
+
+        private void noteName_KeyDown(object sender, KeyEventArgs e)
+        {
+            try
+            {
+                noteAddPopupHeaderError.Visibility = Visibility.Hidden;
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Change", ex);
+            }
+        }
+
+        private void noteDetail_KeyDown(object sender, KeyEventArgs e)
+        {
+            try
+            {
+                noteAddPopupDetailError.Visibility = Visibility.Hidden;
             }
             catch (Exception ex)
             {
@@ -388,6 +616,7 @@ namespace KuranX.App.Core.Pages.LibraryF
                 previusPageButton.IsEnabled = false;
                 nextpageButton.IsEnabled = false;
                 sendResult.IsEnabled = false;
+                addNote.IsEnabled = false;
 
                 App.timeSpan.Interval = TimeSpan.FromSeconds(3);
                 App.timeSpan.Start();
@@ -395,7 +624,7 @@ namespace KuranX.App.Core.Pages.LibraryF
                 App.timeSpan.Tick += delegate
                 {
                     App.timeSpan.Stop();
-                    NavigationService.GoBack();
+                    App.mainframe.Content = App.navLibraryNoteFolderFrame.PageCall();
                 };
             }
             catch (Exception ex)
@@ -416,6 +645,7 @@ namespace KuranX.App.Core.Pages.LibraryF
                 {
                     backPage.IsEnabled = false;
                     sendResult.IsEnabled = false;
+                    addNote.IsEnabled = false;
                     libraryItemsDeleteBtn.IsEnabled = false;
                 });
             }
@@ -433,6 +663,7 @@ namespace KuranX.App.Core.Pages.LibraryF
                 {
                     backPage.IsEnabled = true;
                     sendResult.IsEnabled = true;
+                    addNote.IsEnabled = true;
                     libraryItemsDeleteBtn.IsEnabled = true;
                     loadHeaderStack.Visibility = Visibility.Visible;
                 });
@@ -488,17 +719,40 @@ namespace KuranX.App.Core.Pages.LibraryF
                     movePP.Placement = PlacementMode.Center;
                     movePP.VerticalOffset = 0;
                     movePP.HorizontalOffset = 0;
+                    movePP.Child.Opacity = 1;
+                    movePP.Child.IsEnabled = true;
                     break;
 
                 case "Close":
                     pp_moveBar.IsOpen = false;
+                    movePP.Child.Opacity = 1;
+                    movePP.Child.IsEnabled = true;
+                    break;
+            }
+        }
+
+        public void ppMoveActionOpacity_Click(object sender, RoutedEventArgs e)
+        {
+            var btntemp = sender as Button;
+            var movePP = (Popup)FindName((string)btntemp.Content);
+
+            switch (btntemp.Uid.ToString())
+            {
+                case "Up":
+                    movePP.Child.Opacity = 1;
+                    movePP.Child.IsEnabled = true;
+                    break;
+
+                case "Down":
+                    movePP.Child.Opacity = 0.1;
+                    movePP.Child.IsEnabled = false;
                     break;
             }
         }
 
         public void ppMoveConfing(string ppmove)
         {
-            for (int i = 1; i < 8; i++)
+            for (int i = 1; i < 10; i++)
             {
                 var btn = FindName("pp_M" + i) as Button;
                 btn.Content = ppmove;

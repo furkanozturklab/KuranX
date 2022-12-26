@@ -423,7 +423,7 @@ namespace KuranX.App.Core.Windows
                                 {
                                     navClear();
                                     navCheckBox.IsChecked = true;
-                                    App.mainframe.Content = App.navLibraryOpen.PageCall();
+                                    App.mainframe.Content = App.navLibraryNoteFolderFrame.PageCall();
                                 });
                                 break;
 
@@ -516,7 +516,7 @@ namespace KuranX.App.Core.Windows
                             {
                                 navClear();
                                 navCheckBox.IsChecked = true;
-                                App.mainframe.Content = App.navLibraryOpen.PageCall();
+                                App.mainframe.Content = App.navLibraryNoteFolderFrame.PageCall();
                             });
                             break;
 
@@ -839,7 +839,7 @@ namespace KuranX.App.Core.Windows
                         {
                             navClear();
                             navCheckBox.IsChecked = true;
-                            App.mainframe.Content = App.navLibraryOpen.PageCall();
+                            App.mainframe.Content = App.navLibraryNoteFolderFrame.PageCall();
                         });
                         break;
 
@@ -1434,8 +1434,6 @@ namespace KuranX.App.Core.Windows
                 foreach (var item in db.Subject) db.Subject.Remove(item);
 
                 foreach (var item in db.Librarys) db.Librarys.Remove(item);
-
-                foreach (var item in db.PdfFile) db.PdfFile.Remove(item);
 
                 foreach (var item in db.Remider) db.Remider.Remove(item);
 

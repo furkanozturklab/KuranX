@@ -169,8 +169,6 @@ namespace KuranX.App.Core.Windows
 
                 foreach (var item in db.Librarys) db.Librarys.Remove(item);
 
-                foreach (var item in db.PdfFile) db.PdfFile.Remove(item);
-
                 foreach (var item in db.Remider) db.Remider.Remove(item);
 
                 foreach (var item in db.Tasks) db.Tasks.Remove(item);

@@ -12,7 +12,6 @@ namespace KuranX.App.Core.Classes
         public int verseId { get; set; } = 0;
         public int sureId { get; set; } = 0;
         public int subjectId { get; set; } = 0;
-        public int pdfFileId { get; set; } = 0;
         public int libraryId { get; set; } = 0;
         public string noteHeader { get; set; } = "Default";
         public string noteDetail { get; set; } = "Default";

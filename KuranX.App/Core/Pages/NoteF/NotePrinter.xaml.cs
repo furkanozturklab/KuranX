@@ -53,11 +53,11 @@ namespace KuranX.App.Core.Pages.NoteF
                         infoText.Text = "Not Aldığınız Ayet " + Environment.NewLine + dSure.name + " suresini " + dNotes.verseId + " ayeti";
                     }
 
-                    // PDF Bağlanmış
-                    if (dNotes.pdfFileId != 0)
+                    // Kütüphane Bağlanmış
+                    if (dNotes.libraryId != 0)
                     {
-                        var dPdf = entitydb.PdfFile.Where(p => p.pdfFileId == dNotes.pdfFileId).FirstOrDefault();
-                        infoText.Text = "Not Aldığınız Dosya " + Environment.NewLine + dPdf.fileName;
+                        var dLibrary = entitydb.Librarys.Where(p => p.libraryId == dNotes.libraryId).FirstOrDefault();
+                        infoText.Text = "Not Aldığınız Kütüphane " + Environment.NewLine + dLibrary.libraryName;
                     }
 
                     // Konu Bağlanmış

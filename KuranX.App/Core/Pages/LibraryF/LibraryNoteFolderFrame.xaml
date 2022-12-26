@@ -79,7 +79,7 @@
         <!-- popup -->
 
         <StackPanel  Grid.Row="0" Orientation="Vertical" VerticalAlignment="Center" Style="{DynamicResource aniEffectFadeStack}" Visibility="Visible" x:Name="loadHeaderAni">
-            <Button x:Name="totalFileCount" Style="{DynamicResource lib_FolderHeader}" Tag="Kütüphane Başlıkları" Uid="#6610F2" />
+            <Button x:Name="totalFileCount" Style="{DynamicResource lib_FolderHeader}" Tag="Kütüphane" Uid="#6610F2" />
         </StackPanel>
 
         <Border Grid.Row="1" x:Name="loadDetailAni" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Visible">

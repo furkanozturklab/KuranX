@@ -485,6 +485,7 @@ namespace KuranX.App.Core.Pages.NoteF
                 var btntemp = sender as Button;
                 Popup popuptemp = (Popup)FindName(btntemp.Uid);
                 pp_moveBar.IsOpen = false;
+
                 popuptemp.IsOpen = false;
             }
             catch (Exception ex)

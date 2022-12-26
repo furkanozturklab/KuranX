@@ -69,11 +69,6 @@ namespace KuranX.App.Core.Pages.NoteF
         {
             try
             {
-                this.Dispatcher.Invoke(() =>
-                {
-                    PdfViewer dViewer = new PdfViewer(id);
-                    dViewer.Show();
-                });
             }
             catch (Exception ex)
             {
@@ -138,17 +133,19 @@ namespace KuranX.App.Core.Pages.NoteF
                         }
 
                         // PDF Bağlanmış
-                        if (dNote.pdfFileId != 0)
+                        if (dNote.libraryId != 0)
                         {
+                            /*
                             gotoVerseButton.IsEnabled = true;
                             gotoVerseButton.Content = "Pdf e Git";
                             gotoVerseButton.Tag = "ArrowRight";
                             gotoVerseButton.Style = (Style)FindResource("defaultActionButonBstrpRed");
                             App.mainScreen.navigationWriter("notes", "Pdf Notu");
-                            var dPdf = entitydb.PdfFile.Where(p => p.pdfFileId == dNote.pdfFileId).FirstOrDefault();
+                            var dPdf = entitydb.PdfFile.Where(p => p.libraryId == dNote.libraryId).FirstOrDefault();
                             infoText.Text = "Not Aldığınız Dosya " + Environment.NewLine + dPdf.fileName;
-                            cPd = (int)dNote.pdfFileId;
+                            cPd = (int)dNote.libraryId;
                             gototype = "Pdf";
+                            */
                         }
 
                         // Konu Bağlanmış

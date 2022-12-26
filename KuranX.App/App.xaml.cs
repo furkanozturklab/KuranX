@@ -20,6 +20,7 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Mail;
 using System.Net.NetworkInformation;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -64,8 +65,6 @@ namespace KuranX.App
 
         // LİBRARY PANEL
 
-        public static LibraryOpenPage navLibraryOpen = new LibraryOpenPage();
-        public static LibraryFileFrame navLibraryFileFrame = new LibraryFileFrame();
         public static LibraryNoteItemsFrame navLibraryNoteItemsFrame = new LibraryNoteItemsFrame();
         public static LibraryNoteFolderFrame navLibraryNoteFolderFrame = new LibraryNoteFolderFrame();
 

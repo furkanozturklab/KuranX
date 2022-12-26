@@ -16,7 +16,7 @@ namespace KuranX.App.Core.Classes
         public DbSet<Subject> Subject { get; set; }
         public DbSet<SubjectItems> SubjectItems { get; set; }
         public DbSet<Words> Words { get; set; }
-        public DbSet<PdfFile> PdfFile { get; set; }
+
         public DbSet<Remider> Remider { get; set; }
         public DbSet<Tasks> Tasks { get; set; }
         public DbSet<Result> Results { get; set; }
@@ -118,9 +118,6 @@ namespace KuranX.App.Core.Classes
                .Property(u => u.subjectId)
                .HasDefaultValue(0);
             modelBuilder.Entity<Notes>()
-               .Property(u => u.pdfFileId)
-               .HasDefaultValue(0);
-            modelBuilder.Entity<Notes>()
                .Property(u => u.libraryId)
                .HasDefaultValue(0);
 
@@ -128,11 +125,6 @@ namespace KuranX.App.Core.Classes
             modelBuilder.Entity<Integrity>()
                 .Property(u => u.integrityProtected)
                 .HasDefaultValue(0);
-
-            // PDF
-            modelBuilder.Entity<PdfFile>()
-                .Property(u => u.fileType)
-                .HasDefaultValue("User");
 
             // REMIDER
 
