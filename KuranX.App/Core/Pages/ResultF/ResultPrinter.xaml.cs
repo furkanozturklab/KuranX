@@ -37,7 +37,8 @@ namespace KuranX.App.Core.Pages.ResultF
         {
             try
             {
-                App.loadTask = Task.Run(() => loadItem(currentId));
+                loadItem(currentId);
+
                 return this;
             }
             catch (Exception ex)

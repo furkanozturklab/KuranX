@@ -15,7 +15,7 @@ namespace KuranX.App.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "7.0.0");
+            modelBuilder.HasAnnotation("ProductVersion", "7.0.1");
 
             modelBuilder.Entity("KuranX.App.Core.Classes.Integrity", b =>
                 {
@@ -138,11 +138,6 @@ namespace KuranX.App.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("pdfFileId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER")
-                        .HasDefaultValue(0);
-
                     b.Property<int>("subjectId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER")
@@ -161,41 +156,6 @@ namespace KuranX.App.Migrations
                     b.HasKey("notesId");
 
                     b.ToTable("Notes");
-                });
-
-            modelBuilder.Entity("KuranX.App.Core.Classes.PdfFile", b =>
-                {
-                    b.Property<int>("pdfFileId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("created")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("fileName")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("fileSize")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("fileType")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT")
-                        .HasDefaultValue("User");
-
-                    b.Property<string>("fileUrl")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("modify")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("pdfFileId");
-
-                    b.ToTable("PdfFile");
                 });
 
             modelBuilder.Entity("KuranX.App.Core.Classes.Remider", b =>
@@ -220,7 +180,7 @@ namespace KuranX.App.Migrations
                         .IsRequired()
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT")
-                        .HasDefaultValue("False");
+                        .HasDefaultValue("Default");
 
                     b.Property<int>("priority")
                         .ValueGeneratedOnAdd()
@@ -312,7 +272,7 @@ namespace KuranX.App.Migrations
                     b.Property<DateTime>("sendTime")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT")
-                        .HasDefaultValue(new DateTime(2022, 12, 19, 11, 46, 54, 248, DateTimeKind.Local).AddTicks(7174));
+                        .HasDefaultValue(new DateTime(2023, 1, 9, 19, 4, 56, 575, DateTimeKind.Local).AddTicks(9540));
 
                     b.HasKey("resultItemId");
 
@@ -478,7 +438,7 @@ namespace KuranX.App.Migrations
                     b.Property<DateTime>("createDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT")
-                        .HasDefaultValue(new DateTime(2022, 12, 19, 11, 46, 54, 248, DateTimeKind.Local).AddTicks(2356))
+                        .HasDefaultValue(new DateTime(2023, 1, 9, 19, 4, 56, 575, DateTimeKind.Local).AddTicks(4907))
                         .HasColumnName("user_createDate");
 
                     b.Property<string>("email")
@@ -523,7 +483,7 @@ namespace KuranX.App.Migrations
                     b.Property<DateTime>("updateDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT")
-                        .HasDefaultValue(new DateTime(2022, 12, 19, 11, 46, 54, 248, DateTimeKind.Local).AddTicks(2494))
+                        .HasDefaultValue(new DateTime(2023, 1, 9, 19, 4, 56, 575, DateTimeKind.Local).AddTicks(5099))
                         .HasColumnName("user_updateDate");
 
                     b.HasKey("userId");

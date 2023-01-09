@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -60,31 +61,36 @@ namespace KuranX.App.Core.Windows
         {
             try
             {
-                if (File.Exists("print_previw.xps") == true) File.Delete("print_previw.xps");
-                XpsDocument? doc = new XpsDocument("print_previw.xps", FileAccess.ReadWrite);
+                this.Dispatcher.Invoke(() =>
+                {
+                    if (File.Exists("print_previw.xps") == true) File.Delete("print_previw.xps");
 
-                XpsDocumentWriter? writer = XpsDocument.CreateXpsDocumentWriter(doc);
-                SerializerWriterCollator? output_Document = writer.CreateVisualsCollator();
-                output_Document.BeginBatchWrite();
-                output_Document.Write(App.navResultPrinter.PageCall(selectedResultId));
-                output_Document.EndBatchWrite();
+                    XpsDocument? doc = new XpsDocument("print_previw.xps", FileAccess.ReadWrite);
 
-                FixedDocumentSequence preview = doc.GetFixedDocumentSequence();
-                doc.Close();
+                    XpsDocumentWriter? writer = XpsDocument.CreateXpsDocumentWriter(doc);
+                    SerializerWriterCollator? output_Document = writer.CreateVisualsCollator();
 
-                var dframe = new Frame();
-                var dpage = new ResultPrinter();
-                var window = new Window();
-                dpage.Content = new DocumentViewer { Document = preview };
-                dframe.Content = dpage;
+                    output_Document.BeginBatchWrite();
+                    output_Document.Write(App.navResultPrinter.PageCall(selectedResultId));
+                    output_Document.EndBatchWrite();
 
-                window.Content = dframe;
+                    FixedDocumentSequence preview = doc.GetFixedDocumentSequence();
+                    doc.Close();
 
-                window.ShowDialog();
+                    var dframe = new Frame();
+                    var dpage = new ResultPrinter();
+                    var window = new Window();
+                    dpage.Content = new DocumentViewer { Document = preview };
+                    dframe.Content = dpage;
 
-                writer = null;
-                output_Document = null;
-                doc = null;
+                    window.Content = dframe;
+
+                    window.ShowDialog();
+
+                    writer = null;
+                    output_Document = null;
+                    doc = null;
+                });
             }
             catch (Exception ex)
             {
@@ -462,7 +468,7 @@ namespace KuranX.App.Core.Windows
         {
             try
             {
-                Printer_Func(this);
+                App.loadTask = Task.Run(() => Printer_Func(this));
             }
             catch (Exception ex)
             {

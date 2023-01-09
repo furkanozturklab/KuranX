@@ -56,7 +56,7 @@
             <TextBlock Text="yeterli bilgi ve ögüt vardır." Style="{DynamicResource textInfo}" />
             <TextBlock Text="Şüphesiz ki Rabbin Allah güçlüdür , çok merhametlidir " Style="{DynamicResource textInfo}" />
             <TextBlock Text="" Style="{DynamicResource textInfo}" />
-            <TextBlock Text="Fatiha 1 , Fatiha 2 , Nah 198 , Furkan 1 , Şuara 2 , Nur 34 , Enbiya 106 , Şuara 9" Style="{DynamicResource textInfo}" FontSize="28"  Foreground="#F0433A" />
+            <TextBlock Text="Fatiha 1 , Fatiha 2 , Nahl 98 , Furkan 1 , Şuara 2 , Nur 34 , Enbiya 106 , Şuara 9" Style="{DynamicResource textInfo}" FontSize="28"  Foreground="#F0433A" />
         </StackPanel>
 
         <!--

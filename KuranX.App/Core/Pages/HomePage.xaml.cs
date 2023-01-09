@@ -49,8 +49,6 @@ namespace KuranX.App.Core.Pages
         {
             try
             {
-                this.Dispatcher.Invoke(() => App.mainScreen.loadinGifContent.Visibility = Visibility.Hidden);
-                this.Dispatcher.Invoke(() => App.mainScreen.rightPanel.Visibility = Visibility.Visible);
                 this.Dispatcher.Invoke(() => App.mainScreen.navigationWriter("home", ""));
                 return this;
             }

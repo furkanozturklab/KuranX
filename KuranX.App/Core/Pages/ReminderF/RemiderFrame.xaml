@@ -354,7 +354,7 @@
                             </Grid.ColumnDefinitions>
 
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="0">
-                                <Button x:Name="loadVersePopup" Style="{DynamicResource pp_DefaultButtonBstrp}" Tag="ArrowRight" Content="Git" HorizontalAlignment="Center" Click="remiderAddVersePopup_Click" />
+                                <Button x:Name="loadVersePopup" Style="{DynamicResource pp_DefaultButtonBstrp}" Tag="Plus" Content="Ekle" HorizontalAlignment="Center" Click="remiderAddVersePopup_Click" />
                                 <Button  Style="{DynamicResource pp_DefaultButtonClosed}" Tag="CloseBig" Content="Vazgeç" Uid="popup_VerseSelect" HorizontalAlignment="Center" Click="popupClosed_Click" />
                             </StackPanel>
                         </Grid>

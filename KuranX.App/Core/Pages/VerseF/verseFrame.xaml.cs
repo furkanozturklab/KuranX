@@ -32,6 +32,7 @@ namespace KuranX.App.Core.Pages.VerseF
         public int[] feedPoint = new int[4];
         private string navLocation = "Click", meaningPattern = "", intelWriter = App.InterpreterWriter;
         private bool remiderType = false;
+        public bool searchBox = false, connectBox = false;
         private ArrayList findIndex = new ArrayList();
 
         public verseFrame()
@@ -72,6 +73,17 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+                if (searchBox)
+                {
+                    popup_search.IsOpen = true;
+                    searchBox = false;
+                }
+
+                if (connectBox)
+                {
+                    popup_Meaning.IsOpen = true;
+                    connectBox = false;
+                }
                 App.mainScreen.navigationWriter("verse", loadHeader.Text + "," + sRelativeVerseId);
             }
             catch (Exception ex)
@@ -113,6 +125,10 @@ namespace KuranX.App.Core.Pages.VerseF
                         mainContent.Visibility = Visibility.Visible;
                         if (dSure.name == "Fâtiha" && sRelativeVerseId == 1) NavUpdatePrevSingle.IsEnabled = false;
                         else NavUpdatePrevSingle.IsEnabled = true;
+
+                        navControlStack.Visibility = Visibility.Visible;
+                        mainContent.Visibility = Visibility.Visible;
+                        controlPanel.Visibility = Visibility.Visible;
                     });
 
                     dSure = null;
@@ -685,6 +701,11 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+                headerBorder.Visibility = Visibility.Visible;
+                controlPanel.Visibility = Visibility.Visible;
+                mainContent.Visibility = Visibility.Visible;
+                navControlStack.Visibility = Visibility.Visible;
+                actionsControlGrid.Visibility = Visibility.Visible;
                 if (markButton.IsChecked == true)
                 {
                     if (App.beforeFrameName == "Sure")
@@ -1084,7 +1105,7 @@ namespace KuranX.App.Core.Pages.VerseF
                 {
                     feedbackPopupButton.IsEnabled = false;
                     feedbackPopupClose.IsEnabled = false;
-                    var messageBody = "<b>İsim Soyisim :</b> " + App.mainScreen.firstName.Text + "<br/>" + "<b>İletişim Maili :</b> " + App.mainScreen.email.Text + "<br/>" + "<b>Platform : </b> Bilgisayar" + "<br/>" + "<b>Seçili Ayet :</b>" + feedbackConnectVerse.Text + " <b>Mesaj : </b>" + "<br/> <p>" + feedbackDetail.Text + "</p>";
+                    var messageBody = "<b>İsim Soyisim :</b> " + App.mainScreen.hmwd_profileName.Text + "<br/>" + "<b>İletişim Maili :</b> " + App.mainScreen.userEmail.Text + "<br/>" + "<b>Platform : </b> Bilgisayar" + "<br/>" + "<b>Seçili Ayet :</b>" + feedbackConnectVerse.Text + " <b>Mesaj : </b>" + "<br/> <p>" + feedbackDetail.Text + "</p>";
 
                     var returnBool = false;
                     App.loadTask = Task.Run(() => returnBool = App.sendMail("Kuransunettüllah Destek", messageBody));
@@ -1394,8 +1415,14 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+                headerBorder.Visibility = Visibility.Hidden;
+                controlPanel.Visibility = Visibility.Hidden;
+                mainContent.Visibility = Visibility.Hidden;
+                navControlStack.Visibility = Visibility.Hidden;
+                actionsControlGrid.Visibility = Visibility.Hidden;
+
                 var item = popupNextSureId.SelectedItem as ComboBoxItem;
-                App.secondFrame.Content = App.navVerseStickPage.PageCall(int.Parse(item.Uid), int.Parse(popupNextVerseId.Text), loadHeader.Text, sRelativeVerseId);
+                App.secondFrame.Content = App.navVerseStickPage.PageCall(int.Parse(item.Uid), int.Parse(popupNextVerseId.Text), loadHeader.Text, sRelativeVerseId, "Verse");
                 App.secondFrame.Visibility = Visibility.Visible;
                 popup_nextSure.IsOpen = false;
             }
@@ -1792,43 +1819,34 @@ namespace KuranX.App.Core.Pages.VerseF
                             {
                                 if (int.Parse(meaningConnectVerse.Text) <= int.Parse((string)item.Tag))
                                 {
-                                    if (meaningConnectNote.Text.Length >= 3)
-                                    {
-                                        var tmpcbxi = (ComboBoxItem)meaningpopupNextSureId.SelectedItem;
+                                    var tmpcbxi = (ComboBoxItem)meaningpopupNextSureId.SelectedItem;
 
-                                        using (var entitydb = new AyetContext())
+                                    using (var entitydb = new AyetContext())
+                                    {
+                                        if (entitydb.Integrity.Where(p => p.integrityName == meaningName.Text).FirstOrDefault() != null)
                                         {
-                                            if (entitydb.Integrity.Where(p => p.integrityName == meaningName.Text).FirstOrDefault() != null)
-                                            {
-                                                App.mainScreen.alertFunc("İşlem Başarısız", "Aynı isimli bağlantı eklemiş olabilirsiniz lütfen kontrol edip yeniden deneyiniz.", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
-                                                meaningName.Text = "";
-                                                meaningConnectNote.Text = "";
-                                                meaningpopupNextSureId.SelectedIndex = 0;
-                                                meaningConnectVerse.Text = "";
-                                                popup_meaningAddPopup.IsOpen = false;
-                                            }
-                                            else
-                                            {
-                                                var dIntegrity = new Integrity { integrityName = meaningName.Text, connectSureId = sSureId, connectVerseId = sRelativeVerseId, connectedSureId = int.Parse(tmpcbxi.Uid), connectedVerseId = int.Parse(meaningConnectVerse.Text), created = DateTime.Now, modify = DateTime.Now, integrityNote = meaningConnectNote.Text };
-                                                entitydb.Integrity.Add(dIntegrity);
-                                                entitydb.SaveChanges();
-                                                App.mainScreen.succsessFunc("İşlem Başarılı", "Yeni bağlantınız oluşturuldu.", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
-                                                meaningName.Text = "";
-                                                meaningConnectNote.Text = "";
-                                                meaningpopupNextSureId.SelectedIndex = 0;
-                                                meaningConnectVerse.Text = "";
-                                                popup_meaningAddPopup.IsOpen = false;
-                                                App.loadTask = Task.Run(() => loadMeaning());
-
-                                                dIntegrity = null;
-                                            }
+                                            App.mainScreen.alertFunc("İşlem Başarısız", "Aynı isimli bağlantı eklemiş olabilirsiniz lütfen kontrol edip yeniden deneyiniz.", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
+                                            meaningName.Text = "";
+                                            meaningConnectNote.Text = "";
+                                            meaningpopupNextSureId.SelectedIndex = 0;
+                                            meaningConnectVerse.Text = "";
+                                            popup_meaningAddPopup.IsOpen = false;
                                         }
-                                    }
-                                    else
-                                    {
-                                        meaningDetailAddPopupHeaderError.Visibility = Visibility.Visible;
-                                        meaningConnectNote.Focus();
-                                        meaningDetailAddPopupHeaderError.Content = "Bağlantı Notu Yeterince Uzun Değil. Min 3 Karakter Olmalıdır";
+                                        else
+                                        {
+                                            var dIntegrity = new Integrity { integrityName = meaningName.Text, connectSureId = sSureId, connectVerseId = sRelativeVerseId, connectedSureId = int.Parse(tmpcbxi.Uid), connectedVerseId = int.Parse(meaningConnectVerse.Text), created = DateTime.Now, modify = DateTime.Now, integrityNote = meaningConnectNote.Text };
+                                            entitydb.Integrity.Add(dIntegrity);
+                                            entitydb.SaveChanges();
+                                            App.mainScreen.succsessFunc("İşlem Başarılı", "Yeni bağlantınız oluşturuldu.", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
+                                            meaningName.Text = "";
+                                            meaningConnectNote.Text = "";
+                                            meaningpopupNextSureId.SelectedIndex = 0;
+                                            meaningConnectVerse.Text = "";
+                                            popup_meaningAddPopup.IsOpen = false;
+                                            App.loadTask = Task.Run(() => loadMeaning());
+
+                                            dIntegrity = null;
+                                        }
                                     }
                                 }
                                 else
@@ -1877,10 +1895,18 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
-                App.secondFrame.Content = App.navVerseStickPage.PageCall(int.Parse(meaningDTempSureId.Text), int.Parse(meaningDTempVerseId.Text), loadHeader.Text, sRelativeVerseId);
-                App.secondFrame.Visibility = Visibility.Visible;
+                headerBorder.Visibility = Visibility.Hidden;
+                controlPanel.Visibility = Visibility.Hidden;
+                mainContent.Visibility = Visibility.Hidden;
+                navControlStack.Visibility = Visibility.Hidden;
+                actionsControlGrid.Visibility = Visibility.Hidden;
+
                 popup_Meaning.IsOpen = false;
+                connectBox = true;
                 popup_meainingConnectDetailText.IsOpen = false;
+
+                App.secondFrame.Content = App.navVerseStickPage.PageCall(int.Parse(meaningDTempSureId.Text), int.Parse(meaningDTempVerseId.Text), loadHeader.Text, sRelativeVerseId, "Meaning");
+                App.secondFrame.Visibility = Visibility.Visible;
             }
             catch (Exception ex)
             {
@@ -2264,7 +2290,17 @@ namespace KuranX.App.Core.Pages.VerseF
                 //popup_search.IsOpen = false;
                 //resultDataContent.Children.Clear();
                 //SearchData.Text = "";
-                App.secondFrame.Content = App.navVerseStickPage.PageCall(int.Parse((string)btn.ToolTip), int.Parse((string)btn.Uid), "Verse", sRelativeVerseId);
+
+                headerBorder.Visibility = Visibility.Hidden;
+                controlPanel.Visibility = Visibility.Hidden;
+                mainContent.Visibility = Visibility.Hidden;
+                navControlStack.Visibility = Visibility.Hidden;
+                actionsControlGrid.Visibility = Visibility.Hidden;
+
+                searchBox = true;
+                popup_search.IsOpen = false;
+                App.secondFrame.Content = App.navVerseStickPage.PageCall(int.Parse((string)btn.ToolTip), int.Parse((string)btn.Uid), "Verse", sRelativeVerseId, "Search");
+
                 App.secondFrame.Visibility = Visibility.Visible;
 
                 btn = null;

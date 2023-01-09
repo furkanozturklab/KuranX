@@ -32,7 +32,7 @@ namespace KuranX.App.Core.Pages.NoteF
     /// </summary>
     public partial class NoteItem : Page
     {
-        private int noteId, cSr, cVr, cPd, cSb;
+        private int noteId, cSr, cVr, cPd, cSb, gototypeId;
         private bool tempCheck = false;
         private string gototype = "";
 
@@ -99,7 +99,7 @@ namespace KuranX.App.Core.Pages.NoteF
                                 break;
 
                             case "Kütüphane":
-                                noteType.Background = new BrushConverter().ConvertFrom("#B30B00") as SolidColorBrush;
+                                noteType.Background = new BrushConverter().ConvertFrom("#6610F2") as SolidColorBrush;
                                 break;
 
                             case "Ayet":
@@ -118,34 +118,19 @@ namespace KuranX.App.Core.Pages.NoteF
 
                         App.mainScreen.navigationWriter("notes", "Kullanıcı Notu");
 
-                        // Sure Bağlanmış
-                        if (dNote.sureId != 0)
-                        {
-                            gotoVerseButton.IsEnabled = true;
-                            gotoVerseButton.Content = "Ayete Git";
-                            gotoVerseButton.Tag = "ArrowRight";
-                            var dSure = entitydb.Sure.Where(p => p.sureId == dNote.sureId).FirstOrDefault();
-                            App.mainScreen.navigationWriter("notes", "Sure Notu");
-                            infoText.Text = "Not Aldığınız Ayet " + Environment.NewLine + dSure.name + " suresini " + dNote.verseId + " ayeti";
-                            cSr = (int)dSure.sureId;
-                            cVr = (int)dNote.verseId;
-                            gototype = "Verse";
-                        }
-
-                        // PDF Bağlanmış
+                        // Kütüphane Bağlanmış
                         if (dNote.libraryId != 0)
                         {
-                            /*
                             gotoVerseButton.IsEnabled = true;
-                            gotoVerseButton.Content = "Pdf e Git";
+                            gotoVerseButton.Content = "Kütüphaneye Git";
                             gotoVerseButton.Tag = "ArrowRight";
                             gotoVerseButton.Style = (Style)FindResource("defaultActionButonBstrpRed");
-                            App.mainScreen.navigationWriter("notes", "Pdf Notu");
-                            var dPdf = entitydb.PdfFile.Where(p => p.libraryId == dNote.libraryId).FirstOrDefault();
-                            infoText.Text = "Not Aldığınız Dosya " + Environment.NewLine + dPdf.fileName;
+                            App.mainScreen.navigationWriter("notes", "Kütüphane Notu");
+                            var dLibrary = entitydb.Librarys.Where(p => p.libraryId == dNote.libraryId).FirstOrDefault();
+                            infoText.Text = "Not Aldığınız Kütüphane " + Environment.NewLine + dLibrary.libraryName;
                             cPd = (int)dNote.libraryId;
-                            gototype = "Pdf";
-                            */
+                            gototype = "Library";
+                            gototypeId = dNote.libraryId;
                         }
 
                         // Konu Bağlanmış
@@ -162,6 +147,20 @@ namespace KuranX.App.Core.Pages.NoteF
                             infoText.Text = "Not Aldığınız Konu" + Environment.NewLine + dx.subjectName;
                             cSb = (int)dNote.subjectId;
                             gototype = "Subject";
+                        }
+
+                        // Sure Bağlanmış
+                        if (dNote.sureId != 0)
+                        {
+                            gotoVerseButton.IsEnabled = true;
+                            gotoVerseButton.Content = "Ayete Git";
+                            gotoVerseButton.Tag = "ArrowRight";
+                            var dSure = entitydb.Sure.Where(p => p.sureId == dNote.sureId).FirstOrDefault();
+                            App.mainScreen.navigationWriter("notes", "Sure Notu");
+                            infoText.Text = "Not Aldığınız Ayet " + Environment.NewLine + dSure.name + " suresini " + dNote.verseId + " ayeti";
+                            cSr = (int)dSure.sureId;
+                            cVr = (int)dNote.verseId;
+                            gototype = "Verse";
                         }
                     });
                     Thread.Sleep(int.Parse(App.config.AppSettings.Settings["app_animationSpeed"].Value));
@@ -239,9 +238,9 @@ namespace KuranX.App.Core.Pages.NoteF
 
                         break;
 
-                    case "Pdf":
+                    case "Library":
 
-                        App.loadTask = Task.Run(() => loadScreen(cPd));
+                        App.mainframe.Content = App.navLibraryNoteItemsFrame.PageCall(gototypeId);
 
                         break;
 

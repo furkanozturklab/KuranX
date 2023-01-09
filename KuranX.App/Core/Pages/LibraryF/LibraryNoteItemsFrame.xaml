@@ -561,7 +561,7 @@
             </StackPanel>
         </Border>
 
-        <Border Grid.Row="1" x:Name="loadBorder">
+        <Border Grid.Row="1" x:Name="loadBorder" Style="{DynamicResource aniEffectFadeBorder}">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="265" />
@@ -958,7 +958,7 @@
             </Grid>
         </Border>
 
-        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" x:Name="loadStack">
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Style="{DynamicResource aniEffectFadeStack}" x:Name="loadStack">
 
             <StackPanel Orientation="Horizontal" Height="80">
 

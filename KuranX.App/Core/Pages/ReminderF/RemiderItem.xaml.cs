@@ -215,6 +215,13 @@ namespace KuranX.App.Core.Pages.ReminderF
                     gotoVerseButton.IsEnabled = false;
                     deleteButton.IsEnabled = false;
                     saveButton.IsEnabled = false;
+
+                    var control = entitydb.Remider.Where(p => p.connectSureId != 0 && p.remiderId == remiderId);
+                    if (control.Count() >= 1)
+                    {
+                        entitydb.Verse.Where(p => p.sureId == control.FirstOrDefault().connectSureId && p.relativeDesk == control.FirstOrDefault().connectVerseId).First().remiderCheck = false;
+                    }
+
                     entitydb.Remider.RemoveRange(entitydb.Remider.Where(p => p.remiderId == remiderId));
                     entitydb.Tasks.RemoveRange(entitydb.Tasks.Where(p => p.missonsId == remiderId));
                     entitydb.SaveChanges();
@@ -282,7 +289,7 @@ namespace KuranX.App.Core.Pages.ReminderF
                 App.timeSpan.Tick += delegate
                 {
                     App.timeSpan.Stop();
-                    NavigationService.GoBack();
+                    App.mainframe.Content = App.navRemiderPage.PageCall();
                 };
             }
             catch (Exception ex)

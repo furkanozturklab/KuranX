@@ -47,8 +47,7 @@ namespace KuranX.App.Core.Pages.SubjectF
             {
                 lastPage = 0;
                 NowPage = 1;
-                App.mainScreen.loadinGifContent.Visibility = Visibility.Hidden;
-                App.mainScreen.rightPanel.Visibility = Visibility.Visible;
+
                 App.mainScreen.navigationWriter("subject", "");
                 App.loadTask = Task.Run(() => loadItem());
             }
