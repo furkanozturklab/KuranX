@@ -71,8 +71,6 @@ namespace KuranX.App.Core.Pages.NoteF
         {
             try
             {
-                App.mainScreen.loadinGifContent.Visibility = Visibility.Hidden;
-                App.mainScreen.rightPanel.Visibility = Visibility.Visible;
                 lastPage = 0;
                 NowPage = 1;
                 App.mainScreen.navigationWriter("notes", "");
@@ -174,7 +172,7 @@ namespace KuranX.App.Core.Pages.NoteF
 
                                 case "Kütüphane":
 
-                                    sColor.Background = new BrushConverter().ConvertFrom("#B30B00") as SolidColorBrush;
+                                    sColor.Background = new BrushConverter().ConvertFrom("#6610F2") as SolidColorBrush;
                                     break;
 
                                 case "Ayet":

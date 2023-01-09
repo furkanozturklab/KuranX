@@ -138,6 +138,8 @@ namespace KuranX.App.Core.Pages.ResultF
 
                     Thread.Sleep(int.Parse(App.config.AppSettings.Settings["app_animationSpeed"].Value));
 
+                    loadAniComplated();
+
                     foreach (var item in dResultItems)
                     {
                         this.Dispatcher.Invoke(() =>

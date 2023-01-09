@@ -82,7 +82,7 @@ namespace KuranX.App.Core.Pages.AdminF
 
                         entitydb.Sure.Add(Verse);
 
-                        log.Items.Add(DateTime.Now + ":" + Verse.name + " VERİ EKLENDİ");
+                        this.Dispatcher.Invoke(() => log.Items.Add(DateTime.Now + ":" + Verse.name + " VERİ EKLENDİ"));
                     }
 
                     entitydb.SaveChanges();
@@ -106,36 +106,29 @@ namespace KuranX.App.Core.Pages.AdminF
             {
                 using (var entitydb = new AyetContext())
                 {
-                    if (entitydb.Words.Count() > 0)
+                    string sql = "select * from word;";
+                    MySqlCommand cmd = new MySqlCommand(sql, connection);
+                    MySqlDataReader rdr = cmd.ExecuteReader();
+                    int i = 0;
+                    while (rdr.Read())
                     {
-                        MessageBox.Show("Daha Önceden İşlem Yapılmış");
+                        var newWe = new Words();
+
+                        newWe.sureId = (int)rdr[1];
+                        newWe.verseId = (int)rdr[2];
+                        newWe.arp_read = (string)rdr[3];
+                        newWe.tr_read = (string)rdr[4];
+                        newWe.word_meal = (string)rdr[5];
+                        newWe.root = (string)rdr[6];
+
+                        entitydb.Words.Add(newWe);
+
+                        this.Dispatcher.Invoke(() => log.Items.Add(i + " -> " + DateTime.Now + ":" + newWe.sureId + " sure id VERİ EKLENDİ"));
+                        this.Dispatcher.Invoke(() => log.SelectedIndex = i);
+                        i++;
                     }
-                    else
-                    {
-                        string sql = "select * from word;";
-                        MySqlCommand cmd = new MySqlCommand(sql, connection);
-                        MySqlDataReader rdr = cmd.ExecuteReader();
-                        int i = 0;
-                        while (rdr.Read())
-                        {
-                            var newWe = new Words();
 
-                            newWe.sureId = (int)rdr[1];
-                            newWe.verseId = (int)rdr[2];
-                            newWe.arp_read = (string)rdr[3];
-                            newWe.tr_read = (string)rdr[4];
-                            newWe.word_meal = (string)rdr[5];
-                            newWe.root = (string)rdr[6];
-
-                            entitydb.Words.Add(newWe);
-
-                            this.Dispatcher.Invoke(() => log.Items.Add(i + " -> " + DateTime.Now + ":" + newWe.sureId + " sure id VERİ EKLENDİ"));
-                            this.Dispatcher.Invoke(() => log.SelectedIndex = i);
-                            i++;
-                        }
-
-                        entitydb.SaveChanges();
-                    }
+                    entitydb.SaveChanges();
                 }
             }
             catch (Exception err)
@@ -183,6 +176,8 @@ namespace KuranX.App.Core.Pages.AdminF
                             newVe.verseDesc = (string)rdr[6];
                             newVe.verseCheck = false;
                             newVe.remiderCheck = false;
+                            newVe.markCheck = false;
+                            newVe.commentary = "Wait";
 
                             entitydb.Verse.Add(newVe);
 
@@ -208,40 +203,33 @@ namespace KuranX.App.Core.Pages.AdminF
         {
             using (var entitydb = new AyetContext())
             {
-                if (false)
-                {
-                    MessageBox.Show("Daha Önceden İşlem Yapılmış");
-                }
-                else
-                {
-                    string sql = @"select * from interpreter where interpreter_writer='Ömer Çelik'";
-                    MySqlCommand cmd = new MySqlCommand(sql, connection);
-                    MySqlDataReader rdr = cmd.ExecuteReader();
+                string sql = @"select * from interpreter where interpreter_writer='Ömer Çelik'";
+                MySqlCommand cmd = new MySqlCommand(sql, connection);
+                MySqlDataReader rdr = cmd.ExecuteReader();
 
-                    int i = 1;
-                    int s = 1;
-                    while (rdr.Read())
+                int i = 1;
+                int s = 1;
+                while (rdr.Read())
+                {
+                    var newIn = new Interpreter();
+
+                    if (s != (int)rdr[4])
                     {
-                        var newIn = new Interpreter();
-
-                        if (s != (int)rdr[4])
-                        {
-                            s++;
-                            i = 1;
-                        }
-
-                        newIn.interpreterWriter = (string)rdr[2];
-                        newIn.interpreterDetail = (string)rdr[3];
-                        newIn.sureId = (int)rdr[4];
-                        newIn.verseId = i;
-                        i++;
-
-                        entitydb.Interpreter.Add(newIn);
-                        this.Dispatcher.Invoke(() => Debug.WriteLine(" -> " + DateTime.Now + ":" + newIn.interpreterWriter + " verse id VERİ EKLENDİ"));
+                        s++;
+                        i = 1;
                     }
 
-                    entitydb.SaveChanges();
+                    newIn.interpreterWriter = (string)rdr[2];
+                    newIn.interpreterDetail = (string)rdr[3];
+                    newIn.sureId = (int)rdr[4];
+                    newIn.verseId = i;
+                    i++;
+
+                    entitydb.Interpreter.Add(newIn);
+                    this.Dispatcher.Invoke(() => Debug.WriteLine(" -> " + DateTime.Now + ":" + newIn.interpreterWriter + " verse id VERİ EKLENDİ"));
                 }
+
+                entitydb.SaveChanges();
             }
         }
 

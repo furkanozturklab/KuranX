@@ -95,6 +95,12 @@ namespace KuranX.App.Core.Windows
                     {
                         if (item.remiderDate < DateTime.Now && item.status == "Added")
                         {
+                            var controlRem = entitydb.Remider.Where(p => p.remiderId == item.remiderId).FirstOrDefault();
+                            if (controlRem.connectSureId != 0)
+                            {
+                                entitydb.Verse.Where(p => p.sureId == controlRem.connectSureId && p.relativeDesk == controlRem.connectVerseId).First().remiderCheck = false;
+                            }
+
                             entitydb.Remider.RemoveRange(entitydb.Remider.Where(p => p.remiderId == item.remiderId));
                             entitydb.SaveChanges();
                             continue;
@@ -368,6 +374,12 @@ namespace KuranX.App.Core.Windows
         {
             try
             {
+                this.Dispatcher.Invoke(() =>
+                {
+                    loadinGifContent.Visibility = Visibility.Visible;
+                    rightPanel.Visibility = Visibility.Hidden;
+                });
+
                 if (this.Dispatcher.Invoke(() => App.mainframe.Content.ToString().Split('.').Last() == "verseFrame"))
                 {
                     // eğer verseFrame de isem çalış
@@ -393,7 +405,6 @@ namespace KuranX.App.Core.Windows
                                 {
                                     navClear();
                                     navCheckBox.IsChecked = true;
-
                                     App.mainframe.Content = App.navHomeFrame.PageCall();
                                 });
 
@@ -565,8 +576,10 @@ namespace KuranX.App.Core.Windows
                             });
                             break;
                     }
-                    Thread.Sleep(500);
+                    Thread.Sleep(int.Parse(App.config.AppSettings.Settings["app_animationSpeed"].Value));
                 }
+
+                Thread.Sleep(200);
 
                 this.Dispatcher.Invoke(() =>
                 {
@@ -802,6 +815,8 @@ namespace KuranX.App.Core.Windows
             {
                 popup_fastExitConfirm.IsOpen = false;
 
+                Debug.WriteLine("Burdan Cıktı ?");
+
                 switch (navCheckBox.Content)
                 {
                     case "AnaSayfa":
@@ -892,7 +907,13 @@ namespace KuranX.App.Core.Windows
                         });
                         break;
                 }
+                Thread.Sleep(int.Parse(App.config.AppSettings.Settings["app_animationSpeed"].Value));
 
+                this.Dispatcher.Invoke(() =>
+                {
+                    loadinGifContent.Visibility = Visibility.Hidden;
+                    rightPanel.Visibility = Visibility.Visible;
+                });
                 GC.Collect();
             }
             catch (Exception ex)

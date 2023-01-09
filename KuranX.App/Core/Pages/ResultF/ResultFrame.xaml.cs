@@ -43,8 +43,7 @@ namespace KuranX.App.Core.Pages.ResultF
             {
                 lastPage = 0;
                 NowPage = 1;
-                App.mainScreen.loadinGifContent.Visibility = Visibility.Hidden;
-                App.mainScreen.rightPanel.Visibility = Visibility.Visible;
+
                 App.loadTask = Task.Run(() => loadItem());
                 return this;
             }

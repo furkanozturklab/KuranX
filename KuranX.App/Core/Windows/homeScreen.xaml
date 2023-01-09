@@ -501,7 +501,7 @@
                                 <StackPanel Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="4" Grid.RowSpan="4" Margin="20 5 20 5">
                                     <TextBlock Text="Mesaj"  Style="{DynamicResource prf_editBoxText}" />
                                     <TextBox x:Name="note" Style="{DynamicResource contactDetail}" KeyDown="contactNote_KeyDown" PreviewTextInput="userName_PreviewTextInput" />
-                                    <Label x:Name="detailerr" Content="* Lütfen düşünçelerinizi bizimle paylaşın ?" Style="{DynamicResource prf_editBoxErrorText}" />
+                                    <Label x:Name="detailerr" Content="Görüşleriniz bizim için değerli lütfen bizimle paylaşın..." Style="{DynamicResource prf_editBoxErrorText}" />
                                 </StackPanel>
                             </Grid>
 

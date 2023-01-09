@@ -87,6 +87,13 @@ namespace KuranX.App.Core.Pages.VerseF
 
                     this.Dispatcher.Invoke(() =>
                     {
+                        if (relativeVerseId >= int.Parse(loadVerseCount.Text)) NavUpdateNextSingle.IsEnabled = false;
+                        else NavUpdateNextSingle.IsEnabled = true;
+                        if (relativeVerseId == 1) NavUpdatePrevSingle.IsEnabled = false;
+                    });
+
+                    this.Dispatcher.Invoke(() =>
+                    {
                         App.mainScreen.navigationWriter("verse", loadHeader.Text + "," + sRelativeVerseId);
 
                         mainContent.Visibility = Visibility.Visible;
@@ -159,12 +166,19 @@ namespace KuranX.App.Core.Pages.VerseF
                                 loadSure.Text = "Hatırlatıcı";
                                 getR.Visibility = Visibility.Hidden;
                                 break;
+
+                            case "Search":
+                                getSText.Text = "Gelinene Yer";
+                                loadSure.Text = "Arama";
+                                getR.Visibility = Visibility.Hidden;
+                                break;
+
+                            case "Verse":
+
+                                loadSure.Text = getSure;
+                                loadVerse.Text = getVerse.ToString();
+                                break;
                         }
-                    }
-                    else
-                    {
-                        loadSure.Text = getSure;
-                        loadVerse.Text = getVerse.ToString();
                     }
 
                     headerBorder.Visibility = Visibility.Visible;
@@ -410,8 +424,8 @@ namespace KuranX.App.Core.Pages.VerseF
                 }
 
                 clearNav = int.Parse(chk.GetValue(Extensions.DataStorage).ToString().Split('b').Last());
-
                 currentP = int.Parse(chk.Content.ToString().Split(" ")[0]);
+
                 navstackPanel.Visibility = Visibility.Hidden;
 
                 mainContent.Visibility = Visibility.Hidden;
@@ -431,53 +445,12 @@ namespace KuranX.App.Core.Pages.VerseF
                 if (clearNav != 0) clearNav--;
 
                 navstackPanel.Visibility = Visibility.Hidden;
-
                 mainContent.Visibility = Visibility.Hidden;
+
                 if (int.Parse(loadVerseCount.Text) >= sRelativeVerseId && 1 < sRelativeVerseId)
                 {
                     sRelativeVerseId--;
-                    if (loadHeader.Text == "Fâtiha" && sRelativeVerseId == 1) NavUpdatePrevSingle.IsEnabled = false;
                     App.loadTask = Task.Run(() => loadVerseFunc(sRelativeVerseId));
-                }
-                else
-                {
-                    var desktype = App.navSurePage.deskingCombobox.SelectedItem as ComboBoxItem;
-
-                    if ((string)desktype.Tag == "DeskLanding")
-                    {
-                        int xc = 0;
-                        using (var entitydb = new AyetContext())
-                        {
-                            var listx = entitydb.Sure.OrderBy(p => p.deskLanding);
-                            foreach (var item in listx)
-                            {
-                                xc++;
-                                if (loadHeader.Text == item.name) break;
-                            }
-                            xc--;
-                            var listxc = entitydb.Sure.OrderBy(p => p.deskLanding).Where(p => p.deskLanding == xc).FirstOrDefault();
-
-                            headerBorder.Visibility = Visibility.Hidden;
-                            App.secondFrame.Content = App.navVerseStickPage.PageCall((int)listxc.sureId, (int)listxc.numberOfVerses, loadHeader.Text, sRelativeVerseId);
-
-                            listx = null;
-                            listxc = null;
-                        }
-                    }
-                    else
-                    {
-                        using (var entitydb = new AyetContext())
-                        {
-                            int selectedSure = sSureId;
-                            selectedSure--;
-                            var BeforeD = entitydb.Sure.Where(p => p.sureId == selectedSure).Select(p => new Sure() { numberOfVerses = p.numberOfVerses }).FirstOrDefault();
-
-                            headerBorder.Visibility = Visibility.Hidden;
-                            App.secondFrame.Content = App.navVerseStickPage.PageCall(--sSureId, (int)BeforeD.numberOfVerses, loadHeader.Text, sRelativeVerseId);
-
-                            BeforeD = null;
-                        }
-                    }
                 }
             }
             catch (Exception ex)
@@ -502,37 +475,6 @@ namespace KuranX.App.Core.Pages.VerseF
                     sRelativeVerseId++;
                     App.loadTask = Task.Run(() => loadVerseFunc(sRelativeVerseId));
                 }
-                else
-                {
-                    var desktype = App.navSurePage.deskingCombobox.SelectedItem as ComboBoxItem;
-
-                    if ((string)desktype.Tag == "DeskLanding")
-                    {
-                        using (var entitydb = new AyetContext())
-                        {
-                            int xc = 0;
-                            var listx = entitydb.Sure.OrderBy(p => p.deskLanding);
-                            foreach (var item in listx)
-                            {
-                                xc++;
-                                if (loadHeader.Text == item.name) break;
-                            }
-                            xc++;
-                            var listxc = entitydb.Sure.OrderBy(p => p.deskLanding).Where(p => p.deskLanding == xc).First();
-
-                            headerBorder.Visibility = Visibility.Hidden;
-                            App.secondFrame.Content = App.navVerseStickPage.PageCall((int)listxc.sureId, 1, loadHeader.Text, sRelativeVerseId);
-
-                            listx = null;
-                            listxc = null;
-                        }
-                    }
-                    else
-                    {
-                        headerBorder.Visibility = Visibility.Hidden;
-                        App.secondFrame.Content = App.navVerseStickPage.PageCall(++sSureId, 1, loadHeader.Text, sRelativeVerseId);
-                    }
-                }
             }
             catch (Exception ex)
             {
@@ -544,6 +486,45 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+                switch (sLocation)
+                {
+                    case "Remider":
+                        App.navRemiderItem.loadHeaderStack.Visibility = Visibility.Visible;
+                        App.navRemiderItem.controlBar.Visibility = Visibility.Visible;
+                        App.navRemiderItem.remiderDetail.Visibility = Visibility.Visible;
+                        break;
+
+                    case "Verse":
+
+                        App.navVersePage.headerBorder.Visibility = Visibility.Visible;
+                        App.navVersePage.controlPanel.Visibility = Visibility.Visible;
+                        App.navVersePage.mainContent.Visibility = Visibility.Visible;
+                        App.navVersePage.navControlStack.Visibility = Visibility.Visible;
+                        App.navVersePage.actionsControlGrid.Visibility = Visibility.Visible;
+
+                        break;
+
+                    case "Search":
+
+                        App.navVersePage.headerBorder.Visibility = Visibility.Visible;
+                        App.navVersePage.controlPanel.Visibility = Visibility.Visible;
+                        App.navVersePage.mainContent.Visibility = Visibility.Visible;
+                        App.navVersePage.navControlStack.Visibility = Visibility.Visible;
+                        App.navVersePage.actionsControlGrid.Visibility = Visibility.Visible;
+                        if (App.navVersePage.searchBox) App.navVersePage.popup_search.IsOpen = true;
+                        break;
+
+                    case "Meaning":
+
+                        App.navVersePage.headerBorder.Visibility = Visibility.Visible;
+                        App.navVersePage.controlPanel.Visibility = Visibility.Visible;
+                        App.navVersePage.mainContent.Visibility = Visibility.Visible;
+                        App.navVersePage.navControlStack.Visibility = Visibility.Visible;
+                        App.navVersePage.actionsControlGrid.Visibility = Visibility.Visible;
+                        if (App.navVersePage.connectBox) App.navVersePage.popup_Meaning.IsOpen = true;
+                        break;
+                }
+
                 App.secondFrame.Visibility = Visibility.Collapsed;
                 stickHomeGrid.Visibility = Visibility.Collapsed;
             }

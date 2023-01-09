@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -46,6 +47,9 @@ namespace KuranX.App.Core.Pages.LibraryF
             {
                 lastPage = 0;
                 NowPage = 1;
+
+                sId.Text = "0";
+                vId.Text = "0";
                 folderId = id;
                 App.loadTask = Task.Run(() => loadItem(folderId));
                 loadBorder.IsEnabled = true;
@@ -62,6 +66,11 @@ namespace KuranX.App.Core.Pages.LibraryF
         {
             try
             {
+                loadHeaderStack.Visibility = Visibility.Visible;
+                loadBorder.Visibility = Visibility.Visible;
+                loadStack.Visibility = Visibility.Visible;
+                sId.Text = "0";
+                vId.Text = "0";
                 App.mainScreen.navigationWriter("library", "Kütüphane Başlıkları," + loadHeader.Text);
             }
             catch (Exception ex)

@@ -53,8 +53,10 @@ namespace KuranX.App.Core.Pages.ReminderF
             {
                 lastPage = 0;
                 NowPage = 1;
-                App.mainScreen.loadinGifContent.Visibility = Visibility.Hidden;
-                App.mainScreen.rightPanel.Visibility = Visibility.Visible;
+
+                sId.Text = "0";
+                vId.Text = "0";
+
                 App.loadTask = Task.Run(() => loadItem());
                 return this;
             }
@@ -69,6 +71,8 @@ namespace KuranX.App.Core.Pages.ReminderF
         {
             try
             {
+                sId.Text = "0";
+                vId.Text = "0";
                 viewRemider.Visibility = Visibility.Visible;
             }
             catch (Exception ex)
@@ -331,18 +335,22 @@ namespace KuranX.App.Core.Pages.ReminderF
                                     {
                                         var newRemider = new Remider();
 
-                                        if (sId.Text != "0") newRemider = new Remider
+                                        if (sId.Text != "0")
                                         {
-                                            connectSureId = int.Parse(sId.Text),
-                                            connectVerseId = int.Parse(vId.Text),
-                                            remiderDate = (DateTime)remiderDay.SelectedDate,
-                                            remiderDetail = remiderDetail.Text,
-                                            remiderName = remiderName.Text,
-                                            create = DateTime.Now,
-                                            priority = 1,
-                                            lastAction = DateTime.Now,
-                                            status = "Wait"
-                                        };
+                                            newRemider = new Remider
+                                            {
+                                                connectSureId = int.Parse(sId.Text),
+                                                connectVerseId = int.Parse(vId.Text),
+                                                remiderDate = (DateTime)remiderDay.SelectedDate,
+                                                remiderDetail = remiderDetail.Text,
+                                                remiderName = remiderName.Text,
+                                                create = DateTime.Now,
+                                                priority = 1,
+                                                lastAction = DateTime.Now,
+                                                status = "Wait"
+                                            };
+                                            entitydb.Verse.Where(p => p.sureId == int.Parse(sId.Text) && p.relativeDesk == int.Parse(vId.Text)).FirstOrDefault().remiderCheck = true;
+                                        }
                                         else newRemider = new Remider
                                         {
                                             connectSureId = 0,
@@ -521,6 +529,12 @@ namespace KuranX.App.Core.Pages.ReminderF
             {
                 using (var entitydb = new AyetContext())
                 {
+                    var control = entitydb.Remider.Where(p => p.connectSureId != 0 && p.remiderId == selectedId);
+                    if (control.Count() >= 1)
+                    {
+                        entitydb.Verse.Where(p => p.sureId == control.FirstOrDefault().connectSureId && p.relativeDesk == control.FirstOrDefault().connectVerseId).First().remiderCheck = false;
+                    }
+
                     entitydb.Remider.RemoveRange(entitydb.Remider.Where(p => p.remiderId == selectedId));
                     entitydb.Tasks.RemoveRange(entitydb.Tasks.Where(p => p.missonsId == selectedId));
                     entitydb.SaveChanges();
@@ -541,13 +555,25 @@ namespace KuranX.App.Core.Pages.ReminderF
             {
                 var item = popupNextSureId.SelectedItem as ComboBoxItem;
 
-                sId.Text = (string)item.Uid;
-                vId.Text = popupRelativeId.Text;
-                remiderConnectVerse.Text = (string)item.Content + " suresini " + popupRelativeId.Text + " ayeti"; ;
+                using (var entitydb = new AyetContext())
+                {
+                    if (entitydb.Remider.Where(p => p.connectSureId == int.Parse((string)item.Uid) && p.connectVerseId == int.Parse(popupRelativeId.Text)).Count() > 0)
+                    {
+                        popupRelativeIdError.Content = "Bu ayete daha önceden hatırlatıcı oluşturulmuş.";
+                        popupRelativeIdError.Visibility = Visibility.Visible;
+                        popupRelativeId.Focus();
+                    }
+                    else
+                    {
+                        sId.Text = (string)item.Uid;
+                        vId.Text = popupRelativeId.Text;
+                        remiderConnectVerse.Text = (string)item.Content + " suresini " + popupRelativeId.Text + " ayeti"; ;
 
-                popup_VerseSelect.IsOpen = false;
-                popupNextSureId.SelectedIndex = 0;
-                popupRelativeId.Text = "1";
+                        popup_VerseSelect.IsOpen = false;
+                        popupNextSureId.SelectedIndex = 0;
+                        popupRelativeId.Text = "1";
+                    }
+                }
             }
             catch (Exception ex)
             {

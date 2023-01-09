@@ -444,7 +444,7 @@
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right"  x:Name="loadControlAni">
             <StackPanel Orientation="Horizontal" Height="80">
 
-                <StackPanel Style="{DynamicResource frameItemsOffsetNav}">
+                <StackPanel Style="{DynamicResource frameItemsOffsetNav}" Visibility="Collapsed">
                     <Button IsEnabled="False" x:Name="backPage" Style="{DynamicResource frameItemsControlNav}" Tag="ArrowLeft" Content="Kütüphaneye Geri Dön" Click="backPage_Click" />
                 </StackPanel>
                 <StackPanel Style="{DynamicResource frameItemsOffsetNav}">

@@ -1,0 +1,33 @@
+v 0.4.3
+
+Artık hatırlatıcı silindiğinde ayetteki durumuda değişiyor.
+Hatırlatıcı sayfasında ayetli hatırlatıcı ekleyince ayet sayfasında değişiklik olmuyordu. (Düzeltildi)
+Hatırlatıcılardaki çeşitli buglar temizlendi.
+Artık tüm ana navigasyonlarda dönme effekti var.
+Artık anlam bütünlüğünden 2. Ayet sayfasında gidip geri döndüğünüzde anlam bütünlüğü penceresi kapanmıyor.
+
+
+
+v 0.4.2
+
+Ayet sayfasındaki yüklenirken ayet değiştirme kısmındaki görsel bug düzeltildi.
+2. Ayet penceresinden ileri ve geri buttonlarında yeni düzenleme yapıldı.
+2. Ayet penceresinden gelinen ayet ve sure hatası düzeltildi.
+2. Ayet penceresine gelince artık arama popupu kapanıyor.
+Uygulamadan odağı kaybedince artık popuplar otomatik kapanıyor. (Şuan için sadece ayet sayfasında geçerli.)
+
+
+v 0.4.1
+
+Kütüphane ana sayfasından kütüphaneye dön kaldırıldı.
+Ayetlerden cıktığında sayfa yüklenmesini engelleyen hata giderildi.
+İletişim kutusundaki bazı textler düzeltildi.
+Ayet geri bildiriminde mail gönderirkenki eksik bilgiler düzeltildi.
+2. Ayet penceresinden geri dönerkenki hatalar düzeltildi.
+Moduller arası geçişlere yeni animasyonlar eklendi.
+Anlam bütünlüğü eklenirken not isteme zorunluluğu kaldırıldı.
+Kütüphane notuda ayet bağlanırsa artık ayete git seklinde gösteriyor.
+Ana sayfadaki yazım hatası düzeltildi.
+
+
+

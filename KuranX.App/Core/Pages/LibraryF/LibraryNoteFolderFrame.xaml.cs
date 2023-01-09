@@ -41,7 +41,7 @@ namespace KuranX.App.Core.Pages.LibraryF
             try
             {
                 loadHeaderAni.Visibility = Visibility.Hidden;
-                App.mainScreen.navigationWriter("library", "Kütüphane Başlıkları");
+                App.mainScreen.navigationWriter("library", "Kütüphane");
                 App.loadTask = Task.Run(() => loadItem());
                 return this;
             }
@@ -56,7 +56,8 @@ namespace KuranX.App.Core.Pages.LibraryF
         {
             try
             {
-                App.mainScreen.navigationWriter("library", "Kütüphane Başlıkları");
+                loadHeaderAni.Visibility = Visibility.Hidden;
+                App.mainScreen.navigationWriter("library", "Kütüphane");
             }
             catch (Exception ex)
             {
