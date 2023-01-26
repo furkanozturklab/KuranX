@@ -175,32 +175,7 @@ namespace KuranX.App.Core.Windows
                         });
                     }
 
-                    if (dResul.resultLib == true)
-                    {
-                        this.Dispatcher.Invoke(() =>
-                        {
-                            var cmdef = new ComboBoxItem();
-                            libico.IsEnabled = true;
-
-                            libraryItems.Items.Clear();
-                            cmdef.Content = "Kütüphane İçeriğini Seçiniz";
-                            cmdef.Uid = "0";
-                            libraryItems.Items.Add(cmdef);
-                            libraryItems.SelectedIndex = 0;
-
-                            var dListLibrary = entitydb.ResultItems.Where(p => p.resultId == selectedResultId && p.resultLibId != 0).ToList();
-
-                            foreach (var item in dListLibrary)
-                            {
-                                var cmbitem = new ComboBoxItem();
-
-                                var rItem = entitydb.Librarys.Where(p => p.libraryId == item.resultLibId).FirstOrDefault();
-                                cmbitem.Content = rItem.libraryName;
-                                cmbitem.Uid = rItem.libraryId.ToString();
-                                libraryBase.Items.Add(cmbitem);
-                            }
-                        });
-                    }
+       
                     loadAniComplated();
                 }
             }
@@ -350,76 +325,6 @@ namespace KuranX.App.Core.Windows
                             subNameHeader.Text = dNoteItem.noteHeader;
                             subNameSubHeader.Text = "Konularım / " + subbase.Content + " / " + subheader.Content;
                             subNoteDetail.Text = dNoteItem.noteDetail;
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                App.logWriter("Change", ex);
-            }
-        }
-
-        private void libraryBase_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            try
-            {
-                var item = libraryBase.SelectedItem as ComboBoxItem;
-
-                if (item != null)
-                {
-                    if (item.Uid != "0")
-                    {
-                        var cmdef = new ComboBoxItem();
-
-                        libraryItems.Items.Clear();
-                        cmdef.Content = "Kütüphane İçeriğini Seçiniz";
-                        cmdef.Uid = "0";
-                        libraryItems.Items.Add(cmdef);
-                        libraryItems.SelectedIndex = 0;
-
-                        using (var entitydb = new AyetContext())
-                        {
-                            var dNotesItems = entitydb.Notes.Where(p => p.libraryId == int.Parse(item.Uid)).ToList();
-
-                            foreach (var subitem in dNotesItems)
-                            {
-                                var cmbitem = new ComboBoxItem();
-
-                                cmbitem.Content = subitem.noteHeader;
-                                cmbitem.Uid = subitem.notesId.ToString();
-                                libraryItems.Items.Add(cmbitem);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        Debug.WriteLine("İşlem Yapma 0 Geldi");
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                App.logWriter("Change", ex);
-            }
-        }
-
-        private void libraryItems_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            try
-            {
-                var item = libraryItems.SelectedItem as ComboBoxItem;
-                var sublib = libraryBase.SelectedItem as ComboBoxItem;
-                if (item != null)
-                {
-                    if (item.Uid != "0")
-                    {
-                        using (var entitydb = new AyetContext())
-                        {
-                            var dNotes = entitydb.Notes.Where(p => p.notesId == int.Parse(item.Uid)).FirstOrDefault();
-                            libNameHeader.Text = dNotes.noteHeader;
-                            libNameSubHeader.Text = "Kütüphane / " + sublib.Content + " / " + dNotes.noteLocation + " Notu";
-                            libNoteDetail.Text = dNotes.noteDetail;
                         }
                     }
                 }

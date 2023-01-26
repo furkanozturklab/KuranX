@@ -36,7 +36,6 @@
                     <Button Grid.Column="0" Style="{DynamicResource helpButton}" Tag="/resource/images/icon/dashboard_rb.png" Uid="/resource/images/icon/dashboard_r.png" Content="Program" Click="helpsMain_Click" />
                     <Button Grid.Column="1" Style="{DynamicResource helpButton}" Tag="/resource/images/icon/verse_rb.png" Uid="/resource/images/icon/verse_r.png" Content="Ayteler" Click="helpsMain_Click" />
                     <Button Grid.Column="2" Style="{DynamicResource helpButton}" Tag="/resource/images/icon/subject_rb.png" Uid="/resource/images/icon/subject_r.png" Content="Konular" Click="helpsMain_Click" />
-                    <Button Grid.Column="3" Style="{DynamicResource helpButton}" Tag="/resource/images/icon/library_rb.png" Uid="/resource/images/icon/library_r.png" Content="Kütüphane" Click="helpsMain_Click" />
                     <Button Grid.Column="4" Style="{DynamicResource helpButton}" Tag="/resource/images/icon/notes_rb.png" Uid="/resource/images/icon/notes_r.png" Content="Notlar" Click="helpsMain_Click" />
                     <Button Grid.Column="5" Style="{DynamicResource helpButton}" Tag="/resource/images/icon/remider_rb.png" Uid="/resource/images/icon/remider_r.png" Content="Hatırlatıcılar" Click="helpsMain_Click" />
                     <Button Grid.Column="6" Style="{DynamicResource helpButton}" Tag="/resource/images/icon/result_rb.png" Uid="/resource/images/icon/result_r.png" Content="Sonuc" Click="helpsMain_Click" />

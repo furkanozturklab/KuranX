@@ -73,7 +73,6 @@
             <Border Width="250" Style="{DynamicResource defaultBorderShadowEffect}" Height="35" Margin="0 -20">
                 <StackPanel x:Name="headerControl" Style="{DynamicResource aniEffectFadeStack}" Visibility="Hidden" VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal">
                     <CheckBox x:Name="statusSubject" extension:Extensions.DataStorage="subject" IsChecked="False" IsEnabled="True" Tag="/resource/images/icon/subject_rbr.png" Uid="/resource/images/icon/subject_r.png" Content="/resource/images/icon/subject_rb.png" ToolTip="Sadece Konuları Göster" Style="{DynamicResource rs_ItemsControlButon}" Click="filter_Click" />
-                    <CheckBox x:Name="statusLib" extension:Extensions.DataStorage="library" IsChecked="False" IsEnabled="True" Tag="/resource/images/icon/library_rbr.png" Uid="/resource/images/icon/library_r.png" Content="/resource/images/icon/library_rb.png" ToolTip="Sadece Kütüphaneleri Göster" Style="{DynamicResource rs_ItemsControlButon}" Click="filter_Click" />
                     <CheckBox x:Name="statusNote" extension:Extensions.DataStorage="note" IsChecked="False" IsEnabled="True" Tag="/resource/images/icon/notes_rbr.png" Uid="/resource/images/icon/notes_r.png" Content="/resource/images/icon/notes_rb.png" ToolTip="Sadece Notları Göster" Style="{DynamicResource rs_ItemsControlButon}" Click="filter_Click" />
                 </StackPanel>
             </Border>

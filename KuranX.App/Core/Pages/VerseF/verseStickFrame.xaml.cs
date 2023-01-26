@@ -76,12 +76,15 @@ namespace KuranX.App.Core.Pages.VerseF
                 {
                     var dSure = entitydb.Sure.Where(p => p.sureId == sSureId).Select(p => new Sure { name = p.name, numberOfVerses = p.numberOfVerses, landingLocation = p.landingLocation, description = p.description, deskLanding = p.deskLanding, deskMushaf = p.deskMushaf }).First();
                     var dVerse = entitydb.Verse.Where(p => p.sureId == sSureId && p.relativeDesk == relativeVerseId).First();
+                    var dCVerse = entitydb.VerseClass.Where(p => p.sureId == sSureId && p.relativeDesk == relativeVerseId).First();
+
                     verseId = (int)dVerse.verseId;
 
                     sRelativeVerseId = (int)dVerse.relativeDesk;
                     allPopupClosed();
                     loadNavFunc();
                     loadItemsHeader(dSure);
+                    loadItemsClass(dCVerse);
                     loadItemsContent(dVerse);
                     loadInterpreterFunc(intelWriter, sRelativeVerseId);
 
@@ -94,8 +97,6 @@ namespace KuranX.App.Core.Pages.VerseF
 
                     this.Dispatcher.Invoke(() =>
                     {
-                        App.mainScreen.navigationWriter("verse", loadHeader.Text + "," + sRelativeVerseId);
-
                         mainContent.Visibility = Visibility.Visible;
                         if (dSure.name == "Fâtiha" && sRelativeVerseId == 1) NavUpdatePrevSingle.IsEnabled = false;
                         else NavUpdatePrevSingle.IsEnabled = true;
@@ -277,6 +278,27 @@ namespace KuranX.App.Core.Pages.VerseF
             catch (Exception ex)
             {
                 App.logWriter("Click", ex);
+            }
+        }
+
+        public void loadItemsClass(VerseClass dCVerse)
+        {
+            try
+            {
+                this.Dispatcher.Invoke(() =>
+                {
+                    class1.IsEnabled = dCVerse.v_hk;
+                    class2.IsEnabled = dCVerse.v_tv;
+                    class3.IsEnabled = dCVerse.v_cz;
+                    class4.IsEnabled = dCVerse.v_mk;
+                    class5.IsEnabled = dCVerse.v_du;
+                    class6.IsEnabled = dCVerse.v_hr;
+                    class7.IsEnabled = dCVerse.v_sn;
+                });
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Loading", ex);
             }
         }
 
@@ -498,6 +520,7 @@ namespace KuranX.App.Core.Pages.VerseF
 
                         App.navVersePage.headerBorder.Visibility = Visibility.Visible;
                         App.navVersePage.controlPanel.Visibility = Visibility.Visible;
+                        App.navVersePage.classPanel.Visibility = Visibility.Visible;
                         App.navVersePage.mainContent.Visibility = Visibility.Visible;
                         App.navVersePage.navControlStack.Visibility = Visibility.Visible;
                         App.navVersePage.actionsControlGrid.Visibility = Visibility.Visible;
@@ -508,6 +531,8 @@ namespace KuranX.App.Core.Pages.VerseF
 
                         App.navVersePage.headerBorder.Visibility = Visibility.Visible;
                         App.navVersePage.controlPanel.Visibility = Visibility.Visible;
+                        App.navVersePage.classPanel.Visibility = Visibility.Visible;
+                        App.navVersePage.mainContent.Visibility = Visibility.Visible;
                         App.navVersePage.mainContent.Visibility = Visibility.Visible;
                         App.navVersePage.navControlStack.Visibility = Visibility.Visible;
                         App.navVersePage.actionsControlGrid.Visibility = Visibility.Visible;
@@ -518,6 +543,8 @@ namespace KuranX.App.Core.Pages.VerseF
 
                         App.navVersePage.headerBorder.Visibility = Visibility.Visible;
                         App.navVersePage.controlPanel.Visibility = Visibility.Visible;
+                        App.navVersePage.classPanel.Visibility = Visibility.Visible;
+                        App.navVersePage.mainContent.Visibility = Visibility.Visible;
                         App.navVersePage.mainContent.Visibility = Visibility.Visible;
                         App.navVersePage.navControlStack.Visibility = Visibility.Visible;
                         App.navVersePage.actionsControlGrid.Visibility = Visibility.Visible;

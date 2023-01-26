@@ -101,7 +101,7 @@ namespace KuranX.App.Core.Pages.NoteF
                 {
                     loadAni();
 
-                    decimal totalcount = entitydb.Notes.Where(p => p.noteLocation == "Konularım" || p.noteLocation == "Kütüphane" || p.noteLocation == "Ayet" || p.noteLocation == "Kullanıcı").Count();
+                    decimal totalcount = entitydb.Notes.Where(p => p.noteLocation == "Konularım" || p.noteLocation == "Kütüphane" || p.noteLocation == "Ayet" || p.noteLocation == "Kullanıcı" || p.noteLocation == "Bölüm").Count();
 
                     App.mainScreen.navigationWriter("notes", "");
 
@@ -128,13 +128,13 @@ namespace KuranX.App.Core.Pages.NoteF
                     {
                         if (searchText != "")
                         {
-                            dNotes = entitydb.Notes.Where(p => EF.Functions.Like(p.noteHeader, "%" + searchText + "%")).Where(p => p.noteLocation == "Konularım" || p.noteLocation == "Kütüphane" || p.noteLocation == "Ayet" || p.noteLocation == "Kullanıcı").OrderByDescending(p => p.created).Skip(lastPage).Take(24).ToList();
-                            totalcount = entitydb.Notes.Where(p => EF.Functions.Like(p.noteHeader, "%" + searchText + "%")).Where(p => p.noteLocation == "Konularım" || p.noteLocation == "Kütüphane" || p.noteLocation == "Ayet" || p.noteLocation == "Kullanıcı").ToList().Count();
+                            dNotes = entitydb.Notes.Where(p => EF.Functions.Like(p.noteHeader, "%" + searchText + "%")).Where(p => p.noteLocation == "Konularım" || p.noteLocation == "Bölüm" || p.noteLocation == "Ayet" || p.noteLocation == "Kullanıcı").OrderByDescending(p => p.created).Skip(lastPage).Take(24).ToList();
+                            totalcount = entitydb.Notes.Where(p => EF.Functions.Like(p.noteHeader, "%" + searchText + "%")).Where(p => p.noteLocation == "Konularım" || p.noteLocation == "Bölüm" || p.noteLocation == "Ayet" || p.noteLocation == "Kullanıcı").ToList().Count();
                         }
                         else
                         {
-                            dNotes = entitydb.Notes.Where(p => p.noteLocation == "Konularım" || p.noteLocation == "Kütüphane" || p.noteLocation == "Ayet" || p.noteLocation == "Kullanıcı").OrderByDescending(p => p.created).Skip(lastPage).Take(24).ToList();
-                            totalcount = entitydb.Notes.Where(p => p.noteLocation == "Konularım" || p.noteLocation == "Kütüphane" || p.noteLocation == "Ayet" || p.noteLocation == "Kullanıcı").ToList().Count();
+                            dNotes = entitydb.Notes.Where(p => p.noteLocation == "Konularım" || p.noteLocation == "Bölüm" || p.noteLocation == "Ayet" || p.noteLocation == "Kullanıcı").OrderByDescending(p => p.created).Skip(lastPage).Take(24).ToList();
+                            totalcount = entitydb.Notes.Where(p => p.noteLocation == "Konularım" || p.noteLocation == "Bölüm" || p.noteLocation == "Ayet" || p.noteLocation == "Kullanıcı").ToList().Count();
                         }
                     }
 
@@ -150,10 +150,12 @@ namespace KuranX.App.Core.Pages.NoteF
                     this.Dispatcher.Invoke(() =>
                     {
                         subStat.Content = entitydb.Notes.Where(p => p.noteLocation == "Konularım").Count();
-                        libStat.Content = entitydb.Notes.Where(p => p.noteLocation == "Kütüphane").Count();
+                
                         verseStat.Content = entitydb.Notes.Where(p => p.noteLocation == "Ayet").Count();
 
                         userStat.Content = entitydb.Notes.Where(p => p.noteLocation == "Kullanıcı").Count();
+
+                        sectionStart.Content = entitydb.Notes.Where(p => p.noteLocation == "Bölüm").Count();
                     });
                     int i = 1;
 
@@ -170,7 +172,7 @@ namespace KuranX.App.Core.Pages.NoteF
                                     sColor.Background = new BrushConverter().ConvertFrom("#FD7E14") as SolidColorBrush;
                                     break;
 
-                                case "Kütüphane":
+                                case "Bölüm":
 
                                     sColor.Background = new BrushConverter().ConvertFrom("#6610F2") as SolidColorBrush;
                                     break;
@@ -527,7 +529,18 @@ namespace KuranX.App.Core.Pages.NoteF
                 using (var entitydb = new AyetContext())
                 {
                     entitydb.Notes.RemoveRange(entitydb.Notes.Where(p => p.notesId == selectedId));
+
+                    entitydb.ResultItems.RemoveRange(entitydb.ResultItems.Where(p => p.resultNoteId == selectedId));
+
                     entitydb.SaveChanges();
+
+                    foreach (var item in entitydb.Results)
+                    {
+                        if (entitydb.ResultItems.Where(p => p.resultId == item.resultId).Count() == 0) item.resultNotes = false;
+                    }
+
+                    entitydb.SaveChanges();
+
                     popup_deleteNote.IsOpen = false;
                     App.loadTask = Task.Run(loadItem);
                 }
@@ -615,7 +628,7 @@ namespace KuranX.App.Core.Pages.NoteF
                     filterSubject.IsEnabled = false;
 
                     filterVerse.IsEnabled = false;
-                    filterlibrary.IsEnabled = false;
+
                 });
             }
             catch (Exception ex)
@@ -638,7 +651,7 @@ namespace KuranX.App.Core.Pages.NoteF
                     filterSubject.IsEnabled = true;
 
                     filterVerse.IsEnabled = true;
-                    filterlibrary.IsEnabled = true;
+              
                 });
             }
             catch (Exception ex)

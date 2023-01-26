@@ -106,8 +106,7 @@ namespace KuranX.App.Core.Pages.ResultF
                             var sS = (Image)FindName("rsS" + i);
                             sS.IsEnabled = (bool)item.resultSubject;
 
-                            var sL = (Image)FindName("rsL" + i);
-                            sL.IsEnabled = (bool)item.resultLib;
+              
 
                             var sN = (Image)FindName("rsN" + i);
                             sN.IsEnabled = (bool)item.resultNotes;

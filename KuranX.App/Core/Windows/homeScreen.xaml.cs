@@ -320,9 +320,7 @@ namespace KuranX.App.Core.Windows
                             baseNavigation.Tag = "/resource/images/icon/subject_r.png";
                             break;
 
-                        case "library":
-                            baseNavigation.Tag = "/resource/images/icon/library_r.png";
-                            break;
+          
 
                         case "notes":
                             baseNavigation.Tag = "/resource/images/icon/notes_r.png";
@@ -374,12 +372,6 @@ namespace KuranX.App.Core.Windows
         {
             try
             {
-                this.Dispatcher.Invoke(() =>
-                {
-                    loadinGifContent.Visibility = Visibility.Visible;
-                    rightPanel.Visibility = Visibility.Hidden;
-                });
-
                 if (this.Dispatcher.Invoke(() => App.mainframe.Content.ToString().Split('.').Last() == "verseFrame"))
                 {
                     // eğer verseFrame de isem çalış
@@ -429,14 +421,6 @@ namespace KuranX.App.Core.Windows
                                 });
                                 break;
 
-                            case "Kütüphane":
-                                this.Dispatcher.Invoke(() =>
-                                {
-                                    navClear();
-                                    navCheckBox.IsChecked = true;
-                                    App.mainframe.Content = App.navLibraryNoteFolderFrame.PageCall();
-                                });
-                                break;
 
                             case "Notlar":
                                 this.Dispatcher.Invoke(() =>
@@ -522,14 +506,6 @@ namespace KuranX.App.Core.Windows
                             });
                             break;
 
-                        case "Kütüphane":
-                            this.Dispatcher.Invoke(() =>
-                            {
-                                navClear();
-                                navCheckBox.IsChecked = true;
-                                App.mainframe.Content = App.navLibraryNoteFolderFrame.PageCall();
-                            });
-                            break;
 
                         case "Notlar":
                             this.Dispatcher.Invoke(() =>
@@ -849,14 +825,6 @@ namespace KuranX.App.Core.Windows
                         });
                         break;
 
-                    case "Kütüphane":
-                        this.Dispatcher.Invoke(() =>
-                        {
-                            navClear();
-                            navCheckBox.IsChecked = true;
-                            App.mainframe.Content = App.navLibraryNoteFolderFrame.PageCall();
-                        });
-                        break;
 
                     case "Notlar":
                         this.Dispatcher.Invoke(() =>
@@ -1454,7 +1422,7 @@ namespace KuranX.App.Core.Windows
 
                 foreach (var item in db.Subject) db.Subject.Remove(item);
 
-                foreach (var item in db.Librarys) db.Librarys.Remove(item);
+              
 
                 foreach (var item in db.Remider) db.Remider.Remove(item);
 
@@ -1468,7 +1436,7 @@ namespace KuranX.App.Core.Windows
                 {
                     db.Results.Where(p => p.resultId == item.resultId).First().resultNotes = false;
                     db.Results.Where(p => p.resultId == item.resultId).First().resultSubject = false;
-                    db.Results.Where(p => p.resultId == item.resultId).First().resultLib = false;
+            
                     db.Results.Where(p => p.resultId == item.resultId).First().resultFinallyNote = "Sonuç Metninizi buraya yaza bilirsiniz.";
                 }
 

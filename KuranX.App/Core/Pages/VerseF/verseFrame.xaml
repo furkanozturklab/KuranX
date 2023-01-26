@@ -68,8 +68,9 @@
         <Grid>
 
             <Grid.RowDefinitions>
-                <RowDefinition Height="100" />
+                <RowDefinition Height="80" />
                 <RowDefinition Height="65" />
+                <RowDefinition Height="45" />
                 <RowDefinition Height="*" />
                 <RowDefinition Height="50" />
                 <RowDefinition Height="95" />
@@ -1181,7 +1182,7 @@
 
             <!-- Search -->
 
-            <Popup StaysOpen="False"  x:Name="popup_search" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="800" Height="670" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+            <Popup StaysOpen="False"  x:Name="popup_search" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="800" Height="670" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade" Closed="popup_search_Closed">
 
                 <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="780" Height="650">
                     <Grid>
@@ -1581,15 +1582,14 @@
 
             <!-- Top Control  -->
 
-            <StackPanel x:Name="controlPanel" Grid.Row="1" VerticalAlignment="Center" SnapsToDevicePixels="True" UseLayoutRounding="True" Style="{DynamicResource aniEffectFadeStack}">
-                <Border VerticalAlignment="Center"  SnapsToDevicePixels="True" UseLayoutRounding="True" Padding="5 0 5 0">
+            <StackPanel x:Name="controlPanel" Grid.Row="1" VerticalAlignment="Center" Style="{DynamicResource aniEffectFadeStack}">
+                <Border VerticalAlignment="Center"  SnapsToDevicePixels="True" UseLayoutRounding="True" Padding="0 0 0 0">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="160" />
-                            <ColumnDefinition Width="160" />
-                            <ColumnDefinition Width="160" />
-                            <ColumnDefinition Width="160" />
-                            <ColumnDefinition Width="160" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="200" />
+                            <ColumnDefinition Width="200" />
+                            <ColumnDefinition Width="200" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
 
@@ -1597,90 +1597,122 @@
                         <CheckBox x:Name="bellButton" ToolTip="Yeni Hatırlatıcı Oluştur Veya Düzenle" Grid.Column="1" Content="Hatırlatıcı" Tag="Bell" Style="{DynamicResource vrs_ActionMainTabButtonBell}" Click="bellButton_Click" />
                         <Button   x:Name="noteButton" ToolTip="Not Al Veya Oku" Grid.Column="2" Content="Not Al" Tag="JournalBookmarkFill" Style="{DynamicResource vrs_ActionMainTabButtonNote}" Click="noteButton_Click" />
                         <CheckBox x:Name="checkButton" ToolTip="Okudum Olarak İşaretle" Grid.Column="3" Content="Okudum" Tag="Check" Style="{DynamicResource vrs_ActionMainTabButtonCheck}" Click="checkButton_Click" />
-                        <Button x:Name="commentrayButton" ToolTip="Ayetin Kısa Tefsiri" Grid.Column="4" Content="Kısa Tefsir" Tag="Info" Style="{DynamicResource vrs_ActionMainTabButtonNote}" Click="commentaryButton_Click" />
                         <Button   x:Name="descButton" ToolTip="Ayet Anlamını Göster" Grid.Column="5" Content="Ayetler Arasındaki Konular" Tag="ClipboardNotes"  Style="{DynamicResource vrs_ActionMainTabButtonDesc}" Click="descButton_Click" />
                     </Grid>
                 </Border>
             </StackPanel>
             <!-- Top Control  -->
 
+            <!-- Verse Class -->
+
+            <Grid Grid.Row="2" x:Name="classPanel" Style="{DynamicResource aniEffectFadeGrid}">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Button x:Name="class1" ToolTip="Hüküm" Grid.Column="0" Content="Hüküm" Style="{DynamicResource vrs_ClassButtonAc}" IsEnabled="true" />
+                <Button x:Name="class2" ToolTip="Tavsiye" Grid.Column="1" Content="Tavsiye" Style="{DynamicResource vrs_ClassButton}" IsEnabled="false" />
+                <Button x:Name="class3" ToolTip="Ceza" Grid.Column="2" Content="Ceza" Style="{DynamicResource vrs_ClassButton}" IsEnabled="false" />
+                <Button x:Name="class4" ToolTip="Mukafat" Grid.Column="3" Content="Mukafat" Style="{DynamicResource vrs_ClassButton}" IsEnabled="false" />
+                <Button x:Name="class5" ToolTip="Dua" Grid.Column="4" Content="Dua" Style="{DynamicResource vrs_ClassButton}" IsEnabled="false" />
+                <Button x:Name="class6" ToolTip="Haram" Grid.Column="5" Content="Haram" Style="{DynamicResource vrs_ClassButton}" IsEnabled="false" />
+                <Button x:Name="class7" ToolTip="Sonuç" Grid.Column="6" Content="Sonuç" Style="{DynamicResource vrs_ClassButton}" IsEnabled="false" />
+            </Grid>
+
+            <!-- Verse Class -->
+
             <!-- Main Container  -->
 
-            <Border Grid.Row="2" Style="{DynamicResource defaultBorderShadowEffect}" Margin="10">
-                <Grid x:Name="mainContent" Style="{DynamicResource aniEffectFadeGrid}" Visibility="Visible">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="90" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="60" />
-                    </Grid.RowDefinitions>
+            <Grid Grid.Row="3" Style="{DynamicResource aniEffectFadeGrid}">
+                <Grid.ColumnDefinitions>
 
-                    <Border Grid.Column="0" Grid.Row="0" Margin="15 0 15 0" BorderThickness="0,0,0,1" BorderBrush="#E1E3E6" Padding="15,10,10,0">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <StackPanel Orientation="Vertical" Grid.Column="0" HorizontalAlignment="Left" Margin="10,0,10,0">
-                                <TextBlock x:Name="loadVerseTr" Style="{DynamicResource vrs_TrText}" />
-                                <Button Visibility="Visible" Style="{DynamicResource vrs_AllShowButton}" Tag="Tamamını Göster" Uid="tr" Click="changeloadDetail_Click" />
-                            </StackPanel>
-                            <StackPanel Orientation="Vertical" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0,10,0">
-                                <TextBlock x:Name="loadVerseArb" Style="{DynamicResource vrs_ArpText}" />
-                                <Button Visibility="Visible" Style="{DynamicResource vrs_AllShowButton}" Tag="Tamamını Göster" Uid="arp" Click="changeloadDetail_Click" />
-                            </StackPanel>
-                        </Grid>
-                    </Border>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
 
-                    <Border Grid.Row="1" Margin="10,10,10,10" Padding="10,10,10,10">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*" />
-                            </Grid.RowDefinitions>
+                <Border Grid.Column="1" Style="{DynamicResource defaultBorderShadowEffect}" Margin="10">
 
-                            <ScrollViewer Grid.Row="0" Visibility="Visible" CanContentScroll="True"  HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Visible" Padding="10">
-                                <TextBlock x:Name="loadDetail" Height="Auto" Style="{DynamicResource vrs_loadDetailInterpreter}" TextWrapping="Wrap" />
-                            </ScrollViewer>
-                            <TextBlock x:Name="tempLoadDetail" Visibility="Collapsed" />
-                        </Grid>
-                    </Border>
+                    <Grid x:Name="mainContent" Style="{DynamicResource aniEffectFadeGrid}" Visibility="Visible">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="90" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="60" />
+                        </Grid.RowDefinitions>
 
-                    <Border Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="20,0,20,0">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <StackPanel Orientation="Horizontal" Grid.Column="0">
-                                <TextBlock Text="Yorumlayan" FontFamily="{DynamicResource PoppinsMedium}" FontSize="14" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                                <ComboBox x:Name="interpreterWriterCombo"  Style="{DynamicResource sr_NavCombobox}" SelectedIndex="0" Margin="10,0,0,0" SelectionChanged="interpreterWriterCombo_SelectionChanged">
-                                    <ComboBoxItem  Content="Türkçe 1" Uid="1" Tag="Ömer Çelik" />
-                                    <ComboBoxItem  Content="Türkçe 2" Uid="2" Tag="Mehmet Okuyan" />
-                                    <ComboBoxItem  Content="İngilizce" Uid="3" Tag="Yorumcu 2" />
-                                    <ComboBoxItem  Content="Almanca" Uid="4" Tag="Yorumcu 3" />
-                                </ComboBox>
-                            </StackPanel>
+                        <Border Grid.Column="0" Grid.Row="0" Margin="15 0 15 0" BorderThickness="0,0,0,1" BorderBrush="#E1E3E6" Padding="15,10,10,0">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Orientation="Vertical" Grid.Column="0" HorizontalAlignment="Left" Margin="10,0,10,0">
+                                    <TextBlock x:Name="loadVerseTr" Style="{DynamicResource vrs_TrText}" />
+                                    <Button Visibility="Visible" Style="{DynamicResource vrs_AllShowButton}" Tag="Tamamını Göster" Uid="tr" Click="changeloadDetail_Click" />
+                                </StackPanel>
+                                <StackPanel Orientation="Vertical" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0,10,0">
+                                    <TextBlock x:Name="loadVerseArb" Style="{DynamicResource vrs_ArpText}" />
+                                    <Button Visibility="Visible" Style="{DynamicResource vrs_AllShowButton}" Tag="Tamamını Göster" Uid="arp" Click="changeloadDetail_Click" />
+                                </StackPanel>
+                            </Grid>
+                        </Border>
 
-                            <StackPanel Orientation="Horizontal" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right">
-                                <Button Style="{DynamicResource vrs_wordOpenText}" x:Name="wordText" Tag="Kelime Kökleri" Click="wordText_Click" />
-                            </StackPanel>
-                            <StackPanel x:Name="backInterpreter" Grid.Column="3" HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="Collapsed">
-                                <Button Style="{DynamicResource vrs_backInterpreter}" x:Name="BackInterpreter" Tag="Yorumu Getir" Uid="inter" Click="changeloadDetail_Click" />
-                            </StackPanel>
-                        </Grid>
-                    </Border>
-                </Grid>
-            </Border>
+                        <Border Grid.Row="1" Margin="10,10,10,10" Padding="10,10,10,10">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+
+                                <ScrollViewer Grid.Row="0" Visibility="Visible" CanContentScroll="True"  HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Visible" Padding="10">
+                                    <TextBlock x:Name="loadDetail" Height="Auto" Style="{DynamicResource vrs_loadDetailInterpreter}" TextWrapping="Wrap" />
+                                </ScrollViewer>
+                                <TextBlock x:Name="tempLoadDetail" Visibility="Collapsed" />
+                            </Grid>
+                        </Border>
+
+                        <Border Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="20,0,20,0">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.ColumnSpan="2">
+                                    <TextBlock Text="Yorumlayan" FontFamily="{DynamicResource PoppinsMedium}" FontSize="14" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                    <ComboBox x:Name="interpreterWriterCombo"  Style="{DynamicResource sr_NavCombobox}" SelectedIndex="0" Margin="10,0,0,0" SelectionChanged="interpreterWriterCombo_SelectionChanged">
+                                        <ComboBoxItem  Content="Türkçe 1" Uid="1" Tag="Ömer Çelik" />
+                                        <ComboBoxItem  Content="Türkçe 2" Uid="2" Tag="Mehmet Okuyan" />
+                                        <ComboBoxItem  Content="İngilizce" Uid="3" Tag="Yorumcu 2" />
+                                        <ComboBoxItem  Content="Almanca" Uid="4" Tag="Yorumcu 3" />
+                                    </ComboBox>
+                                </StackPanel>
+
+                                <StackPanel Orientation="Horizontal" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right">
+                                    <Button Style="{DynamicResource vrs_wordOpenText}" x:Name="wordText" Tag="Kelime Kökleri" Click="wordText_Click" />
+                                </StackPanel>
+                                <StackPanel x:Name="backInterpreter" Grid.Column="3" HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="Collapsed">
+                                    <Button Style="{DynamicResource vrs_backInterpreter}" x:Name="BackInterpreter" Tag="Yorumu Getir" Uid="inter" Click="changeloadDetail_Click" />
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                    </Grid>
+                </Border>
+            </Grid>
 
             <!-- Main Container  -->
 
             <!-- Verse Nav  -->
 
-            <StackPanel Grid.Row="3" Style="{DynamicResource aniEffectFadeStack}" x:Name="navControlStack" Orientation="Horizontal" HorizontalAlignment="Center" UseLayoutRounding="True" SnapsToDevicePixels="True">
+            <StackPanel Grid.Row="4" Style="{DynamicResource aniEffectFadeStack}" x:Name="navControlStack" Orientation="Horizontal" HorizontalAlignment="Center" UseLayoutRounding="True" SnapsToDevicePixels="True">
 
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -1708,7 +1740,7 @@
 
             <!-- Bottom Nav  -->
 
-            <Grid Grid.Row="4" x:Name="actionsControlGrid" Style="{DynamicResource aniEffectFadeGrid}">
+            <Grid Grid.Row="5" x:Name="actionsControlGrid" Style="{DynamicResource aniEffectFadeGrid}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />

@@ -1,10 +1,10 @@
 ﻿using Google.Protobuf.WellKnownTypes;
 using KuranX.App.Core.Classes;
 using KuranX.App.Core.Pages;
-using KuranX.App.Core.Pages.LibraryF;
 using KuranX.App.Core.Pages.NoteF;
 using KuranX.App.Core.Pages.ReminderF;
 using KuranX.App.Core.Pages.ResultF;
+using KuranX.App.Core.Pages.SectionF;
 using KuranX.App.Core.Pages.SubjectF;
 using KuranX.App.Core.Pages.VerseF;
 using KuranX.App.Core.Windows;
@@ -56,6 +56,9 @@ namespace KuranX.App
         public static sureFrame navSurePage = new sureFrame();
         public static verseFrame navVersePage = new verseFrame();
         public static verseStickFrame navVerseStickPage = new verseStickFrame();
+        public static SectionFrame navSectionPage = new SectionFrame();
+
+
 
         // SUBJECT PANEL
         public static SubjectFrame navSubjectFrame = new SubjectFrame();
@@ -63,10 +66,6 @@ namespace KuranX.App
         public static SubjectFolder navSubjectFolder = new SubjectFolder();
         public static SubjectItem navSubjectItem = new SubjectItem();
 
-        // LİBRARY PANEL
-
-        public static LibraryNoteItemsFrame navLibraryNoteItemsFrame = new LibraryNoteItemsFrame();
-        public static LibraryNoteFolderFrame navLibraryNoteFolderFrame = new LibraryNoteFolderFrame();
 
         // NOTE PANEL
 

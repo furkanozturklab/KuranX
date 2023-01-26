@@ -215,9 +215,30 @@
             </StackPanel>
             <!-- Header  -->
 
-            <!-- Top Control  -->
+            <!-- Class Control  -->
 
-            <!-- Top Control  -->
+            <Grid Grid.Row="1" x:Name="classPanel" Style="{DynamicResource aniEffectFadeGrid}">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Button x:Name="class1" ToolTip="Hüküm" Grid.Column="0" Content="Hüküm" Style="{DynamicResource vrs_ClassButtonAc}" IsEnabled="true" />
+                <Button x:Name="class2" ToolTip="Tavsiye" Grid.Column="1" Content="Tavsiye" Style="{DynamicResource vrs_ClassButton}" IsEnabled="false" />
+                <Button x:Name="class3" ToolTip="Ceza" Grid.Column="2" Content="Ceza" Style="{DynamicResource vrs_ClassButton}" IsEnabled="false" />
+                <Button x:Name="class4" ToolTip="Mukafat" Grid.Column="3" Content="Mukafat" Style="{DynamicResource vrs_ClassButton}" IsEnabled="false" />
+                <Button x:Name="class5" ToolTip="Dua" Grid.Column="4" Content="Dua" Style="{DynamicResource vrs_ClassButton}" IsEnabled="false" />
+                <Button x:Name="class6" ToolTip="Haram" Grid.Column="5" Content="Haram" Style="{DynamicResource vrs_ClassButton}" IsEnabled="false" />
+                <Button x:Name="class7" ToolTip="Sonuç" Grid.Column="6" Content="Sonuç" Style="{DynamicResource vrs_ClassButton}" IsEnabled="false" />
+            </Grid>
+
+            <!-- Class Control  -->
 
             <!-- Main Container  -->
 

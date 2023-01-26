@@ -72,11 +72,7 @@ namespace KuranX.App.Core.Pages.ResultF
                             subico.IsEnabled = true;
                             subcount.Text = entitydb.ResultItems.Where(p => p.resultId == currentId && p.resultSubjectId != 0).Count().ToString() + " Adet Konu";
                         }
-                        if (dResul.resultLib == true)
-                        {
-                            libico.IsEnabled = true;
-                            libcount.Text = entitydb.ResultItems.Where(p => p.resultId == currentId && p.resultLibId != 0).Count().ToString() + " Adet Kütüphane ";
-                        }
+                      
                     });
                 }
             }

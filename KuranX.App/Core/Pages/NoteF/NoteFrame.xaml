@@ -745,28 +745,8 @@
                     </Border>
                 </Border>
 
-                <Border Grid.Column="1" Grid.Row="0"  UseLayoutRounding="True" SnapsToDevicePixels="True">
-                    <Border Width="320" Height="60" Style="{DynamicResource defaultBorderShadowEffect}">
-                        <StackPanel Orientation="Horizontal">
-                            <Border  Width="15" CornerRadius="5 0 0 5" Background="#6610F2" />
-                            <Border Width="230" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
-                                <StackPanel Orientation="Horizontal">
-                                    <StackPanel Orientation="Vertical" Margin="5 0 10 0">
-                                        <TextBlock Text="Kütüphane Notları"  FontSize="14" Style="{DynamicResource nt_StackHeader}" />
-                                    </StackPanel>
-                                </StackPanel>
-                            </Border>
-                            <Border Width="36" Height="36" Margin="0 0 7 0">
-                                <Button x:Name="libStat"  Style="{DynamicResource nt_viewStackBtn}" Content="0" Tag="#6610F2" Uid="#FFF" />
-                            </Border>
-                            <Border Width="24" Height="24" Margin="0 0 10 0">
-                                <Button Content="Kütüphane" Style="{DynamicResource nt_ItemOpenIcon}"  Tag="ArrowRight" Click="filter_Click" />
-                            </Border>
-                        </StackPanel>
-                    </Border>
-                </Border>
 
-                <Border Grid.Column="0" Grid.Row="1"  UseLayoutRounding="True" SnapsToDevicePixels="True">
+                <Border Grid.Column="1" Grid.Row="0"  UseLayoutRounding="True" SnapsToDevicePixels="True">
                     <Border Width="320" Height="60" Style="{DynamicResource defaultBorderShadowEffect}">
                         <StackPanel Orientation="Horizontal">
                             <Border Width="15" CornerRadius="5 0 0 5" Background="#0DCAF0" />
@@ -787,7 +767,7 @@
                     </Border>
                 </Border>
 
-                <Border Grid.Column="0" Grid.Row="2" UseLayoutRounding="True" SnapsToDevicePixels="True">
+                <Border Grid.Column="0" Grid.Row="1" UseLayoutRounding="True" SnapsToDevicePixels="True">
                     <Border Width="320" Height="60" Style="{DynamicResource defaultBorderShadowEffect}">
                         <StackPanel Orientation="Horizontal">
                             <Border Width="15" CornerRadius="5 0 0 5" Background="#ADB5BD" />
@@ -803,6 +783,27 @@
                             </Border>
                             <Border Width="24" Height="24" Margin="0 0 10 0">
                                 <Button Content="Kullanıcı" Style="{DynamicResource nt_ItemOpenIcon}"  Tag="ArrowRight" Click="filter_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
+                </Border>
+
+                <Border Grid.Column="1" Grid.Row="1" UseLayoutRounding="True" SnapsToDevicePixels="True">
+                    <Border Width="320" Height="60" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border Width="15" CornerRadius="5 0 0 5" Background="#6610F2" />
+                            <Border Width="230" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                <StackPanel Orientation="Horizontal">
+                                    <StackPanel Orientation="Vertical" Margin="5 0 10 0">
+                                        <TextBlock Text="Bölüm Notları" FontSize="14" Style="{DynamicResource nt_StackHeader}" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+                            <Border Width="36" Height="36" Margin="0 0 7 0">
+                                <Button x:Name="sectionStart"  Style="{DynamicResource nt_viewStackBtn}" Content="0" Tag="#6610F2" Uid="#FFF" />
+                            </Border>
+                            <Border Width="24" Height="24" Margin="0 0 10 0">
+                                <Button Content="Bölüm" Style="{DynamicResource nt_ItemOpenIcon}"  Tag="ArrowRight" Click="filter_Click" />
                             </Border>
                         </StackPanel>
                     </Border>
@@ -829,8 +830,9 @@
                 </StackPanel>
 
                 <StackPanel Style="{DynamicResource frameItemsOffsetNav}">
-                    <Button x:Name="filterlibrary" IsEnabled="False" Tag="#6610F2" Content="Kütüphane" Style="{DynamicResource nt_pageColorControl}" Click="filter_Click" />
+                    <Button x:Name="filterSection" IsEnabled="False" Tag="#6610F2" Content="Bölüm" Style="{DynamicResource nt_pageColorControl}" Click="filter_Click" />
                 </StackPanel>
+
             </StackPanel>
         </StackPanel>
 

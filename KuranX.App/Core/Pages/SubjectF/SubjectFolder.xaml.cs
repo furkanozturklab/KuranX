@@ -355,7 +355,18 @@ namespace KuranX.App.Core.Pages.SubjectF
                     entitydb.SubjectItems.RemoveRange(entitydb.SubjectItems.Where(p => p.subjectId == subFolderId));
                     entitydb.Notes.RemoveRange(entitydb.Notes.Where(p => p.subjectId == subFolderId));
                     entitydb.Subject.RemoveRange(entitydb.Subject.Where(p => p.subjectId == subFolderId));
+
+                    entitydb.ResultItems.RemoveRange(entitydb.ResultItems.Where(p => p.resultSubjectId == subFolderId));
+
                     entitydb.SaveChanges();
+
+                    foreach (var item in entitydb.Results)
+                    {
+                        if (entitydb.ResultItems.Where(p => p.resultId == item.resultId).Count() == 0) item.resultSubject = false;
+                    }
+
+                    entitydb.SaveChanges();
+
                     popup_SubjectDelete.IsOpen = false;
                     voidgobacktimer();
                 }

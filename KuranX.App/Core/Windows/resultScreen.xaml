@@ -37,7 +37,6 @@
 
                 <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal" Grid.Row="1">
                     <Image x:Name="subico" IsEnabled="False" Style="{DynamicResource rs_ItemsIconSubject}" />
-                    <Image x:Name="libico" IsEnabled="False" Style="{DynamicResource rs_ItemsIconLib}" />
                     <Image x:Name="noteico" IsEnabled="False" Style="{DynamicResource rs_ItemsIconNotes}" />
                 </StackPanel>
 
@@ -63,21 +62,7 @@
             </Grid>
         </StackPanel>
 
-        <StackPanel Orientation="Vertical" VerticalAlignment="Top"  Margin="10 0" Grid.Column="3" x:Name="libraryStack">
-            <StackPanel Style="{DynamicResource frameItemsOffsetNav}" Orientation="Vertical" Margin="0 5">
-                <TextBlock Text="Kütüphane Başlığı" Style="{DynamicResource rs_FrameComboboxHeaderText}" />
-                <ComboBox Width="200" x:Name="libraryBase" Margin="0 5 0 0" Style="{DynamicResource sr_NavCombobox}" SelectedIndex="0" SelectionChanged="libraryBase_SelectionChanged">
-                    <ComboBoxItem  Content="Kütüphane Başlığını Seçiniz" Uid="0" Tag="0" />
-                </ComboBox>
-            </StackPanel>
 
-            <StackPanel Style="{DynamicResource frameItemsOffsetNav}" Orientation="Vertical" Margin="0 5">
-                <TextBlock Text="Kütüphane İçeriği" Style="{DynamicResource rs_FrameComboboxHeaderText}" />
-                <ComboBox Width="200" x:Name="libraryItems" Margin="0 5 0 0" Style="{DynamicResource sr_NavCombobox}" SelectedIndex="0" SelectionChanged="libraryItems_SelectionChanged">
-                    <ComboBoxItem  Content="Kütüphane İçeriğini Seçiniz" Uid="0" Tag="0" />
-                </ComboBox>
-            </StackPanel>
-        </StackPanel>
 
         <StackPanel Orientation="Vertical" VerticalAlignment="Top"  Margin="10 0" Grid.Column="4" x:Name="subjectStack">
             <StackPanel Style="{DynamicResource frameItemsOffsetNav}" Orientation="Vertical" Margin="0 5">

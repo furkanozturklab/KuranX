@@ -41,7 +41,7 @@
                             <DropShadowEffect BlurRadius="25" Opacity="0.16"  ShadowDepth="2" Direction="-75" Color="Black" />
                         </Border.Effect>
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
-                            <TextBlock x:Name="whereistayText" Style="{DynamicResource sr_whereistaytext}" Text="İşaretlediğim Yerden Devam Et" />
+                            <TextBlock x:Name="whereistayText" Style="{DynamicResource sr_whereistaytext}" Text="{Binding Path=Tag , RelativeSource={RelativeSource TemplatedParent}}" />
                             <Icon:PackIconEntypo x:Name="whereistayIcon" Kind="ControllerPlay" Style="{DynamicResource sr_whereistayIcon }" />
                         </StackPanel>
                     </Border>
@@ -258,6 +258,7 @@
         <Setter Property="VerticalAlignment" Value="Top" />
         <Setter Property="HorizontalAlignment" Value="Left" />
         <Setter Property="TextAlignment" Value="Center" />
+        <Setter Property="Margin" Value="10 0 0 0"/>
         <Setter Property="FontFamily" Value="{DynamicResource PoppinsSemiBold}" />
     </Style>
 
@@ -268,7 +269,7 @@
         <Setter Property="TextAlignment" Value="Right" />
         <Setter Property="TextWrapping" Value="Wrap" />
         <Setter Property="FontFamily" Value="{DynamicResource PoppinsMedium}" />
-        <Setter Property="Padding" Value="0 0 15 0" />
+        <Setter Property="Padding" Value="0 0 5 0" />
     </Style>
 
     <Style x:Key="sr_ItmesLanding" TargetType="TextBlock">
@@ -277,20 +278,20 @@
         <Setter Property="FontFamily" Value="{DynamicResource PoppinsSemiBold}" />
         <Setter Property="TextAlignment" Value="Right" />
         <Setter Property="FontSize" Value="16" />
-        <Setter Property="Padding" Value="0 0 15 0" />
+        <Setter Property="Padding" Value="0 0 8 0" />
     </Style>
 
     <Style x:Key="sr_ItemsButton" TargetType="Button">
 
-        <Setter Property="Width" Value="26" />
-        <Setter Property="Height" Value="26" />
+        <Setter Property="Width" Value="28" />
+        <Setter Property="Height" Value="28" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderBrush" Value="{x:Null}" />
         <Setter Property="Foreground" Value="#FF1C1E2F" />
         <Setter Property="BorderThickness" Value="0 0 0 0" />
-        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
         <Setter Property="VerticalAlignment" Value="Center" />
-        <Setter Property="Margin" Value="0 2 0 0" />
+        
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
 
@@ -302,11 +303,12 @@
     </Style>
 
     <Style x:Key="sr_ItemsButtonFast" TargetType="Button" BasedOn="{StaticResource sr_ItemsButton}">
+        <Setter Property="Margin" Value="1 0 0 0"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate>
                     <TextBlock Width="26" Height="26" TextAlignment="Right" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="0 0 1 0">
-                        <Icon:PackIconBootstrapIcons Kind="BoxArrowInUpRight" Foreground="{TemplateBinding Foreground}" VerticalAlignment="Center" HorizontalAlignment="Center" Width="20" Height="20" />
+                        <Icon:PackIconBootstrapIcons Kind="BoxArrowInUpRight" Foreground="{TemplateBinding Foreground}" VerticalAlignment="Center" HorizontalAlignment="Center" Width="24" Height="24" />
                     </TextBlock>
                 </ControlTemplate>
             </Setter.Value>
@@ -318,7 +320,20 @@
             <Setter.Value>
                 <ControlTemplate>
                     <TextBlock Width="26" Height="26" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center">
-                        <Icon:PackIconBootstrapIcons Kind="BoxArrowInRight" Foreground="{TemplateBinding Foreground}" VerticalAlignment="Center" HorizontalAlignment="Center" Width="24" Height="24" />
+                        <Icon:PackIconBootstrapIcons Kind="BoxArrowInRight" Foreground="{TemplateBinding Foreground}" VerticalAlignment="Center" HorizontalAlignment="Center" Width="26" Height="26" />
+                    </TextBlock>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="sr_ItemsButtonSection" TargetType="Button" BasedOn="{StaticResource sr_ItemsButton}">
+        <Setter Property="Margin" Value="4 0 0 0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <TextBlock Width="23" Height="23" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <Icon:PackIconBootstrapIcons Kind="JournalArrowUp" Foreground="{TemplateBinding Foreground}" VerticalAlignment="Center" HorizontalAlignment="Right" Width="23" Height="23" />
                     </TextBlock>
                 </ControlTemplate>
             </Setter.Value>

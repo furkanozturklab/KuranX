@@ -53,12 +53,7 @@ namespace KuranX.App.Core.Pages.NoteF
                         infoText.Text = "Not Aldığınız Ayet " + Environment.NewLine + dSure.name + " suresini " + dNotes.verseId + " ayeti";
                     }
 
-                    // Kütüphane Bağlanmış
-                    if (dNotes.libraryId != 0)
-                    {
-                        var dLibrary = entitydb.Librarys.Where(p => p.libraryId == dNotes.libraryId).FirstOrDefault();
-                        infoText.Text = "Not Aldığınız Kütüphane " + Environment.NewLine + dLibrary.libraryName;
-                    }
+
 
                     // Konu Bağlanmış
                     if (dNotes.subjectId != 0)

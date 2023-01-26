@@ -13,6 +13,12 @@
       Title="TestFrame" Background="#FAFAFA" Loaded="Page_Loaded">
     <Grid>
 
+
+
+
+
+
+
         <!--<Popup x:Name="resetSurepopup" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="300" Height="190" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">-->
     </Grid>
 </Page>

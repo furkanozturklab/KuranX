@@ -10,6 +10,8 @@ namespace KuranX.App.Core.Classes
         public DbSet<User> Users { get; set; }
         public DbSet<Sure> Sure { get; set; }
         public DbSet<Verse> Verse { get; set; }
+        public DbSet<Section> Sections { get; set; }    
+        public DbSet<VerseClass> VerseClass { get; set; }
         public DbSet<Interpreter> Interpreter { get; set; }
         public DbSet<Notes> Notes { get; set; }
         public DbSet<Integrity> Integrity { get; set; }
@@ -21,7 +23,6 @@ namespace KuranX.App.Core.Classes
         public DbSet<Tasks> Tasks { get; set; }
         public DbSet<Result> Results { get; set; }
         public DbSet<ResultItem> ResultItems { get; set; }
-        public DbSet<Library> Librarys { get; set; }
         public DbSet<Userhelp> UserHelp { get; set; }
 
         public string DbPath { get; }
@@ -103,9 +104,6 @@ namespace KuranX.App.Core.Classes
             modelBuilder.Entity<Verse>()
                 .Property(u => u.verseCheck)
                 .HasDefaultValue(false);
-            modelBuilder.Entity<Verse>()
-               .Property(u => u.commentary)
-               .HasDefaultValue("Wait");
 
             //   NOTES
             modelBuilder.Entity<Notes>()
@@ -116,9 +114,6 @@ namespace KuranX.App.Core.Classes
                 .HasDefaultValue(0);
             modelBuilder.Entity<Notes>()
                .Property(u => u.subjectId)
-               .HasDefaultValue(0);
-            modelBuilder.Entity<Notes>()
-               .Property(u => u.libraryId)
                .HasDefaultValue(0);
 
             // INTEGRİTY
@@ -145,9 +140,6 @@ namespace KuranX.App.Core.Classes
                 .HasDefaultValue(false);
             modelBuilder.Entity<Result>()
                 .Property(u => u.resultSubject)
-                .HasDefaultValue(false);
-            modelBuilder.Entity<Result>()
-                .Property(u => u.resultLib)
                 .HasDefaultValue(false);
             modelBuilder.Entity<Result>()
                 .Property(u => u.resultFinallyNote)

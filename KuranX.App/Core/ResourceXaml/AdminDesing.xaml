@@ -75,4 +75,10 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <Style TargetType="CheckBox" x:Key="verseClass">
+        <Setter Property="Margin" Value="0 5 0 5" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="FontSize" Value="14" />
+    </Style>
 </ResourceDictionary>

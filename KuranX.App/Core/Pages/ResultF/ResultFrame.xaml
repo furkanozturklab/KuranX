@@ -59,7 +59,7 @@
                         <StackPanel Grid.Row="2" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
 
                             <Image x:Name="rsS1" Style="{DynamicResource rs_ItemsIconSubject}" />
-                            <Image x:Name="rsL1" Style="{DynamicResource rs_ItemsIconLib}" />
+                
                             <Image x:Name="rsN1"  Style="{DynamicResource rs_ItemsIconNotes}" />
                         </StackPanel>
                     </Grid>
@@ -85,7 +85,7 @@
                         <StackPanel Grid.Row="2" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
 
                             <Image x:Name="rsS2" Style="{DynamicResource rs_ItemsIconSubject}" />
-                            <Image x:Name="rsL2" Style="{DynamicResource rs_ItemsIconLib}" />
+                         
                             <Image x:Name="rsN2" Style="{DynamicResource rs_ItemsIconNotes}" />
                         </StackPanel>
                     </Grid>
@@ -111,7 +111,6 @@
                         <StackPanel Grid.Row="2" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
 
                             <Image x:Name="rsS3" Style="{DynamicResource rs_ItemsIconSubject}" />
-                            <Image x:Name="rsL3" Style="{DynamicResource rs_ItemsIconLib}" />
                             <Image x:Name="rsN3" Style="{DynamicResource rs_ItemsIconNotes}" />
                         </StackPanel>
                     </Grid>
@@ -137,7 +136,7 @@
                         <StackPanel Grid.Row="2" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
 
                             <Image x:Name="rsS4" Style="{DynamicResource rs_ItemsIconSubject}" />
-                            <Image x:Name="rsL4" Style="{DynamicResource rs_ItemsIconLib}" />
+                    
                             <Image x:Name="rsN4" Style="{DynamicResource rs_ItemsIconNotes}" />
                         </StackPanel>
                     </Grid>
@@ -163,7 +162,7 @@
                         <StackPanel Grid.Row="2" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
 
                             <Image x:Name="rsS5" Style="{DynamicResource rs_ItemsIconSubject}" />
-                            <Image x:Name="rsL5" Style="{DynamicResource rs_ItemsIconLib}" />
+                      
                             <Image x:Name="rsN5" Style="{DynamicResource rs_ItemsIconNotes}" />
                         </StackPanel>
                     </Grid>
@@ -189,7 +188,7 @@
                         <StackPanel Grid.Row="2" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
 
                             <Image x:Name="rsS6" Style="{DynamicResource rs_ItemsIconSubject}" />
-                            <Image x:Name="rsL6" Style="{DynamicResource rs_ItemsIconLib}" />
+
                             <Image x:Name="rsN6" Style="{DynamicResource rs_ItemsIconNotes}" />
                         </StackPanel>
                     </Grid>
@@ -214,7 +213,7 @@
                         <StackPanel Grid.Row="2" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
 
                             <Image x:Name="rsS7" Style="{DynamicResource rs_ItemsIconSubject}" />
-                            <Image x:Name="rsL7" Style="{DynamicResource rs_ItemsIconLib}" />
+        
                             <Image x:Name="rsN7" Style="{DynamicResource rs_ItemsIconNotes}" />
                         </StackPanel>
                     </Grid>
@@ -240,7 +239,7 @@
                         <StackPanel Grid.Row="2" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
 
                             <Image x:Name="rsS8" Style="{DynamicResource rs_ItemsIconSubject}" />
-                            <Image x:Name="rsL8" Style="{DynamicResource rs_ItemsIconLib}" />
+                      
                             <Image x:Name="rsN8" Style="{DynamicResource rs_ItemsIconNotes}" />
                         </StackPanel>
                     </Grid>
@@ -266,7 +265,7 @@
                         <StackPanel Grid.Row="2" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
 
                             <Image x:Name="rsS9" Style="{DynamicResource rs_ItemsIconSubject}" />
-                            <Image x:Name="rsL9" Style="{DynamicResource rs_ItemsIconLib}" />
+                           
                             <Image x:Name="rsN9" Style="{DynamicResource rs_ItemsIconNotes}" />
                         </StackPanel>
                     </Grid>
@@ -292,7 +291,7 @@
                         <StackPanel Grid.Row="2" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
 
                             <Image x:Name="rsS10" Style="{DynamicResource rs_ItemsIconSubject}" />
-                            <Image x:Name="rsL10" Style="{DynamicResource rs_ItemsIconLib}" />
+                 
                             <Image x:Name="rsN10" Style="{DynamicResource rs_ItemsIconNotes}" />
                         </StackPanel>
                     </Grid>
@@ -318,7 +317,7 @@
                         <StackPanel Grid.Row="2" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
 
                             <Image x:Name="rsS11" Style="{DynamicResource rs_ItemsIconSubject}" />
-                            <Image x:Name="rsL11" Style="{DynamicResource rs_ItemsIconLib}" />
+                    
                             <Image x:Name="rsN11" Style="{DynamicResource rs_ItemsIconNotes}" />
                         </StackPanel>
                     </Grid>
@@ -344,7 +343,6 @@
                         <StackPanel Grid.Row="2" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
 
                             <Image x:Name="rsS12" Style="{DynamicResource rs_ItemsIconSubject}" />
-                            <Image x:Name="rsL12" Style="{DynamicResource rs_ItemsIconLib}" />
                             <Image x:Name="rsN12" Style="{DynamicResource rs_ItemsIconNotes}" />
                         </StackPanel>
                     </Grid>
@@ -370,7 +368,7 @@
                         <StackPanel Grid.Row="2" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
 
                             <Image x:Name="rsS13" Style="{DynamicResource rs_ItemsIconSubject}" />
-                            <Image x:Name="rsL13" Style="{DynamicResource rs_ItemsIconLib}" />
+                           
                             <Image x:Name="rsN13" Style="{DynamicResource rs_ItemsIconNotes}" />
                         </StackPanel>
                     </Grid>
@@ -395,7 +393,7 @@
                         <StackPanel Grid.Row="2" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
 
                             <Image x:Name="rsS14" Style="{DynamicResource rs_ItemsIconSubject}" />
-                            <Image x:Name="rsL14" Style="{DynamicResource rs_ItemsIconLib}" />
+                         
                             <Image x:Name="rsN14" Style="{DynamicResource rs_ItemsIconNotes}" />
                         </StackPanel>
                     </Grid>
@@ -420,7 +418,7 @@
                         <StackPanel Grid.Row="2" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
 
                             <Image x:Name="rsS15" Style="{DynamicResource rs_ItemsIconSubject}" />
-                            <Image x:Name="rsL15" Style="{DynamicResource rs_ItemsIconLib}" />
+                           
                             <Image x:Name="rsN15" Style="{DynamicResource rs_ItemsIconNotes}" />
                         </StackPanel>
                     </Grid>
@@ -446,7 +444,7 @@
                         <StackPanel Grid.Row="2" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
 
                             <Image x:Name="rsS16" Style="{DynamicResource rs_ItemsIconSubject}" />
-                            <Image x:Name="rsL16" Style="{DynamicResource rs_ItemsIconLib}" />
+                     
                             <Image x:Name="rsN16" Style="{DynamicResource rs_ItemsIconNotes}" />
                         </StackPanel>
                     </Grid>

@@ -280,6 +280,9 @@ namespace KuranX.App.Core.Pages.VerseF
                                 var sClick = (Button)FindName("srBtn" + i);
                                 sClick.Tag = item.sureId.ToString();
 
+                                var sSClick = (Button)FindName("sectionBtn" + i);
+                                sSClick.Tag = item.sureId.ToString();
+
                                 var srItem = (Border)FindName("srItem" + i);
                                 srItem.Visibility = Visibility.Visible;
                             });
@@ -377,6 +380,7 @@ namespace KuranX.App.Core.Pages.VerseF
                 {
                     App.beforeFrameName = "Sure";
                     App.mainframe.Content = App.navVersePage.PageCall(int.Parse(item.Uid), 1, "Hepsi");
+                    fastsureCombobox.SelectedIndex = 0;
                 }
             }
             catch (Exception ex)
@@ -465,6 +469,24 @@ namespace KuranX.App.Core.Pages.VerseF
                 App.logWriter("Click", ex);
             }
         }
+
+        private void sr_Section_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var btn = sender as Button;
+                App.mainframe.Content = App.navSectionPage.PageCall(int.Parse((string)btn.Tag));
+
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Click", ex);
+            }
+        }
+
+
+
+
 
         private void sr_Open_Click(object sender, RoutedEventArgs e)
         {
@@ -557,6 +579,31 @@ namespace KuranX.App.Core.Pages.VerseF
                     {
                         App.beforeFrameName = "Sure";
                         App.mainframe.Content = App.navVersePage.PageCall((int)selectedS.sureId, (int)selectedS.userLastRelativeVerse, "Verse");
+                    }
+                    else
+                    {
+                        App.mainScreen.alertFunc("İşlem Başarısız", "Henüz bir yer işaretlemediğinizden kaldığınız yere gidilemez lütfen önce işaretlediğinizden emin olunuz.", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Click", ex);
+            }
+        }
+
+        private void gotoMarkSection_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                using (var entitydb = new AyetContext())
+                {
+                    var selectedS = entitydb.Sections.Where(p => p.IsMark != false).FirstOrDefault();
+
+                    if (selectedS != null)
+                    {
+                        App.beforeFrameName = "Sure";
+                        App.mainframe.Content = App.navSectionPage.PageCall(selectedS.SureId, selectedS.SectionNumber);
                     }
                     else
                     {

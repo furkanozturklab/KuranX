@@ -68,7 +68,10 @@
         <!-- Popup -->
 
         <Grid Grid.Row="0">
-            <Button x:Name="gotoMarkLocation" Style="{DynamicResource sr_markbtn}" VerticalAlignment="Top" Click="gotoMarkLocation_Click" />
+
+            <Button x:Name="gotoMarkLocation" Style="{DynamicResource sr_markbtn}" VerticalAlignment="Top" Click="gotoMarkLocation_Click" Tag="İşaretlediğim Yerden Devam Et" />
+            <Button x:Name="gotoMarkSection" Style="{DynamicResource sr_markbtn}" VerticalAlignment="Top" Click="gotoMarkSection_Click" Margin="320 20 0 0" Tag="Kaldığım Bölümü Aç" />
+            
 
             <Border Height="60" BorderThickness="0 0 0 2" BorderBrush="#FFACACAC" VerticalAlignment="Bottom">
 
@@ -248,542 +251,738 @@
                 </Grid.RowDefinitions>
 
                 <Border Padding="10" x:Name="srItem1" Grid.Column="0" Grid.Row="0" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
-                    <Border Background="#FFF" Style="{DynamicResource defaultBorderShadowEffect}"  Width="203" Height="151">
-                        <StackPanel Orientation="Vertical">
-                            <Border x:Name="srColor1" Height="12" CornerRadius="5 5 0 0" />
-                            <StackPanel Orientation="Horizontal" Height="67" Width="203">
-                                <Border Width="80" Padding="10 5 5 5">
-                                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Left">
-                                        <TextBlock x:Name="srDescCount1"  Style="{DynamicResource sr_ItemsDeskLanding}" />
-                                    </StackPanel>
-                                </Border>
-                                <Border Width="123" Padding="0 5 0 5">
-                                    <StackPanel  Orientation="Vertical" HorizontalAlignment="Right">
-                                        <TextBlock x:Name="srLanding1" Width="140" Style="{DynamicResource sr_ItmesLanding}" />
-                                        <TextBlock x:Name="srDesc1" Width="140" Style="{DynamicResource sr_ItemsDesc}" />
-                                    </StackPanel>
-                                </Border>
+                    <Border Background="#FFF" Style="{DynamicResource defaultBorderShadowEffect}"  Width="200" Height="150">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="12"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Border x:Name="srColor1" Height="12" CornerRadius="5 5 0 0" Grid.ColumnSpan="8"/>
+                            <TextBlock x:Name="srDescCount1" VerticalAlignment="Center" HorizontalAlignment="Left" Style="{DynamicResource sr_ItemsDeskLanding}" Grid.Row="1" Grid.ColumnSpan="3" Grid.Column="0" />
+                            <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="5" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="5 5">
+                                <TextBlock x:Name="srLanding1" Style="{DynamicResource sr_ItmesLanding}"/>
+                                <TextBlock x:Name="srDesc1"  Style="{DynamicResource sr_ItemsDesc}"/>
                             </StackPanel>
-                            <StackPanel Orientation="Horizontal" Height="68" Width="203">
-                                <StackPanel Width="140" VerticalAlignment="Center">
-                                    <TextBlock  x:Name="srName1" Style="{DynamicResource sr_ItemsName}" />
-                                    <Border Padding="10 0 5 0">
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock x:Name="srNumber1" Style="{DynamicResource sr_countText}" />
-                                            <TextBlock Text=" Ayet" Style="{DynamicResource sr_countText}" />
-                                        </StackPanel>
-                                    </Border>
-                                </StackPanel>
-                                <StackPanel Width="63" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                    <Button x:Name="srBtnFast1" Style="{DynamicResource sr_ItemsButtonFast}" Click="sr_FastOpen_Click" />
-                                    <Button x:Name="srBtn1" Style="{DynamicResource sr_ItemsButtonFull}" Content="BoxArrowInRight" Click="sr_Open_Click" />
+                            <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5" VerticalAlignment="Center" Orientation="Vertical">
+                                <TextBlock x:Name="srName1" Style="{DynamicResource sr_ItemsName}" />
+                                <StackPanel Orientation="Horizontal" Margin="10 0">
+                                    <TextBlock x:Name="srNumber1" Style="{DynamicResource sr_countText}" />
+                                    <TextBlock Text=" Ayet" Style="{DynamicResource sr_countText}" />
                                 </StackPanel>
                             </StackPanel>
-                        </StackPanel>
+                            <Grid Grid.Row="2" Grid.Column="5" Grid.ColumnSpan="3" Margin="0 0 5 0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+
+                                <Button x:Name="srBtnFast1" ToolTip="Surenin Ayetine Git" Grid.Column="1" Grid.Row="0" Style="{DynamicResource sr_ItemsButtonFast}" Click="sr_FastOpen_Click" />
+                                <Button x:Name="srBtn1" ToolTip="Sureyi Aç" Grid.Column="1" Grid.Row="1" Style="{DynamicResource sr_ItemsButtonFull}" Content="BoxArrowInRight" Click="sr_Open_Click" />
+                                <Button x:Name="sectionBtn1" ToolTip="Surenin Bölümlerine Git" Grid.Column="0" Grid.Row="1" Style="{DynamicResource sr_ItemsButtonSection}" Content="BoxArrowInRight" Click="sr_Section_Click" />
+                            </Grid>
+                        </Grid>
                     </Border>
                 </Border>
 
+
                 <Border Padding="10" x:Name="srItem2" Grid.Column="1" Grid.Row="0" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
-                    <Border Background="#FFF" Style="{DynamicResource defaultBorderShadowEffect}" Width="203" Height="151">
-                        <StackPanel Orientation="Vertical">
-                            <Border x:Name="srColor2" Height="12" CornerRadius="5 5 0 0" />
-                            <StackPanel Orientation="Horizontal" Height="67" Width="203">
-                                <Border Width="80" Padding="10 5 5 5">
-                                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Left">
-                                        <TextBlock x:Name="srDescCount2"  Style="{DynamicResource sr_ItemsDeskLanding}" />
-                                    </StackPanel>
-                                </Border>
-                                <Border Width="123" Padding="0 5 0 5">
-                                    <StackPanel  Orientation="Vertical" HorizontalAlignment="Right">
-                                        <TextBlock x:Name="srLanding2" Width="140" Style="{DynamicResource sr_ItmesLanding}" />
-                                        <TextBlock x:Name="srDesc2" Width="140" Style="{DynamicResource sr_ItemsDesc}" />
-                                    </StackPanel>
-                                </Border>
+                    <Border Background="#FFF" Style="{DynamicResource defaultBorderShadowEffect}"  Width="200" Height="150">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="12"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Border x:Name="srColor2" Height="12" CornerRadius="5 5 0 0" Grid.ColumnSpan="8"/>
+                            <TextBlock x:Name="srDescCount2" VerticalAlignment="Center" HorizontalAlignment="Left" Style="{DynamicResource sr_ItemsDeskLanding}" Grid.Row="1" Grid.ColumnSpan="3" Grid.Column="0" />
+                            <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="5" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="5 5">
+                                <TextBlock x:Name="srLanding2" Style="{DynamicResource sr_ItmesLanding}"/>
+                                <TextBlock x:Name="srDesc2"  Style="{DynamicResource sr_ItemsDesc}"/>
                             </StackPanel>
-                            <StackPanel Orientation="Horizontal" Height="68" Width="203">
-                                <StackPanel Width="140" VerticalAlignment="Center">
-                                    <TextBlock  x:Name="srName2" Style="{DynamicResource sr_ItemsName}" />
-                                    <Border Padding="10 0 5 0">
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock x:Name="srNumber2" Style="{DynamicResource sr_countText}" />
-                                            <TextBlock Text=" Ayet" Style="{DynamicResource sr_countText}" />
-                                        </StackPanel>
-                                    </Border>
-                                </StackPanel>
-                                <StackPanel Width="63" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                    <Button x:Name="srBtnFast2" Style="{DynamicResource sr_ItemsButtonFast}" Click="sr_FastOpen_Click" />
-                                    <Button x:Name="srBtn2" Style="{DynamicResource sr_ItemsButtonFull}" Content="BoxArrowInRight" Click="sr_Open_Click" />
+                            <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5" VerticalAlignment="Center" Orientation="Vertical">
+                                <TextBlock x:Name="srName2" Style="{DynamicResource sr_ItemsName}" />
+                                <StackPanel Orientation="Horizontal" Margin="10 0">
+                                    <TextBlock x:Name="srNumber2" Style="{DynamicResource sr_countText}" />
+                                    <TextBlock Text=" Ayet" Style="{DynamicResource sr_countText}" />
                                 </StackPanel>
                             </StackPanel>
-                        </StackPanel>
+                            <Grid Grid.Row="2" Grid.Column="5" Grid.ColumnSpan="3" Margin="0 0 5 0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+
+                                <Button x:Name="srBtnFast2" ToolTip="Surenin Ayetine Git" Grid.Column="1" Grid.Row="0" Style="{DynamicResource sr_ItemsButtonFast}" Click="sr_FastOpen_Click" />
+                                <Button x:Name="srBtn2" ToolTip="Sureyi Aç" Grid.Column="1" Grid.Row="1" Style="{DynamicResource sr_ItemsButtonFull}" Content="BoxArrowInRight" Click="sr_Open_Click" />
+                                <Button x:Name="sectionBtn2" ToolTip="Surenin Bölümlerine Git" Grid.Column="0" Grid.Row="1" Style="{DynamicResource sr_ItemsButtonSection}" Content="BoxArrowInRight" Click="sr_Section_Click" />
+                            </Grid>
+                        </Grid>
                     </Border>
                 </Border>
 
                 <Border Padding="10" x:Name="srItem3" Grid.Column="2" Grid.Row="0" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
-                    <Border Background="#FFF" Style="{DynamicResource defaultBorderShadowEffect}" Width="203" Height="151">
-                        <StackPanel Orientation="Vertical">
-                            <Border x:Name="srColor3" Height="12" CornerRadius="5 5 0 0" />
-                            <StackPanel Orientation="Horizontal" Height="67" Width="203">
-                                <Border Width="80" Padding="10 5 5 5">
-                                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Left">
-                                        <TextBlock x:Name="srDescCount3"  Style="{DynamicResource sr_ItemsDeskLanding}" />
-                                    </StackPanel>
-                                </Border>
-                                <Border Width="123" Padding="0 5 0 5">
-                                    <StackPanel  Orientation="Vertical" HorizontalAlignment="Right">
-                                        <TextBlock x:Name="srLanding3" Width="140" Style="{DynamicResource sr_ItmesLanding}" />
-                                        <TextBlock x:Name="srDesc3" Width="140" Style="{DynamicResource sr_ItemsDesc}" />
-                                    </StackPanel>
-                                </Border>
+                    <Border Background="#FFF" Style="{DynamicResource defaultBorderShadowEffect}"  Width="200" Height="150">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="12"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Border x:Name="srColor3" Height="12" CornerRadius="5 5 0 0" Grid.ColumnSpan="8"/>
+                            <TextBlock  x:Name="srDescCount3" VerticalAlignment="Center" HorizontalAlignment="Left" Style="{DynamicResource sr_ItemsDeskLanding}" Grid.Row="1" Grid.ColumnSpan="3" Grid.Column="0" />
+                            <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="5" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="5 5">
+                                <TextBlock x:Name="srLanding3" Style="{DynamicResource sr_ItmesLanding}"/>
+                                <TextBlock x:Name="srDesc3"  Style="{DynamicResource sr_ItemsDesc}"/>
                             </StackPanel>
-                            <StackPanel Orientation="Horizontal" Height="68" Width="203">
-                                <StackPanel Width="140" VerticalAlignment="Center">
-                                    <TextBlock  x:Name="srName3" Style="{DynamicResource sr_ItemsName}" />
-                                    <Border Padding="10 0 5 0">
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock x:Name="srNumber3" Style="{DynamicResource sr_countText}" />
-                                            <TextBlock Text=" Ayet" Style="{DynamicResource sr_countText}" />
-                                        </StackPanel>
-                                    </Border>
-                                </StackPanel>
-                                <StackPanel Width="63" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                    <Button x:Name="srBtnFast3" Style="{DynamicResource sr_ItemsButtonFast}" Click="sr_FastOpen_Click" />
-                                    <Button x:Name="srBtn3" Style="{DynamicResource sr_ItemsButtonFull}" Content="BoxArrowInRight" Click="sr_Open_Click" />
+                            <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5" VerticalAlignment="Center" Orientation="Vertical">
+                                <TextBlock x:Name="srName3" Style="{DynamicResource sr_ItemsName}" />
+                                <StackPanel Orientation="Horizontal" Margin="10 0">
+                                    <TextBlock x:Name="srNumber3" Style="{DynamicResource sr_countText}" />
+                                    <TextBlock Text=" Ayet" Style="{DynamicResource sr_countText}" />
                                 </StackPanel>
                             </StackPanel>
-                        </StackPanel>
+                            <Grid Grid.Row="2" Grid.Column="5" Grid.ColumnSpan="3" Margin="0 0 5 0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+
+                                <Button x:Name="srBtnFast3" ToolTip="Surenin Ayetine Git" Grid.Column="1" Grid.Row="0" Style="{DynamicResource sr_ItemsButtonFast}" Click="sr_FastOpen_Click" />
+                                <Button x:Name="srBtn3" ToolTip="Sureyi Aç" Grid.Column="1" Grid.Row="1" Style="{DynamicResource sr_ItemsButtonFull}" Content="BoxArrowInRight" Click="sr_Open_Click" />
+                                <Button x:Name="sectionBtn3" ToolTip="Surenin Bölümlerine Git" Grid.Column="0" Grid.Row="1" Style="{DynamicResource sr_ItemsButtonSection}" Content="BoxArrowInRight" Click="sr_Section_Click" />
+                            </Grid>
+                        </Grid>
                     </Border>
                 </Border>
 
                 <Border Padding="10" x:Name="srItem4" Grid.Column="3" Grid.Row="0" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
-                    <Border Background="#FFF" Style="{DynamicResource defaultBorderShadowEffect}" Width="203" Height="151">
-                        <StackPanel Orientation="Vertical">
-                            <Border x:Name="srColor4" Height="12" CornerRadius="5 5 0 0" />
-                            <StackPanel Orientation="Horizontal" Height="67" Width="203">
-                                <Border Width="80" Padding="10 5 5 5">
-                                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Left">
-                                        <TextBlock x:Name="srDescCount4"  Style="{DynamicResource sr_ItemsDeskLanding}" />
-                                    </StackPanel>
-                                </Border>
-                                <Border Width="123" Padding="0 5 0 5">
-                                    <StackPanel  Orientation="Vertical" HorizontalAlignment="Right">
-                                        <TextBlock x:Name="srLanding4" Width="140" Style="{DynamicResource sr_ItmesLanding}" />
-                                        <TextBlock x:Name="srDesc4" Width="140" Style="{DynamicResource sr_ItemsDesc}" />
-                                    </StackPanel>
-                                </Border>
+                    <Border Background="#FFF" Style="{DynamicResource defaultBorderShadowEffect}"  Width="200" Height="150">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="12"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Border x:Name="srColor4" Height="12" CornerRadius="5 5 0 0" Grid.ColumnSpan="8"/>
+                            <TextBlock  x:Name="srDescCount4" VerticalAlignment="Center" HorizontalAlignment="Left" Style="{DynamicResource sr_ItemsDeskLanding}" Grid.Row="1" Grid.ColumnSpan="3" Grid.Column="0" />
+                            <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="5" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="5 5">
+                                <TextBlock x:Name="srLanding4" Style="{DynamicResource sr_ItmesLanding}"/>
+                                <TextBlock x:Name="srDesc4"  Style="{DynamicResource sr_ItemsDesc}"/>
                             </StackPanel>
-                            <StackPanel Orientation="Horizontal" Height="68" Width="203">
-                                <StackPanel Width="140" VerticalAlignment="Center">
-                                    <TextBlock  x:Name="srName4" Style="{DynamicResource sr_ItemsName}" />
-                                    <Border Padding="10 0 5 0">
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock x:Name="srNumber4" Style="{DynamicResource sr_countText}" />
-                                            <TextBlock Text=" Ayet" Style="{DynamicResource sr_countText}" />
-                                        </StackPanel>
-                                    </Border>
-                                </StackPanel>
-                                <StackPanel Width="63" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                    <Button x:Name="srBtnFast4" Style="{DynamicResource sr_ItemsButtonFast}" Click="sr_FastOpen_Click" />
-                                    <Button x:Name="srBtn4" Style="{DynamicResource sr_ItemsButtonFull}" Content="BoxArrowInRight" Click="sr_Open_Click" />
+                            <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5" VerticalAlignment="Center" Orientation="Vertical">
+                                <TextBlock x:Name="srName4" Style="{DynamicResource sr_ItemsName}" />
+                                <StackPanel Orientation="Horizontal" Margin="10 0">
+                                    <TextBlock x:Name="srNumber4" Style="{DynamicResource sr_countText}" />
+                                    <TextBlock Text=" Ayet" Style="{DynamicResource sr_countText}" />
                                 </StackPanel>
                             </StackPanel>
-                        </StackPanel>
+                            <Grid Grid.Row="2" Grid.Column="5" Grid.ColumnSpan="3" Margin="0 0 5 0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+
+                                <Button x:Name="srBtnFast4" ToolTip="Surenin Ayetine Git" Grid.Column="1" Grid.Row="0" Style="{DynamicResource sr_ItemsButtonFast}" Click="sr_FastOpen_Click" />
+                                <Button x:Name="srBtn4" ToolTip="Sureyi Aç" Grid.Column="1" Grid.Row="1" Style="{DynamicResource sr_ItemsButtonFull}" Content="BoxArrowInRight" Click="sr_Open_Click" />
+                                <Button x:Name="sectionBtn4" ToolTip="Surenin Bölümlerine Git" Grid.Column="0" Grid.Row="1" Style="{DynamicResource sr_ItemsButtonSection}" Content="BoxArrowInRight" Click="sr_Section_Click" />
+                            </Grid>
+                        </Grid>
                     </Border>
                 </Border>
 
                 <Border Padding="10" x:Name="srItem5" Grid.Column="4" Grid.Row="0" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
-                    <Border Background="#FFF" Style="{DynamicResource defaultBorderShadowEffect}" Width="203" Height="151">
-                        <StackPanel Orientation="Vertical">
-                            <Border x:Name="srColor5" Height="12" CornerRadius="5 5 0 0" />
-                            <StackPanel Orientation="Horizontal" Height="67" Width="203">
-                                <Border Width="80" Padding="10 5 5 5">
-                                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Left">
-                                        <TextBlock x:Name="srDescCount5"  Style="{DynamicResource sr_ItemsDeskLanding}" />
-                                    </StackPanel>
-                                </Border>
-                                <Border Width="123" Padding="0 5 0 5">
-                                    <StackPanel  Orientation="Vertical" HorizontalAlignment="Right">
-                                        <TextBlock x:Name="srLanding5" Width="140" Style="{DynamicResource sr_ItmesLanding}" />
-                                        <TextBlock x:Name="srDesc5" Width="140" Style="{DynamicResource sr_ItemsDesc}" />
-                                    </StackPanel>
-                                </Border>
+                    <Border Background="#FFF" Style="{DynamicResource defaultBorderShadowEffect}"  Width="200" Height="150">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="12"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Border x:Name="srColor5" Height="12" CornerRadius="5 5 0 0" Grid.ColumnSpan="8"/>
+                            <TextBlock  x:Name="srDescCount5" VerticalAlignment="Center" HorizontalAlignment="Left" Style="{DynamicResource sr_ItemsDeskLanding}" Grid.Row="1" Grid.ColumnSpan="3" Grid.Column="0" />
+                            <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="5" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="5 5">
+                                <TextBlock x:Name="srLanding5" Style="{DynamicResource sr_ItmesLanding}"/>
+                                <TextBlock x:Name="srDesc5"  Style="{DynamicResource sr_ItemsDesc}"/>
                             </StackPanel>
-                            <StackPanel Orientation="Horizontal" Height="68" Width="203">
-                                <StackPanel Width="140" VerticalAlignment="Center">
-                                    <TextBlock  x:Name="srName5" Style="{DynamicResource sr_ItemsName}" />
-                                    <Border Padding="10 0 5 0">
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock x:Name="srNumber5" Style="{DynamicResource sr_countText}" />
-                                            <TextBlock Text=" Ayet" Style="{DynamicResource sr_countText}" />
-                                        </StackPanel>
-                                    </Border>
-                                </StackPanel>
-                                <StackPanel Width="63" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                    <Button x:Name="srBtnFast5" Style="{DynamicResource sr_ItemsButtonFast}" Click="sr_FastOpen_Click" />
-                                    <Button x:Name="srBtn5" Style="{DynamicResource sr_ItemsButtonFull}" Content="BoxArrowInRight" Click="sr_Open_Click" />
+                            <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5" VerticalAlignment="Center" Orientation="Vertical">
+                                <TextBlock x:Name="srName5" Style="{DynamicResource sr_ItemsName}" />
+                                <StackPanel Orientation="Horizontal" Margin="10 0">
+                                    <TextBlock x:Name="srNumber5" Style="{DynamicResource sr_countText}" />
+                                    <TextBlock Text=" Ayet" Style="{DynamicResource sr_countText}" />
                                 </StackPanel>
                             </StackPanel>
-                        </StackPanel>
+                            <Grid Grid.Row="2" Grid.Column="5" Grid.ColumnSpan="3" Margin="0 0 5 0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+
+                                <Button x:Name="srBtnFast5" ToolTip="Surenin Ayetine Git" Grid.Column="1" Grid.Row="0" Style="{DynamicResource sr_ItemsButtonFast}" Click="sr_FastOpen_Click" />
+                                <Button x:Name="srBtn5" ToolTip="Sureyi Aç" Grid.Column="1" Grid.Row="1" Style="{DynamicResource sr_ItemsButtonFull}" Content="BoxArrowInRight" Click="sr_Open_Click" />
+                                <Button x:Name="sectionBtn5" ToolTip="Surenin Bölümlerine Git" Grid.Column="0" Grid.Row="1" Style="{DynamicResource sr_ItemsButtonSection}" Content="BoxArrowInRight" Click="sr_Section_Click" />
+                            </Grid>
+                        </Grid>
                     </Border>
                 </Border>
 
                 <Border Padding="10" x:Name="srItem6" Grid.Column="0" Grid.Row="1" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
-                    <Border Background="#FFF" Style="{DynamicResource defaultBorderShadowEffect}" Width="203" Height="151">
-                        <StackPanel Orientation="Vertical">
-                            <Border x:Name="srColor6" Height="12" CornerRadius="5 5 0 0" />
-                            <StackPanel Orientation="Horizontal" Height="67" Width="203">
-                                <Border Width="80" Padding="10 5 5 5">
-                                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Left">
-                                        <TextBlock x:Name="srDescCount6"  Style="{DynamicResource sr_ItemsDeskLanding}" />
-                                    </StackPanel>
-                                </Border>
-                                <Border Width="123" Padding="0 5 0 5">
-                                    <StackPanel  Orientation="Vertical" HorizontalAlignment="Right">
-                                        <TextBlock x:Name="srLanding6" Width="140" Style="{DynamicResource sr_ItmesLanding}" />
-                                        <TextBlock x:Name="srDesc6" Width="140" Style="{DynamicResource sr_ItemsDesc}" />
-                                    </StackPanel>
-                                </Border>
+                    <Border Background="#FFF" Style="{DynamicResource defaultBorderShadowEffect}"  Width="200" Height="150">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="12"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Border x:Name="srColor6" Height="12" CornerRadius="5 5 0 0" Grid.ColumnSpan="8"/>
+                            <TextBlock  x:Name="srDescCount6" VerticalAlignment="Center" HorizontalAlignment="Left" Style="{DynamicResource sr_ItemsDeskLanding}" Grid.Row="1" Grid.ColumnSpan="3" Grid.Column="0" />
+                            <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="5" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="5 5">
+                                <TextBlock x:Name="srLanding6" Style="{DynamicResource sr_ItmesLanding}"/>
+                                <TextBlock x:Name="srDesc6"  Style="{DynamicResource sr_ItemsDesc}"/>
                             </StackPanel>
-                            <StackPanel Orientation="Horizontal" Height="68" Width="203">
-                                <StackPanel Width="140" VerticalAlignment="Center">
-                                    <TextBlock  x:Name="srName6" Style="{DynamicResource sr_ItemsName}" />
-                                    <Border Padding="10 0 5 0">
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock x:Name="srNumber6" Style="{DynamicResource sr_countText}" />
-                                            <TextBlock Text=" Ayet" Style="{DynamicResource sr_countText}" />
-                                        </StackPanel>
-                                    </Border>
-                                </StackPanel>
-                                <StackPanel Width="63" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                    <Button x:Name="srBtnFast6" Style="{DynamicResource sr_ItemsButtonFast}" Click="sr_FastOpen_Click" />
-                                    <Button x:Name="srBtn6" Style="{DynamicResource sr_ItemsButtonFull}" Content="BoxArrowInRight" Click="sr_Open_Click" />
+                            <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5" VerticalAlignment="Center" Orientation="Vertical">
+                                <TextBlock x:Name="srName6" Style="{DynamicResource sr_ItemsName}" />
+                                <StackPanel Orientation="Horizontal" Margin="10 0">
+                                    <TextBlock x:Name="srNumber6" Style="{DynamicResource sr_countText}" />
+                                    <TextBlock Text=" Ayet" Style="{DynamicResource sr_countText}" />
                                 </StackPanel>
                             </StackPanel>
-                        </StackPanel>
+                            <Grid Grid.Row="2" Grid.Column="5" Grid.ColumnSpan="3" Margin="0 0 5 0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+
+                                <Button x:Name="srBtnFast6" ToolTip="Surenin Ayetine Git" Grid.Column="1" Grid.Row="0" Style="{DynamicResource sr_ItemsButtonFast}" Click="sr_FastOpen_Click" />
+                                <Button x:Name="srBtn6" ToolTip="Sureyi Aç" Grid.Column="1" Grid.Row="1" Style="{DynamicResource sr_ItemsButtonFull}" Content="BoxArrowInRight" Click="sr_Open_Click" />
+                                <Button x:Name="sectionBtn6" ToolTip="Surenin Bölümlerine Git" Grid.Column="0" Grid.Row="1" Style="{DynamicResource sr_ItemsButtonSection}" Content="BoxArrowInRight" Click="sr_Section_Click" />
+                            </Grid>
+                        </Grid>
                     </Border>
                 </Border>
 
                 <Border Padding="10" x:Name="srItem7" Grid.Column="1" Grid.Row="1" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
-                    <Border Background="#FFF" Style="{DynamicResource defaultBorderShadowEffect}" Width="203" Height="151">
-                        <StackPanel Orientation="Vertical">
-                            <Border x:Name="srColor7" Height="12" CornerRadius="5 5 0 0" />
-                            <StackPanel Orientation="Horizontal" Height="67" Width="203">
-                                <Border Width="80" Padding="10 5 5 5">
-                                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Left">
-                                        <TextBlock x:Name="srDescCount7"  Style="{DynamicResource sr_ItemsDeskLanding}" />
-                                    </StackPanel>
-                                </Border>
-                                <Border Width="123" Padding="0 5 0 5">
-                                    <StackPanel  Orientation="Vertical" HorizontalAlignment="Right">
-                                        <TextBlock x:Name="srLanding7" Width="140" Style="{DynamicResource sr_ItmesLanding}" />
-                                        <TextBlock x:Name="srDesc7" Width="140" Style="{DynamicResource sr_ItemsDesc}" />
-                                    </StackPanel>
-                                </Border>
+                    <Border Background="#FFF" Style="{DynamicResource defaultBorderShadowEffect}"  Width="200" Height="150">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="12"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Border x:Name="srColor7" Height="12" CornerRadius="5 5 0 0" Grid.ColumnSpan="8"/>
+                            <TextBlock  x:Name="srDescCount7" VerticalAlignment="Center" HorizontalAlignment="Left" Style="{DynamicResource sr_ItemsDeskLanding}" Grid.Row="1" Grid.ColumnSpan="3" Grid.Column="0" />
+                            <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="5" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="5 5">
+                                <TextBlock x:Name="srLanding7" Style="{DynamicResource sr_ItmesLanding}"/>
+                                <TextBlock x:Name="srDesc7"  Style="{DynamicResource sr_ItemsDesc}"/>
                             </StackPanel>
-                            <StackPanel Orientation="Horizontal" Height="68" Width="203">
-                                <StackPanel Width="140" VerticalAlignment="Center">
-                                    <TextBlock  x:Name="srName7" Style="{DynamicResource sr_ItemsName}" />
-                                    <Border Padding="10 0 5 0">
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock x:Name="srNumber7" Style="{DynamicResource sr_countText}" />
-                                            <TextBlock Text=" Ayet" Style="{DynamicResource sr_countText}" />
-                                        </StackPanel>
-                                    </Border>
-                                </StackPanel>
-                                <StackPanel Width="63" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                    <Button x:Name="srBtnFast7" Style="{DynamicResource sr_ItemsButtonFast}" Click="sr_FastOpen_Click" />
-                                    <Button x:Name="srBtn7" Style="{DynamicResource sr_ItemsButtonFull}" Content="BoxArrowInRight" Click="sr_Open_Click" />
+                            <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5" VerticalAlignment="Center" Orientation="Vertical">
+                                <TextBlock x:Name="srName7" Style="{DynamicResource sr_ItemsName}" />
+                                <StackPanel Orientation="Horizontal" Margin="10 0">
+                                    <TextBlock x:Name="srNumber7" Style="{DynamicResource sr_countText}" />
+                                    <TextBlock Text=" Ayet" Style="{DynamicResource sr_countText}" />
                                 </StackPanel>
                             </StackPanel>
-                        </StackPanel>
+                            <Grid Grid.Row="2" Grid.Column="5" Grid.ColumnSpan="3" Margin="0 0 5 0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+
+                                <Button x:Name="srBtnFast7" ToolTip="Surenin Ayetine Git" Grid.Column="1" Grid.Row="0" Style="{DynamicResource sr_ItemsButtonFast}" Click="sr_FastOpen_Click" />
+                                <Button x:Name="srBtn7" ToolTip="Sureyi Aç" Grid.Column="1" Grid.Row="1" Style="{DynamicResource sr_ItemsButtonFull}" Content="BoxArrowInRight" Click="sr_Open_Click" />
+                                <Button x:Name="sectionBtn7" ToolTip="Surenin Bölümlerine Git" Grid.Column="0" Grid.Row="1" Style="{DynamicResource sr_ItemsButtonSection}" Content="BoxArrowInRight" Click="sr_Section_Click" />
+                            </Grid>
+                        </Grid>
                     </Border>
                 </Border>
 
                 <Border Padding="10" x:Name="srItem8" Grid.Column="2" Grid.Row="1" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
-                    <Border Background="#FFF" Style="{DynamicResource defaultBorderShadowEffect}" Width="203" Height="151">
-                        <StackPanel Orientation="Vertical">
-                            <Border x:Name="srColor8" Height="12" CornerRadius="5 5 0 0" />
-                            <StackPanel Orientation="Horizontal" Height="67" Width="203">
-                                <Border Width="80" Padding="10 5 5 5">
-                                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Left">
-                                        <TextBlock x:Name="srDescCount8"  Style="{DynamicResource sr_ItemsDeskLanding}" />
-                                    </StackPanel>
-                                </Border>
-                                <Border Width="123" Padding="0 5 0 5">
-                                    <StackPanel  Orientation="Vertical" HorizontalAlignment="Right">
-                                        <TextBlock x:Name="srLanding8" Width="140" Style="{DynamicResource sr_ItmesLanding}" />
-                                        <TextBlock x:Name="srDesc8" Width="140" Style="{DynamicResource sr_ItemsDesc}" />
-                                    </StackPanel>
-                                </Border>
+                    <Border Background="#FFF" Style="{DynamicResource defaultBorderShadowEffect}"  Width="200" Height="150">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="12"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Border x:Name="srColor8" Height="12" CornerRadius="5 5 0 0" Grid.ColumnSpan="8"/>
+                            <TextBlock  x:Name="srDescCount8" VerticalAlignment="Center" HorizontalAlignment="Left" Style="{DynamicResource sr_ItemsDeskLanding}" Grid.Row="1" Grid.ColumnSpan="3" Grid.Column="0" />
+                            <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="5" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="5 5">
+                                <TextBlock x:Name="srLanding8" Style="{DynamicResource sr_ItmesLanding}"/>
+                                <TextBlock x:Name="srDesc8"  Style="{DynamicResource sr_ItemsDesc}"/>
                             </StackPanel>
-                            <StackPanel Orientation="Horizontal" Height="68" Width="203">
-                                <StackPanel Width="140" VerticalAlignment="Center">
-                                    <TextBlock  x:Name="srName8" Style="{DynamicResource sr_ItemsName}" />
-                                    <Border Padding="10 0 5 0">
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock x:Name="srNumber8" Style="{DynamicResource sr_countText}" />
-                                            <TextBlock Text=" Ayet" Style="{DynamicResource sr_countText}" />
-                                        </StackPanel>
-                                    </Border>
-                                </StackPanel>
-                                <StackPanel Width="63" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                    <Button x:Name="srBtnFast8" Style="{DynamicResource sr_ItemsButtonFast}" Click="sr_FastOpen_Click" />
-                                    <Button x:Name="srBtn8" Style="{DynamicResource sr_ItemsButtonFull}" Content="BoxArrowInRight" Click="sr_Open_Click" />
+                            <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5" VerticalAlignment="Center" Orientation="Vertical">
+                                <TextBlock x:Name="srName8" Style="{DynamicResource sr_ItemsName}" />
+                                <StackPanel Orientation="Horizontal" Margin="10 0">
+                                    <TextBlock x:Name="srNumber8" Style="{DynamicResource sr_countText}" />
+                                    <TextBlock Text=" Ayet" Style="{DynamicResource sr_countText}" />
                                 </StackPanel>
                             </StackPanel>
-                        </StackPanel>
+                            <Grid Grid.Row="2" Grid.Column="5" Grid.ColumnSpan="3" Margin="0 0 5 0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+
+                                <Button x:Name="srBtnFast8"  ToolTip="Surenin Ayetine Git" Grid.Column="1" Grid.Row="0" Style="{DynamicResource sr_ItemsButtonFast}" Click="sr_FastOpen_Click" />
+                                <Button x:Name="srBtn8" ToolTip="Sureyi Aç" Grid.Column="1" Grid.Row="1" Style="{DynamicResource sr_ItemsButtonFull}" Content="BoxArrowInRight" Click="sr_Open_Click" />
+                                <Button x:Name="sectionBtn8" ToolTip="Surenin Bölümlerine Git" Grid.Column="0" Grid.Row="1" Style="{DynamicResource sr_ItemsButtonSection}" Content="BoxArrowInRight" Click="sr_Section_Click" />
+                            </Grid>
+                        </Grid>
                     </Border>
                 </Border>
 
                 <Border Padding="10" x:Name="srItem9" Grid.Column="3" Grid.Row="1" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
-                    <Border Background="#FFF" Style="{DynamicResource defaultBorderShadowEffect}" Width="203" Height="151">
-                        <StackPanel Orientation="Vertical">
-                            <Border x:Name="srColor9" Height="12" CornerRadius="5 5 0 0" />
-                            <StackPanel Orientation="Horizontal" Height="67" Width="203">
-                                <Border Width="80" Padding="10 5 5 5">
-                                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Left">
-                                        <TextBlock x:Name="srDescCount9"  Style="{DynamicResource sr_ItemsDeskLanding}" />
-                                    </StackPanel>
-                                </Border>
-                                <Border Width="123" Padding="0 5 0 5">
-                                    <StackPanel  Orientation="Vertical" HorizontalAlignment="Right">
-                                        <TextBlock x:Name="srLanding9" Width="140" Style="{DynamicResource sr_ItmesLanding}" />
-                                        <TextBlock x:Name="srDesc9" Width="140" Style="{DynamicResource sr_ItemsDesc}" />
-                                    </StackPanel>
-                                </Border>
+                    <Border Background="#FFF" Style="{DynamicResource defaultBorderShadowEffect}"  Width="200" Height="150">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="12"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Border x:Name="srColor9" Height="12" CornerRadius="5 5 0 0" Grid.ColumnSpan="8"/>
+                            <TextBlock  x:Name="srDescCount9" VerticalAlignment="Center" HorizontalAlignment="Left" Style="{DynamicResource sr_ItemsDeskLanding}" Grid.Row="1" Grid.ColumnSpan="3" Grid.Column="0" />
+                            <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="5" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="5 5">
+                                <TextBlock x:Name="srLanding9" Style="{DynamicResource sr_ItmesLanding}"/>
+                                <TextBlock x:Name="srDesc9"  Style="{DynamicResource sr_ItemsDesc}"/>
                             </StackPanel>
-                            <StackPanel Orientation="Horizontal" Height="68" Width="203">
-                                <StackPanel Width="140" VerticalAlignment="Center">
-                                    <TextBlock  x:Name="srName9" Style="{DynamicResource sr_ItemsName}" />
-                                    <Border Padding="10 0 5 0">
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock x:Name="srNumber9" Style="{DynamicResource sr_countText}" />
-                                            <TextBlock Text=" Ayet" Style="{DynamicResource sr_countText}" />
-                                        </StackPanel>
-                                    </Border>
-                                </StackPanel>
-                                <StackPanel Width="63" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                    <Button x:Name="srBtnFast9" Style="{DynamicResource sr_ItemsButtonFast}" Click="sr_FastOpen_Click" />
-                                    <Button x:Name="srBtn9" Style="{DynamicResource sr_ItemsButtonFull}" Content="BoxArrowInRight" Click="sr_Open_Click" />
+                            <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5" VerticalAlignment="Center" Orientation="Vertical">
+                                <TextBlock x:Name="srName9" Style="{DynamicResource sr_ItemsName}" />
+                                <StackPanel Orientation="Horizontal" Margin="10 0">
+                                    <TextBlock x:Name="srNumber9" Style="{DynamicResource sr_countText}" />
+                                    <TextBlock Text=" Ayet" Style="{DynamicResource sr_countText}" />
                                 </StackPanel>
                             </StackPanel>
-                        </StackPanel>
+                            <Grid Grid.Row="2" Grid.Column="5" Grid.ColumnSpan="3" Margin="0 0 5 0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+
+                                <Button x:Name="srBtnFast9" ToolTip="Surenin Ayetine Git" Grid.Column="1" Grid.Row="0" Style="{DynamicResource sr_ItemsButtonFast}" Click="sr_FastOpen_Click" />
+                                <Button x:Name="srBtn9" ToolTip="Sureyi Aç" Grid.Column="1" Grid.Row="1" Style="{DynamicResource sr_ItemsButtonFull}" Content="BoxArrowInRight" Click="sr_Open_Click" />
+                                <Button x:Name="sectionBtn9" ToolTip="Surenin Bölümlerine Git" Grid.Column="0" Grid.Row="1" Style="{DynamicResource sr_ItemsButtonSection}" Content="BoxArrowInRight" Click="sr_Section_Click" />
+                            </Grid>
+                        </Grid>
                     </Border>
                 </Border>
 
                 <Border Padding="10" x:Name="srItem10" Grid.Column="4" Grid.Row="1" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
-                    <Border Background="#FFF" Style="{DynamicResource defaultBorderShadowEffect}" Width="203" Height="151">
-                        <StackPanel Orientation="Vertical">
-                            <Border x:Name="srColor10" Height="12" CornerRadius="5 5 0 0" />
-                            <StackPanel Orientation="Horizontal" Height="67" Width="203">
-                                <Border Width="80" Padding="10 5 5 5">
-                                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Left">
-                                        <TextBlock x:Name="srDescCount10"  Style="{DynamicResource sr_ItemsDeskLanding}" />
-                                    </StackPanel>
-                                </Border>
-                                <Border Width="123" Padding="0 5 0 5">
-                                    <StackPanel  Orientation="Vertical" HorizontalAlignment="Right">
-                                        <TextBlock x:Name="srLanding10" Width="140" Style="{DynamicResource sr_ItmesLanding}" />
-                                        <TextBlock x:Name="srDesc10" Width="140" Style="{DynamicResource sr_ItemsDesc}" />
-                                    </StackPanel>
-                                </Border>
+                    <Border Background="#FFF" Style="{DynamicResource defaultBorderShadowEffect}"  Width="200" Height="150">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="12"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Border x:Name="srColor10" Height="12" CornerRadius="5 5 0 0" Grid.ColumnSpan="8"/>
+                            <TextBlock  x:Name="srDescCount10" VerticalAlignment="Center" HorizontalAlignment="Left" Style="{DynamicResource sr_ItemsDeskLanding}" Grid.Row="1" Grid.ColumnSpan="3" Grid.Column="0" />
+                            <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="5" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="5 5">
+                                <TextBlock x:Name="srLanding10" Style="{DynamicResource sr_ItmesLanding}"/>
+                                <TextBlock x:Name="srDesc10"  Style="{DynamicResource sr_ItemsDesc}"/>
                             </StackPanel>
-                            <StackPanel Orientation="Horizontal" Height="68" Width="203">
-                                <StackPanel Width="140" VerticalAlignment="Center">
-                                    <TextBlock  x:Name="srName10" Style="{DynamicResource sr_ItemsName}" />
-                                    <Border Padding="10 0 5 0">
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock x:Name="srNumber10" Style="{DynamicResource sr_countText}" />
-                                            <TextBlock Text=" Ayet" Style="{DynamicResource sr_countText}" />
-                                        </StackPanel>
-                                    </Border>
-                                </StackPanel>
-                                <StackPanel Width="63" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                    <Button x:Name="srBtnFast10" Style="{DynamicResource sr_ItemsButtonFast}" Click="sr_FastOpen_Click" />
-                                    <Button x:Name="srBtn10" Style="{DynamicResource sr_ItemsButtonFull}" Content="BoxArrowInRight" Click="sr_Open_Click" />
+                            <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5" VerticalAlignment="Center" Orientation="Vertical">
+                                <TextBlock x:Name="srName10" Style="{DynamicResource sr_ItemsName}" />
+                                <StackPanel Orientation="Horizontal" Margin="10 0">
+                                    <TextBlock x:Name="srNumber10" Style="{DynamicResource sr_countText}" />
+                                    <TextBlock Text=" Ayet" Style="{DynamicResource sr_countText}" />
                                 </StackPanel>
                             </StackPanel>
-                        </StackPanel>
+                            <Grid Grid.Row="2" Grid.Column="5" Grid.ColumnSpan="3" Margin="0 0 5 0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+
+                                <Button x:Name="srBtnFast10" ToolTip="Surenin Ayetine Git" Grid.Column="1" Grid.Row="0" Style="{DynamicResource sr_ItemsButtonFast}" Click="sr_FastOpen_Click" />
+                                <Button x:Name="srBtn10" ToolTip="Sureyi Aç" Grid.Column="1" Grid.Row="1" Style="{DynamicResource sr_ItemsButtonFull}" Content="BoxArrowInRight" Click="sr_Open_Click" />
+                                <Button x:Name="sectionBtn10" ToolTip="Surenin Bölümlerine Git" Grid.Column="0" Grid.Row="1" Style="{DynamicResource sr_ItemsButtonSection}" Content="BoxArrowInRight" Click="sr_Section_Click" />
+                            </Grid>
+                        </Grid>
                     </Border>
                 </Border>
 
                 <Border Padding="10" x:Name="srItem11" Grid.Column="0" Grid.Row="2" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
-                    <Border Background="#FFF" Style="{DynamicResource defaultBorderShadowEffect}" Width="203" Height="151">
-                        <StackPanel Orientation="Vertical">
-                            <Border x:Name="srColor11" Height="12" CornerRadius="5 5 0 0" />
-                            <StackPanel Orientation="Horizontal" Height="67" Width="203">
-                                <Border Width="80" Padding="10 5 5 5">
-                                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Left">
-                                        <TextBlock x:Name="srDescCount11"  Style="{DynamicResource sr_ItemsDeskLanding}" />
-                                    </StackPanel>
-                                </Border>
-                                <Border Width="123" Padding="0 5 0 5">
-                                    <StackPanel  Orientation="Vertical" HorizontalAlignment="Right">
-                                        <TextBlock x:Name="srLanding11" Width="140" Style="{DynamicResource sr_ItmesLanding}" />
-                                        <TextBlock x:Name="srDesc11" Width="140" Style="{DynamicResource sr_ItemsDesc}" />
-                                    </StackPanel>
-                                </Border>
+                    <Border Background="#FFF" Style="{DynamicResource defaultBorderShadowEffect}"  Width="200" Height="150">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="12"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Border x:Name="srColor11" Height="12" CornerRadius="5 5 0 0" Grid.ColumnSpan="8"/>
+                            <TextBlock  x:Name="srDescCount11" VerticalAlignment="Center" HorizontalAlignment="Left" Style="{DynamicResource sr_ItemsDeskLanding}" Grid.Row="1" Grid.ColumnSpan="3" Grid.Column="0" />
+                            <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="5" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="5 5">
+                                <TextBlock x:Name="srLanding11" Style="{DynamicResource sr_ItmesLanding}"/>
+                                <TextBlock x:Name="srDesc11"  Style="{DynamicResource sr_ItemsDesc}"/>
                             </StackPanel>
-                            <StackPanel Orientation="Horizontal" Height="68" Width="203">
-                                <StackPanel Width="140" VerticalAlignment="Center">
-                                    <TextBlock  x:Name="srName11" Style="{DynamicResource sr_ItemsName}" />
-                                    <Border Padding="10 0 5 0">
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock x:Name="srNumber11" Style="{DynamicResource sr_countText}" />
-                                            <TextBlock Text=" Ayet" Style="{DynamicResource sr_countText}" />
-                                        </StackPanel>
-                                    </Border>
-                                </StackPanel>
-                                <StackPanel Width="63" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                    <Button x:Name="srBtnFast11" Style="{DynamicResource sr_ItemsButtonFast}" Click="sr_FastOpen_Click" />
-                                    <Button x:Name="srBtn11" Style="{DynamicResource sr_ItemsButtonFull}" Content="BoxArrowInRight" Click="sr_Open_Click" />
+                            <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5" VerticalAlignment="Center" Orientation="Vertical">
+                                <TextBlock x:Name="srName11" Style="{DynamicResource sr_ItemsName}" />
+                                <StackPanel Orientation="Horizontal" Margin="10 0">
+                                    <TextBlock x:Name="srNumber11" Style="{DynamicResource sr_countText}" />
+                                    <TextBlock Text=" Ayet" Style="{DynamicResource sr_countText}" />
                                 </StackPanel>
                             </StackPanel>
-                        </StackPanel>
+                            <Grid Grid.Row="2" Grid.Column="5" Grid.ColumnSpan="3" Margin="0 0 5 0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+
+                                <Button x:Name="srBtnFast11" ToolTip="Surenin Ayetine Git" Grid.Column="1" Grid.Row="0" Style="{DynamicResource sr_ItemsButtonFast}" Click="sr_FastOpen_Click" />
+                                <Button x:Name="srBtn11" ToolTip="Sureyi Aç" Grid.Column="1" Grid.Row="1" Style="{DynamicResource sr_ItemsButtonFull}" Content="BoxArrowInRight" Click="sr_Open_Click" />
+                                <Button x:Name="sectionBtn11" ToolTip="Surenin Bölümlerine Git" Grid.Column="0" Grid.Row="1" Style="{DynamicResource sr_ItemsButtonSection}" Content="BoxArrowInRight" Click="sr_Section_Click" />
+                            </Grid>
+                        </Grid>
                     </Border>
                 </Border>
 
                 <Border Padding="10" x:Name="srItem12" Grid.Column="1" Grid.Row="2" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
-                    <Border Background="#FFF" Style="{DynamicResource defaultBorderShadowEffect}" Width="203" Height="151">
-                        <StackPanel Orientation="Vertical">
-                            <Border x:Name="srColor12" Height="12" CornerRadius="5 5 0 0" />
-                            <StackPanel Orientation="Horizontal" Height="67" Width="203">
-                                <Border Width="80" Padding="10 5 5 5">
-                                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Left">
-                                        <TextBlock x:Name="srDescCount12"  Style="{DynamicResource sr_ItemsDeskLanding}" />
-                                    </StackPanel>
-                                </Border>
-                                <Border Width="123" Padding="0 5 0 5">
-                                    <StackPanel  Orientation="Vertical" HorizontalAlignment="Right">
-                                        <TextBlock x:Name="srLanding12" Width="140" Style="{DynamicResource sr_ItmesLanding}" />
-                                        <TextBlock x:Name="srDesc12" Width="140" Style="{DynamicResource sr_ItemsDesc}" />
-                                    </StackPanel>
-                                </Border>
+                    <Border Background="#FFF" Style="{DynamicResource defaultBorderShadowEffect}"  Width="200" Height="150">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="12"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Border x:Name="srColor12" Height="12" CornerRadius="5 5 0 0" Grid.ColumnSpan="8"/>
+                            <TextBlock  x:Name="srDescCount12" VerticalAlignment="Center" HorizontalAlignment="Left" Style="{DynamicResource sr_ItemsDeskLanding}" Grid.Row="1" Grid.ColumnSpan="3" Grid.Column="0" />
+                            <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="5" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="5 5">
+                                <TextBlock x:Name="srLanding12" Style="{DynamicResource sr_ItmesLanding}"/>
+                                <TextBlock x:Name="srDesc12"  Style="{DynamicResource sr_ItemsDesc}"/>
                             </StackPanel>
-                            <StackPanel Orientation="Horizontal" Height="68" Width="203">
-                                <StackPanel Width="140" VerticalAlignment="Center">
-                                    <TextBlock  x:Name="srName12" Style="{DynamicResource sr_ItemsName}" />
-                                    <Border Padding="10 0 5 0">
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock x:Name="srNumber12" Style="{DynamicResource sr_countText}" />
-                                            <TextBlock Text=" Ayet" Style="{DynamicResource sr_countText}" />
-                                        </StackPanel>
-                                    </Border>
-                                </StackPanel>
-                                <StackPanel Width="63" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                    <Button x:Name="srBtnFast12" Style="{DynamicResource sr_ItemsButtonFast}" Click="sr_FastOpen_Click" />
-                                    <Button x:Name="srBtn12" Style="{DynamicResource sr_ItemsButtonFull}" Content="BoxArrowInRight" Click="sr_Open_Click" />
+                            <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5" VerticalAlignment="Center" Orientation="Vertical">
+                                <TextBlock x:Name="srName12" Style="{DynamicResource sr_ItemsName}" />
+                                <StackPanel Orientation="Horizontal" Margin="10 0">
+                                    <TextBlock x:Name="srNumber12" Style="{DynamicResource sr_countText}" />
+                                    <TextBlock Text=" Ayet" Style="{DynamicResource sr_countText}" />
                                 </StackPanel>
                             </StackPanel>
-                        </StackPanel>
+                            <Grid Grid.Row="2" Grid.Column="5" Grid.ColumnSpan="3" Margin="0 0 5 0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+
+                                <Button x:Name="srBtnFast12" ToolTip="Surenin Ayetine Git" Grid.Column="1" Grid.Row="0" Style="{DynamicResource sr_ItemsButtonFast}" Click="sr_FastOpen_Click" />
+                                <Button x:Name="srBtn12" ToolTip="Sureyi Aç" Grid.Column="1" Grid.Row="1" Style="{DynamicResource sr_ItemsButtonFull}" Content="BoxArrowInRight" Click="sr_Open_Click" />
+                                <Button x:Name="sectionBtn12" ToolTip="Surenin Bölümlerine Git" Grid.Column="0" Grid.Row="1" Style="{DynamicResource sr_ItemsButtonSection}" Content="BoxArrowInRight" Click="sr_Section_Click" />
+                            </Grid>
+                        </Grid>
                     </Border>
                 </Border>
 
                 <Border Padding="10"  x:Name="srItem13" Grid.Column="2" Grid.Row="2" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
-                    <Border Background="#FFF" Style="{DynamicResource defaultBorderShadowEffect}" Width="203" Height="151">
-                        <StackPanel Orientation="Vertical">
-                            <Border x:Name="srColor13" Height="12" CornerRadius="5 5 0 0" />
-                            <StackPanel Orientation="Horizontal" Height="67" Width="203">
-                                <Border Width="80" Padding="10 5 5 5">
-                                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Left">
-                                        <TextBlock x:Name="srDescCount13"  Style="{DynamicResource sr_ItemsDeskLanding}" />
-                                    </StackPanel>
-                                </Border>
-                                <Border Width="123" Padding="0 5 0 5">
-                                    <StackPanel  Orientation="Vertical" HorizontalAlignment="Right">
-                                        <TextBlock x:Name="srLanding13" Width="140" Style="{DynamicResource sr_ItmesLanding}" />
-                                        <TextBlock x:Name="srDesc13" Width="140" Style="{DynamicResource sr_ItemsDesc}" />
-                                    </StackPanel>
-                                </Border>
+                    <Border Background="#FFF" Style="{DynamicResource defaultBorderShadowEffect}"  Width="200" Height="150">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="12"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Border x:Name="srColor13" Height="12" CornerRadius="5 5 0 0" Grid.ColumnSpan="8"/>
+                            <TextBlock  x:Name="srDescCount13" VerticalAlignment="Center" HorizontalAlignment="Left" Style="{DynamicResource sr_ItemsDeskLanding}" Grid.Row="1" Grid.ColumnSpan="3" Grid.Column="0" />
+                            <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="5" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="5 5">
+                                <TextBlock x:Name="srLanding13" Style="{DynamicResource sr_ItmesLanding}"/>
+                                <TextBlock x:Name="srDesc13"  Style="{DynamicResource sr_ItemsDesc}"/>
                             </StackPanel>
-                            <StackPanel Orientation="Horizontal" Height="68" Width="203">
-                                <StackPanel Width="140" VerticalAlignment="Center">
-                                    <TextBlock  x:Name="srName13" Style="{DynamicResource sr_ItemsName}" />
-                                    <Border Padding="10 0 5 0">
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock x:Name="srNumber13" Style="{DynamicResource sr_countText}" />
-                                            <TextBlock Text=" Ayet" Style="{DynamicResource sr_countText}" />
-                                        </StackPanel>
-                                    </Border>
-                                </StackPanel>
-                                <StackPanel Width="63" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                    <Button x:Name="srBtnFast13" Style="{DynamicResource sr_ItemsButtonFast}" Click="sr_FastOpen_Click" />
-                                    <Button x:Name="srBtn13" Style="{DynamicResource sr_ItemsButtonFull}" Content="BoxArrowInRight" Click="sr_Open_Click" />
+                            <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5" VerticalAlignment="Center" Orientation="Vertical">
+                                <TextBlock x:Name="srName13" Style="{DynamicResource sr_ItemsName}" />
+                                <StackPanel Orientation="Horizontal" Margin="10 0">
+                                    <TextBlock x:Name="srNumber13" Style="{DynamicResource sr_countText}" />
+                                    <TextBlock Text=" Ayet" Style="{DynamicResource sr_countText}" />
                                 </StackPanel>
                             </StackPanel>
-                        </StackPanel>
+                            <Grid Grid.Row="2" Grid.Column="5" Grid.ColumnSpan="3" Margin="0 0 5 0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+
+                                <Button x:Name="srBtnFast13" ToolTip="Surenin Ayetine Git" Grid.Column="1" Grid.Row="0" Style="{DynamicResource sr_ItemsButtonFast}" Click="sr_FastOpen_Click" />
+                                <Button x:Name="srBtn13" ToolTip="Sureyi Aç" Grid.Column="1" Grid.Row="1" Style="{DynamicResource sr_ItemsButtonFull}" Content="BoxArrowInRight" Click="sr_Open_Click" />
+                                <Button x:Name="sectionBtn13" ToolTip="Surenin Bölümlerine Git" Grid.Column="0" Grid.Row="1" Style="{DynamicResource sr_ItemsButtonSection}" Content="BoxArrowInRight" Click="sr_Section_Click" />
+                            </Grid>
+                        </Grid>
                     </Border>
                 </Border>
 
                 <Border Padding="10" x:Name="srItem14" Grid.Column="3" Grid.Row="2" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
-                    <Border Background="#FFF" Style="{DynamicResource defaultBorderShadowEffect}" Width="203" Height="151">
-                        <StackPanel Orientation="Vertical">
-                            <Border x:Name="srColor14" Height="12" CornerRadius="5 5 0 0" />
-                            <StackPanel Orientation="Horizontal" Height="67" Width="203">
-                                <Border Width="80" Padding="10 5 5 5">
-                                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Left">
-                                        <TextBlock x:Name="srDescCount14"  Style="{DynamicResource sr_ItemsDeskLanding}" />
-                                    </StackPanel>
-                                </Border>
-                                <Border Width="123" Padding="0 5 0 5">
-                                    <StackPanel  Orientation="Vertical" HorizontalAlignment="Right">
-                                        <TextBlock x:Name="srLanding14" Width="140" Style="{DynamicResource sr_ItmesLanding}" />
-                                        <TextBlock x:Name="srDesc14" Width="140" Style="{DynamicResource sr_ItemsDesc}" />
-                                    </StackPanel>
-                                </Border>
+                    <Border Background="#FFF" Style="{DynamicResource defaultBorderShadowEffect}"  Width="200" Height="150">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="12"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Border x:Name="srColor14" Height="12" CornerRadius="5 5 0 0" Grid.ColumnSpan="8"/>
+                            <TextBlock  x:Name="srDescCount14" VerticalAlignment="Center" HorizontalAlignment="Left" Style="{DynamicResource sr_ItemsDeskLanding}" Grid.Row="1" Grid.ColumnSpan="3" Grid.Column="0" />
+                            <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="5" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="5 5">
+                                <TextBlock x:Name="srLanding14" Style="{DynamicResource sr_ItmesLanding}"/>
+                                <TextBlock x:Name="srDesc14"  Style="{DynamicResource sr_ItemsDesc}"/>
                             </StackPanel>
-                            <StackPanel Orientation="Horizontal" Height="68" Width="203">
-                                <StackPanel Width="140" VerticalAlignment="Center">
-                                    <TextBlock  x:Name="srName14" Style="{DynamicResource sr_ItemsName}" />
-                                    <Border Padding="10 0 5 0">
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock x:Name="srNumber14" Style="{DynamicResource sr_countText}" />
-                                            <TextBlock Text=" Ayet" Style="{DynamicResource sr_countText}" />
-                                        </StackPanel>
-                                    </Border>
-                                </StackPanel>
-                                <StackPanel Width="63" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                    <Button x:Name="srBtnFast14" Style="{DynamicResource sr_ItemsButtonFast}" Click="sr_FastOpen_Click" />
-                                    <Button x:Name="srBtn14" Style="{DynamicResource sr_ItemsButtonFull}" Content="BoxArrowInRight" Click="sr_Open_Click" />
+                            <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5" VerticalAlignment="Center" Orientation="Vertical">
+                                <TextBlock x:Name="srName14" Style="{DynamicResource sr_ItemsName}" />
+                                <StackPanel Orientation="Horizontal" Margin="10 0">
+                                    <TextBlock x:Name="srNumber14" Style="{DynamicResource sr_countText}" />
+                                    <TextBlock Text=" Ayet" Style="{DynamicResource sr_countText}" />
                                 </StackPanel>
                             </StackPanel>
-                        </StackPanel>
+                            <Grid Grid.Row="2" Grid.Column="5" Grid.ColumnSpan="3" Margin="0 0 5 0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+
+                                <Button x:Name="srBtnFast14" ToolTip="Surenin Ayetine Git" Grid.Column="1" Grid.Row="0" Style="{DynamicResource sr_ItemsButtonFast}" Click="sr_FastOpen_Click" />
+                                <Button x:Name="srBtn14" ToolTip="Sureyi Aç" Grid.Column="1" Grid.Row="1" Style="{DynamicResource sr_ItemsButtonFull}" Content="BoxArrowInRight" Click="sr_Open_Click" />
+                                <Button x:Name="sectionBtn14" ToolTip="Surenin Bölümlerine Git" Grid.Column="0" Grid.Row="1" Style="{DynamicResource sr_ItemsButtonSection}" Content="BoxArrowInRight" Click="sr_Section_Click" />
+                            </Grid>
+                        </Grid>
                     </Border>
                 </Border>
 
                 <Border Padding="10" x:Name="srItem15" Grid.Column="4" Grid.Row="2" Style="{DynamicResource aniEffectFadeBorder}" Visibility="Hidden">
-                    <Border Background="#FFF" Style="{DynamicResource defaultBorderShadowEffect}" Width="203" Height="151">
-                        <StackPanel Orientation="Vertical">
-                            <Border x:Name="srColor15" Height="12" CornerRadius="5 5 0 0" />
-                            <StackPanel Orientation="Horizontal" Height="67" Width="203">
-                                <Border Width="80" Padding="10 5 5 5">
-                                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Left">
-                                        <TextBlock x:Name="srDescCount15"  Style="{DynamicResource sr_ItemsDeskLanding}" />
-                                    </StackPanel>
-                                </Border>
-                                <Border Width="123" Padding="0 5 0 5">
-                                    <StackPanel  Orientation="Vertical" HorizontalAlignment="Right">
-                                        <TextBlock x:Name="srLanding15" Width="140" Style="{DynamicResource sr_ItmesLanding}" />
-                                        <TextBlock x:Name="srDesc15" Width="140" Style="{DynamicResource sr_ItemsDesc}" />
-                                    </StackPanel>
-                                </Border>
+                    <Border Background="#FFF" Style="{DynamicResource defaultBorderShadowEffect}"  Width="200" Height="150">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="12"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Border x:Name="srColor15" Height="12" CornerRadius="5 5 0 0" Grid.ColumnSpan="8"/>
+                            <TextBlock  x:Name="srDescCount15" VerticalAlignment="Center" HorizontalAlignment="Left" Style="{DynamicResource sr_ItemsDeskLanding}" Grid.Row="1" Grid.ColumnSpan="3" Grid.Column="0" />
+                            <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="5" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="5 5">
+                                <TextBlock x:Name="srLanding15" Style="{DynamicResource sr_ItmesLanding}"/>
+                                <TextBlock x:Name="srDesc15"  Style="{DynamicResource sr_ItemsDesc}"/>
                             </StackPanel>
-                            <StackPanel Orientation="Horizontal" Height="68" Width="203">
-                                <StackPanel Width="140" VerticalAlignment="Center">
-                                    <TextBlock  x:Name="srName15" Style="{DynamicResource sr_ItemsName}" />
-                                    <Border Padding="10 0 5 0">
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock x:Name="srNumber15" Style="{DynamicResource sr_countText}" />
-                                            <TextBlock Text=" Ayet" Style="{DynamicResource sr_countText}" />
-                                        </StackPanel>
-                                    </Border>
-                                </StackPanel>
-                                <StackPanel Width="63" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                    <Button x:Name="srBtnFast15" Style="{DynamicResource sr_ItemsButtonFast}" Click="sr_FastOpen_Click" />
-                                    <Button x:Name="srBtn15" Style="{DynamicResource sr_ItemsButtonFull}" Content="BoxArrowInRight" Click="sr_Open_Click" />
+                            <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5" VerticalAlignment="Center" Orientation="Vertical">
+                                <TextBlock x:Name="srName15" Style="{DynamicResource sr_ItemsName}" />
+                                <StackPanel Orientation="Horizontal" Margin="10 0">
+                                    <TextBlock x:Name="srNumber15" Style="{DynamicResource sr_countText}" />
+                                    <TextBlock Text=" Ayet" Style="{DynamicResource sr_countText}" />
                                 </StackPanel>
                             </StackPanel>
-                        </StackPanel>
+                            <Grid Grid.Row="2" Grid.Column="5" Grid.ColumnSpan="3" Margin="0 0 5 0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+
+                                <Button x:Name="srBtnFast15" ToolTip="Surenin Ayetine Git" Grid.Column="1" Grid.Row="0" Style="{DynamicResource sr_ItemsButtonFast}" Click="sr_FastOpen_Click" />
+                                <Button x:Name="srBtn15" ToolTip="Sureyi Aç" Grid.Column="1" Grid.Row="1" Style="{DynamicResource sr_ItemsButtonFull}" Content="BoxArrowInRight" Click="sr_Open_Click" />
+                                <Button x:Name="sectionBtn15" ToolTip="Surenin Bölümlerine Git" Grid.Column="0" Grid.Row="1" Style="{DynamicResource sr_ItemsButtonSection}" Content="BoxArrowInRight" Click="sr_Section_Click" />
+                            </Grid>
+                        </Grid>
                     </Border>
                 </Border>
             </Grid>

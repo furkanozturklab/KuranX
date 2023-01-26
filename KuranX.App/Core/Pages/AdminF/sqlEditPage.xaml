@@ -80,6 +80,101 @@
             </Border>
         </Popup>
 
+
+        <Popup x:Name="popup_Section" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="800" Height="720" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+
+            <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="780" Height="700">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Border  Grid.Row="0" Style="{DynamicResource pp_BorderHeader}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="48" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="48" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="1" Text="Bölüm Ekleyici" Style="{DynamicResource pp_HeaderText}" />
+                        </Grid>
+                    </Border>
+                    <Grid Grid.Row="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="50" />
+                        </Grid.RowDefinitions>
+
+                        <Grid Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+
+
+
+                            <ScrollViewer Grid.Row="0" Grid.RowSpan="2" Visibility="Visible" CanContentScroll="True"  HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Visible" Padding="10">
+                                <StackPanel Orientation="Vertical" x:Name="sectionStackPanel">
+
+                                </StackPanel>
+                            </ScrollViewer>
+
+                            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0" Grid.RowSpan="2" Grid.Column="1">
+
+
+                                <TextBlock Text="" x:Name="selectedSectionId" Visibility="Collapsed"/>
+                                <TextBlock Text="Create" x:Name="selectedSectionAction" Visibility="Collapsed"/>
+
+                                <TextBlock Text="Ekleme" x:Name="selectedSectionErr" Visibility="Visible"/>
+
+                                <StackPanel>
+                                    <TextBlock Text="Bölüm Başlığı " FontFamily="{DynamicResource PoppinsSemiBold}" FontSize="14" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 20 0 0" />
+                                    <TextBox Style="{DynamicResource pp_DefaulTextBox}" Width="300" Text=". ve . ayetler" x:Name="sectionName"/>
+                                </StackPanel>
+
+                                <StackPanel>
+                                    <TextBlock Text="Bölüm Başlangıc Ayeti Numara " FontFamily="{DynamicResource PoppinsSemiBold}" FontSize="14" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 20 0 0" />
+                                    <TextBox Style="{DynamicResource pp_DefaulTextBox}" Width="300" x:Name="startSection"  PreviewTextInput="numberSection_PreviewTextInput" TextChanged="startSection_TextChanged" />
+                                </StackPanel>
+
+                                <StackPanel>
+                                    <TextBlock Text="Bölüm Bitiş Ayeti Numara " FontFamily="{DynamicResource PoppinsSemiBold}" FontSize="14" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 20 0 0" />
+                                    <TextBox Style="{DynamicResource pp_DefaulTextBox}" Width="300" x:Name="endSection" PreviewTextInput="numberSection_PreviewTextInput" TextChanged="endSection_TextChanged" />
+                                </StackPanel>
+
+                                <TextBlock Text="Karşılık" FontFamily="{DynamicResource PoppinsSemiBold}" FontSize="14" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 5 0 0" />
+                                <TextBox x:Name="sectionDetail" Style="{DynamicResource pp_DefaulTextArea}"  Height="80"  Width="300" />
+
+
+                                <TextBlock Text="Acıklama" FontFamily="{DynamicResource PoppinsSemiBold}" FontSize="14" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 5 0 0" />
+                                <TextBox x:Name="sectionInfo" Style="{DynamicResource pp_DefaulTextArea}"  Height="80"  Width="300" />
+
+                                <StackPanel Orientation="Horizontal">
+                                    <Button x:Name="addSectionButton" Style="{DynamicResource pp_DefaultButtonBstrp}" Tag="Check" Content="Ekle / Düzelt" HorizontalAlignment="Center"  Margin="10 20" Click="addSectionButton_Click" />
+                                    <Button x:Name="deleteSectionButton" Style="{DynamicResource pp_DefaultButtonBstrp}" Tag="Trash" Content="Sil" HorizontalAlignment="Center"  Margin="10 20" Click="deleteSectionButton_Click" />
+
+                                </StackPanel>
+
+
+                            </StackPanel>
+
+
+                        </Grid>
+
+                        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+                            <Button x:Name="exitSection" Content="Kapat" Tag="10"  Width="200" Height="35"  Margin="10 0" Click="exitSection_Click"/>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </Border>
+
+
+        </Popup>
+
         <StackPanel Orientation="Horizontal" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center">
             <ComboBox x:Name="selectSureCombobox" Margin="0 5 0 0" Style="{DynamicResource sr_NavCombobox}" SelectedIndex="0" Height="25" SelectionChanged="selectSureCombobox_SelectionChanged">
                 <ComboBoxItem  Content="Sure Seciniz" Uid="0" Tag="0" />
@@ -238,6 +333,7 @@
                 <Button x:Name="saveVerse" Content="Ayeti Kaydet" Tag="10" Style="{DynamicResource admin_Menubtn}" Width="200" Height="35" Click="saveVerse_Click" />
                 <Button x:Name="openIntel" Content="Yorumu Düzenle" Tag="10" Style="{DynamicResource admin_Menubtn}" Width="200" Height="35" Click="openIntel_Click" />
                 <Button x:Name="dynamicVerse" Content="Manuel Git" Tag="10" Style="{DynamicResource admin_Menubtn}" Width="200" Height="35" Click="dynamicVerse_Click" />
+                <Button x:Name="sectionVerse" Content="Bölüm Ekle" Tag="10" Style="{DynamicResource admin_Menubtn}" Width="200" Height="35" Click="openSection_Click" />
             </StackPanel>
 
             <StackPanel Grid.Row="2" Grid.RowSpan="2"  Grid.Column="0" Grid.ColumnSpan="3" Orientation="Vertical">
@@ -251,8 +347,28 @@
             </StackPanel>
 
             <StackPanel Grid.Row="2" Grid.RowSpan="2" Grid.Column="3" Grid.ColumnSpan="3" Orientation="Vertical">
-                <TextBlock Text="Ayet Kısa Tefsiri" TextAlignment="Center" FontSize="16" FontFamily="{DynamicResource PoppinsMedium}" Foreground="#1C1E2F" />
-                <TextBox TextWrapping="Wrap"  AcceptsReturn="True" TextAlignment="Justify" VerticalScrollBarVisibility="Visible" Height="120" Style="{DynamicResource pp_DefaulTextAreaEdit}" FontSize="14" Width="500" x:Name="TEFS" />
+                <TextBlock Text="Ayet Sınıfı" TextAlignment="Center" FontSize="16" FontFamily="{DynamicResource PoppinsMedium}" Foreground="#1C1E2F" />
+
+                <Grid VerticalAlignment="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <CheckBox Content="Hüküm" x:Name="v_hk" Grid.Column="0" Grid.Row="0" Style="{DynamicResource verseClass}" Click="v_all_Click" />
+                    <CheckBox Content="Tavsiye" x:Name="v_tv" Grid.Column="1" Grid.Row="0" Style="{DynamicResource verseClass}" Click="v_all_Click" />
+                    <CheckBox Content="Ceza" x:Name="v_cz" Grid.Column="0" Grid.Row="1" Style="{DynamicResource verseClass}" Click="v_all_Click" />
+                    <CheckBox Content="Mükafat" x:Name="v_mk" Grid.Column="1" Grid.Row="1" Style="{DynamicResource verseClass}" Click="v_all_Click" />
+                    <CheckBox Content="Dua" x:Name="v_du" Grid.Column="0" Grid.Row="2" Style="{DynamicResource verseClass}" Click="v_all_Click" />
+                    <CheckBox Content="Haram" x:Name="v_hr" Grid.Column="1" Grid.Row="2" Style="{DynamicResource verseClass}" Click="v_all_Click" />
+                    <CheckBox Content="Sonuç" x:Name="v_sn" Grid.Column="1" Grid.Row="3" Style="{DynamicResource verseClass}" Click="v_all_Click" />
+                </Grid>
             </StackPanel>
 
             <StackPanel Grid.Row="4" Grid.RowSpan="2" Grid.Column="3" Grid.ColumnSpan="3" Orientation="Vertical">

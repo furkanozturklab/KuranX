@@ -3,6 +3,7 @@ using System;
 using KuranX.App.Core.Classes;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KuranX.App.Migrations
 {
     [DbContext(typeof(AyetContext))]
-    partial class AyetContextModelSnapshot : ModelSnapshot
+    [Migration("20230110175436_MainBuild-v0.5.0")]
+    partial class MainBuildv050
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.1");
@@ -84,6 +87,31 @@ namespace KuranX.App.Migrations
                     b.ToTable("Interpreter");
                 });
 
+            modelBuilder.Entity("KuranX.App.Core.Classes.Library", b =>
+                {
+                    b.Property<int>("libraryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("created")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("libraryColor")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("libraryName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("modify")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("libraryId");
+
+                    b.ToTable("Librarys");
+                });
+
             modelBuilder.Entity("KuranX.App.Core.Classes.Notes", b =>
                 {
                     b.Property<int>("notesId")
@@ -92,6 +120,11 @@ namespace KuranX.App.Migrations
 
                     b.Property<DateTime>("created")
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("libraryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasDefaultValue(0);
 
                     b.Property<DateTime>("modify")
                         .HasColumnType("TEXT");
@@ -107,9 +140,6 @@ namespace KuranX.App.Migrations
                     b.Property<string>("noteLocation")
                         .IsRequired()
                         .HasColumnType("TEXT");
-
-                    b.Property<int>("sectionId")
-                        .HasColumnType("INTEGER");
 
                     b.Property<int>("subjectId")
                         .ValueGeneratedOnAdd()
@@ -194,6 +224,11 @@ namespace KuranX.App.Migrations
                         .HasColumnType("TEXT")
                         .HasDefaultValue("Sonuç Metninizi buraya yaza bilirsiniz.");
 
+                    b.Property<bool>("resultLib")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasDefaultValue(false);
+
                     b.Property<string>("resultName")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -240,49 +275,11 @@ namespace KuranX.App.Migrations
                     b.Property<DateTime>("sendTime")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT")
-                        .HasDefaultValue(new DateTime(2023, 1, 26, 9, 52, 14, 254, DateTimeKind.Local).AddTicks(8399));
+                        .HasDefaultValue(new DateTime(2023, 1, 10, 20, 54, 35, 891, DateTimeKind.Local).AddTicks(4895));
 
                     b.HasKey("resultItemId");
 
                     b.ToTable("ResultItems");
-                });
-
-            modelBuilder.Entity("KuranX.App.Core.Classes.Section", b =>
-                {
-                    b.Property<int>("SectionId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<bool>("IsMark")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("SectionDescription")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("SectionDetail")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("SectionName")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("SectionNumber")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("SureId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("endVerse")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("startVerse")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("SectionId");
-
-                    b.ToTable("Sections");
                 });
 
             modelBuilder.Entity("KuranX.App.Core.Classes.Subject", b =>
@@ -444,7 +441,7 @@ namespace KuranX.App.Migrations
                     b.Property<DateTime>("createDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT")
-                        .HasDefaultValue(new DateTime(2023, 1, 26, 9, 52, 14, 254, DateTimeKind.Local).AddTicks(4380))
+                        .HasDefaultValue(new DateTime(2023, 1, 10, 20, 54, 35, 891, DateTimeKind.Local).AddTicks(218))
                         .HasColumnName("user_createDate");
 
                     b.Property<string>("email")
@@ -489,7 +486,7 @@ namespace KuranX.App.Migrations
                     b.Property<DateTime>("updateDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT")
-                        .HasDefaultValue(new DateTime(2023, 1, 26, 9, 52, 14, 254, DateTimeKind.Local).AddTicks(4554))
+                        .HasDefaultValue(new DateTime(2023, 1, 10, 20, 54, 35, 891, DateTimeKind.Local).AddTicks(417))
                         .HasColumnName("user_updateDate");
 
                     b.HasKey("userId");

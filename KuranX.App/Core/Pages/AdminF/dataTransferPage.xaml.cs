@@ -100,6 +100,49 @@ namespace KuranX.App.Core.Pages.AdminF
             return this;
         }
 
+        private void addSection_Click(object sender, RoutedEventArgs e)
+        {
+
+
+
+
+            using (var entitydb = new AyetContext())
+            {
+                string sql = "select * from section;";
+                MySqlCommand cmd = new MySqlCommand(sql, connection);
+                MySqlDataReader rdr = cmd.ExecuteReader();
+
+                int i = 0;
+                while (rdr.Read())
+                {
+                    var newWe = new Classes.Section();
+
+
+                    newWe.SectionName = $"{(int)rdr[2]}. ve {(int)rdr[3]} ayetler";
+                    newWe.SureId = (int)rdr[1];
+                    newWe.startVerse = (int)rdr[2];
+                    newWe.endVerse = (int)rdr[3];
+                    newWe.SectionNumber = (int)rdr[4];
+                    newWe.SectionDescription = "";
+                    newWe.SectionDetail = "";
+                    newWe.IsMark = false;
+
+
+                    entitydb.Sections.Add(newWe);
+
+                    this.Dispatcher.Invoke(() => log.Items.Add(i + " -> " + DateTime.Now + ":" + newWe.SectionId + " section id VERİ EKLENDİ"));
+                    this.Dispatcher.Invoke(() => log.SelectedIndex = i);
+                    i++;
+                }
+
+                entitydb.SaveChanges();
+            }
+
+
+
+
+
+        }
         private void addwordFunc()
         {
             try
@@ -177,7 +220,6 @@ namespace KuranX.App.Core.Pages.AdminF
                             newVe.verseCheck = false;
                             newVe.remiderCheck = false;
                             newVe.markCheck = false;
-                            newVe.commentary = "Wait";
 
                             entitydb.Verse.Add(newVe);
 
@@ -246,6 +288,48 @@ namespace KuranX.App.Core.Pages.AdminF
             var command = conn.CreateCommand();
             command.CommandText = "PRAGMA key = meltdown;";
             command.ExecuteNonQuery();
+        }
+
+        private void verseClassCreate_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                using (var entitydb = new AyetContext())
+                {
+                    string sql = "select * from ayetler;";
+                    MySqlCommand cmd = new MySqlCommand(sql, connection);
+                    MySqlDataReader rdr = cmd.ExecuteReader();
+
+                    while (rdr.Read())
+                    {
+                        Debug.WriteLine(rdr[1]);
+
+                        var newVe = new VerseClass();
+
+                        int ch = (int)rdr[2];
+                        ch++;
+
+                        newVe.sureId = (int)rdr[0];
+                        newVe.relativeDesk = ch;
+                        newVe.v_hk = true;
+                        newVe.v_tv = false;
+                        newVe.v_cz = false;
+                        newVe.v_mk = false;
+                        newVe.v_du = false;
+                        newVe.v_hr = false;
+                        newVe.v_sn = false;
+                        entitydb.VerseClass.Add(newVe);
+
+                        this.Dispatcher.Invoke(() => log.Items.Add(" -> " + DateTime.Now + ":" + newVe.sureId + " verse id VERİ EKLENDİ"));
+                    }
+
+                    entitydb.SaveChanges();
+                }
+            }
+            catch (Exception err)
+            {
+                Debug.Write(err.Message);
+            }
         }
     }
 }

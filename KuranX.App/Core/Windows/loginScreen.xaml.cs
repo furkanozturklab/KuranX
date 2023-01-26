@@ -167,8 +167,6 @@ namespace KuranX.App.Core.Windows
 
                 foreach (var item in db.Subject) db.Subject.Remove(item);
 
-                foreach (var item in db.Librarys) db.Librarys.Remove(item);
-
                 foreach (var item in db.Remider) db.Remider.Remove(item);
 
                 foreach (var item in db.Tasks) db.Tasks.Remove(item);
@@ -181,7 +179,7 @@ namespace KuranX.App.Core.Windows
                 {
                     db.Results.Where(p => p.resultId == item.resultId).First().resultNotes = false;
                     db.Results.Where(p => p.resultId == item.resultId).First().resultSubject = false;
-                    db.Results.Where(p => p.resultId == item.resultId).First().resultLib = false;
+                    
                     db.Results.Where(p => p.resultId == item.resultId).First().resultFinallyNote = "Sonuç Metninizi buraya yaza bilirsiniz.";
                 }
 

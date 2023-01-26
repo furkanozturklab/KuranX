@@ -32,7 +32,7 @@ namespace KuranX.App.Core.Pages.NoteF
     /// </summary>
     public partial class NoteItem : Page
     {
-        private int noteId, cSr, cVr, cPd, cSb, gototypeId;
+        private int noteId, cSr, cVr, cPd, cSb, gototypeId, cBr;
         private bool tempCheck = false;
         private string gototype = "";
 
@@ -98,7 +98,7 @@ namespace KuranX.App.Core.Pages.NoteF
                                 noteType.Background = new BrushConverter().ConvertFrom("#FD7E14") as SolidColorBrush;
                                 break;
 
-                            case "Kütüphane":
+                            case "Bölüm":
                                 noteType.Background = new BrushConverter().ConvertFrom("#6610F2") as SolidColorBrush;
                                 break;
 
@@ -118,20 +118,6 @@ namespace KuranX.App.Core.Pages.NoteF
 
                         App.mainScreen.navigationWriter("notes", "Kullanıcı Notu");
 
-                        // Kütüphane Bağlanmış
-                        if (dNote.libraryId != 0)
-                        {
-                            gotoVerseButton.IsEnabled = true;
-                            gotoVerseButton.Content = "Kütüphaneye Git";
-                            gotoVerseButton.Tag = "ArrowRight";
-                            gotoVerseButton.Style = (Style)FindResource("defaultActionButonBstrpRed");
-                            App.mainScreen.navigationWriter("notes", "Kütüphane Notu");
-                            var dLibrary = entitydb.Librarys.Where(p => p.libraryId == dNote.libraryId).FirstOrDefault();
-                            infoText.Text = "Not Aldığınız Kütüphane " + Environment.NewLine + dLibrary.libraryName;
-                            cPd = (int)dNote.libraryId;
-                            gototype = "Library";
-                            gototypeId = dNote.libraryId;
-                        }
 
                         // Konu Bağlanmış
                         if (dNote.subjectId != 0)
@@ -161,6 +147,21 @@ namespace KuranX.App.Core.Pages.NoteF
                             cSr = (int)dSure.sureId;
                             cVr = (int)dNote.verseId;
                             gototype = "Verse";
+                        }
+
+
+                        // Bölüm Bağlanmış
+                        if (dNote.sectionId != 0)
+                        {
+                            gotoVerseButton.IsEnabled = true;
+                            gotoVerseButton.Content = "Bölüme Git";
+                            gotoVerseButton.Tag = "ArrowRight";
+                            var dSure = entitydb.Sure.Where(p => p.sureId == dNote.sureId).FirstOrDefault();
+                            App.mainScreen.navigationWriter("notes", "Bölüm Notu");
+                            infoText.Text = "Not Aldığınız Bölüm " + Environment.NewLine + dSure.name + " suresi " + dNote.sectionId + " ayeti";
+                            cSr = (int)dSure.sureId;
+                            cBr = (int)dNote.sectionId;
+                            gototype = "Section";
                         }
                     });
                     Thread.Sleep(int.Parse(App.config.AppSettings.Settings["app_animationSpeed"].Value));
@@ -238,11 +239,14 @@ namespace KuranX.App.Core.Pages.NoteF
 
                         break;
 
-                    case "Library":
+                    case "Section":
 
-                        App.mainframe.Content = App.navLibraryNoteItemsFrame.PageCall(gototypeId);
+                      
+                        App.mainframe.Content = App.navSectionPage.PageCall(cSr, cBr);
+
 
                         break;
+
 
                     case "Subject":
 
@@ -323,6 +327,16 @@ namespace KuranX.App.Core.Pages.NoteF
                     deleteButton.IsEnabled = false;
                     saveButton.IsEnabled = false;
                     entitydb.Notes.RemoveRange(entitydb.Notes.Where(p => p.notesId == noteId));
+
+                    entitydb.ResultItems.RemoveRange(entitydb.ResultItems.Where(p => p.resultNoteId == noteId));
+
+                    entitydb.SaveChanges();
+
+                    foreach (var item in entitydb.Results)
+                    {
+                        if (entitydb.ResultItems.Where(p => p.resultId == item.resultId).Count() == 0) item.resultNotes = false;
+                    }
+
                     entitydb.SaveChanges();
                     popup_DeleteConfirm.IsOpen = false;
                     voidgobacktimer();
@@ -406,7 +420,8 @@ namespace KuranX.App.Core.Pages.NoteF
                 App.timeSpan.Tick += delegate
                 {
                     App.timeSpan.Stop();
-                    NavigationService.GoBack();
+
+                    App.mainframe.Content = App.navNotesPage.PageCall();
                 };
             }
             catch (Exception ex)

@@ -97,11 +97,7 @@ namespace KuranX.App.Core.Pages.ResultF
                                 totalcount = entitydb.ResultItems.Where(p => p.resultId == selectedId && p.resultSubjectId != 0).Count();
                                 break;
 
-                            case "library":
-                                dResultItems = entitydb.ResultItems.Where(p => p.resultId == selectedId && p.resultLibId != 0).Skip(lastPage).Take(20).ToList();
-                                totalcount = entitydb.ResultItems.Where(p => p.resultId == selectedId && p.resultLibId != 0).Count();
-                                break;
-
+     
                             case "note":
                                 dResultItems = entitydb.ResultItems.Where(p => p.resultId == selectedId && p.resultNoteId != 0).Skip(lastPage).Take(20).ToList();
                                 totalcount = entitydb.ResultItems.Where(p => p.resultId == selectedId && p.resultNoteId != 0).Count();
@@ -164,13 +160,7 @@ namespace KuranX.App.Core.Pages.ResultF
                                 sBtn.Uid = item.resultSubjectId.ToString();
                                 sBtn.Content = "Konular";
                             }
-                            if (item.resultLibId != 0)
-                            {
-                                sLoc.Text = "Kütüphane";
-                                sName.Text = entitydb.Librarys.Where(p => p.libraryId == item.resultLibId).Select(p => new Library { libraryName = p.libraryName }).FirstOrDefault().libraryName;
-                                sBtn.Uid = item.resultLibId.ToString();
-                                sBtn.Content = "Kütüphane";
-                            }
+              
 
                             sBtnDel.Uid = item.resultItemId.ToString();
                             sCreate.Text = item.sendTime.ToString("D");
@@ -228,14 +218,13 @@ namespace KuranX.App.Core.Pages.ResultF
                 listview.IsChecked = true;
                 stackview.IsChecked = false;
 
-                if (statusSubject.IsChecked == false && statusLib.IsChecked == false && statusNote.IsChecked == false)
+                if (statusSubject.IsChecked == false && statusNote.IsChecked == false)
                 {
                     filter = false;
                 }
                 else
                 {
                     statusSubject.IsChecked = false;
-                    statusLib.IsChecked = false;
                     statusNote.IsChecked = false;
                     btn.IsChecked = true;
                     filter = true;
@@ -260,7 +249,7 @@ namespace KuranX.App.Core.Pages.ResultF
                 stackview.IsChecked = false;
 
                 statusSubject.IsChecked = false;
-                statusLib.IsChecked = false;
+               
                 statusNote.IsChecked = false;
 
                 switch ((string)btn.GetValue(Extensions.DataStorage))
@@ -269,9 +258,6 @@ namespace KuranX.App.Core.Pages.ResultF
                         statusSubject.IsChecked = true;
                         break;
 
-                    case "library":
-                        statusLib.IsChecked = true;
-                        break;
 
                     case "note":
                         statusNote.IsChecked = true;
@@ -279,7 +265,7 @@ namespace KuranX.App.Core.Pages.ResultF
 
                     default:
                         statusSubject.IsChecked = false;
-                        statusLib.IsChecked = false;
+                       
                         statusNote.IsChecked = false;
                         break;
                 }
@@ -317,13 +303,6 @@ namespace KuranX.App.Core.Pages.ResultF
 
                         break;
 
-                    case "Kütüphane":
-                        using (var entitydb = new AyetContext())
-                        {
-                            var dtemp = entitydb.Librarys.Where(p => p.libraryId == int.Parse(btn.Uid)).FirstOrDefault();
-                            if (dtemp != null) App.mainframe.Content = App.navLibraryNoteItemsFrame.PageCall(dtemp.libraryId);
-                        }
-                        break;
                 }
             }
             catch (Exception ex)
@@ -355,13 +334,10 @@ namespace KuranX.App.Core.Pages.ResultF
                     entitydb.ResultItems.RemoveRange(entitydb.ResultItems.Where(p => p.resultItemId == itemDeleteId));
                     entitydb.SaveChanges();
 
-                    if (entitydb.ResultItems.Where(p => p.resultId == selectedId && p.resultNoteId != 0).Count() == 0)
+                    if (entitydb.ResultItems.Where(p => p.resultId == selectedId).Count() == 0)
                         entitydb.Results.Where(p => p.resultId == selectedId).FirstOrDefault().resultNotes = false;
 
-                    if (entitydb.ResultItems.Where(p => p.resultId == selectedId && p.resultLibId != 0).Count() == 0)
-                        entitydb.Results.Where(p => p.resultId == selectedId).FirstOrDefault().resultLib = false;
-
-                    if (entitydb.ResultItems.Where(p => p.resultId == selectedId && p.resultSubjectId != 0).Count() == 0)
+                    if (entitydb.ResultItems.Where(p => p.resultId == selectedId).Count() == 0)
                         entitydb.Results.Where(p => p.resultId == selectedId).FirstOrDefault().resultSubject = false;
 
                     entitydb.SaveChanges();
@@ -455,7 +431,7 @@ namespace KuranX.App.Core.Pages.ResultF
         {
             try
             {
-                NavigationService.GoBack();
+                App.mainframe.Content = App.navResultPage.PageCall();
             }
             catch (Exception ex)
             {
@@ -506,7 +482,7 @@ namespace KuranX.App.Core.Pages.ResultF
                 this.Dispatcher.Invoke(() =>
                 {
                     statusSubject.IsEnabled = false;
-                    statusLib.IsEnabled = false;
+                 
                     statusNote.IsEnabled = false;
                     backPage.IsEnabled = false;
                     resultScreenOpen.IsEnabled = false;
@@ -528,7 +504,7 @@ namespace KuranX.App.Core.Pages.ResultF
                 this.Dispatcher.Invoke(() =>
                 {
                     statusSubject.IsEnabled = true;
-                    statusLib.IsEnabled = true;
+              
                     statusNote.IsEnabled = true;
                     backPage.IsEnabled = true;
                     resultScreenOpen.IsEnabled = true;

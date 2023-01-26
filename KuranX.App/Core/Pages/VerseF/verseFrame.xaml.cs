@@ -58,7 +58,7 @@ namespace KuranX.App.Core.Pages.VerseF
                 intelWriter = interpreter;
                 intelWriter = App.InterpreterWriter;
                 loadAni();
-                App.loadTask = Task.Run(() => loadVerseFunc(relativeVerseId));
+                App.loadTask = Task.Run(() => loadVerseFunc(sRelativeVerseId));
 
                 return this;
             }
@@ -84,7 +84,8 @@ namespace KuranX.App.Core.Pages.VerseF
                     popup_Meaning.IsOpen = true;
                     connectBox = false;
                 }
-                App.mainScreen.navigationWriter("verse", loadHeader.Text + "," + sRelativeVerseId);
+
+                //App.mainScreen.navigationWriter("verse", loadHeader.Text + "," + sRelativeVerseId);
             }
             catch (Exception ex)
             {
@@ -94,7 +95,7 @@ namespace KuranX.App.Core.Pages.VerseF
 
         // ---------- LOAD FUNC ---------- //
 
-        public void loadVerseFunc(int relativeVerseId)
+        public void loadVerseFunc(int relativeVerseId = 1)
         {
             // Verse Load Func
             try
@@ -104,35 +105,46 @@ namespace KuranX.App.Core.Pages.VerseF
                 {
                     var dSure = entitydb.Sure.Where(p => p.sureId == sSureId).Select(p => new Sure { name = p.name, numberOfVerses = p.numberOfVerses, landingLocation = p.landingLocation, description = p.description, deskLanding = p.deskLanding, deskMushaf = p.deskMushaf }).First();
                     var dVerse = entitydb.Verse.Where(p => p.sureId == sSureId && p.relativeDesk == relativeVerseId).First();
-                    verseId = (int)dVerse.verseId;
+                    var dCVerse = entitydb.VerseClass.Where(p => p.sureId == sSureId && p.relativeDesk == relativeVerseId).First();
 
-                    sRelativeVerseId = (int)dVerse.relativeDesk;
-
-                    //allPopupClosed();
-
-                    loadNavFunc();
-                    loadItemsHeader(dSure);
-                    loadItemsControl(dVerse);
-                    loadItemsContent(dVerse);
-                    loadInterpreterFunc(intelWriter, sRelativeVerseId);
-                    noteConnect();
-                    loadMeaning();
-
-                    this.Dispatcher.Invoke(() =>
+                    if (dVerse != null && dSure != null)
                     {
-                        App.mainScreen.navigationWriter("verse", loadHeader.Text + "," + sRelativeVerseId);
+                        verseId = (int)dVerse.verseId;
 
-                        mainContent.Visibility = Visibility.Visible;
-                        if (dSure.name == "Fâtiha" && sRelativeVerseId == 1) NavUpdatePrevSingle.IsEnabled = false;
-                        else NavUpdatePrevSingle.IsEnabled = true;
+                        sRelativeVerseId = (int)dVerse.relativeDesk;
 
-                        navControlStack.Visibility = Visibility.Visible;
-                        mainContent.Visibility = Visibility.Visible;
-                        controlPanel.Visibility = Visibility.Visible;
-                    });
+                        //allPopupClosed();
 
-                    dSure = null;
-                    dVerse = null;
+                        loadNavFunc();
+                        loadItemsHeader(dSure);
+                        loadItemsControl(dVerse);
+                        loadItemsClass(dCVerse);
+                        loadItemsContent(dVerse);
+                        loadInterpreterFunc(intelWriter, sRelativeVerseId);
+                        noteConnect();
+                        loadMeaning();
+
+                        this.Dispatcher.Invoke(() =>
+                        {
+                            App.mainScreen.navigationWriter("verse", loadHeader.Text + "," + sRelativeVerseId);
+
+                            mainContent.Visibility = Visibility.Visible;
+                            if (dSure.name == "Fâtiha" && sRelativeVerseId == 1) NavUpdatePrevSingle.IsEnabled = false;
+                            else NavUpdatePrevSingle.IsEnabled = true;
+
+                            navControlStack.Visibility = Visibility.Visible;
+                            mainContent.Visibility = Visibility.Visible;
+                            controlPanel.Visibility = Visibility.Visible;
+                            classPanel.Visibility = Visibility.Visible;
+                        });
+
+                        dSure = null;
+                        dVerse = null;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Null");
+                    }
                 }
             }
             catch (Exception ex)
@@ -257,8 +269,6 @@ namespace KuranX.App.Core.Pages.VerseF
                     });
                 }
 
-                Thread.Sleep(int.Parse(App.config.AppSettings.Settings["app_animationSpeed"].Value));
-
                 for (int x = 1; x < 9; x++)
                 {
                     this.Dispatcher.Invoke(() =>
@@ -268,6 +278,10 @@ namespace KuranX.App.Core.Pages.VerseF
                     });
                 }
 
+
+                Thread.Sleep(int.Parse(App.config.AppSettings.Settings["app_animationSpeed"].Value));
+
+
                 dVerseNav = null;
                 tempVerse = null;
             }
@@ -275,7 +289,7 @@ namespace KuranX.App.Core.Pages.VerseF
             this.Dispatcher.Invoke(() =>
             {
                 navstackPanel.Visibility = Visibility.Visible;
-
+                classPanel.Visibility = Visibility.Visible;
                 controlPanel.Visibility = Visibility.Visible;
             });
         }
@@ -310,6 +324,7 @@ namespace KuranX.App.Core.Pages.VerseF
                 using (var entitydb = new AyetContext())
                 {
                     loadItemsControl(entitydb.Verse.Where(p => p.relativeDesk == sR && p.sureId == sSureId).First());
+                    loadItemsClass(entitydb.VerseClass.Where(p => p.relativeDesk == sR && p.sureId == sSureId).First());
                 }
             }
             catch (Exception ex)
@@ -333,8 +348,28 @@ namespace KuranX.App.Core.Pages.VerseF
                     checkButton.IsChecked = dVerse.verseCheck;
                     checkButton.Uid = dVerse.verseId.ToString();
                     descButton.Uid = dVerse.verseDesc;
-                    commentrayButton.Uid = dVerse.commentary;
                     feedbackButton.Uid = dVerse.verseId.ToString();
+                });
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Loading", ex);
+            }
+        }
+
+        public void loadItemsClass(VerseClass dCVerse)
+        {
+            try
+            {
+                this.Dispatcher.Invoke(() =>
+                {
+                    class1.IsEnabled = dCVerse.v_hk;
+                    class2.IsEnabled = dCVerse.v_tv;
+                    class3.IsEnabled = dCVerse.v_cz;
+                    class4.IsEnabled = dCVerse.v_mk;
+                    class5.IsEnabled = dCVerse.v_du;
+                    class6.IsEnabled = dCVerse.v_hr;
+                    class7.IsEnabled = dCVerse.v_sn;
                 });
             }
             catch (Exception ex)
@@ -566,9 +601,9 @@ namespace KuranX.App.Core.Pages.VerseF
 
                 currentP = int.Parse(chk.Content.ToString().Split(" ")[0]);
                 navstackPanel.Visibility = Visibility.Hidden;
-
                 controlPanel.Visibility = Visibility.Hidden;
-
+                classPanel.Visibility = Visibility.Hidden;
+                classPanel.Visibility = Visibility.Hidden;
                 mainContent.Visibility = Visibility.Hidden;
                 App.loadTask = Task.Run(() => loadVerseFunc(currentP));
             }
@@ -588,6 +623,7 @@ namespace KuranX.App.Core.Pages.VerseF
                 navstackPanel.Visibility = Visibility.Hidden;
 
                 controlPanel.Visibility = Visibility.Hidden;
+                classPanel.Visibility = Visibility.Hidden;
                 mainContent.Visibility = Visibility.Hidden;
                 if (int.Parse(loadVerseCount.Text) >= sRelativeVerseId && 1 < sRelativeVerseId)
                 {
@@ -651,6 +687,7 @@ namespace KuranX.App.Core.Pages.VerseF
                 navstackPanel.Visibility = Visibility.Hidden;
 
                 controlPanel.Visibility = Visibility.Hidden;
+                classPanel.Visibility = Visibility.Hidden;
 
                 mainContent.Visibility = Visibility.Hidden;
 
@@ -703,6 +740,7 @@ namespace KuranX.App.Core.Pages.VerseF
             {
                 headerBorder.Visibility = Visibility.Visible;
                 controlPanel.Visibility = Visibility.Visible;
+                classPanel.Visibility = Visibility.Visible;
                 mainContent.Visibility = Visibility.Visible;
                 navControlStack.Visibility = Visibility.Visible;
                 actionsControlGrid.Visibility = Visibility.Visible;
@@ -988,6 +1026,7 @@ namespace KuranX.App.Core.Pages.VerseF
                 meaningConnectVerse.Text = "0";
                 subjectpreviewName.Text = "Önizleme";
                 subjectFolderHeader.Text = "";
+                searchBox = false;
 
                 btntemp = null;
             }
@@ -1065,22 +1104,6 @@ namespace KuranX.App.Core.Pages.VerseF
             }
         }
 
-        private void commentaryButton_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                var contentb = sender as Button;
-                textCommentary.Text = contentb.Uid.ToString();
-                popupHeaderTextCommentary.Text = loadHeader.Text + " Suresinin " + sRelativeVerseId.ToString() + " Ayetinin Tefsiri";
-                popup_commentaryVersePopup.IsOpen = true;
-                contentb = null;
-            }
-            catch (Exception ex)
-            {
-                App.logWriter("Click", ex);
-            }
-        }
-
         private void feedbackButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -1101,7 +1124,7 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
-                if (feedbackDetail.Text.Length > 3)
+                if (feedbackDetail.Text.Length >= 3)
                 {
                     feedbackPopupButton.IsEnabled = false;
                     feedbackPopupClose.IsEnabled = false;
@@ -1260,7 +1283,7 @@ namespace KuranX.App.Core.Pages.VerseF
                 if (int.Parse(loadVerseCount.Text) >= int.Parse(popupRelativeId.Text))
                 {
                     controlPanel.Visibility = Visibility.Hidden;
-
+                    classPanel.Visibility = Visibility.Hidden;
                     mainContent.Visibility = Visibility.Hidden;
 
                     sRelativeVerseId = int.Parse(popupRelativeId.Text);
@@ -1298,37 +1321,13 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
-                if (noteName.Text.Length <= 3)
+                if (noteName.Text.Length >= 3)
                 {
-                    noteAddPopupHeaderError.Visibility = Visibility.Visible;
-                    noteName.Focus();
-                    noteAddPopupHeaderError.Content = "Not Başlığı Yeterince Uzun Değil. Min 3 Karakter Olmalıdır.";
-                }
-                else
-                {
-                    if (noteName.Text.Length > 150)
+                    if (noteName.Text.Length <= 150)
                     {
-                        noteAddPopupHeaderError.Visibility = Visibility.Visible;
-                        noteName.Focus();
-                        noteAddPopupHeaderError.Content = "Not Başlığı Çok Uzun. Max 150 Karakter Olabilir.";
-                    }
-                    else
-                    {
-                        if (noteDetail.Text.Length <= 3)
+                        if (noteDetail.Text.Length >= 3)
                         {
-                            noteAddPopupDetailError.Visibility = Visibility.Visible;
-                            noteDetail.Focus();
-                            noteAddPopupDetailError.Content = "Not İçeriği Yeterince Uzun Değil. Min 3 Karakter Olmalıdır";
-                        }
-                        else
-                        {
-                            if (noteDetail.Text.Length >= 3000)
-                            {
-                                noteAddPopupDetailError.Visibility = Visibility.Visible;
-                                noteDetail.Focus();
-                                noteAddPopupDetailError.Content = "Not İçeriği 3000 Maximum karakterden fazla olamaz.";
-                            }
-                            else
+                            if (noteDetail.Text.Length <= 3000)
                             {
                                 using (var entitydb = new AyetContext())
                                 {
@@ -1351,8 +1350,32 @@ namespace KuranX.App.Core.Pages.VerseF
                                 }
                                 popup_noteAddPopup.IsOpen = false;
                             }
+                            else
+                            {
+                                noteAddPopupDetailError.Visibility = Visibility.Visible;
+                                noteDetail.Focus();
+                                noteAddPopupDetailError.Content = "Not İçeriği 3000 Maximum karakterden fazla olamaz.";
+                            }
+                        }
+                        else
+                        {
+                            noteAddPopupDetailError.Visibility = Visibility.Visible;
+                            noteDetail.Focus();
+                            noteAddPopupDetailError.Content = "Not İçeriği Yeterince Uzun Değil. Min 3 Karakter Olmalıdır";
                         }
                     }
+                    else
+                    {
+                        noteAddPopupHeaderError.Visibility = Visibility.Visible;
+                        noteName.Focus();
+                        noteAddPopupHeaderError.Content = "Not Başlığı Çok Uzun. Max 150 Karakter Olabilir.";
+                    }
+                }
+                else
+                {
+                    noteAddPopupHeaderError.Visibility = Visibility.Visible;
+                    noteName.Focus();
+                    noteAddPopupHeaderError.Content = "Not Başlığı Yeterince Uzun Değil. Min 3 Karakter Olmalıdır.";
                 }
             }
             catch (Exception ex)
@@ -1417,6 +1440,7 @@ namespace KuranX.App.Core.Pages.VerseF
             {
                 headerBorder.Visibility = Visibility.Hidden;
                 controlPanel.Visibility = Visibility.Hidden;
+                classPanel.Visibility = Visibility.Hidden;
                 mainContent.Visibility = Visibility.Hidden;
                 navControlStack.Visibility = Visibility.Hidden;
                 actionsControlGrid.Visibility = Visibility.Hidden;
@@ -1452,7 +1476,7 @@ namespace KuranX.App.Core.Pages.VerseF
             {
                 if (remiderName.Text.Length >= 3)
                 {
-                    if (remiderName.Text.Length < 150)
+                    if (remiderName.Text.Length <= 150)
                     {
                         if (remiderDetail.Text.Length >= 3)
                         {
@@ -1674,7 +1698,7 @@ namespace KuranX.App.Core.Pages.VerseF
             {
                 if (subjectFolderHeader.Text.Length >= 3)
                 {
-                    if (subjectFolderHeader.Text.Length < 150)
+                    if (subjectFolderHeader.Text.Length <= 150)
                     {
                         using (var entitydb = new AyetContext())
                         {
@@ -1809,7 +1833,7 @@ namespace KuranX.App.Core.Pages.VerseF
             {
                 if (meaningName.Text.Length >= 3)
                 {
-                    if (meaningName.Text.Length < 150)
+                    if (meaningName.Text.Length <= 150)
                     {
                         var item = meaningpopupNextSureId.SelectedItem as ComboBoxItem;
 
@@ -1897,6 +1921,7 @@ namespace KuranX.App.Core.Pages.VerseF
             {
                 headerBorder.Visibility = Visibility.Hidden;
                 controlPanel.Visibility = Visibility.Hidden;
+                classPanel.Visibility = Visibility.Hidden;
                 mainContent.Visibility = Visibility.Hidden;
                 navControlStack.Visibility = Visibility.Hidden;
                 actionsControlGrid.Visibility = Visibility.Hidden;
@@ -2293,6 +2318,7 @@ namespace KuranX.App.Core.Pages.VerseF
 
                 headerBorder.Visibility = Visibility.Hidden;
                 controlPanel.Visibility = Visibility.Hidden;
+                classPanel.Visibility = Visibility.Hidden;
                 mainContent.Visibility = Visibility.Hidden;
                 navControlStack.Visibility = Visibility.Hidden;
                 actionsControlGrid.Visibility = Visibility.Hidden;
@@ -2606,6 +2632,11 @@ namespace KuranX.App.Core.Pages.VerseF
             }
         }
 
+        private void popup_search_Closed(object sender, EventArgs e)
+        {
+            SearchData.Text = "";
+        }
+
         private void subjectFolderHeader_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             try
@@ -2811,6 +2842,7 @@ namespace KuranX.App.Core.Pages.VerseF
                 {
                     headerBorder.Visibility = Visibility.Hidden;
                     controlPanel.Visibility = Visibility.Hidden;
+                    classPanel.Visibility = Visibility.Hidden;
                     mainContent.Visibility = Visibility.Hidden;
                     navstackPanel.Visibility = Visibility.Hidden;
                 });
