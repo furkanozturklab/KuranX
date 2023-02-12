@@ -31,6 +31,10 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} InitializeComponent ] -> SubjectFolder");
+
+
                 InitializeComponent();
             }
             catch (Exception ex)
@@ -43,6 +47,10 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} PageCall ] -> SubjectFolder");
+
+
                 lastPage = 0;
                 NowPage = 1;
                 subFolderId = subId;
@@ -62,6 +70,10 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} Page_Loaded ] -> SubjectFolder");
+
+
                 App.mainScreen.navigationWriter("subject", loadHeader.Text);
             }
             catch (Exception ex)
@@ -76,6 +88,10 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} loadItem ] -> SubjectFolder");
+
+
                 using (var entitydb = new AyetContext())
                 {
                     loadAni();
@@ -172,6 +188,10 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} subjectItemsOpen_Click ] -> SubjectFolder");
+
+
                 var btn = sender as Button;
                 App.mainframe.Content = App.navSubjectItem.subjectItemsPageCall(int.Parse(btn.Uid), int.Parse((string)btn.Content), int.Parse((string)btn.Tag));
             }
@@ -185,6 +205,10 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} newConnect_Click ] -> SubjectFolder");
+
+
                 var item = popupNextSureId.SelectedItem as ComboBoxItem;
 
                 popupaddnewversecountErrortxt.Content = item.Content + " Süresini " + item.Tag + " Ayeti Mevcut";
@@ -201,6 +225,8 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             try
             {
+                App.errWrite($"[{DateTime.Now} sendResult_Click ] -> SubjectFolder");
+
                 popup_sendResult.IsOpen = true;
             }
             catch (Exception ex)
@@ -213,6 +239,8 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             try
             {
+                App.errWrite($"[{DateTime.Now} popupClosed_Click ] -> SubjectFolder");
+
                 var btntemp = sender as Button;
                 Popup popuptemp = (Popup)FindName(btntemp.Uid);
                 pp_moveBar.IsOpen = false;
@@ -232,6 +260,9 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             try
             {
+                App.errWrite($"[{DateTime.Now} addnewConnectSubject_Click ] -> SubjectFolder");
+
+
                 using (var entitydb = new AyetContext())
                 {
                     var item = popupNextSureId.SelectedItem as ComboBoxItem;
@@ -274,6 +305,9 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             try
             {
+                App.errWrite($"[{DateTime.Now} nextpageButton_Click ] -> SubjectFolder");
+
+
                 nextpageButton.IsEnabled = false;
                 lastPage += 20;
                 NowPage++;
@@ -289,6 +323,8 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             try
             {
+                App.errWrite($"[{DateTime.Now} previusPageButton_Click ] -> SubjectFolder");
+
                 if (lastPage >= 20)
                 {
                     previusPageButton.IsEnabled = false;
@@ -307,6 +343,8 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} backPage_Click ] -> SubjectFolder");
                 NavigationService.GoBack();
             }
             catch (Exception ex)
@@ -319,6 +357,7 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             try
             {
+                App.errWrite($"[{DateTime.Now} connectResultControl_Click ] -> SubjectFolder");
                 using (var entitydb = new AyetContext())
                 {
                     var item = popupResultSureId.SelectedItem as ComboBoxItem;
@@ -350,6 +389,9 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             try
             {
+                App.errWrite($"[{DateTime.Now} deleteSubjectPopupBtn_Click ] -> SubjectFolder");
+
+
                 using (var entitydb = new AyetContext())
                 {
                     entitydb.SubjectItems.RemoveRange(entitydb.SubjectItems.Where(p => p.subjectId == subFolderId));
@@ -381,6 +423,9 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             try
             {
+                App.errWrite($"[{DateTime.Now} newNamePopup_Click ] -> SubjectFolder");
+
+
                 using (var entitydb = new AyetContext())
                 {
                     if (popupNewName.Text.Length >= 3)
@@ -408,6 +453,9 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             try
             {
+                App.errWrite($"[{DateTime.Now} subjectItemsDeleteBtn_Click ] -> SubjectFolder");
+
+
                 popup_SubjectDelete.IsOpen = true;
             }
             catch (Exception ex)
@@ -420,6 +468,9 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} subjectItemsRenameBtn_Click ] -> SubjectFolder");
+
                 popupNewName.Text = loadHeader.Text;
                 popup_newName.IsOpen = true;
             }
@@ -437,6 +488,9 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             try
             {
+                App.errWrite($"[{DateTime.Now} popupNextSureId_SelectionChanged ] -> SubjectFolder");
+
+
                 var comboBox = (ComboBox)sender;
                 if (!comboBox.IsLoaded) return;
 
@@ -470,6 +524,9 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             try
             {
+                App.errWrite($"[{DateTime.Now} popupNextVerseId_TextChanged ] -> SubjectFolder");
+
+
                 var item = popupNextSureId.SelectedItem as ComboBoxItem;
 
                 var textbox = (TextBox)sender;
@@ -524,6 +581,10 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} voidgobacktimer ] -> SubjectFolder");
+
+
                 backPage.IsEnabled = false;
                 newConnect.IsEnabled = false;
                 previusPageButton.IsEnabled = false;
@@ -553,6 +614,10 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} loadAni ] -> SubjectFolder");
+
+
                 this.Dispatcher.Invoke(() =>
                 {
                     subjectItemsDeleteBtn.IsEnabled = false;
@@ -571,6 +636,10 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} loadAniComplated ] -> SubjectFolder");
+
+
                 this.Dispatcher.Invoke(() =>
                 {
                     loadHeaderGif.Visibility = Visibility.Collapsed;
@@ -593,6 +662,8 @@ namespace KuranX.App.Core.Pages.SubjectF
 
         public void popuverMove_Click(object sender, RoutedEventArgs e)
         {
+            App.errWrite($"[{DateTime.Now} popuverMove_Click ] -> SubjectFolder");
+
             var btn = sender as Button;
             ppMoveConfing((string)btn.Uid);
             moveControlName.Text = (string)btn.Content;
@@ -601,6 +672,10 @@ namespace KuranX.App.Core.Pages.SubjectF
 
         public void ppMoveActionOfset_Click(object sender, RoutedEventArgs e)
         {
+
+            App.errWrite($"[{DateTime.Now} ppMoveActionOfset_Click ] -> SubjectFolder");
+
+
             var btntemp = sender as Button;
             var movePP = (Popup)FindName((string)btntemp.Content);
 
@@ -642,6 +717,9 @@ namespace KuranX.App.Core.Pages.SubjectF
 
         public void ppMoveConfing(string ppmove)
         {
+            App.errWrite($"[{DateTime.Now} ppMoveConfing ] -> SubjectFolder");
+
+
             for (int i = 1; i < 8; i++)
             {
                 var btn = FindName("pp_M" + i) as Button;

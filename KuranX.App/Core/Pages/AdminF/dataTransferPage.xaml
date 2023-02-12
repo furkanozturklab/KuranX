@@ -25,9 +25,13 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        
-        <Button x:Name="addsection" Content="Add Section" Tag="12" Grid.Column="0" Style="{DynamicResource admin_Menubtn}" Click="addSection_Click" />
 
+        <StackPanel Orientation="Vertical" Grid.Column="0"  Grid.RowSpan="2">
+            <Button x:Name="addsection" Content="Add Section" Tag="12" Style="{DynamicResource admin_Menubtn}" Click="addSection_Click" />
+            <Button x:Name="addsectionCount" Content="Section Count" Tag="12"  Style="{DynamicResource admin_Menubtn}" Click="addSectionCount_Click" />
+
+        </StackPanel>
+    
         <Button x:Name="addsure" Content="Add Sure" Tag="12" Grid.Column="1" Style="{DynamicResource admin_Menubtn}" Click="addsure_Click" />
         <Button x:Name="addverse" Content="Add Verse" Tag="12" Grid.Column="2" Style="{DynamicResource admin_Menubtn}" Click="addverse_Click" />
         <Button x:Name="addwords" Content="Add Word" Tag="12" Grid.Column="3" Style="{DynamicResource admin_Menubtn}" Click="addwords_Click" />

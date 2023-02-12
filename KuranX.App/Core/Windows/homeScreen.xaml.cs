@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
@@ -16,6 +18,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Navigation;
+using System.Windows.Shapes;
 using System.Windows.Threading;
 
 using KuranX.App.Core.Classes;
@@ -43,6 +46,7 @@ namespace KuranX.App.Core.Windows
                 App.secondFrame = (Frame)this.FindName("secondFrame");
                 AppVersion.Text = "Version " + App.config.AppSettings.Settings["application_version"].Value;
                 settingsVersion.Content = "build" + App.config.AppSettings.Settings["application_type"].Value + "_" + App.config.AppSettings.Settings["application_platform"].Value + "_" + App.config.AppSettings.Settings["application_version"].Value;
+
             }
             catch (Exception ex)
             {
@@ -63,6 +67,12 @@ namespace KuranX.App.Core.Windows
                 App.mainTask = Task.Run(() => remiderCycler_Func());
                 App.loadTask = Task.Run(() => loadProfile());
                 App.mainTask.Wait();
+
+
+                App.errWrite($"[Session Stard - {DateTime.Now}]");
+
+
+
 
                 if (taskstatus) App.mainTask = Task.Run(() => tasksCycler_Func());
                 App.mainframe.Content = App.navHomeFrame.PageCall();
@@ -320,7 +330,7 @@ namespace KuranX.App.Core.Windows
                             baseNavigation.Tag = "/resource/images/icon/subject_r.png";
                             break;
 
-          
+
 
                         case "notes":
                             baseNavigation.Tag = "/resource/images/icon/notes_r.png";
@@ -656,6 +666,7 @@ namespace KuranX.App.Core.Windows
                 App.secondFrame.Visibility = Visibility.Collapsed;
                 navCheckBox = sender as CheckBox;
                 App.loadTask = Task.Run(() => menuTask(navCheckBox));
+                App.errWrite($"[{DateTime.Now} Menu Click] -> {navCheckBox.Content}");
             }
             catch (Exception ex)
             {
@@ -898,6 +909,7 @@ namespace KuranX.App.Core.Windows
                 var popuptemp = (Popup)FindName(btntemp.Uid);
                 popuptemp.IsOpen = false;
                 pp_moveBar.IsOpen = false;
+                errDetail.Text = "";
                 btntemp = null;
             }
             catch (Exception ex)
@@ -1003,6 +1015,7 @@ namespace KuranX.App.Core.Windows
         {
             try
             {
+                App.errWrite($"[{DateTime.Now} LoadProfile] -> Profil Load");
                 using (var entitydb = new AyetContext())
                 {
                     var dProfile = entitydb.Users.FirstOrDefault();
@@ -1156,6 +1169,8 @@ namespace KuranX.App.Core.Windows
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} SaveProfile] -> Profil saved");
                 if (IsValidEmail(this.Dispatcher.Invoke(() => userEmail.Text)))
                 {
                     if (this.Dispatcher.Invoke(() => userName.Text.Length) >= 3)
@@ -1422,7 +1437,7 @@ namespace KuranX.App.Core.Windows
 
                 foreach (var item in db.Subject) db.Subject.Remove(item);
 
-              
+
 
                 foreach (var item in db.Remider) db.Remider.Remove(item);
 
@@ -1436,7 +1451,7 @@ namespace KuranX.App.Core.Windows
                 {
                     db.Results.Where(p => p.resultId == item.resultId).First().resultNotes = false;
                     db.Results.Where(p => p.resultId == item.resultId).First().resultSubject = false;
-            
+
                     db.Results.Where(p => p.resultId == item.resultId).First().resultFinallyNote = "Sonuç Metninizi buraya yaza bilirsiniz.";
                 }
 
@@ -1811,5 +1826,104 @@ namespace KuranX.App.Core.Windows
                 App.logWriter("Other", ex);
             }
         }
+
+        private void appErr_Click(object sender, RoutedEventArgs e)
+        {
+
+
+            errCode.Text = DateTime.Now.ToString().Replace(".", "").Replace(" ", "_").Replace(":", "") + "_" + userName.Text + userLastName.Text;
+            popup_ErrOpenPopup.IsOpen = true;
+
+        }
+
+
+        private async void appErrSend_Click(object sender, RoutedEventArgs e)
+        {
+
+            try
+            {
+                if (errDetail.Text.Length >= 3)
+                {
+
+                    ftp_write();
+                    Debug.WriteLine(errCode.Text);
+
+                    var postingdata = new Dictionary<string, string>
+                    {
+                            { App.config.AppSettings.Settings["api_tokenName"].Value, App.config.AppSettings.Settings["api_token"].Value},
+                            { "post_projectid", App.config.AppSettings.Settings["application_id"].Value },
+                            { "post_action", "POST" },
+                            { "post_type", "AddErr" },
+                            { "post_fileName",errCode.Text },
+                            { "post_projectId", "3" },
+                            { "post_date", DateTime.Now.ToString() },
+                            { "post_errDetail", errDetail.Text },
+                            { "post_code",   errCode.Text },
+                            { "post_location",   string.Format("{0}/{1}", "ftp://furkanozturklab.com/projects/kuranx/err", "kuranx_" + errCode.Text + ".txt") }
+
+                    };
+
+                    App.loadTask = Task.Run(() => App.apiPostRun(postingdata, "AddError"));
+                    await App.loadTask;
+
+                    App.mainScreen.succsessFunc("İşlem Başarılı", " Karşılaşılan hata başarılı bir sekilde bildirilmiştir.", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
+
+                    popup_ErrOpenPopup.IsOpen = false;
+
+                    errDetail.Text = "";
+                }
+            }
+            catch (Exception ex)
+            {
+
+                App.logWriter("FTP", ex);
+            }
+
+
+        }
+
+
+        private void ftp_write()
+        {
+
+
+
+
+            NetworkCredential credentials = new NetworkCredential("ftpUpdate@furkanozturklab.com", "(ATb%#}QpK14");
+
+            FtpWebRequest ftbrequest = (FtpWebRequest)WebRequest.Create(new Uri(string.Format("{0}/{1}", "ftp://furkanozturklab.com/projects/kuranx/err", "kuranx_" + errCode.Text + ".txt")));
+            ftbrequest.Method = WebRequestMethods.Ftp.UploadFile;
+            ftbrequest.Credentials = credentials;
+            Stream ftbStream = ftbrequest.GetRequestStream();
+
+
+            FileStream fs = File.OpenRead(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\KuranSunnetullah\err.txt");
+
+            byte[] buffer = new byte[4096];
+            double total = (double)fs.Length;
+            double read = 0;
+            int byteRead = 0;
+
+
+            do
+            {
+                byteRead = fs.Read(buffer, 0, 1024);
+                ftbStream.Write(buffer, 0, byteRead);
+                read += (double)byteRead;
+                double prec = read / total * 100;
+                if (total == 0) prec = 100;
+
+                // 0 size crash
+
+            }
+            while (byteRead != 0);
+
+
+            fs.Close();
+            ftbStream.Close();
+
+
+        }
+
     }
 }

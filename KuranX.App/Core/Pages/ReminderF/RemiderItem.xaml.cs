@@ -32,6 +32,7 @@ namespace KuranX.App.Core.Pages.ReminderF
         {
             try
             {
+                App.errWrite($"[{DateTime.Now} InitializeComponent ] -> RemiderItem");
                 InitializeComponent();
             }
             catch (Exception ex)
@@ -44,6 +45,8 @@ namespace KuranX.App.Core.Pages.ReminderF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} PageCall ] -> RemiderItem");
                 remiderId = id;
                 App.loadTask = Task.Run(() => loadItem(id));
                 return this;
@@ -59,6 +62,8 @@ namespace KuranX.App.Core.Pages.ReminderF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} Page_Loaded ] -> RemiderItem");
                 loadHeaderStack.Visibility = Visibility.Visible;
                 controlBar.Visibility = Visibility.Visible;
                 remiderDetail.Visibility = Visibility.Visible;
@@ -73,6 +78,10 @@ namespace KuranX.App.Core.Pages.ReminderF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} loadItem ] -> RemiderItem");
+
+
                 using (var entitydb = new AyetContext())
                 {
                     loadAni();
@@ -168,6 +177,8 @@ namespace KuranX.App.Core.Pages.ReminderF
         {
             try
             {
+                App.errWrite($"[{DateTime.Now} gotoBackButton_Click ] -> RemiderItem");
+
                 NavigationService.GoBack();
             }
             catch (Exception ex)
@@ -180,6 +191,7 @@ namespace KuranX.App.Core.Pages.ReminderF
         {
             try
             {
+                App.errWrite($"[{DateTime.Now} deleteButton_Click ] -> RemiderItem");
                 popup_DeleteConfirm.IsOpen = true;
             }
             catch (Exception ex)
@@ -192,6 +204,8 @@ namespace KuranX.App.Core.Pages.ReminderF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} gotoVerseButton_Click ] -> RemiderItem");
                 loadHeaderStack.Visibility = Visibility.Hidden;
                 controlBar.Visibility = Visibility.Hidden;
                 remiderDetail.Visibility = Visibility.Hidden;
@@ -209,6 +223,10 @@ namespace KuranX.App.Core.Pages.ReminderF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} deleteRemiderPopupBtn_Click ] -> RemiderItem");
+
+
                 using (var entitydb = new AyetContext())
                 {
                     gotoBackButton.IsEnabled = false;
@@ -239,6 +257,9 @@ namespace KuranX.App.Core.Pages.ReminderF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} popupClosed_Click ] -> RemiderItem");
+
                 var btntemp = sender as Button;
                 var popuptemp = (Popup)FindName(btntemp.Uid);
 
@@ -254,6 +275,9 @@ namespace KuranX.App.Core.Pages.ReminderF
         {
             try
             {
+                App.errWrite($"[{DateTime.Now} saveButton_Click ] -> RemiderItem");
+
+
                 using (var entitydb = new AyetContext())
                 {
                     if (remiderDetail.Text.Length <= 3)
@@ -283,6 +307,10 @@ namespace KuranX.App.Core.Pages.ReminderF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} voidgobacktimer ] -> RemiderItem");
+
+
                 App.timeSpan.Interval = TimeSpan.FromSeconds(3);
                 App.timeSpan.Start();
                 App.mainScreen.succsessFunc("İşlem Başarılı", "Hatırlatıcı başaralı bir sekilde silinmiştir. Hatırlatıcı sayfasına yönlendiriliyorsunuz...", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
@@ -306,6 +334,8 @@ namespace KuranX.App.Core.Pages.ReminderF
         {
             try
             {
+                App.errWrite($"[{DateTime.Now} remiderDetail_TextChanged ] -> RemiderItem");
+
                 if (tempCheck)
                 {
                     saveButton.IsEnabled = true;
@@ -326,6 +356,10 @@ namespace KuranX.App.Core.Pages.ReminderF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} loadAni ] -> RemiderItem");
+
+
                 this.Dispatcher.Invoke(() =>
                 {
                     gotoBackButton.IsEnabled = false;
@@ -348,6 +382,8 @@ namespace KuranX.App.Core.Pages.ReminderF
         {
             try
             {
+                App.errWrite($"[{DateTime.Now} loadAniComplated ] -> RemiderItem");
+
                 this.Dispatcher.Invoke(() =>
                 {
                     gotoBackButton.IsEnabled = true;

@@ -29,6 +29,7 @@ namespace KuranX.App.Core.Pages.ResultF
         {
             try
             {
+                App.errWrite($"[{DateTime.Now} InitializeComponent ] -> ResultFrame");
                 InitializeComponent();
             }
             catch (Exception ex)
@@ -41,6 +42,9 @@ namespace KuranX.App.Core.Pages.ResultF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} PageCall ] -> ResultFrame");
+
                 lastPage = 0;
                 NowPage = 1;
 
@@ -58,6 +62,8 @@ namespace KuranX.App.Core.Pages.ResultF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} Page_Loaded ] -> ResultFrame");
                 gridContent.Visibility = Visibility.Visible;
                 App.mainScreen.navigationWriter("result", "");
             }
@@ -73,6 +79,10 @@ namespace KuranX.App.Core.Pages.ResultF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} loadItem ] -> ResultFrame");
+
+
                 using (var entitydb = new AyetContext())
                 {
                     App.mainScreen.navigationWriter("result", "");
@@ -160,6 +170,8 @@ namespace KuranX.App.Core.Pages.ResultF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} resultItemClick_Click ] -> ResultFrame");
                 var btn = sender as Button;
                 gridContent.Visibility = Visibility.Hidden;
                 App.mainframe.Content = App.navResultItem.PageCall(int.Parse(btn.Uid));
@@ -174,6 +186,11 @@ namespace KuranX.App.Core.Pages.ResultF
         {
             try
             {
+
+
+                App.errWrite($"[{DateTime.Now} nextpageButton_Click ] -> ResultFrame");
+
+
                 nextpageButton.IsEnabled = false;
                 lastPage += 16;
                 NowPage++;
@@ -190,6 +207,10 @@ namespace KuranX.App.Core.Pages.ResultF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} previusPageButton_Click ] -> ResultFrame");
+
+
                 if (lastPage >= 16)
                 {
                     previusPageButton.IsEnabled = false;
@@ -213,6 +234,9 @@ namespace KuranX.App.Core.Pages.ResultF
         {
             try
             {
+                App.errWrite($"[{DateTime.Now} fastsureCombobox_SelectionChanged ] -> ResultFrame");
+
+
                 var cbi = fastsureCombobox.SelectedItem as ComboBoxItem;
                 if (cbi != null)
                 {
@@ -237,6 +261,9 @@ namespace KuranX.App.Core.Pages.ResultF
         {
             try
             {
+                App.errWrite($"[{DateTime.Now} loadAni ] -> ResultFrame");
+
+
                 this.Dispatcher.Invoke(() =>
                 {
                     fastsureCombobox.IsEnabled = false;
@@ -252,6 +279,7 @@ namespace KuranX.App.Core.Pages.ResultF
         {
             try
             {
+                App.errWrite($"[{DateTime.Now} loadAniComplated ] -> ResultFrame"); 
                 this.Dispatcher.Invoke(() =>
                 {
                     fastsureCombobox.IsEnabled = true;

@@ -34,6 +34,9 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} InitializeComponent ] -> verseStickFrame");
+
                 InitializeComponent();
             }
             catch (Exception ex)
@@ -46,6 +49,10 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} PageCall ] -> verseStickFrame");
+
+
                 stickHomeGrid.Visibility = Visibility.Collapsed;
                 sSureId = sId;
                 sRelativeVerseId = vId;
@@ -72,6 +79,9 @@ namespace KuranX.App.Core.Pages.VerseF
             // Verse Load Func
             try
             {
+                App.errWrite($"[{DateTime.Now} loadVerseFunc ] -> verseStickFrame");
+
+
                 using (var entitydb = new AyetContext())
                 {
                     var dSure = entitydb.Sure.Where(p => p.sureId == sSureId).Select(p => new Sure { name = p.name, numberOfVerses = p.numberOfVerses, landingLocation = p.landingLocation, description = p.description, deskLanding = p.deskLanding, deskMushaf = p.deskMushaf }).First();
@@ -119,6 +129,9 @@ namespace KuranX.App.Core.Pages.VerseF
             // items Load Func
             try
             {
+                App.errWrite($"[{DateTime.Now} loadItemsContent ] -> verseStickFrame");
+
+
                 this.Dispatcher.Invoke(() =>
                 {
                     loadVerseTr.Text = dVerse.verseTr;
@@ -136,6 +149,9 @@ namespace KuranX.App.Core.Pages.VerseF
             // items Load Func
             try
             {
+                App.errWrite($"[{DateTime.Now} loadItemsHeader ] -> verseStickFrame");
+
+
                 this.Dispatcher.Invoke(() =>
                 {
                     loadHeader.Text = dSure.name;
@@ -195,6 +211,11 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} loadNavFunc ] -> verseStickFrame");
+
+
+
                 using (var entitydb = new AyetContext())
                 {
                     for (int x = 1; x < 9; x++)
@@ -285,6 +306,10 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} loadItemsClass ] -> verseStickFrame");
+
+
                 this.Dispatcher.Invoke(() =>
                 {
                     class1.IsEnabled = dCVerse.v_hk;
@@ -308,6 +333,9 @@ namespace KuranX.App.Core.Pages.VerseF
             // İnterpreter Load Func
             try
             {
+                App.errWrite($"[{DateTime.Now} loadInterpreterFunc ] -> verseStickFrame");
+
+
                 using (var entitydb = new AyetContext())
                 {
                     switch (writer)
@@ -360,6 +388,8 @@ namespace KuranX.App.Core.Pages.VerseF
             // items Load Func
             try
             {
+
+                App.errWrite($"[{DateTime.Now} loadItemsInterpreter ] -> verseStickFrame");
                 this.Dispatcher.Invoke(() =>
                 {
                     loadDetail.Text = dInter.interpreterDetail;
@@ -380,6 +410,10 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} popupClosed_Click ] -> verseStickFrame");
+
+
                 var btntemp = sender as Button;
                 var popuptemp = (Popup)FindName(btntemp.Uid);
                 popuptemp.IsOpen = false;
@@ -397,6 +431,11 @@ namespace KuranX.App.Core.Pages.VerseF
             // TR ARP İNTERPRETER TEXT CHANGE FUNC
             try
             {
+
+                App.errWrite($"[{DateTime.Now} changeloadDetail_Click ] -> verseStickFrame");
+
+
+
                 var btn = sender as Button;
                 switch ((string)btn.Uid)
                 {
@@ -432,6 +471,11 @@ namespace KuranX.App.Core.Pages.VerseF
             // Verse Change Click
             try
             {
+
+                App.errWrite($"[{DateTime.Now} activeVerseSelected_Click ] -> verseStickFrame");
+
+
+
                 var chk = sender as CheckBox;
                 if (chk.IsChecked.ToString() == "True") chk.IsChecked = false;
                 else { chk.IsChecked = true; }
@@ -464,6 +508,9 @@ namespace KuranX.App.Core.Pages.VerseF
             // Nav PrevSingle Click
             try
             {
+                App.errWrite($"[{DateTime.Now} NavUpdatePrevSingle_Click ] -> verseStickFrame");
+
+
                 if (clearNav != 0) clearNav--;
 
                 navstackPanel.Visibility = Visibility.Hidden;
@@ -486,6 +533,10 @@ namespace KuranX.App.Core.Pages.VerseF
             // Nav NextSingle Click
             try
             {
+
+                App.errWrite($"[{DateTime.Now} NavUpdateNextSingle_Click ] -> verseStickFrame");
+
+
                 if (clearNav != 9) clearNav++;
                 navstackPanel.Visibility = Visibility.Hidden;
 
@@ -508,6 +559,10 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} backVersesFrame_Click ] -> verseStickFrame");
+
+
                 switch (sLocation)
                 {
                     case "Remider":
@@ -565,6 +620,9 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+                App.errWrite($"[{DateTime.Now} wordText_Click ] -> verseStickFrame");
+
+
                 popup_Words.IsOpen = true;
 
                 using (var entitydb = new AyetContext())
@@ -611,6 +669,10 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+                App.errWrite($"[{DateTime.Now} openVerseNumberPopup_Click ] -> verseStickFrame");
+
+
+
                 popup_VerseGoto.IsOpen = true;
             }
             catch (Exception ex)
@@ -623,6 +685,10 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} loadVersePopup_Click ] -> verseStickFrame");
+
+
                 if (int.Parse(loadVerseCount.Text) >= int.Parse(popupRelativeId.Text))
                 {
                     mainContent.Visibility = Visibility.Hidden;
@@ -653,6 +719,8 @@ namespace KuranX.App.Core.Pages.VerseF
             // Nav NextUpdate Click
             try
             {
+                App.errWrite($"[{DateTime.Now} interpreterWriterCombo_SelectionChanged ] -> verseStickFrame");
+
                 var item = interpreterWriterCombo.SelectedItem as ComboBoxItem;
                 if (item != null)
                 {
@@ -723,6 +791,9 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+                App.errWrite($"[{DateTime.Now} allPopupClosed ] -> verseStickFrame");
+
+
                 this.Dispatcher.Invoke(() =>
                 {
                     popup_Words.IsOpen = false;
@@ -740,6 +811,9 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+                App.errWrite($"[{DateTime.Now} loadAni ] -> verseStickFrame");
+
+
                 this.Dispatcher.Invoke(() =>
                 {
                     headerBorder.Visibility = Visibility.Hidden;

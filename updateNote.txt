@@ -1,3 +1,13 @@
+v 0.6.2
+⚠️ Not sildikten sonra yeniden notu acıldığında buttonların aktif olmamasını sağlayan bir hata düzeltildi. 
+🆕 Hata bildir buttonu oluşturuldu.
+🆕 Uygulama Buttonlarına açıklamalar eklendi.
+
+
+v 0.6.2
+⚠️ Ayetlerde ilerlerken son surelerden sonra bir sonraki sureye geçme hatası düzeltildi.
+🆕 Bölümler Arası geçişler eklendi.
+
 v 0.6.1
 ♻️ Bölümler sınıfır içeriği yeniden düzenlendi.
 ♻️ Bölümlerin içeriği artık yöneticinin eklendi içerik olarak değiştirildi

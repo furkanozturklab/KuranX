@@ -34,6 +34,8 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} InitializeComponent ] -> SubjectItem");
                 InitializeComponent();
             }
             catch (Exception ex)
@@ -46,6 +48,8 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             try
             {
+                App.errWrite($"[{DateTime.Now} subjectItemsPageCall ] -> SubjectItem");
+
                 subId = SubID;
                 sSureId = SureId;
                 verseId = VerseId;
@@ -63,6 +67,9 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             try
             {
+                App.errWrite($"[{DateTime.Now} Page_Loaded ] -> SubjectItem");
+
+
                 App.mainScreen.navigationWriter("subject", loadHeader.Text + "," + loadBackHeader.Text);
             }
             catch (Exception ex)
@@ -77,6 +84,10 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} loadItem ] -> SubjectItem");
+
+
                 using (var entitydb = new AyetContext())
                 {
                     loadAni();
@@ -116,6 +127,9 @@ namespace KuranX.App.Core.Pages.SubjectF
 
             try
             {
+                App.errWrite($"[{DateTime.Now} loadInterpreterFunc ] -> SubjectItem");
+
+
                 using (var entitydb = new AyetContext())
                 {
                     switch (writer)
@@ -168,6 +182,9 @@ namespace KuranX.App.Core.Pages.SubjectF
             // items Load Func
             try
             {
+                App.errWrite($"[{DateTime.Now} loadItemsInterpreter ] -> SubjectItem");
+
+
                 this.Dispatcher.Invoke(() =>
                 {
                     loadDetail.Text = dInter.interpreterDetail;
@@ -184,6 +201,10 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} noteConnect ] -> SubjectItem");
+
+
                 using (var entitydb = new AyetContext())
                 {
                     var dNotes = entitydb.Notes.Where(p => p.sureId == sSureId && p.verseId == verseId && p.noteLocation == "Konularım").ToList();
@@ -234,6 +255,9 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             try
             {
+                App.errWrite($"[{DateTime.Now} openVerseButton_Click ] -> SubjectItem");
+
+
                 App.secondFrame.Content = App.navVerseStickPage.PageCall(sSureId, verseId, loadHeader.Text, 0, "Subject");
                 App.secondFrame.Visibility = Visibility.Visible;
             }
@@ -248,6 +272,9 @@ namespace KuranX.App.Core.Pages.SubjectF
             // TR ARP İNTERPRETER TEXT CHANGE FUNC
             try
             {
+
+                App.errWrite($"[{DateTime.Now} changeloadDetail_Click ] -> SubjectItem");
+
                 var btn = sender as Button;
                 switch (btn.Uid)
                 {
@@ -282,6 +309,9 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             try
             {
+                App.errWrite($"[{DateTime.Now} wordText_Click ] -> SubjectItem");
+
+
                 popup_Words.IsOpen = true;
 
                 using (var entitydb = new AyetContext())
@@ -328,6 +358,9 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             try
             {
+                App.errWrite($"[{DateTime.Now} popupClosed_Click ] -> SubjectItem");
+
+
                 var btntemp = sender as Button;
                 var popuptemp = (Popup)FindName(btntemp.Uid);
                 popuptemp.IsOpen = false;
@@ -344,6 +377,9 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             try
             {
+                App.errWrite($"[{DateTime.Now} backButton_Click ] -> SubjectItem");
+
+
                 NavigationService.GoBack();
             }
             catch (Exception ex)
@@ -356,6 +392,9 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             try
             {
+                App.errWrite($"[{DateTime.Now} noteButton_Click ] -> SubjectItem");
+
+
                 popup_Note.IsOpen = true;
                 App.loadTask = Task.Run(() => noteConnect());
             }
@@ -369,6 +408,10 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} noteAddButton_Click ] -> SubjectItem");
+
+
                 popup_noteAddPopup.IsOpen = true;
                 noteConnectVerse.Text = loadBackHeader.Text;
                 noteType.Text = "Konu Notu";
@@ -383,6 +426,9 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             try
             {
+                App.errWrite($"[{DateTime.Now} noteDetailPopup_Click ] -> SubjectItem");
+
+
                 var tmpbutton = sender as Button;
                 App.mainframe.Content = App.navNoteItem.PageCall(int.Parse(tmpbutton.Uid));
                 tmpbutton = null;
@@ -397,6 +443,10 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} addNoteButton_Click ] -> SubjectItem");
+
+
                 if (noteName.Text.Length <= 3)
                 {
                     noteAddPopupHeaderError.Visibility = Visibility.Visible;
@@ -465,6 +515,10 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             try
             {
+                App.errWrite($"[{DateTime.Now} allShowNoteButton_Click ] -> SubjectItem");
+
+
+
                 popup_notesAllShowPopup.IsOpen = true;
                 using (var entitydb = new AyetContext())
                 {
@@ -515,6 +569,10 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} notesDetailPopup_Click ] -> SubjectItem");
+
+
                 var tmpbutton = sender as Button;
                 App.mainframe.Content = App.navNoteItem.PageCall(int.Parse(tmpbutton.Uid));
                 tmpbutton = null;
@@ -534,6 +592,10 @@ namespace KuranX.App.Core.Pages.SubjectF
             // Nav NextUpdate Click
             try
             {
+
+                App.errWrite($"[{DateTime.Now} interpreterWriterCombo_SelectionChanged ] -> SubjectItem");
+
+
                 var item = interpreterWriterCombo.SelectedItem as ComboBoxItem;
                 if (item != null)
                 {
@@ -596,6 +658,10 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} loadAni ] -> SubjectItem");
+
+
                 this.Dispatcher.Invoke(() =>
                 {
                     loadHeaderStack.Visibility = Visibility.Hidden;
@@ -614,6 +680,8 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} loadAniComplated ] -> SubjectItem");
                 this.Dispatcher.Invoke(() =>
                 {
                     loadHeaderStack.Visibility = Visibility.Visible;
@@ -632,6 +700,10 @@ namespace KuranX.App.Core.Pages.SubjectF
 
         public void popuverMove_Click(object sender, RoutedEventArgs e)
         {
+            App.errWrite($"[{DateTime.Now} popuverMove_Click ] -> SubjectItem");
+
+
+
             var btn = sender as Button;
             ppMoveConfing((string)btn.Uid);
             moveControlName.Text = (string)btn.Content;
@@ -640,6 +712,9 @@ namespace KuranX.App.Core.Pages.SubjectF
 
         public void ppMoveActionOfset_Click(object sender, RoutedEventArgs e)
         {
+
+            App.errWrite($"[{DateTime.Now} ppMoveActionOfset_Click ] -> SubjectItem");
+
             var btntemp = sender as Button;
             var movePP = (Popup)FindName((string)btntemp.Content);
 
@@ -681,6 +756,9 @@ namespace KuranX.App.Core.Pages.SubjectF
 
         public void ppMoveConfing(string ppmove)
         {
+
+            App.errWrite($"[{DateTime.Now} ppMoveConfing ] -> SubjectItem");
+
             for (int i = 1; i < 8; i++)
             {
                 var btn = FindName("pp_M" + i) as Button;

@@ -24,6 +24,7 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Shapes;
 using System.Windows.Threading;
 
 namespace KuranX.App
@@ -33,7 +34,10 @@ namespace KuranX.App
     /// </summary>
     public partial class App : Application
     {
-        public string lastversion;
+        public static string lastversion;
+        public static string errPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\KuranSunnetullah\err.txt";
+
+
 
         public static Frame? mainframe;
         public static Frame? secondFrame;
@@ -95,6 +99,7 @@ namespace KuranX.App
 
         public static ApiPostProjectNotes returnPostNotes;
         public static ApiPostProject returnPostProject;
+        public static ApiPostErr returnPostError;
 
         private void ExecuteAsAdmin(string fileName)
         {
@@ -105,7 +110,7 @@ namespace KuranX.App
             proc.Start();
         }
 
-        private async Task apiPostRun(Dictionary<string, string> data, string action)
+        public static async Task apiPostRun(Dictionary<string, string> data, string action)
         {
             try
             {
@@ -118,6 +123,7 @@ namespace KuranX.App
 
                     if (action == "version") returnPostProject = JsonConvert.DeserializeObject<ApiPostProject>(json);
                     if (action == "UpdateNotes") returnPostNotes = JsonConvert.DeserializeObject<ApiPostProjectNotes>(json);
+                    if (action == "AddError") returnPostError = JsonConvert.DeserializeObject<ApiPostErr>(json);
 
                     lastversion = returnPostProject.Data[0].project_version_x86;
                     starup = true;
@@ -134,6 +140,10 @@ namespace KuranX.App
         {
             try
             {
+
+                if (File.Exists(errPath)) File.Delete(errPath);
+
+
                 config.AppSettings.Settings["application_location"].Value = AppDomain.CurrentDomain.BaseDirectory;
                 config.Save(ConfigurationSaveMode.Modified);
 
@@ -235,6 +245,18 @@ namespace KuranX.App
 
             mainframe.Content = navHomeFrame.PageCall();
             mainScreen.alertFunc("Hata Oluştu", "Program bir hata ile karşılaştı ve log dosyası oluşturuldu bu hatayı alma devam ederseniz log dosyanızı bize gönderiniz.", 5);
+        }
+
+
+        public static void errWrite(string msg)
+        {
+
+
+
+            File.AppendAllText(errPath, msg);
+            File.AppendAllText(errPath, Environment.NewLine);
+
+
         }
 
         public static bool sendMail(string subject, string body)

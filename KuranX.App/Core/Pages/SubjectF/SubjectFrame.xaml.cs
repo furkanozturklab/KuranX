@@ -33,6 +33,10 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} InitializeComponent ] -> SubjectFrame");
+
+
                 InitializeComponent();
             }
             catch (Exception ex)
@@ -45,6 +49,9 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             try
             {
+                App.errWrite($"[{DateTime.Now} PageCall ] -> SubjectFrame");
+
+
                 lastPage = 0;
                 NowPage = 1;
 
@@ -63,6 +70,9 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             try
             {
+                App.errWrite($"[{DateTime.Now} Page_Loaded ] -> SubjectFrame");
+
+
                 App.mainScreen.navigationWriter("subject", "");
             }
             catch (Exception ex)
@@ -77,6 +87,9 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             try
             {
+                App.errWrite($"[{DateTime.Now} loadItem ] -> SubjectFrame");
+
+
                 using (var entitydb = new AyetContext())
                 {
                     loadAni();
@@ -170,6 +183,9 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             try
             {
+                App.errWrite($"[{DateTime.Now} openSubjectFolder_Click ] -> SubjectFrame");
+
+
                 var btn = sender as Button;
                 App.mainframe.Content = App.navSubjectFolder.PageCall(int.Parse(btn.Uid));
             }
@@ -183,6 +199,10 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} SearchBtn_Click ] -> SubjectFrame");
+
+
                 if (SearchData.Text.Length >= 3)
                 {
                     searchText = SearchData.Text;
@@ -216,6 +236,10 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} popupClosed_Click ] -> SubjectFrame");
+
+
                 var btntemp = sender as Button;
                 var popuptemp = (Popup)FindName(btntemp.Uid);
                 popuptemp.IsOpen = false;
@@ -235,6 +259,8 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             try
             {
+                App.errWrite($"[{DateTime.Now} addfolderSubject_Click ] -> SubjectFrame");
+
                 if (subjectFolderHeader.Text.Length >= 3)
                 {
                     if (subjectFolderHeader.Text.Length < 150)
@@ -288,6 +314,10 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} subjectColorPick_Click ] -> SubjectFrame");
+
+
                 CheckBox? chk;
 
                 foreach (object item in subjectColorStack.Children)
@@ -317,6 +347,8 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} nextpageButton_Click ] -> SubjectFrame");
                 nextpageButton.IsEnabled = false;
                 lastPage += 18;
                 NowPage++;
@@ -332,6 +364,9 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             try
             {
+                App.errWrite($"[{DateTime.Now} previusPageButton_Click ] -> SubjectFrame");
+
+
                 if (lastPage >= 18)
                 {
                     previusPageButton.IsEnabled = false;
@@ -350,6 +385,9 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             try
             {
+                App.errWrite($"[{DateTime.Now} addSubjectButton_Click ] -> SubjectFrame");
+
+
                 popup_FolderSubjectPopup.IsOpen = true;
             }
             catch (Exception ex)
@@ -366,6 +404,9 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             try
             {
+                App.errWrite($"[{DateTime.Now} SearchData_TextChanged ] -> SubjectFrame");
+
+
                 if (SearchData.Text.Length >= 3)
                 {
                     searchErrMsgTxt.Visibility = Visibility.Hidden;
@@ -385,6 +426,7 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             try
             {
+
                 searchErrMsgTxt.Visibility = Visibility.Hidden;
             }
             catch (Exception ex)
@@ -438,6 +480,8 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             try
             {
+                App.errWrite($"[{DateTime.Now} loadAni ] -> SubjectFrame");
+
                 this.Dispatcher.Invoke(() =>
                 {
                     // loadinGifContent.Visibility = Visibility.Visible;
@@ -456,6 +500,9 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             try
             {
+                App.errWrite($"[{DateTime.Now} loadAniComplated ] -> SubjectFrame");
+
+
                 this.Dispatcher.Invoke(() =>
                 {
                     //  loadinGifContent.Visibility = Visibility.Collapsed;

@@ -464,7 +464,7 @@
                     <ColumnDefinition Width="60" />
                 </Grid.ColumnDefinitions>
 
-                <Button Grid.Column="0" x:Name="NavUpdatePrevSingle" Style="{DynamicResource vrs_NavButton}" Tag="AngleLeft" Height="30" IsEnabled="False" Click="NavUpdatePrevSingle_Click" />
+                <Button Grid.Column="0" x:Name="NavUpdatePrevSingle" Style="{DynamicResource vrs_NavButton}" Tag="AngleLeft" Height="30" IsEnabled="True" Click="NavUpdatePrevSingle_Click" />
                 <StackPanel x:Name="navstackPanel" Style="{DynamicResource aniEffectFadeStack}" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
                     <CheckBox x:Name="vb1" extension:Extensions.DataStorage="0" IsEnabled="false" Style="{DynamicResource vrs_NavButtonS}"  Click="activeVerseSelected_Click"  />
                     <CheckBox x:Name="vb2" extension:Extensions.DataStorage="0" Style="{DynamicResource vrs_NavButtonS}" Click="activeVerseSelected_Click" />
@@ -475,7 +475,7 @@
                     <CheckBox x:Name="vb7" extension:Extensions.DataStorage="0" Style="{DynamicResource vrs_NavButtonS}" Click="activeVerseSelected_Click" />
 
                 </StackPanel>
-                <Button Grid.Column="2" x:Name="NavUpdateNextSingle" Style="{DynamicResource vrs_NavButton}" Tag="AngleRight" Height="30" IsEnabled="False" Click="NavUpdateNextSingle_Click" />
+                <Button Grid.Column="2" x:Name="NavUpdateNextSingle" Style="{DynamicResource vrs_NavButton}" Tag="AngleRight" Height="30" IsEnabled="True" Click="NavUpdateNextSingle_Click" />
             </Grid>
         </StackPanel>
 

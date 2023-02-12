@@ -33,6 +33,8 @@ namespace KuranX.App.Core.Pages.ResultF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} InitializeComponent ] -> ResultItem");
                 InitializeComponent();
             }
             catch (Exception ex)
@@ -45,6 +47,9 @@ namespace KuranX.App.Core.Pages.ResultF
         {
             try
             {
+                App.errWrite($"[{DateTime.Now} Page_Loaded ] -> ResultItem");
+
+
                 App.mainScreen.navigationWriter("result", resultName);
             }
             catch (Exception ex)
@@ -58,6 +63,8 @@ namespace KuranX.App.Core.Pages.ResultF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} PageCall ] -> ResultItem");
                 lastPage = 0;
                 NowPage = 1;
                 selectedId = id;
@@ -75,6 +82,7 @@ namespace KuranX.App.Core.Pages.ResultF
         {
             try
             {
+                App.errWrite($"[{DateTime.Now} loadItem ] -> ResultItem"); 
                 loadAni();
                 using (var entitydb = new AyetContext())
                 {
@@ -213,6 +221,10 @@ namespace KuranX.App.Core.Pages.ResultF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} filter_Click ] -> ResultItem");
+
+
                 CheckBox? btn = sender as CheckBox;
 
                 listview.IsChecked = true;
@@ -243,6 +255,9 @@ namespace KuranX.App.Core.Pages.ResultF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} stackfilter_Click ] -> ResultItem"); 
+
                 Button? btn = sender as Button;
 
                 listview.IsChecked = true;
@@ -285,6 +300,10 @@ namespace KuranX.App.Core.Pages.ResultF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} gotoAction_Click ] -> ResultItem");
+
+
                 var btn = sender as Button;
                 switch (btn.Content)
                 {
@@ -315,6 +334,9 @@ namespace KuranX.App.Core.Pages.ResultF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} deleteResultPopup_Click ] -> ResultItem"); 
+
                 var btn = sender as Button;
                 popup_confirm.IsOpen = true;
                 itemDeleteId = int.Parse(btn.Uid);
@@ -329,6 +351,10 @@ namespace KuranX.App.Core.Pages.ResultF
         {
             try
             {
+
+
+                App.errWrite($"[{DateTime.Now} deleteResult_Click ] -> ResultItem");
+
                 using (var entitydb = new AyetContext())
                 {
                     entitydb.ResultItems.RemoveRange(entitydb.ResultItems.Where(p => p.resultItemId == itemDeleteId));
@@ -355,6 +381,9 @@ namespace KuranX.App.Core.Pages.ResultF
         {
             try
             {
+                App.errWrite($"[{DateTime.Now} popupClosed_Click ] -> ResultItem");
+
+
                 Button btntemp = sender as Button;
                 var popuptemp = (Popup)FindName(btntemp.Uid);
 
@@ -370,6 +399,9 @@ namespace KuranX.App.Core.Pages.ResultF
         {
             try
             {
+                App.errWrite($"[{DateTime.Now} viewchange_Click ] -> ResultItem");
+
+
                 CheckBox? chk = sender as CheckBox;
                 listview.IsChecked = false;
                 stackview.IsChecked = false;
@@ -398,6 +430,9 @@ namespace KuranX.App.Core.Pages.ResultF
         {
             try
             {
+                App.errWrite($"[{DateTime.Now} nextpageButton_Click ] -> ResultItem");
+
+
                 nextpageButton.IsEnabled = false;
                 lastPage += 24;
                 NowPage++;
@@ -413,6 +448,9 @@ namespace KuranX.App.Core.Pages.ResultF
         {
             try
             {
+                App.errWrite($"[{DateTime.Now} previusPageButton_Click ] -> ResultItem");
+
+
                 if (lastPage >= 24)
                 {
                     previusPageButton.IsEnabled = false;
@@ -431,6 +469,9 @@ namespace KuranX.App.Core.Pages.ResultF
         {
             try
             {
+                App.errWrite($"[{DateTime.Now} backPage_Click ] -> ResultItem");
+
+
                 App.mainframe.Content = App.navResultPage.PageCall();
             }
             catch (Exception ex)
@@ -443,6 +484,9 @@ namespace KuranX.App.Core.Pages.ResultF
         {
             try
             {
+                App.errWrite($"[{DateTime.Now} resultScreenOpen_Click ] -> ResultItem");
+
+
                 resultScreen rssc = new resultScreen(selectedId);
                 rssc.Show();
             }
@@ -456,6 +500,8 @@ namespace KuranX.App.Core.Pages.ResultF
         {
             try
             {
+                App.errWrite($"[{DateTime.Now} filterButton_Click ] -> ResultItem");
+
                 if (hoverPopup.IsOpen)
                 {
                     hoverPopup.IsOpen = false;
@@ -479,6 +525,7 @@ namespace KuranX.App.Core.Pages.ResultF
         {
             try
             {
+                App.errWrite($"[{DateTime.Now} loadAni ] -> ResultItem");
                 this.Dispatcher.Invoke(() =>
                 {
                     statusSubject.IsEnabled = false;
@@ -501,6 +548,8 @@ namespace KuranX.App.Core.Pages.ResultF
         {
             try
             {
+                App.errWrite($"[{DateTime.Now} loadAniComplated ] -> ResultItem");
+
                 this.Dispatcher.Invoke(() =>
                 {
                     statusSubject.IsEnabled = true;

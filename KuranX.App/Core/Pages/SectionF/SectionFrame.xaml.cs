@@ -28,10 +28,13 @@ namespace KuranX.App.Core.Pages.SectionF
     public partial class SectionFrame : Page
     {
 
-        public int selectedSure = 0, last = 0, selectedSection = 0, clearNav = 1, currentP = 0, totalSection = 0;
+        public int selectedSure = 0, last = 0, selectedSection = 0, clearNav = 1, currentP = 0, totalSection = 0, s;
 
         public SectionFrame()
         {
+            App.errWrite($"[{DateTime.Now} InitializeComponent ] -> SectionFrame");
+
+
             InitializeComponent();
         }
 
@@ -40,6 +43,8 @@ namespace KuranX.App.Core.Pages.SectionF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} PageCall ] -> SectionFrame");
 
                 headerBorder.Visibility = Visibility.Hidden;
                 navControlStack.Visibility = Visibility.Hidden;
@@ -67,6 +72,7 @@ namespace KuranX.App.Core.Pages.SectionF
         {
             try
             {
+                App.errWrite($"[{DateTime.Now} loadSectionFunc ] -> SectionFrame");
 
                 using (var entitydb = new AyetContext())
                 {
@@ -92,12 +98,31 @@ namespace KuranX.App.Core.Pages.SectionF
 
                         this.Dispatcher.Invoke(() =>
                         {
+                            /*
                             if (totalSection == 1) NavUpdateNextSingle.IsEnabled = false;
                             else if (selectedSection < totalSection) NavUpdateNextSingle.IsEnabled = true;
                             else NavUpdateNextSingle.IsEnabled = false;
 
                             if (selectedSection == 1) NavUpdatePrevSingle.IsEnabled = false;
                             else NavUpdatePrevSingle.IsEnabled = true;
+                            */
+                            var desktype = App.navSurePage.deskingCombobox.SelectedItem as ComboBoxItem;
+
+                            if (sSure.name == "Fâtiha" && selectedSection == 1) NavUpdatePrevSingle.IsEnabled = false;
+                            else NavUpdatePrevSingle.IsEnabled = true;
+
+                            if ((string)desktype.Tag == "DeskLanding")
+                            {
+
+                                if (sSure.name == "Tevbe" && selectedSection == 15) NavUpdateNextSingle.IsEnabled = false;
+                                else NavUpdateNextSingle.IsEnabled = true;
+
+                            }
+                            else
+                            {
+                                if (sSure.name == "Nâs" && selectedSection == 1) NavUpdateNextSingle.IsEnabled = false;
+                                else NavUpdateNextSingle.IsEnabled = true;
+                            }
 
                         });
 
@@ -115,11 +140,6 @@ namespace KuranX.App.Core.Pages.SectionF
                         });
                     }
 
-
-
-
-
-
                 }
             }
             catch (Exception ex)
@@ -134,6 +154,9 @@ namespace KuranX.App.Core.Pages.SectionF
         {
             try
             {
+                App.errWrite($"[{DateTime.Now} singleItemsControl ] -> SectionFrame");
+
+
                 using (var entitydb = new AyetContext())
                 {
                     loadItemsControl(entitydb.Sections.Where(p => p.SureId == selectedSure && p.SectionNumber == selectedSection).First());
@@ -149,6 +172,10 @@ namespace KuranX.App.Core.Pages.SectionF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} markButton_Click ] -> SectionFrame");
+
+
                 var bchk = sender as CheckBox;
                 using (var entitydb = new AyetContext())
                 {
@@ -188,32 +215,46 @@ namespace KuranX.App.Core.Pages.SectionF
         {
 
 
-            using (var entitydb = new AyetContext())
+            try
             {
-                sectionScroll.ScrollToTop();
 
-                var sSelection = entitydb.Sections.Where(p => p.SureId == selectedSure && p.SectionNumber == selectedSection).FirstOrDefault();
-                //var sVerse = entitydb.Verse.Where(p => p.sureId == selectedSure && p.relativeDesk >= sSelection.startVerse && p.relativeDesk <= sSelection.endVerse).ToList();
 
-                if (sSelection != null)
+                App.errWrite($"[{DateTime.Now} loadSectionDetail ] -> SectionFrame");
+                using (var entitydb = new AyetContext())
                 {
+                    sectionScroll.ScrollToTop();
 
-                    sectionDetailBlock.Text = sSelection.SectionDetail;
-                    /*
-                    this.Dispatcher.Invoke(() => selectionDetailStack.Children.Clear());
-                    foreach (var item in sVerse)
+                    var sSelection = entitydb.Sections.Where(p => p.SureId == selectedSure && p.SectionNumber == selectedSection).FirstOrDefault();
+                    //var sVerse = entitydb.Verse.Where(p => p.sureId == selectedSure && p.relativeDesk >= sSelection.startVerse && p.relativeDesk <= sSelection.endVerse).ToList();
+
+                    if (sSelection != null)
                     {
 
-                        var s = new TextBlock();
+                        sectionDetailBlock.Text = sSelection.SectionDetail;
+                        /*
+                        this.Dispatcher.Invoke(() => selectionDetailStack.Children.Clear());
+                        foreach (var item in sVerse)
+                        {
 
-                        s.Text = item.verseTr;
-                        s.Style = (Style)FindResource("sectionDetail");
-                        this.Dispatcher.Invoke(() => selectionDetailStack.Children.Add(s));
+                            var s = new TextBlock();
 
+                            s.Text = item.verseTr;
+                            s.Style = (Style)FindResource("sectionDetail");
+                            this.Dispatcher.Invoke(() => selectionDetailStack.Children.Add(s));
+
+                        }
+                        */
                     }
-                    */
                 }
+
             }
+            catch (Exception ex)
+            {
+
+                App.logWriter("Click", ex);
+            }
+
+
         }
 
         private void loadHeaderFunc(Sure dSure)
@@ -221,6 +262,9 @@ namespace KuranX.App.Core.Pages.SectionF
 
             try
             {
+                App.errWrite($"[{DateTime.Now} loadHeaderFunc ] -> SectionFrame");
+
+
                 this.Dispatcher.Invoke(() =>
                 {
                     loadHeader.Text = dSure.name;
@@ -241,11 +285,14 @@ namespace KuranX.App.Core.Pages.SectionF
                 App.logWriter("Loading", ex);
             }
         }
-
         private void descButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
+                App.errWrite($"[{DateTime.Now} descButton_Click ] -> SectionFrame");
+
+
+
                 var contentb = sender as Button;
                 textDesc.Text = contentb.Uid.ToString();
                 popupHeaderTextDesc.Text = loadHeader.Text + " Suresinin " + selectedSection + " Bölümünün Açıklaması";
@@ -263,6 +310,9 @@ namespace KuranX.App.Core.Pages.SectionF
             // items Load Func
             try
             {
+                App.errWrite($"[{DateTime.Now} loadItemsControl ] -> SectionFrame");
+
+
                 this.Dispatcher.Invoke(() =>
                 {
                     markButton.IsChecked = dSection.IsMark;
@@ -280,89 +330,104 @@ namespace KuranX.App.Core.Pages.SectionF
 
         public void loadNavFunc(int prev = 0)
         {
-            using (var entitydb = new AyetContext())
+            try
             {
-                for (int x = 1; x < 8; x++)
+
+                App.errWrite($"[{DateTime.Now} loadNavFunc ] -> SectionFrame");
+
+
+                using (var entitydb = new AyetContext())
                 {
-                    this.Dispatcher.Invoke(() =>
+                    for (int x = 1; x < 8; x++)
                     {
-                        var vNav = (CheckBox)this.FindName("vb" + x);
-                        vNav.Visibility = Visibility.Collapsed;
-                        vNav.IsEnabled = true;
-                    });
-                }
-
-                last = selectedSection;
-
-                if (last % 8 == 0)
-
-                {
-                    last -= 2;
-                }
-                else
-                {
-                    if (selectedSection <= 7) last = 0;
-                    else last -= 2;
-                }
-
-                if (prev != 0) last -= prev;
-                else last -= 2;
-
-
-                var dSectionNav = entitydb.Sections.Where(p => p.SureId == selectedSure).Skip(last).Take(7).ToList();
-
-
-                int i = 0;
-
-                foreach (var item in dSectionNav)
-                {
-                    this.Dispatcher.Invoke(() =>
-                    {
-                        i++;
-
-                        var vNav = (CheckBox)this.FindName("vb" + i);
-
-                        if (vNav != null)
+                        this.Dispatcher.Invoke(() =>
                         {
-                            vNav.Visibility = Visibility.Visible;
-                            vNav.Uid = item.SectionId.ToString();
-                            vNav.Content = item.SectionNumber;
+                            var vNav = (CheckBox)this.FindName("vb" + x);
+                            vNav.Visibility = Visibility.Collapsed;
+                            vNav.IsEnabled = true;
+                        });
+                    }
 
-                            vNav.SetValue(Extensions.DataStorage, item.SectionNumber.ToString());
-                        }
-                    });
-                }
+                    last = selectedSection;
 
-                for (int x = 1; x < 8; x++)
-                {
-                    this.Dispatcher.Invoke(() =>
+                    if (last % 8 == 0)
+
                     {
-                        var vNav = (CheckBox)FindName("vb" + x);
-                        if (int.Parse((string)vNav.GetValue(Extensions.DataStorage)) == selectedSection) vNav.IsEnabled = false;
-                    });
+                        last -= 2;
+                    }
+                    else
+                    {
+                        if (selectedSection <= 7) last = 0;
+                        else last -= 2;
+                    }
+
+                    if (prev != 0) last -= prev;
+                    else last -= 2;
+
+
+                    var dSectionNav = entitydb.Sections.Where(p => p.SureId == selectedSure).Skip(last).Take(7).ToList();
+
+
+                    int i = 0;
+
+                    foreach (var item in dSectionNav)
+                    {
+                        this.Dispatcher.Invoke(() =>
+                        {
+                            i++;
+
+                            var vNav = (CheckBox)this.FindName("vb" + i);
+
+                            if (vNav != null)
+                            {
+                                vNav.Visibility = Visibility.Visible;
+                                vNav.Uid = item.SectionId.ToString();
+                                vNav.Content = item.SectionNumber;
+
+                                vNav.SetValue(Extensions.DataStorage, item.SectionNumber.ToString());
+                            }
+                        });
+                    }
+
+                    for (int x = 1; x < 8; x++)
+                    {
+                        this.Dispatcher.Invoke(() =>
+                        {
+                            var vNav = (CheckBox)FindName("vb" + x);
+                            if (int.Parse((string)vNav.GetValue(Extensions.DataStorage)) == selectedSection) vNav.IsEnabled = false;
+                        });
+                    }
+
+
+                    Thread.Sleep(int.Parse(App.config.AppSettings.Settings["app_animationSpeed"].Value));
+
+
+
+
                 }
 
+                this.Dispatcher.Invoke(() =>
+                {
+                    navstackPanel.Visibility = Visibility.Visible;
+                    controlPanel.Visibility = Visibility.Visible;
+                });
+            }
+            catch(Exception ex) 
+            {
 
-                Thread.Sleep(int.Parse(App.config.AppSettings.Settings["app_animationSpeed"].Value));
-
-
-
-
+                App.logWriter("Loading", ex);
             }
 
-            this.Dispatcher.Invoke(() =>
-            {
-                navstackPanel.Visibility = Visibility.Visible;
-                controlPanel.Visibility = Visibility.Visible;
-            });
-        }
 
+        }
 
         private void activeVerseSelected_Click(object sender, EventArgs e)
         {
             // Verse Change Click
             try
             {
+                App.errWrite($"[{DateTime.Now} activeVerseSelected_Click ] -> SectionFrame");
+
                 var chk = sender as CheckBox;
                 if (chk.IsChecked.ToString() == "True") chk.IsChecked = false;
                 else { chk.IsChecked = true; }
@@ -390,12 +455,13 @@ namespace KuranX.App.Core.Pages.SectionF
             }
         }
 
-
         private void NavUpdatePrevSingle_Click(object sender, EventArgs e)
         {
             // Nav PrevSingle Click
             try
             {
+
+                App.errWrite($"[{DateTime.Now} NavUpdatePrevSingle_Click ] -> SectionFrame");
 
                 if (clearNav != 0) clearNav--;
 
@@ -403,9 +469,53 @@ namespace KuranX.App.Core.Pages.SectionF
                 controlPanel.Visibility = Visibility.Hidden;
                 mainContent.Visibility = Visibility.Hidden;
 
+                if (totalSection >= selectedSection && 1 < selectedSection)
+                {
+                    selectedSection--;
+                    App.loadTask = Task.Run(() => loadSectionFunc(selectedSection));
+                }
+                else
+                {
+                    var desktype = App.navSurePage.deskingCombobox.SelectedItem as ComboBoxItem;
 
-                selectedSection--;
-                App.loadTask = Task.Run(() => loadSectionFunc(selectedSection));
+                    if ((string)desktype.Tag == "DeskLanding")
+                    {
+                        Debug.WriteLine("Desk");
+                        int xc = 0;
+                        using (var entitydb = new AyetContext())
+                        {
+                            var listx = entitydb.Sure.OrderBy(p => p.deskLanding);
+                            foreach (var item in listx)
+                            {
+                                xc++;
+                                if (loadHeader.Text == item.name) break;
+                            }
+                            xc--;
+                            var listxc = entitydb.Sure.OrderBy(p => p.deskLanding).Where(p => p.deskLanding == xc).FirstOrDefault();
+
+                            headerBorder.Visibility = Visibility.Hidden;
+                            App.mainframe.Content = App.navSectionPage.PageCall((int)listxc.sureId, (int)listxc.numberOfSection);
+
+                            listx = null;
+                            listxc = null;
+                        }
+                    }
+                    else
+                    {
+                        Debug.WriteLine("Land");
+                        using (var entitydb = new AyetContext())
+                        {
+                            int selectedSureX = selectedSure;
+                            selectedSureX--;
+                            var BeforeD = entitydb.Sure.Where(p => p.sureId == selectedSureX).Select(p => new Sure() { numberOfSection = p.numberOfSection }).FirstOrDefault();
+
+                            headerBorder.Visibility = Visibility.Hidden;
+                            App.mainframe.Content = App.navSectionPage.PageCall(--selectedSure, (int)BeforeD.numberOfSection);
+
+                            BeforeD = null;
+                        }
+                    }
+                }
 
 
             }
@@ -421,15 +531,53 @@ namespace KuranX.App.Core.Pages.SectionF
             try
             {
 
+                App.errWrite($"[{DateTime.Now} NavUpdateNextSingle_Click ] -> SectionFrame");
+
                 if (clearNav != 8) clearNav++;
                 navstackPanel.Visibility = Visibility.Hidden;
                 controlPanel.Visibility = Visibility.Hidden;
                 mainContent.Visibility = Visibility.Hidden;
 
 
-                NavUpdatePrevSingle.IsEnabled = true;
-                selectedSection++;
-                App.loadTask = Task.Run(() => loadSectionFunc(selectedSection));
+
+                if (totalSection > selectedSection)
+                {
+
+                    NavUpdatePrevSingle.IsEnabled = true;
+                    selectedSection++;
+                    App.loadTask = Task.Run(() => loadSectionFunc(selectedSection));
+                }
+                else
+                {
+                    var desktype = App.navSurePage.deskingCombobox.SelectedItem as ComboBoxItem;
+
+                    if ((string)desktype.Tag == "DeskLanding")
+                    {
+                        using (var entitydb = new AyetContext())
+                        {
+                            int xc = 0;
+                            var listx = entitydb.Sure.OrderBy(p => p.deskLanding);
+                            foreach (var item in listx)
+                            {
+                                xc++;
+                                if (loadHeader.Text == item.name) break;
+                            }
+                            xc++;
+                            var listxc = entitydb.Sure.OrderBy(p => p.deskLanding).Where(p => p.deskLanding == xc).First();
+                            headerBorder.Visibility = Visibility.Hidden;
+                            App.mainframe.Content = App.navSectionPage.PageCall((int)listxc.sureId, 1);
+
+                            listx = null;
+                            listxc = null;
+                        }
+                    }
+                    else
+                    {
+                        headerBorder.Visibility = Visibility.Hidden;
+                        App.mainframe.Content = App.navSectionPage.PageCall(++selectedSure, 1);
+                    }
+                }
+
 
 
             }
@@ -444,6 +592,9 @@ namespace KuranX.App.Core.Pages.SectionF
         {
             try
             {
+                App.errWrite($"[{DateTime.Now} popupClosed_Click ] -> SectionFrame");
+
+
                 var btntemp = sender as Button;
                 var popuptemp = (Popup)FindName(btntemp.Uid);
                 popuptemp.IsOpen = false;
@@ -463,6 +614,9 @@ namespace KuranX.App.Core.Pages.SectionF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} backVersesFrame_Click ] -> SectionFrame");
+
                 headerBorder.Visibility = Visibility.Visible;
                 controlPanel.Visibility = Visibility.Visible;
                 mainContent.Visibility = Visibility.Visible;
@@ -493,6 +647,9 @@ namespace KuranX.App.Core.Pages.SectionF
         {
             try
             {
+                App.errWrite($"[{DateTime.Now} fastexitBtn_Click ] -> SectionFrame");
+
+
                 if (App.beforeFrameName == "Sure")
                 {
                     App.mainframe.Content = App.navSurePage.PageCall();
@@ -513,6 +670,8 @@ namespace KuranX.App.Core.Pages.SectionF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} noteButton_Click ] -> SectionFrame");
                 popup_Note.IsOpen = true;
                 App.loadTask = Task.Run(noteConnect);
             }
@@ -527,6 +686,9 @@ namespace KuranX.App.Core.Pages.SectionF
         {
             try
             {
+                App.errWrite($"[{DateTime.Now} addNoteButton_Click ] -> SectionFrame");
+
+
                 if (noteName.Text.Length >= 3)
                 {
                     if (noteName.Text.Length <= 150)
@@ -595,6 +757,8 @@ namespace KuranX.App.Core.Pages.SectionF
         {
             try
             {
+                App.errWrite($"[{DateTime.Now} noteConnect ] -> SectionFrame");
+
                 using (var entitydb = new AyetContext())
                 {
                     var dNotes = entitydb.Notes.Where(p => p.sureId == selectedSure && p.sectionId == selectedSection && p.noteLocation == "Bölüm").ToList();
@@ -643,6 +807,8 @@ namespace KuranX.App.Core.Pages.SectionF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} noteDetailPopup_Click ] -> SectionFrame");
                 var tmpbutton = sender as Button;
                 App.mainframe.Content = App.navNoteItem.PageCall(int.Parse(tmpbutton.Uid));
                 tmpbutton = null;
@@ -657,6 +823,8 @@ namespace KuranX.App.Core.Pages.SectionF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} notesDetailPopup_Click ] -> SectionFrame");
                 var tmpbutton = sender as Button;
                 App.mainframe.Content = App.navNoteItem.PageCall(int.Parse(tmpbutton.Uid));
                 tmpbutton = null;
@@ -672,6 +840,8 @@ namespace KuranX.App.Core.Pages.SectionF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} noteAddButton_Click ] -> SectionFrame");
                 popup_noteAddPopup.IsOpen = true;
                 noteConnectVerse.Text = loadHeader.Text + " > " + selectedSection;
                 noteType.Text = "Bölüm Notu";
@@ -686,6 +856,10 @@ namespace KuranX.App.Core.Pages.SectionF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} allShowNoteButton_Click ] -> SectionFrame");
+
+
                 popup_notesAllShowPopup.IsOpen = true;
                 using (var entitydb = new AyetContext())
                 {
@@ -736,7 +910,7 @@ namespace KuranX.App.Core.Pages.SectionF
         private void noteName_KeyDown(object sender, KeyEventArgs e)
         {
             try
-            {
+            {   
                 noteAddPopupHeaderError.Visibility = Visibility.Hidden;
             }
             catch (Exception ex)
@@ -776,6 +950,8 @@ namespace KuranX.App.Core.Pages.SectionF
 
         public void popuverMove_Click(object sender, RoutedEventArgs e)
         {
+
+            App.errWrite($"[{DateTime.Now} popuverMove_Click ] -> SectionFrame"); 
             var btn = sender as Button;
             ppMoveConfing((string)btn.Uid);
             moveControlName.Text = (string)btn.Content;
@@ -784,6 +960,10 @@ namespace KuranX.App.Core.Pages.SectionF
 
         public void ppMoveActionOfset_Click(object sender, RoutedEventArgs e)
         {
+
+            App.errWrite($"[{DateTime.Now} ppMoveActionOfset_Click ] -> SectionFrame");
+
+
             var btntemp = sender as Button;
             var movePP = (Popup)FindName((string)btntemp.Content);
 
@@ -829,6 +1009,10 @@ namespace KuranX.App.Core.Pages.SectionF
 
         public void ppMoveActionOpacity_Click(object sender, RoutedEventArgs e)
         {
+
+            App.errWrite($"[{DateTime.Now} ppMoveActionOpacity_Click ] -> SectionFrame");
+
+
             var btntemp = sender as Button;
             var movePP = (Popup)FindName((string)btntemp.Content);
 
@@ -848,6 +1032,9 @@ namespace KuranX.App.Core.Pages.SectionF
 
         public void ppMoveConfing(string ppmove)
         {
+
+            App.errWrite($"[{DateTime.Now} ppMoveConfing ] -> SectionFrame");
+
             for (int i = 1; i < 10; i++)
             {
                 var btn = FindName("pp_M" + i) as Button;

@@ -11,6 +11,7 @@ namespace KuranX.App.Core.Classes
         public int sureId { get; set; }
         public string name { get; set; } = "Default";
         public int numberOfVerses { get; set; } = 0;
+        public int numberOfSection { get; set; } = 0;
         public int userCheckCount { get; set; } = 0;
         public int userLastRelativeVerse { get; set; } = 0;
         public string landingLocation { get; set; } = "Default";

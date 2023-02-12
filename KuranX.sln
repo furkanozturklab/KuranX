@@ -5,6 +5,8 @@ VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KuranX.App", "KuranX.App\KuranX.App.csproj", "{F51CBF0E-376E-4088-B852-1363C6B29371}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "KuranSunettullah", "KuranSunettullah\KuranSunettullah.vdproj", "{4E277AEC-34FF-4662-B6CB-BEC258238C6F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{F51CBF0E-376E-4088-B852-1363C6B29371}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F51CBF0E-376E-4088-B852-1363C6B29371}.Release|x86.ActiveCfg = Release|x86
 		{F51CBF0E-376E-4088-B852-1363C6B29371}.Release|x86.Build.0 = Release|x86
+		{4E277AEC-34FF-4662-B6CB-BEC258238C6F}.Debug|Any CPU.ActiveCfg = Debug
+		{4E277AEC-34FF-4662-B6CB-BEC258238C6F}.Debug|x86.ActiveCfg = Debug
+		{4E277AEC-34FF-4662-B6CB-BEC258238C6F}.Release|Any CPU.ActiveCfg = Release
+		{4E277AEC-34FF-4662-B6CB-BEC258238C6F}.Release|x86.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

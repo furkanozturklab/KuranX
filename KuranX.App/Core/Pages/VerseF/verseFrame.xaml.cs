@@ -39,6 +39,10 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} InitializeComponent ] -> verseFrame");
+
+
                 InitializeComponent();
                 remiderDay.DisplayDateStart = DateTime.Now.AddDays(1);
             }
@@ -52,6 +56,11 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+
+
+                App.errWrite($"[{DateTime.Now} PageCall ] -> verseFrame");
+
+
                 sSureId = sureId;
                 sRelativeVerseId = relativeVerseId;
                 navLocation = Location;
@@ -73,6 +82,10 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+
+
+                App.errWrite($"[{DateTime.Now} Page_Loaded ] -> verseFrame");
+
                 if (searchBox)
                 {
                     popup_search.IsOpen = true;
@@ -100,6 +113,9 @@ namespace KuranX.App.Core.Pages.VerseF
             // Verse Load Func
             try
             {
+
+                App.errWrite($"[{DateTime.Now} loadVerseFunc ] -> verseFrame");
+
                 this.Dispatcher.Invoke(() => popup_descVersePopup.IsOpen = false);
                 using (var entitydb = new AyetContext())
                 {
@@ -129,8 +145,24 @@ namespace KuranX.App.Core.Pages.VerseF
                             App.mainScreen.navigationWriter("verse", loadHeader.Text + "," + sRelativeVerseId);
 
                             mainContent.Visibility = Visibility.Visible;
+
+                            var desktype = App.navSurePage.deskingCombobox.SelectedItem as ComboBoxItem;
+
                             if (dSure.name == "Fâtiha" && sRelativeVerseId == 1) NavUpdatePrevSingle.IsEnabled = false;
                             else NavUpdatePrevSingle.IsEnabled = true;
+
+                            if ((string)desktype.Tag == "DeskLanding")
+                            {
+
+                                if (dSure.name == "Tevbe" && sRelativeVerseId == 129) NavUpdateNextSingle.IsEnabled = false;
+                                else NavUpdateNextSingle.IsEnabled = true;
+
+                            }
+                            else
+                            {
+                                if (dSure.name == "Nâs" && sRelativeVerseId == 6) NavUpdateNextSingle.IsEnabled = false;
+                                else NavUpdateNextSingle.IsEnabled = true;
+                            }
 
                             navControlStack.Visibility = Visibility.Visible;
                             mainContent.Visibility = Visibility.Visible;
@@ -158,6 +190,8 @@ namespace KuranX.App.Core.Pages.VerseF
             // İnterpreter Load Func
             try
             {
+
+                App.errWrite($"[{DateTime.Now} loadInterpreterFunc ] -> verseFrame");
                 using (var entitydb = new AyetContext())
                 {
                     switch (writer)
@@ -207,91 +241,105 @@ namespace KuranX.App.Core.Pages.VerseF
 
         public void loadNavFunc(int prev = 0)
         {
-            using (var entitydb = new AyetContext())
+
+            try
             {
-                for (int x = 1; x < 9; x++)
+
+                App.errWrite($"[{DateTime.Now} loadNavFunc ] -> verseFrame");
+                using (var entitydb = new AyetContext())
                 {
-                    this.Dispatcher.Invoke(() =>
+                    for (int x = 1; x < 9; x++)
                     {
-                        var vNav = (CheckBox)this.FindName("vb" + x);
-                        vNav.Visibility = Visibility.Collapsed;
-                        vNav.IsEnabled = true;
-                    });
-                }
-
-                last = sRelativeVerseId;
-
-                if (last % 9 == 0)
-
-                {
-                    last -= 2;
-                }
-                else
-                {
-                    if (sRelativeVerseId <= 8) last = 0;
-                    else last -= 2;
-                }
-
-                if (prev != 0) last -= prev;
-                else last -= 2;
-
-                var dVerseNav = entitydb.Verse.Where(p => p.sureId == sSureId).Select(p => new Verse() { verseId = p.verseId, relativeDesk = p.relativeDesk, verseCheck = p.verseCheck }).Skip(last).Take(8).ToList();
-                var tempVerse = new List<Verse>();
-
-                int i = 0;
-
-                foreach (var item in dVerseNav)
-                {
-                    this.Dispatcher.Invoke(() =>
-                    {
-                        i++;
-
-                        var vNav = (CheckBox)this.FindName("vb" + i);
-
-                        if (vNav != null)
+                        this.Dispatcher.Invoke(() =>
                         {
-                            vNav.Visibility = Visibility.Visible;
-                            vNav.Uid = item.verseId.ToString();
-                            vNav.IsChecked = item.verseCheck;
-                            vNav.Content = item.relativeDesk;
+                            var vNav = (CheckBox)this.FindName("vb" + x);
+                            vNav.Visibility = Visibility.Collapsed;
+                            vNav.IsEnabled = true;
+                        });
+                    }
 
-                            if (item.verseCheck)
-                            {
-                                vNav.Tag = "#66E21F";
-                            }
-                            else
-                            {
-                                vNav.Tag = "#FFFFFF";
-                            }
+                    last = sRelativeVerseId;
 
-                            vNav.SetValue(Extensions.DataStorage, item.relativeDesk.ToString());
-                        }
-                    });
-                }
+                    if (last % 9 == 0)
 
-                for (int x = 1; x < 9; x++)
-                {
-                    this.Dispatcher.Invoke(() =>
                     {
-                        var vNav = (CheckBox)FindName("vb" + x);
-                        if (int.Parse((string)vNav.GetValue(Extensions.DataStorage)) == sRelativeVerseId) vNav.IsEnabled = false;
-                    });
+                        last -= 2;
+                    }
+                    else
+                    {
+                        if (sRelativeVerseId <= 8) last = 0;
+                        else last -= 2;
+                    }
+
+                    if (prev != 0) last -= prev;
+                    else last -= 2;
+
+                    var dVerseNav = entitydb.Verse.Where(p => p.sureId == sSureId).Select(p => new Verse() { verseId = p.verseId, relativeDesk = p.relativeDesk, verseCheck = p.verseCheck }).Skip(last).Take(8).ToList();
+                    var tempVerse = new List<Verse>();
+
+                    int i = 0;
+
+                    foreach (var item in dVerseNav)
+                    {
+                        this.Dispatcher.Invoke(() =>
+                        {
+                            i++;
+
+                            var vNav = (CheckBox)this.FindName("vb" + i);
+
+                            if (vNav != null)
+                            {
+                                vNav.Visibility = Visibility.Visible;
+                                vNav.Uid = item.verseId.ToString();
+                                vNav.IsChecked = item.verseCheck;
+                                vNav.Content = item.relativeDesk;
+
+                                if (item.verseCheck)
+                                {
+                                    vNav.Tag = "#66E21F";
+                                }
+                                else
+                                {
+                                    vNav.Tag = "#FFFFFF";
+                                }
+
+                                vNav.SetValue(Extensions.DataStorage, item.relativeDesk.ToString());
+                            }
+                        });
+                    }
+
+                    for (int x = 1; x < 9; x++)
+                    {
+                        this.Dispatcher.Invoke(() =>
+                        {
+                            var vNav = (CheckBox)FindName("vb" + x);
+                            if (int.Parse((string)vNav.GetValue(Extensions.DataStorage)) == sRelativeVerseId) vNav.IsEnabled = false;
+                        });
+                    }
+
+
+                    Thread.Sleep(int.Parse(App.config.AppSettings.Settings["app_animationSpeed"].Value));
+
+
+                    dVerseNav = null;
+                    tempVerse = null;
                 }
 
+                this.Dispatcher.Invoke(() =>
+                {
+                    navstackPanel.Visibility = Visibility.Visible;
+                    classPanel.Visibility = Visibility.Visible;
+                    controlPanel.Visibility = Visibility.Visible;
+                });
+            }
+            catch (Exception ex)
+            {
 
-                Thread.Sleep(int.Parse(App.config.AppSettings.Settings["app_animationSpeed"].Value));
 
-
-                dVerseNav = null;
-                tempVerse = null;
+                App.logWriter("Loading", ex);
             }
 
-            this.Dispatcher.Invoke(() =>
-            {
-                navstackPanel.Visibility = Visibility.Visible;
-                classPanel.Visibility = Visibility.Visible;
-                controlPanel.Visibility = Visibility.Visible;
-            });
+
         }
 
         public void loadItemsHeader(Sure dSure)
@@ -299,6 +347,10 @@ namespace KuranX.App.Core.Pages.VerseF
             // items Load Func
             try
             {
+
+                App.errWrite($"[{DateTime.Now} loadItemsHeader ] -> verseFrame");
+
+
                 this.Dispatcher.Invoke(() =>
                 {
                     loadHeader.Text = dSure.name;
@@ -338,6 +390,10 @@ namespace KuranX.App.Core.Pages.VerseF
             // items Load Func
             try
             {
+
+                App.errWrite($"[{DateTime.Now} loadItemsControl ] -> verseFrame");
+
+
                 this.Dispatcher.Invoke(() =>
                 {
                     markButton.IsChecked = dVerse.markCheck;
@@ -361,6 +417,10 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} loadItemsClass ] -> verseFrame");
+
+
                 this.Dispatcher.Invoke(() =>
                 {
                     class1.IsEnabled = dCVerse.v_hk;
@@ -383,6 +443,10 @@ namespace KuranX.App.Core.Pages.VerseF
             // items Load Func
             try
             {
+
+                App.errWrite($"[{DateTime.Now} loadItemsContent ] -> verseFrame");
+
+
                 this.Dispatcher.Invoke(() =>
                 {
                     loadVerseTr.Text = dVerse.verseTr;
@@ -400,6 +464,10 @@ namespace KuranX.App.Core.Pages.VerseF
             // items Load Func
             try
             {
+                App.errWrite($"[{DateTime.Now} loadItemsInterpreter ] -> verseFrame");
+
+
+
                 this.Dispatcher.Invoke(() =>
                 {
                     loadDetail.Text = dInter.interpreterDetail;
@@ -416,6 +484,8 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} noteConnect ] -> verseFrame");
                 using (var entitydb = new AyetContext())
                 {
                     var dNotes = entitydb.Notes.Where(p => p.sureId == sSureId && p.verseId == sRelativeVerseId && p.noteLocation == "Ayet").ToList();
@@ -463,6 +533,10 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} loadMeaning ] -> verseFrame");
+
+
                 using (var entitydb = new AyetContext())
                 {
                     var dInteg = entitydb.Integrity.Where(p => p.connectSureId == sSureId && p.connectVerseId == sRelativeVerseId || p.connectedSureId == sSureId && p.connectedVerseId == sRelativeVerseId).ToList();
@@ -513,6 +587,9 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} subjectFolder ] -> verseFrame");
+
                 using (var entitydb = new AyetContext())
                 {
                     var dSubjectFolder = entitydb.Subject.OrderBy(p => p.subjectName).ToList();
@@ -549,6 +626,10 @@ namespace KuranX.App.Core.Pages.VerseF
             // TR ARP İNTERPRETER TEXT CHANGE FUNC
             try
             {
+
+                App.errWrite($"[{DateTime.Now} changeloadDetail_Click ] -> verseFrame");
+
+
                 var btn = sender as Button;
                 switch (btn.Uid.ToString())
                 {
@@ -584,6 +665,10 @@ namespace KuranX.App.Core.Pages.VerseF
             // Verse Change Click
             try
             {
+
+                App.errWrite($"[{DateTime.Now} activeVerseSelected_Click ] -> verseFrame");
+
+
                 var chk = sender as CheckBox;
                 if (chk.IsChecked.ToString() == "True") chk.IsChecked = false;
                 else { chk.IsChecked = true; }
@@ -618,6 +703,11 @@ namespace KuranX.App.Core.Pages.VerseF
             // Nav PrevSingle Click
             try
             {
+
+
+                App.errWrite($"[{DateTime.Now} NavUpdatePrevSingle_Click ] -> verseFrame");
+
+
                 if (clearNav != 0) clearNav--;
 
                 navstackPanel.Visibility = Visibility.Hidden;
@@ -625,6 +715,7 @@ namespace KuranX.App.Core.Pages.VerseF
                 controlPanel.Visibility = Visibility.Hidden;
                 classPanel.Visibility = Visibility.Hidden;
                 mainContent.Visibility = Visibility.Hidden;
+
                 if (int.Parse(loadVerseCount.Text) >= sRelativeVerseId && 1 < sRelativeVerseId)
                 {
                     sRelativeVerseId--;
@@ -683,12 +774,15 @@ namespace KuranX.App.Core.Pages.VerseF
             // Nav NextSingle Click
             try
             {
+
+                App.errWrite($"[{DateTime.Now} NavUpdateNextSingle_Click ] -> verseFrame");
+
+
                 if (clearNav != 9) clearNav++;
                 navstackPanel.Visibility = Visibility.Hidden;
 
                 controlPanel.Visibility = Visibility.Hidden;
                 classPanel.Visibility = Visibility.Hidden;
-
                 mainContent.Visibility = Visibility.Hidden;
 
                 if (int.Parse(loadVerseCount.Text) > sRelativeVerseId)
@@ -738,6 +832,11 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+
+
+                App.errWrite($"[{DateTime.Now} backVersesFrame_Click ] -> verseFrame");
+
+
                 headerBorder.Visibility = Visibility.Visible;
                 controlPanel.Visibility = Visibility.Visible;
                 classPanel.Visibility = Visibility.Visible;
@@ -770,6 +869,10 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} fastexitBtn_Click ] -> verseFrame");
+
+
                 if (App.beforeFrameName == "Sure")
                 {
                     App.mainframe.Content = App.navSurePage.PageCall();
@@ -789,6 +892,10 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} openNextSurePopup_Click ] -> verseFrame");
+
+
                 popup_nextSure.IsOpen = true;
             }
             catch (Exception ex)
@@ -801,6 +908,11 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} checkButton_Click ] -> verseFrame");
+
+
+
                 var chk = sender as CheckBox;
 
                 using (var entitydb = new AyetContext())
@@ -848,6 +960,8 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} bellButton_Click ] -> verseFrame");
                 var btn = sender as CheckBox;
                 var control = btn.IsChecked.Value;
                 if (control == false)
@@ -913,6 +1027,11 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+
+
+                App.errWrite($"[{DateTime.Now} markButton_Click ] -> verseFrame");
+
+
                 var bchk = sender as CheckBox;
                 using (var entitydb = new AyetContext())
                 {
@@ -958,6 +1077,11 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} subjectColorPick_Click ] -> verseFrame");
+
+
+
                 CheckBox? chk;
 
                 foreach (object item in subjectColorStack.Children)
@@ -987,6 +1111,10 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} popupClosed_Click ] -> verseFrame");
+
+
                 var btntemp = sender as Button;
                 var popuptemp = (Popup)FindName(btntemp.Uid);
                 popuptemp.IsOpen = false;
@@ -1040,6 +1168,7 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+                App.errWrite($"[{DateTime.Now} openVerseNumberPopup_Click ] -> verseFrame");
                 popup_VerseGoto.IsOpen = true;
             }
             catch (Exception ex)
@@ -1052,6 +1181,9 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+
+
+                App.errWrite($"[{DateTime.Now} openVerseNumberPopup_Click ] -> verseFrame");
                 popup_Note.IsOpen = true;
                 App.loadTask = Task.Run(noteConnect);
             }
@@ -1065,6 +1197,8 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+                App.errWrite($"[{DateTime.Now} noteAddButton_Click ] -> verseFrame");
+
                 popup_noteAddPopup.IsOpen = true;
                 noteConnectVerse.Text = loadHeader.Text + " > " + sRelativeVerseId;
                 noteType.Text = "Ayet Notu";
@@ -1079,6 +1213,8 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} remiderDeleteButton_Click ] -> verseFrame");
                 popup_remiderControlPopup.IsOpen = false;
                 popup_remiderDeleteConfirm.IsOpen = true;
             }
@@ -1092,6 +1228,9 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} descButton_Click ] -> verseFrame");
+
                 var contentb = sender as Button;
                 textDesc.Text = contentb.Uid.ToString();
                 popupHeaderTextDesc.Text = loadHeader.Text + " Suresinin Ayetleri Arasındaki Konular";
@@ -1108,6 +1247,8 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+                App.errWrite($"[{DateTime.Now} feedbackButton_Click ] -> verseFrame");
+
                 popup_feedbackOpenPopup.IsOpen = true;
                 feedbackConnectVerse.Text = loadHeader.Text + " > " + sRelativeVerseId.ToString();
                 feedbackDetail.Focus();
@@ -1124,6 +1265,10 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} feedbackPopupButton_Click ] -> verseFrame");
+
+
                 if (feedbackDetail.Text.Length >= 3)
                 {
                     feedbackPopupButton.IsEnabled = false;
@@ -1162,6 +1307,9 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+                App.errWrite($"[{DateTime.Now} openAddSubjectPopup_Click ] -> verseFrame");
+
+
                 popup_addSubjectPopup.IsOpen = true;
                 selectedSubject.Text = loadHeader.Text + " > " + sRelativeVerseId.ToString();
                 App.loadTask = Task.Run(() => subjectFolder());
@@ -1176,6 +1324,8 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} newSubjectFolder_Click ] -> verseFrame");
                 popup_FolderSubjectPopup.IsOpen = true;
             }
             catch (Exception ex)
@@ -1188,6 +1338,8 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} searchSubjectFolder_Click ] -> verseFrame");
                 popup_FolderSubjectPopup.IsOpen = true;
             }
             catch (Exception ex)
@@ -1200,6 +1352,9 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+                App.errWrite($"[{DateTime.Now} openMeaningPopup_Click ] -> verseFrame");
+
+
                 popup_Meaning.IsOpen = true;
                 App.loadTask = Task.Run(() => loadMeaning());
             }
@@ -1213,6 +1368,9 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+                App.errWrite($"[{DateTime.Now} openMeaningAddPopup_Click ] -> verseFrame");
+
+
                 popup_meaningAddPopup.IsOpen = true;
                 popup_meaningAddPopup.Focus();
                 var item = meaningpopupNextSureId.SelectedItem as ComboBoxItem;
@@ -1231,6 +1389,10 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} editMeaningButton_Click ] -> verseFrame");
+
+
                 meaningEditNote.Text = meaningOpenDetailText.Text;
                 popup_meaningEditPopup.IsOpen = true;
             }
@@ -1244,6 +1406,9 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+                App.errWrite($"[{DateTime.Now} deleteMeaningButton_Click ] -> verseFrame");
+
+
                 popup_meaningDeleteConfirm.IsOpen = true;
             }
             catch (Exception ex)
@@ -1256,6 +1421,10 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} meaningOpenDetailTextBack_Click ] -> verseFrame");
+
+
                 popup_meainingConnectDetailText.IsOpen = false;
             }
             catch (Exception ex)
@@ -1268,6 +1437,9 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+                App.errWrite($"[{DateTime.Now} resetBtnSure_Click ] -> verseFrame");
+
+
                 popup_resetVerseConfirm.IsOpen = true;
             }
             catch (Exception ex)
@@ -1280,6 +1452,11 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} loadVersePopup_Click ] -> verseFrame");
+
+
+
                 if (int.Parse(loadVerseCount.Text) >= int.Parse(popupRelativeId.Text))
                 {
                     controlPanel.Visibility = Visibility.Hidden;
@@ -1307,6 +1484,11 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+
+
+                App.errWrite($"[{DateTime.Now} noteDetailPopup_Click ] -> verseFrame");
+
+
                 var tmpbutton = sender as Button;
                 App.mainframe.Content = App.navNoteItem.PageCall(int.Parse(tmpbutton.Uid));
                 tmpbutton = null;
@@ -1321,6 +1503,11 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} addNoteButton_Click ] -> verseFrame");
+
+
+
                 if (noteName.Text.Length >= 3)
                 {
                     if (noteName.Text.Length <= 150)
@@ -1388,6 +1575,10 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+
+
+                App.errWrite($"[{DateTime.Now} allShowNoteButton_Click ] -> verseFrame");
+
                 popup_notesAllShowPopup.IsOpen = true;
                 using (var entitydb = new AyetContext())
                 {
@@ -1438,6 +1629,10 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} nextSure_Click ] -> verseFrame");
+
+
                 headerBorder.Visibility = Visibility.Hidden;
                 controlPanel.Visibility = Visibility.Hidden;
                 classPanel.Visibility = Visibility.Hidden;
@@ -1460,6 +1655,10 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} notesDetailPopup_Click ] -> verseFrame");
+
+
                 var tmpbutton = sender as Button;
                 App.mainframe.Content = App.navNoteItem.PageCall(int.Parse(tmpbutton.Uid));
                 tmpbutton = null;
@@ -1474,6 +1673,9 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+                App.errWrite($"[{DateTime.Now} addRemiderButton_Click ] -> verseFrame");
+
+
                 if (remiderName.Text.Length >= 3)
                 {
                     if (remiderName.Text.Length <= 150)
@@ -1633,6 +1835,8 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} deleteRemiderBtn_Click ] -> verseFrame");
                 using (var entitydb = new AyetContext())
                 {
                     entitydb.Remider.RemoveRange(entitydb.Remider.Where(p => p.connectVerseId == sRelativeVerseId && p.connectSureId == sSureId));
@@ -1654,6 +1858,10 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} addSubject_Click ] -> verseFrame");
+
+
                 using (var entitydb = new AyetContext())
                 {
                     var item = selectedSubjectFolder.SelectedItem as ComboBoxItem;
@@ -1696,6 +1904,9 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+                App.errWrite($"[{DateTime.Now} addfolderSubject_Click ] -> verseFrame");
+
+
                 if (subjectFolderHeader.Text.Length >= 3)
                 {
                     if (subjectFolderHeader.Text.Length <= 150)
@@ -1749,6 +1960,10 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} meaningDetailPopup_Click ] -> verseFrame");
+
+
                 var tmpbutton = sender as Button;
 
                 using (var entitydb = new AyetContext())
@@ -1780,6 +1995,10 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} allShowMeaningButton_Click ] -> verseFrame");
+
+
                 popup_meainingAllShowPopup.IsOpen = true;
 
                 using (var entitydb = new AyetContext())
@@ -1831,6 +2050,9 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+                App.errWrite($"[{DateTime.Now} newmeaningVerse_Click ] -> verseFrame");
+
+
                 if (meaningName.Text.Length >= 3)
                 {
                     if (meaningName.Text.Length <= 150)
@@ -1919,6 +2141,10 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} meaningOpenSure_Click ] -> verseFrame");
+
+
                 headerBorder.Visibility = Visibility.Hidden;
                 controlPanel.Visibility = Visibility.Hidden;
                 classPanel.Visibility = Visibility.Hidden;
@@ -1943,6 +2169,10 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} editmeaningVerse_Click ] -> verseFrame");
+
+
                 using (var entitydb = new AyetContext())
                 {
                     if (meaningEditNote.Text.Length >= 3)
@@ -1970,6 +2200,8 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+                App.errWrite($"[{DateTime.Now} deleteMeaningBtn_Click ] -> verseFrame");
+
                 using (var entitydb = new AyetContext())
                 {
                     entitydb.Integrity.RemoveRange(entitydb.Integrity.Where(p => p.integrityId == int.Parse(meaningDId.Text)));
@@ -1991,6 +2223,9 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+                App.errWrite($"[{DateTime.Now} resetVersePopupBtn_Click ] -> verseFrame");
+
+
                 using (var entitydb = new AyetContext())
                 {
                     foreach (var item in entitydb.Verse.Where(p => p.sureId == sSureId))
@@ -2032,6 +2267,10 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} SearchBtn_Click ] -> verseFrame");
+
+
                 using (var entitydb = new AyetContext())
                 {
                     if (SearchData.Text.Length >= 3)
@@ -2061,186 +2300,243 @@ namespace KuranX.App.Core.Pages.VerseF
 
         private void filterSearch_Click(object sender, RoutedEventArgs e)
         {
-            var btn = sender as Button;
-            searchLastItem = 0;
-            searchNowPage = 1;
-
-            switch (btn.Uid)
+            try
             {
-                case "ayet_search":
-                    searchtotalpage = searchDt1 / 20;
-                    nextSearchBtn.Tag = "ayet";
-                    beforeSearchBtn.Tag = "ayet";
-                    if (searchtotalpage > 0)
-                    {
-                        searchPageControl.Visibility = Visibility.Visible;
-                        pagesSearch.Content = searchNowPage.ToString() + " / " + searchtotalpage.ToString();
-                        nextSearchBtn.IsEnabled = true;
-                    }
-                    searchData(searchLastItem, "ayet");
-                    break;
 
-                case "desc_search":
-                    searchtotalpage = searchDt2 / 20;
-                    nextSearchBtn.Tag = "desc";
-                    beforeSearchBtn.Tag = "desc";
-                    if (searchtotalpage > 0)
-                    {
-                        searchPageControl.Visibility = Visibility.Visible;
-                        pagesSearch.Content = searchNowPage.ToString() + " / " + searchtotalpage.ToString();
-                        nextSearchBtn.IsEnabled = true;
-                    }
-                    searchData(searchLastItem, "desc");
-                    break;
+                App.errWrite($"[{DateTime.Now} filterSearch_Click ] -> verseFrame");
 
-                case "inter_search":
-                    searchtotalpage = searchDt3 / 20;
-                    nextSearchBtn.Tag = "inter";
-                    beforeSearchBtn.Tag = "inter";
-                    if (searchtotalpage > 0)
-                    {
-                        searchPageControl.Visibility = Visibility.Visible;
-                        pagesSearch.Content = searchNowPage.ToString() + " / " + searchtotalpage.ToString();
-                        nextSearchBtn.IsEnabled = true;
-                    }
-                    searchData(searchLastItem, "inter");
-                    break;
+                var btn = sender as Button;
+                searchLastItem = 0;
+                searchNowPage = 1;
+
+                switch (btn.Uid)
+                {
+                    case "ayet_search":
+                        searchtotalpage = searchDt1 / 20;
+                        nextSearchBtn.Tag = "ayet";
+                        beforeSearchBtn.Tag = "ayet";
+                        if (searchtotalpage > 0)
+                        {
+                            searchPageControl.Visibility = Visibility.Visible;
+                            pagesSearch.Content = searchNowPage.ToString() + " / " + searchtotalpage.ToString();
+                            nextSearchBtn.IsEnabled = true;
+                        }
+                        searchData(searchLastItem, "ayet");
+                        break;
+
+                    case "desc_search":
+                        searchtotalpage = searchDt2 / 20;
+                        nextSearchBtn.Tag = "desc";
+                        beforeSearchBtn.Tag = "desc";
+                        if (searchtotalpage > 0)
+                        {
+                            searchPageControl.Visibility = Visibility.Visible;
+                            pagesSearch.Content = searchNowPage.ToString() + " / " + searchtotalpage.ToString();
+                            nextSearchBtn.IsEnabled = true;
+                        }
+                        searchData(searchLastItem, "desc");
+                        break;
+
+                    case "inter_search":
+                        searchtotalpage = searchDt3 / 20;
+                        nextSearchBtn.Tag = "inter";
+                        beforeSearchBtn.Tag = "inter";
+                        if (searchtotalpage > 0)
+                        {
+                            searchPageControl.Visibility = Visibility.Visible;
+                            pagesSearch.Content = searchNowPage.ToString() + " / " + searchtotalpage.ToString();
+                            nextSearchBtn.IsEnabled = true;
+                        }
+                        searchData(searchLastItem, "inter");
+                        break;
+                }
             }
+            catch (Exception ex)
+            {
+
+                App.logWriter("Click", ex);
+            }
+
         }
 
         private void nextSearch_Click(object sender, RoutedEventArgs e)
         {
-            var btn = sender as Button;
-            searchNowPage++;
-            searchLastItem += 20;
-            beforeSearchBtn.IsEnabled = true;
-            if (searchNowPage >= searchtotalpage) nextSearchBtn.IsEnabled = false;
-            pagesSearch.Content = searchNowPage.ToString() + " / " + searchtotalpage.ToString();
+            try
+            {
+                App.errWrite($"[{DateTime.Now} nextSearch_Click ] -> verseFrame");
 
-            searchData(searchLastItem, (string)btn.Tag);
+
+
+                var btn = sender as Button;
+                searchNowPage++;
+                searchLastItem += 20;
+                beforeSearchBtn.IsEnabled = true;
+                if (searchNowPage >= searchtotalpage) nextSearchBtn.IsEnabled = false;
+                pagesSearch.Content = searchNowPage.ToString() + " / " + searchtotalpage.ToString();
+
+                searchData(searchLastItem, (string)btn.Tag);
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Click", ex);
+
+            }
+
         }
 
         private void beForeSearch_Click(object sender, RoutedEventArgs e)
         {
-            var btn = sender as Button;
-            searchNowPage--;
-            searchLastItem -= 20;
-            nextSearchBtn.IsEnabled = true;
 
-            if (searchNowPage <= 1) beforeSearchBtn.IsEnabled = false;
-            pagesSearch.Content = searchNowPage.ToString() + " / " + searchtotalpage.ToString();
-            searchData(searchLastItem, (string)btn.Tag);
+            try
+            {
+                App.errWrite($"[{DateTime.Now} beForeSearch_Click ] -> verseFrame");
+
+                var btn = sender as Button;
+                searchNowPage--;
+                searchLastItem -= 20;
+                nextSearchBtn.IsEnabled = true;
+
+                if (searchNowPage <= 1) beforeSearchBtn.IsEnabled = false;
+                pagesSearch.Content = searchNowPage.ToString() + " / " + searchtotalpage.ToString();
+                searchData(searchLastItem, (string)btn.Tag);
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Click", ex);
+
+            }
+
+
+
         }
 
         private void searchData(int nowpage, string type)
         {
-            searchScrollViewer.ScrollToTop();
-            switch (type)
+
+            try
             {
-                case "ayet":
+                App.errWrite($"[{DateTime.Now} searchData ] -> verseFrame");
 
-                    using (var entitydb = new AyetContext())
-                    {
-                        var data = entitydb.Verse.Where(p => EF.Functions.Like(p.verseTr, "%" + SearchData.Text + "%")).Select(p => new Verse
-                        {
-                            verseTr = p.verseTr,
-                            sureId = p.sureId,
-                            relativeDesk = p.relativeDesk
-                        }).Skip(nowpage).Take(20).ToList();
 
-                        resultDataContent.Children.Clear();
-                        foreach (var searchContent in data)
+                searchScrollViewer.ScrollToTop();
+                switch (type)
+                {
+                    case "ayet":
+
+                        using (var entitydb = new AyetContext())
                         {
-                            searchDataContent.Text = searchContent.verseTr.Replace(Environment.NewLine, "");
-                            starindex = 0;
-                            findIndex.Clear();
-                            while (true)
+                            var data = entitydb.Verse.Where(p => EF.Functions.Like(p.verseTr, "%" + SearchData.Text + "%")).Select(p => new Verse
                             {
-                                starindex = searchDataContent.Text.ToLower().IndexOf(SearchData.Text.ToLower(), ++starindex);
-                                if (starindex == -1) break;
-                                findIndex.Add(starindex);
-                            }
-                            searchDataWrite(findIndex, entitydb.Sure.Where(p => p.sureId == searchContent.sureId).Select(p => new Sure { name = p.name }).First().name + " surenin " + searchContent.relativeDesk + ". ayetinde Türkçe Okunuşu", (int)searchContent.sureId, (int)searchContent.relativeDesk);
-                        }
-                    }
+                                verseTr = p.verseTr,
+                                sureId = p.sureId,
+                                relativeDesk = p.relativeDesk
+                            }).Skip(nowpage).Take(20).ToList();
 
-                    break;
-
-                case "desc":
-
-                    using (var entitydb = new AyetContext())
-                    {
-                        var data = entitydb.Verse.Where(p => EF.Functions.Like(p.verseDesc, "%" + SearchData.Text + "%")).Select(p => new Verse
-                        {
-                            verseDesc = p.verseDesc,
-                            sureId = p.sureId,
-                            relativeDesk = p.relativeDesk
-                        }).Skip(nowpage).Take(20).ToList();
-
-                        resultDataContent.Children.Clear();
-                        foreach (var searchContent in data)
-                        {
-                            searchDataContent.Text = searchContent.verseDesc.Replace(Environment.NewLine, "");
-                            starindex = 0;
-                            findIndex.Clear();
-                            while (true)
+                            resultDataContent.Children.Clear();
+                            foreach (var searchContent in data)
                             {
-                                starindex = searchDataContent.Text.ToLower().IndexOf(SearchData.Text.ToLower(), ++starindex);
-                                if (starindex == -1) break;
-                                findIndex.Add(starindex);
+                                searchDataContent.Text = searchContent.verseTr.Replace(Environment.NewLine, "");
+                                starindex = 0;
+                                findIndex.Clear();
+                                while (true)
+                                {
+                                    starindex = searchDataContent.Text.ToLower().IndexOf(SearchData.Text.ToLower(), ++starindex);
+                                    if (starindex == -1) break;
+                                    findIndex.Add(starindex);
+                                }
+                                searchDataWrite(findIndex, entitydb.Sure.Where(p => p.sureId == searchContent.sureId).Select(p => new Sure { name = p.name }).First().name + " surenin " + searchContent.relativeDesk + ". ayetinde Türkçe Okunuşu", (int)searchContent.sureId, (int)searchContent.relativeDesk);
                             }
-                            searchDataWrite(findIndex,
-                                entitydb.Sure.Where(p => p.sureId == searchContent.sureId).Select(p => new Sure { name = p.name }).First().name + " surenin " + searchContent.relativeDesk + ". ayetinde açıklamasında",
-                                (int)searchContent.sureId,
-                                (int)searchContent.relativeDesk);
                         }
-                    }
 
-                    break;
+                        break;
 
-                case "inter":
-                    using (var entitydb = new AyetContext())
-                    {
-                        var data = entitydb.Interpreter.Where(p => EF.Functions.Like(p.interpreterDetail, "%" + SearchData.Text + "%")).Select(p => new Interpreter
+                    case "desc":
+
+                        using (var entitydb = new AyetContext())
                         {
-                            interpreterDetail = p.interpreterDetail,
-                            verseId = p.verseId,
-                            sureId = p.sureId,
-                            interpreterWriter = p.interpreterWriter
-                        }).Skip(nowpage).Take(20).ToList();
-
-                        resultDataContent.Children.Clear();
-                        foreach (var searchContent in data)
-                        {
-                            searchDataContent.Text = searchContent.interpreterDetail.Replace(Environment.NewLine, "");
-                            starindex = 0;
-                            findIndex.Clear();
-                            while (true)
+                            var data = entitydb.Verse.Where(p => EF.Functions.Like(p.verseDesc, "%" + SearchData.Text + "%")).Select(p => new Verse
                             {
-                                starindex = searchDataContent.Text.ToLower().IndexOf(SearchData.Text.ToLower(), ++starindex);
-                                if (starindex == -1) break;
-                                findIndex.Add(starindex);
+                                verseDesc = p.verseDesc,
+                                sureId = p.sureId,
+                                relativeDesk = p.relativeDesk
+                            }).Skip(nowpage).Take(20).ToList();
+
+                            resultDataContent.Children.Clear();
+                            foreach (var searchContent in data)
+                            {
+                                searchDataContent.Text = searchContent.verseDesc.Replace(Environment.NewLine, "");
+                                starindex = 0;
+                                findIndex.Clear();
+                                while (true)
+                                {
+                                    starindex = searchDataContent.Text.ToLower().IndexOf(SearchData.Text.ToLower(), ++starindex);
+                                    if (starindex == -1) break;
+                                    findIndex.Add(starindex);
+                                }
+                                searchDataWrite(findIndex,
+                                    entitydb.Sure.Where(p => p.sureId == searchContent.sureId).Select(p => new Sure { name = p.name }).First().name + " surenin " + searchContent.relativeDesk + ". ayetinde açıklamasında",
+                                    (int)searchContent.sureId,
+                                    (int)searchContent.relativeDesk);
                             }
-
-                            var inter = "";
-                            if (searchContent.interpreterWriter == "Mehmet Okuyan") inter = intelWriter = "Türkçe Yorum 2";
-                            if (searchContent.interpreterWriter == "Ömer Çelik") inter = intelWriter = "Türkçe Yorum 1";
-
-                            searchDataWrite(findIndex,
-                                entitydb.Sure.Where(p => p.sureId == searchContent.sureId).Select(p => new Sure { name = p.name }).First().name + " surenin " + searchContent.verseId + ". ayetinin " + inter + " e ait yorumunda",
-                                (int)searchContent.sureId,
-                                (int)searchContent.verseId,
-                                searchContent.interpreterWriter);
                         }
-                    }
-                    break;
+
+                        break;
+
+                    case "inter":
+                        using (var entitydb = new AyetContext())
+                        {
+                            var data = entitydb.Interpreter.Where(p => EF.Functions.Like(p.interpreterDetail, "%" + SearchData.Text + "%")).Select(p => new Interpreter
+                            {
+                                interpreterDetail = p.interpreterDetail,
+                                verseId = p.verseId,
+                                sureId = p.sureId,
+                                interpreterWriter = p.interpreterWriter
+                            }).Skip(nowpage).Take(20).ToList();
+
+                            resultDataContent.Children.Clear();
+                            foreach (var searchContent in data)
+                            {
+                                searchDataContent.Text = searchContent.interpreterDetail.Replace(Environment.NewLine, "");
+                                starindex = 0;
+                                findIndex.Clear();
+                                while (true)
+                                {
+                                    starindex = searchDataContent.Text.ToLower().IndexOf(SearchData.Text.ToLower(), ++starindex);
+                                    if (starindex == -1) break;
+                                    findIndex.Add(starindex);
+                                }
+
+                                var inter = "";
+                                if (searchContent.interpreterWriter == "Mehmet Okuyan") inter = intelWriter = "Türkçe Yorum 2";
+                                if (searchContent.interpreterWriter == "Ömer Çelik") inter = intelWriter = "Türkçe Yorum 1";
+
+                                searchDataWrite(findIndex,
+                                    entitydb.Sure.Where(p => p.sureId == searchContent.sureId).Select(p => new Sure { name = p.name }).First().name + " surenin " + searchContent.verseId + ". ayetinin " + inter + " e ait yorumunda",
+                                    (int)searchContent.sureId,
+                                    (int)searchContent.verseId,
+                                    searchContent.interpreterWriter);
+                            }
+                        }
+                        break;
+                }
             }
+            catch (Exception ex)
+            {
+                App.logWriter("Click", ex);
+
+            }
+
+
         }
 
         private void searchDataWrite(ArrayList content, string Loc, int sId, int rId, string interpreter = "")
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} searchDataWrite ] -> verseFrame");
+
+
                 int id = 0;
 
                 foreach (var item in content)
@@ -2310,6 +2606,9 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} searchTempButonClick ] -> verseFrame");
+
                 var btn = sender as Button;
 
                 //popup_search.IsOpen = false;
@@ -2341,6 +2640,9 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} remiderTypeChangeButton_Click ] -> verseFrame");
+
                 if (loopType.Visibility.ToString() == "Hidden")
                 {
                     remiderType = true;
@@ -2366,6 +2668,9 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} wordText_Click ] -> verseFrame");
+
                 popup_Words.IsOpen = true;
 
                 using (var entitydb = new AyetContext())
@@ -2417,6 +2722,9 @@ namespace KuranX.App.Core.Pages.VerseF
             // Nav NextUpdate Click
             try
             {
+
+                App.errWrite($"[{DateTime.Now} interpreterWriterCombo_SelectionChanged ] -> verseFrame");
+
                 var item = interpreterWriterCombo.SelectedItem as ComboBoxItem;
                 if (item != null)
                 {
@@ -2438,6 +2746,11 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} popupNextSureId_SelectionChanged ] -> verseFrame");
+
+
+
                 var item = popupNextSureId.SelectedItem as ComboBoxItem;
                 if (item != null)
                 {
@@ -2461,6 +2774,9 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} popupMeiningSureId_SelectionChanged ] -> verseFrame");
+
                 var item = meaningpopupNextSureId.SelectedItem as ComboBoxItem;
                 if (item != null)
                 {
@@ -2731,6 +3047,7 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+
                 var textbox = (TextBox)sender;
                 if (!textbox.IsLoaded) return;
                 var item = popupNextSureId.SelectedItem as ComboBoxItem;
@@ -2801,6 +3118,9 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+
+
+                App.errWrite($"[{DateTime.Now} allPopupClosed ] -> verseFrame");
                 this.Dispatcher.Invoke(() =>
                 {
                     popup_VerseGoto.IsOpen = false;
@@ -2838,6 +3158,10 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} loadAni ] -> verseFrame");
+
+
                 this.Dispatcher.Invoke(() =>
                 {
                     headerBorder.Visibility = Visibility.Hidden;
@@ -2857,83 +3181,139 @@ namespace KuranX.App.Core.Pages.VerseF
 
         public void popuverMove_Click(object sender, RoutedEventArgs e)
         {
-            var btn = sender as Button;
-            ppMoveConfing((string)btn.Uid);
-            moveControlName.Text = (string)btn.Content;
-            pp_moveBar.IsOpen = true;
+            try
+            {
+
+                App.errWrite($"[{DateTime.Now} popuverMove_Click ] -> verseFrame");
+                var btn = sender as Button;
+                ppMoveConfing((string)btn.Uid);
+                moveControlName.Text = (string)btn.Content;
+                pp_moveBar.IsOpen = true;
+            }
+            catch (Exception ex)
+            {
+                App.logWriter("Click", ex);
+
+            }
+
         }
 
         public void ppMoveActionOfset_Click(object sender, RoutedEventArgs e)
         {
-            var btntemp = sender as Button;
-            var movePP = (Popup)FindName((string)btntemp.Content);
 
-            switch (btntemp.Uid.ToString())
+            try
             {
-                case "Left":
-                    movePP.HorizontalOffset -= 50;
-                    break;
+                App.errWrite($"[{DateTime.Now} ppMoveActionOfset_Click ] -> verseFrame");
 
-                case "Top":
-                    movePP.VerticalOffset -= 50;
-                    break;
+                var btntemp = sender as Button;
+                var movePP = (Popup)FindName((string)btntemp.Content);
 
-                case "Bottom":
-                    movePP.VerticalOffset += 50;
-                    break;
+                switch (btntemp.Uid.ToString())
+                {
+                    case "Left":
+                        movePP.HorizontalOffset -= 50;
+                        break;
 
-                case "Right":
-                    movePP.HorizontalOffset += 50;
-                    break;
+                    case "Top":
+                        movePP.VerticalOffset -= 50;
+                        break;
 
-                case "UpLeft":
-                    movePP.Placement = PlacementMode.Absolute;
-                    movePP.VerticalOffset = 0;
-                    movePP.HorizontalOffset = 0;
-                    break;
+                    case "Bottom":
+                        movePP.VerticalOffset += 50;
+                        break;
 
-                case "Reset":
-                    movePP.Placement = PlacementMode.Center;
-                    movePP.VerticalOffset = 0;
-                    movePP.HorizontalOffset = 0;
-                    movePP.Child.Opacity = 1;
-                    movePP.Child.IsEnabled = true;
-                    break;
+                    case "Right":
+                        movePP.HorizontalOffset += 50;
+                        break;
 
-                case "Close":
-                    pp_moveBar.IsOpen = false;
-                    movePP.Child.Opacity = 1;
-                    movePP.Child.IsEnabled = true;
-                    break;
+                    case "UpLeft":
+                        movePP.Placement = PlacementMode.Absolute;
+                        movePP.VerticalOffset = 0;
+                        movePP.HorizontalOffset = 0;
+                        break;
+
+                    case "Reset":
+                        movePP.Placement = PlacementMode.Center;
+                        movePP.VerticalOffset = 0;
+                        movePP.HorizontalOffset = 0;
+                        movePP.Child.Opacity = 1;
+                        movePP.Child.IsEnabled = true;
+                        break;
+
+                    case "Close":
+                        pp_moveBar.IsOpen = false;
+                        movePP.Child.Opacity = 1;
+                        movePP.Child.IsEnabled = true;
+                        break;
+                }
+
+
             }
+            catch (Exception ex)
+            {
+
+                App.logWriter("Click", ex);
+            }
+
+
         }
 
         public void ppMoveActionOpacity_Click(object sender, RoutedEventArgs e)
         {
-            var btntemp = sender as Button;
-            var movePP = (Popup)FindName((string)btntemp.Content);
 
-            switch (btntemp.Uid.ToString())
+            try
             {
-                case "Up":
-                    movePP.Child.Opacity = 1;
-                    movePP.Child.IsEnabled = true;
-                    break;
+                App.errWrite($"[{DateTime.Now} ppMoveActionOpacity_Click ] -> verseFrame");
 
-                case "Down":
-                    movePP.Child.Opacity = 0.1;
-                    movePP.Child.IsEnabled = false;
-                    break;
+
+                var btntemp = sender as Button;
+                var movePP = (Popup)FindName((string)btntemp.Content);
+
+                switch (btntemp.Uid.ToString())
+                {
+                    case "Up":
+                        movePP.Child.Opacity = 1;
+                        movePP.Child.IsEnabled = true;
+                        break;
+
+                    case "Down":
+                        movePP.Child.Opacity = 0.1;
+                        movePP.Child.IsEnabled = false;
+                        break;
+                }
+
             }
+            catch (Exception ex)
+            {
+
+                App.logWriter("Click", ex);
+            }
+
+
         }
 
         public void ppMoveConfing(string ppmove)
         {
-            for (int i = 1; i < 10; i++)
+
+            try
             {
-                var btn = FindName("pp_M" + i) as Button;
-                btn.Content = ppmove;
+                App.errWrite($"[{DateTime.Now} ppMoveConfing ] -> verseFrame");
+
+                for (int i = 1; i < 10; i++)
+                {
+                    var btn = FindName("pp_M" + i) as Button;
+                    btn.Content = ppmove;
+                }
+
             }
+            catch (Exception ex)
+            {
+
+                App.logWriter("Click", ex);
+            }
+
+
+
         }
     }
 }

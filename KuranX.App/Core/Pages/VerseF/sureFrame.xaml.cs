@@ -35,6 +35,11 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} InitializeComponent ] -> sureFrame");
+
+
+
                 InitializeComponent();
             }
             catch (Exception ex)
@@ -47,6 +52,9 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+                App.errWrite($"[{DateTime.Now} Page_Loaded ] -> sureFrame");
+
+
                 loadContent.Visibility = Visibility.Visible;
                 //App.loadTask = Task.Run(() => loadItem());
             }
@@ -65,6 +73,8 @@ namespace KuranX.App.Core.Pages.VerseF
                 NowPage = 1;
                 */
 
+                App.errWrite($"[{DateTime.Now} PageCall ] -> sureFrame");
+
                 App.loadTask = Task.Run(() => loadItem());
                 return this;
             }
@@ -81,6 +91,9 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+                App.errWrite($"[{DateTime.Now} loadItem ] -> sureFrame");
+
+
                 loadingAni();
                 App.mainScreen.navigationWriter("verse", "");
                 using (var entitydb = new AyetContext())
@@ -334,6 +347,10 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} deskingCombobox_SelectionChanged ] -> sureFrame");
+
+
                 deskItem = deskingCombobox.SelectedItem as ComboBoxItem;
 
                 var comboBox = (ComboBox)sender;
@@ -354,6 +371,10 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} landingCombobox_SelectionChanged ] -> sureFrame");
+
+
                 landItem = landingCombobox.SelectedItem as ComboBoxItem;
                 var comboBox = (ComboBox)sender;
                 if (!comboBox.IsLoaded) return;
@@ -372,6 +393,10 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} fastsureCombobox_SelectionChanged ] -> sureFrame");
+
+
                 var comboBox = (ComboBox)sender;
                 if (!comboBox.IsLoaded) return;
 
@@ -393,6 +418,9 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} popupRelativeId_TextChanged ] -> sureFrame");
+
                 var textbox = (TextBox)sender;
                 if (!textbox.IsLoaded) return;
 
@@ -442,6 +470,8 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} typeLoad_Click ] -> sureFrame");
                 var rd = sender as RadioButton;
                 readType = rd.Tag.ToString();
                 App.loadTask = Task.Run(() => loadItem());
@@ -456,6 +486,7 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+                App.errWrite($"[{DateTime.Now} sr_FastOpen_Click ] -> sureFrame");
                 var btn = sender as Button;
                 popupSureId.Text = (string)btn.Tag;
                 popupMax.Text = btn.Uid;
@@ -474,6 +505,8 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+                App.errWrite($"[{DateTime.Now} sr_Section_Click ] -> sureFrame");
+
                 var btn = sender as Button;
                 App.mainframe.Content = App.navSectionPage.PageCall(int.Parse((string)btn.Tag));
 
@@ -492,6 +525,8 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} sr_Open_Click ] -> sureFrame");
                 var btn = sender as Button;
                 loadContent.Visibility = Visibility.Hidden;
                 App.beforeFrameName = "Sure";
@@ -507,6 +542,8 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} nextpageButton_Click ] -> sureFrame");
                 nextpageButton.IsEnabled = false;
                 lastPage += 15;
                 NowPage++;
@@ -523,6 +560,10 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} previusPageButton_Click ] -> sureFrame");
+
+
                 if (lastPage >= 15)
                 {
                     previusPageButton.IsEnabled = false;
@@ -542,6 +583,10 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} fastLoadVerse_Click ] -> sureFrame");
+
+
                 loadContent.Visibility = Visibility.Hidden;
                 App.beforeFrameName = "Sure";
                 App.mainframe.Content = App.navVersePage.PageCall(int.Parse(popupSureId.Text), int.Parse(popupRelativeId.Text), "Verse");
@@ -556,6 +601,8 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+                App.errWrite($"[{DateTime.Now} popupClosed_Click ] -> sureFrame");
+
                 var btntemp = sender as Button;
                 var popuptemp = (Popup)FindName(btntemp.Uid);
 
@@ -571,6 +618,11 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} gotoMarkLocation_Click ] -> sureFrame");
+
+
+
                 using (var entitydb = new AyetContext())
                 {
                     var selectedS = entitydb.Sure.Where(p => p.userLastRelativeVerse != 0).FirstOrDefault();
@@ -596,6 +648,10 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} gotoMarkSection_Click ] -> sureFrame");
+
+
                 using (var entitydb = new AyetContext())
                 {
                     var selectedS = entitydb.Sections.Where(p => p.IsMark != false).FirstOrDefault();
@@ -625,6 +681,8 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} loadingAni ] -> sureFrame");
                 this.Dispatcher.Invoke(() =>
                 {
                     loadContent.Visibility = Visibility.Hidden;
@@ -650,6 +708,10 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+
+                App.errWrite($"[{DateTime.Now} loadingAniComplated ] -> sureFrame");
+
+
                 this.Dispatcher.Invoke(() =>
                 {
                     loadContent.Visibility = Visibility.Visible;

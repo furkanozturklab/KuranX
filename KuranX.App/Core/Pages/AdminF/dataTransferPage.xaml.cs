@@ -143,6 +143,33 @@ namespace KuranX.App.Core.Pages.AdminF
 
 
         }
+
+        private void addSectionCount_Click(object sender, EventArgs e)
+        {
+
+            using (var entitydb = new AyetContext())
+            {
+                string sql = "SELECT sureId,COUNT(sureId) FROM section GROUP BY sureId";
+                MySqlCommand cmd = new MySqlCommand(sql, connection);
+                MySqlDataReader rdr = cmd.ExecuteReader();
+                int i = 0;
+                while (rdr.Read())
+                {
+
+
+
+                    var control = entitydb.Sure.Where(p => p.sureId == (int)rdr[0]).FirstOrDefault().numberOfSection = int.Parse(rdr[1].ToString());
+
+
+
+                    i++;
+                }
+
+                entitydb.SaveChanges();
+            }
+
+        }
+
         private void addwordFunc()
         {
             try
