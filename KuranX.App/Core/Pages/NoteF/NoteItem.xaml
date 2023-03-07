@@ -21,7 +21,7 @@
 
         <!-- Popup -->
 
-        <Popup x:Name="popup_DeleteConfirm" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="360" Height="210" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+        <Popup x:Name="popup_DeleteConfirm" StaysOpen="False" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="360" Height="210" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
 
             <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="340" Height="190">
                 <Grid>
@@ -55,7 +55,7 @@
             </Border>
         </Popup>
 
-        <Popup x:Name="popup_sendResultItems" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="360" Height="320" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+        <Popup x:Name="popup_sendResultItems" StaysOpen="False" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="360" Height="320" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
             <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="340" Height="300">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -244,10 +244,9 @@
             </Border>
         </StackPanel>
 
-        <Grid Grid.Row="1"  Grid.ColumnSpan="2" Style="{DynamicResource aniEffectFadeGrid}" Visibility="Hidden" x:Name="controlBar">
+        <Grid Grid.Row="1"  Grid.ColumnSpan="2" Style="{DynamicResource aniEffectFadeGrid}" Visibility="Visible" x:Name="controlBar">
 
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
@@ -261,10 +260,9 @@
 
             <Button x:Name="BackButton" Grid.Column="0" Style="{DynamicResource defaultActionButonBstrpRedd}" Tag="ArrowLeft" Content="Geri Dön" Click="BackButton_Click" extension:Extensions.ExtendsStatus="True" />
             <Button x:Name="gotoVerseButton" Grid.Column="1" Style="{DynamicResource defaultActionButonBstrpTurquoise}" Tag="ArrowRight" Content="Ayete Git" Click="gotoVerseButton_Click" extension:Extensions.ExtendsStatus="True" />
-            <Button x:Name="sendResult" Grid.Column="2" Style="{DynamicResource defaultActionButonBstrpOrange}" Tag="Archive" Content="Sonuc" Click="sendResult_Click" extension:Extensions.ExtendsStatus="True" />
-            <Button x:Name="printButton" Grid.Column="3" Style="{DynamicResource defaultActionButonBstrpDark}" Tag="Printer" Content="Yazdır" Click="printButton_Click" extension:Extensions.ExtendsStatus="True" />
-            <Button x:Name="deleteButton" Grid.Column="4" Style="{DynamicResource defaultActionButonBstrpRedd}" Tag="Trash" Content="Notu Sil" Click="deleteButton_Click" extension:Extensions.ExtendsStatus="True" />
-            <Button x:Name="saveButton" Grid.Column="5" IsEnabled="False" Style="{DynamicResource defaultActionButonBstrpDynamicSave}" Tag="Save" Content="Kaydet" Click="saveButton_Click" extension:Extensions.ExtendsStatus="True" />
+            <Button x:Name="printButton" Grid.Column="2" Style="{DynamicResource defaultActionButonBstrpDark}" Tag="Printer" Content="Yazdır" Click="printButton_Click" extension:Extensions.ExtendsStatus="True" />
+            <Button x:Name="deleteButton" Grid.Column="3" Style="{DynamicResource defaultActionButonBstrpRedd}" Tag="Trash" Content="Notu Sil" Click="deleteButton_Click" extension:Extensions.ExtendsStatus="True" />
+            <Button x:Name="saveButton" Grid.Column="4" IsEnabled="False" Style="{DynamicResource defaultActionButonBstrpDynamicSave}" Tag="Save" Content="Kaydet" Click="saveButton_Click" extension:Extensions.ExtendsStatus="True" />
         </Grid>
 
         <Border Grid.Row="3" Grid.ColumnSpan="2" Padding="10" Background="#fff" Style="{DynamicResource defaultBorderShadowEffect}">

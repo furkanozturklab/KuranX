@@ -27,6 +27,7 @@ namespace KuranX.App.Core.Pages.ReminderF
     {
         private int cV, cS, remiderId;
         private bool tempCheck = false;
+        private Task remiderItem;
 
         public RemiderItem()
         {
@@ -48,7 +49,8 @@ namespace KuranX.App.Core.Pages.ReminderF
 
                 App.errWrite($"[{DateTime.Now} PageCall ] -> RemiderItem");
                 remiderId = id;
-                App.loadTask = Task.Run(() => loadItem(id));
+                remiderItem = Task.Run(() => loadItem(id));
+                App.lastlocation = "RemiderItem";
                 return this;
             }
             catch (Exception ex)
@@ -162,6 +164,8 @@ namespace KuranX.App.Core.Pages.ReminderF
 
                     loadAniComplated();
                 }
+
+                this.Dispatcher.Invoke(() => App.mainScreen.homescreengrid.IsEnabled = true);
             }
             catch (Exception ex)
             {
@@ -210,6 +214,7 @@ namespace KuranX.App.Core.Pages.ReminderF
                 controlBar.Visibility = Visibility.Hidden;
                 remiderDetail.Visibility = Visibility.Hidden;
 
+            
                 App.secondFrame.Content = App.navVerseStickPage.PageCall(cS, cV, "", 0, "Remider");
                 App.secondFrame.Visibility = Visibility.Visible;
             }
@@ -244,7 +249,8 @@ namespace KuranX.App.Core.Pages.ReminderF
                     entitydb.Tasks.RemoveRange(entitydb.Tasks.Where(p => p.missonsId == remiderId));
                     entitydb.SaveChanges();
                     popup_DeleteConfirm.IsOpen = false;
-                    voidgobacktimer();
+                    App.mainScreen.succsessFunc("İşlem Başarılı", "Hatırlatıcı başaralı bir sekilde silinmiştir. Bir önceki sayfaya yönlendiriliyorsunuz bekleyin...", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
+                    App.mainframe.Content = App.navRemiderPage.PageCall();
                 }
             }
             catch (Exception ex)
@@ -310,13 +316,13 @@ namespace KuranX.App.Core.Pages.ReminderF
 
                 App.errWrite($"[{DateTime.Now} voidgobacktimer ] -> RemiderItem");
 
-
-                App.timeSpan.Interval = TimeSpan.FromSeconds(3);
+                App.timeSpan.Interval = TimeSpan.FromSeconds(int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
                 App.timeSpan.Start();
                 App.mainScreen.succsessFunc("İşlem Başarılı", "Hatırlatıcı başaralı bir sekilde silinmiştir. Hatırlatıcı sayfasına yönlendiriliyorsunuz...", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
                 App.timeSpan.Tick += delegate
                 {
                     App.timeSpan.Stop();
+
                     App.mainframe.Content = App.navRemiderPage.PageCall();
                 };
             }

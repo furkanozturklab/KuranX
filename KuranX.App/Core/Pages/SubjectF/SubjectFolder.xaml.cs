@@ -26,7 +26,7 @@ namespace KuranX.App.Core.Pages.SubjectF
     public partial class SubjectFolder : Page
     {
         private int subFolderId = 1, lastPage = 0, NowPage = 1;
-
+        private Task subjectfoldertask, subjectprocess;
         public SubjectFolder()
         {
             try
@@ -55,8 +55,13 @@ namespace KuranX.App.Core.Pages.SubjectF
                 NowPage = 1;
                 subFolderId = subId;
                 loadHeaderGif.Visibility = Visibility.Visible;
-                App.loadTask = Task.Run(() => loadItem(subId));
 
+
+                this.Dispatcher.Invoke(() => App.mainScreen.homescreengrid.IsEnabled = true);
+
+
+                subjectfoldertask = Task.Run(() => loadItem(subId));
+                App.lastlocation = "SubjectFolder";
                 return this;
             }
             catch (Exception ex)
@@ -193,7 +198,9 @@ namespace KuranX.App.Core.Pages.SubjectF
 
 
                 var btn = sender as Button;
-                App.mainframe.Content = App.navSubjectItem.subjectItemsPageCall(int.Parse(btn.Uid), int.Parse((string)btn.Content), int.Parse((string)btn.Tag));
+
+              
+                App.mainframe.Content = App.navSubjectItem.PageCall(int.Parse(btn.Uid), int.Parse((string)btn.Content), int.Parse((string)btn.Tag));
             }
             catch (Exception ex)
             {
@@ -221,19 +228,7 @@ namespace KuranX.App.Core.Pages.SubjectF
             }
         }
 
-        private void sendResult_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                App.errWrite($"[{DateTime.Now} sendResult_Click ] -> SubjectFolder");
-
-                popup_sendResult.IsOpen = true;
-            }
-            catch (Exception ex)
-            {
-                App.logWriter("Click", ex);
-            }
-        }
+      
 
         private void popupClosed_Click(object sender, RoutedEventArgs e)
         {
@@ -286,7 +281,7 @@ namespace KuranX.App.Core.Pages.SubjectF
 
                             popup_addConnect.IsOpen = false;
                             popupNextVerseId.Text = "1";
-                            App.loadTask = Task.Run(() => loadItem(subFolderId));
+                            subjectprocess = Task.Run(() => loadItem(subFolderId));
                         }
                     }
                     else
@@ -311,7 +306,7 @@ namespace KuranX.App.Core.Pages.SubjectF
                 nextpageButton.IsEnabled = false;
                 lastPage += 20;
                 NowPage++;
-                App.loadTask = Task.Run(() => loadItem(subFolderId));
+                subjectfoldertask = Task.Run(() => loadItem(subFolderId));
             }
             catch (Exception ex)
             {
@@ -330,7 +325,7 @@ namespace KuranX.App.Core.Pages.SubjectF
                     previusPageButton.IsEnabled = false;
                     lastPage -= 20;
                     NowPage--;
-                    App.loadTask = Task.Run(() => loadItem(subFolderId));
+                    subjectfoldertask = Task.Run(() => loadItem(subFolderId));
                 }
             }
             catch (Exception ex)
@@ -353,37 +348,7 @@ namespace KuranX.App.Core.Pages.SubjectF
             }
         }
 
-        private void connectResultControl_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                App.errWrite($"[{DateTime.Now} connectResultControl_Click ] -> SubjectFolder");
-                using (var entitydb = new AyetContext())
-                {
-                    var item = popupResultSureId.SelectedItem as ComboBoxItem;
-                    var dResult = entitydb.Results.Where(p => p.resultId == int.Parse(item.Uid)).FirstOrDefault();
-
-                    if (entitydb.ResultItems.Where(p => p.resultId == dResult.resultId && p.resultSubjectId == subFolderId).Count() == 0)
-                    {
-                        dResult.resultSubject = true;
-                        var dTemp = new ResultItem { resultId = dResult.resultId, resultSubjectId = subFolderId, sendTime = DateTime.Now };
-                        entitydb.ResultItems.Add(dTemp);
-                        entitydb.SaveChanges();
-                        popup_sendResult.IsOpen = false;
-                        App.mainScreen.succsessFunc("İşlem Başarılı", "Konu başlığı " + item.Content + " suresinin sonucuna gönderildi.", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
-                    }
-                    else
-                    {
-                        popup_sendResult.IsOpen = false;
-                        App.mainScreen.alertFunc("İşlem Başarısız", "Konu başlığı " + item.Content + " suresinin sonucuna daha önceden eklenmiştir ve yeniden ekleyemezsiniz.", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                App.logWriter("Click", ex);
-            }
-        }
+       
 
         private void deleteSubjectPopupBtn_Click(object sender, RoutedEventArgs e)
         {
@@ -407,10 +372,13 @@ namespace KuranX.App.Core.Pages.SubjectF
                         if (entitydb.ResultItems.Where(p => p.resultId == item.resultId).Count() == 0) item.resultSubject = false;
                     }
 
+         
+
                     entitydb.SaveChanges();
 
                     popup_SubjectDelete.IsOpen = false;
-                    voidgobacktimer();
+                    App.mainScreen.succsessFunc("İşlem Başarılı", "Konuya ait tüm notlar ve eklenen ayetlerle birlikte silindi. Bir önceki sayfaya yönlendiriliyorsunuz bekleyin...", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
+                    App.mainframe.Content = App.navSubjectFrame.PageCall();
                 }
             }
             catch (Exception ex)
@@ -589,7 +557,7 @@ namespace KuranX.App.Core.Pages.SubjectF
                 newConnect.IsEnabled = false;
                 previusPageButton.IsEnabled = false;
                 nextpageButton.IsEnabled = false;
-                sendResult.IsEnabled = false;
+                
 
                 App.timeSpan.Interval = TimeSpan.FromSeconds(3);
                 App.timeSpan.Start();
@@ -622,7 +590,7 @@ namespace KuranX.App.Core.Pages.SubjectF
                 {
                     subjectItemsDeleteBtn.IsEnabled = false;
                     backPage.IsEnabled = false;
-                    sendResult.IsEnabled = false;
+               
                     newConnect.IsEnabled = false;
                 });
             }
@@ -646,7 +614,7 @@ namespace KuranX.App.Core.Pages.SubjectF
                     loadStack.Visibility = Visibility.Visible;
                     subjectItemsDeleteBtn.IsEnabled = true;
                     backPage.IsEnabled = true;
-                    sendResult.IsEnabled = true;
+                   
                     newConnect.IsEnabled = true;
                 });
             }

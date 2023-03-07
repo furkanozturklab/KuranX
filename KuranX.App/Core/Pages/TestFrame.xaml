@@ -14,7 +14,70 @@
     <Grid>
 
 
-  
+    <!--
+        <StackPanel Grid.Row="1" Grid.ColumnSpan="2" x:Name="stackBorder" Visibility="Visible" Style="{DynamicResource aniEffectFadeStack}">
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="557" />
+                    <ColumnDefinition Width="557" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="84" />
+                    <RowDefinition Height="89" />
+                    <RowDefinition Height="89" />
+                    <RowDefinition Height="89" />
+                    <RowDefinition Height="84" />
+                </Grid.RowDefinitions>
+
+                <Border VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"  UseLayoutRounding="True" SnapsToDevicePixels="True">
+                    <Border Width="300" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border Width="15" Background="#ADB5BD" CornerRadius="5 0 0 5" />
+                            <Border Width="225" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                <StackPanel Orientation="Horizontal">
+                                    <StackPanel Orientation="Vertical" Margin="10 0 10 0">
+                                        <TextBlock Text="Konularım" FontSize="12" Style="{DynamicResource lib_fileFolderHeader}" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+                            <Border Width="24" Height="24" Margin="0 0 7 0">
+                                <Button x:Name="countSub" Style="{DynamicResource nt_viewStackBtn}" Content="0" Tag="#ADB5BD" Uid="#FFF" />
+                            </Border>
+                            <Border Width="24" Height="24" Margin="0 0 10 0">
+                                <Button Style="{DynamicResource nt_ItemOpenIcon}" Content="SubjectLoc" extension:Extensions.DataStorage="subject" Tag="ArrowRight" Click="stackfilter_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
+                </Border>
+
+
+
+                <Border VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2"  UseLayoutRounding="True" SnapsToDevicePixels="True">
+                    <Border Width="300" Height="50" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border Width="15" Background="#ADB5BD" CornerRadius="5 0 0 5" />
+                            <Border Width="225" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10 0 10 0">
+                                <StackPanel Orientation="Horizontal">
+                                    <StackPanel Orientation="Vertical" Margin="10 0 10 0">
+                                        <TextBlock Text="Notlar" FontSize="12" Style="{DynamicResource lib_fileFolderHeader}" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+                            <Border Width="24" Height="24" Margin="0 0 7 0">
+                                <Button x:Name="countNot" Style="{DynamicResource nt_viewStackBtn}" Content="0" Tag="#ADB5BD" Uid="#FFF" />
+                            </Border>
+                            <Border Width="24" Height="24" Margin="0 0 10 0">
+                                <Button Style="{DynamicResource nt_ItemOpenIcon}" Content="SubjectLoc" extension:Extensions.DataStorage="note" Tag="ArrowRight" Click="stackfilter_Click" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
+                </Border>
+            </Grid>
+        </StackPanel>
+
+
+      -->
 
 
         <!--<Popup x:Name="resetSurepopup" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="300" Height="190" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">-->

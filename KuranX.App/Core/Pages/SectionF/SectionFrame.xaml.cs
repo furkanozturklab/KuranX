@@ -29,7 +29,8 @@ namespace KuranX.App.Core.Pages.SectionF
     {
 
         public int selectedSure = 0, last = 0, selectedSection = 0, clearNav = 1, currentP = 0, totalSection = 0, s;
-
+        public string getLocation;
+        private Task sectionframe, sectionprocess;
         public SectionFrame()
         {
             App.errWrite($"[{DateTime.Now} InitializeComponent ] -> SectionFrame");
@@ -39,7 +40,7 @@ namespace KuranX.App.Core.Pages.SectionF
         }
 
 
-        public object PageCall(int sureId, int selectedSections = 1)
+        public object PageCall(int sureId, int selectedSections = 1, string location = "")
         {
             try
             {
@@ -53,10 +54,11 @@ namespace KuranX.App.Core.Pages.SectionF
 
                 selectedSure = sureId;
                 selectedSection = selectedSections;
+                getLocation = location;
 
 
-                App.loadTask = Task.Run(() => loadSectionFunc(selectedSection));
-
+                sectionframe = Task.Run(() => loadSectionFunc(selectedSection));
+                App.lastlocation = "SectionFrame";
 
                 return this;
             }
@@ -141,6 +143,8 @@ namespace KuranX.App.Core.Pages.SectionF
                     }
 
                 }
+
+                this.Dispatcher.Invoke(() => App.mainScreen.homescreengrid.IsEnabled = true);
             }
             catch (Exception ex)
             {
@@ -412,7 +416,7 @@ namespace KuranX.App.Core.Pages.SectionF
                     controlPanel.Visibility = Visibility.Visible;
                 });
             }
-            catch(Exception ex) 
+            catch (Exception ex)
             {
 
                 App.logWriter("Loading", ex);
@@ -426,6 +430,10 @@ namespace KuranX.App.Core.Pages.SectionF
             // Verse Change Click
             try
             {
+
+                this.Dispatcher.Invoke(() => App.mainScreen.homescreengrid.IsEnabled = false);
+
+
                 App.errWrite($"[{DateTime.Now} activeVerseSelected_Click ] -> SectionFrame");
 
                 var chk = sender as CheckBox;
@@ -446,7 +454,7 @@ namespace KuranX.App.Core.Pages.SectionF
                 navstackPanel.Visibility = Visibility.Hidden;
                 controlPanel.Visibility = Visibility.Hidden;
                 mainContent.Visibility = Visibility.Hidden;
-                App.loadTask = Task.Run(() => loadSectionFunc(currentP));
+                sectionframe = Task.Run(() => loadSectionFunc(currentP));
 
             }
             catch (Exception ex)
@@ -461,6 +469,7 @@ namespace KuranX.App.Core.Pages.SectionF
             try
             {
 
+                this.Dispatcher.Invoke(() => App.mainScreen.homescreengrid.IsEnabled = false);
                 App.errWrite($"[{DateTime.Now} NavUpdatePrevSingle_Click ] -> SectionFrame");
 
                 if (clearNav != 0) clearNav--;
@@ -472,7 +481,7 @@ namespace KuranX.App.Core.Pages.SectionF
                 if (totalSection >= selectedSection && 1 < selectedSection)
                 {
                     selectedSection--;
-                    App.loadTask = Task.Run(() => loadSectionFunc(selectedSection));
+                    sectionframe = Task.Run(() => loadSectionFunc(selectedSection));
                 }
                 else
                 {
@@ -531,6 +540,8 @@ namespace KuranX.App.Core.Pages.SectionF
             try
             {
 
+
+                this.Dispatcher.Invoke(() => App.mainScreen.homescreengrid.IsEnabled = false);
                 App.errWrite($"[{DateTime.Now} NavUpdateNextSingle_Click ] -> SectionFrame");
 
                 if (clearNav != 8) clearNav++;
@@ -545,7 +556,7 @@ namespace KuranX.App.Core.Pages.SectionF
 
                     NavUpdatePrevSingle.IsEnabled = true;
                     selectedSection++;
-                    App.loadTask = Task.Run(() => loadSectionFunc(selectedSection));
+                    sectionframe = Task.Run(() => loadSectionFunc(selectedSection));
                 }
                 else
                 {
@@ -621,21 +632,35 @@ namespace KuranX.App.Core.Pages.SectionF
                 controlPanel.Visibility = Visibility.Visible;
                 mainContent.Visibility = Visibility.Visible;
                 navControlStack.Visibility = Visibility.Visible;
-                if (markButton.IsChecked == true)
+
+                if (getLocation != "")
                 {
-                    if (App.beforeFrameName == "Sure")
-                    {
-                        App.mainframe.Content = App.navSurePage.PageCall();
-                    }
-                    else
-                    {
-                        NavigationService.GoBack();
-                    }
+
+
+                    NavigationService.GoBack();
+
+
                 }
                 else
                 {
-                    popup_fastExitConfirm.IsOpen = true;
+                    if (markButton.IsChecked == true)
+                    {
+                        if (App.beforeFrameName == "Sure")
+                        {
+                            App.mainframe.Content = App.navSurePage.PageCall();
+                        }
+                        else
+                        {
+                            NavigationService.GoBack();
+                        }
+                    }
+                    else
+                    {
+                        popup_fastExitConfirm.IsOpen = true;
+                    }
                 }
+
+
             }
             catch (Exception ex)
             {
@@ -673,7 +698,7 @@ namespace KuranX.App.Core.Pages.SectionF
 
                 App.errWrite($"[{DateTime.Now} noteButton_Click ] -> SectionFrame");
                 popup_Note.IsOpen = true;
-                App.loadTask = Task.Run(noteConnect);
+                sectionframe = Task.Run(noteConnect);
             }
             catch (Exception ex)
             {
@@ -709,7 +734,7 @@ namespace KuranX.App.Core.Pages.SectionF
                                         entitydb.Notes.Add(dNotes);
                                         entitydb.SaveChanges();
                                         App.mainScreen.succsessFunc("İşlem Başarılı", loadHeader.Text + " surenin " + selectedSection + " bölümüne not eklendiniz.", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
-                                        App.loadTask = Task.Run(noteConnect);
+                                        sectionprocess = Task.Run(noteConnect);
                                         dNotes = null;
                                     }
 
@@ -753,7 +778,7 @@ namespace KuranX.App.Core.Pages.SectionF
         }
 
 
-        private void noteConnect()
+        public void noteConnect()
         {
             try
             {
@@ -810,7 +835,11 @@ namespace KuranX.App.Core.Pages.SectionF
 
                 App.errWrite($"[{DateTime.Now} noteDetailPopup_Click ] -> SectionFrame");
                 var tmpbutton = sender as Button;
-                App.mainframe.Content = App.navNoteItem.PageCall(int.Parse(tmpbutton.Uid));
+
+                popup_Note.IsOpen = false;
+                App.secondFrame.Visibility = Visibility.Visible;
+                App.secondFrame.Content = App.navNoteItem.PageCall(int.Parse(tmpbutton.Uid), "SectionNote");
+
                 tmpbutton = null;
             }
             catch (Exception ex)
@@ -826,7 +855,11 @@ namespace KuranX.App.Core.Pages.SectionF
 
                 App.errWrite($"[{DateTime.Now} notesDetailPopup_Click ] -> SectionFrame");
                 var tmpbutton = sender as Button;
-                App.mainframe.Content = App.navNoteItem.PageCall(int.Parse(tmpbutton.Uid));
+
+                popup_Note.IsOpen = false;
+                popup_notesAllShowPopup.IsOpen = false;
+                App.secondFrame.Visibility = Visibility.Visible;
+                App.secondFrame.Content = App.navNoteItem.PageCall(int.Parse(tmpbutton.Uid), "SectionNoteDetail");
                 tmpbutton = null;
             }
             catch (Exception ex)
@@ -910,7 +943,7 @@ namespace KuranX.App.Core.Pages.SectionF
         private void noteName_KeyDown(object sender, KeyEventArgs e)
         {
             try
-            {   
+            {
                 noteAddPopupHeaderError.Visibility = Visibility.Hidden;
             }
             catch (Exception ex)
@@ -951,7 +984,7 @@ namespace KuranX.App.Core.Pages.SectionF
         public void popuverMove_Click(object sender, RoutedEventArgs e)
         {
 
-            App.errWrite($"[{DateTime.Now} popuverMove_Click ] -> SectionFrame"); 
+            App.errWrite($"[{DateTime.Now} popuverMove_Click ] -> SectionFrame");
             var btn = sender as Button;
             ppMoveConfing((string)btn.Uid);
             moveControlName.Text = (string)btn.Content;

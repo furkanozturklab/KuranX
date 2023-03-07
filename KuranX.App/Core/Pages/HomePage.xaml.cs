@@ -50,6 +50,10 @@ namespace KuranX.App.Core.Pages
             try
             {
                 this.Dispatcher.Invoke(() => App.mainScreen.navigationWriter("home", ""));
+
+                this.Dispatcher.Invoke(() => App.mainScreen.homescreengrid.IsEnabled = true);
+
+                App.lastlocation = "HomePage";
                 return this;
             }
             catch (Exception ex)

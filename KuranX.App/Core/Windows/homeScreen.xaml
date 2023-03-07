@@ -9,7 +9,7 @@
         mc:Ignorable="d"
         Title="homeScreen" Height="768" MinWidth="1366" WindowStartupLocation="CenterScreen"  WindowStyle="None" AllowsTransparency="True" Loaded="Window_Loaded">
 
-    <Grid>
+    <Grid x:Name="homescreengrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="250" x:Name="leftcol" />
             <ColumnDefinition Width="*" x:Name="rightcol" />
@@ -113,7 +113,6 @@
                         <CheckBox IsChecked="False" Tag="/resource/images/icon/subject_rb.png" Uid="/resource/images/icon/subject_r.png" IsEnabled="True" Content="Konularım" Style="{DynamicResource hmwnd_menuItems}"  Click="menuNavControl_Click" extension:Extensions.ExtendsStatus="false" />
                         <CheckBox IsChecked="False" Tag="/resource/images/icon/notes_rb.png" Uid="/resource/images/icon/notes_r.png" IsEnabled="True" Content="Notlar" Style="{DynamicResource hmwnd_menuItems}"  Click="menuNavControl_Click" extension:Extensions.ExtendsStatus="false" />
                         <CheckBox IsChecked="False" Tag="/resource/images/icon/remider_rb.png" Uid="/resource/images/icon/remider_r.png" IsEnabled="True" Content="Hatırlatıcı" Style="{DynamicResource hmwnd_menuItems}"  Click="menuNavControl_Click" extension:Extensions.ExtendsStatus="false" />
-                        <CheckBox IsChecked="False" Tag="/resource/images/icon/result_rb.png" Uid="/resource/images/icon/result_r.png" IsEnabled="True" Content="Sonuc" Style="{DynamicResource hmwnd_menuItems}"  Click="menuNavControl_Click" extension:Extensions.ExtendsStatus="false" />
                         <CheckBox IsChecked="False" Tag="/resource/images/icon/help_rb.png" Uid="/resource/images/icon/help_r.png" IsEnabled="True" Content="Kullanıcı Yardımı" Style="{DynamicResource hmwnd_menuItems}"  Click="menuNavControl_Click" extension:Extensions.ExtendsStatus="false" />
                     </StackPanel>
                 </Border>
@@ -899,7 +898,7 @@
 
                 <Button Style="{DynamicResource hmwnd_appErrButton}"  Content="RegularError" ToolTip="Hata Bildir" Click="appErr_Click"/>
                 <Button Style="{DynamicResource hmwnd_appclosedButton}"  Content="MinusOutline" Click="appMin_Click" ToolTip="Uygulamayı Küçüt"/>
-                <Button Style="{DynamicResource hmwnd_appFullButton}"  Content="ExpandSolid" Click="appFull_Click" ToolTip="Full Ekran Yap"/>
+                <Button x:Name="fullscreenbutton" Style="{DynamicResource hmwnd_appFullButton}"  Content="ExpandSolid" Click="appFull_Click" ToolTip="Full Ekran Yap"/>
                 <Button Style="{DynamicResource hmwnd_appclosedButton}"  Content="CloseOutline" Click="appClosed_Click" ToolTip="Uygulamayı Kapat"/>
 
             </StackPanel>
@@ -944,7 +943,7 @@
 
                     <Grid x:Name="MainFrameGrid" Grid.Row="1">
                         <Frame  Style="{DynamicResource contentFrame}"  NavigationUIVisibility="Hidden" x:Name="homeFrame" Content="Frame" Panel.ZIndex="2" Padding="10,0,15,0" Grid.IsSharedSizeScope="True" Navigated="homeFrame_Navigated" />
-                        <Frame  Style="{DynamicResource contentFrame}"  NavigationUIVisibility="Hidden" Visibility="Collapsed" x:Name="secondFrame" Content="SecondFrame" Panel.ZIndex="3" Padding="10,0,15,0" Grid.IsSharedSizeScope="True" />
+                        <Frame  Style="{DynamicResource contentFrame}"  NavigationUIVisibility="Hidden" Visibility="Hidden" x:Name="secondFrame" Content="SecondFrame" Panel.ZIndex="3" Padding="10,0,15,0" Grid.IsSharedSizeScope="True" />
                     </Grid>
                 </Grid>
             </Border>

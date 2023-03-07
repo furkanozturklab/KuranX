@@ -29,8 +29,18 @@ namespace KuranX.App.Core.Pages
         public Page PageCall()
         {
             //helpImage.Source = (ImageSource)FindResource("help_1");
+            try
+            {
+                App.mainScreen.homescreengrid.IsEnabled = true;
+                App.lastlocation = "UserHelpPage";
+                return this;
+            }
+            catch (Exception ex)
+            {
 
-            return this;
+                App.logWriter("Loading", ex);
+                return this;
+            }
         }
 
         public void loadItems(string type)

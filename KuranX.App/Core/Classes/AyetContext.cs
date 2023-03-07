@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.IO;
+using System.Windows;
 
 namespace KuranX.App.Core.Classes
 {
@@ -10,7 +11,7 @@ namespace KuranX.App.Core.Classes
         public DbSet<User> Users { get; set; }
         public DbSet<Sure> Sure { get; set; }
         public DbSet<Verse> Verse { get; set; }
-        public DbSet<Section> Sections { get; set; }    
+        public DbSet<Section> Sections { get; set; }
         public DbSet<VerseClass> VerseClass { get; set; }
         public DbSet<Interpreter> Interpreter { get; set; }
         public DbSet<Notes> Notes { get; set; }

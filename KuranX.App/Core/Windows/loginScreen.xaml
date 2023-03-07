@@ -6,9 +6,9 @@
         xmlns:local="clr-namespace:KuranX.App.Core.Windows"
             xmlns:gif="http://wpfanimatedgif.codeplex.com"
          mc:Ignorable="d"
-        Title="LoginScreen" Height="540" Width="840" ResizeMode="NoResize" WindowStartupLocation="CenterScreen"  AllowsTransparency="True" Background="Transparent" WindowStyle="None" Loaded="LoginScreenWindow_Loaded">
+        Title="LoginScreen" Height="640" Width="940" ResizeMode="NoResize" WindowStartupLocation="CenterScreen"  AllowsTransparency="True" Background="Transparent" WindowStyle="None" Loaded="LoginScreenWindow_Loaded">
 
-    <Grid x:Name="mainGrid" Width="800" Height="500" Margin="0,0,0,0" Background="#FFF">
+    <Grid x:Name="mainGrid" Width="900" Height="600" Margin="0,0,0,0" Background="#FFF">
 
         <Grid.Effect>
             <DropShadowEffect BlurRadius="15" Direction="-90"
@@ -16,8 +16,8 @@
         </Grid.Effect>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="400" />
-            <ColumnDefinition Width="400" />
+            <ColumnDefinition Width="450" />
+            <ColumnDefinition Width="450" />
         </Grid.ColumnDefinitions>
 
         <Popup x:Name="popup_removePin" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="390" Height="370" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
@@ -113,18 +113,20 @@
             </Border>
         </Popup>
 
-        <Grid Grid.Column="0" x:Name="leftGrid" Width="400" Height="500">
+        <Grid Grid.Column="0" x:Name="leftGrid" Width="450" Height="600">
             <Grid.Background>
                 <ImageBrush ImageSource="/Resource/Images/Background/loginLeftPlan.png" />
             </Grid.Background>
 
             <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
-                <TextBlock Text="Bizler bu Kur'an'a mirasçıyız" Foreground="#FFF" FontFamily="{DynamicResource PoppinsMedium}" FontSize="22" FontWeight="SemiBold" TextAlignment="Center" />
-                <TextBlock Text="Apaçık Kur'an'ın mucize" Foreground="#FFF" FontFamily="{DynamicResource PoppinsMedium}" FontSize="22" FontWeight="SemiBold" TextAlignment="Center" />
-                <TextBlock Text="Ayetlerinden başka bir" Foreground="#FFF" FontFamily="{DynamicResource PoppinsMedium}" FontSize="22" FontWeight="SemiBold" TextAlignment="Center" />
-                <TextBlock Text="Mucize bekleyenler " Foreground="#FFF" FontFamily="{DynamicResource PoppinsMedium}" FontSize="22" FontWeight="SemiBold" TextAlignment="Center" />
-                <TextBlock Text="Kaybetmeye mahkumdur" Foreground="#FFF" FontFamily="{DynamicResource PoppinsMedium}" FontSize="22" FontWeight="SemiBold" TextAlignment="Center" />
-                <TextBlock Text="Halktan Sedat Abi" Foreground="#FFF" FontFamily="{DynamicResource PoppinsMedium}" FontSize="24" FontWeight="SemiBold" TextAlignment="Right" Margin="10" />
+                <TextBlock Text="Rahman Rahim Allah'ın ismi ile" Foreground="#FFF" FontFamily="{DynamicResource PoppinsMedium}" FontSize="18" FontWeight="SemiBold" TextAlignment="Center" />
+                <TextBlock Text="Hamd alemlerin Rabbi Allah'a mahsustur" Foreground="#FFF" FontFamily="{DynamicResource PoppinsMedium}" FontSize="18" FontWeight="SemiBold" TextAlignment="Center" />
+                <TextBlock Text="Hadm göklerde ve yerde bulunanların sahibine" Foreground="#FFF" FontFamily="{DynamicResource PoppinsMedium}" FontSize="18" FontWeight="SemiBold" TextAlignment="Center" />
+                <TextBlock Text="Ahirette de Hamd O'na mahsustur" Foreground="#FFF" FontFamily="{DynamicResource PoppinsMedium}" FontSize="18" FontWeight="SemiBold" TextAlignment="Center" />
+                <TextBlock Text="O'dur Hakim Habir " Foreground="#FFF" FontFamily="{DynamicResource PoppinsMedium}" FontSize="18" FontWeight="SemiBold" TextAlignment="Center" />
+                <TextBlock Text="Hamd Kuluna kitabı indiren ve onda" Foreground="#FFF" FontFamily="{DynamicResource PoppinsMedium}" FontSize="18" FontWeight="SemiBold" TextAlignment="Center" />
+                <TextBlock Text="hiçbir eğrilik yapmayan" Foreground="#FFF" FontFamily="{DynamicResource PoppinsMedium}" FontSize="18" FontWeight="SemiBold" TextAlignment="Center" />
+                <TextBlock Text="Allah'a özgürdür" Foreground="#FFF" FontFamily="{DynamicResource PoppinsMedium}" FontSize="18" FontWeight="SemiBold" TextAlignment="Right" Margin="10" />
             </StackPanel>
         </Grid>
 
@@ -134,7 +136,7 @@
 
         <Grid Grid.Column="1" x:Name="loginHomeGrid" Style="{DynamicResource loginresgrid}" Visibility="Visible">
 
-            <StackPanel VerticalAlignment="Center" Orientation="Vertical" Width="400">
+            <StackPanel VerticalAlignment="Center" Orientation="Vertical" Width="300">
 
                 <!-- Login Header Text -->
                 <TextBlock  Text="Kur'an Sünnetullah" Style="{DynamicResource lgfrm_headerText}" FontFamily="{DynamicResource Allura}" FontSize="36" FontWeight="Bold" />

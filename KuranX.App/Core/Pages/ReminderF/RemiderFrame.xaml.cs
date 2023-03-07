@@ -1,26 +1,15 @@
 ﻿using KuranX.App.Core.Classes;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Net.NetworkInformation;
-using System.Security.Cryptography;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Windows.Threading;
-using System.Xml.Linq;
 
 namespace KuranX.App.Core.Pages.ReminderF
 {
@@ -33,7 +22,7 @@ namespace KuranX.App.Core.Pages.ReminderF
         private string filterText = "";
         private int lastPage = 0, NowPage = 1, selectedId;
         private List<Remider> dRemider = new List<Remider>();
-
+        private Task remiderTask, remiderProcess;
         public RemiderFrame()
         {
             try
@@ -63,7 +52,10 @@ namespace KuranX.App.Core.Pages.ReminderF
                 sId.Text = "0";
                 vId.Text = "0";
 
-                App.loadTask = Task.Run(() => loadItem());
+                remiderTask = Task.Run(() => loadItem());
+
+                App.lastlocation = "RemiderFrame";
+
                 return this;
             }
             catch (Exception ex)
@@ -214,6 +206,9 @@ namespace KuranX.App.Core.Pages.ReminderF
                     });
                     loadAniComplated();
                 }
+
+                this.Dispatcher.Invoke(() => App.mainScreen.homescreengrid.IsEnabled = true);
+
             }
             catch (Exception ex)
             {
@@ -269,7 +264,7 @@ namespace KuranX.App.Core.Pages.ReminderF
                     filterText = (string)btn.Uid.ToString();
                 }
 
-                App.loadTask = Task.Run(() => loadItem());
+                remiderTask = Task.Run(() => loadItem());
             }
             catch (Exception ex)
             {
@@ -286,7 +281,7 @@ namespace KuranX.App.Core.Pages.ReminderF
                 nextpageButton.IsEnabled = false;
                 lastPage += 6;
                 NowPage++;
-                App.loadTask = Task.Run(() => loadItem());
+                remiderTask = Task.Run(() => loadItem());
             }
             catch (Exception ex)
             {
@@ -306,7 +301,7 @@ namespace KuranX.App.Core.Pages.ReminderF
                     previusPageButton.IsEnabled = false;
                     lastPage -= 6;
                     NowPage--;
-                    App.loadTask = Task.Run(() => loadItem());
+                    remiderTask = Task.Run(() => loadItem());
                 }
             }
             catch (Exception ex)
@@ -395,6 +390,7 @@ namespace KuranX.App.Core.Pages.ReminderF
 
                                         entitydb.Remider.Add(newRemider);
                                         entitydb.SaveChanges();
+
                                         App.mainScreen.succsessFunc("İşlem Başarılı", "Yeni bir hatırlatıcınız oluşturuldu", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
 
                                         popup_remiderAddPopup.IsOpen = false;
@@ -406,7 +402,7 @@ namespace KuranX.App.Core.Pages.ReminderF
                                         vId.Text = "0";
 
                                         remiderDay.SelectedDate = null;
-                                        App.loadTask = Task.Run(() => loadItem());
+                                        remiderProcess = Task.Run(() => loadItem());
                                     }
                                 }
                                 else
@@ -475,6 +471,7 @@ namespace KuranX.App.Core.Pages.ReminderF
 
                                         entitydb.Remider.Add(newRemider);
                                         entitydb.SaveChanges();
+
                                         App.mainScreen.succsessFunc("İşlem Başarılı", "Yeni hatırlatıcınız oluşturuldu", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
 
                                         popup_remiderAddPopup.IsOpen = false;
@@ -485,7 +482,7 @@ namespace KuranX.App.Core.Pages.ReminderF
                                         vId.Text = "0";
                                         loopSelectedType.SelectedIndex = 0;
 
-                                        App.loadTask = Task.Run(() => loadItem());
+                                        remiderProcess = Task.Run(() => loadItem());
                                     }
                                 }
                                 else
@@ -550,6 +547,8 @@ namespace KuranX.App.Core.Pages.ReminderF
 
                 var btn = sender as Button;
                 viewRemider.Visibility = Visibility.Hidden;
+
+              
                 App.mainframe.Content = App.navRemiderItem.PageCall(int.Parse(btn.Uid.ToString()));
             }
             catch (Exception ex)
@@ -578,7 +577,7 @@ namespace KuranX.App.Core.Pages.ReminderF
                     entitydb.SaveChanges();
                     popup_DeleteConfirm.IsOpen = false;
                     App.mainScreen.succsessFunc("İşlem Başarılı", "Hatırlatıcı başaralı bir sekilde silinmiştir.", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
-                    App.loadTask = Task.Run(() => loadItem());
+                    remiderProcess = Task.Run(() => loadItem());
                 }
             }
             catch (Exception ex)
@@ -655,7 +654,7 @@ namespace KuranX.App.Core.Pages.ReminderF
         {
             try
             {
-                App.errWrite($"[{DateTime.Now} remiderName_KeyDown ] -> RemiderFrame");
+
 
 
                 remiderAddPopupHeaderError.Visibility = Visibility.Hidden;
@@ -670,7 +669,6 @@ namespace KuranX.App.Core.Pages.ReminderF
         {
             try
             {
-                App.errWrite($"[{DateTime.Now} remiderDetail_KeyDown ] -> RemiderFrame");
 
 
                 remiderAddPopupDetailError.Visibility = Visibility.Hidden;
@@ -710,7 +708,7 @@ namespace KuranX.App.Core.Pages.ReminderF
         {
             try
             {
-               
+
 
                 Regex regex = new Regex("[^0-9]+");
                 e.Handled = regex.IsMatch(e.Text);
@@ -725,7 +723,7 @@ namespace KuranX.App.Core.Pages.ReminderF
         {
             try
             {
-             
+
 
 
                 Regex regex = new Regex("[^0-9a-zA-Z-ğüşöçıİĞÜŞÖÇ']");

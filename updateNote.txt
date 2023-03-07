@@ -1,4 +1,71 @@
-v 0.6.2
+♻️ [Değişiklik]
+⚠️ [Hata]
+🆕 [Yeni]
+
+v 0.6.13
+
+🆕 [Yeni] Hatırlatıcı uyarsından ayete giderken artı son kalıdığınız yere dönebiliyorsunuz.
+⚠️ [Hata] Program acılırken ekran çözünürlüğü 2000 ve altı kontrol ediyordu yeni değer artık standart çözünürlük değerine cekildi (1366)
+⚠️ [Hata] Hızlı süre git hata düzeltildi.
+
+v 0.6.12
+⚠️ [Hata] Hatalı textler düzeltildi
+⚠️ [Hata] Konu notunun sure notlarına karışmasın sağlayan hata düzeltildi.
+⚠️ [Hata] Bazen notlara giderken not modülünün yüklenme hatası gözden geçirildi.
+♻️ [Değişiklik] Programın eski modüllerine ait yapılar tamemen kaldırıldı.
+🆕 [Yeni] Artık Düşük ekran çözünürlüğünde uyarı veriyor ve ekranı full ekrana geçirilebiliyor.
+
+
+v 0.6.12
+
+⚠️ [Hata] Kritik Hata Düzeltmesi.
+
+v 0.6.10
+
+♻️ [Değişiklik] Yükleme sayfasındaki yazı.
+♻️ [Değişiklik] Anasayfadaki yazı.
+⚠️ [Hata] Notları silerken sorunlar düzeltildi.
+⚠️ [Hata] Hızlı süre gitdeki hata düzeltildi.
+⚠️ [Hata] Daha önceden bilinen bir kaç hata daha düzeltildi.
+
+
+v 0.6.9
+
+⚠️[Hata] Sonuclar kısmındaki eski versiyondan kalan kütüphane uzantısı kaldırıldı.
+⚠️[Hata] Artık sonuc veri silindiğinde o veri 0 düştüğünde varmış gibi gösterilmiyor.
+⚠️[Hata] Hatırlatıcını günü gelmesine rağmen gösterilmemesine sebeb olan hata düzeltildi.
+♻️[Değişiklik] Ayetler,bölümler,konulardan nota gidip notu sildikten sonra geri dönüşte note popupu artık kapanmıyor.
+🆕[Yeni] Konulardan artık not paneline geçişler eklendi.
+
+
+v 0.6.8
+♻️ Notların görüntüleme mekanikleri değişti.
+⚠️ Bölümlerden notlara gelirken geldiği yeri yanlış gösteren veri değişti.
+⚠️ Notlardan bölümlere geçtiğinde geri dönüşte tekrar notlara dönmeme sorunu düzeltildi.
+⚠️ Notlar silindikten sonra artık bir önceki sayfaya gidiyor.
+
+
+v 0.6.7
+⚠️ Anlambütünlüğünden ayete giderken nerden geldiğini belirten kısım düzeltildi.
+⚠️ Not bölümüne geldiğinde buttonların aktif olamaması hatası düzeltildi.
+⚠️ Konumarımın içindeki ayet panelinde ilk yüklemede yorum gözükmemesini sağlayan bir hata düzeltildi.
+
+
+
+v 0.6.6
+⚠️ Not,hatırlatıcı ve konu silerken oluşan bir hata düzeltilti.
+⚠️ Mesaj kutularındaki yazıların kayma hataları düzeltildi.
+♻️ Hata bildirme yapısı revize edildi. 
+♻️ Popuplardan odak kaybolursa popup artık kendisini kapatıyor.
+
+v 0.6.5
+🆕 Uygulama parçaları yüklenirken artık yükleme tamamlanana dek işlem yapmak kısıtlandı.
+⚠️ Hata bildirim artık yöneticiye mail gönderiyor
+
+v 0.6.4
+♻️ Uygulama task yapıları değiştirildi
+
+v 0.6.3
 ⚠️ Not sildikten sonra yeniden notu acıldığında buttonların aktif olmamasını sağlayan bir hata düzeltildi. 
 🆕 Hata bildir buttonu oluşturuldu.
 🆕 Uygulama Buttonlarına açıklamalar eklendi.

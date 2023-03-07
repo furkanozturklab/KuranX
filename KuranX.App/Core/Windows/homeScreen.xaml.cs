@@ -5,26 +5,16 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Net.Mail;
-using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Automation.Peers;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Windows.Threading;
-
 using KuranX.App.Core.Classes;
-using KuranX.App.Core.Pages;
-using Microsoft.EntityFrameworkCore;
-using static Org.BouncyCastle.Math.EC.ECCurve;
 
 namespace KuranX.App.Core.Windows
 {
@@ -60,22 +50,42 @@ namespace KuranX.App.Core.Windows
         {
             try
             {
-                // BAŞARILI CALIŞAN
 
+                if (SystemParameters.WorkArea.Width <= 1366)
+                {
+
+
+
+                    if (MessageBox.Show("Ekran Boyutunuz programı tüm fonksiyonları ile kullanmak için cok düşük lütfen programı kullanmaya devam ederken full ekranda çalışınız. Büyütmek istesermisiniz.",
+                    "Configuration",
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Question) == MessageBoxResult.Yes)
+                    {
+
+
+                        fullscreenbutton.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+                    }
+
+
+                }
+
+                // BAŞARILI CALIŞAN
+                homescreengrid.IsEnabled = false;
                 App.mainTask = Task.Run(() => welcoming());
                 App.mainTask = Task.Run(() => navigationWriter("verse", ""));
                 App.mainTask = Task.Run(() => remiderCycler_Func());
                 App.loadTask = Task.Run(() => loadProfile());
+
                 App.mainTask.Wait();
 
 
                 App.errWrite($"[Session Stard - {DateTime.Now}]");
 
-
-
-
                 if (taskstatus) App.mainTask = Task.Run(() => tasksCycler_Func());
                 App.mainframe.Content = App.navHomeFrame.PageCall();
+
+                homescreengrid.IsEnabled = true;
+
             }
             catch (Exception ex)
             {
@@ -134,7 +144,10 @@ namespace KuranX.App.Core.Windows
 
                             case "Gün":
 
-                                if (item.lastAction.AddDays(1).ToString("d") == DateTime.Now.ToString("d"))
+
+
+
+                                if (item.lastAction.AddDays(1) <= DateTime.Now)
                                 {
                                     if (entitydb.Tasks.Where(p => p.missonsId == item.remiderId && p.missonsType == "Remider").Count() == 0)
                                     {
@@ -149,7 +162,7 @@ namespace KuranX.App.Core.Windows
 
                             case "Hafta":
 
-                                if (item.lastAction.AddDays(7).ToString("d") == DateTime.Now.ToString("d"))
+                                if (item.lastAction.AddDays(7) <= DateTime.Now)
                                 {
                                     if (entitydb.Tasks.Where(p => p.missonsId == item.remiderId && p.missonsType == "Remider").Count() == 0)
                                     {
@@ -163,7 +176,7 @@ namespace KuranX.App.Core.Windows
                                 break;
 
                             case "Ay":
-                                if (item.lastAction.AddMonths(1).ToString("d") == DateTime.Now.ToString("d"))
+                                if (item.lastAction.AddMonths(1) <= DateTime.Now)
                                 {
                                     if (entitydb.Tasks.Where(p => p.missonsId == item.remiderId && p.missonsType == "Remider").Count() == 0)
                                     {
@@ -177,7 +190,7 @@ namespace KuranX.App.Core.Windows
                                 break;
 
                             case "Yıl":
-                                if (item.lastAction.AddYears(1).ToString("d") == DateTime.Now.ToString("d"))
+                                if (item.lastAction.AddYears(1) <= DateTime.Now)
                                 {
                                     if (entitydb.Tasks.Where(p => p.missonsId == item.remiderId && p.missonsType == "Remider").Count() == 0)
                                     {
@@ -214,6 +227,9 @@ namespace KuranX.App.Core.Windows
 
                         foreach (var item in TasksLoad)
                         {
+
+                            Debug.WriteLine(item.missonsId);
+
                             // 5sn sonra sıradaki göreve geç
                             var sleepTime = int.Parse(App.config.AppSettings.Settings["app_remiderWaitTime"].Value) * 1000;
                             Thread.Sleep(sleepTime); // 5 sn // 10 sn // 30 sn // 60 sn // 120 sn // 240 sn // Sırdaki göreve gecme süresi
@@ -382,6 +398,7 @@ namespace KuranX.App.Core.Windows
         {
             try
             {
+
                 if (this.Dispatcher.Invoke(() => App.mainframe.Content.ToString().Split('.').Last() == "verseFrame"))
                 {
                     // eğer verseFrame de isem çalış
@@ -399,6 +416,8 @@ namespace KuranX.App.Core.Windows
                     if (this.Dispatcher.Invoke(() => App.navVersePage.markButton.IsChecked == true))
                     {
                         // Verseframede işaretlemiş isem çalış
+
+
 
                         switch (this.Dispatcher.Invoke(() => navCheckBox.Content))
                         {
@@ -450,14 +469,6 @@ namespace KuranX.App.Core.Windows
                                 });
                                 break;
 
-                            case "Sonuc":
-                                this.Dispatcher.Invoke(() =>
-                                {
-                                    navClear();
-                                    navCheckBox.IsChecked = true;
-                                    App.mainframe.Content = App.navResultPage.PageCall();
-                                });
-                                break;
 
                             case "Kullanıcı Yardımı":
                                 this.Dispatcher.Invoke(() =>
@@ -535,14 +546,6 @@ namespace KuranX.App.Core.Windows
                             });
                             break;
 
-                        case "Sonuc":
-                            this.Dispatcher.Invoke(() =>
-                            {
-                                navClear();
-                                navCheckBox.IsChecked = true;
-                                App.mainframe.Content = App.navResultPage.PageCall();
-                            });
-                            break;
 
                         case "Kullanıcı Yardımı":
                             this.Dispatcher.Invoke(() =>
@@ -571,9 +574,11 @@ namespace KuranX.App.Core.Windows
                 {
                     loadinGifContent.Visibility = Visibility.Hidden;
                     rightPanel.Visibility = Visibility.Visible;
+
                 });
 
                 GC.Collect();
+
             }
             catch (Exception ex)
             {
@@ -665,8 +670,13 @@ namespace KuranX.App.Core.Windows
             {
                 App.secondFrame.Visibility = Visibility.Collapsed;
                 navCheckBox = sender as CheckBox;
+
+                homescreengrid.IsEnabled = false;
+
                 App.loadTask = Task.Run(() => menuTask(navCheckBox));
                 App.errWrite($"[{DateTime.Now} Menu Click] -> {navCheckBox.Content}");
+
+
             }
             catch (Exception ex)
             {
@@ -742,7 +752,11 @@ namespace KuranX.App.Core.Windows
                 {
                     var dRemider = entitydb.Remider.Where(p => p.remiderId == int.Parse(btn.Uid)).FirstOrDefault();
 
-                    if (dRemider != null && dRemider.connectSureId != 0) App.mainframe.Content = App.navVersePage.PageCall(dRemider.connectSureId, dRemider.connectVerseId, "Remider");
+                    if (dRemider != null && dRemider.connectSureId != 0)
+                    {
+                        App.secondFrame.Visibility = Visibility.Visible;
+                        App.secondFrame.Content = App.navVerseStickPage.PageCall(dRemider.connectSureId, dRemider.connectVerseId, "", 0, "FastRemider");
+                    }
 
                     lifeCyclerPopups.IsOpen = false;
                 }
@@ -857,15 +871,6 @@ namespace KuranX.App.Core.Windows
                         });
                         break;
 
-                    case "Sonuc":
-                        this.Dispatcher.Invoke(() =>
-                        {
-                            navClear();
-                            navCheckBox.IsChecked = true;
-
-                            App.mainframe.Content = App.navResultPage.PageCall();
-                        });
-                        break;
 
                     case "Kullanıcı Yardımı":
                         this.Dispatcher.Invoke(() =>
@@ -910,6 +915,7 @@ namespace KuranX.App.Core.Windows
                 popuptemp.IsOpen = false;
                 pp_moveBar.IsOpen = false;
                 errDetail.Text = "";
+                homescreengrid.IsEnabled = true;
                 btntemp = null;
             }
             catch (Exception ex)
@@ -940,8 +946,10 @@ namespace KuranX.App.Core.Windows
         {
             try
             {
+
                 this.Dispatcher.Invoke(() =>
                 {
+
                     alertPopupHeader.Text = header;
                     alertPopupDetail.Text = detail;
                     alph.IsOpen = true;
@@ -953,6 +961,7 @@ namespace KuranX.App.Core.Windows
                 {
                     alph.IsOpen = false;
                     App.timeSpan.Stop();
+
                 };
             }
             catch (Exception ex)
@@ -967,6 +976,7 @@ namespace KuranX.App.Core.Windows
             {
                 this.Dispatcher.Invoke(() =>
                 {
+
                     successPopupHeader.Text = header;
                     successPopupDetail.Text = detail;
                     scph.IsOpen = true;
@@ -977,6 +987,7 @@ namespace KuranX.App.Core.Windows
                 {
                     scph.IsOpen = false;
                     App.timeSpan.Stop();
+
                 };
             }
             catch (Exception ex)
@@ -991,6 +1002,7 @@ namespace KuranX.App.Core.Windows
             {
                 this.Dispatcher.Invoke(() =>
                 {
+
                     infoPopupHeader.Text = header;
                     infoPopupDetail.Text = detail;
                     inph.IsOpen = true;
@@ -1001,6 +1013,7 @@ namespace KuranX.App.Core.Windows
                 {
                     inph.IsOpen = false;
                     App.timeSpan.Stop();
+
                 };
             }
             catch (Exception ex)
@@ -1831,7 +1844,7 @@ namespace KuranX.App.Core.Windows
         {
 
 
-            errCode.Text = DateTime.Now.ToString().Replace(".", "").Replace(" ", "_").Replace(":", "") + "_" + userName.Text + userLastName.Text;
+            errCode.Text = DateTime.Now.ToString().Replace(".", "").Replace(" ", "_").Replace(":", "").Replace("/", "") + "_" + userName.Text + userLastName.Text;
             popup_ErrOpenPopup.IsOpen = true;
 
         }
@@ -1845,8 +1858,7 @@ namespace KuranX.App.Core.Windows
                 if (errDetail.Text.Length >= 3)
                 {
 
-                    ftp_write();
-                    Debug.WriteLine(errCode.Text);
+
 
                     var postingdata = new Dictionary<string, string>
                     {
@@ -1866,7 +1878,10 @@ namespace KuranX.App.Core.Windows
                     App.loadTask = Task.Run(() => App.apiPostRun(postingdata, "AddError"));
                     await App.loadTask;
 
-                    App.mainScreen.succsessFunc("İşlem Başarılı", " Karşılaşılan hata başarılı bir sekilde bildirilmiştir.", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
+
+
+                    var messageBody = $"[{DateTime.Now}] -> Error Code : {errCode.Text} <br/> Hata Açıklaması : {errDetail.Text}";
+                    App.loadTask = Task.Run(() => App.sendMailErr("Kuransunettüllah Destek", messageBody));
 
                     popup_ErrOpenPopup.IsOpen = false;
 

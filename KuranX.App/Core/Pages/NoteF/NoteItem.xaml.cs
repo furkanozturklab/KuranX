@@ -1,29 +1,20 @@
 ﻿using KuranX.App.Core.Classes;
-using KuranX.App.Core.Pages.VerseF;
-using KuranX.App.Core.Windows;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.ConstrainedExecution;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Documents.Serialization;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Windows.Threading;
 using System.Windows.Xps.Packaging;
 using System.Windows.Xps;
-using System.Diagnostics;
 using System.Threading;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.Diagnostics;
 
 namespace KuranX.App.Core.Pages.NoteF
 {
@@ -32,9 +23,10 @@ namespace KuranX.App.Core.Pages.NoteF
     /// </summary>
     public partial class NoteItem : Page
     {
-        private int noteId, cSr, cVr, cPd, cSb, gototypeId, cBr;
+        private int noteId, cSr, cVr, cPd, cSb, gototypeId, cBr, conpage = 1;
         private bool tempCheck = false;
-        private string gototype = "";
+        private string gototype = "", getLocation;
+        private Task noteframetask , secondtask;
 
         public NoteItem()
         {
@@ -50,13 +42,33 @@ namespace KuranX.App.Core.Pages.NoteF
             }
         }
 
-        public Page PageCall(int id)
+        public Page PageCall(int id, string location = "", int nowpage = 1)
         {
             try
             {
                 App.errWrite($"[{DateTime.Now} PageCall] -> NoteItem");
                 noteId = id;
-                App.loadTask = Task.Run(() => loadItem());
+                saveButton.IsEnabled = false;
+              
+
+
+
+                if (location != "")
+                {
+                    secondtask = Task.Run(() => loadItem());
+                    App.secondFrame.Visibility = Visibility.Visible;
+      
+                }
+                else{
+                    noteframetask = Task.Run(() => loadItem());
+                }
+
+                Debug.WriteLine(location);
+                Debug.WriteLine(App.secondFrame.Visibility);
+
+                getLocation = location;
+                conpage = nowpage;
+                App.lastlocation = "NoteItem";
                 return this;
             }
             catch (Exception ex)
@@ -98,6 +110,7 @@ namespace KuranX.App.Core.Pages.NoteF
                         loadCreate.Text = dNote.created.ToString("D");
                         loadLocation.Text = dNote.noteLocation;
                         loadNoteDetail.Text = dNote.noteDetail;
+
                         switch (dNote.noteLocation)
                         {
                             case "Konularım":
@@ -149,29 +162,80 @@ namespace KuranX.App.Core.Pages.NoteF
                             gotoVerseButton.Tag = "ArrowRight";
                             var dSure = entitydb.Sure.Where(p => p.sureId == dNote.sureId).FirstOrDefault();
                             App.mainScreen.navigationWriter("notes", "Sure Notu");
-                            infoText.Text = "Not Aldığınız Ayet " + Environment.NewLine + dSure.name + " suresini " + dNote.verseId + " ayeti";
+                            infoText.Text = "Not Aldığınız Ayet " + Environment.NewLine + dSure.name + " suresinin " + dNote.verseId + " ayeti";
                             cSr = (int)dSure.sureId;
                             cVr = (int)dNote.verseId;
                             gototype = "Verse";
+
+                            if (getLocation == "VerseNoteOpen" || getLocation == "VerseNoteDetail")
+                            {
+                                gotoVerseButton.Visibility = Visibility.Collapsed;
+                                BackButton.SetValue(Grid.ColumnSpanProperty, 2);
+                                BackButton.Width = 400;
+                            }
+                            else
+                            {
+                                gotoVerseButton.Visibility = Visibility.Visible;
+                                BackButton.SetValue(Grid.ColumnSpanProperty, 1);
+                                BackButton.Width = 150;
+
+                            }
+                            Debug.WriteLine("Workking loaditem");
                         }
 
 
                         // Bölüm Bağlanmış
                         if (dNote.sectionId != 0)
                         {
+                            Debug.WriteLine(getLocation);
                             gotoVerseButton.IsEnabled = true;
                             gotoVerseButton.Content = "Bölüme Git";
                             gotoVerseButton.Tag = "ArrowRight";
                             var dSure = entitydb.Sure.Where(p => p.sureId == dNote.sureId).FirstOrDefault();
                             App.mainScreen.navigationWriter("notes", "Bölüm Notu");
-                            infoText.Text = "Not Aldığınız Bölüm " + Environment.NewLine + dSure.name + " suresi " + dNote.sectionId + " ayeti";
+                            infoText.Text = "Not Aldığınız Bölüm " + Environment.NewLine + dSure.name + " suresinin " + dNote.sectionId + " bölümü";
                             cSr = (int)dSure.sureId;
                             cBr = (int)dNote.sectionId;
                             gototype = "Section";
+
+                            if (getLocation == "SectionNote" || getLocation == "SectionNoteDetail")
+                            {
+                                gotoVerseButton.Visibility = Visibility.Collapsed;
+                                BackButton.SetValue(Grid.ColumnSpanProperty, 2);
+                                BackButton.Width = 400;
+                            }
+                            else
+                            {
+                                gotoVerseButton.Visibility = Visibility.Visible;
+                                BackButton.SetValue(Grid.ColumnSpanProperty, 1);
+                                BackButton.Width = 150;
+
+                            }
                         }
                     });
+
+
                     Thread.Sleep(int.Parse(App.config.AppSettings.Settings["app_animationSpeed"].Value));
+
+
+
+                    this.Dispatcher.Invoke(() =>
+                    {
+
+                        BackButton.IsEnabled = true;
+                        printButton.IsEnabled = true;
+                        deleteButton.IsEnabled = true;
+                        saveButton.IsEnabled = false;
+
+                    });
+
+
                     loadAniComplated();
+
+                    Debug.WriteLine("WORKİNG");
+                    Debug.WriteLine(loadHeaderStack.Visibility);
+
+                    this.Dispatcher.Invoke(() => App.mainScreen.homescreengrid.IsEnabled = true);
                 }
             }
             catch (Exception ex)
@@ -228,7 +292,44 @@ namespace KuranX.App.Core.Pages.NoteF
             try
             {
                 App.errWrite($"[{DateTime.Now} BackButton_Click ] -> NoteItem");
-                NavigationService.GoBack();
+
+                Debug.WriteLine("Wkoring back button : " + getLocation);
+
+                switch (getLocation)
+                {
+                    case "VerseNoteOpen":
+
+                        App.secondFrame.Visibility = Visibility.Hidden;
+                        App.mainframe.Visibility = Visibility.Visible;
+                        App.navVersePage.popup_Note.IsOpen = true;
+
+                        break;
+                    case "VerseNoteDetail":
+                        App.secondFrame.Visibility = Visibility.Hidden;
+                        App.navVersePage.popup_Note.IsOpen = true;
+                        App.navVersePage.popup_notesAllShowPopup.IsOpen = true;
+                        break;
+                    case "SectionNote":
+                        App.secondFrame.Visibility = Visibility.Hidden;
+                        App.navSectionPage.popup_Note.IsOpen = true;
+                        break;
+                    case "SectionNoteDetail":
+                        App.secondFrame.Visibility = Visibility.Hidden;
+                        App.navSectionPage.popup_Note.IsOpen = true;
+                        App.navSectionPage.popup_notesAllShowPopup.IsOpen = true;
+
+                        break;
+                    case "subjectDetail":
+                        App.secondFrame.Visibility = Visibility.Hidden;
+                        App.navSubjectItem.noteConnect();
+                        App.navSubjectItem.popup_Note.IsOpen = true;
+                        break;
+
+                    default:
+                        App.mainframe.Content = App.navNotesPage.PageCall(1);
+                        break;
+                }
+
             }
             catch (Exception ex)
             {
@@ -252,20 +353,15 @@ namespace KuranX.App.Core.Pages.NoteF
                         break;
 
                     case "Section":
-
-
-                        App.mainframe.Content = App.navSectionPage.PageCall(cSr, cBr);
-
-
+                        App.mainframe.Content = App.navSectionPage.PageCall(cSr, cBr, "Note");
                         break;
-
 
                     case "Subject":
 
                         using (var entitydbsb = new AyetContext())
                         {
                             var dSubjectItems = entitydbsb.SubjectItems.Where(p => p.subjectItemsId == cSb).FirstOrDefault();
-                            App.mainframe.Content = App.navSubjectItem.subjectItemsPageCall((int)dSubjectItems.subjectId, (int)dSubjectItems.sureId, (int)dSubjectItems.verseId);
+                            App.mainframe.Content = App.navSubjectItem.PageCall((int)dSubjectItems.subjectId, (int)dSubjectItems.sureId, (int)dSubjectItems.verseId);
                         }
 
                         break;
@@ -345,7 +441,6 @@ namespace KuranX.App.Core.Pages.NoteF
                 {
                     BackButton.IsEnabled = false;
                     gotoVerseButton.IsEnabled = false;
-                    sendResult.IsEnabled = false;
                     printButton.IsEnabled = false;
                     deleteButton.IsEnabled = false;
                     saveButton.IsEnabled = false;
@@ -362,7 +457,50 @@ namespace KuranX.App.Core.Pages.NoteF
 
                     entitydb.SaveChanges();
                     popup_DeleteConfirm.IsOpen = false;
-                    voidgobacktimer();
+                    App.mainScreen.succsessFunc("İşlem Başarılı", "Notunuz başaralı bir sekilde silinmiştir. Bir önceki sayfaya yönlendiriliyorsunuz...", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
+
+
+
+
+                    switch (getLocation)
+                    {
+                        case "VerseNoteOpen":
+
+                            App.secondFrame.Visibility = Visibility.Collapsed;
+                            App.navVersePage.noteConnect();
+                            App.navVersePage.popup_Note.IsOpen = true;
+
+                            break;
+                        case "VerseNoteDetail":
+                            App.secondFrame.Visibility = Visibility.Collapsed;
+                            App.navVersePage.popup_Note.IsOpen = true;
+                            App.navVersePage.popup_notesAllShowPopup.IsOpen = true;
+                            break;
+                        case "SectionNote":
+                            App.secondFrame.Visibility = Visibility.Collapsed;
+                            App.navSectionPage.noteConnect();
+                            App.navSectionPage.popup_Note.IsOpen = true;
+                            break;
+                        case "SectionNoteDetail":
+                            App.secondFrame.Visibility = Visibility.Collapsed;
+                            App.navSectionPage.popup_Note.IsOpen = true;
+                            App.navSectionPage.popup_notesAllShowPopup.IsOpen = true;
+
+                            break;
+                        case "subjectDetail":
+                            App.secondFrame.Visibility = Visibility.Collapsed;
+                            App.navSubjectItem.noteConnect();
+                            App.navSubjectItem.popup_Note.IsOpen = true;
+                            break;
+
+                        default:
+                            Debug.WriteLine(conpage);
+                            App.mainframe.Content = App.navNotesPage.PageCall(conpage);
+                            break;
+                    }
+
+
+
                 }
             }
             catch (Exception ex)
@@ -457,10 +595,9 @@ namespace KuranX.App.Core.Pages.NoteF
 
                     BackButton.IsEnabled = true;
                     gotoVerseButton.IsEnabled = true;
-                    sendResult.IsEnabled = true;
                     printButton.IsEnabled = true;
                     deleteButton.IsEnabled = true;
-                    saveButton.IsEnabled = true;
+                    saveButton.IsEnabled = false;
                 };
             }
             catch (Exception ex)
@@ -524,7 +661,6 @@ namespace KuranX.App.Core.Pages.NoteF
                     loadNoteDetail.Visibility = Visibility.Visible;
                     loadHeaderStack.Visibility = Visibility.Visible;
                     controlBar.Visibility = Visibility.Visible;
-
 
                 });
 

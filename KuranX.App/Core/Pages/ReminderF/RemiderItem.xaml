@@ -20,7 +20,7 @@
 
         <!-- Popup -->
 
-        <Popup x:Name="popup_DeleteConfirm" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="360" Height="210" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+        <Popup x:Name="popup_DeleteConfirm" StaysOpen="False" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="360" Height="210" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
 
             <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="340" Height="190">
                 <Grid>

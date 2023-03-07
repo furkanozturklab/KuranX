@@ -19,7 +19,7 @@
 
         <!-- popup -->
 
-        <Popup x:Name="pp_moveBar" IsOpen="False" Placement="RelativePoint" AllowsTransparency="True" Width="470" Height="115" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade" HorizontalOffset="322" VerticalOffset="-20">
+        <Popup x:Name="pp_moveBar" StaysOpen="False" IsOpen="False" Placement="RelativePoint" AllowsTransparency="True" Width="470" Height="115" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade" HorizontalOffset="322" VerticalOffset="-20">
             <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="450" Height="95">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -66,7 +66,7 @@
             </Border>
         </Popup>
 
-        <Popup x:Name="popup_addConnect" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="380" Height="320" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+        <Popup x:Name="popup_addConnect"  StaysOpen="False" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="380" Height="320" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
             <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="360" Height="300">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -234,171 +234,8 @@
             </Border>
         </Popup>
 
-        <Popup x:Name="popup_sendResult" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="360" Height="320" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
-            <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="340" Height="300">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="50" />
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-                    <Border  Grid.Row="0" Style="{DynamicResource pp_BorderHeader}">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="48" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="48" />
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="1" Text="Sonuca Gönder" Style="{DynamicResource pp_HeaderText}" />
-                            <Button Content="Sonuca Gönder" Tag="MoveiOS" Click="popuverMove_Click" Uid="popup_sendResult" Style="{DynamicResource pp_moveBaseIcon}" Background="Transparent" />
-                        </Grid>
-                    </Border>
-                    <Grid Grid.Row="1">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="50" />
-                        </Grid.RowDefinitions>
-                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Width="280" Grid.Row="0">
 
-                            <StackPanel Orientation="Vertical">
-                                <TextBlock Text="Sonuc Süre" FontFamily="{DynamicResource PoppinsMedium}" FontSize="14" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                                <ComboBox x:Name="popupResultSureId"  Style="{DynamicResource pp_Combobox}" SelectedIndex="0" IsReadOnly="True">
-                                    <ComboBoxItem  Content="Fâtiha" Uid="1" Tag="7" />
-                                    <ComboBoxItem  Content="Bakara" Uid="2" Tag="286" />
-                                    <ComboBoxItem  Content="Âl-i İmrân" Uid="3" Tag="200" />
-                                    <ComboBoxItem  Content="Nisâ" Uid="4" Tag="176" />
-                                    <ComboBoxItem  Content="Mâide" Uid="5" Tag="120" />
-                                    <ComboBoxItem  Content="En'âm" Uid="6" Tag="165" />
-                                    <ComboBoxItem  Content="A'râf" Uid="7" Tag="206" />
-                                    <ComboBoxItem  Content="Enfâl" Uid="8" Tag="75" />
-                                    <ComboBoxItem  Content="Tevbe" Uid="9" Tag="129" />
-                                    <ComboBoxItem  Content="Yûnus" Uid="10" Tag="109" />
-                                    <ComboBoxItem  Content="Hûd" Uid="11" Tag="123" />
-                                    <ComboBoxItem  Content="Yûsuf" Uid="12" Tag="111" />
-                                    <ComboBoxItem  Content="Ra'd" Uid="13" Tag="43" />
-                                    <ComboBoxItem  Content="İbrahim" Uid="14" Tag="52" />
-                                    <ComboBoxItem  Content="Hicr" Uid="15" Tag="99" />
-                                    <ComboBoxItem  Content="Nahl" Uid="16" Tag="128" />
-                                    <ComboBoxItem  Content="İsrâ" Uid="17" Tag="111" />
-                                    <ComboBoxItem  Content="Kehf" Uid="18" Tag="110" />
-                                    <ComboBoxItem  Content="Meryem" Uid="19" Tag="98" />
-                                    <ComboBoxItem  Content="Tâ-Hâ" Uid="20" Tag="135" />
-                                    <ComboBoxItem  Content="Enbiyâ" Uid="21" Tag="112" />
-                                    <ComboBoxItem  Content="Hac" Uid="22" Tag="78" />
-                                    <ComboBoxItem  Content="Mü'minûn" Uid="23" Tag="118" />
-                                    <ComboBoxItem  Content="Nûr" Uid="24" Tag="64" />
-                                    <ComboBoxItem  Content="Furkân" Uid="25" Tag="77" />
-                                    <ComboBoxItem  Content="Şu'arâ" Uid="26" Tag="227" />
-                                    <ComboBoxItem  Content="Neml" Uid="27" Tag="93" />
-                                    <ComboBoxItem  Content="Kasas" Uid="28" Tag="88" />
-                                    <ComboBoxItem  Content="Ankebût" Uid="29" Tag="69" />
-                                    <ComboBoxItem  Content="Rûm" Uid="30" Tag="60" />
-                                    <ComboBoxItem  Content="Lokman" Uid="31" Tag="34" />
-                                    <ComboBoxItem  Content="Secde" Uid="32" Tag="30" />
-                                    <ComboBoxItem  Content="Ahzâb" Uid="33" Tag="73" />
-                                    <ComboBoxItem  Content="Sebe'" Uid="34" Tag="54" />
-                                    <ComboBoxItem  Content="Fâtır" Uid="35" Tag="45" />
-                                    <ComboBoxItem  Content="Yâsîn" Uid="36" Tag="83" />
-                                    <ComboBoxItem  Content="Sâffât" Uid="37" Tag="182" />
-                                    <ComboBoxItem  Content="Sâd" Uid="38" Tag="88" />
-                                    <ComboBoxItem  Content="Zümer" Uid="39" Tag="75" />
-                                    <ComboBoxItem  Content="Mü'min" Uid="40" Tag="85" />
-                                    <ComboBoxItem  Content="Fussilet" Uid="41" Tag="54" />
-                                    <ComboBoxItem  Content="Şûrâ" Uid="42" Tag="53" />
-                                    <ComboBoxItem  Content="Zuhruf" Uid="43" Tag="89" />
-                                    <ComboBoxItem  Content="Duhân" Uid="44" Tag="59" />
-                                    <ComboBoxItem  Content="Câsiye" Uid="45" Tag="37" />
-                                    <ComboBoxItem  Content="Ahkâf" Uid="46" Tag="35" />
-                                    <ComboBoxItem  Content="Muhammed" Uid="47" Tag="38" />
-                                    <ComboBoxItem  Content="Fetih" Uid="48" Tag="29" />
-                                    <ComboBoxItem  Content="Hucurât" Uid="49" Tag="18" />
-                                    <ComboBoxItem  Content="Kâf" Uid="50" Tag="45" />
-                                    <ComboBoxItem  Content="Zâriyât" Uid="51" Tag="60" />
-                                    <ComboBoxItem  Content="Tûr" Uid="52" Tag="49" />
-                                    <ComboBoxItem  Content="Necm" Uid="53" Tag="62" />
-                                    <ComboBoxItem  Content="Kamer" Uid="54" Tag="55" />
-                                    <ComboBoxItem  Content="Rahmân" Uid="55" Tag="78" />
-                                    <ComboBoxItem  Content="Vâkıa" Uid="56" Tag="96" />
-                                    <ComboBoxItem  Content="Hadîd" Uid="57" Tag="29" />
-                                    <ComboBoxItem  Content="Mücâdele" Uid="58" Tag="22" />
-                                    <ComboBoxItem  Content="Haşr" Uid="59" Tag="24" />
-                                    <ComboBoxItem  Content="Mümtehine" Uid="60" Tag="13" />
-                                    <ComboBoxItem  Content="Saff" Uid="61" Tag="14" />
-                                    <ComboBoxItem  Content="Cum'a" Uid="62" Tag="11" />
-                                    <ComboBoxItem  Content="Münâfikûn" Uid="63" Tag="11" />
-                                    <ComboBoxItem  Content="Tegâbün" Uid="64" Tag="18" />
-                                    <ComboBoxItem  Content="Talâk" Uid="65" Tag="12" />
-                                    <ComboBoxItem  Content="Tahrîm" Uid="66" Tag="12" />
-                                    <ComboBoxItem  Content="Mülk" Uid="67" Tag="30" />
-                                    <ComboBoxItem  Content="Kalem" Uid="68" Tag="52" />
-                                    <ComboBoxItem  Content="Hâkka" Uid="69" Tag="52" />
-                                    <ComboBoxItem  Content="Me'âric" Uid="70" Tag="44" />
-                                    <ComboBoxItem  Content="Nûh" Uid="71" Tag="28" />
-                                    <ComboBoxItem  Content="Cin" Uid="72" Tag="28" />
-                                    <ComboBoxItem  Content="Müzzemmil" Uid="73" Tag="20" />
-                                    <ComboBoxItem  Content="Müddessir" Uid="74" Tag="56" />
-                                    <ComboBoxItem  Content="Kıyamet" Uid="75" Tag="40" />
-                                    <ComboBoxItem  Content="İnsan" Uid="76" Tag="31" />
-                                    <ComboBoxItem  Content="Mürselât" Uid="77" Tag="50" />
-                                    <ComboBoxItem  Content="Nebe'" Uid="78" Tag="40" />
-                                    <ComboBoxItem  Content="Nâzi'ât" Uid="79" Tag="46" />
-                                    <ComboBoxItem  Content="Abese" Uid="80" Tag="42" />
-                                    <ComboBoxItem  Content="Tekvîr" Uid="81" Tag="29" />
-                                    <ComboBoxItem  Content="İnfitâr" Uid="82" Tag="19" />
-                                    <ComboBoxItem  Content="Mutaffifîn" Uid="83" Tag="36" />
-                                    <ComboBoxItem  Content="İnşikâk" Uid="84" Tag="25" />
-                                    <ComboBoxItem  Content="Bürûc" Uid="85" Tag="22" />
-                                    <ComboBoxItem  Content="Târık" Uid="86" Tag="17" />
-                                    <ComboBoxItem  Content="A'lâ" Uid="87" Tag="19" />
-                                    <ComboBoxItem  Content="Gâşiye" Uid="88" Tag="26" />
-                                    <ComboBoxItem  Content="Fecr" Uid="89" Tag="30" />
-                                    <ComboBoxItem  Content="Beled" Uid="90" Tag="20" />
-                                    <ComboBoxItem  Content="Şems" Uid="91" Tag="15" />
-                                    <ComboBoxItem  Content="Leyl" Uid="92" Tag="21" />
-                                    <ComboBoxItem  Content="Duhâ" Uid="93" Tag="11" />
-                                    <ComboBoxItem  Content="İnşirâh" Uid="94" Tag="8" />
-                                    <ComboBoxItem  Content="Tîn" Uid="95" Tag="8" />
-                                    <ComboBoxItem  Content="Alak" Uid="96" Tag="19" />
-                                    <ComboBoxItem  Content="Kadr" Uid="97" Tag="5" />
-                                    <ComboBoxItem  Content="Beyyine" Uid="98" Tag="8" />
-                                    <ComboBoxItem  Content="Zilzâl" Uid="99" Tag="8" />
-                                    <ComboBoxItem  Content="Âdiyât" Uid="100" Tag="11" />
-                                    <ComboBoxItem  Content="Kâri'a" Uid="101" Tag="11" />
-                                    <ComboBoxItem  Content="Tekâsür" Uid="102" Tag="8" />
-                                    <ComboBoxItem  Content="Asr" Uid="103" Tag="3" />
-                                    <ComboBoxItem  Content="Hümeze" Uid="104" Tag="9" />
-                                    <ComboBoxItem  Content="Fil" Uid="105" Tag="5" />
-                                    <ComboBoxItem  Content="Kureyş" Uid="106" Tag="4" />
-                                    <ComboBoxItem  Content="Mâ'ûn" Uid="107" Tag="7" />
-                                    <ComboBoxItem  Content="Kevser" Uid="108" Tag="3" />
-                                    <ComboBoxItem  Content="Kâfirûn" Uid="109" Tag="6" />
-                                    <ComboBoxItem  Content="Nasr" Uid="110" Tag="3" />
-                                    <ComboBoxItem  Content="Tebbet" Uid="111" Tag="5" />
-                                    <ComboBoxItem  Content="İhlâs" Uid="112" Tag="4" />
-                                    <ComboBoxItem  Content="Felâk" Uid="113" Tag="5" />
-                                    <ComboBoxItem  Content="Nâs" Uid="114" Tag="6" />
-                                </ComboBox>
-                            </StackPanel>
-
-                            <StackPanel Orientation="Horizontal" Width="Auto" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                <TextBlock Style="{DynamicResource pp_TextBoxExtends}" Text="Göndermek istediğiniz sonucu sureyi secip göndere basınız" Margin="0 5 0 0" />
-                            </StackPanel>
-                        </StackPanel>
-                        <Grid Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-
-                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="0">
-                                <Button x:Name="connectResultControl" Style="{DynamicResource pp_DefaultButtonBstrp}" Tag="ArrowRight" Content="Gönder" HorizontalAlignment="Center" Click="connectResultControl_Click" />
-                                <Button  Style="{DynamicResource pp_DefaultButtonClosed}" Tag="CloseBig" Content="Vazgeç" Uid="popup_sendResult" HorizontalAlignment="Center" Click="popupClosed_Click" />
-                            </StackPanel>
-                        </Grid>
-                    </Grid>
-                </Grid>
-            </Border>
-        </Popup>
-
-        <Popup x:Name="popup_SubjectDelete" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="380" Height="220" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+        <Popup x:Name="popup_SubjectDelete"  StaysOpen="False" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="380" Height="220" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
 
             <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="360" Height="200">
                 <Grid>
@@ -432,7 +269,7 @@
             </Border>
         </Popup>
 
-        <Popup x:Name="popup_newName" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="380" Height="240" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+        <Popup x:Name="popup_newName"  StaysOpen="False" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="380" Height="240" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
             <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="360" Height="220">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -847,9 +684,7 @@
                 <StackPanel Style="{DynamicResource frameItemsOffsetNav}">
                     <Button IsEnabled="False" x:Name="backPage" Style="{DynamicResource frameItemsControlNav}" Tag="ArrowLeft" Content="Geri Dön" Click="backPage_Click" />
                 </StackPanel>
-                <StackPanel Style="{DynamicResource frameItemsOffsetNav}">
-                    <Button IsEnabled="False" x:Name="sendResult" Style="{DynamicResource frameItemsControlNav}" Tag="Exchange" Content="Sonuca Gönder" Click="sendResult_Click" />
-                </StackPanel>
+                
                 <StackPanel Style="{DynamicResource frameItemsOffsetNav}">
                     <Button IsEnabled="False" x:Name="newConnect" Style="{DynamicResource frameItemsControlNav}" Tag="Plus" Content="Yeni Ayet Ekle" Click="newConnect_Click" />
                 </StackPanel>

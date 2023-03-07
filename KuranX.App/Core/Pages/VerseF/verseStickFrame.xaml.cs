@@ -61,8 +61,12 @@ namespace KuranX.App.Core.Pages.VerseF
                 getSure = getS;
                 getVerse = gerR;
 
+
                 intelWriter = App.InterpreterWriter;
                 App.loadTask = Task.Run(() => loadVerseFunc(vId));
+
+                App.lastlocation = "verseStickFrame";
+
                 return this;
             }
             catch (Exception ex)
@@ -79,6 +83,8 @@ namespace KuranX.App.Core.Pages.VerseF
             // Verse Load Func
             try
             {
+
+
                 App.errWrite($"[{DateTime.Now} loadVerseFunc ] -> verseStickFrame");
 
 
@@ -112,11 +118,15 @@ namespace KuranX.App.Core.Pages.VerseF
                         else NavUpdatePrevSingle.IsEnabled = true;
 
                         stickHomeGrid.Visibility = Visibility.Visible;
+
+                        App.mainScreen.homescreengrid.IsEnabled = true;
                     });
 
                     dSure = null;
                     dVerse = null;
                 }
+
+
             }
             catch (Exception ex)
             {
@@ -172,6 +182,13 @@ namespace KuranX.App.Core.Pages.VerseF
                                 getR.Visibility = Visibility.Hidden;
                                 break;
 
+                            case "Meaning":
+
+                                getSText.Text = "Gelinene Yer";
+                                loadSure.Text = getSure;
+                                loadVerse.Text = getVerse.ToString();
+                                break;
+
                             case "Subject":
                                 getSText.Text = "Gelinene Yer";
                                 loadSure.Text = "Konular";
@@ -187,6 +204,11 @@ namespace KuranX.App.Core.Pages.VerseF
                             case "Search":
                                 getSText.Text = "Gelinene Yer";
                                 loadSure.Text = "Arama";
+                                getR.Visibility = Visibility.Hidden;
+                                break;
+                            case "FastRemider":
+                                getSText.Text = "Gelinene Yer";
+                                loadSure.Text = "Hatırlatıcı";
                                 getR.Visibility = Visibility.Hidden;
                                 break;
 
@@ -472,6 +494,8 @@ namespace KuranX.App.Core.Pages.VerseF
             try
             {
 
+                this.Dispatcher.Invoke(() => App.mainScreen.homescreengrid.IsEnabled = false);
+
                 App.errWrite($"[{DateTime.Now} activeVerseSelected_Click ] -> verseStickFrame");
 
 
@@ -508,6 +532,8 @@ namespace KuranX.App.Core.Pages.VerseF
             // Nav PrevSingle Click
             try
             {
+
+                this.Dispatcher.Invoke(() => App.mainScreen.homescreengrid.IsEnabled = false);
                 App.errWrite($"[{DateTime.Now} NavUpdatePrevSingle_Click ] -> verseStickFrame");
 
 
@@ -533,6 +559,7 @@ namespace KuranX.App.Core.Pages.VerseF
             // Nav NextSingle Click
             try
             {
+                this.Dispatcher.Invoke(() => App.mainScreen.homescreengrid.IsEnabled = false);
 
                 App.errWrite($"[{DateTime.Now} NavUpdateNextSingle_Click ] -> verseStickFrame");
 
@@ -560,6 +587,7 @@ namespace KuranX.App.Core.Pages.VerseF
             try
             {
 
+
                 App.errWrite($"[{DateTime.Now} backVersesFrame_Click ] -> verseStickFrame");
 
 
@@ -569,6 +597,10 @@ namespace KuranX.App.Core.Pages.VerseF
                         App.navRemiderItem.loadHeaderStack.Visibility = Visibility.Visible;
                         App.navRemiderItem.controlBar.Visibility = Visibility.Visible;
                         App.navRemiderItem.remiderDetail.Visibility = Visibility.Visible;
+                        break;
+
+                    case "FastRemider":
+                        App.secondFrame.Visibility = Visibility.Collapsed;
                         break;
 
                     case "Verse":

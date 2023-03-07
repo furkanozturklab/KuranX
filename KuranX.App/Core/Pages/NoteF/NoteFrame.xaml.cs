@@ -1,24 +1,17 @@
 ﻿using KuranX.App.Core.Classes;
-using KuranX.App.Core.Windows;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Windows.Threading;
+
 
 namespace KuranX.App.Core.Pages.NoteF
 {
@@ -41,6 +34,7 @@ namespace KuranX.App.Core.Pages.NoteF
         private int lastPage = 0, NowPage = 1, selectedId;
         private bool filter;
         private List<Notes> dNotes = new List<Notes>();
+        private Task noteframetask, noteprocess;
 
         public NoteFrame()
         {
@@ -72,16 +66,23 @@ namespace KuranX.App.Core.Pages.NoteF
             }
         }
 
-        public Page PageCall()
+        public Page PageCall(int nowpage = 1)
         {
             try
             {
 
                 App.errWrite($"[{DateTime.Now} PageCall] -> NoteFrame");
 
+                if (lastPage != 0)
+                {
+                    lastPage = nowpage * 24;
+                    lastPage -= 24;
+                }
+                else lastPage = 0;
 
-                lastPage = 0;
-                NowPage = 1;
+                Debug.WriteLine(lastPage);
+
+                NowPage = nowpage;
                 App.mainScreen.navigationWriter("notes", "");
                 filter = false;
                 searchText = "";
@@ -90,8 +91,9 @@ namespace KuranX.App.Core.Pages.NoteF
                 listBorder.Visibility = Visibility.Visible;
                 stackBorder.Visibility = Visibility.Collapsed;
 
-                App.loadTask = Task.Run(() => loadItem());
+                noteframetask = Task.Run(() => loadItem());
 
+                App.lastlocation = "NoteFrame";
 
                 return this;
             }
@@ -112,7 +114,7 @@ namespace KuranX.App.Core.Pages.NoteF
                 {
                     loadAni();
 
-                    decimal totalcount = entitydb.Notes.Where(p => p.noteLocation == "Konularım" || p.noteLocation == "Kütüphane" || p.noteLocation == "Ayet" || p.noteLocation == "Kullanıcı" || p.noteLocation == "Bölüm").Count();
+                    decimal totalcount = entitydb.Notes.Where(p => p.noteLocation == "Konularım" || p.noteLocation == "Ayet" || p.noteLocation == "Kullanıcı" || p.noteLocation == "Bölüm").Count();
 
                     App.mainScreen.navigationWriter("notes", "");
 
@@ -244,6 +246,9 @@ namespace KuranX.App.Core.Pages.NoteF
                             nextpageButton.IsEnabled = false;
                             previusPageButton.IsEnabled = false;
                         }
+
+
+                        App.mainScreen.homescreengrid.IsEnabled = true;
                     });
                     loadAniComplated();
                 }
@@ -286,7 +291,7 @@ namespace KuranX.App.Core.Pages.NoteF
                     SearchData.Text = "";
                 }
 
-                App.loadTask = Task.Run(() => loadItem());
+                noteframetask = Task.Run(() => loadItem());
 
             }
             catch (Exception ex)
@@ -306,7 +311,7 @@ namespace KuranX.App.Core.Pages.NoteF
                 {
                     searchText = SearchData.Text;
 
-                    App.loadTask = Task.Run(loadItem);
+                    noteframetask = Task.Run(loadItem);
                 }
                 else
                 {
@@ -316,7 +321,7 @@ namespace KuranX.App.Core.Pages.NoteF
                         searchErrMsgTxt.Visibility = Visibility.Hidden;
                         SearchBtn.Focus();
                         searchText = "";
-                        App.loadTask = Task.Run(loadItem);
+                        noteframetask = Task.Run(loadItem);
 
 
                     }
@@ -462,7 +467,7 @@ namespace KuranX.App.Core.Pages.NoteF
                                         noteName.Text = "";
                                         noteDetail.Text = "";
 
-                                        App.loadTask = Task.Run(() => loadItem());
+                                        noteframetask = Task.Run(() => loadItem());
 
                                         dNotes = null;
                                     }
@@ -492,7 +497,7 @@ namespace KuranX.App.Core.Pages.NoteF
                 NowPage++;
 
 
-                App.loadTask = Task.Run(loadItem);
+                noteframetask = Task.Run(loadItem);
             }
             catch (Exception ex)
             {
@@ -514,7 +519,7 @@ namespace KuranX.App.Core.Pages.NoteF
                     lastPage -= 24;
                     NowPage--;
 
-                    App.loadTask = Task.Run(loadItem);
+                    noteframetask = Task.Run(loadItem);
                 }
             }
             catch (Exception ex)
@@ -554,7 +559,7 @@ namespace KuranX.App.Core.Pages.NoteF
 
                 var btn = sender as Button;
                 listBorder.Visibility = Visibility.Hidden;
-                App.mainframe.Content = App.navNoteItem.PageCall(int.Parse(btn.Uid));
+                App.mainframe.Content = App.navNoteItem.PageCall(int.Parse(btn.Uid), "", NowPage);
 
             }
             catch (Exception ex)
@@ -602,7 +607,7 @@ namespace KuranX.App.Core.Pages.NoteF
                     entitydb.SaveChanges();
 
                     popup_deleteNote.IsOpen = false;
-                    App.loadTask = Task.Run(loadItem);
+                    noteprocess = Task.Run(loadItem);
 
                 }
             }
@@ -694,9 +699,8 @@ namespace KuranX.App.Core.Pages.NoteF
                     filterAll.IsEnabled = false;
                     filterUser.IsEnabled = false;
                     filterSubject.IsEnabled = false;
-
                     filterVerse.IsEnabled = false;
-
+                    filterSection.IsEnabled = false;
 
                 });
             }
@@ -722,6 +726,7 @@ namespace KuranX.App.Core.Pages.NoteF
                     filterSubject.IsEnabled = true;
 
                     filterVerse.IsEnabled = true;
+                    filterSection.IsEnabled = true;
 
                 });
             }

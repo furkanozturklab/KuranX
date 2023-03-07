@@ -45,18 +45,14 @@
             <TextBlock Text="Rahman Rahim Allah'ın ismiyle" Style="{DynamicResource textInfo}" />
             <TextBlock Text="Hamd alemlerin Rabbi Allah'a mahsusdur" Style="{DynamicResource textInfo}" />
             <TextBlock Text="Kur'an okuyacağın zaman kovulmuş şeytandan Allah'a sığın" Style="{DynamicResource textInfo}" />
-            <TextBlock Text="Sorumlu varlıklara ve kıyamete kadar tüm çağlara uyarıcı olması için kuluna" Style="{DynamicResource textInfo}" />
-            <TextBlock Text="hakkı batıldan ayıran kitabı indiren Allah yüceler yücesidir" Style="{DynamicResource textInfo}" />
-            <TextBlock Text="Bunlar gercekleri açıklayan apaçık kitabın ayetleridir" Style="{DynamicResource textInfo}" />
-            <TextBlock Text="Doğrusu biz size dinin hükülerini açıklayan ayetler , sizden önce" Style="{DynamicResource textInfo}" />
-            <TextBlock Text="gelip geçen toplumların hayatlarından ibretli örnekler ve" Style="{DynamicResource textInfo}" />
-            <TextBlock Text="Allah'a saygı duyup duyarlı olanlar için öğut indirdik" Style="{DynamicResource textInfo}" />
-            <TextBlock Text="" Style="{DynamicResource textInfo}" />
-            <TextBlock Text="Şüphesiz bu Kur'an da Allah'a kulluk etmek isteyen kimseler için" Style="{DynamicResource textInfo}" />
-            <TextBlock Text="yeterli bilgi ve ögüt vardır." Style="{DynamicResource textInfo}" />
-            <TextBlock Text="Şüphesiz ki Rabbin Allah güçlüdür , çok merhametlidir " Style="{DynamicResource textInfo}" />
-            <TextBlock Text="" Style="{DynamicResource textInfo}" />
+            <TextBlock Text="Rabbinizden size indirilene tabi olun ve O'unaltındaki" Style="{DynamicResource textInfo}" />
+            <TextBlock Text="evliyaya tabi olmayın.Ne kadar da az öğüt alıyorsunuz" Style="{DynamicResource textInfo}" />
+            <TextBlock Text="Doğrusu,biz size açıklayıcı ayetler ,sizden önce gelip geçenlerden" Style="{DynamicResource textInfo}" />
+            <TextBlock Text="misaller ve muttakiler için de öğüt indirdik" Style="{DynamicResource textInfo}" />
+
+            <!--
             <TextBlock Text="Fatiha 1 , Fatiha 2 , Nahl 98 , Furkan 1 , Şuara 2 , Nur 34 , Enbiya 106 , Şuara 9" Style="{DynamicResource textInfo}" FontSize="28"  Foreground="#F0433A" />
+        -->
         </StackPanel>
 
         <!--

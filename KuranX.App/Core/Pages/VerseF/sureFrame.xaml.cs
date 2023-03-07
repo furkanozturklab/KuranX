@@ -30,7 +30,7 @@ namespace KuranX.App.Core.Pages.VerseF
         private List<Sure> dSure = new List<Sure>();
         private string readType = "All";
         private Decimal totalcount = 0;
-
+        private Task sureframetask, sureprocess;
         public sureFrame()
         {
             try
@@ -53,10 +53,9 @@ namespace KuranX.App.Core.Pages.VerseF
             try
             {
                 App.errWrite($"[{DateTime.Now} Page_Loaded ] -> sureFrame");
-
-
                 loadContent.Visibility = Visibility.Visible;
                 //App.loadTask = Task.Run(() => loadItem());
+            
             }
             catch (Exception ex)
             {
@@ -75,7 +74,10 @@ namespace KuranX.App.Core.Pages.VerseF
 
                 App.errWrite($"[{DateTime.Now} PageCall ] -> sureFrame");
 
-                App.loadTask = Task.Run(() => loadItem());
+                sureframetask = Task.Run(() => loadItem());
+
+                App.lastlocation = "sureFrame";
+
                 return this;
             }
             catch (Exception ex)
@@ -332,6 +334,9 @@ namespace KuranX.App.Core.Pages.VerseF
                     });
                 }
                 loadingAniComplated();
+
+                Thread.Sleep(200);
+                this.Dispatcher.Invoke(() => App.mainScreen.homescreengrid.IsEnabled = true);
             }
             catch (Exception ex)
             {
@@ -358,7 +363,7 @@ namespace KuranX.App.Core.Pages.VerseF
 
                 if (deskItem != null)
                 {
-                    App.loadTask = Task.Run(() => loadItem());
+                    sureframetask = Task.Run(() => loadItem());
                 }
             }
             catch (Exception ex)
@@ -380,7 +385,7 @@ namespace KuranX.App.Core.Pages.VerseF
                 if (!comboBox.IsLoaded) return;
                 if (landItem != null)
                 {
-                    App.loadTask = Task.Run(() => loadItem());
+                    sureframetask = Task.Run(() => loadItem());
                 }
             }
             catch (Exception ex)
@@ -404,7 +409,9 @@ namespace KuranX.App.Core.Pages.VerseF
                 if (item.Uid != "0")
                 {
                     App.beforeFrameName = "Sure";
-                    App.mainframe.Content = App.navVersePage.PageCall(int.Parse(item.Uid), 1, "Hepsi");
+                    App.mainframe.Content = App.navVersePage.PageCall(int.Parse(item.Uid), 1, "Sure");
+
+
                     fastsureCombobox.SelectedIndex = 0;
                 }
             }
@@ -474,7 +481,7 @@ namespace KuranX.App.Core.Pages.VerseF
                 App.errWrite($"[{DateTime.Now} typeLoad_Click ] -> sureFrame");
                 var rd = sender as RadioButton;
                 readType = rd.Tag.ToString();
-                App.loadTask = Task.Run(() => loadItem());
+                sureframetask = Task.Run(() => loadItem());
             }
             catch (Exception ex)
             {
@@ -494,6 +501,9 @@ namespace KuranX.App.Core.Pages.VerseF
                 fastopenVerseError.Text = "Gitmek İstenilen Ayet Sırasını Giriniz";
                 fastopenVerseInfo.Text = $"{btn.Content} Süresinin {btn.Uid} Adet Ayeti Mevcut";
                 popup_fastopenVerse.IsOpen = true;
+
+
+
             }
             catch (Exception ex)
             {
@@ -508,6 +518,8 @@ namespace KuranX.App.Core.Pages.VerseF
                 App.errWrite($"[{DateTime.Now} sr_Section_Click ] -> sureFrame");
 
                 var btn = sender as Button;
+
+      
                 App.mainframe.Content = App.navSectionPage.PageCall(int.Parse((string)btn.Tag));
 
             }
@@ -530,6 +542,8 @@ namespace KuranX.App.Core.Pages.VerseF
                 var btn = sender as Button;
                 loadContent.Visibility = Visibility.Hidden;
                 App.beforeFrameName = "Sure";
+
+      
                 App.mainframe.Content = App.navVersePage.PageCall(int.Parse((string)btn.Tag), 1, "Sure");
             }
             catch (Exception ex)
@@ -548,7 +562,7 @@ namespace KuranX.App.Core.Pages.VerseF
                 lastPage += 15;
                 NowPage++;
 
-                App.loadTask = Task.Run(() => loadItem());
+                sureframetask = Task.Run(() => loadItem());
             }
             catch (Exception ex)
             {
@@ -570,7 +584,7 @@ namespace KuranX.App.Core.Pages.VerseF
                     lastPage -= 15;
                     NowPage--;
 
-                    App.loadTask = Task.Run(() => loadItem());
+                    sureframetask = Task.Run(() => loadItem());
                 }
             }
             catch (Exception ex)
@@ -589,6 +603,8 @@ namespace KuranX.App.Core.Pages.VerseF
 
                 loadContent.Visibility = Visibility.Hidden;
                 App.beforeFrameName = "Sure";
+
+           
                 App.mainframe.Content = App.navVersePage.PageCall(int.Parse(popupSureId.Text), int.Parse(popupRelativeId.Text), "Verse");
             }
             catch (Exception ex)
@@ -630,6 +646,8 @@ namespace KuranX.App.Core.Pages.VerseF
                     if (selectedS != null)
                     {
                         App.beforeFrameName = "Sure";
+
+               
                         App.mainframe.Content = App.navVersePage.PageCall((int)selectedS.sureId, (int)selectedS.userLastRelativeVerse, "Verse");
                     }
                     else
@@ -659,6 +677,8 @@ namespace KuranX.App.Core.Pages.VerseF
                     if (selectedS != null)
                     {
                         App.beforeFrameName = "Sure";
+
+                    
                         App.mainframe.Content = App.navSectionPage.PageCall(selectedS.SureId, selectedS.SectionNumber);
                     }
                     else

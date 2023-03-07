@@ -29,7 +29,7 @@ namespace KuranX.App.Core.Pages.SubjectF
     {
         public int sSureId, sverseId, verseId, subId, subItemsId;
         private string intelWriter = "";
-
+        private Task subjectitem, subjectprocess;
         public SubjectItem()
         {
             try
@@ -44,7 +44,7 @@ namespace KuranX.App.Core.Pages.SubjectF
             }
         }
 
-        public object subjectItemsPageCall(int SubID, int SureId, int VerseId)
+        public object PageCall(int SubID, int SureId, int VerseId)
         {
             try
             {
@@ -53,7 +53,12 @@ namespace KuranX.App.Core.Pages.SubjectF
                 subId = SubID;
                 sSureId = SureId;
                 verseId = VerseId;
-                App.loadTask = Task.Run(() => loadItem(SubID, SureId, VerseId));
+
+                subjectitem = Task.Run(() => loadItem(SubID, SureId, VerseId));
+
+                this.Dispatcher.Invoke(() => App.mainScreen.homescreengrid.IsEnabled = true);
+
+                App.lastlocation = "SubjectItem";
                 return this;
             }
             catch (Exception ex)
@@ -107,7 +112,7 @@ namespace KuranX.App.Core.Pages.SubjectF
 
                         loadVerseTr.Text = dVerse.verseTr;
                         loadVerseArb.Text = dVerse.verseArabic;
-                        sverseId = (int)dVerse.verseId;
+                        sverseId = (int)dVerse.relativeDesk;
                         loadInterpreterFunc(App.InterpreterWriter, sverseId);
                     });
                     Thread.Sleep(int.Parse(App.config.AppSettings.Settings["app_animationSpeed"].Value));
@@ -134,7 +139,7 @@ namespace KuranX.App.Core.Pages.SubjectF
                 {
                     switch (writer)
                     {
-                        case "Yorumcu 1":
+                        case "Ömer Çelik":
                             this.Dispatcher.Invoke(() => interpreterWriterCombo.SelectedIndex = 0);
                             break;
 
@@ -159,7 +164,8 @@ namespace KuranX.App.Core.Pages.SubjectF
                     this.Dispatcher.Invoke(() => loadDetail.Text = "");
                     this.Dispatcher.Invoke(() => tempLoadDetail.Text = "");
 
-                    if (writer == "") writer = "Yorumcu 1";
+
+                    if (writer == "") writer = "Ömer Çelik";
                     var dInter = entitydb.Interpreter.Where(p => p.sureId == sSureId && p.verseId == verseId && p.interpreterWriter == writer).FirstOrDefault();
 
                     if (dInter != null)
@@ -185,6 +191,8 @@ namespace KuranX.App.Core.Pages.SubjectF
                 App.errWrite($"[{DateTime.Now} loadItemsInterpreter ] -> SubjectItem");
 
 
+
+
                 this.Dispatcher.Invoke(() =>
                 {
                     loadDetail.Text = dInter.interpreterDetail;
@@ -197,7 +205,7 @@ namespace KuranX.App.Core.Pages.SubjectF
             }
         }
 
-        private void noteConnect()
+        public void noteConnect()
         {
             try
             {
@@ -256,6 +264,7 @@ namespace KuranX.App.Core.Pages.SubjectF
             try
             {
                 App.errWrite($"[{DateTime.Now} openVerseButton_Click ] -> SubjectItem");
+
 
 
                 App.secondFrame.Content = App.navVerseStickPage.PageCall(sSureId, verseId, loadHeader.Text, 0, "Subject");
@@ -396,7 +405,7 @@ namespace KuranX.App.Core.Pages.SubjectF
 
 
                 popup_Note.IsOpen = true;
-                App.loadTask = Task.Run(() => noteConnect());
+                subjectitem = Task.Run(() => noteConnect());
             }
             catch (Exception ex)
             {
@@ -430,7 +439,11 @@ namespace KuranX.App.Core.Pages.SubjectF
 
 
                 var tmpbutton = sender as Button;
-                App.mainframe.Content = App.navNoteItem.PageCall(int.Parse(tmpbutton.Uid));
+
+
+                App.secondFrame.Visibility = Visibility.Visible;
+                popup_Note.IsOpen = false;
+                App.secondFrame.Content = App.navNoteItem.PageCall(int.Parse(tmpbutton.Uid), "subjectDetail");
                 tmpbutton = null;
             }
             catch (Exception ex)
@@ -491,7 +504,7 @@ namespace KuranX.App.Core.Pages.SubjectF
                                         entitydb.Notes.Add(dNotes);
                                         entitydb.SaveChanges();
                                         App.mainScreen.succsessFunc("İşlem Başarılı", loadBackHeader.Text + " Not Eklendiniz.", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
-                                        App.loadTask = Task.Run(noteConnect);
+                                        subjectprocess = Task.Run(noteConnect);
 
                                         dNotes = null;
                                     }
@@ -520,9 +533,12 @@ namespace KuranX.App.Core.Pages.SubjectF
 
 
                 popup_notesAllShowPopup.IsOpen = true;
+
+                Debug.WriteLine("tel : " + subId);
+
                 using (var entitydb = new AyetContext())
                 {
-                    var dNotes = entitydb.Notes.Where(p => p.sureId == sSureId && p.verseId == verseId).ToList();
+                    var dNotes = entitydb.Notes.Where(p => p.sureId == sSureId && p.verseId == verseId && p.subjectId == subId).ToList();
                     foreach (var item in dNotes)
                     {
                         var itemsStack = new StackPanel();
@@ -574,6 +590,9 @@ namespace KuranX.App.Core.Pages.SubjectF
 
 
                 var tmpbutton = sender as Button;
+
+
+
                 App.mainframe.Content = App.navNoteItem.PageCall(int.Parse(tmpbutton.Uid));
                 tmpbutton = null;
             }

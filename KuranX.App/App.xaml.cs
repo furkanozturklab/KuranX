@@ -3,7 +3,6 @@ using KuranX.App.Core.Classes;
 using KuranX.App.Core.Pages;
 using KuranX.App.Core.Pages.NoteF;
 using KuranX.App.Core.Pages.ReminderF;
-using KuranX.App.Core.Pages.ResultF;
 using KuranX.App.Core.Pages.SectionF;
 using KuranX.App.Core.Pages.SubjectF;
 using KuranX.App.Core.Pages.VerseF;
@@ -34,8 +33,8 @@ namespace KuranX.App
     /// </summary>
     public partial class App : Application
     {
-        public static string lastversion;
-        public static string errPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\KuranSunnetullah\err.txt";
+        public static string lastversion, lastlocation;
+        public static string errPath = AppDomain.CurrentDomain.BaseDirectory + "usingTree.txt";
 
 
 
@@ -78,11 +77,11 @@ namespace KuranX.App
         public static NotePrinter notePrinter = new NotePrinter();
 
         // RESULT PANEL
-
+        /*
         public static ResultFrame navResultPage = new ResultFrame();
         public static Core.Pages.ResultF.ResultItem navResultItem = new Core.Pages.ResultF.ResultItem();
         public static ResultPrinter navResultPrinter = new ResultPrinter();
-
+        */
         // REMİDER PANEL
 
         public static RemiderFrame navRemiderPage = new RemiderFrame();
@@ -232,31 +231,43 @@ namespace KuranX.App
 
         public static void logWriter(string type, Exception exe)
         {
-            File.AppendAllText("log.txt", Environment.NewLine);
-            string ExString = "[" + type + ":" + DateTime.Now + "  " + Environment.OSVersion.ToString() + " ]";
-            File.AppendAllText("log.txt", ExString);
-            File.AppendAllText("log.txt", Environment.NewLine);
-            File.AppendAllText("log.txt", "[Error StackTrace]");
-            File.AppendAllText("log.txt", Environment.NewLine);
-            File.AppendAllText("log.txt", exe.StackTrace);
-            File.AppendAllText("log.txt", Environment.NewLine);
-            File.AppendAllText("log.txt", "[Error Message]");
-            File.AppendAllText("log.txt", exe.Message);
+            try
+            {
+                File.AppendAllText("log.txt", Environment.NewLine);
+                string ExString = "[" + type + ":" + DateTime.Now + "  " + Environment.OSVersion.ToString() + " ]";
+                File.AppendAllText("log.txt", ExString);
+                File.AppendAllText("log.txt", Environment.NewLine);
+                File.AppendAllText("log.txt", "[Error StackTrace]");
+                File.AppendAllText("log.txt", Environment.NewLine);
+                File.AppendAllText("log.txt", exe.StackTrace);
+                File.AppendAllText("log.txt", Environment.NewLine);
+                File.AppendAllText("log.txt", "[Error Message]");
+                File.AppendAllText("log.txt", exe.Message);
 
-            mainframe.Content = navHomeFrame.PageCall();
-            mainScreen.alertFunc("Hata Oluştu", "Program bir hata ile karşılaştı ve log dosyası oluşturuldu bu hatayı alma devam ederseniz log dosyanızı bize gönderiniz.", 5);
+                App.mainframe.Content = navHomeFrame.PageCall();
+                mainScreen.alertFunc("Hata Oluştu", "Program bir hata ile karşılaştı ve log dosyası oluşturuldu bu hatayı alma devam ederseniz log dosyanızı bize gönderiniz.", 5);
+            }
+            catch (Exception ex)
+            {
+
+
+            }
+
         }
 
 
         public static void errWrite(string msg)
         {
+            try
+            {
+                /*  File.AppendAllText(errPath, msg);
+                    File.AppendAllText(errPath, Environment.NewLine);*/
+            }
+            catch (Exception ex)
+            {
 
 
-
-            File.AppendAllText(errPath, msg);
-            File.AppendAllText(errPath, Environment.NewLine);
-
-
+            }
         }
 
         public static bool sendMail(string subject, string body)
@@ -285,6 +296,53 @@ namespace KuranX.App
             {
                 logWriter("Mail", ex);
                 mainScreen.alertFunc("İşlem Başarısız", "Mail gönderilemedi lütfen daha sonra tekrar deneyiniz.", int.Parse(config.AppSettings.Settings["app_warningShowTime"].Value));
+                return false;
+            }
+        }
+
+
+        public static bool sendMailErr(string subject, string body)
+        {
+            try
+            {
+                SmtpClient client = new SmtpClient();
+                client.Port = 587;
+                client.Host = "smtp.outlook.com";
+                client.EnableSsl = true;
+                client.Credentials = new NetworkCredential("kuransunnetullah@outlook.com", "muhammed1AB");
+
+
+
+                MailMessage mail = new MailMessage();
+                Attachment attachment, attachment2;
+                attachment = new Attachment(AppDomain.CurrentDomain.BaseDirectory + "usingTree.txt");
+                if (File.Exists(AppDomain.CurrentDomain.BaseDirectory + "log.txt"))
+                {
+
+                    attachment2 = new Attachment(AppDomain.CurrentDomain.BaseDirectory + "log.txt");
+                    mail.Attachments.Add(attachment2);
+                }
+
+
+
+                mail.From = new MailAddress("kuransunnetullah@outlook.com", "Kuransunetullah Application Support");
+                mail.To.Add("nakruf5884@gmail.com");
+                mail.Subject = subject;
+                mail.IsBodyHtml = true;
+                mail.Body = body;
+                mail.Attachments.Add(attachment);
+
+
+
+                client.Send(mail);
+
+                mainScreen.succsessFunc("İşlem Başarılı", "Karşılaştığınız hata bir sekilde tarfımıza ulaştı. Hata gerekli kontrollerden sonra düzeltilecektir.", int.Parse(config.AppSettings.Settings["app_warningShowTime"].Value));
+                return true;
+            }
+            catch (Exception ex)
+            {
+                logWriter("Mail", ex);
+                mainScreen.alertFunc("İşlem Başarısız", "Hata gönderilemedi lütfen daha sonra tekrar deneyiniz.", int.Parse(config.AppSettings.Settings["app_warningShowTime"].Value));
                 return false;
             }
         }

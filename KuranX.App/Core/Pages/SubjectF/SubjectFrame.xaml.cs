@@ -28,15 +28,13 @@ namespace KuranX.App.Core.Pages.SubjectF
         private int lastPage = 0, NowPage = 1;
         private List<Subject> dSub = new List<Subject>();
         private Decimal totalcount = 0;
-
+        private Task subjectframe, subjectprocess;
         public SubjectFrame()
         {
             try
             {
 
                 App.errWrite($"[{DateTime.Now} InitializeComponent ] -> SubjectFrame");
-
-
                 InitializeComponent();
             }
             catch (Exception ex)
@@ -55,15 +53,21 @@ namespace KuranX.App.Core.Pages.SubjectF
                 lastPage = 0;
                 NowPage = 1;
 
+
                 App.mainScreen.navigationWriter("subject", "");
-                App.loadTask = Task.Run(() => loadItem());
+                subjectframe = Task.Run(() => loadItem());
+                App.lastlocation = "SubjectFrame";
+                return this;
+
+
             }
             catch (Exception ex)
             {
                 App.logWriter("Loading", ex);
+                return this;
             }
+       
 
-            return this;
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
@@ -168,6 +172,9 @@ namespace KuranX.App.Core.Pages.SubjectF
 
                     loadAniComplated();
                 }
+
+
+                this.Dispatcher.Invoke(() => App.mainScreen.homescreengrid.IsEnabled = true);
             }
             catch (Exception ex)
             {
@@ -187,6 +194,7 @@ namespace KuranX.App.Core.Pages.SubjectF
 
 
                 var btn = sender as Button;
+
                 App.mainframe.Content = App.navSubjectFolder.PageCall(int.Parse(btn.Uid));
             }
             catch (Exception ex)
@@ -207,7 +215,7 @@ namespace KuranX.App.Core.Pages.SubjectF
                 {
                     searchText = SearchData.Text;
 
-                    App.loadTask = Task.Run(() => loadItem());
+                    subjectframe = Task.Run(() => loadItem());
                 }
                 else
                 {
@@ -217,7 +225,7 @@ namespace KuranX.App.Core.Pages.SubjectF
                         searchErrMsgTxt.Visibility = Visibility.Hidden;
                         SearchBtn.Focus();
                         searchText = "";
-                        App.loadTask = Task.Run(() => loadItem());
+                        subjectframe = Task.Run(() => loadItem());
                     }
                     else
                     {
@@ -281,7 +289,7 @@ namespace KuranX.App.Core.Pages.SubjectF
                                 popup_FolderSubjectPopup.IsOpen = false;
                                 dSubjectFolder = null;
 
-                                App.loadTask = Task.Run(() => loadItem());
+                                subjectframe = Task.Run(() => loadItem());
                             }
                             else
                             {
@@ -352,7 +360,7 @@ namespace KuranX.App.Core.Pages.SubjectF
                 nextpageButton.IsEnabled = false;
                 lastPage += 18;
                 NowPage++;
-                App.loadTask = Task.Run(() => loadItem());
+                subjectframe = Task.Run(() => loadItem());
             }
             catch (Exception ex)
             {
@@ -372,7 +380,7 @@ namespace KuranX.App.Core.Pages.SubjectF
                     previusPageButton.IsEnabled = false;
                     lastPage -= 18;
                     NowPage--;
-                    App.loadTask = Task.Run(() => loadItem());
+                    subjectframe = Task.Run(() => loadItem());
                 }
             }
             catch (Exception ex)
