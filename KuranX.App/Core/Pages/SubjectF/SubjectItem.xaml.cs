@@ -534,7 +534,7 @@ namespace KuranX.App.Core.Pages.SubjectF
 
                 popup_notesAllShowPopup.IsOpen = true;
 
-                Debug.WriteLine("tel : " + subId);
+             
 
                 using (var entitydb = new AyetContext())
                 {

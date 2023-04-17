@@ -76,6 +76,8 @@ namespace KuranX.App.Core.Pages.VerseF
 
                 sureframetask = Task.Run(() => loadItem());
 
+                Debug.WriteLine("working");
+        
                 App.lastlocation = "sureFrame";
 
                 return this;
@@ -159,20 +161,20 @@ namespace KuranX.App.Core.Pages.VerseF
                                     if (landItem.Uid == "0")
                                     {
                                         // Hepsi
-                                        dSure = entitydb.Sure.OrderBy(p => p.deskLanding).Where(p => p.complated == true).Skip(lastPage).Take(15).ToList();
-                                        totalcount = entitydb.Sure.Where(p => p.complated == true).Count();
+                                        dSure = entitydb.Sure.OrderBy(p => p.deskLanding).Where(p => p.completed == true).Skip(lastPage).Take(15).ToList();
+                                        totalcount = entitydb.Sure.Where(p => p.completed == true).Count();
                                     }
                                     else if (landItem.Uid == "1")
                                     {
                                         // Mekke
-                                        dSure = entitydb.Sure.OrderBy(p => p.deskLanding).Where(p => p.landingLocation == "Mekke" && p.complated == true).Skip(lastPage).Take(15).ToList();
-                                        totalcount = entitydb.Sure.Where(p => p.landingLocation == "Mekke" && p.complated == true).Count();
+                                        dSure = entitydb.Sure.OrderBy(p => p.deskLanding).Where(p => p.landingLocation == "Mekke" && p.completed == true).Skip(lastPage).Take(15).ToList();
+                                        totalcount = entitydb.Sure.Where(p => p.landingLocation == "Mekke" && p.completed == true).Count();
                                     }
                                     else
                                     {
                                         // Medine
-                                        dSure = entitydb.Sure.OrderBy(p => p.deskLanding).Where(p => p.landingLocation == "Medine" && p.complated == true).Skip(lastPage).Take(15).ToList();
-                                        totalcount = entitydb.Sure.Where(p => p.landingLocation == "Medine" && p.complated == true).Count();
+                                        dSure = entitydb.Sure.OrderBy(p => p.deskLanding).Where(p => p.landingLocation == "Medine" && p.completed == true).Skip(lastPage).Take(15).ToList();
+                                        totalcount = entitydb.Sure.Where(p => p.landingLocation == "Medine" && p.completed == true).Count();
                                     }
                                 }
                                 else
@@ -180,20 +182,20 @@ namespace KuranX.App.Core.Pages.VerseF
                                     if (landItem.Uid == "0")
                                     {
                                         // Hepsi
-                                        dSure = entitydb.Sure.OrderBy(p => p.deskMushaf).Where(p => p.complated == true).Skip(lastPage).Take(15).ToList();
-                                        totalcount = entitydb.Sure.Where(p => p.complated == true).Count();
+                                        dSure = entitydb.Sure.OrderBy(p => p.deskMushaf).Where(p => p.completed == true).Skip(lastPage).Take(15).ToList();
+                                        totalcount = entitydb.Sure.Where(p => p.completed == true).Count();
                                     }
                                     else if (landItem.Uid == "1")
                                     {
                                         // Mekke
-                                        dSure = entitydb.Sure.OrderBy(p => p.deskMushaf).Where(p => p.landingLocation == "Mekke" && p.complated == true).Skip(lastPage).Take(15).ToList();
-                                        totalcount = entitydb.Sure.Where(p => p.landingLocation == "Mekke" && p.complated == true).Count();
+                                        dSure = entitydb.Sure.OrderBy(p => p.deskMushaf).Where(p => p.landingLocation == "Mekke" && p.completed == true).Skip(lastPage).Take(15).ToList();
+                                        totalcount = entitydb.Sure.Where(p => p.landingLocation == "Mekke" && p.completed == true).Count();
                                     }
                                     else
                                     {
                                         // Medine
-                                        dSure = entitydb.Sure.OrderBy(p => p.deskMushaf).Where(p => p.landingLocation == "Medine" && p.complated == true).Skip(lastPage).Take(15).ToList();
-                                        totalcount = entitydb.Sure.Where(p => p.landingLocation == "Medine" && p.complated == true).Count();
+                                        dSure = entitydb.Sure.OrderBy(p => p.deskMushaf).Where(p => p.landingLocation == "Medine" && p.completed == true).Skip(lastPage).Take(15).ToList();
+                                        totalcount = entitydb.Sure.Where(p => p.landingLocation == "Medine" && p.completed == true).Count();
                                     }
                                 }
                             }
@@ -207,20 +209,20 @@ namespace KuranX.App.Core.Pages.VerseF
                                     if (landItem.Uid == "0")
                                     {
                                         // Hepsi
-                                        dSure = entitydb.Sure.OrderBy(p => p.deskLanding).Where(p => p.complated == false).Skip(lastPage).Take(15).ToList();
-                                        totalcount = entitydb.Sure.Where(p => p.complated == false).Count();
+                                        dSure = entitydb.Sure.OrderBy(p => p.deskLanding).Where(p => p.completed == false).Skip(lastPage).Take(15).ToList();
+                                        totalcount = entitydb.Sure.Where(p => p.completed == false).Count();
                                     }
                                     else if (landItem.Uid == "1")
                                     {
                                         // Mekke
-                                        dSure = entitydb.Sure.OrderBy(p => p.deskLanding).Where(p => p.landingLocation == "Mekke" && p.complated == false).Skip(lastPage).Take(15).ToList();
-                                        totalcount = entitydb.Sure.Where(p => p.landingLocation == "Mekke" && p.complated == false).Count();
+                                        dSure = entitydb.Sure.OrderBy(p => p.deskLanding).Where(p => p.landingLocation == "Mekke" && p.completed == false).Skip(lastPage).Take(15).ToList();
+                                        totalcount = entitydb.Sure.Where(p => p.landingLocation == "Mekke" && p.completed == false).Count();
                                     }
                                     else
                                     {
                                         // Medine
-                                        dSure = entitydb.Sure.OrderBy(p => p.deskLanding).Where(p => p.landingLocation == "Medine" && p.complated == false).Skip(lastPage).Take(15).ToList();
-                                        totalcount = entitydb.Sure.Where(p => p.landingLocation == "Medine" && p.complated == false).Count();
+                                        dSure = entitydb.Sure.OrderBy(p => p.deskLanding).Where(p => p.landingLocation == "Medine" && p.completed == false).Skip(lastPage).Take(15).ToList();
+                                        totalcount = entitydb.Sure.Where(p => p.landingLocation == "Medine" && p.completed == false).Count();
                                     }
                                 }
                                 else
@@ -228,20 +230,20 @@ namespace KuranX.App.Core.Pages.VerseF
                                     if (landItem.Uid == "0")
                                     {
                                         // Hepsi
-                                        dSure = entitydb.Sure.OrderBy(p => p.deskMushaf).Where(p => p.complated == false).Skip(lastPage).Take(15).ToList();
-                                        totalcount = entitydb.Sure.Where(p => p.complated == false).Count();
+                                        dSure = entitydb.Sure.OrderBy(p => p.deskMushaf).Where(p => p.completed == false).Skip(lastPage).Take(15).ToList();
+                                        totalcount = entitydb.Sure.Where(p => p.completed == false).Count();
                                     }
                                     else if (landItem.Uid == "1")
                                     {
                                         // Mekke
-                                        dSure = entitydb.Sure.OrderBy(p => p.deskMushaf).Where(p => p.landingLocation == "Mekke" && p.complated == false).Skip(lastPage).Take(15).ToList();
-                                        totalcount = entitydb.Sure.Where(p => p.landingLocation == "Mekke" && p.complated == false).Count();
+                                        dSure = entitydb.Sure.OrderBy(p => p.deskMushaf).Where(p => p.landingLocation == "Mekke" && p.completed == false).Skip(lastPage).Take(15).ToList();
+                                        totalcount = entitydb.Sure.Where(p => p.landingLocation == "Mekke" && p.completed == false).Count();
                                     }
                                     else
                                     {
                                         // Medine
-                                        dSure = entitydb.Sure.OrderBy(p => p.deskMushaf).Where(p => p.landingLocation == "Medine" && p.complated == false).Skip(lastPage).Take(15).ToList();
-                                        totalcount = entitydb.Sure.Where(p => p.landingLocation == "Medine" && p.complated == false).Count();
+                                        dSure = entitydb.Sure.OrderBy(p => p.deskMushaf).Where(p => p.landingLocation == "Medine" && p.completed == false).Skip(lastPage).Take(15).ToList();
+                                        totalcount = entitydb.Sure.Where(p => p.landingLocation == "Medine" && p.completed == false).Count();
                                     }
                                 }
                             }

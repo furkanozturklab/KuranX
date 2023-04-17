@@ -80,7 +80,6 @@ namespace KuranX.App.Core.Pages.NoteF
                 }
                 else lastPage = 0;
 
-                Debug.WriteLine(lastPage);
 
                 NowPage = nowpage;
                 App.mainScreen.navigationWriter("notes", "");
@@ -595,14 +594,6 @@ namespace KuranX.App.Core.Pages.NoteF
                 {
                     entitydb.Notes.RemoveRange(entitydb.Notes.Where(p => p.notesId == selectedId));
 
-                    entitydb.ResultItems.RemoveRange(entitydb.ResultItems.Where(p => p.resultNoteId == selectedId));
-
-                    entitydb.SaveChanges();
-
-                    foreach (var item in entitydb.Results)
-                    {
-                        if (entitydb.ResultItems.Where(p => p.resultId == item.resultId).Count() == 0) item.resultNotes = false;
-                    }
 
                     entitydb.SaveChanges();
 

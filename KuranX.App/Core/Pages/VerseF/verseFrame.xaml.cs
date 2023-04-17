@@ -257,6 +257,7 @@ namespace KuranX.App.Core.Pages.VerseF
                             var vNav = (CheckBox)this.FindName("vb" + x);
                             vNav.Visibility = Visibility.Collapsed;
                             vNav.IsEnabled = true;
+                            vNav.IsThreeState = true;
                         });
                     }
 
@@ -315,7 +316,11 @@ namespace KuranX.App.Core.Pages.VerseF
                         this.Dispatcher.Invoke(() =>
                         {
                             var vNav = (CheckBox)FindName("vb" + x);
-                            if (int.Parse((string)vNav.GetValue(Extensions.DataStorage)) == sRelativeVerseId) vNav.IsEnabled = false;
+                            if (int.Parse((string)vNav.GetValue(Extensions.DataStorage)) == sRelativeVerseId)
+                            {
+                                vNav.IsEnabled = false;
+                                vNav.IsThreeState = false;
+                            }
                         });
                     }
 
@@ -686,6 +691,7 @@ namespace KuranX.App.Core.Pages.VerseF
                     {
                         var vNav = (CheckBox)FindName("vb" + x);
                         vNav.IsEnabled = true;
+                        vNav.IsThreeState = true;
                     });
                 }
 
@@ -944,7 +950,7 @@ namespace KuranX.App.Core.Pages.VerseF
 
                         if (sureUpdate.userCheckCount == sureUpdate.numberOfVerses)
                         {
-                            sureUpdate.complated = true;
+                            sureUpdate.completed = true;
                             if (entitydb.Sure.Where(p => p.userLastRelativeVerse != 0).Count() >= 1) sureUpdate.status = "#0D6EFD";
                             else sureUpdate.status = "#66E21F";
                         }
@@ -952,7 +958,7 @@ namespace KuranX.App.Core.Pages.VerseF
                     else
                     {
                         verseUpdate.verseCheck = false;
-                        sureUpdate.complated = false;
+                        sureUpdate.completed = false;
 
                         if (verseUpdate.markCheck == true) sureUpdate.status = "#0D6EFD";
                         else sureUpdate.status = "#ADB5BD";
@@ -1061,7 +1067,7 @@ namespace KuranX.App.Core.Pages.VerseF
                     }
                     foreach (var item in dSure)
                     {
-                        if (item.complated != true) item.status = "#ADB5BD";
+                        if (item.completed != true) item.status = "#ADB5BD";
                         else item.status = "#66E21F";
                         item.userLastRelativeVerse = 0;
                     }
@@ -1075,7 +1081,7 @@ namespace KuranX.App.Core.Pages.VerseF
                     else
                     {
                         entitydb.Verse.Where(p => p.verseId == int.Parse(bchk.Uid)).First().markCheck = false;
-                        if (entitydb.Sure.Where(p => p.sureId == sSureId).First().complated == true) entitydb.Sure.Where(p => p.sureId == sSureId).First().status = "#66E21F";
+                        if (entitydb.Sure.Where(p => p.sureId == sSureId).First().completed == true) entitydb.Sure.Where(p => p.sureId == sSureId).First().status = "#66E21F";
                         else entitydb.Sure.Where(p => p.sureId == sSureId).First().status = "#ADB5BD";
                     }
 
@@ -1513,11 +1519,7 @@ namespace KuranX.App.Core.Pages.VerseF
                 App.secondFrame.Visibility = Visibility.Visible;
                 popup_Note.IsOpen = false;
 
-                Debug.WriteLine("ID: " + int.Parse(tmpbutton.Uid));
-
-
-
-
+              
                 App.secondFrame.Content = new KuranX.App.Core.Pages.NoteF.NoteItem().PageCall(int.Parse(tmpbutton.Uid), "VerseNoteOpen");
 
 
@@ -2272,7 +2274,7 @@ namespace KuranX.App.Core.Pages.VerseF
 
                     var sureUpdate = entitydb.Sure.Where(p => p.sureId == sSureId).FirstOrDefault();
 
-                    sureUpdate.complated = false;
+                    sureUpdate.completed = false;
                     sureUpdate.userCheckCount = 0;
 
                     if (entitydb.Sure.Where(p => p.sureId == sSureId && p.userLastRelativeVerse != 0).Count() >= 1)
@@ -2281,7 +2283,7 @@ namespace KuranX.App.Core.Pages.VerseF
                     }
                     else
                     {
-                        if (entitydb.Sure.Where(p => p.sureId == sSureId).First().complated == true) sureUpdate.status = "#66E21F";
+                        if (entitydb.Sure.Where(p => p.sureId == sSureId).First().completed == true) sureUpdate.status = "#66E21F";
                         sureUpdate.status = "#ADB5BD";
                     }
 

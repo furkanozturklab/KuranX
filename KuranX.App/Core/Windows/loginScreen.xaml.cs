@@ -171,23 +171,16 @@ namespace KuranX.App.Core.Windows
 
                 foreach (var item in db.Tasks) db.Tasks.Remove(item);
 
-                foreach (var item in db.ResultItems) db.ResultItems.Remove(item);
+                
 
                 foreach (var item in db.Integrity.Where(p => p.integrityProtected == false)) db.Integrity.Remove(item);
 
-                foreach (var item in db.Results)
-                {
-                    db.Results.Where(p => p.resultId == item.resultId).First().resultNotes = false;
-                    db.Results.Where(p => p.resultId == item.resultId).First().resultSubject = false;
-                    
-                    db.Results.Where(p => p.resultId == item.resultId).First().resultFinallyNote = "Sonuç Metninizi buraya yaza bilirsiniz.";
-                }
-
+      
                 foreach (var item in db.Sure)
                 {
                     db.Sure.Where(p => p.sureId == item.sureId).First().userCheckCount = 0;
                     db.Sure.Where(p => p.sureId == item.sureId).First().userLastRelativeVerse = 0;
-                    db.Sure.Where(p => p.sureId == item.sureId).First().complated = false;
+                    db.Sure.Where(p => p.sureId == item.sureId).First().completed = false;
                     db.Sure.Where(p => p.sureId == item.sureId).First().status = "#ADB5BD";
                 }
 

@@ -1,4 +1,5 @@
-﻿using KuranX.App.Core.Classes;
+﻿using Google.Protobuf.Collections;
+using KuranX.App.Core.Classes;
 using Org.BouncyCastle.Asn1;
 using System;
 using System.Collections.Generic;
@@ -60,6 +61,7 @@ namespace KuranX.App.Core.Pages.SectionF
                 sectionframe = Task.Run(() => loadSectionFunc(selectedSection));
                 App.lastlocation = "SectionFrame";
 
+                Debug.WriteLine("return headerBorder : " + headerBorder.Visibility);
                 return this;
             }
             catch (Exception ex)
@@ -82,8 +84,6 @@ namespace KuranX.App.Core.Pages.SectionF
                     var sSection = entitydb.Sections.Where(p => p.SureId == selectedSure && p.SectionNumber == sSelectedSection).FirstOrDefault();
                     totalSection = entitydb.Sections.Where(p => p.SureId == sSure.sureId).Count();
                     selectedSection = sSelectedSection;
-
-
 
                     if (sSection != null)
                     {
@@ -133,13 +133,19 @@ namespace KuranX.App.Core.Pages.SectionF
 
                         this.Dispatcher.Invoke(() =>
                         {
-
+                            Debug.WriteLine("debug");
                             headerBorder.Visibility = Visibility.Visible;
                             navControlStack.Visibility = Visibility.Visible;
                             mainContent.Visibility = Visibility.Visible;
                             controlPanel.Visibility = Visibility.Visible;
 
                         });
+                    }
+                    else
+                    {
+
+
+                        Debug.WriteLine("null geliyor veriler");                        
                     }
 
                 }
@@ -349,6 +355,7 @@ namespace KuranX.App.Core.Pages.SectionF
                             var vNav = (CheckBox)this.FindName("vb" + x);
                             vNav.Visibility = Visibility.Collapsed;
                             vNav.IsEnabled = true;
+                            vNav.IsThreeState = true;
                         });
                     }
 
@@ -398,7 +405,11 @@ namespace KuranX.App.Core.Pages.SectionF
                         this.Dispatcher.Invoke(() =>
                         {
                             var vNav = (CheckBox)FindName("vb" + x);
-                            if (int.Parse((string)vNav.GetValue(Extensions.DataStorage)) == selectedSection) vNav.IsEnabled = false;
+                            if (int.Parse((string)vNav.GetValue(Extensions.DataStorage)) == selectedSection)
+                            {
+                                vNav.IsEnabled = false;
+                                vNav.IsThreeState = false;
+                            }
                         });
                     }
 
@@ -446,6 +457,7 @@ namespace KuranX.App.Core.Pages.SectionF
                     {
                         var vNav = (CheckBox)FindName("vb" + x);
                         vNav.IsEnabled = true;
+                        vNav.IsThreeState = true;
                     });
                 }
 
@@ -489,7 +501,7 @@ namespace KuranX.App.Core.Pages.SectionF
 
                     if ((string)desktype.Tag == "DeskLanding")
                     {
-                        Debug.WriteLine("Desk");
+                       
                         int xc = 0;
                         using (var entitydb = new AyetContext())
                         {
@@ -502,24 +514,37 @@ namespace KuranX.App.Core.Pages.SectionF
                             xc--;
                             var listxc = entitydb.Sure.OrderBy(p => p.deskLanding).Where(p => p.deskLanding == xc).FirstOrDefault();
 
+
+                            var datasection = entitydb.Sections.OrderByDescending(p => p.SectionNumber).Where(p => p.SureId == listxc.sureId).FirstOrDefault();
+
+
+
                             headerBorder.Visibility = Visibility.Hidden;
-                            App.mainframe.Content = App.navSectionPage.PageCall((int)listxc.sureId, (int)listxc.numberOfSection);
+                 
+                            App.mainframe.Content = App.navSectionPage.PageCall((int)datasection.SureId, (int)datasection.SectionNumber);
 
                             listx = null;
                             listxc = null;
+
+                            Debug.WriteLine("working 2");
                         }
                     }
                     else
                     {
-                        Debug.WriteLine("Land");
+                        
                         using (var entitydb = new AyetContext())
                         {
                             int selectedSureX = selectedSure;
                             selectedSureX--;
-                            var BeforeD = entitydb.Sure.Where(p => p.sureId == selectedSureX).Select(p => new Sure() { numberOfSection = p.numberOfSection }).FirstOrDefault();
+                            var BeforeD = entitydb.Sure.Where(p => p.sureId == selectedSureX).Select(p => new Sure() { numberOfSection = p.numberOfSection , sureId = p.sureId}).FirstOrDefault();
+
+                            Debug.WriteLine("working 1");
 
                             headerBorder.Visibility = Visibility.Hidden;
-                            App.mainframe.Content = App.navSectionPage.PageCall(--selectedSure, (int)BeforeD.numberOfSection);
+
+                            var datasection = entitydb.Sections.OrderByDescending(p => p.SectionNumber).Where(p => p.SureId == BeforeD.sureId).FirstOrDefault();
+
+                            App.mainframe.Content = App.navSectionPage.PageCall((int)datasection.SureId, (int)datasection.SectionNumber);
 
                             BeforeD = null;
                         }

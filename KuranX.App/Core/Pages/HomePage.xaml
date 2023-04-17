@@ -45,7 +45,7 @@
             <TextBlock Text="Rahman Rahim Allah'ın ismiyle" Style="{DynamicResource textInfo}" />
             <TextBlock Text="Hamd alemlerin Rabbi Allah'a mahsusdur" Style="{DynamicResource textInfo}" />
             <TextBlock Text="Kur'an okuyacağın zaman kovulmuş şeytandan Allah'a sığın" Style="{DynamicResource textInfo}" />
-            <TextBlock Text="Rabbinizden size indirilene tabi olun ve O'unaltındaki" Style="{DynamicResource textInfo}" />
+            <TextBlock Text="Rabbinizden size indirilene tabi olun ve O'nun altındaki" Style="{DynamicResource textInfo}" />
             <TextBlock Text="evliyaya tabi olmayın.Ne kadar da az öğüt alıyorsunuz" Style="{DynamicResource textInfo}" />
             <TextBlock Text="Doğrusu,biz size açıklayıcı ayetler ,sizden önce gelip geçenlerden" Style="{DynamicResource textInfo}" />
             <TextBlock Text="misaller ve muttakiler için de öğüt indirdik" Style="{DynamicResource textInfo}" />

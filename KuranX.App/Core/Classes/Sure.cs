@@ -20,6 +20,6 @@ namespace KuranX.App.Core.Classes
         public int deskList { get; set; } = 0;
         public string status { get; set; } = "Default";
         public string description { get; set; } = "Wait";
-        public bool complated { get; set; } = false;
+        public bool completed { get; set; } = false;
     }
 }

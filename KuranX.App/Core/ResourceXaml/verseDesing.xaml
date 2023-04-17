@@ -669,7 +669,7 @@
                             <Setter TargetName="target3" Property="Foreground" Value="#1C1E2F" />
                         </Trigger>
 
-                        <Trigger Property="IsEnabled" Value="False">
+                        <Trigger Property="IsThreeState" Value="false">
                             <Setter TargetName="target1" Property="Background" Value="#F0433A" />
                             <Setter TargetName="target2" Property="Foreground" Value="#FFFFFF" />
                             <Setter TargetName="target3" Property="Foreground" Value="#FFFFFF" />
@@ -717,12 +717,14 @@
                             <Setter TargetName="target3" Property="Foreground" Value="#1C1E2F" />
                         </Trigger>
 
-                        <Trigger Property="IsEnabled" Value="False">
+
+                        <Trigger Property="IsThreeState" Value="False">
                             <Setter TargetName="target1" Property="Background" Value="#F0433A" />
                             <Setter TargetName="target2" Property="Foreground" Value="#FFFFFF" />
                             <Setter TargetName="target3" Property="Foreground" Value="#FFFFFF" />
                             <Setter Property="Cursor" Value="Hand" />
                         </Trigger>
+                    
 
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="target1" Property="Background" Value="#F0433A" />

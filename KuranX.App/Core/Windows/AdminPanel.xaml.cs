@@ -53,7 +53,6 @@ namespace KuranX.App.Core.Windows
             {
                 this.Dispatcher.Invoke(() =>
                 {
-                    Debug.WriteLine(err);
                     btnWmp.IsEnabled = true;
                     btnWmpEdit.IsEnabled = false;
                     wampConnectBtn.SetValue(Extensions.DataStorage, "err");
@@ -82,7 +81,6 @@ namespace KuranX.App.Core.Windows
             {
                 this.Dispatcher.Invoke(() =>
                 {
-                    Debug.WriteLine(err);
                     this.Dispatcher.Invoke(() => sqlConnectBtn.SetValue(Extensions.DataStorage, "err"));
                 });
             }
@@ -111,7 +109,7 @@ namespace KuranX.App.Core.Windows
             {
                 this.Dispatcher.Invoke(() =>
                 {
-                    Debug.WriteLine(err);
+                   
                     btnWmp.IsEnabled = true;
                     btnWmpEdit.IsEnabled = false;
                     wampConnectBtn.SetValue(Extensions.DataStorage, "err");

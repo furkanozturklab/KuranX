@@ -15,6 +15,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Navigation;
 using KuranX.App.Core.Classes;
+using KuranX.App.Core.Pages.SectionF;
 
 namespace KuranX.App.Core.Windows
 {
@@ -228,7 +229,6 @@ namespace KuranX.App.Core.Windows
                         foreach (var item in TasksLoad)
                         {
 
-                            Debug.WriteLine(item.missonsId);
 
                             // 5sn sonra sıradaki göreve geç
                             var sleepTime = int.Parse(App.config.AppSettings.Settings["app_remiderWaitTime"].Value) * 1000;
@@ -399,9 +399,10 @@ namespace KuranX.App.Core.Windows
             try
             {
 
+
                 if (this.Dispatcher.Invoke(() => App.mainframe.Content.ToString().Split('.').Last() == "verseFrame"))
                 {
-                    // eğer verseFrame de isem çalış
+                    // eğer verseFrame veya sectionFrame de isem çalış
 
                     this.Dispatcher.Invoke(() =>
                     {
@@ -416,8 +417,6 @@ namespace KuranX.App.Core.Windows
                     if (this.Dispatcher.Invoke(() => App.navVersePage.markButton.IsChecked == true))
                     {
                         // Verseframede işaretlemiş isem çalış
-
-
 
                         switch (this.Dispatcher.Invoke(() => navCheckBox.Content))
                         {
@@ -436,6 +435,7 @@ namespace KuranX.App.Core.Windows
                                 {
                                     navClear();
                                     navCheckBox.IsChecked = true;
+                                    Debug.WriteLine("5-> WORK");
                                     App.mainframe.Content = App.navSurePage.PageCall();
                                 });
 
@@ -489,13 +489,111 @@ namespace KuranX.App.Core.Windows
                                 break;
                         }
                     }
-                    else this.Dispatcher.Invoke(() => popup_fastExitConfirm.IsOpen = true);
+                    else
+                    {
+                        this.Dispatcher.Invoke(() => popup_fastExitConfirm.IsOpen = true);
+                    }
+
+                    // Eğer işaretlenmemiş ise popup aç
+                }
+                else if (this.Dispatcher.Invoke(() => App.mainframe.Content.ToString().Split('.').Last() == "SectionFrame"))
+                {
+                    // eğer verseFrame veya sectionFrame de isem çalış
+
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        foreach (object item in hmwnd_leftNavControlStack.Children)
+                        {
+                            CheckBox? element = (item as FrameworkElement) as CheckBox;
+                            element.IsChecked = false;
+                        }
+                        specialNav.IsChecked = true;
+                    });
+
+                    if (this.Dispatcher.Invoke(() => App.navSectionPage.markButton.IsChecked == true))
+                    {
+                        // Verseframede işaretlemiş isem çalış
+
+                        switch (this.Dispatcher.Invoke(() => navCheckBox.Content))
+                        {
+                            case "AnaSayfa":
+                                this.Dispatcher.Invoke(() =>
+                                {
+                                    navClear();
+                                    navCheckBox.IsChecked = true;
+                                    App.mainframe.Content = App.navHomeFrame.PageCall();
+                                });
+
+                                break;
+
+                            case "Ayetler":
+                                this.Dispatcher.Invoke(() =>
+                                {
+                                    navClear();
+                                    navCheckBox.IsChecked = true;
+                                    Debug.WriteLine("2-> WORK");
+                                    App.mainframe.Content = App.navSurePage.PageCall();
+                                });
+
+                                break;
+
+                            case "Konularım":
+                                this.Dispatcher.Invoke(() =>
+                                {
+                                    navClear();
+                                    navCheckBox.IsChecked = true;
+                                    App.mainframe.Content = App.navSubjectFrame.PageCall();
+                                });
+                                break;
+
+
+                            case "Notlar":
+                                this.Dispatcher.Invoke(() =>
+                                {
+                                    navClear();
+                                    navCheckBox.IsChecked = true;
+                                    App.mainframe.Content = App.navNotesPage.PageCall();
+                                });
+                                break;
+
+                            case "Hatırlatıcı":
+                                this.Dispatcher.Invoke(() =>
+                                {
+                                    navClear();
+                                    navCheckBox.IsChecked = true;
+                                    App.mainframe.Content = App.navRemiderPage.PageCall();
+                                });
+                                break;
+
+
+                            case "Kullanıcı Yardımı":
+                                this.Dispatcher.Invoke(() =>
+                                {
+                                    navClear();
+                                    navCheckBox.IsChecked = true;
+                                    App.mainframe.Content = App.navUserHelp.PageCall();
+                                });
+                                break;
+
+                            default:
+                                this.Dispatcher.Invoke(() =>
+                                {
+                                    navClear();
+                                    navCheckBox.IsChecked = true;
+                                    App.mainframe.Content = App.navTestPage;
+                                });
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        this.Dispatcher.Invoke(() => popup_fastExitConfirm.IsOpen = true);
+                    }
+
                     // Eğer işaretlenmemiş ise popup aç
                 }
                 else
                 {
-                    // eğer verseFramede değilsem normal çalış
-
                     switch (this.Dispatcher.Invoke(() => navCheckBox.Content))
                     {
                         case "AnaSayfa":
@@ -513,6 +611,7 @@ namespace KuranX.App.Core.Windows
                             {
                                 navClear();
                                 navCheckBox.IsChecked = true;
+                                Debug.WriteLine("3-> WORK");
                                 App.mainframe.Content = App.navSurePage.PageCall();
                             });
 
@@ -567,6 +666,7 @@ namespace KuranX.App.Core.Windows
                     }
                     Thread.Sleep(int.Parse(App.config.AppSettings.Settings["app_animationSpeed"].Value));
                 }
+
 
                 Thread.Sleep(200);
 
@@ -816,7 +916,7 @@ namespace KuranX.App.Core.Windows
             {
                 popup_fastExitConfirm.IsOpen = false;
 
-                Debug.WriteLine("Burdan Cıktı ?");
+
 
                 switch (navCheckBox.Content)
                 {
@@ -836,6 +936,7 @@ namespace KuranX.App.Core.Windows
                             navClear();
 
                             navCheckBox.IsChecked = true;
+                            Debug.WriteLine("4-> WORK");
                             App.mainframe.Content = App.navSurePage.PageCall();
                         });
                         break;
@@ -1456,23 +1557,17 @@ namespace KuranX.App.Core.Windows
 
                 foreach (var item in db.Tasks) db.Tasks.Remove(item);
 
-                foreach (var item in db.ResultItems) db.ResultItems.Remove(item);
+
 
                 foreach (var item in db.Integrity.Where(p => p.integrityProtected == false)) db.Integrity.Remove(item);
 
-                foreach (var item in db.Results)
-                {
-                    db.Results.Where(p => p.resultId == item.resultId).First().resultNotes = false;
-                    db.Results.Where(p => p.resultId == item.resultId).First().resultSubject = false;
 
-                    db.Results.Where(p => p.resultId == item.resultId).First().resultFinallyNote = "Sonuç Metninizi buraya yaza bilirsiniz.";
-                }
 
                 foreach (var item in db.Sure)
                 {
                     db.Sure.Where(p => p.sureId == item.sureId).First().userCheckCount = 0;
                     db.Sure.Where(p => p.sureId == item.sureId).First().userLastRelativeVerse = 0;
-                    db.Sure.Where(p => p.sureId == item.sureId).First().complated = false;
+                    db.Sure.Where(p => p.sureId == item.sureId).First().completed = false;
                     db.Sure.Where(p => p.sureId == item.sureId).First().status = "#ADB5BD";
                 }
 

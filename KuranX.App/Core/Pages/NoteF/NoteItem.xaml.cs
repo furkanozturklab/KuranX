@@ -63,8 +63,7 @@ namespace KuranX.App.Core.Pages.NoteF
                     noteframetask = Task.Run(() => loadItem());
                 }
 
-                Debug.WriteLine(location);
-                Debug.WriteLine(App.secondFrame.Visibility);
+
 
                 getLocation = location;
                 conpage = nowpage;
@@ -180,14 +179,14 @@ namespace KuranX.App.Core.Pages.NoteF
                                 BackButton.Width = 150;
 
                             }
-                            Debug.WriteLine("Workking loaditem");
+                          
                         }
 
 
                         // Bölüm Bağlanmış
                         if (dNote.sectionId != 0)
                         {
-                            Debug.WriteLine(getLocation);
+                          
                             gotoVerseButton.IsEnabled = true;
                             gotoVerseButton.Content = "Bölüme Git";
                             gotoVerseButton.Tag = "ArrowRight";
@@ -232,8 +231,7 @@ namespace KuranX.App.Core.Pages.NoteF
 
                     loadAniComplated();
 
-                    Debug.WriteLine("WORKİNG");
-                    Debug.WriteLine(loadHeaderStack.Visibility);
+                   
 
                     this.Dispatcher.Invoke(() => App.mainScreen.homescreengrid.IsEnabled = true);
                 }
@@ -293,7 +291,7 @@ namespace KuranX.App.Core.Pages.NoteF
             {
                 App.errWrite($"[{DateTime.Now} BackButton_Click ] -> NoteItem");
 
-                Debug.WriteLine("Wkoring back button : " + getLocation);
+               
 
                 switch (getLocation)
                 {
@@ -389,19 +387,6 @@ namespace KuranX.App.Core.Pages.NoteF
             }
         }
 
-        private void sendResult_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-
-                App.errWrite($"[{DateTime.Now} deleteButton_Click ] -> NoteItem");
-                popup_sendResultItems.IsOpen = true;
-            }
-            catch (Exception ex)
-            {
-                App.logWriter("Click", ex);
-            }
-        }
 
         private void saveButton_Click(object sender, RoutedEventArgs e)
         {
@@ -446,14 +431,7 @@ namespace KuranX.App.Core.Pages.NoteF
                     saveButton.IsEnabled = false;
                     entitydb.Notes.RemoveRange(entitydb.Notes.Where(p => p.notesId == noteId));
 
-                    entitydb.ResultItems.RemoveRange(entitydb.ResultItems.Where(p => p.resultNoteId == noteId));
-
-                    entitydb.SaveChanges();
-
-                    foreach (var item in entitydb.Results)
-                    {
-                        if (entitydb.ResultItems.Where(p => p.resultId == item.resultId).Count() == 0) item.resultNotes = false;
-                    }
+             
 
                     entitydb.SaveChanges();
                     popup_DeleteConfirm.IsOpen = false;
@@ -494,7 +472,7 @@ namespace KuranX.App.Core.Pages.NoteF
                             break;
 
                         default:
-                            Debug.WriteLine(conpage);
+                         
                             App.mainframe.Content = App.navNotesPage.PageCall(conpage);
                             break;
                     }
@@ -528,38 +506,7 @@ namespace KuranX.App.Core.Pages.NoteF
             }
         }
 
-        private void connectResultControl_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-
-                App.errWrite($"[{DateTime.Now} connectResultControl_Click ] -> NoteItem");
-                using (var entitydb = new AyetContext())
-                {
-                    var item = popupResultSureId.SelectedItem as ComboBoxItem;
-                    var dResult = entitydb.Results.Where(p => p.resultId == int.Parse(item.Uid)).FirstOrDefault();
-
-                    if (entitydb.ResultItems.Where(p => p.resultId == dResult.resultId && p.resultNoteId == noteId).Count() == 0)
-                    {
-                        dResult.resultNotes = true;
-                        var dTemp = new ResultItem { resultId = dResult.resultId, resultNoteId = noteId, sendTime = DateTime.Now };
-                        entitydb.ResultItems.Add(dTemp);
-                        entitydb.SaveChanges();
-                        popup_sendResultItems.IsOpen = false;
-                        App.mainScreen.succsessFunc("İşlem Başarılı", "Notunuz " + item.Content + " suresinin sonucuna gönderildi.", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
-                    }
-                    else
-                    {
-                        popup_sendResultItems.IsOpen = false;
-                        App.mainScreen.alertFunc("İşlem Başarısız", "Notunuz " + item.Content + " suresinin sonucuna daha önceden eklenmiştir ve yeniden ekleyemezsiniz.", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                App.logWriter("", ex);
-            }
-        }
+     
 
         private void printButton_Click(object sender, RoutedEventArgs e)
         {

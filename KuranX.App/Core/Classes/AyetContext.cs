@@ -22,8 +22,7 @@ namespace KuranX.App.Core.Classes
 
         public DbSet<Remider> Remider { get; set; }
         public DbSet<Tasks> Tasks { get; set; }
-        public DbSet<Result> Results { get; set; }
-        public DbSet<ResultItem> ResultItems { get; set; }
+   
         public DbSet<Userhelp> UserHelp { get; set; }
 
         public string DbPath { get; }
@@ -92,7 +91,7 @@ namespace KuranX.App.Core.Classes
                 .Property(u => u.userLastRelativeVerse)
                 .HasDefaultValue(0);
             modelBuilder.Entity<Sure>()
-                .Property(u => u.complated)
+                .Property(u => u.completed)
                 .HasDefaultValue(false);
 
             //   VERSE
@@ -135,30 +134,7 @@ namespace KuranX.App.Core.Classes
               .Property(u => u.priority)
               .HasDefaultValue(1);
 
-            // RESULT
-            modelBuilder.Entity<Result>()
-                .Property(u => u.resultNotes)
-                .HasDefaultValue(false);
-            modelBuilder.Entity<Result>()
-                .Property(u => u.resultSubject)
-                .HasDefaultValue(false);
-            modelBuilder.Entity<Result>()
-                .Property(u => u.resultFinallyNote)
-                .HasDefaultValue("Sonuç Metninizi buraya yaza bilirsiniz.");
 
-            // RESULT ITEMS
-            modelBuilder.Entity<ResultItem>()
-                .Property(u => u.resultNoteId)
-                .HasDefaultValue(0);
-            modelBuilder.Entity<ResultItem>()
-                .Property(u => u.resultLibId)
-                .HasDefaultValue(0);
-            modelBuilder.Entity<ResultItem>()
-                .Property(u => u.resultSubjectId)
-                .HasDefaultValue(0);
-            modelBuilder.Entity<ResultItem>()
-                .Property(u => u.sendTime)
-                .HasDefaultValue(DateTime.Now);
         }
     }
 }

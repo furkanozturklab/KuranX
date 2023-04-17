@@ -11,14 +11,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KuranX.App.Migrations
 {
     [DbContext(typeof(AyetContext))]
-    [Migration("20230126065214_build-0.6.0")]
-    partial class build060
+    [Migration("20230308122447_MainBuild-v1.0.0")]
+    partial class MainBuildv100
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "7.0.1");
+            modelBuilder.HasAnnotation("ProductVersion", "7.0.3");
 
             modelBuilder.Entity("KuranX.App.Core.Classes.Integrity", b =>
                 {
@@ -185,71 +185,6 @@ namespace KuranX.App.Migrations
                     b.ToTable("Remider");
                 });
 
-            modelBuilder.Entity("KuranX.App.Core.Classes.Result", b =>
-                {
-                    b.Property<int>("resultId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("resultFinallyNote")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT")
-                        .HasDefaultValue("Sonuç Metninizi buraya yaza bilirsiniz.");
-
-                    b.Property<string>("resultName")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<bool>("resultNotes")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER")
-                        .HasDefaultValue(false);
-
-                    b.Property<bool>("resultSubject")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER")
-                        .HasDefaultValue(false);
-
-                    b.HasKey("resultId");
-
-                    b.ToTable("Results");
-                });
-
-            modelBuilder.Entity("KuranX.App.Core.Classes.ResultItem", b =>
-                {
-                    b.Property<int>("resultItemId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("resultId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("resultLibId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER")
-                        .HasDefaultValue(0);
-
-                    b.Property<int>("resultNoteId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER")
-                        .HasDefaultValue(0);
-
-                    b.Property<int>("resultSubjectId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER")
-                        .HasDefaultValue(0);
-
-                    b.Property<DateTime>("sendTime")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT")
-                        .HasDefaultValue(new DateTime(2023, 1, 26, 9, 52, 14, 254, DateTimeKind.Local).AddTicks(8399));
-
-                    b.HasKey("resultItemId");
-
-                    b.ToTable("ResultItems");
-                });
-
             modelBuilder.Entity("KuranX.App.Core.Classes.Section", b =>
                 {
                     b.Property<int>("SectionId")
@@ -352,7 +287,7 @@ namespace KuranX.App.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<bool>("complated")
+                    b.Property<bool>("completed")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER")
                         .HasDefaultValue(false);
@@ -379,6 +314,9 @@ namespace KuranX.App.Migrations
                     b.Property<string>("name")
                         .IsRequired()
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("numberOfSection")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("numberOfVerses")
                         .HasColumnType("INTEGER");
@@ -447,7 +385,7 @@ namespace KuranX.App.Migrations
                     b.Property<DateTime>("createDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT")
-                        .HasDefaultValue(new DateTime(2023, 1, 26, 9, 52, 14, 254, DateTimeKind.Local).AddTicks(4380))
+                        .HasDefaultValue(new DateTime(2023, 3, 8, 15, 24, 47, 453, DateTimeKind.Local).AddTicks(563))
                         .HasColumnName("user_createDate");
 
                     b.Property<string>("email")
@@ -492,7 +430,7 @@ namespace KuranX.App.Migrations
                     b.Property<DateTime>("updateDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT")
-                        .HasDefaultValue(new DateTime(2023, 1, 26, 9, 52, 14, 254, DateTimeKind.Local).AddTicks(4554))
+                        .HasDefaultValue(new DateTime(2023, 3, 8, 15, 24, 47, 453, DateTimeKind.Local).AddTicks(712))
                         .HasColumnName("user_updateDate");
 
                     b.HasKey("userId");

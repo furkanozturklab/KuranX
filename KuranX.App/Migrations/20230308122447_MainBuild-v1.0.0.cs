@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace KuranX.App.Migrations
 {
     /// <inheritdoc />
-    public partial class MainBuildv043 : Migration
+    public partial class MainBuildv100 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -49,22 +49,6 @@ namespace KuranX.App.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Librarys",
-                columns: table => new
-                {
-                    libraryId = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    libraryName = table.Column<string>(type: "TEXT", nullable: false),
-                    libraryColor = table.Column<string>(type: "TEXT", nullable: false),
-                    created = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    modify = table.Column<DateTime>(type: "TEXT", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Librarys", x => x.libraryId);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Notes",
                 columns: table => new
                 {
@@ -73,7 +57,7 @@ namespace KuranX.App.Migrations
                     verseId = table.Column<int>(type: "INTEGER", nullable: false, defaultValue: 0),
                     sureId = table.Column<int>(type: "INTEGER", nullable: false, defaultValue: 0),
                     subjectId = table.Column<int>(type: "INTEGER", nullable: false, defaultValue: 0),
-                    libraryId = table.Column<int>(type: "INTEGER", nullable: false, defaultValue: 0),
+                    sectionId = table.Column<int>(type: "INTEGER", nullable: false),
                     noteHeader = table.Column<string>(type: "TEXT", nullable: false),
                     noteDetail = table.Column<string>(type: "TEXT", nullable: false),
                     noteLocation = table.Column<string>(type: "TEXT", nullable: false),
@@ -108,37 +92,23 @@ namespace KuranX.App.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ResultItems",
+                name: "Sections",
                 columns: table => new
                 {
-                    resultItemId = table.Column<int>(type: "INTEGER", nullable: false)
+                    SectionId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    resultId = table.Column<int>(type: "INTEGER", nullable: false),
-                    resultSubjectId = table.Column<int>(type: "INTEGER", nullable: false, defaultValue: 0),
-                    resultLibId = table.Column<int>(type: "INTEGER", nullable: false, defaultValue: 0),
-                    resultNoteId = table.Column<int>(type: "INTEGER", nullable: false, defaultValue: 0),
-                    sendTime = table.Column<DateTime>(type: "TEXT", nullable: false, defaultValue: new DateTime(2023, 1, 9, 19, 4, 56, 575, DateTimeKind.Local).AddTicks(9540))
+                    SureId = table.Column<int>(type: "INTEGER", nullable: false),
+                    startVerse = table.Column<int>(type: "INTEGER", nullable: false),
+                    endVerse = table.Column<int>(type: "INTEGER", nullable: false),
+                    SectionName = table.Column<string>(type: "TEXT", nullable: false),
+                    SectionDescription = table.Column<string>(type: "TEXT", nullable: false),
+                    SectionDetail = table.Column<string>(type: "TEXT", nullable: false),
+                    IsMark = table.Column<bool>(type: "INTEGER", nullable: false),
+                    SectionNumber = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ResultItems", x => x.resultItemId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Results",
-                columns: table => new
-                {
-                    resultId = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    resultName = table.Column<string>(type: "TEXT", nullable: false),
-                    resultLib = table.Column<bool>(type: "INTEGER", nullable: false, defaultValue: false),
-                    resultNotes = table.Column<bool>(type: "INTEGER", nullable: false, defaultValue: false),
-                    resultSubject = table.Column<bool>(type: "INTEGER", nullable: false, defaultValue: false),
-                    resultFinallyNote = table.Column<string>(type: "TEXT", nullable: false, defaultValue: "Sonuç Metninizi buraya yaza bilirsiniz.")
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Results", x => x.resultId);
+                    table.PrimaryKey("PK_Sections", x => x.SectionId);
                 });
 
             migrationBuilder.CreateTable(
@@ -184,6 +154,7 @@ namespace KuranX.App.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     name = table.Column<string>(type: "TEXT", nullable: false),
                     numberOfVerses = table.Column<int>(type: "INTEGER", nullable: false),
+                    numberOfSection = table.Column<int>(type: "INTEGER", nullable: false),
                     userCheckCount = table.Column<int>(type: "INTEGER", nullable: false, defaultValue: 0),
                     userLastRelativeVerse = table.Column<int>(type: "INTEGER", nullable: false, defaultValue: 0),
                     landingLocation = table.Column<string>(type: "TEXT", nullable: false),
@@ -192,7 +163,7 @@ namespace KuranX.App.Migrations
                     deskList = table.Column<int>(type: "INTEGER", nullable: false, defaultValue: 0),
                     status = table.Column<string>(type: "TEXT", nullable: false),
                     description = table.Column<string>(type: "TEXT", nullable: false),
-                    complated = table.Column<bool>(type: "INTEGER", nullable: false, defaultValue: false)
+                    completed = table.Column<bool>(type: "INTEGER", nullable: false, defaultValue: false)
                 },
                 constraints: table =>
                 {
@@ -236,21 +207,21 @@ namespace KuranX.App.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    userid = table.Column<int>(name: "user_id", type: "INTEGER", nullable: false)
+                    user_id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    useremail = table.Column<string>(name: "user_email", type: "TEXT", nullable: false, defaultValue: "none"),
-                    userfirstName = table.Column<string>(name: "user_firstName", type: "TEXT", nullable: false, defaultValue: "First Name"),
-                    userlastName = table.Column<string>(name: "user_lastName", type: "TEXT", nullable: false, defaultValue: "Last Name"),
+                    user_email = table.Column<string>(type: "TEXT", nullable: false, defaultValue: "none"),
+                    user_firstName = table.Column<string>(type: "TEXT", nullable: false, defaultValue: "First Name"),
+                    user_lastName = table.Column<string>(type: "TEXT", nullable: false, defaultValue: "Last Name"),
                     pin = table.Column<string>(type: "TEXT", nullable: false),
-                    userscreetQuestion = table.Column<string>(name: "user_screetQuestion", type: "TEXT", nullable: false, defaultValue: "Değiştiriniz"),
-                    userscreetAnw = table.Column<string>(name: "user_screetAnw", type: "TEXT", nullable: false, defaultValue: "Yeni Değeri Girin"),
-                    usercreateDate = table.Column<DateTime>(name: "user_createDate", type: "TEXT", nullable: false, defaultValue: new DateTime(2023, 1, 9, 19, 4, 56, 575, DateTimeKind.Local).AddTicks(4907)),
-                    userupdateDate = table.Column<DateTime>(name: "user_updateDate", type: "TEXT", nullable: false, defaultValue: new DateTime(2023, 1, 9, 19, 4, 56, 575, DateTimeKind.Local).AddTicks(5099)),
-                    useravatarUrl = table.Column<string>(name: "user_avatarUrl", type: "TEXT", nullable: false, defaultValue: "default")
+                    user_screetQuestion = table.Column<string>(type: "TEXT", nullable: false, defaultValue: "Değiştiriniz"),
+                    user_screetAnw = table.Column<string>(type: "TEXT", nullable: false, defaultValue: "Yeni Değeri Girin"),
+                    user_createDate = table.Column<DateTime>(type: "TEXT", nullable: false, defaultValue: new DateTime(2023, 3, 8, 15, 24, 47, 453, DateTimeKind.Local).AddTicks(563)),
+                    user_updateDate = table.Column<DateTime>(type: "TEXT", nullable: false, defaultValue: new DateTime(2023, 3, 8, 15, 24, 47, 453, DateTimeKind.Local).AddTicks(712)),
+                    user_avatarUrl = table.Column<string>(type: "TEXT", nullable: false, defaultValue: "default")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Users", x => x.userid);
+                    table.PrimaryKey("PK_Users", x => x.user_id);
                 });
 
             migrationBuilder.CreateTable(
@@ -264,7 +235,6 @@ namespace KuranX.App.Migrations
                     verseArabic = table.Column<string>(type: "TEXT", nullable: false),
                     verseTr = table.Column<string>(type: "TEXT", nullable: false),
                     verseDesc = table.Column<string>(type: "TEXT", nullable: false),
-                    commentary = table.Column<string>(type: "TEXT", nullable: false, defaultValue: "Wait"),
                     verseCheck = table.Column<bool>(type: "INTEGER", nullable: false, defaultValue: false),
                     markCheck = table.Column<bool>(type: "INTEGER", nullable: false, defaultValue: false),
                     remiderCheck = table.Column<bool>(type: "INTEGER", nullable: false, defaultValue: false)
@@ -275,6 +245,27 @@ namespace KuranX.App.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "VerseClass",
+                columns: table => new
+                {
+                    verseClassId = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    sureId = table.Column<int>(type: "INTEGER", nullable: false),
+                    relativeDesk = table.Column<int>(type: "INTEGER", nullable: false),
+                    v_hk = table.Column<bool>(type: "INTEGER", nullable: false),
+                    v_tv = table.Column<bool>(type: "INTEGER", nullable: false),
+                    v_cz = table.Column<bool>(type: "INTEGER", nullable: false),
+                    v_mk = table.Column<bool>(type: "INTEGER", nullable: false),
+                    v_du = table.Column<bool>(type: "INTEGER", nullable: false),
+                    v_hr = table.Column<bool>(type: "INTEGER", nullable: false),
+                    v_sn = table.Column<bool>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_VerseClass", x => x.verseClassId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Words",
                 columns: table => new
                 {
@@ -282,9 +273,9 @@ namespace KuranX.App.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     sureId = table.Column<int>(type: "INTEGER", nullable: true),
                     verseId = table.Column<int>(type: "INTEGER", nullable: true),
-                    arpread = table.Column<string>(name: "arp_read", type: "TEXT", nullable: true),
-                    trread = table.Column<string>(name: "tr_read", type: "TEXT", nullable: true),
-                    wordmeal = table.Column<string>(name: "word_meal", type: "TEXT", nullable: true),
+                    arp_read = table.Column<string>(type: "TEXT", nullable: true),
+                    tr_read = table.Column<string>(type: "TEXT", nullable: true),
+                    word_meal = table.Column<string>(type: "TEXT", nullable: true),
                     root = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
@@ -303,19 +294,13 @@ namespace KuranX.App.Migrations
                 name: "Interpreter");
 
             migrationBuilder.DropTable(
-                name: "Librarys");
-
-            migrationBuilder.DropTable(
                 name: "Notes");
 
             migrationBuilder.DropTable(
                 name: "Remider");
 
             migrationBuilder.DropTable(
-                name: "ResultItems");
-
-            migrationBuilder.DropTable(
-                name: "Results");
+                name: "Sections");
 
             migrationBuilder.DropTable(
                 name: "Subject");
@@ -337,6 +322,9 @@ namespace KuranX.App.Migrations
 
             migrationBuilder.DropTable(
                 name: "Verse");
+
+            migrationBuilder.DropTable(
+                name: "VerseClass");
 
             migrationBuilder.DropTable(
                 name: "Words");

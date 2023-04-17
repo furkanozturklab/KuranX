@@ -2,6 +2,26 @@
 ⚠️ [Hata]
 🆕 [Yeni]
 
+v 0.6.17->v 0.6.18
+
+⚠️ [Hata] Bölümler panelinde geri gidildiğinde boş sayfa dönme hatası düzeltildi.
+⚠️ [Hata] Hatırlatıcı filtreleme hatası değişti
+♻️ [Değişiklik] Ayetler ve bölümler sayafasının yönlendirme buttonlarını düzenleme yapıldı.
+
+
+v 0.6.16
+
+⚠️ [Hata] İlk açılişta sure sayfasının düzgün çalışmasını engelleyen bir hata düzeltildi.
+
+v 0.6.15
+
+⚠️ [Hata] hotfix
+
+v 0.6.14
+
+🆕 [Yeni] Bölümlerden cıkınça artık uyarı veriyor.
+⚠️ [Hata] Hatalı textler düzeltildi
+
 v 0.6.13
 
 🆕 [Yeni] Hatırlatıcı uyarsından ayete giderken artı son kalıdığınız yere dönebiliyorsunuz.

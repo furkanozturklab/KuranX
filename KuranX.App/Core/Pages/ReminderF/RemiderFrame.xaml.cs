@@ -1,6 +1,7 @@
 ﻿using KuranX.App.Core.Classes;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -89,6 +90,8 @@ namespace KuranX.App.Core.Pages.ReminderF
         {
             try
             {
+
+                Debug.WriteLine(filterText);
 
                 App.errWrite($"[{DateTime.Now} loadItem ] -> RemiderFrame");
                 using (var entitydb = new AyetContext())
@@ -261,7 +264,7 @@ namespace KuranX.App.Core.Pages.ReminderF
                 else
                 {
                     filter = true;
-                    filterText = (string)btn.Uid.ToString();
+                    filterText = (string)btn.Uid.ToString() == "False" ? "Default" : (string)btn.Uid.ToString();
                 }
 
                 remiderTask = Task.Run(() => loadItem());

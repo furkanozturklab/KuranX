@@ -62,7 +62,7 @@ namespace KuranX.App.Core.Pages.AdminF
                             cmbitem.Content = item.tr_read;
                             cmbitem.Uid = item.wordsId.ToString();
 
-                            Debug.WriteLine(cmbitem.Tag);
+  
                             selectedWord.Items.Add(cmbitem);
                         }
 
@@ -661,7 +661,7 @@ namespace KuranX.App.Core.Pages.AdminF
 
                 using (var entitydb = new AyetContext())
                 {
-                    Debug.WriteLine(ch.IsChecked);
+                 
 
                     if (ch.IsChecked == true)
                     {
