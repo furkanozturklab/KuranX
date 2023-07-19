@@ -1,4 +1,5 @@
 ﻿using KuranX.App.Core.Classes;
+using KuranX.App.Core.Classes.Tools;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -36,7 +37,7 @@ namespace KuranX.App.Core.Pages.VerseF
             try
             {
 
-                App.errWrite($"[{DateTime.Now} InitializeComponent ] -> sureFrame");
+                Tools.errWrite($"[{DateTime.Now} InitializeComponent ] -> sureFrame");
 
 
 
@@ -44,7 +45,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("InitializeComponent", ex);
+                Tools.logWriter("InitializeComponent", ex);
             }
         }
 
@@ -52,14 +53,14 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
-                App.errWrite($"[{DateTime.Now} Page_Loaded ] -> sureFrame");
+                Tools.errWrite($"[{DateTime.Now} Page_Loaded ] -> sureFrame");
                 loadContent.Visibility = Visibility.Visible;
                 //App.loadTask = Task.Run(() => loadItem());
             
             }
             catch (Exception ex)
             {
-                App.logWriter("Loading", ex);
+                Tools.logWriter("Loading", ex);
             }
         }
 
@@ -72,7 +73,7 @@ namespace KuranX.App.Core.Pages.VerseF
                 NowPage = 1;
                 */
 
-                App.errWrite($"[{DateTime.Now} PageCall ] -> sureFrame");
+                Tools.errWrite($"[{DateTime.Now} PageCall ] -> sureFrame");
 
                 sureframetask = Task.Run(() => loadItem());
 
@@ -84,7 +85,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Loading", ex);
+                Tools.logWriter("Loading", ex);
                 return this;
             }
         }
@@ -95,7 +96,7 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
-                App.errWrite($"[{DateTime.Now} loadItem ] -> sureFrame");
+                Tools.errWrite($"[{DateTime.Now} loadItem ] -> sureFrame");
 
 
                 loadingAni();
@@ -342,7 +343,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Load", ex);
+                Tools.logWriter("Load", ex);
             }
         }
 
@@ -355,7 +356,7 @@ namespace KuranX.App.Core.Pages.VerseF
             try
             {
 
-                App.errWrite($"[{DateTime.Now} deskingCombobox_SelectionChanged ] -> sureFrame");
+                Tools.errWrite($"[{DateTime.Now} deskingCombobox_SelectionChanged ] -> sureFrame");
 
 
                 deskItem = deskingCombobox.SelectedItem as ComboBoxItem;
@@ -370,7 +371,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Change", ex);
+                Tools.logWriter("Change", ex);
             }
         }
 
@@ -379,7 +380,7 @@ namespace KuranX.App.Core.Pages.VerseF
             try
             {
 
-                App.errWrite($"[{DateTime.Now} landingCombobox_SelectionChanged ] -> sureFrame");
+                Tools.errWrite($"[{DateTime.Now} landingCombobox_SelectionChanged ] -> sureFrame");
 
 
                 landItem = landingCombobox.SelectedItem as ComboBoxItem;
@@ -392,7 +393,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Change", ex);
+                Tools.logWriter("Change", ex);
             }
         }
 
@@ -401,7 +402,7 @@ namespace KuranX.App.Core.Pages.VerseF
             try
             {
 
-                App.errWrite($"[{DateTime.Now} fastsureCombobox_SelectionChanged ] -> sureFrame");
+                Tools.errWrite($"[{DateTime.Now} fastsureCombobox_SelectionChanged ] -> sureFrame");
 
 
                 var comboBox = (ComboBox)sender;
@@ -419,7 +420,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Change", ex);
+                Tools.logWriter("Change", ex);
             }
         }
 
@@ -428,7 +429,7 @@ namespace KuranX.App.Core.Pages.VerseF
             try
             {
 
-                App.errWrite($"[{DateTime.Now} popupRelativeId_TextChanged ] -> sureFrame");
+                Tools.errWrite($"[{DateTime.Now} popupRelativeId_TextChanged ] -> sureFrame");
 
                 var textbox = (TextBox)sender;
                 if (!textbox.IsLoaded) return;
@@ -454,7 +455,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Change", ex);
+                Tools.logWriter("Change", ex);
             }
         }
 
@@ -467,7 +468,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Change", ex);
+                Tools.logWriter("Change", ex);
             }
         }
 
@@ -480,14 +481,14 @@ namespace KuranX.App.Core.Pages.VerseF
             try
             {
 
-                App.errWrite($"[{DateTime.Now} typeLoad_Click ] -> sureFrame");
+                Tools.errWrite($"[{DateTime.Now} typeLoad_Click ] -> sureFrame");
                 var rd = sender as RadioButton;
                 readType = rd.Tag.ToString();
                 sureframetask = Task.Run(() => loadItem());
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -495,7 +496,7 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
-                App.errWrite($"[{DateTime.Now} sr_FastOpen_Click ] -> sureFrame");
+                Tools.errWrite($"[{DateTime.Now} sr_FastOpen_Click ] -> sureFrame");
                 var btn = sender as Button;
                 popupSureId.Text = (string)btn.Tag;
                 popupMax.Text = btn.Uid;
@@ -509,7 +510,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -517,7 +518,7 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
-                App.errWrite($"[{DateTime.Now} sr_Section_Click ] -> sureFrame");
+                Tools.errWrite($"[{DateTime.Now} sr_Section_Click ] -> sureFrame");
 
                 var btn = sender as Button;
 
@@ -527,7 +528,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -540,7 +541,7 @@ namespace KuranX.App.Core.Pages.VerseF
             try
             {
 
-                App.errWrite($"[{DateTime.Now} sr_Open_Click ] -> sureFrame");
+                Tools.errWrite($"[{DateTime.Now} sr_Open_Click ] -> sureFrame");
                 var btn = sender as Button;
                 loadContent.Visibility = Visibility.Hidden;
                 App.beforeFrameName = "Sure";
@@ -550,7 +551,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -559,7 +560,7 @@ namespace KuranX.App.Core.Pages.VerseF
             try
             {
 
-                App.errWrite($"[{DateTime.Now} nextpageButton_Click ] -> sureFrame");
+                Tools.errWrite($"[{DateTime.Now} nextpageButton_Click ] -> sureFrame");
                 nextpageButton.IsEnabled = false;
                 lastPage += 15;
                 NowPage++;
@@ -568,7 +569,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -577,7 +578,7 @@ namespace KuranX.App.Core.Pages.VerseF
             try
             {
 
-                App.errWrite($"[{DateTime.Now} previusPageButton_Click ] -> sureFrame");
+                Tools.errWrite($"[{DateTime.Now} previusPageButton_Click ] -> sureFrame");
 
 
                 if (lastPage >= 15)
@@ -591,7 +592,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -600,7 +601,7 @@ namespace KuranX.App.Core.Pages.VerseF
             try
             {
 
-                App.errWrite($"[{DateTime.Now} fastLoadVerse_Click ] -> sureFrame");
+                Tools.errWrite($"[{DateTime.Now} fastLoadVerse_Click ] -> sureFrame");
 
 
                 loadContent.Visibility = Visibility.Hidden;
@@ -611,7 +612,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -619,7 +620,7 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
-                App.errWrite($"[{DateTime.Now} popupClosed_Click ] -> sureFrame");
+                Tools.errWrite($"[{DateTime.Now} popupClosed_Click ] -> sureFrame");
 
                 var btntemp = sender as Button;
                 var popuptemp = (Popup)FindName(btntemp.Uid);
@@ -628,7 +629,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -637,7 +638,7 @@ namespace KuranX.App.Core.Pages.VerseF
             try
             {
 
-                App.errWrite($"[{DateTime.Now} gotoMarkLocation_Click ] -> sureFrame");
+                Tools.errWrite($"[{DateTime.Now} gotoMarkLocation_Click ] -> sureFrame");
 
 
 
@@ -660,7 +661,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -669,7 +670,7 @@ namespace KuranX.App.Core.Pages.VerseF
             try
             {
 
-                App.errWrite($"[{DateTime.Now} gotoMarkSection_Click ] -> sureFrame");
+                Tools.errWrite($"[{DateTime.Now} gotoMarkSection_Click ] -> sureFrame");
 
 
                 using (var entitydb = new AyetContext())
@@ -691,7 +692,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -704,7 +705,7 @@ namespace KuranX.App.Core.Pages.VerseF
             try
             {
 
-                App.errWrite($"[{DateTime.Now} loadingAni ] -> sureFrame");
+                Tools.errWrite($"[{DateTime.Now} loadingAni ] -> sureFrame");
                 this.Dispatcher.Invoke(() =>
                 {
                     loadContent.Visibility = Visibility.Hidden;
@@ -722,7 +723,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Animation", ex);
+                Tools.logWriter("Animation", ex);
             }
         }
 
@@ -731,7 +732,7 @@ namespace KuranX.App.Core.Pages.VerseF
             try
             {
 
-                App.errWrite($"[{DateTime.Now} loadingAniComplated ] -> sureFrame");
+                Tools.errWrite($"[{DateTime.Now} loadingAniComplated ] -> sureFrame");
 
 
                 this.Dispatcher.Invoke(() =>
@@ -751,7 +752,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Animation", ex);
+                Tools.logWriter("Animation", ex);
             }
         }
 

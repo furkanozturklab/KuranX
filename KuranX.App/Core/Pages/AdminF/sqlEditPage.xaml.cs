@@ -1,4 +1,5 @@
 ﻿using KuranX.App.Core.Classes;
+using KuranX.App.Core.Classes.Tools;
 using KuranX.App.Core.Pages.SubjectF;
 using System;
 using System.Collections.Generic;
@@ -114,7 +115,7 @@ namespace KuranX.App.Core.Pages.AdminF
             }
             catch (Exception ex)
             {
-                App.logWriter("Admin", ex);
+                Tools.logWriter("Admin", ex);
             }
         }
 
@@ -131,7 +132,7 @@ namespace KuranX.App.Core.Pages.AdminF
             }
             catch (Exception ex)
             {
-                App.logWriter("Admin", ex);
+                Tools.logWriter("Admin", ex);
             }
         }
 
@@ -149,7 +150,7 @@ namespace KuranX.App.Core.Pages.AdminF
             }
             catch (Exception ex)
             {
-                App.logWriter("Admin", ex);
+                Tools.logWriter("Admin", ex);
             }
         }
 
@@ -170,7 +171,7 @@ namespace KuranX.App.Core.Pages.AdminF
             }
             catch (Exception ex)
             {
-                App.logWriter("Admin", ex);
+                Tools.logWriter("Admin", ex);
             }
         }
 
@@ -204,7 +205,7 @@ namespace KuranX.App.Core.Pages.AdminF
             }
             catch (Exception ex)
             {
-                App.logWriter("Admin", ex);
+                Tools.logWriter("Admin", ex);
             }
         }
 
@@ -217,7 +218,7 @@ namespace KuranX.App.Core.Pages.AdminF
             }
             catch (Exception ex)
             {
-                App.logWriter("Admin", ex);
+                Tools.logWriter("Admin", ex);
             }
         }
 
@@ -480,7 +481,7 @@ namespace KuranX.App.Core.Pages.AdminF
             }
             catch (Exception ex)
             {
-                App.logWriter("Admin", ex);
+                Tools.logWriter("Admin", ex);
             }
         }
 
@@ -507,7 +508,7 @@ namespace KuranX.App.Core.Pages.AdminF
             }
             catch (Exception ex)
             {
-                App.logWriter("Admin", ex);
+                Tools.logWriter("Admin", ex);
             }
         }
 
@@ -540,7 +541,7 @@ namespace KuranX.App.Core.Pages.AdminF
             }
             catch (Exception ex)
             {
-                App.logWriter("ClickFunc", ex);
+                Tools.logWriter("ClickFunc", ex);
             }
         }
 
@@ -553,7 +554,7 @@ namespace KuranX.App.Core.Pages.AdminF
             }
             catch (Exception ex)
             {
-                App.logWriter("Change", ex);
+                Tools.logWriter("Change", ex);
             }
         }
 
@@ -649,7 +650,7 @@ namespace KuranX.App.Core.Pages.AdminF
             }
             catch (Exception ex)
             {
-                App.logWriter("Admin", ex);
+                Tools.logWriter("Admin", ex);
             }
         }
 
@@ -767,7 +768,7 @@ namespace KuranX.App.Core.Pages.AdminF
             }
             catch (Exception ex)
             {
-                App.logWriter("Admin", ex);
+                Tools.logWriter("Admin", ex);
             }
         }
 
@@ -785,7 +786,7 @@ namespace KuranX.App.Core.Pages.AdminF
             }
             catch (Exception ex)
             {
-                App.logWriter("Admin", ex);
+                Tools.logWriter("Admin", ex);
             }
         }
     }

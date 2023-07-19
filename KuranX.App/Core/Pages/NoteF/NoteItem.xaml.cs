@@ -13,8 +13,7 @@ using System.Windows.Navigation;
 using System.Windows.Xps.Packaging;
 using System.Windows.Xps;
 using System.Threading;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using System.Diagnostics;
+using KuranX.App.Core.Classes.Tools;
 
 namespace KuranX.App.Core.Pages.NoteF
 {
@@ -33,12 +32,12 @@ namespace KuranX.App.Core.Pages.NoteF
             try
             {
 
-                App.errWrite($"[{DateTime.Now} Initıalıze] -> NoteItem");
+                Tools.errWrite($"[{DateTime.Now} Initıalıze] -> NoteItem");
                 InitializeComponent();
             }
             catch (Exception ex)
             {
-                App.logWriter("InitializeComponent", ex);
+                Tools.logWriter("InitializeComponent", ex);
             }
         }
 
@@ -46,7 +45,7 @@ namespace KuranX.App.Core.Pages.NoteF
         {
             try
             {
-                App.errWrite($"[{DateTime.Now} PageCall] -> NoteItem");
+                Tools.errWrite($"[{DateTime.Now} PageCall] -> NoteItem");
                 noteId = id;
                 saveButton.IsEnabled = false;
               
@@ -72,7 +71,7 @@ namespace KuranX.App.Core.Pages.NoteF
             }
             catch (Exception ex)
             {
-                App.logWriter("Loading Func", ex);
+                Tools.logWriter("Loading Func", ex);
                 return this;
             }
         }
@@ -87,7 +86,7 @@ namespace KuranX.App.Core.Pages.NoteF
             }
             catch (Exception ex)
             {
-                App.logWriter("Loading", ex);
+                Tools.logWriter("Loading", ex);
             }
         }
 
@@ -96,7 +95,7 @@ namespace KuranX.App.Core.Pages.NoteF
             try
             {
 
-                App.errWrite($"[{DateTime.Now} loadItem] -> NoteItem");
+                Tools.errWrite($"[{DateTime.Now} loadItem] -> NoteItem");
                 using (var entitydb = new AyetContext())
                 {
                     var dNote = entitydb.Notes.Where(p => p.notesId == noteId).FirstOrDefault();
@@ -238,7 +237,7 @@ namespace KuranX.App.Core.Pages.NoteF
             }
             catch (Exception ex)
             {
-                App.logWriter("Loading Func", ex);
+                Tools.logWriter("Loading Func", ex);
             }
         }
 
@@ -247,7 +246,7 @@ namespace KuranX.App.Core.Pages.NoteF
             try
             {
 
-                App.errWrite($"[{DateTime.Now} Printer_Func ] -> NoteItem");
+                Tools.errWrite($"[{DateTime.Now} Printer_Func ] -> NoteItem");
 
                 if (File.Exists("print_previw.xps") == true) File.Delete("print_previw.xps");
                 XpsDocument? doc = new XpsDocument("print_previw.xps", FileAccess.ReadWrite);
@@ -277,7 +276,7 @@ namespace KuranX.App.Core.Pages.NoteF
             }
             catch (Exception ex)
             {
-                App.logWriter("Loading Func", ex);
+                Tools.logWriter("Loading Func", ex);
             }
         }
 
@@ -289,7 +288,7 @@ namespace KuranX.App.Core.Pages.NoteF
         {
             try
             {
-                App.errWrite($"[{DateTime.Now} BackButton_Click ] -> NoteItem");
+                Tools.errWrite($"[{DateTime.Now} BackButton_Click ] -> NoteItem");
 
                
 
@@ -331,7 +330,7 @@ namespace KuranX.App.Core.Pages.NoteF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -340,7 +339,7 @@ namespace KuranX.App.Core.Pages.NoteF
             try
             {
 
-                App.errWrite($"[{DateTime.Now} gotoVerseButton_Click ] -> NoteItem");
+                Tools.errWrite($"[{DateTime.Now} gotoVerseButton_Click ] -> NoteItem");
                 switch (gototype)
                 {
                     case "Verse":
@@ -367,7 +366,7 @@ namespace KuranX.App.Core.Pages.NoteF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -376,14 +375,14 @@ namespace KuranX.App.Core.Pages.NoteF
             try
             {
 
-                App.errWrite($"[{DateTime.Now} deleteButton_Click ] -> NoteItem");
+                Tools.errWrite($"[{DateTime.Now} deleteButton_Click ] -> NoteItem");
 
 
                 popup_DeleteConfirm.IsOpen = true;
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -393,7 +392,7 @@ namespace KuranX.App.Core.Pages.NoteF
             try
             {
 
-                App.errWrite($"[{DateTime.Now} saveButton_Click ] -> NoteItem");
+                Tools.errWrite($"[{DateTime.Now} saveButton_Click ] -> NoteItem");
                 using (var entitydb = new AyetContext())
                 {
                     if (loadNoteDetail.Text.Length < 3)
@@ -411,7 +410,7 @@ namespace KuranX.App.Core.Pages.NoteF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -420,7 +419,7 @@ namespace KuranX.App.Core.Pages.NoteF
             try
             {
 
-                App.errWrite($"[{DateTime.Now} deleteNotePopupBtn_Click ] -> NoteItem");
+                Tools.errWrite($"[{DateTime.Now} deleteNotePopupBtn_Click ] -> NoteItem");
 
                 using (var entitydb = new AyetContext())
                 {
@@ -483,7 +482,7 @@ namespace KuranX.App.Core.Pages.NoteF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -492,7 +491,7 @@ namespace KuranX.App.Core.Pages.NoteF
             try
             {
 
-                App.errWrite($"[{DateTime.Now} popupClosed_Click ] -> NoteItem");
+                Tools.errWrite($"[{DateTime.Now} popupClosed_Click ] -> NoteItem");
 
 
                 var btntemp = sender as Button;
@@ -502,7 +501,7 @@ namespace KuranX.App.Core.Pages.NoteF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -512,12 +511,12 @@ namespace KuranX.App.Core.Pages.NoteF
         {
             try
             {
-                App.errWrite($"[{DateTime.Now} printButton_Click ] -> NoteItem");
+                Tools.errWrite($"[{DateTime.Now} printButton_Click ] -> NoteItem");
                 Printer_Func(this);
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -530,7 +529,7 @@ namespace KuranX.App.Core.Pages.NoteF
             try
             {
 
-                App.errWrite($"[{DateTime.Now} voidgobacktimer ] -> NoteItem");
+                Tools.errWrite($"[{DateTime.Now} voidgobacktimer ] -> NoteItem");
                 App.timeSpan.Interval = TimeSpan.FromSeconds(3);
                 App.timeSpan.Start();
                 App.mainScreen.succsessFunc("İşlem Başarılı", "Notunuz başaralı bir sekilde silinmiştir. Notlarım sayfasına yönlendiriliyorsunuz...", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
@@ -549,7 +548,7 @@ namespace KuranX.App.Core.Pages.NoteF
             }
             catch (Exception ex)
             {
-                App.logWriter("TimeSpan", ex);
+                Tools.logWriter("TimeSpan", ex);
             }
         }
 
@@ -562,7 +561,7 @@ namespace KuranX.App.Core.Pages.NoteF
             try
             {
 
-                App.errWrite($"[{DateTime.Now} loadNoteDetail_TextChanged ] -> NoteItem");
+                Tools.errWrite($"[{DateTime.Now} loadNoteDetail_TextChanged ] -> NoteItem");
                 if (tempCheck)
                 {
                     saveButton.IsEnabled = true;
@@ -571,7 +570,7 @@ namespace KuranX.App.Core.Pages.NoteF
             }
             catch (Exception ex)
             {
-                App.logWriter("Change", ex);
+                Tools.logWriter("Change", ex);
             }
         }
 
@@ -583,7 +582,7 @@ namespace KuranX.App.Core.Pages.NoteF
         {
             try
             {
-                App.errWrite($"[{DateTime.Now} loadAni ] -> NoteItem");
+                Tools.errWrite($"[{DateTime.Now} loadAni ] -> NoteItem");
                 this.Dispatcher.Invoke(() =>
                 {
                     loadNoteDetail.Visibility = Visibility.Hidden;
@@ -593,7 +592,7 @@ namespace KuranX.App.Core.Pages.NoteF
             }
             catch (Exception ex)
             {
-                App.logWriter("Animation", ex);
+                Tools.logWriter("Animation", ex);
             }
         }
 
@@ -602,7 +601,7 @@ namespace KuranX.App.Core.Pages.NoteF
             try
             {
 
-                App.errWrite($"[{DateTime.Now} loadAniComplated ] -> NoteItem");
+                Tools.errWrite($"[{DateTime.Now} loadAniComplated ] -> NoteItem");
                 this.Dispatcher.Invoke(() =>
                 {
                     loadNoteDetail.Visibility = Visibility.Visible;
@@ -614,7 +613,7 @@ namespace KuranX.App.Core.Pages.NoteF
             }
             catch (Exception ex)
             {
-                App.logWriter("Animation", ex);
+                Tools.logWriter("Animation", ex);
             }
         }
     }

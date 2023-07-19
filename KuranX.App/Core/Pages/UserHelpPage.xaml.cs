@@ -1,4 +1,5 @@
 ﻿using KuranX.App.Core.Classes;
+using KuranX.App.Core.Classes.Tools;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,7 +39,7 @@ namespace KuranX.App.Core.Pages
             catch (Exception ex)
             {
 
-                App.logWriter("Loading", ex);
+                Tools.logWriter("Loading", ex);
                 return this;
             }
         }

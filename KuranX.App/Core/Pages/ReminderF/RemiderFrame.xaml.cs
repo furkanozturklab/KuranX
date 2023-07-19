@@ -1,4 +1,5 @@
 ﻿using KuranX.App.Core.Classes;
+using KuranX.App.Core.Classes.Tools;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -29,13 +30,13 @@ namespace KuranX.App.Core.Pages.ReminderF
             try
             {
 
-                App.errWrite($"[{DateTime.Now} InitializeComponent ] -> RemiderFrame");
+                Tools.errWrite($"[{DateTime.Now} InitializeComponent ] -> RemiderFrame");
                 InitializeComponent();
                 remiderDay.DisplayDateStart = DateTime.Now.AddDays(1);
             }
             catch (Exception ex)
             {
-                App.logWriter("InitializeComponent", ex);
+                Tools.logWriter("InitializeComponent", ex);
             }
         }
 
@@ -44,7 +45,7 @@ namespace KuranX.App.Core.Pages.ReminderF
             try
             {
 
-                App.errWrite($"[{DateTime.Now} PageCall ] -> RemiderFrame");
+                Tools.errWrite($"[{DateTime.Now} PageCall ] -> RemiderFrame");
 
 
                 lastPage = 0;
@@ -61,7 +62,7 @@ namespace KuranX.App.Core.Pages.ReminderF
             }
             catch (Exception ex)
             {
-                App.logWriter("Loading", ex);
+                Tools.logWriter("Loading", ex);
                 return this;
             }
         }
@@ -71,7 +72,7 @@ namespace KuranX.App.Core.Pages.ReminderF
             try
             {
 
-                App.errWrite($"[{DateTime.Now} Page_Loaded ] -> RemiderFrame");
+                Tools.errWrite($"[{DateTime.Now} Page_Loaded ] -> RemiderFrame");
 
 
                 sId.Text = "0";
@@ -80,7 +81,7 @@ namespace KuranX.App.Core.Pages.ReminderF
             }
             catch (Exception ex)
             {
-                App.logWriter("LoadingFunc", ex);
+                Tools.logWriter("LoadingFunc", ex);
             }
         }
 
@@ -93,7 +94,7 @@ namespace KuranX.App.Core.Pages.ReminderF
 
                 Debug.WriteLine(filterText);
 
-                App.errWrite($"[{DateTime.Now} loadItem ] -> RemiderFrame");
+                Tools.errWrite($"[{DateTime.Now} loadItem ] -> RemiderFrame");
                 using (var entitydb = new AyetContext())
                 {
                     loadAni();
@@ -215,7 +216,7 @@ namespace KuranX.App.Core.Pages.ReminderF
             }
             catch (Exception ex)
             {
-                App.logWriter("Loading Func", ex);
+                Tools.logWriter("Loading Func", ex);
             }
         }
 
@@ -225,12 +226,12 @@ namespace KuranX.App.Core.Pages.ReminderF
         {
             try
             {
-                App.errWrite($"[{DateTime.Now} newRemider_Click ] -> RemiderFrame");
+                Tools.errWrite($"[{DateTime.Now} newRemider_Click ] -> RemiderFrame");
                 popup_remiderAddPopup.IsOpen = true;
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -238,12 +239,12 @@ namespace KuranX.App.Core.Pages.ReminderF
         {
             try
             {
-                App.errWrite($"[{DateTime.Now} remiderVerseAddButton_Click ] -> RemiderFrame");
+                Tools.errWrite($"[{DateTime.Now} remiderVerseAddButton_Click ] -> RemiderFrame");
                 popup_VerseSelect.IsOpen = true;
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -252,7 +253,7 @@ namespace KuranX.App.Core.Pages.ReminderF
             try
             {
 
-                App.errWrite($"[{DateTime.Now} filter_Click ] -> RemiderFrame");
+                Tools.errWrite($"[{DateTime.Now} filter_Click ] -> RemiderFrame");
 
 
                 var btn = sender as Button;
@@ -271,7 +272,7 @@ namespace KuranX.App.Core.Pages.ReminderF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -279,7 +280,7 @@ namespace KuranX.App.Core.Pages.ReminderF
         {
             try
             {
-                App.errWrite($"[{DateTime.Now} nextpageButton_Click ] -> RemiderFrame");
+                Tools.errWrite($"[{DateTime.Now} nextpageButton_Click ] -> RemiderFrame");
 
                 nextpageButton.IsEnabled = false;
                 lastPage += 6;
@@ -288,7 +289,7 @@ namespace KuranX.App.Core.Pages.ReminderF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -296,7 +297,7 @@ namespace KuranX.App.Core.Pages.ReminderF
         {
             try
             {
-                App.errWrite($"[{DateTime.Now} previusPageButton_Click ] -> RemiderFrame");
+                Tools.errWrite($"[{DateTime.Now} previusPageButton_Click ] -> RemiderFrame");
 
 
                 if (lastPage >= 6)
@@ -309,7 +310,7 @@ namespace KuranX.App.Core.Pages.ReminderF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -317,7 +318,7 @@ namespace KuranX.App.Core.Pages.ReminderF
         {
             try
             {
-                App.errWrite($"[{DateTime.Now} remiderTypeChangeButton_Click ] -> RemiderFrame");
+                Tools.errWrite($"[{DateTime.Now} remiderTypeChangeButton_Click ] -> RemiderFrame");
 
                 if (loopType.Visibility.ToString() == "Hidden")
                 {
@@ -336,7 +337,7 @@ namespace KuranX.App.Core.Pages.ReminderF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -345,7 +346,7 @@ namespace KuranX.App.Core.Pages.ReminderF
             try
             {
 
-                App.errWrite($"[{DateTime.Now} addRemiderButton_Click ] -> RemiderFrame");
+                Tools.errWrite($"[{DateTime.Now} addRemiderButton_Click ] -> RemiderFrame");
 
 
                 if (remiderName.Text.Length >= 3)
@@ -520,7 +521,7 @@ namespace KuranX.App.Core.Pages.ReminderF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -529,7 +530,7 @@ namespace KuranX.App.Core.Pages.ReminderF
             try
             {
 
-                App.errWrite($"[{DateTime.Now} remiderDelete_Click ] -> RemiderFrame");
+                Tools.errWrite($"[{DateTime.Now} remiderDelete_Click ] -> RemiderFrame");
 
                 var btn = sender as Button;
                 selectedId = int.Parse(btn.Uid);
@@ -537,7 +538,7 @@ namespace KuranX.App.Core.Pages.ReminderF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -546,17 +547,17 @@ namespace KuranX.App.Core.Pages.ReminderF
             try
             {
 
-                App.errWrite($"[{DateTime.Now} remiderDetail_Click ] -> RemiderFrame");
+                Tools.errWrite($"[{DateTime.Now} remiderDetail_Click ] -> RemiderFrame");
 
                 var btn = sender as Button;
                 viewRemider.Visibility = Visibility.Hidden;
 
-              
+
                 App.mainframe.Content = App.navRemiderItem.PageCall(int.Parse(btn.Uid.ToString()));
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -564,7 +565,7 @@ namespace KuranX.App.Core.Pages.ReminderF
         {
             try
             {
-                App.errWrite($"[{DateTime.Now} deleteRemiderPopupBtn_Click ] -> RemiderFrame");
+                Tools.errWrite($"[{DateTime.Now} deleteRemiderPopupBtn_Click ] -> RemiderFrame");
 
 
                 using (var entitydb = new AyetContext())
@@ -585,7 +586,7 @@ namespace KuranX.App.Core.Pages.ReminderF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -593,7 +594,7 @@ namespace KuranX.App.Core.Pages.ReminderF
         {
             try
             {
-                App.errWrite($"[{DateTime.Now} remiderAddVersePopup_Click ] -> RemiderFrame");
+                Tools.errWrite($"[{DateTime.Now} remiderAddVersePopup_Click ] -> RemiderFrame");
 
 
                 var item = popupNextSureId.SelectedItem as ComboBoxItem;
@@ -620,7 +621,7 @@ namespace KuranX.App.Core.Pages.ReminderF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -628,7 +629,7 @@ namespace KuranX.App.Core.Pages.ReminderF
         {
             try
             {
-                App.errWrite($"[{DateTime.Now} popupClosed_Click ] -> RemiderFrame");
+                Tools.errWrite($"[{DateTime.Now} popupClosed_Click ] -> RemiderFrame");
 
 
                 var btntemp = sender as Button;
@@ -645,7 +646,7 @@ namespace KuranX.App.Core.Pages.ReminderF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -664,7 +665,7 @@ namespace KuranX.App.Core.Pages.ReminderF
             }
             catch (Exception ex)
             {
-                App.logWriter("Change", ex);
+                Tools.logWriter("Change", ex);
             }
         }
 
@@ -678,7 +679,7 @@ namespace KuranX.App.Core.Pages.ReminderF
             }
             catch (Exception ex)
             {
-                App.logWriter("Change", ex);
+                Tools.logWriter("Change", ex);
             }
         }
 
@@ -688,7 +689,7 @@ namespace KuranX.App.Core.Pages.ReminderF
             try
             {
 
-                App.errWrite($"[{DateTime.Now} popupNextSureId_SelectionChanged ] -> RemiderFrame");
+                Tools.errWrite($"[{DateTime.Now} popupNextSureId_SelectionChanged ] -> RemiderFrame");
 
 
                 var item = popupNextSureId.SelectedItem as ComboBoxItem;
@@ -703,7 +704,7 @@ namespace KuranX.App.Core.Pages.ReminderF
             }
             catch (Exception ex)
             {
-                App.logWriter("Change", ex);
+                Tools.logWriter("Change", ex);
             }
         }
 
@@ -718,7 +719,7 @@ namespace KuranX.App.Core.Pages.ReminderF
             }
             catch (Exception ex)
             {
-                App.logWriter("Change", ex);
+                Tools.logWriter("Change", ex);
             }
         }
 
@@ -734,7 +735,7 @@ namespace KuranX.App.Core.Pages.ReminderF
             }
             catch (Exception ex)
             {
-                App.logWriter("Change", ex);
+                Tools.logWriter("Change", ex);
             }
         }
 
@@ -767,7 +768,7 @@ namespace KuranX.App.Core.Pages.ReminderF
             }
             catch (Exception ex)
             {
-                App.logWriter("Change", ex);
+                Tools.logWriter("Change", ex);
             }
         }
 
@@ -779,7 +780,7 @@ namespace KuranX.App.Core.Pages.ReminderF
         {
             try
             {
-                App.errWrite($"[{DateTime.Now} loadAni ] -> RemiderFrame");
+                Tools.errWrite($"[{DateTime.Now} loadAni ] -> RemiderFrame");
 
                 this.Dispatcher.Invoke(() =>
                 {
@@ -794,7 +795,7 @@ namespace KuranX.App.Core.Pages.ReminderF
             }
             catch (Exception ex)
             {
-                App.logWriter("Animation", ex);
+                Tools.logWriter("Animation", ex);
             }
         }
 
@@ -803,7 +804,7 @@ namespace KuranX.App.Core.Pages.ReminderF
             try
             {
 
-                App.errWrite($"[{DateTime.Now} loadAniComplated ] -> RemiderFrame");
+                Tools.errWrite($"[{DateTime.Now} loadAniComplated ] -> RemiderFrame");
                 this.Dispatcher.Invoke(() =>
                 {
                     addRemider.IsEnabled = true;
@@ -817,7 +818,7 @@ namespace KuranX.App.Core.Pages.ReminderF
             }
             catch (Exception ex)
             {
-                App.logWriter("Animation", ex);
+                Tools.logWriter("Animation", ex);
             }
         }
 
@@ -828,7 +829,7 @@ namespace KuranX.App.Core.Pages.ReminderF
         public void popuverMove_Click(object sender, RoutedEventArgs e)
         {
 
-            App.errWrite($"[{DateTime.Now} popuverMove_Click ] -> RemiderFrame");
+            Tools.errWrite($"[{DateTime.Now} popuverMove_Click ] -> RemiderFrame");
 
             var btn = sender as Button;
             ppMoveConfing((string)btn.Uid);
@@ -839,7 +840,7 @@ namespace KuranX.App.Core.Pages.ReminderF
         public void ppMoveActionOfset_Click(object sender, RoutedEventArgs e)
         {
 
-            App.errWrite($"[{DateTime.Now} ppMoveActionOfset_Click ] -> RemiderFrame");
+            Tools.errWrite($"[{DateTime.Now} ppMoveActionOfset_Click ] -> RemiderFrame");
             var btntemp = sender as Button;
             var movePP = (Popup)FindName((string)btntemp.Content);
 
@@ -882,7 +883,7 @@ namespace KuranX.App.Core.Pages.ReminderF
         public void ppMoveConfing(string ppmove)
         {
 
-            App.errWrite($"[{DateTime.Now} ppMoveConfing ] -> RemiderFrame");
+            Tools.errWrite($"[{DateTime.Now} ppMoveConfing ] -> RemiderFrame");
             for (int i = 1; i < 8; i++)
             {
                 var btn = FindName("pp_M" + i) as Button;

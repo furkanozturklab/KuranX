@@ -1,0 +1,1129 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                   xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
+                    xmlns:extension="clr-namespace:KuranX.App.Core.Classes"
+                        xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+   
+
+    <!-- Main Navigation Bar -->
+
+    <!-- LEFT CONTENT HEADER -->
+
+    <Style TargetType="Border" x:Key="hmwnd_leftHeaderContent">
+        <Setter Property="Grid.Row" Value="0" />
+        <Setter Property="Padding" Value="5 15 5 0" />
+    </Style>
+
+    <!-- ROW 0 WELCOME TEXTS-->
+
+    <Style TargetType="TextBlock" x:Key="hmwnd_leftHeader">
+        <Setter Property="Foreground" Value="{DynamicResource Base.Text.Header}" />
+        <Setter Property="FontFamily" Value="{DynamicResource PoppinsMedium}" />
+        <Setter Property="FontSize" Value="15" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="TextAlignment" Value="Center" />
+        <Setter Property="Margin" Value="5 0 0 0" />
+    </Style>
+
+    <Style TargetType="TextBlock" x:Key="hmwnd_leftHeaderSub" BasedOn="{StaticResource hmwnd_leftHeader}">
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="Foreground" Value="{DynamicResource Base.Text.Sub}" />
+    </Style>
+
+    <!-- ROW 0 WELCOME TEXTS-->
+
+    <!-- ROW 1 EXTENDS -->
+
+    <Style x:Key="ExtendedButton" TargetType="CheckBox">
+        <Setter Property="Width" Value="20" />
+        <Setter Property="Height" Value="20" />
+        <Setter Property="Background" Value="{x:Null}" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Margin" Value="5 0 0 0" />
+        <Setter Property="Foreground" Value="#1C1E2F" />
+        <Setter Property="Template">
+
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type CheckBox}">
+                    <TextBlock Width="20" Height="20">
+                        <Icon:PackIconBootstrapIcons x:Name="txt_trg" Kind="ArrowsFullscreen" Width="20" Height="20" />
+                    </TextBlock>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="txt_trg" Property="Foreground" Value="#F0433A" />
+                            <Setter Property="Cursor" Value="Hand" />
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="False">
+                            <Setter Property="Kind" TargetName="txt_trg" Value="ArrowsFullscreen" />
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter Property="Kind" TargetName="txt_trg" Value="FullscreenExit" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- ROW 1 EXTENDS -->
+
+    <!-- ROW 2 PROFILE IMAGE NAME -->
+
+    <Style TargetType="Ellipse" x:Key="hmwnd_leftHeaderImage">
+        <Setter Property="Width" Value="64" />
+        <Setter Property="Height" Value="64" />
+        <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality" />
+    </Style>
+
+    <Style TargetType="Ellipse" x:Key="prf_leftHeaderImage">
+        <Setter Property="Width" Value="100" />
+        <Setter Property="Height" Value="100" />
+        <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality" />
+    </Style>
+
+    <Style TargetType="Ellipse" x:Key="prf_previewleftHeaderImage">
+        <Setter Property="Width" Value="52" />
+        <Setter Property="Height" Value="52" />
+        <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality" />
+    </Style>
+
+    <Style TargetType="Button" x:Key="prf_editIconBtn">
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Margin" Value="10" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Ellipse x:Name="default_1" Grid.Column="0" Grid.Row="0" Style="{DynamicResource prf_previewleftHeaderImage}">
+                        <Ellipse.Fill>
+                            <ImageBrush x:Name="defaultBrush_1" RenderOptions.BitmapScalingMode="HighQuality" ImageSource="{Binding Path=Uid,RelativeSource={RelativeSource TemplatedParent}}" />
+                        </Ellipse.Fill>
+                    </Ellipse>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="Button" x:Key="prf_editImage">
+        <Setter Property="Width" Value="24" />
+        <Setter Property="Height" Value="24" />
+        <Setter Property="Background" Value="#820333" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Border CornerRadius="50" Background="{TemplateBinding Background}">
+                        <Icon:PackIconZondicons  Kind="EditPencil" Width="12" Height="12" Foreground="#FFF" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Cursor" Value="Hand" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="TextBlock" x:Key="prf_editBoxText">
+        <Setter Property="FontFamily" Value="{DynamicResource PoppinsMedium}" />
+        <Setter Property="Foreground" Value="#707A89" />
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="Margin" Value="10 5 10 5" />
+    </Style>
+
+    <Style TargetType="Label" x:Key="prf_editBoxErrorText">
+        <Setter Property="FontFamily" Value="{DynamicResource PoppinsMedium}" />
+        <Setter Property="Foreground" Value="#707A89" />
+        <Setter Property="FontSize" Value="10" />
+        <Setter Property="Height" Value="25" />
+        <Setter Property="Margin" Value="0 -5" />
+    </Style>
+
+    <Style x:Key="prf_DefaulTextBox" TargetType="TextBox">
+
+        <Setter Property="MinWidth" Value="150" />
+        <Setter Property="MinHeight" Value="30" />
+        <Setter Property="Foreground" Value="#1C1E2F" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="Padding" Value="5 2 5 2" />
+        <Setter Property="FontFamily" Value="{DynamicResource PoppinsMedium}" />
+        <Setter Property="Background" Value="#fff" />
+        <Setter Property="BorderBrush" Value="#ADB5BD" />
+        <Setter Property="TextAlignment" Value="Center" />
+
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TextBox}">
+                    <Border CornerRadius="5" x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+                        <ScrollViewer x:Name="PART_ContentHost" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsFocused" Value="true">
+                            <Setter Property="BorderBrush" TargetName="border" Value="#80F0433A" />
+                        </Trigger>
+                        <Trigger Property="IsReadOnly" Value="True">
+                            <Setter Property="Background" Value="#f3f2f7" TargetName="PART_ContentHost" />
+                            <Setter Property="BorderThickness" Value="0" />
+                            <Setter Property="TextAlignment" Value="Center" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="Button" x:Key="prf_savebtn">
+
+        <Setter Property="Width" Value="250" />
+        <Setter Property="Height" Value="35" />
+        <Setter Property="Margin" Value="10" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Border CornerRadius="5" x:Name="border" Background="#FFF" Style="{DynamicResource defaultBorderShadowEffect}">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <TextBlock TextAlignment="Center" x:Name="text" Text="{Binding Path=Content,RelativeSource={RelativeSource TemplatedParent}}" FontSize="{TemplateBinding FontSize}" FontFamily="{DynamicResource PoppinsMedium}" Foreground="#1C1E2F" />
+                        </StackPanel>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#820333" TargetName="border" />
+                            <Setter Property="Foreground" Value="#fff" TargetName="text" />
+                            <Setter Property="Cursor" Value="Hand" />
+                        </Trigger>
+
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="border" Property="Background" Value="#FFE4E6EF" />
+                            <Setter Property="Cursor" Value="No" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="TextBlock" x:Key="hmwnd_leftHeaderImageText">
+        <Setter Property="TextAlignment" Value="Center" />
+        <Setter Property="Margin" Value="0,5,0,5" />
+        <Setter Property="Width" Value="Auto" />
+        <Setter Property="MaxHeight" Value="36" />
+        <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Foreground" Value="{DynamicResource Base.Text.Header}" />
+        <Setter Property="FontFamily" Value="{DynamicResource PoppinsMedium}" />
+    </Style>
+
+    <!-- ROW 2 PROFILE IMAGE NAME -->
+
+    <!-- ROW 3 ACTIONS BUTTON -->
+
+    <Style TargetType="Button" x:Key="hmwnd_leftHeaderButton">
+        <Setter Property="Background" Value="Transparent" />
+
+        <Setter Property="Foreground" Value="{DynamicResource Base.Text.Content}" />
+        <Setter Property="Margin" Value="5 0 5 0" />
+        <Setter Property="Opacity" Value="1" />
+        <Setter Property="Height" Value="30" />
+        <Setter Property="Width" Value="150" />
+        <Setter Property="UseLayoutRounding" Value="True" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="brd" BorderBrush="#E6E6EB" BorderThickness="1" CornerRadius="5">
+                        <StackPanel VerticalAlignment="Center" Orientation="Vertical">
+                            <TextBlock x:Name="txt" Text="Profilini Düzenle" FontFamily="{DynamicResource PoppinsMedium}" FontSize="12" Foreground="#11243D" TextAlignment="Center" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#E6E6EB" TargetName="brd" />
+                            <Setter Property="Foreground" Value="#11243D" TargetName="txt" />
+                            <Setter Property="Cursor" Value="Hand" />
+                        </Trigger>
+
+                        <Trigger Property="extension:Extensions.ExtendsStatus" Value="true">
+                            <Setter Property="Width" Value="80" />
+                            <Setter Property="Text" Value="Profil" TargetName="txt" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- ROW 3 ACTIONS BUTTON -->
+
+    <!-- LEFT CONTENT HEADER -->
+
+    <!-- LEFT CONTENT MENU -->
+
+    <Style x:Key="hmwnd_menuItems" TargetType="CheckBox">
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="UseLayoutRounding" Value="True" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="BorderBrush" Value="{x:Null}" />
+        <Setter Property="Background" Value="{x:Null}" />
+        <Setter Property="Height" Value="44" />
+        <Setter Property="Margin" Value="10 0 0 5" />
+        <Setter Property="Width" Value="Auto" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type CheckBox}">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <TextBlock MaxWidth="210" Height="30">
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="28" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                   <Image x:Name="icoImage" Grid.Column="0" Source="{Binding Path=Tag, RelativeSource={RelativeSource TemplatedParent}}" Width="28" Height="28" RenderOptions.BitmapScalingMode="HighQuality" HorizontalAlignment="Left" />
+                                   <TextBlock x:Name="icoTxt" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10 0 5 0" Grid.Column="1" Text="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}}" FontFamily="{DynamicResource PoppinsMedium}" FontSize="15" Foreground="#383C41" Opacity="0.60" />
+                            </Grid>
+                        </TextBlock>
+                    </StackPanel>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Source" Value="{Binding Path=Uid, RelativeSource={RelativeSource TemplatedParent}}" TargetName="icoImage" />
+                            <Setter Property="Cursor" Value="Hand" />
+                            <Setter Property="Opacity" Value="1" TargetName="icoTxt" />
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter Property="Source" Value="{Binding Path=Uid, RelativeSource={RelativeSource TemplatedParent}}" TargetName="icoImage" />
+                            <Setter Property="Opacity" Value="1" TargetName="icoTxt" />
+                            <Setter Property="Margin" Value="15 0 5 0" TargetName="icoTxt" />
+                        </Trigger>
+
+                        <Trigger Property="extension:Extensions.ExtendsStatus" Value="true">
+                            <Setter Property="Width" Value="0" TargetName="icoTxt" />
+                            <Setter Property="HorizontalAlignment" Value="Center" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Cursor" Value="Hand" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="hmwnd_menuItemsExtendes" TargetType="CheckBox" BasedOn="{DynamicResource hmwnd_menuItems}">
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type CheckBox}">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <TextBlock MaxWidth="210" Height="30">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="30" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                   <Image x:Name="icoImage" Grid.Column="0" Source="{Binding Path=Tag, RelativeSource={RelativeSource TemplatedParent}}" Width="30" Height="30" RenderOptions.BitmapScalingMode="HighQuality" HorizontalAlignment="Center" />
+                            </Grid>
+                        </TextBlock>
+                    </StackPanel>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Source" Value="{Binding Path=Uid, RelativeSource={RelativeSource TemplatedParent}}" TargetName="icoImage" />
+                            <Setter Property="Cursor" Value="Hand" />
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter Property="Source" Value="{Binding Path=Uid, RelativeSource={RelativeSource TemplatedParent}}" TargetName="icoImage" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- LEFT CONTENT MENU -->
+
+    <!-- LEFT Setting MENU -->
+
+    <Style x:Key="hmwnd_leftButton" TargetType="Button">
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="Width" Value="24" />
+        <Setter Property="Height" Value="24" />
+        <Setter Property="Margin" Value="5 0 5 0" />
+        <Setter Property="Opacity" Value="0.60" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="#383C41" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Opacity" Value="1" />
+                <Setter Property="Cursor" Value="Hand" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="hmwnd_leftSetting" TargetType="Button" BasedOn="{StaticResource hmwnd_leftButton}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <TextBlock Width="24" Height="24">
+                        <Icon:PackIconVaadinIcons Kind="CogOutline" Width="24" Height="24"  HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </TextBlock>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="hmwnd_leftFeed" TargetType="Button" BasedOn="{StaticResource hmwnd_leftButton}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <TextBlock Width="24" Height="24">
+                        <Icon:PackIconCodicons Kind="Feedback" Width="24" Height="24"  HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </TextBlock>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="hmwnd_leftExit" TargetType="Button" BasedOn="{StaticResource hmwnd_leftButton}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <TextBlock Width="24" Height="24">
+                        <Icon:PackIconUnicons Kind="Signout" Width="24" Height="24"  HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </TextBlock>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="hmwnd_leftAdmin" TargetType="Button" BasedOn="{StaticResource hmwnd_leftButton}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <TextBlock Width="24" Height="24">
+                        <Icon:PackIconFontAwesome Kind="UserShieldSolid" Width="24" Height="24"  HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </TextBlock>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="TextBlock" x:Key="hmwnd_leftVersionText">
+
+        <Setter Property="VerticalAlignment" Value="Bottom" />
+        <Setter Property="HorizontalAlignment" Value="Right" />
+        <Setter Property="FontFamily" Value="{DynamicResource PoppinsMedium}" />
+        <Setter Property="FontSize" Value="11" />
+        <Setter Property="Margin" Value="0 0 5 0" />
+        <Setter Property="Foreground" Value="#FF383C41" />
+    </Style>
+
+    <!-- LEFT Setting MENU -->
+
+    <!-- Right Panel Settings -->
+
+    <Style TargetType="TextBlock" x:Key="hmwnd_demoText">
+
+        <Setter Property="TextAlignment" Value="Center" />
+        <Setter Property="Background" Value="#FF820333" />
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="FontFamily" Value="{DynamicResource PoppinsMedium}" />
+        <Setter Property="Height" Value="20" />
+        <Setter Property="Width" Value="120" />
+        <Setter Property="HorizontalAlignment" Value="Right" />
+        <Setter Property="VerticalAlignment" Value="Top" />
+    </Style>
+
+    <Style TargetType="Button" x:Key="hmwnd_appclosedButton">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="#383C41" />
+        <Setter Property="Opacity" Value="0.60" />
+        <Setter Property="Height" Value="24" />
+        <Setter Property="Margin" Value="0 0 20 0" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Bottom" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <TextBlock VerticalAlignment="Center" Height="24" Width="24">
+                          <Icon:PackIconEvaIcons Kind="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}}" Width="24" Height="24" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    </TextBlock>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Opacity" Value="1" />
+                <Setter Property="Cursor" Value="Hand" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style TargetType="Button" x:Key="hmwnd_appErrButton">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="#383C41" />
+        <Setter Property="Opacity" Value="0.60" />
+        <Setter Property="Height" Value="24" />
+        <Setter Property="Margin" Value="0 0 20 0" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Bottom" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <TextBlock VerticalAlignment="Center" Height="24" Width="24">
+                          <Icon:PackIconBoxIcons Kind="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}}" Width="24" Height="24" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    </TextBlock>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Opacity" Value="1" />
+                <Setter Property="Cursor" Value="Hand" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style TargetType="Button" x:Key="hmwnd_appFullButton">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="#383C41" />
+        <Setter Property="Opacity" Value="0.60" />
+        <Setter Property="Height" Value="24" />
+        <Setter Property="Margin" Value="0 0 20 0" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Bottom" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <TextBlock VerticalAlignment="Center" Height="24" Width="24">
+                          <Icon:PackIconFontAwesome  Kind="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}}" Width="24" Height="24" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    </TextBlock>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Opacity" Value="1" />
+                <Setter Property="Cursor" Value="Hand" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style TargetType="Frame" x:Key="contentFrame">
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Background" Value="{DynamicResource Base.Panel.Right}" />
+
+        <Style.Triggers>
+            <Trigger Property="Visibility" Value="Visible">
+                <Trigger.EnterActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                             From="0.0" To="1.0" Duration="0:0:0.5" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.EnterActions>
+            </Trigger>
+
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="hmwnd_navgationIcons" TargetType="{x:Type Button}">
+        <Setter Property="Width" Value="22" />
+        <Setter Property="Height" Value="22" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Border>
+                        <Image RenderOptions.BitmapScalingMode="HighQuality" Source="{Binding Path=Tag, RelativeSource={RelativeSource TemplatedParent}}" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="Button" x:Key="navigationSperator">
+        <Setter Property="Width" Value="12" />
+        <Setter Property="Height" Value="12" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="Foreground" Value="#383C41" />
+        <Setter Property="Margin" Value="5 0 0 0" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <TextBlock Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
+                        <Icon:PackIconEvaIcons Kind="ArrowIosForward" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" Foreground="{TemplateBinding Foreground}" />
+                    </TextBlock>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="TextBlock" x:Key="navigationLocationText">
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="Foreground" Value="#383C41" />
+        <Setter Property="FontFamily" Value="{DynamicResource ResourceKey=PoppinsSemiBold}" />
+        <Setter Property="Margin" Value="5 0 0 0" />
+    </Style>
+
+    <!-- Right Panel Settings -->
+
+    <!-- HomeScreen Default  -->
+
+    <Style x:Key="hmwnd_lifeCyclerPopupHeader" TargetType="TextBlock">
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="MaxHeight" Value="42" />
+        <Setter Property="MaxWidth" Value="228" />
+        <Setter Property="FontFamily" Value="{DynamicResource PoppinsMedium}" />
+        <Setter Property="Foreground" Value="#1C1E2F" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+
+    <Style x:Key="hmwnd_lifeActionPopup" TargetType="Button">
+        <Setter Property="Width" Value="18" />
+        <Setter Property="Height" Value="18" />
+        <Setter Property="Margin" Value="8 0 8 0" />
+        <Setter Property="Background" Value="{x:Null}" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <TextBlock Width="18" Height="18">
+                        <Icon:PackIconBootstrapIcons x:Name="txt_trg" Kind="ArrowRight" Width="18" Height="18" Foreground="#1C1E2F" />
+                    </TextBlock>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="txt_trg" Property="Foreground" Value="#F0433A" />
+                            <Setter Property="Cursor" Value="Hand" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="hmwnd_lifeDoubleActionPopup" TargetType="Button">
+        <Setter Property="Width" Value="18" />
+        <Setter Property="Height" Value="18" />
+        <Setter Property="Background" Value="{x:Null}" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Margin" Value="8 0 8 0" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <TextBlock Width="18" Height="18">
+                        <Icon:PackIconBootstrapIcons x:Name="txt_trg" Kind="BoxArrowInUpRight" Width="18" Height="18" Foreground="#1C1E2F" />
+                    </TextBlock>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="txt_trg" Property="Foreground" Value="#F0433A" />
+                            <Setter Property="Cursor" Value="Hand" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="hmwnd_lifeExitPopup" TargetType="Button">
+        <Setter Property="Width" Value="16" />
+        <Setter Property="Height" Value="16" />
+        <Setter Property="Background" Value="{x:Null}" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Margin" Value="8 0 8 0" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <TextBlock Width="16" Height="16">
+                        <Icon:PackIconVaadinIcons x:Name="txt_trg" Kind="CloseBig" Width="16" Height="16" Foreground="#1C1E2F" />
+                    </TextBlock>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="txt_trg" Property="Foreground" Value="#F0433A" />
+                            <Setter Property="Cursor" Value="Hand" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- HomeScreen Default  -->
+
+    <!-- HomePage Default  -->
+
+    <Style x:Key="ProgressBarStyle1" TargetType="{x:Type ProgressBar}">
+        <Setter Property="Foreground" Value="#FF66E21F" />
+        <Setter Property="Background" Value="#FFADB5BD" />
+        <Setter Property="BorderBrush" Value="#FFADB5BD" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ProgressBar}">
+                    <Grid x:Name="TemplateRoot">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Determinate" />
+                                <VisualState x:Name="Indeterminate">
+                                    <Storyboard RepeatBehavior="Forever">
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="Animation" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)">
+                                            <EasingDoubleKeyFrame KeyTime="0" Value="0.25" />
+                                            <EasingDoubleKeyFrame KeyTime="0:0:1" Value="0.25" />
+                                            <EasingDoubleKeyFrame KeyTime="0:0:2" Value="0.25" />
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <PointAnimationUsingKeyFrames Storyboard.TargetName="Animation" Storyboard.TargetProperty="(UIElement.RenderTransformOrigin)">
+                                            <EasingPointKeyFrame KeyTime="0" Value="-0.5,0.5" />
+                                            <EasingPointKeyFrame KeyTime="0:0:1" Value="0.5,0.5" />
+                                            <EasingPointKeyFrame KeyTime="0:0:2" Value="1.5,0.5" />
+                                        </PointAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="5" />
+                        <Rectangle x:Name="PART_Track" />
+                        <Grid x:Name="PART_Indicator" ClipToBounds="true" HorizontalAlignment="Left">
+                            <Rectangle x:Name="Indicator" Fill="{TemplateBinding Foreground}" RadiusX="5" RadiusY="5" />
+                            <Rectangle x:Name="Animation" Fill="{TemplateBinding Foreground}" RenderTransformOrigin="0.5,0.5" RadiusX="5" RadiusY="5">
+                                <Rectangle.RenderTransform>
+                                    <TransformGroup>
+                                        <ScaleTransform />
+                                        <SkewTransform />
+                                        <RotateTransform />
+                                        <TranslateTransform />
+                                    </TransformGroup>
+                                </Rectangle.RenderTransform>
+                            </Rectangle>
+                        </Grid>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="Orientation" Value="Vertical">
+                            <Setter Property="LayoutTransform" TargetName="TemplateRoot">
+                                <Setter.Value>
+                                    <RotateTransform Angle="-90" />
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                        <Trigger Property="IsIndeterminate" Value="true">
+                            <Setter Property="Visibility" TargetName="Indicator" Value="Collapsed" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="hmw_nextverseClick" TargetType="Button">
+
+        <Setter Property="Foreground" Value="#1C1E2F" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
+                        <TextBlock x:Name="txt_trg" Text="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}}" FontSize="14" Foreground="{TemplateBinding Foreground}" FontFamily="{DynamicResource PoppinsSemiBold}" Margin="0 0 5 0 " />
+                        <Icon:PackIconIonicons x:Name="txt_ico" Kind="{Binding Path=Tag, RelativeSource={RelativeSource TemplatedParent}}" Foreground="{TemplateBinding Foreground}" Width="14" Height="14" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </StackPanel>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="txt_trg" Property="Foreground" Value="#F0433A" />
+                            <Setter TargetName="txt_ico" Property="Foreground" Value="#F0433A" />
+                            <Setter Property="Cursor" Value="Hand" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="hmw_statusPanelLeft" TargetType="TextBlock">
+
+        <Setter Property="TextAlignment" Value="Right" />
+        <Setter Property="Foreground" Value="#1C1E2F" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Margin" Value="0 0 20 0" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontFamily" Value="{DynamicResource PoppinsMedium}" />
+    </Style>
+
+    <Style x:Key="hmw_statusPanelRight" TargetType="TextBlock">
+
+        <Setter Property="TextAlignment" Value="Left" />
+        <Setter Property="Foreground" Value="#F0433A" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Margin" Value="20 0 0 0" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontFamily" Value="{DynamicResource PoppinsMedium}" />
+    </Style>
+
+    <Style x:Key="pp_settingsHeader" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{DynamicResource PoppinsRegular}" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="Foreground" Value="#3F4254" />
+    </Style>
+
+    <Style x:Key="pp_settingsIconBox" TargetType="Button">
+        <Setter Property="FontFamily" Value="{DynamicResource PoppinsRegular}" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="Foreground" Value="#3F4254" />
+        <Setter Property="Background" Value="#F3F6F9" />
+        <Setter Property="BorderBrush" Value="#E4E6EF" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1">
+                        <Icon:PackIconMaterial Kind="{Binding Path=Tag, RelativeSource={RelativeSource TemplatedParent}}" Width="16" Height="16" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="pp_settingsInfo" TargetType="Label">
+        <Setter Property="FontFamily" Value="{DynamicResource PoppinsRegular}" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="Foreground" Value="#3F4254" />
+    </Style>
+
+    <SolidColorBrush x:Key="TextBox.Static.Border" Color="#E4E6EF" />
+    <SolidColorBrush x:Key="TextBox.MouseOver.Border" Color="#FF7EB4EA" />
+    <SolidColorBrush x:Key="TextBox.Focus.Border" Color="#FF569DE5" />
+
+    <Style x:Key="pp_settingsTextBox" TargetType="{x:Type TextBox}">
+        <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" />
+        <Setter Property="BorderBrush" Value="{StaticResource TextBox.Static.Border}" />
+        <Setter Property="Foreground" Value="#3F4254" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Padding" Value="5 2 5 0" />
+        <Setter Property="Height" Value="32" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="FontFamily" Value="DynamicResource PoppinsRegular" />
+        <Setter Property="TextAlignment" Value="Center" />
+        <Setter Property="KeyboardNavigation.TabNavigation" Value="None" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="AllowDrop" Value="true" />
+        <Setter Property="ScrollViewer.PanningMode" Value="VerticalFirst" />
+        <Setter Property="Stylus.IsFlicksEnabled" Value="False" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TextBox}">
+                    <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="True">
+                        <ScrollViewer x:Name="PART_ContentHost" Focusable="false" VerticalAlignment="Center" HorizontalAlignment="Left" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Opacity" TargetName="border" Value="0.56" />
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource TextBox.MouseOver.Border}" />
+                        </Trigger>
+                        <Trigger Property="IsKeyboardFocused" Value="true">
+                            <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource TextBox.Focus.Border}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsInactiveSelectionHighlightEnabled" Value="true" />
+                    <Condition Property="IsSelectionActive" Value="false" />
+                </MultiTrigger.Conditions>
+                <Setter Property="SelectionBrush" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}" />
+            </MultiTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- HomePage Default  -->
+
+    <!-- Special Combobox-->
+
+    <ControlTemplate x:Key="settingComboBoxToggleButton" TargetType="ToggleButton">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="20" />
+            </Grid.ColumnDefinitions>
+            <Border
+              x:Name="Border"
+              Grid.ColumnSpan="2"
+              CornerRadius="0"
+              Background="#ffffff"
+              BorderBrush="#E4E6EF"
+              BorderThickness="1">
+            </Border>
+            <Border
+              Grid.Column="0"
+              CornerRadius="5,0,0,5"
+              Margin="1"
+              Background="#ffffff"
+              BorderBrush="#E4E6EF"
+              BorderThickness="0" />
+            <Path
+              x:Name="Arrow"
+              Grid.Column="1"
+              Fill="#3F4254"
+              HorizontalAlignment="Center"
+              VerticalAlignment="Center"
+              Data="M 0 0 L 4 4 L 8 0 Z" />
+        </Grid>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="settingComboBoxTextBox" TargetType="TextBox">
+        <Border x:Name="PART_ContentHost" Focusable="False" Background="{TemplateBinding Background}" />
+    </ControlTemplate>
+
+    <Style TargetType="ComboBox" x:Key="settingCombobox">
+        <Setter Property="SnapsToDevicePixels" Value="true" />
+        <Setter Property="Height" Value="32" />
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
+        <Setter Property="ScrollViewer.CanContentScroll" Value="true" />
+        <Setter Property="Padding" Value="15 0 15 0" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="FontFamily" Value="{DynamicResource PoppinsMedium}" />
+        <Setter Property="Foreground" Value="#3F4254" />
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ComboBox">
+                    <Grid>
+                        <ToggleButton
+                            Name="ToggleButton"
+                            Template="{StaticResource settingComboBoxToggleButton}"
+                            Grid.Column="2"
+                            Focusable="false"
+                            IsChecked="{Binding Path=IsDropDownOpen,Mode=TwoWay,RelativeSource={RelativeSource TemplatedParent}}"
+                            ClickMode="Press">
+                        </ToggleButton>
+                        <ContentPresenter
+                            Name="ContentSite"
+                            IsHitTestVisible="False"
+                            Content="{TemplateBinding SelectionBoxItem}"
+                            ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                            ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                            Margin="10 0 0 0"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Left" />
+                        <TextBox x:Name="PART_EditableTextBox"
+                            Style="{x:Null}"
+                            Template="{StaticResource settingComboBoxTextBox}"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Margin="0"
+                            Focusable="True"
+                            Background="Transparent"
+                            Visibility="Hidden" />
+                        <Popup
+                            Name="Popup"
+                            Placement="Bottom"
+                            IsOpen="{TemplateBinding IsDropDownOpen}"
+                            AllowsTransparency="True"
+                            Focusable="False"
+                            PopupAnimation="Slide">
+                            <Grid
+                              Name="DropDown"
+                              SnapsToDevicePixels="True"
+                              MinWidth="{TemplateBinding ActualWidth}"
+                              MaxHeight="{TemplateBinding MaxDropDownHeight}">
+                                <Border
+                                    x:Name="DropDownBorder"
+                                    Background="#FFFFFF"
+                                    BorderThickness="1"
+                                    BorderBrush="#E4E6EF" />
+                                <ScrollViewer Margin="0" SnapsToDevicePixels="True">
+                                    <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
+                                </ScrollViewer>
+                            </Grid>
+                        </Popup>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="HasItems" Value="false">
+                            <Setter TargetName="DropDownBorder" Property="MinHeight" Value="150" />
+                        </Trigger>
+                        <Trigger Property="IsGrouping" Value="true">
+                            <Setter Property="ScrollViewer.CanContentScroll" Value="false" />
+                        </Trigger>
+                        <Trigger SourceName="Popup" Property="Popup.AllowsTransparency" Value="true">
+                            <Setter TargetName="DropDownBorder" Property="CornerRadius" Value="0" />
+                            <Setter TargetName="DropDownBorder" Property="Margin" Value="0" />
+                        </Trigger>
+                        <Trigger Property="IsEditable" Value="true">
+                            <Setter Property="IsTabStop" Value="false" />
+                            <Setter TargetName="PART_EditableTextBox" Property="Visibility"    Value="Visible" />
+                            <Setter TargetName="ContentSite" Property="Visibility" Value="Hidden" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Specail Combobox -->
+
+    <Style x:Key="pp_settingsChangeColor" TargetType="CheckBox">
+
+        <Setter Property="Width" Value="24" />
+        <Setter Property="Height" Value="24" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="BorderBrush" Value="{x:Null}" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Margin" Value="7 0 7 0" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Border Background="{Binding Path=Tag, RelativeSource={RelativeSource TemplatedParent}}" CornerRadius="5" BorderThickness="2" BorderBrush="{Binding BorderBrush}">
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsChecked" Value="True">
+                <Setter Property="BorderBrush" Value="#FFACACAC" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="helpButton" TargetType="Button">
+
+        <Setter Property="Background" Value="{x:Null}" />
+        <Setter Property="BorderBrush" Value="{x:Null}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Margin" Value="0 5 0 5" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <StackPanel Orientation="Vertical">
+                        <Image x:Name="icoImage" Grid.Column="0" Source="{Binding Path=Tag, RelativeSource={RelativeSource TemplatedParent}}" Width="32" Height="32" RenderOptions.BitmapScalingMode="HighQuality" HorizontalAlignment="Center" />
+                        <TextBlock Text="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}}" FontFamily="{DynamicResource PoppinsMedium}" FontSize="16" Foreground="#1C1E2F" TextAlignment="Center" Margin="0 5 0 0" />
+                    </StackPanel>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Source" Value="{Binding Path=Uid, RelativeSource={RelativeSource TemplatedParent}}" TargetName="icoImage" />
+                            <Setter Property="Cursor" Value="Hand" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="helpBase" TargetType="Button">
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="UseLayoutRounding" Value="True" />
+        <Setter Property="BorderThickness" Value="0,0,0,0" />
+        <Setter Property="BorderBrush" Value="{x:Null}" />
+        <Setter Property="Background" Value="#FFF" />
+        <Setter Property="Margin" Value="10" />
+        <Setter Property="Foreground"  Value="#1C1E2F" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="UseLayoutRounding" Value="True" />
+    </Style>
+
+    <Style x:Key="helpSection" TargetType="Button" BasedOn="{StaticResource helpBase}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Border x:Name="bg_temp" Padding="20,5,20,5" Style="{DynamicResource defaultBorderShadowEffect}" Background="{TemplateBinding Background}">
+                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal">
+                            <TextBlock x:Name="txt_temp" Text="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}}" FontFamily="{DynamicResource PoppinsMedium}" Foreground="{TemplateBinding Foreground}" />
+                        </StackPanel>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="bg_temp" Property="Background" Value="#F0433A" />
+                            <Setter TargetName="txt_temp" Property="Foreground" Value="#FFFFFF" />
+                            <Setter Property="Cursor" Value="Hand" />
+                        </Trigger>
+
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="bg_temp" Property="Background" Value="#FFE4E6EF" />
+                            <Setter  TargetName="bg_temp" Property="Cursor" Value="No" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="helpDescText" TargetType="TextBlock">
+
+        <Setter Property="FontFamily" Value="{DynamicResource PoppinsRegular}" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="Foreground" Value="#1C1E2F" />
+        <Style.Triggers>
+            <Trigger Property="Visibility" Value="Visible">
+                <Trigger.EnterActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                             From="0.0" To="1.0" Duration="0:0:0.5" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.EnterActions>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="helpImage" TargetType="Image">
+
+        <Style.Triggers>
+            <Trigger Property="Visibility" Value="Visible">
+                <Trigger.EnterActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                             From="0.0" To="1.0" Duration="0:0:0.5" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.EnterActions>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="updateText" TargetType="TextBlock">
+        <Setter Property="TextWrapping" Value="Wrap" />
+        <Setter Property="FontFamily" Value="{DynamicResource PoppinsRegular}" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Foreground" Value="#383C41" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Margin" Value="0 5 0 5" />
+    </Style>
+</ResourceDictionary>

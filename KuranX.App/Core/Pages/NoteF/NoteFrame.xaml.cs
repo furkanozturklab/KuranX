@@ -1,4 +1,6 @@
 ﻿using KuranX.App.Core.Classes;
+using KuranX.App.Core.Classes.Helpers;
+using KuranX.App.Core.Classes.Tools;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -11,6 +13,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
+
 
 
 namespace KuranX.App.Core.Pages.NoteF
@@ -35,6 +38,7 @@ namespace KuranX.App.Core.Pages.NoteF
         private bool filter;
         private List<Notes> dNotes = new List<Notes>();
         private Task noteframetask, noteprocess;
+        public DraggablePopupHelper drag;
 
         public NoteFrame()
         {
@@ -44,7 +48,7 @@ namespace KuranX.App.Core.Pages.NoteF
             }
             catch (Exception ex)
             {
-                App.logWriter("InitializeComponent", ex);
+                Tools.logWriter("InitializeComponent", ex);
             }
         }
 
@@ -53,7 +57,7 @@ namespace KuranX.App.Core.Pages.NoteF
             try
             {
 
-                App.errWrite($"[{DateTime.Now} PageLoaded] -> NoteFrame");
+                Tools.errWrite($"[{DateTime.Now} PageLoaded] -> NoteFrame");
 
 
                 listBorder.Visibility = Visibility.Visible;
@@ -62,7 +66,7 @@ namespace KuranX.App.Core.Pages.NoteF
             }
             catch (Exception ex)
             {
-                App.logWriter("Loading Func", ex);
+                Tools.logWriter("Loading Func", ex);
             }
         }
 
@@ -71,7 +75,7 @@ namespace KuranX.App.Core.Pages.NoteF
             try
             {
 
-                App.errWrite($"[{DateTime.Now} PageCall] -> NoteFrame");
+                Tools.errWrite($"[{DateTime.Now} PageCall] -> NoteFrame");
 
                 if (lastPage != 0)
                 {
@@ -98,7 +102,7 @@ namespace KuranX.App.Core.Pages.NoteF
             }
             catch (Exception ex)
             {
-                App.logWriter("Loading Func", ex);
+                Tools.logWriter("Loading Func", ex);
                 return this;
             }
         }
@@ -254,7 +258,7 @@ namespace KuranX.App.Core.Pages.NoteF
             }
             catch (Exception ex)
             {
-                App.logWriter("Loading Func", ex);
+                Tools.logWriter("Loading Func", ex);
             }
         }
 
@@ -267,7 +271,7 @@ namespace KuranX.App.Core.Pages.NoteF
             try
             {
 
-                App.errWrite($"[{DateTime.Now} filter_Click] -> NoteFrame");
+                Tools.errWrite($"[{DateTime.Now} filter_Click] -> NoteFrame");
 
                 var btn = sender as Button;
                 listview.IsChecked = true;
@@ -295,7 +299,7 @@ namespace KuranX.App.Core.Pages.NoteF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -303,7 +307,7 @@ namespace KuranX.App.Core.Pages.NoteF
         {
             try
             {
-                App.errWrite($"[{DateTime.Now} SearchBtn_Click] -> NoteFrame");
+                Tools.errWrite($"[{DateTime.Now} SearchBtn_Click] -> NoteFrame");
 
 
                 if (SearchData.Text.Length >= 3)
@@ -333,7 +337,7 @@ namespace KuranX.App.Core.Pages.NoteF
             }
             catch (Exception ex)
             {
-                App.logWriter("SearchButton", ex);
+                Tools.logWriter("SearchButton", ex);
             }
         }
 
@@ -342,7 +346,7 @@ namespace KuranX.App.Core.Pages.NoteF
             try
             {
 
-                App.errWrite($"[{DateTime.Now} filterButton_Click] -> NoteFrame");
+                Tools.errWrite($"[{DateTime.Now} filterButton_Click] -> NoteFrame");
 
 
                 if (hoverPopup.IsOpen)
@@ -356,7 +360,7 @@ namespace KuranX.App.Core.Pages.NoteF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -364,9 +368,10 @@ namespace KuranX.App.Core.Pages.NoteF
         {
             try
             {
-                App.errWrite($"[{DateTime.Now} addNewNote_Click] -> NoteFrame");
+                Tools.errWrite($"[{DateTime.Now} addNewNote_Click] -> NoteFrame");
 
 
+                drag = new DraggablePopupHelper(popup_noteAddPopupBorder, popup_noteAddPopup);
                 popup_noteAddPopup.IsOpen = true;
                 noteType.Text = "Kullanıcı Notu";
 
@@ -374,7 +379,7 @@ namespace KuranX.App.Core.Pages.NoteF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -382,7 +387,7 @@ namespace KuranX.App.Core.Pages.NoteF
         {
             try
             {
-                App.errWrite($"[{DateTime.Now} viewchange_Click] -> NoteFrame");
+                Tools.errWrite($"[{DateTime.Now} viewchange_Click] -> NoteFrame");
 
 
                 CheckBox? chk = sender as CheckBox;
@@ -408,7 +413,7 @@ namespace KuranX.App.Core.Pages.NoteF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -417,7 +422,7 @@ namespace KuranX.App.Core.Pages.NoteF
             try
             {
 
-                App.errWrite($"[{DateTime.Now} addNoteButton_Click] -> NoteFrame");
+                Tools.errWrite($"[{DateTime.Now} addNoteButton_Click] -> NoteFrame");
 
                 if (noteName.Text.Length <= 3)
                 {
@@ -482,7 +487,7 @@ namespace KuranX.App.Core.Pages.NoteF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -490,7 +495,7 @@ namespace KuranX.App.Core.Pages.NoteF
         {
             try
             {
-                App.errWrite($"[{DateTime.Now} nextpageButton_Click] -> NoteFrame");
+                Tools.errWrite($"[{DateTime.Now} nextpageButton_Click] -> NoteFrame");
                 nextpageButton.IsEnabled = false;
                 lastPage += 24;
                 NowPage++;
@@ -500,7 +505,7 @@ namespace KuranX.App.Core.Pages.NoteF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -509,7 +514,7 @@ namespace KuranX.App.Core.Pages.NoteF
             try
             {
 
-                App.errWrite($"[{DateTime.Now} previusPageButton_Click] -> NoteFrame");
+                Tools.errWrite($"[{DateTime.Now} previusPageButton_Click] -> NoteFrame");
 
 
                 if (lastPage >= 24)
@@ -523,7 +528,7 @@ namespace KuranX.App.Core.Pages.NoteF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -531,21 +536,16 @@ namespace KuranX.App.Core.Pages.NoteF
         {
             try
             {
-                App.errWrite($"[{DateTime.Now} popupClosed_Click] -> NoteFrame");
-
+                Tools.errWrite($"[{DateTime.Now} popupClosed_Click] -> NoteFrame");
 
                 var btntemp = sender as Button;
                 Popup popuptemp = (Popup)FindName(btntemp.Uid);
-                pp_moveBar.IsOpen = false;
+                PopupHelpers.popupClosed(drag, popuptemp, pp_moveBar);
 
-
-
-
-                popuptemp.IsOpen = false;
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -553,7 +553,7 @@ namespace KuranX.App.Core.Pages.NoteF
         {
             try
             {
-                App.errWrite($"[{DateTime.Now} gotoNotes_Click] -> NoteFrame");
+                Tools.errWrite($"[{DateTime.Now} gotoNotes_Click] -> NoteFrame");
 
 
                 var btn = sender as Button;
@@ -563,7 +563,7 @@ namespace KuranX.App.Core.Pages.NoteF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -571,7 +571,7 @@ namespace KuranX.App.Core.Pages.NoteF
         {
             try
             {
-                App.errWrite($"[{DateTime.Now} deleteNotes_Click] -> NoteFrame");
+                Tools.errWrite($"[{DateTime.Now} deleteNotes_Click] -> NoteFrame");
 
                 var btn = sender as Button;
                 popup_deleteNote.IsOpen = true;
@@ -580,7 +580,7 @@ namespace KuranX.App.Core.Pages.NoteF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -588,7 +588,7 @@ namespace KuranX.App.Core.Pages.NoteF
         {
             try
             {
-                App.errWrite($"[{DateTime.Now} deleteNotePopupBtn_Click] -> NoteFrame");
+                Tools.errWrite($"[{DateTime.Now} deleteNotePopupBtn_Click] -> NoteFrame");
 
                 using (var entitydb = new AyetContext())
                 {
@@ -604,7 +604,7 @@ namespace KuranX.App.Core.Pages.NoteF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -616,7 +616,7 @@ namespace KuranX.App.Core.Pages.NoteF
         {
             try
             {
-                App.errWrite($"[{DateTime.Now} SearchData_TextChanged] -> NoteFrame");
+                Tools.errWrite($"[{DateTime.Now} SearchData_TextChanged] -> NoteFrame");
                 if (SearchData.Text.Length >= 3)
                 {
                     searchErrMsgTxt.Visibility = Visibility.Hidden;
@@ -628,7 +628,7 @@ namespace KuranX.App.Core.Pages.NoteF
             }
             catch (Exception ex)
             {
-                App.logWriter("Changed", ex);
+                Tools.logWriter("Changed", ex);
             }
         }
 
@@ -637,13 +637,13 @@ namespace KuranX.App.Core.Pages.NoteF
             try
             {
 
-                App.errWrite($"[{DateTime.Now} SearchData_LostFocus] -> NoteFrame");
+                Tools.errWrite($"[{DateTime.Now} SearchData_LostFocus] -> NoteFrame");
 
                 searchErrMsgTxt.Visibility = Visibility.Hidden;
             }
             catch (Exception ex)
             {
-                App.logWriter("Change", ex);
+                Tools.logWriter("Change", ex);
             }
         }
 
@@ -655,7 +655,7 @@ namespace KuranX.App.Core.Pages.NoteF
             }
             catch (Exception ex)
             {
-                App.logWriter("Change", ex);
+                Tools.logWriter("Change", ex);
             }
         }
 
@@ -667,7 +667,7 @@ namespace KuranX.App.Core.Pages.NoteF
             }
             catch (Exception ex)
             {
-                App.logWriter("Change", ex);
+                Tools.logWriter("Change", ex);
             }
         }
 
@@ -680,7 +680,7 @@ namespace KuranX.App.Core.Pages.NoteF
             try
             {
 
-                App.errWrite($"[{DateTime.Now} loadAni] -> NoteFrame");
+                Tools.errWrite($"[{DateTime.Now} loadAni] -> NoteFrame");
 
                 this.Dispatcher.Invoke(() =>
                 {
@@ -697,7 +697,7 @@ namespace KuranX.App.Core.Pages.NoteF
             }
             catch (Exception ex)
             {
-                App.logWriter("Animation", ex);
+                Tools.logWriter("Animation", ex);
             }
         }
 
@@ -705,7 +705,7 @@ namespace KuranX.App.Core.Pages.NoteF
         {
             try
             {
-                App.errWrite($"[{DateTime.Now} loadAniComplated] -> NoteFrame");
+                Tools.errWrite($"[{DateTime.Now} loadAniComplated] -> NoteFrame");
 
                 this.Dispatcher.Invoke(() =>
                 {
@@ -723,7 +723,7 @@ namespace KuranX.App.Core.Pages.NoteF
             }
             catch (Exception ex)
             {
-                App.logWriter("Animation", ex);
+                Tools.logWriter("Animation", ex);
             }
         }
 
@@ -734,7 +734,7 @@ namespace KuranX.App.Core.Pages.NoteF
         public void popuverMove_Click(object sender, RoutedEventArgs e)
         {
 
-            App.errWrite($"[{DateTime.Now} popuverMove_Click] -> NoteFrame");
+            Tools.errWrite($"[{DateTime.Now} popuverMove_Click] -> NoteFrame");
             var btn = sender as Button;
             ppMoveConfing((string)btn.Uid);
             moveControlName.Text = (string)btn.Content;
@@ -744,7 +744,7 @@ namespace KuranX.App.Core.Pages.NoteF
         public void ppMoveActionOfset_Click(object sender, RoutedEventArgs e)
         {
 
-            App.errWrite($"[{DateTime.Now} ppMoveActionOfset_Click] -> NoteFrame");
+            Tools.errWrite($"[{DateTime.Now} ppMoveActionOfset_Click] -> NoteFrame");
 
             var btntemp = sender as Button;
             var movePP = (Popup)FindName((string)btntemp.Content);
@@ -788,7 +788,7 @@ namespace KuranX.App.Core.Pages.NoteF
         public void ppMoveConfing(string ppmove)
         {
 
-            App.errWrite($"[{DateTime.Now} ppMoveConfing] -> NoteFrame");
+            Tools.errWrite($"[{DateTime.Now} ppMoveConfing] -> NoteFrame");
 
 
             for (int i = 1; i < 8; i++)

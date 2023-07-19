@@ -1,6 +1,31 @@
-♻️ [Değişiklik]
-⚠️ [Hata]
-🆕 [Yeni]
+♻️ [Change]
+⚠️ [Error]
+🆕 [New]
+🎨 [UI]
+🧪 [Test]
+
+
+v 0.7.2
+
+⚠️ Ayetlerde hangi gösterim secili ise onun stilleri hatalı geliyordu.Düzeltildi.
+⚠️ Okuma planı rengi değiştiğinde ve kapatıp acıldığında secilen renk gidiyordu düzeltildi.
+⚠️ Arama yaptıktan sonra ayette giderseniz tüm ayetler kırmızı geliyordu artık düzgün çalışıyor.
+⚠️ Uygulama alta alındığında popuplar artık kapatılmıyor.Kaldığınız yeden devam ede bilirsiniz.
+🎨 Konular kısmındaki okuma paneli artık rengi değişiyor.
+🆕 Artık okuma sayfasında ne ile okumaya başlarsanız onu ile devam ede biliyorsunuz.
+
+
+v 0.7.0-> v 0.7.1
+♻️ Program ayarları kısmı baştan tasarlandı.
+🆕 Programın kendisini daha performanslı güncellemesi sağlandı.
+🆕 Yeni Arapça fontlar eklendi.
+🆕 Arapça Fontlarının boyutlarını değiştirme özelliği eklendi.
+🆕 Yedekleme ve yedekten geri yükleme eklendi.
+🆕 Uygulama açılırken artık oluşabilecek hataları önceden kontrol eden yapılar eklendi.
+🆕 Kullanıcı sözleşmesi eklendi.
+🆕 Okuma sayfasının arkaplan rengi değiştirme seceneği eklendi.
+🎨 Okuma panelindeki genişlik ayarları düzenlendi.(Taşma engelleme)
+🧪 Konularım sayfasındaki konu ekleme popup artık mouse ile hareket ettirile biliyor.(Hata ve sorun olmaz ise tüm popuplara eklenecek)
 
 v 0.6.17->v 0.6.18
 

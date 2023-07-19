@@ -19,7 +19,7 @@
         </Grid.RowDefinitions>
 
         <Grid x:Name="loadinGifContent" Grid.ColumnSpan="2" Grid.RowSpan="4"  Grid.Row="0" Background="#FAFAFA" Panel.ZIndex="7" Visibility="Collapsed">
-            <Image gif:ImageBehavior.AnimatedSource="/Resource/Images/Gif/Spinner800.gif" Width="250" Height="250"  RenderOptions.BitmapScalingMode="HighQuality" />
+            <Image gif:ImageBehavior.AnimatedSource="/Resources/Images/Gif/Spinner800.gif" Width="250" Height="250"  RenderOptions.BitmapScalingMode="HighQuality" />
         </Grid>
 
         <!-- Popup -->

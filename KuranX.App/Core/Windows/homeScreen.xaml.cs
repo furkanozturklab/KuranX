@@ -15,7 +15,10 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Navigation;
 using KuranX.App.Core.Classes;
+using KuranX.App.Core.Classes.Tools;
+using KuranX.App.Core.Pages;
 using KuranX.App.Core.Pages.SectionF;
+using KuranX.App.Core.UI.Settings;
 
 namespace KuranX.App.Core.Windows
 {
@@ -25,7 +28,12 @@ namespace KuranX.App.Core.Windows
     public partial class homeScreen : Window
     {
         private CheckBox? navCheckBox;
-
+        private SystemUI systemUIController;
+        private RemiderUI remiderUIController;
+        private OtherUI otherUIController;
+        private AccessibilityUI accessibilityUIController;
+        public ChangeButton? changeButton;
+        private string SettingsSave;
         private bool taskstatus = true;
 
         public homeScreen()
@@ -35,13 +43,13 @@ namespace KuranX.App.Core.Windows
                 InitializeComponent();
                 App.mainframe = (Frame)this.FindName("homeFrame");
                 App.secondFrame = (Frame)this.FindName("secondFrame");
-                AppVersion.Text = "Version " + App.config.AppSettings.Settings["application_version"].Value;
-                settingsVersion.Content = "build" + App.config.AppSettings.Settings["application_type"].Value + "_" + App.config.AppSettings.Settings["application_platform"].Value + "_" + App.config.AppSettings.Settings["application_version"].Value;
+                AppVersion.Text = "Version " + App.config.AppSettings.Settings["app_version"].Value;
+
 
             }
             catch (Exception ex)
             {
-                App.logWriter("InitializeComponent", ex);
+                Tools.logWriter("InitializeComponent", ex);
             }
         }
 
@@ -80,7 +88,7 @@ namespace KuranX.App.Core.Windows
                 App.mainTask.Wait();
 
 
-                App.errWrite($"[Session Stard - {DateTime.Now}]");
+                Tools.errWrite($"[Session Stard - {DateTime.Now}]");
 
                 if (taskstatus) App.mainTask = Task.Run(() => tasksCycler_Func());
                 App.mainframe.Content = App.navHomeFrame.PageCall();
@@ -90,12 +98,13 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("Loaded", ex);
+                Tools.logWriter("Loaded", ex);
             }
         }
 
         private void homeFrame_Navigated(object sender, NavigationEventArgs e)
         {
+
         }
 
         // ------------ Load Func  ------------ //
@@ -211,7 +220,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("SpecialFunc", ex);
+                Tools.logWriter("SpecialFunc", ex);
             }
         }
 
@@ -291,7 +300,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("SpecialFunc", ex);
+                Tools.logWriter("SpecialFunc", ex);
             }
         }
 
@@ -320,7 +329,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("SpecialFunc", ex);
+                Tools.logWriter("SpecialFunc", ex);
             }
         }
 
@@ -335,37 +344,37 @@ namespace KuranX.App.Core.Windows
                     switch (baseicon)
                     {
                         case "home":
-                            baseNavigation.Tag = "/resource/images/icon/dashboard_r.png";
+                            baseNavigation.Tag = "/resources/images/icon/dashboard_r.png";
                             break;
 
                         case "verse":
-                            baseNavigation.Tag = "/resource/images/icon/verse_r.png";
+                            baseNavigation.Tag = "/resources/images/icon/verse_r.png";
                             break;
 
                         case "subject":
-                            baseNavigation.Tag = "/resource/images/icon/subject_r.png";
+                            baseNavigation.Tag = "/resources/images/icon/subject_r.png";
                             break;
 
 
 
                         case "notes":
-                            baseNavigation.Tag = "/resource/images/icon/notes_r.png";
+                            baseNavigation.Tag = "/resources/images/icon/notes_r.png";
                             break;
 
                         case "remider":
-                            baseNavigation.Tag = "/resource/images/icon/remider_r.png";
+                            baseNavigation.Tag = "/resources/images/icon/remider_r.png";
                             break;
 
                         case "result":
-                            baseNavigation.Tag = "/resource/images/icon/result_r.png";
+                            baseNavigation.Tag = "/resources/images/icon/result_r.png";
                             break;
 
                         case "help":
-                            baseNavigation.Tag = "/resource/images/icon/help_r.png";
+                            baseNavigation.Tag = "/resources/images/icon/help_r.png";
                             break;
 
                         default:
-                            baseNavigation.Tag = "/resource/images/icon/dashboard_r.png";
+                            baseNavigation.Tag = "/resources/images/icon/dashboard_r.png";
                             break;
                     }
 
@@ -390,7 +399,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("SpecialFunc", ex);
+                Tools.logWriter("SpecialFunc", ex);
             }
         }
 
@@ -682,7 +691,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("ClickFunc", ex);
+                Tools.logWriter("ClickFunc", ex);
             }
         }
 
@@ -703,7 +712,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("Loaded", ex);
+                Tools.logWriter("Loaded", ex);
             }
         }
 
@@ -742,7 +751,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -760,7 +769,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -774,13 +783,28 @@ namespace KuranX.App.Core.Windows
                 homescreengrid.IsEnabled = false;
 
                 App.loadTask = Task.Run(() => menuTask(navCheckBox));
-                App.errWrite($"[{DateTime.Now} Menu Click] -> {navCheckBox.Content}");
+                Tools.errWrite($"[{DateTime.Now} Menu Click] -> {navCheckBox.Content}");
 
 
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
+            }
+        }
+
+        private void menuNavControl2_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                App.mainframe.Content = new TestFrame();
+                // Tools.errWrite($"[{DateTime.Now} Menu Click] -> {navCheckBox.Content}");
+
+
+            }
+            catch (Exception ex)
+            {
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -793,7 +817,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -817,7 +841,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -838,7 +862,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -863,7 +887,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -875,7 +899,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -906,7 +930,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -1003,7 +1027,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -1021,7 +1045,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -1037,9 +1061,12 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
+
+
+
 
         // ------------ Click Func  ------------  //
 
@@ -1067,7 +1094,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("Message", ex);
+                Tools.logWriter("Message", ex);
             }
         }
 
@@ -1093,7 +1120,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("Message", ex);
+                Tools.logWriter("Message", ex);
             }
         }
 
@@ -1119,7 +1146,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("Other", ex);
+                Tools.logWriter("Other", ex);
             }
         }
 
@@ -1129,7 +1156,7 @@ namespace KuranX.App.Core.Windows
         {
             try
             {
-                App.errWrite($"[{DateTime.Now} LoadProfile] -> Profil Load");
+                Tools.errWrite($"[{DateTime.Now} LoadProfile] -> Profil Load");
                 using (var entitydb = new AyetContext())
                 {
                     var dProfile = entitydb.Users.FirstOrDefault();
@@ -1151,7 +1178,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("Other", ex);
+                Tools.logWriter("Other", ex);
             }
         }
 
@@ -1163,7 +1190,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("Other", ex);
+                Tools.logWriter("Other", ex);
             }
         }
 
@@ -1175,7 +1202,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("Other", ex);
+                Tools.logWriter("Other", ex);
             }
         }
 
@@ -1187,7 +1214,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("Other", ex);
+                Tools.logWriter("Other", ex);
             }
         }
 
@@ -1199,7 +1226,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("Other", ex);
+                Tools.logWriter("Other", ex);
             }
         }
 
@@ -1211,7 +1238,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("Other", ex);
+                Tools.logWriter("Other", ex);
             }
         }
 
@@ -1223,7 +1250,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("Other", ex);
+                Tools.logWriter("Other", ex);
             }
         }
 
@@ -1236,7 +1263,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("Change", ex);
+                Tools.logWriter("Change", ex);
             }
         }
 
@@ -1249,7 +1276,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("Change", ex);
+                Tools.logWriter("Change", ex);
             }
         }
 
@@ -1262,7 +1289,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("Change", ex);
+                Tools.logWriter("Change", ex);
             }
         }
 
@@ -1275,7 +1302,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("Change", ex);
+                Tools.logWriter("Change", ex);
             }
         }
 
@@ -1284,7 +1311,7 @@ namespace KuranX.App.Core.Windows
             try
             {
 
-                App.errWrite($"[{DateTime.Now} SaveProfile] -> Profil saved");
+                Tools.errWrite($"[{DateTime.Now} SaveProfile] -> Profil saved");
                 if (IsValidEmail(this.Dispatcher.Invoke(() => userEmail.Text)))
                 {
                     if (this.Dispatcher.Invoke(() => userName.Text.Length) >= 3)
@@ -1363,7 +1390,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("Other", ex);
+                Tools.logWriter("Other", ex);
             }
         }
 
@@ -1375,7 +1402,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("Other", ex);
+                Tools.logWriter("Other", ex);
             }
         }
 
@@ -1419,7 +1446,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("Change", ex);
+                Tools.logWriter("Change", ex);
             }
         }
 
@@ -1432,7 +1459,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("Other", ex);
+                Tools.logWriter("Other", ex);
             }
         }
 
@@ -1444,279 +1471,85 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("Other", ex);
+                Tools.logWriter("Other", ex);
             }
         }
 
         // -------- settings ------------ //
 
-        private void versionText_Click(object sender, RoutedEventArgs e)
+        public void switch_settings(object sender, string newContent)
         {
-            try
+            loadUserControll.Children.Clear();
+            switch (newContent)
             {
-                updateNoteStack.Children.Clear();
-                this.Dispatcher.Invoke(() => popup_updateNotes.IsOpen = true);
-
-                string[] split = App.returnPostNotes.Data[0].project_UpdateNote.Split("½");
-
-                if (split.Length > 0)
-                {
-                    foreach (var item in split)
-                    {
-                        var txt = new TextBlock();
-                        txt.Style = (Style)FindResource("updateText");
-                        txt.Text = "-" + item;
-                        updateNoteStack.Children.Add(txt);
-                    }
-                }
-                else
-                {
-                    var txt = new TextBlock();
-                    txt.Style = (Style)FindResource("updateText");
-                    txt.Text = "-" + App.returnPostNotes.Data[0].project_UpdateNote;
-                    updateNoteStack.Children.Add(txt);
-                }
-            }
-            catch (Exception ex)
-            {
-                App.logWriter("Other", ex);
+                case "SettingsAlt":
+                    systemUIController = new SystemUI();
+                    SettingsSave = newContent;
+                    loadUserControll.Children.Add(systemUIController);
+                    break;
+                case "Accessibility":
+                    accessibilityUIController = new AccessibilityUI();
+                    SettingsSave = newContent;
+                    loadUserControll.Children.Add(accessibilityUIController);
+                    break;
+                case "Bell":
+                    remiderUIController = new RemiderUI();
+                    SettingsSave = newContent;
+                    loadUserControll.Children.Add(remiderUIController);
+                    break;
+                case "Repeat":
+                    otherUIController = new OtherUI();
+                    SettingsSave = newContent;
+                    loadUserControll.Children.Add(otherUIController);
+                    break;
             }
         }
 
-        private void openExe_Click(object sender, RoutedEventArgs e)
+        private void save_settings(object sender, RoutedEventArgs e)
         {
-            try
+
+            switch (SettingsSave)
             {
-                this.Dispatcher.Invoke(() => popup_updateNotes.IsOpen = false);
+                case "SettingsAlt":
+                    if (systemUIController.saveAction()) App.mainScreen.succsessFunc("İşlem Başarılı", "Sistem ayarlarınız güncellendi", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
+                    else App.mainScreen.alertFunc("İşlem Başarısız", "Sistem ayarlarınız güncellenemedi", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
+                    break;
+                case "Accessibility":
+                    if (accessibilityUIController.saveAction()) App.mainScreen.succsessFunc("İşlem Başarılı", "Erişebilirlik ayarlarınız güncellendi", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
+                    else App.mainScreen.alertFunc("İşlem Başarısız", "Erişebilirlik ayarlarınız güncellenemedi", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
+                    break;
+                case "Bell":
+                    if (remiderUIController.saveAction()) App.mainScreen.succsessFunc("İşlem Başarılı", "Hatırlatıcı ayarlarınız güncellendi", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
+                    else App.mainScreen.alertFunc("İşlem Başarısız", "Hatırlatıcı ayarların güncellenemedi", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
+                    break;
             }
-            catch (Exception ex)
-            {
-                App.logWriter("Other", ex);
-            }
+
         }
 
-        private void deleteData_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                popup_settingsPage.IsOpen = false;
-                using (var entitydb = new AyetContext())
-                {
-                    if (MessageBox.Show("Lütfen dikkat bu işlem geri alınamaz ve tüm verileriniz , bağlantılarınız ve ilerlemeniz silinecektir.", "Verileri Sıfırla", MessageBoxButton.YesNo, MessageBoxImage.Warning) != MessageBoxResult.No)
-                    {
-                        resetData(entitydb);
-                        App.mainScreen.succsessFunc("İşlem Başarılı", "Tüm verileriniz başarılı bir sekilde silinmiştir.", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                App.logWriter("Other", ex);
-            }
-        }
-
-        private void deleteProfile_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                popup_settingsPage.IsOpen = false;
-                using (var entitydb = new AyetContext())
-                {
-                    if (MessageBox.Show("Lütfen dikkat bu işlem geri alınamaz.Tüm verileriniz silinecek ve yeniden giriş yapmanız gerekicektir.", "Hesabı Sıfırla", MessageBoxButton.YesNo, MessageBoxImage.Warning) != MessageBoxResult.No)
-                    {
-                        resetData(entitydb);
-                        entitydb.Users.RemoveRange(entitydb.Users.First());
-                        App.config.AppSettings.Settings["user_pin"].Value = "";
-                        App.config.AppSettings.Settings["user_rememberMe"].Value = "false";
-                        App.config.AppSettings.Settings["user_autoLogin"].Value = "false";
-                        App.config.Save(ConfigurationSaveMode.Modified);
-                        entitydb.SaveChanges();
-                        this.Close();
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                App.logWriter("Other", ex);
-            }
-        }
-
-        private void resetData(AyetContext db)
-        {
-            try
-            {
-                foreach (var item in db.Notes) db.Notes.Remove(item);
-
-                foreach (var item in db.Subject) db.Subject.Remove(item);
-
-                foreach (var item in db.Subject) db.Subject.Remove(item);
-
-
-
-                foreach (var item in db.Remider) db.Remider.Remove(item);
-
-                foreach (var item in db.Tasks) db.Tasks.Remove(item);
-
-
-
-                foreach (var item in db.Integrity.Where(p => p.integrityProtected == false)) db.Integrity.Remove(item);
-
-
-
-                foreach (var item in db.Sure)
-                {
-                    db.Sure.Where(p => p.sureId == item.sureId).First().userCheckCount = 0;
-                    db.Sure.Where(p => p.sureId == item.sureId).First().userLastRelativeVerse = 0;
-                    db.Sure.Where(p => p.sureId == item.sureId).First().completed = false;
-                    db.Sure.Where(p => p.sureId == item.sureId).First().status = "#ADB5BD";
-                }
-
-                foreach (var item in db.Verse)
-                {
-                    db.Verse.Where(p => p.verseId == item.verseId).First().markCheck = false;
-                    db.Verse.Where(p => p.verseId == item.verseId).First().remiderCheck = false;
-                    db.Verse.Where(p => p.verseId == item.verseId).First().verseCheck = false;
-                }
-
-                db.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                App.logWriter("Loginscreen", ex);
-            }
-        }
 
         private void settings_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                st_aniSecond.Text = App.config.AppSettings.Settings["app_animationSpeed"].Value;
-                st_warningSecond.Text = App.config.AppSettings.Settings["app_warningShowTime"].Value;
-                st_remiderCount.Text = App.config.AppSettings.Settings["app_remiderCount"].Value;
-                st_remiderRepeartTime.Text = App.config.AppSettings.Settings["app_remiderWaitTime"].Value;
-                st_remiderTime.Text = App.config.AppSettings.Settings["app_remiderTime"].Value;
+                switch_settings(null, "SettingsAlt");
 
-                switch (App.config.AppSettings.Settings["user_autoLogin"].Value)
-                {
-                    case "false":
-                        st_start.SelectedIndex = 0;
-                        break;
+                ChangeButton ch = this.FindName("sw_setting") as ChangeButton;
 
-                    case "true":
-                        st_start.SelectedIndex = 1;
-                        break;
-                }
+                ch.chk1.IsChecked = true;
+                ch.chk2.IsChecked = false;
+                ch.chk3.IsChecked = false;
+                ch.chk4.IsChecked = false;
+
                 popup_settingsPage.IsOpen = true;
+                // Settings açma paneli
             }
             catch (Exception ex)
             {
-                App.logWriter("Other", ex);
+                Tools.logWriter("Other", ex);
             }
         }
 
-        private void settingSave_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                if (int.Parse(st_aniSecond.Text) > 0 && int.Parse(st_aniSecond.Text) <= 10000 && IsNumeric(st_aniSecond.Text))
-                {
-                    if (int.Parse(st_warningSecond.Text) > 0 && int.Parse(st_warningSecond.Text) <= 30 && IsNumeric(st_warningSecond.Text))
-                    {
-                        if (int.Parse(st_remiderTime.Text) > 0 && int.Parse(st_remiderTime.Text) <= 240 && IsNumeric(st_remiderTime.Text))
-                        {
-                            if (int.Parse(st_remiderRepeartTime.Text) > 0 && int.Parse(st_remiderRepeartTime.Text) <= 3600 && IsNumeric(st_remiderRepeartTime.Text))
-                            {
-                                if (int.Parse(st_remiderCount.Text) > 0 && int.Parse(st_remiderCount.Text) <= 30 && IsNumeric(st_remiderCount.Text))
-                                {
-                                    var item = st_start.SelectedItem as ComboBoxItem;
-                                    if (item != null)
-                                    {
-                                        switch (item.Tag)
-                                        {
-                                            case "false":
-                                                App.config.AppSettings.Settings["user_autoLogin"].Value = "false";
-                                                break;
 
-                                            case "true":
-                                                App.config.AppSettings.Settings["user_autoLogin"].Value = "true";
-                                                break;
-                                        }
-
-                                        App.config.AppSettings.Settings["app_animationSpeed"].Value = st_aniSecond.Text;
-                                        App.config.AppSettings.Settings["app_remiderTime"].Value = st_remiderTime.Text;
-                                        App.config.AppSettings.Settings["app_remiderWaitTime"].Value = st_remiderRepeartTime.Text;
-                                        App.config.AppSettings.Settings["app_remiderCount"].Value = st_remiderCount.Text;
-                                        App.config.AppSettings.Settings["app_warningShowTime"].Value = st_warningSecond.Text;
-                                        App.config.Save(ConfigurationSaveMode.Modified);
-                                        succsessFunc("İşlem Başarılı", "Ayarlarınız başarılı bir sekilde güncellenemiştir.", int.Parse((App.config.AppSettings.Settings["app_warningShowTime"].Value)));
-                                        popup_settingsPage.IsOpen = false;
-                                    }
-                                }
-                                else
-                                {
-                                    if (int.Parse(st_remiderCount.Text) > 3600) st_remiderCountErr.Content = "Maksimum tekrarlama sayısı aşıldı Max:30";
-                                    st_remiderCount.Focus();
-                                }
-                            }
-                            else
-                            {
-                                if (int.Parse(st_remiderRepeartTime.Text) > 3600) st_remiderRepeartTimeErr.Content = "3600 sn den uzun değerler kabul edilmez.";
-                                st_remiderRepeartTime.Focus();
-                            }
-                        }
-                        else
-                        {
-                            if (int.Parse(st_remiderTime.Text) > 240) st_remiderTimeErr.Content = "240 sn den uzun değerler kabul edilmez.";
-                            st_remiderTime.Focus();
-                        }
-                    }
-                    else
-                    {
-                        if (int.Parse(st_warningSecond.Text) > 30) st_warningSecondErr.Content = "30 sn den uzun değerler kabul edilmez.";
-                        st_warningSecond.Focus();
-                    }
-                }
-                else
-                {
-                    if (!IsNumeric(st_aniSecond.Text)) st_aniSecondErr.Content = "Lütfen sayısal bir değer giriniz.";
-                    else st_aniSecondErr.Content = "Lütfen 0 dan büyük bir değer giriniz.";
-
-                    if (int.Parse(st_aniSecond.Text) > 10000) st_aniSecondErr.Content = "Maksimum üst sınırı geçtiniz Max:10000";
-                    st_aniSecond.Focus();
-                }
-            }
-            catch (Exception ex)
-            {
-                App.logWriter("Other", ex);
-            }
-        }
-
-        private void st_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
-        {
-            try
-            {
-                Regex regex = new Regex("[^0-9]+");
-                e.Handled = regex.IsMatch(e.Text);
-            }
-            catch (Exception ex)
-            {
-                App.logWriter("Change", ex);
-            }
-        }
-
-        public bool IsNumeric(string value)
-        {
-            try
-            {
-                if (int.TryParse(value, out int numericValue)) return true;
-                else return false;
-            }
-            catch (Exception ex)
-            {
-                return false;
-                App.logWriter("Other", ex);
-            }
-        }
 
         // ------------ Contact ----------------- //
 
@@ -1730,7 +1563,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("Other", ex);
+                Tools.logWriter("Other", ex);
             }
         }
 
@@ -1742,7 +1575,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("Change", ex);
+                Tools.logWriter("Change", ex);
             }
         }
 
@@ -1754,7 +1587,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("Change", ex);
+                Tools.logWriter("Change", ex);
             }
         }
 
@@ -1766,7 +1599,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("Change", ex);
+                Tools.logWriter("Change", ex);
             }
         }
 
@@ -1787,7 +1620,7 @@ namespace KuranX.App.Core.Windows
                                 var messageBody = "<b>İsim Soyisim :</b> " + firstName.Text + "<br/>" + "<b>İletişim Maili :</b> " + email.Text + "<br/>" + "<b>Platform : </b> Bilgisayar" + "<br/>" + " <b>Mesaj : </b>" + "<br/> <p>" + note.Text + "</p>";
                                 sendContact.IsEnabled = false;
                                 var returnBool = false;
-                                App.loadTask = Task.Run(() => returnBool = App.sendMail("Kuransunettüllah Destek", messageBody));
+                                App.loadTask = Task.Run(() => returnBool = Tools.sendMail("Kuransunettüllah Destek", messageBody));
                                 await App.loadTask;
 
                                 if (returnBool)
@@ -1829,7 +1662,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -1844,7 +1677,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("Other", ex);
+                Tools.logWriter("Other", ex);
             }
         }
 
@@ -1896,7 +1729,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("Other", ex);
+                Tools.logWriter("Other", ex);
             }
         }
 
@@ -1931,7 +1764,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("Other", ex);
+                Tools.logWriter("Other", ex);
             }
         }
 
@@ -1970,13 +1803,13 @@ namespace KuranX.App.Core.Windows
 
                     };
 
-                    App.loadTask = Task.Run(() => App.apiPostRun(postingdata, "AddError"));
+                    // App.loadTask = Task.Run(() => App.apiPostRun(postingdata, "AddError"));
                     await App.loadTask;
 
 
 
                     var messageBody = $"[{DateTime.Now}] -> Error Code : {errCode.Text} <br/> Hata Açıklaması : {errDetail.Text}";
-                    App.loadTask = Task.Run(() => App.sendMailErr("Kuransunettüllah Destek", messageBody));
+                    App.loadTask = Task.Run(() => Tools.sendMailErr("Kuransunettüllah Destek", messageBody));
 
                     popup_ErrOpenPopup.IsOpen = false;
 
@@ -1986,54 +1819,12 @@ namespace KuranX.App.Core.Windows
             catch (Exception ex)
             {
 
-                App.logWriter("FTP", ex);
+                Tools.logWriter("FTP", ex);
             }
 
 
         }
 
-
-        private void ftp_write()
-        {
-
-
-
-
-            NetworkCredential credentials = new NetworkCredential("ftpUpdate@furkanozturklab.com", "(ATb%#}QpK14");
-
-            FtpWebRequest ftbrequest = (FtpWebRequest)WebRequest.Create(new Uri(string.Format("{0}/{1}", "ftp://furkanozturklab.com/projects/kuranx/err", "kuranx_" + errCode.Text + ".txt")));
-            ftbrequest.Method = WebRequestMethods.Ftp.UploadFile;
-            ftbrequest.Credentials = credentials;
-            Stream ftbStream = ftbrequest.GetRequestStream();
-
-
-            FileStream fs = File.OpenRead(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\KuranSunnetullah\err.txt");
-
-            byte[] buffer = new byte[4096];
-            double total = (double)fs.Length;
-            double read = 0;
-            int byteRead = 0;
-
-
-            do
-            {
-                byteRead = fs.Read(buffer, 0, 1024);
-                ftbStream.Write(buffer, 0, byteRead);
-                read += (double)byteRead;
-                double prec = read / total * 100;
-                if (total == 0) prec = 100;
-
-                // 0 size crash
-
-            }
-            while (byteRead != 0);
-
-
-            fs.Close();
-            ftbStream.Close();
-
-
-        }
 
     }
 }

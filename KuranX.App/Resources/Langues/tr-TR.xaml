@@ -1,0 +1,28 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+
+    <system:String x:Key="PRI-POL-1">½Program Hakkında</system:String>
+    <system:String x:Key="PRI-POL-2">a. Kuransunnetullah programı, ayetlerin ÜCRETSİZ bir sekilde erişimini,okunmasını ve not alınması işlevlerini yerine getirmek üzere tasarlanmış ÜCRETİSZ bir yazılımdır. Tüm kullanıcılar tarafından tamamen Ücretsiz olarak erişilebilir ve kullanılabilir.</system:String>
+    <system:String x:Key="PRI-POL-3">b. Programın tüm hakları ve mülkiyeti Sedat çömlekçioğu aittir. Programın kaynak kodu veya bileşenleri, Sedat çömlekçioğu tarafından sağlanan izin olmadan değiştirilemez, kopyalanamaz veya dağıtılamaz.</system:String>
+    <system:String x:Key="PRI-POL-4">½Kayıt ve Hesap Güvenliği</system:String>
+    <system:String x:Key="PRI-POL-5">a. Programı kullanmak için bir hesap oluşturmanız gerekmektedir. Kayıt sırasında doğru, güncel ve eksiksiz bilgiler sağlamakla sorumlusunuz.</system:String>
+    <system:String x:Key="PRI-POL-6">b. Hesap bilgilerinizi gizli tutmalı ve başkalarıyla paylaşmamalısınız. Hesabınızı kullanarak yapılan tüm eylemlerden sorumlu olduğunuzu kabul edersiniz.</system:String>
+    <system:String x:Key="PRI-POL-7">½Kullanım Koşulları</system:String>
+    <system:String x:Key="PRI-POL-8">a. Programı yasal amaçlarla kullanmalısınız. Programı kötüye kullanmak, başkalarının gizliliğini ihlal etmek, yasadışı faaliyetlerde bulunmak veya zararlı içerikler yaymak kesinlikle yasaktır.</system:String>
+    <system:String x:Key="PRI-POL-9">b. Programı kullanırken tüm yerel, ulusal ve uluslararası yasalara uymalısınız.</system:String>
+    <system:String x:Key="PRI-POL-10">½Sorumluluk Reddi</system:String>
+    <system:String x:Key="PRI-POL-11">a. Programın kullanımından kaynaklanan herhangi bir sorun veya zarar için Sedat çömlekçioğu sorumluluk kabul etmez.</system:String>
+    <system:String x:Key="PRI-POL-12">b. Programın doğruluğu, güvenilirliği, uygunluğu veya performansı konusunda herhangi bir garanti veya taahhüt verilmemektedir.</system:String>
+    <system:String x:Key="PRI-POL-13">½Gizlilik Politikası</system:String>
+    <system:String x:Key="PRI-POL-14">a. Programın kullanımıyla ilgili kişisel verilerinizi toplayabiliriz. Ancak toplanan kişisel veriler sadece sizin tarafınız tarafından okuna bilir veya işelene bilir.</system:String>
+    <system:String x:Key="PRI-POL-15">b. Programın kişisel verilerinizi sadece sizin bilgisayarınız da tutulur ve saklanır.</system:String>
+    <system:String x:Key="PRI-POL-16">c. Kişisel verileriniz her hangibir 3.parti uyglamalarına ve bizim tarafımızdaki sunucuya aktarılmaz.</system:String>
+    <system:String x:Key="PRI-POL-17">½Sözleşme Değişiklikleri</system:String>
+    <system:String x:Key="PRI-POL-18">a. Sedat çömlekçioğu, Sözleşme'nin herhangi bir zaman diliminde değiştirilebileceğini ve güncellenen Sözleşme'nin Program kullanıcılarına bildirileceğini kabul eder.</system:String>
+    <system:String x:Key="PRI-POL-19">½Sözleşmenin Feshi</system:String>
+    <system:String x:Key="PRI-POL-20">a. Bu Sözleşme, herhangi bir zamanda taraflardan herhangi biri tarafından sona erdirilebilir. Programı kullanmayı bıraktığınızda veya programı kaldırdığınız durumlarda sözleşme sona erecektir.</system:String>
+    <system:String x:Key="PRI-POL-21">½Progamı kullanarak bu sözleşmeyi kabul etmiş sayılırsınız.</system:String>
+
+
+</ResourceDictionary>

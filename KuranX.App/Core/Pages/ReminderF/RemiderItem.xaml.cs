@@ -1,4 +1,5 @@
 ﻿using KuranX.App.Core.Classes;
+using KuranX.App.Core.Classes.Tools;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,12 +34,12 @@ namespace KuranX.App.Core.Pages.ReminderF
         {
             try
             {
-                App.errWrite($"[{DateTime.Now} InitializeComponent ] -> RemiderItem");
+                Tools.errWrite($"[{DateTime.Now} InitializeComponent ] -> RemiderItem");
                 InitializeComponent();
             }
             catch (Exception ex)
             {
-                App.logWriter("InitializeComponent", ex);
+                Tools.logWriter("InitializeComponent", ex);
             }
         }
 
@@ -47,7 +48,7 @@ namespace KuranX.App.Core.Pages.ReminderF
             try
             {
 
-                App.errWrite($"[{DateTime.Now} PageCall ] -> RemiderItem");
+                Tools.errWrite($"[{DateTime.Now} PageCall ] -> RemiderItem");
                 remiderId = id;
                 remiderItem = Task.Run(() => loadItem(id));
                 App.lastlocation = "RemiderItem";
@@ -55,7 +56,7 @@ namespace KuranX.App.Core.Pages.ReminderF
             }
             catch (Exception ex)
             {
-                App.logWriter("Loading", ex);
+                Tools.logWriter("Loading", ex);
                 return this;
             }
         }
@@ -65,14 +66,14 @@ namespace KuranX.App.Core.Pages.ReminderF
             try
             {
 
-                App.errWrite($"[{DateTime.Now} Page_Loaded ] -> RemiderItem");
+                Tools.errWrite($"[{DateTime.Now} Page_Loaded ] -> RemiderItem");
                 loadHeaderStack.Visibility = Visibility.Visible;
                 controlBar.Visibility = Visibility.Visible;
                 remiderDetail.Visibility = Visibility.Visible;
             }
             catch (Exception ex)
             {
-                App.logWriter("Loading", ex);
+                Tools.logWriter("Loading", ex);
             }
         }
 
@@ -81,7 +82,7 @@ namespace KuranX.App.Core.Pages.ReminderF
             try
             {
 
-                App.errWrite($"[{DateTime.Now} loadItem ] -> RemiderItem");
+                Tools.errWrite($"[{DateTime.Now} loadItem ] -> RemiderItem");
 
 
                 using (var entitydb = new AyetContext())
@@ -169,7 +170,7 @@ namespace KuranX.App.Core.Pages.ReminderF
             }
             catch (Exception ex)
             {
-                App.logWriter("Loading Func", ex);
+                Tools.logWriter("Loading Func", ex);
             }
         }
 
@@ -181,13 +182,13 @@ namespace KuranX.App.Core.Pages.ReminderF
         {
             try
             {
-                App.errWrite($"[{DateTime.Now} gotoBackButton_Click ] -> RemiderItem");
+                Tools.errWrite($"[{DateTime.Now} gotoBackButton_Click ] -> RemiderItem");
 
                 NavigationService.GoBack();
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -195,12 +196,12 @@ namespace KuranX.App.Core.Pages.ReminderF
         {
             try
             {
-                App.errWrite($"[{DateTime.Now} deleteButton_Click ] -> RemiderItem");
+                Tools.errWrite($"[{DateTime.Now} deleteButton_Click ] -> RemiderItem");
                 popup_DeleteConfirm.IsOpen = true;
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -209,7 +210,7 @@ namespace KuranX.App.Core.Pages.ReminderF
             try
             {
 
-                App.errWrite($"[{DateTime.Now} gotoVerseButton_Click ] -> RemiderItem");
+                Tools.errWrite($"[{DateTime.Now} gotoVerseButton_Click ] -> RemiderItem");
                 loadHeaderStack.Visibility = Visibility.Hidden;
                 controlBar.Visibility = Visibility.Hidden;
                 remiderDetail.Visibility = Visibility.Hidden;
@@ -220,7 +221,7 @@ namespace KuranX.App.Core.Pages.ReminderF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -229,7 +230,7 @@ namespace KuranX.App.Core.Pages.ReminderF
             try
             {
 
-                App.errWrite($"[{DateTime.Now} deleteRemiderPopupBtn_Click ] -> RemiderItem");
+                Tools.errWrite($"[{DateTime.Now} deleteRemiderPopupBtn_Click ] -> RemiderItem");
 
 
                 using (var entitydb = new AyetContext())
@@ -255,7 +256,7 @@ namespace KuranX.App.Core.Pages.ReminderF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -264,7 +265,7 @@ namespace KuranX.App.Core.Pages.ReminderF
             try
             {
 
-                App.errWrite($"[{DateTime.Now} popupClosed_Click ] -> RemiderItem");
+                Tools.errWrite($"[{DateTime.Now} popupClosed_Click ] -> RemiderItem");
 
                 var btntemp = sender as Button;
                 var popuptemp = (Popup)FindName(btntemp.Uid);
@@ -273,7 +274,7 @@ namespace KuranX.App.Core.Pages.ReminderF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -281,7 +282,7 @@ namespace KuranX.App.Core.Pages.ReminderF
         {
             try
             {
-                App.errWrite($"[{DateTime.Now} saveButton_Click ] -> RemiderItem");
+                Tools.errWrite($"[{DateTime.Now} saveButton_Click ] -> RemiderItem");
 
 
                 using (var entitydb = new AyetContext())
@@ -301,7 +302,7 @@ namespace KuranX.App.Core.Pages.ReminderF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -314,7 +315,7 @@ namespace KuranX.App.Core.Pages.ReminderF
             try
             {
 
-                App.errWrite($"[{DateTime.Now} voidgobacktimer ] -> RemiderItem");
+                Tools.errWrite($"[{DateTime.Now} voidgobacktimer ] -> RemiderItem");
 
                 App.timeSpan.Interval = TimeSpan.FromSeconds(int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
                 App.timeSpan.Start();
@@ -328,7 +329,7 @@ namespace KuranX.App.Core.Pages.ReminderF
             }
             catch (Exception ex)
             {
-                App.logWriter("Timer", ex);
+                Tools.logWriter("Timer", ex);
             }
         }
 
@@ -340,7 +341,7 @@ namespace KuranX.App.Core.Pages.ReminderF
         {
             try
             {
-                App.errWrite($"[{DateTime.Now} remiderDetail_TextChanged ] -> RemiderItem");
+                Tools.errWrite($"[{DateTime.Now} remiderDetail_TextChanged ] -> RemiderItem");
 
                 if (tempCheck)
                 {
@@ -350,7 +351,7 @@ namespace KuranX.App.Core.Pages.ReminderF
             }
             catch (Exception ex)
             {
-                App.logWriter("Change", ex);
+                Tools.logWriter("Change", ex);
             }
         }
 
@@ -363,7 +364,7 @@ namespace KuranX.App.Core.Pages.ReminderF
             try
             {
 
-                App.errWrite($"[{DateTime.Now} loadAni ] -> RemiderItem");
+                Tools.errWrite($"[{DateTime.Now} loadAni ] -> RemiderItem");
 
 
                 this.Dispatcher.Invoke(() =>
@@ -380,7 +381,7 @@ namespace KuranX.App.Core.Pages.ReminderF
             }
             catch (Exception ex)
             {
-                App.logWriter("Animation", ex);
+                Tools.logWriter("Animation", ex);
             }
         }
 
@@ -388,7 +389,7 @@ namespace KuranX.App.Core.Pages.ReminderF
         {
             try
             {
-                App.errWrite($"[{DateTime.Now} loadAniComplated ] -> RemiderItem");
+                Tools.errWrite($"[{DateTime.Now} loadAniComplated ] -> RemiderItem");
 
                 this.Dispatcher.Invoke(() =>
                 {
@@ -404,7 +405,7 @@ namespace KuranX.App.Core.Pages.ReminderF
             }
             catch (Exception ex)
             {
-                App.logWriter("Animation", ex);
+                Tools.logWriter("Animation", ex);
             }
         }
 

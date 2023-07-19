@@ -10,23 +10,23 @@
         <ResourceDictionary>
 
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/Resource/Fonts/Fonts.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/Core/ResourceXaml/baseColor.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Resources/Fonts/Fonts.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Resources/Xaml/const.xaml" />
 
-                <ResourceDictionary Source="pack://application:,,,/Core/ResourceXaml/defaultDesign.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/Core/ResourceXaml/loginDesign.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/Core/ResourceXaml/homeDesign.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Resources/Xaml/defaultDesign.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Resources/Xaml/loginDesign.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Resources/Xaml/homeDesign.xaml" />
 
-                <ResourceDictionary Source="pack://application:,,,/Core/ResourceXaml/popupDesing.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/Core/ResourceXaml/subjectDesing.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/Core/ResourceXaml/remiderDesign.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Resources/Xaml/popupDesing.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Resources/Xaml/subjectDesing.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Resources/Xaml/remiderDesign.xaml" />
 
-                <ResourceDictionary Source="pack://application:,,,/Core/ResourceXaml/suresDesing.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/Core/ResourceXaml/verseDesing.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/Core/ResourceXaml/libraryDesing.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/Core/ResourceXaml/NotesDesing.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/Core/ResourceXaml/resultDesing.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/Core/ResourceXaml/AdminDesing.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Resources/Xaml/suresDesing.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Resources/Xaml/verseDesing.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Resources/Xaml/libraryDesing.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Resources/Xaml/NotesDesing.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Resources/Xaml/resultDesing.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Resources/Xaml/AdminDesing.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

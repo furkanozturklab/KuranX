@@ -1,4 +1,5 @@
 ﻿using KuranX.App.Core.Classes;
+using KuranX.App.Core.Classes.Tools;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -30,7 +31,7 @@ namespace KuranX.App.Core.Pages.NoteF
             }
             catch (Exception ex)
             {
-                App.logWriter("InitializeComponent", ex);
+                Tools.logWriter("InitializeComponent", ex);
             }
         }
 
@@ -67,7 +68,7 @@ namespace KuranX.App.Core.Pages.NoteF
             }
             catch (Exception ex)
             {
-                App.logWriter("Loading Func", ex);
+                Tools.logWriter("Loading Func", ex);
                 return this;
             }
         }

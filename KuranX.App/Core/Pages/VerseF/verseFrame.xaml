@@ -14,7 +14,7 @@
       Title="VerseFrame" Background="#FAFAFA" Loaded="Page_Loaded">
     <Grid>
 
-        <Popup  StaysOpen="False" x:Name="pp_moveBar" IsOpen="False" Placement="RelativePoint" AllowsTransparency="True" Width="470" Height="115" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade" HorizontalOffset="322" VerticalOffset="-20">
+        <Popup  StaysOpen="true" x:Name="pp_moveBar" IsOpen="False" Placement="RelativePoint" AllowsTransparency="True" Width="470" Height="115" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade" HorizontalOffset="322" VerticalOffset="-20">
             <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="450" Height="95">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -78,7 +78,7 @@
 
             <!-- POPUPLAR  -->
 
-            <Popup  StaysOpen="False" x:Name="popup_VerseGoto" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="380" Height="260" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+            <Popup  StaysOpen="true" x:Name="popup_VerseGoto" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="380" Height="260" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
                 <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="360" Height="240">
                     <Grid>
                         <Grid.RowDefinitions>
@@ -115,7 +115,7 @@
 
             <!-- Note  -->
 
-            <Popup  StaysOpen="False" x:Name="popup_Note" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="500" Height="350" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+            <Popup  StaysOpen="True" x:Name="popup_Note" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="500" Height="350" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
 
                 <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="480" Height="330">
                     <Grid>
@@ -169,7 +169,7 @@
                 </Border>
             </Popup>
 
-            <Popup  StaysOpen="False" x:Name="popup_noteAddPopup" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="400" Height="600" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+            <Popup  StaysOpen="true" x:Name="popup_noteAddPopup" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="400" Height="600" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
 
                 <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="380" Height="580">
                     <Grid>
@@ -224,7 +224,7 @@
                 </Border>
             </Popup>
 
-            <Popup  StaysOpen="False" x:Name="popup_notesAllShowPopup" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="500" Height="600" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+            <Popup  StaysOpen="true" x:Name="popup_notesAllShowPopup" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="500" Height="600" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
 
                 <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="480" Height="580">
                     <Grid>
@@ -271,7 +271,7 @@
 
             <!-- Subject -->
 
-            <Popup  StaysOpen="False" x:Name="popup_addSubjectPopup" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="340" Height="370" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+            <Popup  StaysOpen="true" x:Name="popup_addSubjectPopup" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="340" Height="370" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
 
                 <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="320" Height="350">
                     <Grid>
@@ -326,7 +326,7 @@
                 </Border>
             </Popup>
 
-            <Popup  StaysOpen="False" x:Name="popup_FolderSubjectPopup" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="370" Height="460" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+            <Popup  StaysOpen="true" x:Name="popup_FolderSubjectPopup" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="370" Height="460" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
                 <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="350" Height="440">
                     <Grid>
                         <Grid.RowDefinitions>
@@ -394,7 +394,7 @@
 
             <!-- Meaning -->
 
-            <Popup  StaysOpen="False" x:Name="popup_Meaning" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="500" Height="350" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+            <Popup  StaysOpen="true" x:Name="popup_Meaning" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="500" Height="350" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
 
                 <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="480" Height="330">
                     <Grid>
@@ -445,7 +445,7 @@
                 </Border>
             </Popup>
 
-            <Popup  StaysOpen="False" x:Name="popup_meainingAllShowPopup" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="500" Height="600" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+            <Popup  StaysOpen="true" x:Name="popup_meainingAllShowPopup" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="500" Height="600" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
 
                 <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="480" Height="580">
                     <Grid>
@@ -488,7 +488,7 @@
                 </Border>
             </Popup>
 
-            <Popup  StaysOpen="False" x:Name="popup_meaningAddPopup" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="380" Height="690" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+            <Popup  StaysOpen="true" x:Name="popup_meaningAddPopup" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="380" Height="690" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
 
                 <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="360" Height="670">
                     <Grid>
@@ -663,7 +663,7 @@
                 </Border>
             </Popup>
 
-            <Popup StaysOpen="False" x:Name="popup_meainingConnectDetailText" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="770" Height="350" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+            <Popup StaysOpen="true" x:Name="popup_meainingConnectDetailText" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="770" Height="350" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
                 <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="750" Height="330">
                     <Grid>
                         <Grid.RowDefinitions>
@@ -711,7 +711,7 @@
                 </Border>
             </Popup>
 
-            <Popup StaysOpen="False"  x:Name="popup_meaningEditPopup" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="570" Height="350" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+            <Popup StaysOpen="true"  x:Name="popup_meaningEditPopup" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="570" Height="350" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
                 <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="550" Height="330">
                     <Grid>
                         <Grid.RowDefinitions>
@@ -753,7 +753,7 @@
                 </Border>
             </Popup>
 
-            <Popup StaysOpen="False"  x:Name="popup_meaningDeleteConfirm" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="380" Height="220" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+            <Popup StaysOpen="true"  x:Name="popup_meaningDeleteConfirm" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="380" Height="220" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
 
                 <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="360" Height="200">
                     <Grid>
@@ -791,7 +791,7 @@
 
             <!-- Remider  -->
 
-            <Popup StaysOpen="False"  x:Name="popup_remiderControlPopup" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="380" Height="220" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+            <Popup StaysOpen="true"  x:Name="popup_remiderControlPopup" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="380" Height="220" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
                 <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="360" Height="200">
                     <Grid>
                         <Grid.RowDefinitions>
@@ -838,7 +838,7 @@
                 </Border>
             </Popup>
 
-            <Popup StaysOpen="False"  x:Name="popup_remiderAddPopup" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="400" Height="650" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+            <Popup StaysOpen="true"  x:Name="popup_remiderAddPopup" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="400" Height="650" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
                 <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="380" Height="630">
                     <Grid>
                         <Grid.RowDefinitions>
@@ -931,7 +931,7 @@
                 </Border>
             </Popup>
 
-            <Popup StaysOpen="False"  x:Name="popup_remiderDeleteConfirm" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="380" Height="220" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+            <Popup StaysOpen="true"  x:Name="popup_remiderDeleteConfirm" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="380" Height="220" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
 
                 <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="360" Height="200">
                     <Grid>
@@ -969,7 +969,7 @@
 
             <!-- Desc -->
 
-            <Popup StaysOpen="False"  x:Name="popup_descVersePopup" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="800" Height="520" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+            <Popup StaysOpen="true"  x:Name="popup_descVersePopup" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="800" Height="520" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
                 <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="780" Height="500">
                     <Grid>
                         <Grid.RowDefinitions>
@@ -1011,7 +1011,7 @@
                 </Border>
             </Popup>
 
-            <Popup StaysOpen="False"  x:Name="popup_commentaryVersePopup" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="800" Height="520" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+            <Popup StaysOpen="true"  x:Name="popup_commentaryVersePopup" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="800" Height="520" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
                 <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="780" Height="500">
                     <Grid>
                         <Grid.RowDefinitions>
@@ -1058,7 +1058,7 @@
 
             <!-- feedback -->
 
-            <Popup StaysOpen="False"  x:Name="popup_feedbackOpenPopup" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="440" Height="540" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+            <Popup StaysOpen="true"  x:Name="popup_feedbackOpenPopup" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="440" Height="540" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
 
                 <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="420" Height="520">
                     <Grid>
@@ -1110,7 +1110,7 @@
 
             <!-- Reset -->
 
-            <Popup StaysOpen="False"  x:Name="popup_resetVerseConfirm" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="380" Height="220" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+            <Popup StaysOpen="true"  x:Name="popup_resetVerseConfirm" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="380" Height="220" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
 
                 <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="360" Height="200">
                     <Grid>
@@ -1144,7 +1144,7 @@
                 </Border>
             </Popup>
 
-            <Popup StaysOpen="False"  x:Name="popup_fastExitConfirm" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="380" Height="220" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+            <Popup StaysOpen="true"  x:Name="popup_fastExitConfirm" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="380" Height="220" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
 
                 <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="360" Height="200">
                     <Grid>
@@ -1182,7 +1182,7 @@
 
             <!-- Search -->
 
-            <Popup StaysOpen="False"  x:Name="popup_search" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="800" Height="670" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade" Closed="popup_search_Closed">
+            <Popup StaysOpen="true"  x:Name="popup_search" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="800" Height="670" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade" Closed="popup_search_Closed">
 
                 <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="780" Height="650">
                     <Grid>
@@ -1275,7 +1275,7 @@
 
             <!-- Words -->
 
-            <Popup StaysOpen="False"  x:Name="popup_Words" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="940" Height="600" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+            <Popup StaysOpen="true"  x:Name="popup_Words" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="940" Height="600" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
 
                 <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="920" Height="580">
                     <Grid>
@@ -1338,7 +1338,7 @@
 
             <!-- NextSure -->
 
-            <Popup StaysOpen="False"  x:Name="popup_nextSure" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="360" Height="320" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+            <Popup StaysOpen="true"  x:Name="popup_nextSure" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="360" Height="320" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
                 <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="340" Height="300">
                     <Grid>
                         <Grid.RowDefinitions>
@@ -1636,7 +1636,7 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <Border Grid.Column="1" Style="{DynamicResource defaultBorderShadowEffect}" Margin="10">
+                <Border Grid.Column="1" Style="{DynamicResource readPanel}" Margin="10">
 
                     <Grid x:Name="mainContent" Style="{DynamicResource aniEffectFadeGrid}" Visibility="Visible">
                         <Grid.ColumnDefinitions>
@@ -1654,14 +1654,28 @@
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
-                                <StackPanel Orientation="Vertical" Grid.Column="0" HorizontalAlignment="Left" Margin="10,0,10,0">
-                                    <TextBlock x:Name="loadVerseTr" Style="{DynamicResource vrs_TrText}" />
-                                    <Button Visibility="Visible" Style="{DynamicResource vrs_AllShowButton}" Tag="Tamamını Göster" Uid="tr" Click="changeloadDetail_Click" />
-                                </StackPanel>
-                                <StackPanel Orientation="Vertical" Grid.Column="1" HorizontalAlignment="Right" Margin="10,0,10,0">
-                                    <TextBlock x:Name="loadVerseArb" Style="{DynamicResource vrs_ArpText}" />
-                                    <Button Visibility="Visible" Style="{DynamicResource vrs_AllShowButton}" Tag="Tamamını Göster" Uid="arp" Click="changeloadDetail_Click" />
-                                </StackPanel>
+                                <Grid Grid.Column="0"  Margin="10,0,10,0" HorizontalAlignment="Left">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="25"/>
+                                    </Grid.RowDefinitions>
+
+                                    <TextBlock Grid.Row="0" x:Name="loadVerseTr" Style="{DynamicResource vrs_TrText}" />
+                                    <Button Grid.Row="1" Visibility="Visible" Style="{DynamicResource vrs_AllShowButton}" Tag="Tamamını Göster" Uid="tr" Click="changeloadDetail_Click" />
+
+                                </Grid>
+
+                                <Grid Grid.Column="1" HorizontalAlignment="Right"  Margin="10,0,10,0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="25"/>
+                                    </Grid.RowDefinitions>
+
+                                    <TextBlock Grid.Row="0" x:Name="loadVerseArb" Style="{DynamicResource vrs_ArpText}" />
+                                    <Button Grid.Row="1" Visibility="Visible" Style="{DynamicResource vrs_AllShowButton}" Tag="Tamamını Göster" Uid="arp" Click="changeloadDetail_Click" />
+                                </Grid>
+
+          
                             </Grid>
                         </Border>
 

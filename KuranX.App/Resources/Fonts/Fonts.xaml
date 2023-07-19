@@ -1,0 +1,22 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+
+    <FontFamily x:Key="PoppinsSemiBold">pack://application:,,,/Resources/Fonts/Poppins/#Poppins SemiBold</FontFamily>
+    <FontFamily x:Key="PoppinsMedium">pack://application:,,,/Resources/Fonts/Poppins/#Poppins Medium</FontFamily>
+    <FontFamily x:Key="PoppinsRegular">pack://application:,,,/Resources/Fonts/Poppins/#Poppins Regular</FontFamily>
+    <FontFamily x:Key="PoppinsBold">pack://application:,,,/Resources/Fonts/Poppins/#Poppins Bold</FontFamily>
+    <FontFamily x:Key="PoppinsLight">pack://application:,,,/Resources/Fonts/Poppins/#Poppins Light</FontFamily>
+    <FontFamily x:Key="PoppinsThin">pack://application:,,,/Resources/Fonts/Poppins/#Poppins Thin</FontFamily>
+    <FontFamily x:Key="PoppinsBlack">pack://application:,,,/Resources/Fonts/Poppins/#Poppins Black</FontFamily>
+
+
+    <FontFamily x:Key="MarckScript">pack://application:,,,/Resources/Fonts/Others/#Marck Script</FontFamily>
+    <FontFamily x:Key="Allura">pack://application:,,,/Resources/Fonts/Others/#Allura</FontFamily>
+    <FontFamily x:Key="Nothing">pack://application:,,,/Resources/Fonts/Others/#Nothing You Could Do</FontFamily>
+    <FontFamily x:Key="AlexBrush">pack://application:,,,/Resources/Fonts/Others/#Alex Brush</FontFamily>
+
+
+
+
+</ResourceDictionary>

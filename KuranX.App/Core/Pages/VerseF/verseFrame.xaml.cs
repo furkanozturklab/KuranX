@@ -1,4 +1,5 @@
 ﻿using KuranX.App.Core.Classes;
+using KuranX.App.Core.Classes.Tools;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections;
@@ -17,7 +18,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Navigation;
 
-
 namespace KuranX.App.Core.Pages.VerseF
 {
     /// <summary>
@@ -32,20 +32,22 @@ namespace KuranX.App.Core.Pages.VerseF
         public bool searchBox = false, connectBox = false;
         private ArrayList findIndex = new ArrayList();
         private Task versetask, verseprocess;
+        private string readType = "tr";
+
+        private Verse selectedVerse;
+
         public verseFrame()
         {
             try
             {
-
-                App.errWrite($"[{DateTime.Now} InitializeComponent ] -> verseFrame");
-
+                Tools.errWrite($"[{DateTime.Now} InitializeComponent ] -> verseFrame");
 
                 InitializeComponent();
                 remiderDay.DisplayDateStart = DateTime.Now.AddDays(1);
             }
             catch (Exception ex)
             {
-                App.logWriter("InitializeComponent", ex);
+                Tools.logWriter("InitializeComponent", ex);
             }
         }
 
@@ -53,10 +55,7 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
-
-
-                App.errWrite($"[{DateTime.Now} PageCall ] -> verseFrame");
-
+                Tools.errWrite($"[{DateTime.Now} PageCall ] -> verseFrame");
 
                 sSureId = sureId;
                 sRelativeVerseId = relativeVerseId;
@@ -66,14 +65,13 @@ namespace KuranX.App.Core.Pages.VerseF
                 loadAni();
                 versetask = Task.Run(() => loadVerseFunc(sRelativeVerseId));
 
-
                 App.lastlocation = "verseFrame";
 
                 return this;
             }
             catch (Exception ex)
             {
-                App.logWriter("", ex);
+                Tools.logWriter("", ex);
                 return this;
             }
         }
@@ -82,9 +80,7 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
-
-
-                App.errWrite($"[{DateTime.Now} Page_Loaded ] -> verseFrame");
+                Tools.errWrite($"[{DateTime.Now} Page_Loaded ] -> verseFrame");
 
                 if (searchBox)
                 {
@@ -102,7 +98,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("", ex);
+                Tools.logWriter("", ex);
             }
         }
 
@@ -113,8 +109,7 @@ namespace KuranX.App.Core.Pages.VerseF
             // Verse Load Func
             try
             {
-
-                App.errWrite($"[{DateTime.Now} loadVerseFunc ] -> verseFrame");
+                Tools.errWrite($"[{DateTime.Now} loadVerseFunc ] -> verseFrame");
 
                 this.Dispatcher.Invoke(() => popup_descVersePopup.IsOpen = false);
                 using (var entitydb = new AyetContext())
@@ -153,10 +148,8 @@ namespace KuranX.App.Core.Pages.VerseF
 
                             if ((string)desktype.Tag == "DeskLanding")
                             {
-
                                 if (dSure.name == "Tevbe" && sRelativeVerseId == 129) NavUpdateNextSingle.IsEnabled = false;
                                 else NavUpdateNextSingle.IsEnabled = true;
-
                             }
                             else
                             {
@@ -183,7 +176,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Loading", ex);
+                Tools.logWriter("Loading", ex);
             }
         }
 
@@ -192,8 +185,7 @@ namespace KuranX.App.Core.Pages.VerseF
             // İnterpreter Load Func
             try
             {
-
-                App.errWrite($"[{DateTime.Now} loadInterpreterFunc ] -> verseFrame");
+                Tools.errWrite($"[{DateTime.Now} loadInterpreterFunc ] -> verseFrame");
                 using (var entitydb = new AyetContext())
                 {
                     switch (writer)
@@ -221,10 +213,11 @@ namespace KuranX.App.Core.Pages.VerseF
                     }
 
                     this.Dispatcher.Invoke(() => loadDetail.Text = "");
-                    this.Dispatcher.Invoke(() => tempLoadDetail.Text = "");
+                    //this.Dispatcher.Invoke(() => tempLoadDetail.Text = "");
 
                     if (writer == "") writer = "Ömer Çelik";
                     var dInter = entitydb.Interpreter.Where(p => p.sureId == sSureId && p.verseId == verseId && p.interpreterWriter == writer).FirstOrDefault();
+                    selectedVerse = entitydb.Verse.Where(p => p.sureId == sSureId && p.verseId == verseId).FirstOrDefault();
 
                     if (dInter != null)
                     {
@@ -233,21 +226,45 @@ namespace KuranX.App.Core.Pages.VerseF
                     }
 
                     dInter = null;
+
+                    if (selectedVerse != null)
+                    {
+                        switch (readType)
+                        {
+                            case "tr":
+                                this.Dispatcher.Invoke(() =>
+                                {
+                                    loadDetail.Text = selectedVerse.verseTr;
+                                    loadDetail.Style = (Style)FindResource("vrs_loadDetailTr");
+                                });
+                                break;
+
+                            case "arp":
+                                this.Dispatcher.Invoke(() =>
+                                {
+                                    loadDetail.Text = selectedVerse.verseArabic;
+                                    loadDetail.Style = (Style)FindResource("vrs_loadDetailArp");
+                                });
+                                break;
+
+                            case "inter":
+                                loadDetail.Style = (Style)FindResource("vrs_loadDetailInterpreter");
+                                break;
+                        }
+                    }
                 }
             }
             catch (Exception ex)
             {
-                App.logWriter("Loading", ex);
+                Tools.logWriter("Loading", ex);
             }
         }
 
         public void loadNavFunc(int prev = 0)
         {
-
             try
             {
-
-                App.errWrite($"[{DateTime.Now} loadNavFunc ] -> verseFrame");
+                Tools.errWrite($"[{DateTime.Now} loadNavFunc ] -> verseFrame");
                 using (var entitydb = new AyetContext())
                 {
                     for (int x = 1; x < 9; x++)
@@ -324,9 +341,7 @@ namespace KuranX.App.Core.Pages.VerseF
                         });
                     }
 
-
                     Thread.Sleep(int.Parse(App.config.AppSettings.Settings["app_animationSpeed"].Value));
-
 
                     dVerseNav = null;
                     tempVerse = null;
@@ -341,12 +356,8 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-
-
-                App.logWriter("Loading", ex);
+                Tools.logWriter("Loading", ex);
             }
-
-
         }
 
         public void loadItemsHeader(Sure dSure)
@@ -354,9 +365,7 @@ namespace KuranX.App.Core.Pages.VerseF
             // items Load Func
             try
             {
-
-                App.errWrite($"[{DateTime.Now} loadItemsHeader ] -> verseFrame");
-
+                Tools.errWrite($"[{DateTime.Now} loadItemsHeader ] -> verseFrame");
 
                 this.Dispatcher.Invoke(() =>
                 {
@@ -372,7 +381,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Loading", ex);
+                Tools.logWriter("Loading", ex);
             }
         }
 
@@ -388,7 +397,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -397,9 +406,7 @@ namespace KuranX.App.Core.Pages.VerseF
             // items Load Func
             try
             {
-
-                App.errWrite($"[{DateTime.Now} loadItemsControl ] -> verseFrame");
-
+                Tools.errWrite($"[{DateTime.Now} loadItemsControl ] -> verseFrame");
 
                 this.Dispatcher.Invoke(() =>
                 {
@@ -416,7 +423,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Loading", ex);
+                Tools.logWriter("Loading", ex);
             }
         }
 
@@ -424,9 +431,7 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
-
-                App.errWrite($"[{DateTime.Now} loadItemsClass ] -> verseFrame");
-
+                Tools.errWrite($"[{DateTime.Now} loadItemsClass ] -> verseFrame");
 
                 this.Dispatcher.Invoke(() =>
                 {
@@ -441,7 +446,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Loading", ex);
+                Tools.logWriter("Loading", ex);
             }
         }
 
@@ -450,19 +455,35 @@ namespace KuranX.App.Core.Pages.VerseF
             // items Load Func
             try
             {
-
-                App.errWrite($"[{DateTime.Now} loadItemsContent ] -> verseFrame");
-
+                Tools.errWrite($"[{DateTime.Now} loadItemsContent ] -> verseFrame");
 
                 this.Dispatcher.Invoke(() =>
                 {
                     loadVerseTr.Text = dVerse.verseTr;
                     loadVerseArb.Text = dVerse.verseArabic;
+
+                    switch (readType)
+                    {
+                        case "tr":
+                            loadDetail.Text = loadVerseTr.Text;
+                            loadDetail.Style = (Style)FindResource("vrs_loadDetailTr");
+                            break;
+
+                        case "arp":
+                            loadDetail.Text = loadVerseArb.Text;
+                            loadDetail.Style = (Style)FindResource("vrs_loadDetailArp");
+                            break;
+
+                        case "inter":
+                            loadDetail.Text = tempLoadDetail.Text;
+                            loadDetail.Style = (Style)FindResource("vrs_loadDetailInterpreter");
+                            break;
+                    }
                 });
             }
             catch (Exception ex)
             {
-                App.logWriter("Loading", ex);
+                Tools.logWriter("Loading", ex);
             }
         }
 
@@ -471,10 +492,7 @@ namespace KuranX.App.Core.Pages.VerseF
             // items Load Func
             try
             {
-                App.errWrite($"[{DateTime.Now} loadItemsInterpreter ] -> verseFrame");
-
-
-
+                Tools.errWrite($"[{DateTime.Now} loadItemsInterpreter ] -> verseFrame");
                 this.Dispatcher.Invoke(() =>
                 {
                     loadDetail.Text = dInter.interpreterDetail;
@@ -483,7 +501,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Loading", ex);
+                Tools.logWriter("Loading", ex);
             }
         }
 
@@ -491,9 +509,7 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
-
-
-                App.errWrite($"[{DateTime.Now} noteConnect ] -> verseFrame");
+                Tools.errWrite($"[{DateTime.Now} noteConnect ] -> verseFrame");
                 using (var entitydb = new AyetContext())
                 {
                     var dNotes = entitydb.Notes.Where(p => p.sureId == sSureId && p.verseId == sRelativeVerseId && p.noteLocation == "Ayet").ToList();
@@ -530,12 +546,10 @@ namespace KuranX.App.Core.Pages.VerseF
                         });
                     }
                 }
-
-
             }
             catch (Exception ex)
             {
-                App.logWriter("Loading", ex);
+                Tools.logWriter("Loading", ex);
             }
         }
 
@@ -543,9 +557,7 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
-
-                App.errWrite($"[{DateTime.Now} loadMeaning ] -> verseFrame");
-
+                Tools.errWrite($"[{DateTime.Now} loadMeaning ] -> verseFrame");
 
                 using (var entitydb = new AyetContext())
                 {
@@ -589,7 +601,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Loading", ex);
+                Tools.logWriter("Loading", ex);
             }
         }
 
@@ -597,8 +609,7 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
-
-                App.errWrite($"[{DateTime.Now} subjectFolder ] -> verseFrame");
+                Tools.errWrite($"[{DateTime.Now} subjectFolder ] -> verseFrame");
 
                 using (var entitydb = new AyetContext())
                 {
@@ -623,7 +634,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Loading", ex);
+                Tools.logWriter("Loading", ex);
             }
         }
 
@@ -636,29 +647,32 @@ namespace KuranX.App.Core.Pages.VerseF
             // TR ARP İNTERPRETER TEXT CHANGE FUNC
             try
             {
-
-                App.errWrite($"[{DateTime.Now} changeloadDetail_Click ] -> verseFrame");
-
+                Tools.errWrite($"[{DateTime.Now} changeloadDetail_Click ] -> verseFrame");
 
                 var btn = sender as Button;
+
                 switch (btn.Uid.ToString())
                 {
                     case "tr":
                         loadDetail.Text = loadVerseTr.Text;
                         loadDetail.Style = (Style)FindResource("vrs_loadDetailTr");
                         backInterpreter.Visibility = Visibility.Visible;
+                        readType = "tr";
                         break;
 
                     case "arp":
                         loadDetail.Text = loadVerseArb.Text;
                         loadDetail.Style = (Style)FindResource("vrs_loadDetailArp");
                         backInterpreter.Visibility = Visibility.Visible;
+                        readType = "arp";
                         break;
 
                     case "inter":
+
                         loadDetail.Text = tempLoadDetail.Text;
                         loadDetail.Style = (Style)FindResource("vrs_loadDetailInterpreter");
                         backInterpreter.Visibility = Visibility.Collapsed;
+                        readType = "inter";
                         break;
                 }
 
@@ -666,7 +680,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -675,11 +689,9 @@ namespace KuranX.App.Core.Pages.VerseF
             // Verse Change Click
             try
             {
-
                 this.Dispatcher.Invoke(() => App.mainScreen.homescreengrid.IsEnabled = false);
 
-                App.errWrite($"[{DateTime.Now} activeVerseSelected_Click ] -> verseFrame");
-
+                Tools.errWrite($"[{DateTime.Now} activeVerseSelected_Click ] -> verseFrame");
 
                 var chk = sender as CheckBox;
                 if (chk.IsChecked.ToString() == "True") chk.IsChecked = false;
@@ -707,7 +719,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -718,8 +730,7 @@ namespace KuranX.App.Core.Pages.VerseF
             {
                 this.Dispatcher.Invoke(() => App.mainScreen.homescreengrid.IsEnabled = false);
 
-                App.errWrite($"[{DateTime.Now} NavUpdatePrevSingle_Click ] -> verseFrame");
-
+                Tools.errWrite($"[{DateTime.Now} NavUpdatePrevSingle_Click ] -> verseFrame");
 
                 if (clearNav != 0) clearNav--;
 
@@ -781,7 +792,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -790,11 +801,9 @@ namespace KuranX.App.Core.Pages.VerseF
             // Nav NextSingle Click
             try
             {
-
                 this.Dispatcher.Invoke(() => App.mainScreen.homescreengrid.IsEnabled = false);
 
-                App.errWrite($"[{DateTime.Now} NavUpdateNextSingle_Click ] -> verseFrame");
-
+                Tools.errWrite($"[{DateTime.Now} NavUpdateNextSingle_Click ] -> verseFrame");
 
                 if (clearNav != 9) clearNav++;
                 navstackPanel.Visibility = Visibility.Hidden;
@@ -844,7 +853,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -852,10 +861,7 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
-
-
-                App.errWrite($"[{DateTime.Now} backVersesFrame_Click ] -> verseFrame");
-
+                Tools.errWrite($"[{DateTime.Now} backVersesFrame_Click ] -> verseFrame");
 
                 headerBorder.Visibility = Visibility.Visible;
                 controlPanel.Visibility = Visibility.Visible;
@@ -882,7 +888,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("", ex);
+                Tools.logWriter("", ex);
             }
         }
 
@@ -890,9 +896,7 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
-
-                App.errWrite($"[{DateTime.Now} fastexitBtn_Click ] -> verseFrame");
-
+                Tools.errWrite($"[{DateTime.Now} fastexitBtn_Click ] -> verseFrame");
 
                 if (App.beforeFrameName == "Sure")
                 {
@@ -906,7 +910,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("", ex);
+                Tools.logWriter("", ex);
             }
         }
 
@@ -914,15 +918,13 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
-
-                App.errWrite($"[{DateTime.Now} openNextSurePopup_Click ] -> verseFrame");
-
+                Tools.errWrite($"[{DateTime.Now} openNextSurePopup_Click ] -> verseFrame");
 
                 popup_nextSure.IsOpen = true;
             }
             catch (Exception ex)
             {
-                App.logWriter("", ex);
+                Tools.logWriter("", ex);
             }
         }
 
@@ -930,10 +932,7 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
-
-                App.errWrite($"[{DateTime.Now} checkButton_Click ] -> verseFrame");
-
-
+                Tools.errWrite($"[{DateTime.Now} checkButton_Click ] -> verseFrame");
 
                 var chk = sender as CheckBox;
 
@@ -944,6 +943,7 @@ namespace KuranX.App.Core.Pages.VerseF
 
                     if (chk.IsChecked.ToString() == "True")
                     {
+                 
                         verseUpdate.verseCheck = true;
 
                         sureUpdate.userCheckCount++;
@@ -951,7 +951,7 @@ namespace KuranX.App.Core.Pages.VerseF
                         if (sureUpdate.userCheckCount == sureUpdate.numberOfVerses)
                         {
                             sureUpdate.completed = true;
-                            if (entitydb.Sure.Where(p => p.userLastRelativeVerse != 0).Count() >= 1) sureUpdate.status = "#0D6EFD";
+                            if (entitydb.Sure.Where(p => p.userLastRelativeVerse != 0).Count() == 1) sureUpdate.status = "#0D6EFD";
                             else sureUpdate.status = "#66E21F";
                         }
                     }
@@ -974,7 +974,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -982,8 +982,7 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
-
-                App.errWrite($"[{DateTime.Now} bellButton_Click ] -> verseFrame");
+                Tools.errWrite($"[{DateTime.Now} bellButton_Click ] -> verseFrame");
                 var btn = sender as CheckBox;
                 var control = btn.IsChecked.Value;
                 if (control == false)
@@ -1041,7 +1040,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -1049,10 +1048,7 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
-
-
-                App.errWrite($"[{DateTime.Now} markButton_Click ] -> verseFrame");
-
+                Tools.errWrite($"[{DateTime.Now} markButton_Click ] -> verseFrame");
 
                 var bchk = sender as CheckBox;
                 using (var entitydb = new AyetContext())
@@ -1091,7 +1087,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -1099,10 +1095,7 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
-
-                App.errWrite($"[{DateTime.Now} subjectColorPick_Click ] -> verseFrame");
-
-
+                Tools.errWrite($"[{DateTime.Now} subjectColorPick_Click ] -> verseFrame");
 
                 CheckBox? chk;
 
@@ -1125,7 +1118,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -1133,9 +1126,7 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
-
-                App.errWrite($"[{DateTime.Now} popupClosed_Click ] -> verseFrame");
-
+                Tools.errWrite($"[{DateTime.Now} popupClosed_Click ] -> verseFrame");
 
                 var btntemp = sender as Button;
                 var popuptemp = (Popup)FindName(btntemp.Uid);
@@ -1182,7 +1173,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -1190,12 +1181,12 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
-                App.errWrite($"[{DateTime.Now} openVerseNumberPopup_Click ] -> verseFrame");
+                Tools.errWrite($"[{DateTime.Now} openVerseNumberPopup_Click ] -> verseFrame");
                 popup_VerseGoto.IsOpen = true;
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -1203,15 +1194,13 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
-
-
-                App.errWrite($"[{DateTime.Now} openVerseNumberPopup_Click ] -> verseFrame");
+                Tools.errWrite($"[{DateTime.Now} openVerseNumberPopup_Click ] -> verseFrame");
                 popup_Note.IsOpen = true;
                 versetask = Task.Run(noteConnect);
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -1219,7 +1208,7 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
-                App.errWrite($"[{DateTime.Now} noteAddButton_Click ] -> verseFrame");
+                Tools.errWrite($"[{DateTime.Now} noteAddButton_Click ] -> verseFrame");
 
                 popup_noteAddPopup.IsOpen = true;
                 noteConnectVerse.Text = loadHeader.Text + " > " + sRelativeVerseId;
@@ -1227,7 +1216,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -1235,14 +1224,13 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
-
-                App.errWrite($"[{DateTime.Now} remiderDeleteButton_Click ] -> verseFrame");
+                Tools.errWrite($"[{DateTime.Now} remiderDeleteButton_Click ] -> verseFrame");
                 popup_remiderControlPopup.IsOpen = false;
                 popup_remiderDeleteConfirm.IsOpen = true;
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -1250,8 +1238,7 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
-
-                App.errWrite($"[{DateTime.Now} descButton_Click ] -> verseFrame");
+                Tools.errWrite($"[{DateTime.Now} descButton_Click ] -> verseFrame");
 
                 var contentb = sender as Button;
                 textDesc.Text = contentb.Uid.ToString();
@@ -1261,7 +1248,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -1269,7 +1256,7 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
-                App.errWrite($"[{DateTime.Now} feedbackButton_Click ] -> verseFrame");
+                Tools.errWrite($"[{DateTime.Now} feedbackButton_Click ] -> verseFrame");
 
                 popup_feedbackOpenPopup.IsOpen = true;
                 feedbackConnectVerse.Text = loadHeader.Text + " > " + sRelativeVerseId.ToString();
@@ -1279,7 +1266,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -1287,9 +1274,7 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
-
-                App.errWrite($"[{DateTime.Now} feedbackPopupButton_Click ] -> verseFrame");
-
+                Tools.errWrite($"[{DateTime.Now} feedbackPopupButton_Click ] -> verseFrame");
 
                 if (feedbackDetail.Text.Length >= 3)
                 {
@@ -1298,7 +1283,7 @@ namespace KuranX.App.Core.Pages.VerseF
                     var messageBody = "<b>İsim Soyisim :</b> " + App.mainScreen.hmwd_profileName.Text + "<br/>" + "<b>İletişim Maili :</b> " + App.mainScreen.userEmail.Text + "<br/>" + "<b>Platform : </b> Bilgisayar" + "<br/>" + "<b>Seçili Ayet :</b>" + feedbackConnectVerse.Text + " <b>Mesaj : </b>" + "<br/> <p>" + feedbackDetail.Text + "</p>";
 
                     var returnBool = false;
-                    versetask = Task.Run(() => returnBool = App.sendMail("Kuransunettüllah Destek", messageBody));
+                    versetask = Task.Run(() => returnBool = Tools.sendMail("Kuransunettüllah Destek", messageBody));
                     await versetask;
 
                     if (returnBool)
@@ -1321,7 +1306,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -1329,8 +1314,7 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
-                App.errWrite($"[{DateTime.Now} openAddSubjectPopup_Click ] -> verseFrame");
-
+                Tools.errWrite($"[{DateTime.Now} openAddSubjectPopup_Click ] -> verseFrame");
 
                 popup_addSubjectPopup.IsOpen = true;
                 selectedSubject.Text = loadHeader.Text + " > " + sRelativeVerseId.ToString();
@@ -1338,7 +1322,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -1346,13 +1330,12 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
-
-                App.errWrite($"[{DateTime.Now} newSubjectFolder_Click ] -> verseFrame");
+                Tools.errWrite($"[{DateTime.Now} newSubjectFolder_Click ] -> verseFrame");
                 popup_FolderSubjectPopup.IsOpen = true;
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -1360,13 +1343,12 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
-
-                App.errWrite($"[{DateTime.Now} searchSubjectFolder_Click ] -> verseFrame");
+                Tools.errWrite($"[{DateTime.Now} searchSubjectFolder_Click ] -> verseFrame");
                 popup_FolderSubjectPopup.IsOpen = true;
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -1374,15 +1356,14 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
-                App.errWrite($"[{DateTime.Now} openMeaningPopup_Click ] -> verseFrame");
-
+                Tools.errWrite($"[{DateTime.Now} openMeaningPopup_Click ] -> verseFrame");
 
                 popup_Meaning.IsOpen = true;
                 versetask = Task.Run(() => loadMeaning());
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -1390,8 +1371,7 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
-                App.errWrite($"[{DateTime.Now} openMeaningAddPopup_Click ] -> verseFrame");
-
+                Tools.errWrite($"[{DateTime.Now} openMeaningAddPopup_Click ] -> verseFrame");
 
                 popup_meaningAddPopup.IsOpen = true;
                 popup_meaningAddPopup.Focus();
@@ -1403,7 +1383,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -1411,16 +1391,14 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
-
-                App.errWrite($"[{DateTime.Now} editMeaningButton_Click ] -> verseFrame");
-
+                Tools.errWrite($"[{DateTime.Now} editMeaningButton_Click ] -> verseFrame");
 
                 meaningEditNote.Text = meaningOpenDetailText.Text;
                 popup_meaningEditPopup.IsOpen = true;
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -1428,14 +1406,13 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
-                App.errWrite($"[{DateTime.Now} deleteMeaningButton_Click ] -> verseFrame");
-
+                Tools.errWrite($"[{DateTime.Now} deleteMeaningButton_Click ] -> verseFrame");
 
                 popup_meaningDeleteConfirm.IsOpen = true;
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -1443,15 +1420,13 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
-
-                App.errWrite($"[{DateTime.Now} meaningOpenDetailTextBack_Click ] -> verseFrame");
-
+                Tools.errWrite($"[{DateTime.Now} meaningOpenDetailTextBack_Click ] -> verseFrame");
 
                 popup_meainingConnectDetailText.IsOpen = false;
             }
             catch (Exception ex)
             {
-                App.logWriter("PopupAction", ex);
+                Tools.logWriter("PopupAction", ex);
             }
         }
 
@@ -1459,14 +1434,13 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
-                App.errWrite($"[{DateTime.Now} resetBtnSure_Click ] -> verseFrame");
-
+                Tools.errWrite($"[{DateTime.Now} resetBtnSure_Click ] -> verseFrame");
 
                 popup_resetVerseConfirm.IsOpen = true;
             }
             catch (Exception ex)
             {
-                App.logWriter("PopupAction", ex);
+                Tools.logWriter("PopupAction", ex);
             }
         }
 
@@ -1474,10 +1448,7 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
-
-                App.errWrite($"[{DateTime.Now} loadVersePopup_Click ] -> verseFrame");
-
-
+                Tools.errWrite($"[{DateTime.Now} loadVersePopup_Click ] -> verseFrame");
 
                 if (int.Parse(loadVerseCount.Text) >= int.Parse(popupRelativeId.Text))
                 {
@@ -1498,7 +1469,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -1506,10 +1477,7 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
-
-
-                App.errWrite($"[{DateTime.Now} noteDetailPopup_Click ] -> verseFrame");
-
+                Tools.errWrite($"[{DateTime.Now} noteDetailPopup_Click ] -> verseFrame");
 
                 var tmpbutton = sender as Button;
                 App.mainScreen.homescreengrid.IsEnabled = false;
@@ -1519,15 +1487,13 @@ namespace KuranX.App.Core.Pages.VerseF
                 App.secondFrame.Visibility = Visibility.Visible;
                 popup_Note.IsOpen = false;
 
-              
                 App.secondFrame.Content = new KuranX.App.Core.Pages.NoteF.NoteItem().PageCall(int.Parse(tmpbutton.Uid), "VerseNoteOpen");
-
 
                 tmpbutton = null;
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -1535,10 +1501,7 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
-
-                App.errWrite($"[{DateTime.Now} addNoteButton_Click ] -> verseFrame");
-
-
+                Tools.errWrite($"[{DateTime.Now} addNoteButton_Click ] -> verseFrame");
 
                 if (noteName.Text.Length >= 3)
                 {
@@ -1599,7 +1562,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -1607,9 +1570,7 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
-
-
-                App.errWrite($"[{DateTime.Now} allShowNoteButton_Click ] -> verseFrame");
+                Tools.errWrite($"[{DateTime.Now} allShowNoteButton_Click ] -> verseFrame");
 
                 popup_notesAllShowPopup.IsOpen = true;
                 using (var entitydb = new AyetContext())
@@ -1653,7 +1614,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -1661,9 +1622,7 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
-
-                App.errWrite($"[{DateTime.Now} nextSure_Click ] -> verseFrame");
-
+                Tools.errWrite($"[{DateTime.Now} nextSure_Click ] -> verseFrame");
 
                 headerBorder.Visibility = Visibility.Hidden;
                 controlPanel.Visibility = Visibility.Hidden;
@@ -1680,7 +1639,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -1688,9 +1647,7 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
-
-                App.errWrite($"[{DateTime.Now} notesDetailPopup_Click ] -> verseFrame");
-
+                Tools.errWrite($"[{DateTime.Now} notesDetailPopup_Click ] -> verseFrame");
 
                 var tmpbutton = sender as Button;
                 App.mainScreen.homescreengrid.IsEnabled = false;
@@ -1704,7 +1661,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -1712,8 +1669,7 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
-                App.errWrite($"[{DateTime.Now} addRemiderButton_Click ] -> verseFrame");
-
+                Tools.errWrite($"[{DateTime.Now} addRemiderButton_Click ] -> verseFrame");
 
                 if (remiderName.Text.Length >= 3)
                 {
@@ -1866,7 +1822,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -1874,8 +1830,7 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
-
-                App.errWrite($"[{DateTime.Now} deleteRemiderBtn_Click ] -> verseFrame");
+                Tools.errWrite($"[{DateTime.Now} deleteRemiderBtn_Click ] -> verseFrame");
                 using (var entitydb = new AyetContext())
                 {
                     entitydb.Remider.RemoveRange(entitydb.Remider.Where(p => p.connectVerseId == sRelativeVerseId && p.connectSureId == sSureId));
@@ -1889,7 +1844,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -1897,9 +1852,7 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
-
-                App.errWrite($"[{DateTime.Now} addSubject_Click ] -> verseFrame");
-
+                Tools.errWrite($"[{DateTime.Now} addSubject_Click ] -> verseFrame");
 
                 using (var entitydb = new AyetContext())
                 {
@@ -1935,7 +1888,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -1943,8 +1896,7 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
-                App.errWrite($"[{DateTime.Now} addfolderSubject_Click ] -> verseFrame");
-
+                Tools.errWrite($"[{DateTime.Now} addfolderSubject_Click ] -> verseFrame");
 
                 if (subjectFolderHeader.Text.Length >= 3)
                 {
@@ -1991,7 +1943,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -1999,9 +1951,7 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
-
-                App.errWrite($"[{DateTime.Now} meaningDetailPopup_Click ] -> verseFrame");
-
+                Tools.errWrite($"[{DateTime.Now} meaningDetailPopup_Click ] -> verseFrame");
 
                 var tmpbutton = sender as Button;
 
@@ -2026,7 +1976,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -2034,9 +1984,7 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
-
-                App.errWrite($"[{DateTime.Now} allShowMeaningButton_Click ] -> verseFrame");
-
+                Tools.errWrite($"[{DateTime.Now} allShowMeaningButton_Click ] -> verseFrame");
 
                 popup_meainingAllShowPopup.IsOpen = true;
 
@@ -2081,7 +2029,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("PopupAction", ex);
+                Tools.logWriter("PopupAction", ex);
             }
         }
 
@@ -2089,8 +2037,7 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
-                App.errWrite($"[{DateTime.Now} newmeaningVerse_Click ] -> verseFrame");
-
+                Tools.errWrite($"[{DateTime.Now} newmeaningVerse_Click ] -> verseFrame");
 
                 if (meaningName.Text.Length >= 3)
                 {
@@ -2172,7 +2119,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -2180,9 +2127,7 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
-
-                App.errWrite($"[{DateTime.Now} meaningOpenSure_Click ] -> verseFrame");
-
+                Tools.errWrite($"[{DateTime.Now} meaningOpenSure_Click ] -> verseFrame");
 
                 headerBorder.Visibility = Visibility.Hidden;
                 controlPanel.Visibility = Visibility.Hidden;
@@ -2200,7 +2145,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("PopupAction", ex);
+                Tools.logWriter("PopupAction", ex);
             }
         }
 
@@ -2208,9 +2153,7 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
-
-                App.errWrite($"[{DateTime.Now} editmeaningVerse_Click ] -> verseFrame");
-
+                Tools.errWrite($"[{DateTime.Now} editmeaningVerse_Click ] -> verseFrame");
 
                 using (var entitydb = new AyetContext())
                 {
@@ -2231,7 +2174,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -2239,7 +2182,7 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
-                App.errWrite($"[{DateTime.Now} deleteMeaningBtn_Click ] -> verseFrame");
+                Tools.errWrite($"[{DateTime.Now} deleteMeaningBtn_Click ] -> verseFrame");
 
                 using (var entitydb = new AyetContext())
                 {
@@ -2254,7 +2197,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -2262,8 +2205,7 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
-                App.errWrite($"[{DateTime.Now} resetVersePopupBtn_Click ] -> verseFrame");
-
+                Tools.errWrite($"[{DateTime.Now} resetVersePopupBtn_Click ] -> verseFrame");
 
                 using (var entitydb = new AyetContext())
                 {
@@ -2298,7 +2240,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -2306,9 +2248,7 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
-
-                App.errWrite($"[{DateTime.Now} SearchBtn_Click ] -> verseFrame");
-
+                Tools.errWrite($"[{DateTime.Now} SearchBtn_Click ] -> verseFrame");
 
                 using (var entitydb = new AyetContext())
                 {
@@ -2333,7 +2273,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -2341,8 +2281,7 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
-
-                App.errWrite($"[{DateTime.Now} filterSearch_Click ] -> verseFrame");
+                Tools.errWrite($"[{DateTime.Now} filterSearch_Click ] -> verseFrame");
 
                 var btn = sender as Button;
                 searchLastItem = 0;
@@ -2392,19 +2331,15 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
-
         }
 
         private void nextSearch_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                App.errWrite($"[{DateTime.Now} nextSearch_Click ] -> verseFrame");
-
-
+                Tools.errWrite($"[{DateTime.Now} nextSearch_Click ] -> verseFrame");
 
                 var btn = sender as Button;
                 searchNowPage++;
@@ -2417,18 +2352,15 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
-
+                Tools.logWriter("Click", ex);
             }
-
         }
 
         private void beForeSearch_Click(object sender, RoutedEventArgs e)
         {
-
             try
             {
-                App.errWrite($"[{DateTime.Now} beForeSearch_Click ] -> verseFrame");
+                Tools.errWrite($"[{DateTime.Now} beForeSearch_Click ] -> verseFrame");
 
                 var btn = sender as Button;
                 searchNowPage--;
@@ -2441,21 +2373,15 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
-
+                Tools.logWriter("Click", ex);
             }
-
-
-
         }
 
         private void searchData(int nowpage, string type)
         {
-
             try
             {
-                App.errWrite($"[{DateTime.Now} searchData ] -> verseFrame");
-
+                Tools.errWrite($"[{DateTime.Now} searchData ] -> verseFrame");
 
                 searchScrollViewer.ScrollToTop();
                 switch (type)
@@ -2561,20 +2487,15 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
-
+                Tools.logWriter("Click", ex);
             }
-
-
         }
 
         private void searchDataWrite(ArrayList content, string Loc, int sId, int rId, string interpreter = "")
         {
             try
             {
-
-                App.errWrite($"[{DateTime.Now} searchDataWrite ] -> verseFrame");
-
+                Tools.errWrite($"[{DateTime.Now} searchDataWrite ] -> verseFrame");
 
                 int id = 0;
 
@@ -2637,7 +2558,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -2645,8 +2566,7 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
-
-                App.errWrite($"[{DateTime.Now} searchTempButonClick ] -> verseFrame");
+                Tools.errWrite($"[{DateTime.Now} searchTempButonClick ] -> verseFrame");
 
                 var btn = sender as Button;
 
@@ -2672,7 +2592,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -2680,8 +2600,7 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
-
-                App.errWrite($"[{DateTime.Now} remiderTypeChangeButton_Click ] -> verseFrame");
+                Tools.errWrite($"[{DateTime.Now} remiderTypeChangeButton_Click ] -> verseFrame");
 
                 if (loopType.Visibility.ToString() == "Hidden")
                 {
@@ -2700,7 +2619,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -2708,8 +2627,7 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
-
-                App.errWrite($"[{DateTime.Now} wordText_Click ] -> verseFrame");
+                Tools.errWrite($"[{DateTime.Now} wordText_Click ] -> verseFrame");
 
                 popup_Words.IsOpen = true;
 
@@ -2749,7 +2667,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -2762,8 +2680,7 @@ namespace KuranX.App.Core.Pages.VerseF
             // Nav NextUpdate Click
             try
             {
-
-                App.errWrite($"[{DateTime.Now} interpreterWriterCombo_SelectionChanged ] -> verseFrame");
+                Tools.errWrite($"[{DateTime.Now} interpreterWriterCombo_SelectionChanged ] -> verseFrame");
 
                 var item = interpreterWriterCombo.SelectedItem as ComboBoxItem;
                 if (item != null)
@@ -2778,7 +2695,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Change", ex);
+                Tools.logWriter("Change", ex);
             }
         }
 
@@ -2786,10 +2703,7 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
-
-                App.errWrite($"[{DateTime.Now} popupNextSureId_SelectionChanged ] -> verseFrame");
-
-
+                Tools.errWrite($"[{DateTime.Now} popupNextSureId_SelectionChanged ] -> verseFrame");
 
                 var item = popupNextSureId.SelectedItem as ComboBoxItem;
                 if (item != null)
@@ -2806,7 +2720,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Change", ex);
+                Tools.logWriter("Change", ex);
             }
         }
 
@@ -2814,8 +2728,7 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
-
-                App.errWrite($"[{DateTime.Now} popupMeiningSureId_SelectionChanged ] -> verseFrame");
+                Tools.errWrite($"[{DateTime.Now} popupMeiningSureId_SelectionChanged ] -> verseFrame");
 
                 var item = meaningpopupNextSureId.SelectedItem as ComboBoxItem;
                 if (item != null)
@@ -2832,7 +2745,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Change", ex);
+                Tools.logWriter("Change", ex);
             }
         }
 
@@ -2875,7 +2788,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Change", ex);
+                Tools.logWriter("Change", ex);
             }
         }
 
@@ -2888,7 +2801,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Change", ex);
+                Tools.logWriter("Change", ex);
             }
         }
 
@@ -2900,7 +2813,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Change", ex);
+                Tools.logWriter("Change", ex);
             }
         }
 
@@ -2912,7 +2825,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Change", ex);
+                Tools.logWriter("Change", ex);
             }
         }
 
@@ -2924,7 +2837,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Change", ex);
+                Tools.logWriter("Change", ex);
             }
         }
 
@@ -2936,7 +2849,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Change", ex);
+                Tools.logWriter("Change", ex);
             }
         }
 
@@ -2948,7 +2861,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Change", ex);
+                Tools.logWriter("Change", ex);
             }
         }
 
@@ -2960,7 +2873,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Change", ex);
+                Tools.logWriter("Change", ex);
             }
         }
 
@@ -2972,7 +2885,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Change", ex);
+                Tools.logWriter("Change", ex);
             }
         }
 
@@ -2984,7 +2897,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Change", ex);
+                Tools.logWriter("Change", ex);
             }
         }
 
@@ -3002,7 +2915,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Change", ex);
+                Tools.logWriter("Change", ex);
             }
         }
 
@@ -3015,7 +2928,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Change", ex);
+                Tools.logWriter("Change", ex);
             }
         }
 
@@ -3028,7 +2941,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Change", ex);
+                Tools.logWriter("Change", ex);
             }
         }
 
@@ -3040,7 +2953,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Change", ex);
+                Tools.logWriter("Change", ex);
             }
         }
 
@@ -3053,7 +2966,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Change", ex);
+                Tools.logWriter("Change", ex);
             }
         }
 
@@ -3066,7 +2979,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Change", ex);
+                Tools.logWriter("Change", ex);
             }
         }
 
@@ -3079,7 +2992,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Change", ex);
+                Tools.logWriter("Change", ex);
             }
         }
 
@@ -3087,7 +3000,6 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
-
                 var textbox = (TextBox)sender;
                 if (!textbox.IsLoaded) return;
                 var item = popupNextSureId.SelectedItem as ComboBoxItem;
@@ -3113,7 +3025,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Change", ex);
+                Tools.logWriter("Change", ex);
             }
         }
 
@@ -3146,7 +3058,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Change", ex);
+                Tools.logWriter("Change", ex);
             }
         }
 
@@ -3158,9 +3070,7 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
-
-
-                App.errWrite($"[{DateTime.Now} allPopupClosed ] -> verseFrame");
+                Tools.errWrite($"[{DateTime.Now} allPopupClosed ] -> verseFrame");
                 this.Dispatcher.Invoke(() =>
                 {
                     popup_VerseGoto.IsOpen = false;
@@ -3186,7 +3096,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Other", ex);
+                Tools.logWriter("Other", ex);
             }
         }
 
@@ -3198,9 +3108,7 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
-
-                App.errWrite($"[{DateTime.Now} loadAni ] -> verseFrame");
-
+                Tools.errWrite($"[{DateTime.Now} loadAni ] -> verseFrame");
 
                 this.Dispatcher.Invoke(() =>
                 {
@@ -3213,7 +3121,7 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Aniamtion", ex);
+                Tools.logWriter("Aniamtion", ex);
             }
         }
 
@@ -3223,8 +3131,7 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
-
-                App.errWrite($"[{DateTime.Now} popuverMove_Click ] -> verseFrame");
+                Tools.errWrite($"[{DateTime.Now} popuverMove_Click ] -> verseFrame");
                 var btn = sender as Button;
                 ppMoveConfing((string)btn.Uid);
                 moveControlName.Text = (string)btn.Content;
@@ -3232,18 +3139,15 @@ namespace KuranX.App.Core.Pages.VerseF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
-
+                Tools.logWriter("Click", ex);
             }
-
         }
 
         public void ppMoveActionOfset_Click(object sender, RoutedEventArgs e)
         {
-
             try
             {
-                App.errWrite($"[{DateTime.Now} ppMoveActionOfset_Click ] -> verseFrame");
+                Tools.errWrite($"[{DateTime.Now} ppMoveActionOfset_Click ] -> verseFrame");
 
                 var btntemp = sender as Button;
                 var movePP = (Popup)FindName((string)btntemp.Content);
@@ -3286,25 +3190,18 @@ namespace KuranX.App.Core.Pages.VerseF
                         movePP.Child.IsEnabled = true;
                         break;
                 }
-
-
             }
             catch (Exception ex)
             {
-
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
-
-
         }
 
         public void ppMoveActionOpacity_Click(object sender, RoutedEventArgs e)
         {
-
             try
             {
-                App.errWrite($"[{DateTime.Now} ppMoveActionOpacity_Click ] -> verseFrame");
-
+                Tools.errWrite($"[{DateTime.Now} ppMoveActionOpacity_Click ] -> verseFrame");
 
                 var btntemp = sender as Button;
                 var movePP = (Popup)FindName((string)btntemp.Content);
@@ -3321,39 +3218,29 @@ namespace KuranX.App.Core.Pages.VerseF
                         movePP.Child.IsEnabled = false;
                         break;
                 }
-
             }
             catch (Exception ex)
             {
-
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
-
-
         }
 
         public void ppMoveConfing(string ppmove)
         {
-
             try
             {
-                App.errWrite($"[{DateTime.Now} ppMoveConfing ] -> verseFrame");
+                Tools.errWrite($"[{DateTime.Now} ppMoveConfing ] -> verseFrame");
 
                 for (int i = 1; i < 10; i++)
                 {
                     var btn = FindName("pp_M" + i) as Button;
                     btn.Content = ppmove;
                 }
-
             }
             catch (Exception ex)
             {
-
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
-
-
-
         }
     }
 }

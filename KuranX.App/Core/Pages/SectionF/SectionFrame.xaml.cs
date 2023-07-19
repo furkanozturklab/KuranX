@@ -1,5 +1,6 @@
 ﻿using Google.Protobuf.Collections;
 using KuranX.App.Core.Classes;
+using KuranX.App.Core.Classes.Tools;
 using Org.BouncyCastle.Asn1;
 using System;
 using System.Collections.Generic;
@@ -34,7 +35,7 @@ namespace KuranX.App.Core.Pages.SectionF
         private Task sectionframe, sectionprocess;
         public SectionFrame()
         {
-            App.errWrite($"[{DateTime.Now} InitializeComponent ] -> SectionFrame");
+            Tools.errWrite($"[{DateTime.Now} InitializeComponent ] -> SectionFrame");
 
 
             InitializeComponent();
@@ -46,7 +47,7 @@ namespace KuranX.App.Core.Pages.SectionF
             try
             {
 
-                App.errWrite($"[{DateTime.Now} PageCall ] -> SectionFrame");
+                Tools.errWrite($"[{DateTime.Now} PageCall ] -> SectionFrame");
 
                 headerBorder.Visibility = Visibility.Hidden;
                 navControlStack.Visibility = Visibility.Hidden;
@@ -66,7 +67,7 @@ namespace KuranX.App.Core.Pages.SectionF
             }
             catch (Exception ex)
             {
-                App.logWriter("", ex);
+                Tools.logWriter("", ex);
                 return this;
             }
         }
@@ -76,7 +77,7 @@ namespace KuranX.App.Core.Pages.SectionF
         {
             try
             {
-                App.errWrite($"[{DateTime.Now} loadSectionFunc ] -> SectionFrame");
+                Tools.errWrite($"[{DateTime.Now} loadSectionFunc ] -> SectionFrame");
 
                 using (var entitydb = new AyetContext())
                 {
@@ -154,7 +155,7 @@ namespace KuranX.App.Core.Pages.SectionF
             }
             catch (Exception ex)
             {
-                App.logWriter("Loading", ex);
+                Tools.logWriter("Loading", ex);
             }
 
         }
@@ -164,7 +165,7 @@ namespace KuranX.App.Core.Pages.SectionF
         {
             try
             {
-                App.errWrite($"[{DateTime.Now} singleItemsControl ] -> SectionFrame");
+                Tools.errWrite($"[{DateTime.Now} singleItemsControl ] -> SectionFrame");
 
 
                 using (var entitydb = new AyetContext())
@@ -174,7 +175,7 @@ namespace KuranX.App.Core.Pages.SectionF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -183,7 +184,7 @@ namespace KuranX.App.Core.Pages.SectionF
             try
             {
 
-                App.errWrite($"[{DateTime.Now} markButton_Click ] -> SectionFrame");
+                Tools.errWrite($"[{DateTime.Now} markButton_Click ] -> SectionFrame");
 
 
                 var bchk = sender as CheckBox;
@@ -216,7 +217,7 @@ namespace KuranX.App.Core.Pages.SectionF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -229,7 +230,7 @@ namespace KuranX.App.Core.Pages.SectionF
             {
 
 
-                App.errWrite($"[{DateTime.Now} loadSectionDetail ] -> SectionFrame");
+                Tools.errWrite($"[{DateTime.Now} loadSectionDetail ] -> SectionFrame");
                 using (var entitydb = new AyetContext())
                 {
                     sectionScroll.ScrollToTop();
@@ -261,7 +262,7 @@ namespace KuranX.App.Core.Pages.SectionF
             catch (Exception ex)
             {
 
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
 
 
@@ -272,7 +273,7 @@ namespace KuranX.App.Core.Pages.SectionF
 
             try
             {
-                App.errWrite($"[{DateTime.Now} loadHeaderFunc ] -> SectionFrame");
+                Tools.errWrite($"[{DateTime.Now} loadHeaderFunc ] -> SectionFrame");
 
 
                 this.Dispatcher.Invoke(() =>
@@ -292,14 +293,14 @@ namespace KuranX.App.Core.Pages.SectionF
             }
             catch (Exception ex)
             {
-                App.logWriter("Loading", ex);
+                Tools.logWriter("Loading", ex);
             }
         }
         private void descButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                App.errWrite($"[{DateTime.Now} descButton_Click ] -> SectionFrame");
+                Tools.errWrite($"[{DateTime.Now} descButton_Click ] -> SectionFrame");
 
 
 
@@ -311,7 +312,7 @@ namespace KuranX.App.Core.Pages.SectionF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -320,7 +321,7 @@ namespace KuranX.App.Core.Pages.SectionF
             // items Load Func
             try
             {
-                App.errWrite($"[{DateTime.Now} loadItemsControl ] -> SectionFrame");
+                Tools.errWrite($"[{DateTime.Now} loadItemsControl ] -> SectionFrame");
 
 
                 this.Dispatcher.Invoke(() =>
@@ -334,7 +335,7 @@ namespace KuranX.App.Core.Pages.SectionF
             }
             catch (Exception ex)
             {
-                App.logWriter("Loading", ex);
+                Tools.logWriter("Loading", ex);
             }
         }
 
@@ -343,7 +344,7 @@ namespace KuranX.App.Core.Pages.SectionF
             try
             {
 
-                App.errWrite($"[{DateTime.Now} loadNavFunc ] -> SectionFrame");
+                Tools.errWrite($"[{DateTime.Now} loadNavFunc ] -> SectionFrame");
 
 
                 using (var entitydb = new AyetContext())
@@ -430,7 +431,7 @@ namespace KuranX.App.Core.Pages.SectionF
             catch (Exception ex)
             {
 
-                App.logWriter("Loading", ex);
+                Tools.logWriter("Loading", ex);
             }
 
 
@@ -445,7 +446,7 @@ namespace KuranX.App.Core.Pages.SectionF
                 this.Dispatcher.Invoke(() => App.mainScreen.homescreengrid.IsEnabled = false);
 
 
-                App.errWrite($"[{DateTime.Now} activeVerseSelected_Click ] -> SectionFrame");
+                Tools.errWrite($"[{DateTime.Now} activeVerseSelected_Click ] -> SectionFrame");
 
                 var chk = sender as CheckBox;
                 if (chk.IsChecked.ToString() == "True") chk.IsChecked = false;
@@ -471,7 +472,7 @@ namespace KuranX.App.Core.Pages.SectionF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -482,7 +483,7 @@ namespace KuranX.App.Core.Pages.SectionF
             {
 
                 this.Dispatcher.Invoke(() => App.mainScreen.homescreengrid.IsEnabled = false);
-                App.errWrite($"[{DateTime.Now} NavUpdatePrevSingle_Click ] -> SectionFrame");
+                Tools.errWrite($"[{DateTime.Now} NavUpdatePrevSingle_Click ] -> SectionFrame");
 
                 if (clearNav != 0) clearNav--;
 
@@ -555,7 +556,7 @@ namespace KuranX.App.Core.Pages.SectionF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -567,7 +568,7 @@ namespace KuranX.App.Core.Pages.SectionF
 
 
                 this.Dispatcher.Invoke(() => App.mainScreen.homescreengrid.IsEnabled = false);
-                App.errWrite($"[{DateTime.Now} NavUpdateNextSingle_Click ] -> SectionFrame");
+                Tools.errWrite($"[{DateTime.Now} NavUpdateNextSingle_Click ] -> SectionFrame");
 
                 if (clearNav != 8) clearNav++;
                 navstackPanel.Visibility = Visibility.Hidden;
@@ -619,7 +620,7 @@ namespace KuranX.App.Core.Pages.SectionF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -628,7 +629,7 @@ namespace KuranX.App.Core.Pages.SectionF
         {
             try
             {
-                App.errWrite($"[{DateTime.Now} popupClosed_Click ] -> SectionFrame");
+                Tools.errWrite($"[{DateTime.Now} popupClosed_Click ] -> SectionFrame");
 
 
                 var btntemp = sender as Button;
@@ -641,7 +642,7 @@ namespace KuranX.App.Core.Pages.SectionF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -651,7 +652,7 @@ namespace KuranX.App.Core.Pages.SectionF
             try
             {
 
-                App.errWrite($"[{DateTime.Now} backVersesFrame_Click ] -> SectionFrame");
+                Tools.errWrite($"[{DateTime.Now} backVersesFrame_Click ] -> SectionFrame");
 
                 headerBorder.Visibility = Visibility.Visible;
                 controlPanel.Visibility = Visibility.Visible;
@@ -689,7 +690,7 @@ namespace KuranX.App.Core.Pages.SectionF
             }
             catch (Exception ex)
             {
-                App.logWriter("", ex);
+                Tools.logWriter("", ex);
             }
         }
 
@@ -697,7 +698,7 @@ namespace KuranX.App.Core.Pages.SectionF
         {
             try
             {
-                App.errWrite($"[{DateTime.Now} fastexitBtn_Click ] -> SectionFrame");
+                Tools.errWrite($"[{DateTime.Now} fastexitBtn_Click ] -> SectionFrame");
 
 
                 if (App.beforeFrameName == "Sure")
@@ -711,7 +712,7 @@ namespace KuranX.App.Core.Pages.SectionF
             }
             catch (Exception ex)
             {
-                App.logWriter("", ex);
+                Tools.logWriter("", ex);
             }
         }
 
@@ -721,13 +722,13 @@ namespace KuranX.App.Core.Pages.SectionF
             try
             {
 
-                App.errWrite($"[{DateTime.Now} noteButton_Click ] -> SectionFrame");
+                Tools.errWrite($"[{DateTime.Now} noteButton_Click ] -> SectionFrame");
                 popup_Note.IsOpen = true;
                 sectionframe = Task.Run(noteConnect);
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -736,7 +737,7 @@ namespace KuranX.App.Core.Pages.SectionF
         {
             try
             {
-                App.errWrite($"[{DateTime.Now} addNoteButton_Click ] -> SectionFrame");
+                Tools.errWrite($"[{DateTime.Now} addNoteButton_Click ] -> SectionFrame");
 
 
                 if (noteName.Text.Length >= 3)
@@ -798,7 +799,7 @@ namespace KuranX.App.Core.Pages.SectionF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -807,7 +808,7 @@ namespace KuranX.App.Core.Pages.SectionF
         {
             try
             {
-                App.errWrite($"[{DateTime.Now} noteConnect ] -> SectionFrame");
+                Tools.errWrite($"[{DateTime.Now} noteConnect ] -> SectionFrame");
 
                 using (var entitydb = new AyetContext())
                 {
@@ -848,7 +849,7 @@ namespace KuranX.App.Core.Pages.SectionF
             }
             catch (Exception ex)
             {
-                App.logWriter("Loading", ex);
+                Tools.logWriter("Loading", ex);
             }
         }
 
@@ -858,7 +859,7 @@ namespace KuranX.App.Core.Pages.SectionF
             try
             {
 
-                App.errWrite($"[{DateTime.Now} noteDetailPopup_Click ] -> SectionFrame");
+                Tools.errWrite($"[{DateTime.Now} noteDetailPopup_Click ] -> SectionFrame");
                 var tmpbutton = sender as Button;
 
                 popup_Note.IsOpen = false;
@@ -869,7 +870,7 @@ namespace KuranX.App.Core.Pages.SectionF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -878,7 +879,7 @@ namespace KuranX.App.Core.Pages.SectionF
             try
             {
 
-                App.errWrite($"[{DateTime.Now} notesDetailPopup_Click ] -> SectionFrame");
+                Tools.errWrite($"[{DateTime.Now} notesDetailPopup_Click ] -> SectionFrame");
                 var tmpbutton = sender as Button;
 
                 popup_Note.IsOpen = false;
@@ -889,7 +890,7 @@ namespace KuranX.App.Core.Pages.SectionF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -899,14 +900,14 @@ namespace KuranX.App.Core.Pages.SectionF
             try
             {
 
-                App.errWrite($"[{DateTime.Now} noteAddButton_Click ] -> SectionFrame");
+                Tools.errWrite($"[{DateTime.Now} noteAddButton_Click ] -> SectionFrame");
                 popup_noteAddPopup.IsOpen = true;
                 noteConnectVerse.Text = loadHeader.Text + " > " + selectedSection;
                 noteType.Text = "Bölüm Notu";
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -915,7 +916,7 @@ namespace KuranX.App.Core.Pages.SectionF
             try
             {
 
-                App.errWrite($"[{DateTime.Now} allShowNoteButton_Click ] -> SectionFrame");
+                Tools.errWrite($"[{DateTime.Now} allShowNoteButton_Click ] -> SectionFrame");
 
 
                 popup_notesAllShowPopup.IsOpen = true;
@@ -960,7 +961,7 @@ namespace KuranX.App.Core.Pages.SectionF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -973,7 +974,7 @@ namespace KuranX.App.Core.Pages.SectionF
             }
             catch (Exception ex)
             {
-                App.logWriter("Change", ex);
+                Tools.logWriter("Change", ex);
             }
         }
 
@@ -985,7 +986,7 @@ namespace KuranX.App.Core.Pages.SectionF
             }
             catch (Exception ex)
             {
-                App.logWriter("Change", ex);
+                Tools.logWriter("Change", ex);
             }
         }
 
@@ -999,7 +1000,7 @@ namespace KuranX.App.Core.Pages.SectionF
             }
             catch (Exception ex)
             {
-                App.logWriter("Change", ex);
+                Tools.logWriter("Change", ex);
             }
         }
 
@@ -1009,7 +1010,7 @@ namespace KuranX.App.Core.Pages.SectionF
         public void popuverMove_Click(object sender, RoutedEventArgs e)
         {
 
-            App.errWrite($"[{DateTime.Now} popuverMove_Click ] -> SectionFrame");
+            Tools.errWrite($"[{DateTime.Now} popuverMove_Click ] -> SectionFrame");
             var btn = sender as Button;
             ppMoveConfing((string)btn.Uid);
             moveControlName.Text = (string)btn.Content;
@@ -1019,7 +1020,7 @@ namespace KuranX.App.Core.Pages.SectionF
         public void ppMoveActionOfset_Click(object sender, RoutedEventArgs e)
         {
 
-            App.errWrite($"[{DateTime.Now} ppMoveActionOfset_Click ] -> SectionFrame");
+            Tools.errWrite($"[{DateTime.Now} ppMoveActionOfset_Click ] -> SectionFrame");
 
 
             var btntemp = sender as Button;
@@ -1068,7 +1069,7 @@ namespace KuranX.App.Core.Pages.SectionF
         public void ppMoveActionOpacity_Click(object sender, RoutedEventArgs e)
         {
 
-            App.errWrite($"[{DateTime.Now} ppMoveActionOpacity_Click ] -> SectionFrame");
+            Tools.errWrite($"[{DateTime.Now} ppMoveActionOpacity_Click ] -> SectionFrame");
 
 
             var btntemp = sender as Button;
@@ -1091,7 +1092,7 @@ namespace KuranX.App.Core.Pages.SectionF
         public void ppMoveConfing(string ppmove)
         {
 
-            App.errWrite($"[{DateTime.Now} ppMoveConfing ] -> SectionFrame");
+            Tools.errWrite($"[{DateTime.Now} ppMoveConfing ] -> SectionFrame");
 
             for (int i = 1; i < 10; i++)
             {

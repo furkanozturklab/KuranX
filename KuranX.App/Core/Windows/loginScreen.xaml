@@ -77,36 +77,34 @@
             </Border>
         </Popup>
 
-        <Popup x:Name="popup_privacyPolicy" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="390" Height="420" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
-            <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="370" Height="400">
+        <Popup x:Name="popup_privacyPolicy" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="470" Height="520" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+            <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="450" Height="500">
                 <Grid>
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="50" />
                         <RowDefinition Height="*" />
                         <RowDefinition Height="50" />
                     </Grid.RowDefinitions>
 
-                    <ScrollViewer Grid.Row="0" Visibility="Visible" CanContentScroll="True"  HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Visible" VerticalAlignment="Top" Padding="20">
-                        <StackPanel VerticalAlignment="Top" HorizontalAlignment="Center" Orientation="Vertical">
 
-                            <TextBlock Text="Program Kullanım Şartları" TextWrapping="Wrap" FontFamily="{DynamicResource PoppinsMedium}" FontSize="16" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 5 0 5" />
+                    <TextBlock Text="Program Kullanım Şartları" TextWrapping="Wrap" FontFamily="{DynamicResource PoppinsMedium}" FontSize="16" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 5 0 5" />
 
-                            <TextBlock Text="1-Lorem Ipsum is simply dummy text of the printing and  many typesetting industry.  "  Style="{DynamicResource privacyText}" />
-                            <TextBlock Text="2-Lorem Ipsum is simply dummy text of the printing and  many typesetting industry.  "  Style="{DynamicResource privacyText}" />
-                            <TextBlock Text="3-Lorem Ipsum is simply dummy text of the printing and  many typesetting industry.  "  Style="{DynamicResource privacyText}" />
-                            <TextBlock Text="4-Lorem Ipsum is simply dummy text of the printing and  many typesetting industry.  "  Style="{DynamicResource privacyText}" />
-                            <TextBlock Text="5-Lorem Ipsum is simply dummy text of the printing and  many typesetting industry.  "  Style="{DynamicResource privacyText}" />
-                            <TextBlock Text="6-Lorem Ipsum is simply dummy text of the printing and  many typesetting industry.  "  Style="{DynamicResource privacyText}" />
-                            <TextBlock Text="7-Lorem Ipsum is simply dummy text of the printing and  many typesetting industry.  "  Style="{DynamicResource privacyText}" />
+                    <ScrollViewer Grid.Row="1" Visibility="Visible" CanContentScroll="True"  HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Visible" VerticalAlignment="Top" Padding="20">
+
+                        <StackPanel x:Name="pri_pol" Orientation="Vertical">
+
                         </StackPanel>
+
                     </ScrollViewer>
 
-                    <Grid Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <Grid Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
 
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="0">
                             <Button x:Name="checkPrivacy" Style="{DynamicResource pp_DefaultButtonBstrp}" Tag="Check2" Content="Okudum Anladım Kabul Ediyorum" Uid="popup_commentaryVersePopup" HorizontalAlignment="Center"  Width="250" Click="checkPrivacy_Click" />
+                            <Button x:Name="closePrivacy" Style="{DynamicResource pp_DefaultButtonBstrp}" Tag="XLg" Content="Kapat" Uid="popup_commentaryVersePopup" HorizontalAlignment="Center"  Width="100" Click="closePrivacy_Click"  />
                         </StackPanel>
                     </Grid>
                 </Grid>
@@ -115,7 +113,7 @@
 
         <Grid Grid.Column="0" x:Name="leftGrid" Width="450" Height="600">
             <Grid.Background>
-                <ImageBrush ImageSource="/Resource/Images/Background/loginLeftPlan.png" />
+                <ImageBrush ImageSource="/Resources/Images/Background/loginLeftPlan.png" />
             </Grid.Background>
 
             <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
@@ -131,12 +129,12 @@
         </Grid>
 
         <Grid x:Name="loadinGifContent" Grid.Row="0" Grid.Column="1" Background="#FAFAFA" Panel.ZIndex="5" Visibility="Collapsed">
-            <Image gif:ImageBehavior.AnimatedSource="/Resource/Images/Gif/Spinner800.gif" Width="150" Height="150"  RenderOptions.BitmapScalingMode="HighQuality" />
+            <Image gif:ImageBehavior.AnimatedSource="/Resources/Images/Gif/Spinner800.gif" Width="150" Height="150"  RenderOptions.BitmapScalingMode="HighQuality" />
         </Grid>
 
         <Grid Grid.Column="1" x:Name="loginHomeGrid" Style="{DynamicResource loginresgrid}" Visibility="Visible">
 
-            <StackPanel VerticalAlignment="Center" Orientation="Vertical" Width="300">
+            <StackPanel VerticalAlignment="Center" Orientation="Vertical" Width="380">
 
                 <!-- Login Header Text -->
                 <TextBlock  Text="Kur'an Sünnetullah" Style="{DynamicResource lgfrm_headerText}" FontFamily="{DynamicResource Allura}" FontSize="36" FontWeight="Bold" />
@@ -158,7 +156,7 @@
 
                 <Ellipse x:Name="login_profileImage" Style="{DynamicResource lgfrm_leftHeaderImage}" Margin="0,8,0,0">
                     <Ellipse.Fill>
-                        <ImageBrush x:Uid="" x:Name="login_profileImageBrush" RenderOptions.BitmapScalingMode="HighQuality" ImageSource="/resource/images/other/defaultProfileImage.png" />
+                        <ImageBrush x:Uid="" x:Name="login_profileImageBrush" RenderOptions.BitmapScalingMode="HighQuality" ImageSource="/resources/images/other/defaultProfileImage.png" />
                     </Ellipse.Fill>
                 </Ellipse>
                 <TextBlock x:Name="login_profileName" Style="{DynamicResource hmwnd_leftHeaderImageText}" Text="Meltdown Öztürk" FontSize="16" Margin="0 20 0 20" />
@@ -169,7 +167,7 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <Image Style="{DynamicResource lgfrm_inputBoxIcon}" Source="/Resource/Images/Icon/key_r.png" />
+                        <Image Style="{DynamicResource lgfrm_inputBoxIcon}" Source="/Resources/Images/Icon/key_r.png" />
                         <TextBlock Style="{DynamicResource lgfrm_inputTextHint}" x:Name="userPinHint" Text="Pin Giriniz" MouseDown="userPinHint_MouseDown" />
                         <TextBox Style="{DynamicResource lgfrm_userEmailInput}" x:Name="userPin" LostFocus="userPin_LostFocus" TextChanged="userPin_TextChanged" PreviewTextInput="userPin_PreviewTextInput" />
                     </Grid>
@@ -191,7 +189,7 @@
                             </Grid.ColumnDefinitions>
 
                             <Border x:Name="rememberCheckBox" Grid.Column="0" Style="{DynamicResource lgfrm_rememberMeCheckbox}">
-                                <Image Source="/Resource/Images/Icon/tick_b.png" Style="{DynamicResource lgfrm_rememberMeCheckImage}" />
+                                <Image Source="/Resources/Images/Icon/tick_b.png" Style="{DynamicResource lgfrm_rememberMeCheckImage}" />
                             </Border>
                             <TextBlock x:Name="rememberMeText" Grid.Column="1" Style="{DynamicResource lgfrm_rememberMeText}" />
                         </Grid>
@@ -233,7 +231,7 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <Image Style="{DynamicResource lgfrm_inputBoxIcon}" Source="/resource/images/icon/email_rb.png" />
+                        <Image Style="{DynamicResource lgfrm_inputBoxIcon}" Source="/resources/images/icon/email_rb.png" />
                         <TextBlock Style="{DynamicResource lgfrm_inputTextHint}" x:Name="rgstUserEmailHint" Text="Email Adresiniz" MouseDown="rgstUserEmailHint_MouseDown" />
                         <TextBox Style="{DynamicResource lgfrm_userEmailInput}" x:Name="rgstUserEmail" TextChanged="rgstUserEmail_TextChanged" LostFocus="rgstUserEmail_LostFocus" />
                     </Grid>
@@ -245,7 +243,7 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <Image Style="{DynamicResource lgfrm_inputBoxIcon}" Source="/resource/images/icon/user_rb.png" />
+                        <Image Style="{DynamicResource lgfrm_inputBoxIcon}" Source="/resources/images/icon/user_rb.png" />
                         <TextBlock Style="{DynamicResource lgfrm_inputTextHint}" x:Name="rgstUserNameHint" Text="İsminiz" MouseDown="rgstUserNameHint_MouseDown" />
                         <TextBox Style="{DynamicResource lgfrm_userEmailInput}" x:Name="rgstUserName" TextChanged="rgstUserName_TextChanged" LostFocus="rgstUserName_LostFocus" />
                     </Grid>
@@ -258,7 +256,7 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <Image Style="{DynamicResource lgfrm_inputBoxIcon}" Source="/resource/images/icon/user_rb.png" />
+                        <Image Style="{DynamicResource lgfrm_inputBoxIcon}" Source="/resources/images/icon/user_rb.png" />
                         <TextBlock Style="{DynamicResource lgfrm_inputTextHint}" x:Name="rgstUserLastNameHint" Text="Soy İsminiz" MouseDown="rgstUserLastNameHint_MouseDown" />
                         <TextBox Style="{DynamicResource lgfrm_userEmailInput}" x:Name="rgstUserLastName" LostFocus="rgstUserLastName_LostFocus" TextChanged="rgstUserLastName_TextChanged" />
                     </Grid>
@@ -271,7 +269,7 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <Image Style="{DynamicResource lgfrm_inputBoxIcon}" Source="/resource/images/icon/key_rb.png" />
+                        <Image Style="{DynamicResource lgfrm_inputBoxIcon}" Source="/resources/images/icon/key_rb.png" />
                         <TextBlock Style="{DynamicResource lgfrm_inputTextHint}" x:Name="rgstUserPinHint" Text="Pin" MouseDown="rgstUserPinHint_MouseDown" />
                         <TextBox Style="{DynamicResource lgfrm_userEmailInput}" x:Name="rgstUserPin" PreviewTextInput="userPin_PreviewTextInput" TextChanged="rgstUserPin_TextChanged" />
                     </Grid>
@@ -286,7 +284,7 @@
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
                         <Border x:Name="termofuseCheckBox" Grid.Column="0" Style="{DynamicResource lgfrm_termsOfUseCheckbox}">
-                            <Image Source="/resource/images/icon/tick_b.png" Style="{DynamicResource lgfrm_termsOfUseCheckImage}" />
+                            <Image Source="/resources/images/icon/tick_b.png" Style="{DynamicResource lgfrm_termsOfUseCheckImage}" />
                         </Border>
                         <TextBlock x:Name="termofuseText" Grid.Column="1" Style="{DynamicResource lgfrm_termsOfUseText}" />
                     </Grid>

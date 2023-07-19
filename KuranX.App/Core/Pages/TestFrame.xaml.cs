@@ -1,4 +1,6 @@
-﻿using Org.BouncyCastle.Utilities;
+﻿using KuranX.App.Core.Classes.Helpers;
+using KuranX.App.Core.UI.Settings;
+using Org.BouncyCastle.Utilities;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -24,16 +26,49 @@ namespace KuranX.App.Core.Pages
     /// </summary>
     public partial class TestFrame : Page
     {
-        private ArrayList findİndex = new ArrayList();
+
+        private SystemUI systemUIController;
+        private RemiderUI remiderUIController;
+        private OtherUI otherUIController;
+        private AccessibilityUI accessibilityUIController;
+        private string SettingsSave;
+
+        private DraggablePopupHelper drag;
 
         public TestFrame()
         {
             InitializeComponent();
+    
         }
+
 
         public Page PageCall()
         {
             return this;
+        }
+
+
+
+        private void ShowPopupButton_Click(object sender, RoutedEventArgs e)
+        {
+            var btn = sender as Button;
+            //selectedPopup = FindName(btn.Uid) as Popup;
+            draggablePopup.IsOpen = true;
+
+            drag = new DraggablePopupHelper(draggablePopupBorder, draggablePopup);
+          
+        
+        }
+
+        private void kapat(object sender, RoutedEventArgs e)
+        {
+
+            drag.Dispose();
+            drag = null;
+            draggablePopup.IsOpen = false;
+
+           
+           
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)

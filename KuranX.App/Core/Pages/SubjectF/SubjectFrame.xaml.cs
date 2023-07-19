@@ -15,6 +15,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 
 using KuranX.App.Core.Classes;
+using KuranX.App.Core.Classes.Helpers;
+using KuranX.App.Core.Classes.Tools;
 using Microsoft.EntityFrameworkCore;
 
 namespace KuranX.App.Core.Pages.SubjectF
@@ -29,17 +31,21 @@ namespace KuranX.App.Core.Pages.SubjectF
         private List<Subject> dSub = new List<Subject>();
         private Decimal totalcount = 0;
         private Task subjectframe, subjectprocess;
+        public DraggablePopupHelper drag;
+
+
         public SubjectFrame()
         {
             try
             {
 
-                App.errWrite($"[{DateTime.Now} InitializeComponent ] -> SubjectFrame");
+                Tools.errWrite($"[{DateTime.Now} InitializeComponent ] -> SubjectFrame");
+
                 InitializeComponent();
             }
             catch (Exception ex)
             {
-                App.logWriter("InitializeComponent", ex);
+                Tools.logWriter("InitializeComponent", ex);
             }
         }
 
@@ -47,7 +53,7 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             try
             {
-                App.errWrite($"[{DateTime.Now} PageCall ] -> SubjectFrame");
+                Tools.errWrite($"[{DateTime.Now} PageCall ] -> SubjectFrame");
 
 
                 lastPage = 0;
@@ -63,7 +69,7 @@ namespace KuranX.App.Core.Pages.SubjectF
             }
             catch (Exception ex)
             {
-                App.logWriter("Loading", ex);
+                Tools.logWriter("Loading", ex);
                 return this;
             }
        
@@ -74,14 +80,14 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             try
             {
-                App.errWrite($"[{DateTime.Now} Page_Loaded ] -> SubjectFrame");
+                Tools.errWrite($"[{DateTime.Now} Page_Loaded ] -> SubjectFrame");
 
 
                 App.mainScreen.navigationWriter("subject", "");
             }
             catch (Exception ex)
             {
-                App.logWriter("Loading", ex);
+                Tools.logWriter("Loading", ex);
             }
         }
 
@@ -91,7 +97,7 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             try
             {
-                App.errWrite($"[{DateTime.Now} loadItem ] -> SubjectFrame");
+                Tools.errWrite($"[{DateTime.Now} loadItem ] -> SubjectFrame");
 
 
                 using (var entitydb = new AyetContext())
@@ -178,7 +184,7 @@ namespace KuranX.App.Core.Pages.SubjectF
             }
             catch (Exception ex)
             {
-                App.logWriter("Loading", ex);
+                Tools.logWriter("Loading", ex);
             }
         }
 
@@ -190,7 +196,7 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             try
             {
-                App.errWrite($"[{DateTime.Now} openSubjectFolder_Click ] -> SubjectFrame");
+                Tools.errWrite($"[{DateTime.Now} openSubjectFolder_Click ] -> SubjectFrame");
 
 
                 var btn = sender as Button;
@@ -199,7 +205,7 @@ namespace KuranX.App.Core.Pages.SubjectF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -208,7 +214,7 @@ namespace KuranX.App.Core.Pages.SubjectF
             try
             {
 
-                App.errWrite($"[{DateTime.Now} SearchBtn_Click ] -> SubjectFrame");
+                Tools.errWrite($"[{DateTime.Now} SearchBtn_Click ] -> SubjectFrame");
 
 
                 if (SearchData.Text.Length >= 3)
@@ -236,127 +242,42 @@ namespace KuranX.App.Core.Pages.SubjectF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
-        private void popupClosed_Click(object sender, RoutedEventArgs e)
+        public void popupClosed_Click(object sender, RoutedEventArgs e)
         {
             try
             {
 
-                App.errWrite($"[{DateTime.Now} popupClosed_Click ] -> SubjectFrame");
+                Tools.errWrite($"[{DateTime.Now} popupClosed_Click ] -> SubjectFrame");
 
+               
 
                 var btntemp = sender as Button;
                 var popuptemp = (Popup)FindName(btntemp.Uid);
-                popuptemp.IsOpen = false;
-                subjectHeaderFolderErrorMesssage.Visibility = Visibility.Hidden;
-
-                subjectpreviewName.Text = "Önizleme";
-                subjectFolderHeader.Text = "";
+                PopupHelpers.popupClosed(drag, popuptemp);
                 btntemp = null;
+
+
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
-        private void addfolderSubject_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                App.errWrite($"[{DateTime.Now} addfolderSubject_Click ] -> SubjectFrame");
+        
 
-                if (subjectFolderHeader.Text.Length >= 3)
-                {
-                    if (subjectFolderHeader.Text.Length < 150)
-                    {
-                        using (var entitydb = new AyetContext())
-                        {
-                            var dControl = entitydb.Subject.Where(p => p.subjectName == CultureInfo.CurrentCulture.TextInfo.ToTitleCase(subjectpreviewName.Text)).ToList();
-
-                            if (dControl.Count == 0)
-                            {
-                                var dSubjectFolder = new Subject { subjectName = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(subjectpreviewName.Text), subjectColor = subjectpreviewColor.Background.ToString(), created = DateTime.Now, modify = DateTime.Now };
-                                entitydb.Subject.Add(dSubjectFolder);
-                                entitydb.SaveChanges();
-                                App.mainScreen.succsessFunc("İşlem Başarılı", " Yeni konu başlığı başarılı bir sekilde oluşturuldu artık ayetleri ekleye bilirsiniz.", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
-
-                                subjectpreviewName.Text = "";
-                                subjectFolderHeader.Text = "";
-                                popup_FolderSubjectPopup.IsOpen = false;
-                                dSubjectFolder = null;
-
-                                subjectframe = Task.Run(() => loadItem());
-                            }
-                            else
-                            {
-                                App.mainScreen.alertFunc("İşlem Başarısız", " Daha önce aynı isimde bir konu zaten mevcut lütfen konu başlığınızı kontrol ediniz.", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
-                            }
-                            dControl = null;
-                        }
-                    }
-                    else
-                    {
-                        subjectFolderHeader.Focus();
-                        subjectHeaderFolderErrorMesssage.Visibility = Visibility.Visible;
-                        subjectHeaderFolderErrorMesssage.Content = "Konu başlığının çok uzun max 150 karakter olabilir";
-                    }
-                }
-                else
-                {
-                    subjectFolderHeader.Focus();
-                    subjectHeaderFolderErrorMesssage.Visibility = Visibility.Visible;
-                    subjectHeaderFolderErrorMesssage.Content = "Konu başlığının uzunluğu minimum 3 karakter olmalı";
-                }
-            }
-            catch (Exception ex)
-            {
-                App.logWriter("Click", ex);
-            }
-        }
-
-        private void subjectColorPick_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-
-                App.errWrite($"[{DateTime.Now} subjectColorPick_Click ] -> SubjectFrame");
-
-
-                CheckBox? chk;
-
-                foreach (object item in subjectColorStack.Children)
-                {
-                    chk = null;
-                    if (item is FrameworkElement)
-                    {
-                        chk = ((CheckBox?)(item as FrameworkElement));
-
-                        chk.IsChecked = false;
-                    }
-                }
-
-                chk = sender as CheckBox;
-
-                chk.IsChecked = true;
-
-                subjectpreviewColor.Background = new BrushConverter().ConvertFromString((string)chk.Tag) as SolidColorBrush;
-            }
-            catch (Exception ex)
-            {
-                App.logWriter("Click", ex);
-            }
-        }
+       
 
         private void nextpageButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
 
-                App.errWrite($"[{DateTime.Now} nextpageButton_Click ] -> SubjectFrame");
+                Tools.errWrite($"[{DateTime.Now} nextpageButton_Click ] -> SubjectFrame");
                 nextpageButton.IsEnabled = false;
                 lastPage += 18;
                 NowPage++;
@@ -364,7 +285,7 @@ namespace KuranX.App.Core.Pages.SubjectF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -372,7 +293,7 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             try
             {
-                App.errWrite($"[{DateTime.Now} previusPageButton_Click ] -> SubjectFrame");
+                Tools.errWrite($"[{DateTime.Now} previusPageButton_Click ] -> SubjectFrame");
 
 
                 if (lastPage >= 18)
@@ -385,7 +306,7 @@ namespace KuranX.App.Core.Pages.SubjectF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -393,14 +314,14 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             try
             {
-                App.errWrite($"[{DateTime.Now} addSubjectButton_Click ] -> SubjectFrame");
+                Tools.errWrite($"[{DateTime.Now} addSubjectButton_Click ] -> SubjectFrame");
 
-
+                drag = new DraggablePopupHelper(popup_FolderSubjectPopupBorder, popup_FolderSubjectPopup);
                 popup_FolderSubjectPopup.IsOpen = true;
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -412,7 +333,7 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             try
             {
-                App.errWrite($"[{DateTime.Now} SearchData_TextChanged ] -> SubjectFrame");
+                Tools.errWrite($"[{DateTime.Now} SearchData_TextChanged ] -> SubjectFrame");
 
 
                 if (SearchData.Text.Length >= 3)
@@ -426,7 +347,7 @@ namespace KuranX.App.Core.Pages.SubjectF
             }
             catch (Exception ex)
             {
-                App.logWriter("Change", ex);
+                Tools.logWriter("Change", ex);
             }
         }
 
@@ -439,46 +360,13 @@ namespace KuranX.App.Core.Pages.SubjectF
             }
             catch (Exception ex)
             {
-                App.logWriter("Change", ex);
+                Tools.logWriter("Change", ex);
             }
         }
 
-        private void subjectFolderHeader_KeyDown(object sender, KeyEventArgs e)
-        {
-            try
-            {
-                subjectHeaderFolderErrorMesssage.Visibility = Visibility.Hidden;
-            }
-            catch (Exception ex)
-            {
-                App.logWriter("Change", ex);
-            }
-        }
+      
 
-        private void subjectFolderHeader_KeyUp(object sender, KeyEventArgs e)
-        {
-            try
-            {
-                subjectpreviewName.Text = subjectFolderHeader.Text;
-            }
-            catch (Exception ex)
-            {
-                App.logWriter("Change", ex);
-            }
-        }
-
-        private void subjectFolderHeader_PreviewTextInput(object sender, TextCompositionEventArgs e)
-        {
-            try
-            {
-                Regex regex = new Regex("[^0-9a-zA-Z-ğüşöçıİĞÜŞÖÇ?.*()']");
-                e.Handled = regex.IsMatch(e.Text);
-            }
-            catch (Exception ex)
-            {
-                App.logWriter("Change", ex);
-            }
-        }
+   
 
         /* ---------------- Changed Func ---------------- */
 
@@ -488,7 +376,7 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             try
             {
-                App.errWrite($"[{DateTime.Now} loadAni ] -> SubjectFrame");
+                Tools.errWrite($"[{DateTime.Now} loadAni ] -> SubjectFrame");
 
                 this.Dispatcher.Invoke(() =>
                 {
@@ -500,7 +388,7 @@ namespace KuranX.App.Core.Pages.SubjectF
             }
             catch (Exception ex)
             {
-                App.logWriter("Animation", ex);
+                Tools.logWriter("Animation", ex);
             }
         }
 
@@ -508,7 +396,7 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             try
             {
-                App.errWrite($"[{DateTime.Now} loadAniComplated ] -> SubjectFrame");
+                Tools.errWrite($"[{DateTime.Now} loadAniComplated ] -> SubjectFrame");
 
 
                 this.Dispatcher.Invoke(() =>
@@ -521,7 +409,7 @@ namespace KuranX.App.Core.Pages.SubjectF
             }
             catch (Exception ex)
             {
-                App.logWriter("Animation", ex);
+                Tools.logWriter("Animation", ex);
             }
         }
 

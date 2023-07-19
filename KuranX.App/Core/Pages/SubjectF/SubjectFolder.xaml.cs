@@ -1,4 +1,5 @@
 ﻿using KuranX.App.Core.Classes;
+using KuranX.App.Core.Classes.Tools;
 using Org.BouncyCastle.Tls.Crypto;
 using System;
 using System.Collections.Generic;
@@ -32,14 +33,14 @@ namespace KuranX.App.Core.Pages.SubjectF
             try
             {
 
-                App.errWrite($"[{DateTime.Now} InitializeComponent ] -> SubjectFolder");
+                Tools.errWrite($"[{DateTime.Now} InitializeComponent ] -> SubjectFolder");
 
 
                 InitializeComponent();
             }
             catch (Exception ex)
             {
-                App.logWriter("InitializeComponent", ex);
+                Tools.logWriter("InitializeComponent", ex);
             }
         }
 
@@ -48,7 +49,7 @@ namespace KuranX.App.Core.Pages.SubjectF
             try
             {
 
-                App.errWrite($"[{DateTime.Now} PageCall ] -> SubjectFolder");
+                Tools.errWrite($"[{DateTime.Now} PageCall ] -> SubjectFolder");
 
 
                 lastPage = 0;
@@ -66,7 +67,7 @@ namespace KuranX.App.Core.Pages.SubjectF
             }
             catch (Exception ex)
             {
-                App.logWriter("Loading", ex);
+                Tools.logWriter("Loading", ex);
                 return this;
             }
         }
@@ -76,14 +77,14 @@ namespace KuranX.App.Core.Pages.SubjectF
             try
             {
 
-                App.errWrite($"[{DateTime.Now} Page_Loaded ] -> SubjectFolder");
+                Tools.errWrite($"[{DateTime.Now} Page_Loaded ] -> SubjectFolder");
 
 
                 App.mainScreen.navigationWriter("subject", loadHeader.Text);
             }
             catch (Exception ex)
             {
-                App.logWriter("Loading", ex);
+                Tools.logWriter("Loading", ex);
             }
         }
 
@@ -94,7 +95,7 @@ namespace KuranX.App.Core.Pages.SubjectF
             try
             {
 
-                App.errWrite($"[{DateTime.Now} loadItem ] -> SubjectFolder");
+                Tools.errWrite($"[{DateTime.Now} loadItem ] -> SubjectFolder");
 
 
                 using (var entitydb = new AyetContext())
@@ -181,7 +182,7 @@ namespace KuranX.App.Core.Pages.SubjectF
             }
             catch (Exception ex)
             {
-                App.logWriter("Loading", ex);
+                Tools.logWriter("Loading", ex);
             }
         }
 
@@ -194,7 +195,7 @@ namespace KuranX.App.Core.Pages.SubjectF
             try
             {
 
-                App.errWrite($"[{DateTime.Now} subjectItemsOpen_Click ] -> SubjectFolder");
+                Tools.errWrite($"[{DateTime.Now} subjectItemsOpen_Click ] -> SubjectFolder");
 
 
                 var btn = sender as Button;
@@ -204,7 +205,7 @@ namespace KuranX.App.Core.Pages.SubjectF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -213,7 +214,7 @@ namespace KuranX.App.Core.Pages.SubjectF
             try
             {
 
-                App.errWrite($"[{DateTime.Now} newConnect_Click ] -> SubjectFolder");
+                Tools.errWrite($"[{DateTime.Now} newConnect_Click ] -> SubjectFolder");
 
 
                 var item = popupNextSureId.SelectedItem as ComboBoxItem;
@@ -224,7 +225,7 @@ namespace KuranX.App.Core.Pages.SubjectF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -234,7 +235,7 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             try
             {
-                App.errWrite($"[{DateTime.Now} popupClosed_Click ] -> SubjectFolder");
+                Tools.errWrite($"[{DateTime.Now} popupClosed_Click ] -> SubjectFolder");
 
                 var btntemp = sender as Button;
                 Popup popuptemp = (Popup)FindName(btntemp.Uid);
@@ -247,7 +248,7 @@ namespace KuranX.App.Core.Pages.SubjectF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -255,7 +256,7 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             try
             {
-                App.errWrite($"[{DateTime.Now} addnewConnectSubject_Click ] -> SubjectFolder");
+                Tools.errWrite($"[{DateTime.Now} addnewConnectSubject_Click ] -> SubjectFolder");
 
 
                 using (var entitydb = new AyetContext())
@@ -292,7 +293,7 @@ namespace KuranX.App.Core.Pages.SubjectF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -300,7 +301,7 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             try
             {
-                App.errWrite($"[{DateTime.Now} nextpageButton_Click ] -> SubjectFolder");
+                Tools.errWrite($"[{DateTime.Now} nextpageButton_Click ] -> SubjectFolder");
 
 
                 nextpageButton.IsEnabled = false;
@@ -310,7 +311,7 @@ namespace KuranX.App.Core.Pages.SubjectF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -318,7 +319,7 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             try
             {
-                App.errWrite($"[{DateTime.Now} previusPageButton_Click ] -> SubjectFolder");
+                Tools.errWrite($"[{DateTime.Now} previusPageButton_Click ] -> SubjectFolder");
 
                 if (lastPage >= 20)
                 {
@@ -330,7 +331,7 @@ namespace KuranX.App.Core.Pages.SubjectF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -339,12 +340,12 @@ namespace KuranX.App.Core.Pages.SubjectF
             try
             {
 
-                App.errWrite($"[{DateTime.Now} backPage_Click ] -> SubjectFolder");
+                Tools.errWrite($"[{DateTime.Now} backPage_Click ] -> SubjectFolder");
                 NavigationService.GoBack();
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -354,7 +355,7 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             try
             {
-                App.errWrite($"[{DateTime.Now} deleteSubjectPopupBtn_Click ] -> SubjectFolder");
+                Tools.errWrite($"[{DateTime.Now} deleteSubjectPopupBtn_Click ] -> SubjectFolder");
 
 
                 using (var entitydb = new AyetContext())
@@ -376,7 +377,7 @@ namespace KuranX.App.Core.Pages.SubjectF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -384,7 +385,7 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             try
             {
-                App.errWrite($"[{DateTime.Now} newNamePopup_Click ] -> SubjectFolder");
+                Tools.errWrite($"[{DateTime.Now} newNamePopup_Click ] -> SubjectFolder");
 
 
                 using (var entitydb = new AyetContext())
@@ -406,7 +407,7 @@ namespace KuranX.App.Core.Pages.SubjectF
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -414,14 +415,14 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             try
             {
-                App.errWrite($"[{DateTime.Now} subjectItemsDeleteBtn_Click ] -> SubjectFolder");
+                Tools.errWrite($"[{DateTime.Now} subjectItemsDeleteBtn_Click ] -> SubjectFolder");
 
 
                 popup_SubjectDelete.IsOpen = true;
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -430,14 +431,14 @@ namespace KuranX.App.Core.Pages.SubjectF
             try
             {
 
-                App.errWrite($"[{DateTime.Now} subjectItemsRenameBtn_Click ] -> SubjectFolder");
+                Tools.errWrite($"[{DateTime.Now} subjectItemsRenameBtn_Click ] -> SubjectFolder");
 
                 popupNewName.Text = loadHeader.Text;
                 popup_newName.IsOpen = true;
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
 
@@ -449,7 +450,7 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             try
             {
-                App.errWrite($"[{DateTime.Now} popupNextSureId_SelectionChanged ] -> SubjectFolder");
+                Tools.errWrite($"[{DateTime.Now} popupNextSureId_SelectionChanged ] -> SubjectFolder");
 
 
                 var comboBox = (ComboBox)sender;
@@ -464,7 +465,7 @@ namespace KuranX.App.Core.Pages.SubjectF
             }
             catch (Exception ex)
             {
-                App.logWriter("Change", ex);
+                Tools.logWriter("Change", ex);
             }
         }
 
@@ -477,7 +478,7 @@ namespace KuranX.App.Core.Pages.SubjectF
             }
             catch (Exception ex)
             {
-                App.logWriter("Change", ex);
+                Tools.logWriter("Change", ex);
             }
         }
 
@@ -485,7 +486,7 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             try
             {
-                App.errWrite($"[{DateTime.Now} popupNextVerseId_TextChanged ] -> SubjectFolder");
+                Tools.errWrite($"[{DateTime.Now} popupNextVerseId_TextChanged ] -> SubjectFolder");
 
 
                 var item = popupNextSureId.SelectedItem as ComboBoxItem;
@@ -514,7 +515,7 @@ namespace KuranX.App.Core.Pages.SubjectF
             }
             catch (Exception ex)
             {
-                App.logWriter("Change", ex);
+                Tools.logWriter("Change", ex);
             }
         }
 
@@ -530,7 +531,7 @@ namespace KuranX.App.Core.Pages.SubjectF
             }
             catch (Exception ex)
             {
-                App.logWriter("Change", ex);
+                Tools.logWriter("Change", ex);
             }
         }
 
@@ -543,7 +544,7 @@ namespace KuranX.App.Core.Pages.SubjectF
             try
             {
 
-                App.errWrite($"[{DateTime.Now} voidgobacktimer ] -> SubjectFolder");
+                Tools.errWrite($"[{DateTime.Now} voidgobacktimer ] -> SubjectFolder");
 
 
                 backPage.IsEnabled = false;
@@ -563,7 +564,7 @@ namespace KuranX.App.Core.Pages.SubjectF
             }
             catch (Exception ex)
             {
-                App.logWriter("TimeSpan", ex);
+                Tools.logWriter("TimeSpan", ex);
             }
         }
 
@@ -576,7 +577,7 @@ namespace KuranX.App.Core.Pages.SubjectF
             try
             {
 
-                App.errWrite($"[{DateTime.Now} loadAni ] -> SubjectFolder");
+                Tools.errWrite($"[{DateTime.Now} loadAni ] -> SubjectFolder");
 
 
                 this.Dispatcher.Invoke(() =>
@@ -589,7 +590,7 @@ namespace KuranX.App.Core.Pages.SubjectF
             }
             catch (Exception ex)
             {
-                App.logWriter("Animation", ex);
+                Tools.logWriter("Animation", ex);
             }
         }
 
@@ -598,7 +599,7 @@ namespace KuranX.App.Core.Pages.SubjectF
             try
             {
 
-                App.errWrite($"[{DateTime.Now} loadAniComplated ] -> SubjectFolder");
+                Tools.errWrite($"[{DateTime.Now} loadAniComplated ] -> SubjectFolder");
 
 
                 this.Dispatcher.Invoke(() =>
@@ -613,7 +614,7 @@ namespace KuranX.App.Core.Pages.SubjectF
             }
             catch (Exception ex)
             {
-                App.logWriter("Animation", ex);
+                Tools.logWriter("Animation", ex);
             }
         }
 
@@ -623,7 +624,7 @@ namespace KuranX.App.Core.Pages.SubjectF
 
         public void popuverMove_Click(object sender, RoutedEventArgs e)
         {
-            App.errWrite($"[{DateTime.Now} popuverMove_Click ] -> SubjectFolder");
+            Tools.errWrite($"[{DateTime.Now} popuverMove_Click ] -> SubjectFolder");
 
             var btn = sender as Button;
             ppMoveConfing((string)btn.Uid);
@@ -634,7 +635,7 @@ namespace KuranX.App.Core.Pages.SubjectF
         public void ppMoveActionOfset_Click(object sender, RoutedEventArgs e)
         {
 
-            App.errWrite($"[{DateTime.Now} ppMoveActionOfset_Click ] -> SubjectFolder");
+            Tools.errWrite($"[{DateTime.Now} ppMoveActionOfset_Click ] -> SubjectFolder");
 
 
             var btntemp = sender as Button;
@@ -678,7 +679,7 @@ namespace KuranX.App.Core.Pages.SubjectF
 
         public void ppMoveConfing(string ppmove)
         {
-            App.errWrite($"[{DateTime.Now} ppMoveConfing ] -> SubjectFolder");
+            Tools.errWrite($"[{DateTime.Now} ppMoveConfing ] -> SubjectFolder");
 
 
             for (int i = 1; i < 8; i++)

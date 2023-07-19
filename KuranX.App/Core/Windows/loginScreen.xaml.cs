@@ -18,6 +18,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using KuranX.App.Core.Classes;
+using KuranX.App.Core.Classes.Tools;
 using KuranX.App.Core.Pages;
 using Microsoft.EntityFrameworkCore;
 
@@ -41,7 +42,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("Loginscreen", ex);
+                Tools.logWriter("Loginscreen", ex);
             }
         }
 
@@ -85,7 +86,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("Loginscreen", ex);
+                Tools.logWriter("Loginscreen", ex);
             }
         }
 
@@ -96,7 +97,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("Loginscreen", ex);
+                Tools.logWriter("Loginscreen", ex);
             }
         }
 
@@ -140,7 +141,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("Loginscreen", ex);
+                Tools.logWriter("Loginscreen", ex);
             }
         }
 
@@ -153,7 +154,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("Loginscreen", ex);
+                Tools.logWriter("Loginscreen", ex);
             }
         }
 
@@ -171,11 +172,11 @@ namespace KuranX.App.Core.Windows
 
                 foreach (var item in db.Tasks) db.Tasks.Remove(item);
 
-                
+
 
                 foreach (var item in db.Integrity.Where(p => p.integrityProtected == false)) db.Integrity.Remove(item);
 
-      
+
                 foreach (var item in db.Sure)
                 {
                     db.Sure.Where(p => p.sureId == item.sureId).First().userCheckCount = 0;
@@ -195,7 +196,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("Loginscreen", ex);
+                Tools.logWriter("Loginscreen", ex);
             }
         }
 
@@ -287,7 +288,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("Loginscreen", ex);
+                Tools.logWriter("Loginscreen", ex);
             }
         }
 
@@ -299,7 +300,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("Loginscreen", ex);
+                Tools.logWriter("Loginscreen", ex);
             }
         }
 
@@ -313,7 +314,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("Loginscreen", ex);
+                Tools.logWriter("Loginscreen", ex);
             }
         }
 
@@ -327,7 +328,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("Loginscreen", ex);
+                Tools.logWriter("Loginscreen", ex);
             }
         }
 
@@ -367,7 +368,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("Loginscreen", ex);
+                Tools.logWriter("Loginscreen", ex);
             }
         }
 
@@ -380,7 +381,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("Loginscreen", ex);
+                Tools.logWriter("Loginscreen", ex);
             }
         }
 
@@ -394,7 +395,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("Loginscreen", ex);
+                Tools.logWriter("Loginscreen", ex);
             }
         }
 
@@ -408,7 +409,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("Loginscreen", ex);
+                Tools.logWriter("Loginscreen", ex);
             }
         }
 
@@ -420,7 +421,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("Loginscreen", ex);
+                Tools.logWriter("Loginscreen", ex);
             }
         }
 
@@ -432,7 +433,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("Loginscreen", ex);
+                Tools.logWriter("Loginscreen", ex);
             }
         }
 
@@ -444,7 +445,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("Loginscreen", ex);
+                Tools.logWriter("Loginscreen", ex);
             }
         }
 
@@ -456,7 +457,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("Loginscreen", ex);
+                Tools.logWriter("Loginscreen", ex);
             }
         }
 
@@ -472,12 +473,39 @@ namespace KuranX.App.Core.Windows
                 }
                 else
                 {
+
+                    pri_pol.Children.Clear();
+                    for (int i = 1; i <= 21; i++)
+                    {
+
+                        var textblock = new TextBlock();
+
+
+                        var text = (string)App.resourceLang[$"PRI-POL-{i}"];
+                        if (text.Contains("½"))
+                        {
+                            textblock.Text = text.Substring(1);
+                            textblock.Style = (Style)FindResource("privacyTextHead");
+                        }
+                        else
+                        {
+                            textblock.Text = text;
+                            textblock.Style = (Style)FindResource("privacyText");
+
+                        }
+                        pri_pol.Children.Add(textblock);
+                    }
+
+
+
+
+
                     popup_privacyPolicy.IsOpen = true;
                 }
             }
             catch (Exception ex)
             {
-                App.logWriter("Loginscreen", ex);
+                Tools.logWriter("Loginscreen", ex);
             }
         }
 
@@ -498,7 +526,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("Loginscreen", ex);
+                Tools.logWriter("Loginscreen", ex);
             }
         }
 
@@ -515,7 +543,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("Loginscreen", ex);
+                Tools.logWriter("Loginscreen", ex);
             }
         }
 
@@ -528,7 +556,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("Loginscreen", ex);
+                Tools.logWriter("Loginscreen", ex);
             }
         }
 
@@ -541,7 +569,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("Loginscreen", ex);
+                Tools.logWriter("Loginscreen", ex);
             }
         }
 
@@ -554,7 +582,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("Loginscreen", ex);
+                Tools.logWriter("Loginscreen", ex);
             }
         }
 
@@ -577,7 +605,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("Loginscreen", ex);
+                Tools.logWriter("Loginscreen", ex);
             }
         }
 
@@ -596,7 +624,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("Loginscreen", ex);
+                Tools.logWriter("Loginscreen", ex);
             }
         }
 
@@ -615,7 +643,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("Loginscreen", ex);
+                Tools.logWriter("Loginscreen", ex);
             }
         }
 
@@ -634,7 +662,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("Loginscreen", ex);
+                Tools.logWriter("Loginscreen", ex);
             }
         }
 
@@ -653,7 +681,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("Loginscreen", ex);
+                Tools.logWriter("Loginscreen", ex);
             }
         }
 
@@ -666,7 +694,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("Change", ex);
+                Tools.logWriter("Change", ex);
             }
         }
 
@@ -697,7 +725,7 @@ namespace KuranX.App.Core.Windows
             catch (Exception ex)
             {
                 return false;
-                App.logWriter("Loginscreen", ex);
+                Tools.logWriter("Loginscreen", ex);
             }
         }
 
@@ -714,7 +742,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("Loginscreen", ex);
+                Tools.logWriter("Loginscreen", ex);
             }
         }
 
@@ -726,7 +754,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("Loginscreen", ex);
+                Tools.logWriter("Loginscreen", ex);
             }
         }
 
@@ -749,7 +777,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("Loginscreen", ex);
+                Tools.logWriter("Loginscreen", ex);
             }
         }
 
@@ -761,8 +789,13 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("Loginscreen", ex);
+                Tools.logWriter("Loginscreen", ex);
             }
+        }
+
+        private void closePrivacy_Click(object sender, RoutedEventArgs e)
+        {
+            popup_privacyPolicy.IsOpen = false;
         }
 
         private void popupClosed_Click(object sender, RoutedEventArgs e)
@@ -779,7 +812,7 @@ namespace KuranX.App.Core.Windows
             }
             catch (Exception ex)
             {
-                App.logWriter("Click", ex);
+                Tools.logWriter("Click", ex);
             }
         }
     }
