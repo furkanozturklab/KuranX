@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
     <UseWindowsForms>true</UseWindowsForms>
-    <BaseOutputPath>C:\Users\furka\source\repos\furkanozturklab\KuranX\KuranX.App\bin\Debug\net6.0-windows</BaseOutputPath>
+    <BaseOutputPath>C:\Users\furka\packaging\KuranX\Release\win-x64</BaseOutputPath>
     <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
     <Configurations>Debug;Release;Backup;Beta</Configurations>
     <ProduceReferenceAssembly>True</ProduceReferenceAssembly>

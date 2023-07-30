@@ -3,10 +3,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
-      xmlns:local="clr-namespace:KuranX.App.Core.Pages.SubjectF"
-      xmlns:gif="http://wpfanimatedgif.codeplex.com"
-      xmlns:popup="clr-namespace:KuranX.App.Core.UI.Popup"
+      xmlns:popupc="clr-namespace:KuranX.App.Core.UC.PopupC"
       mc:Ignorable="d"
       d:DesignHeight="708" d:DesignWidth="1115" d:MaxHeight="708" d:MaxWidth="1270" d:MinWidth="1115"
       Title="VerseFrame" Background="#FAFAFA" Loaded="Page_Loaded">
@@ -18,11 +15,12 @@
             <RowDefinition Height="90" />
         </Grid.RowDefinitions>
 
+        
         <!-- popup -->
 
         <Popup x:Name="popup_FolderSubjectPopup" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="370" Height="460" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
-            <Border x:Name="popup_FolderSubjectPopupBorder" Style="{DynamicResource defaultBorderShadowEffect}" Width="350" Height="440">
-                <popup:SubjectFolderAdd/>
+            <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="350" Height="440">
+                <popupc:SubjectFolderAdd/>
             </Border>
         </Popup>
 

@@ -28,6 +28,7 @@
             <Button x:Name="btnWmpEdit" Tag="13" IsEnabled="false"  Content="Database İşlemleri" Style="{DynamicResource admin_Menubtn}" Click="btnWmpEdit_Click" />
             <Button x:Name="btnEditing" Tag="13" Content="Düzenleme İşlemleri" Style="{DynamicResource admin_Menubtn}" Click="btnEditing_Click" />
             <Button x:Name="btnWmp" Tag="13" IsEnabled="false"  Content="Wamp DB Yenile" Style="{DynamicResource admin_Menubtn}" Click="btnwmp_Click" />
+            <Button x:Name="extWmp" Tag="13" IsEnabled="True"  Content="Dışarı Aktar" Style="{DynamicResource admin_Menubtn}" Click="export_Click" />
         </StackPanel>
 
         <StackPanel Grid.Column="1" Grid.Row="0" Grid.RowSpan="2">

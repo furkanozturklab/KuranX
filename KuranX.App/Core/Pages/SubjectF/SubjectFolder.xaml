@@ -3,9 +3,8 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
-      xmlns:local="clr-namespace:KuranX.App.Core.Pages"
       xmlns:gif="http://wpfanimatedgif.codeplex.com"
+      xmlns:popupc="clr-namespace:KuranX.App.Core.UC.PopupC"
       mc:Ignorable="d"
       d:DesignHeight="708" d:DesignWidth="1115" d:MaxHeight="708" d:MaxWidth="1270" d:MinWidth="1115"
       Title="VerseFrame" Background="#FAFAFA" Loaded="Page_Loaded">
@@ -21,48 +20,7 @@
 
         <Popup x:Name="pp_moveBar" StaysOpen="true" IsOpen="False" Placement="RelativePoint" AllowsTransparency="True" Width="470" Height="115" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade" HorizontalOffset="322" VerticalOffset="-20">
             <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="450" Height="95">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="25" />
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="150" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <Grid Margin="5" Grid.Row="0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
-                        <Button Grid.Column="0" Tag="CellularMD" ToolTip="Sol üste taşı" x:Name="pp_M1" Style="{DynamicResource pp_moveWindowIcon}" Click="ppMoveActionOfset_Click" Uid="UpLeft" RenderTransformOrigin="0.5,0.5">
-                            <Button.RenderTransform>
-                                <TransformGroup>
-                                    <ScaleTransform />
-                                    <SkewTransform />
-                                    <RotateTransform Angle="180" />
-                                    <TranslateTransform />
-                                </TransformGroup>
-                            </Button.RenderTransform>
-                        </Button>
-                        <Button Grid.Column="1" Tag="RefreshMD" ToolTip="Orjinal Posizyonuna getir" x:Name="pp_M2" Style="{DynamicResource pp_moveWindowIcon}" Click="ppMoveActionOfset_Click" Uid="Reset" />
-                        <Button Grid.Column="2" Tag="CloseMD" ToolTip="Kontrolcüyü kapat" x:Name="pp_M3" Style="{DynamicResource pp_moveWindowIcon}" Click="ppMoveActionOfset_Click" Uid="Close" />
-                    </Grid>
-                    <Grid Grid.Column="1" Margin="10 15" Grid.Row="0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
-                        <Button Grid.Column="0" Tag="ArrowBackiOS" ToolTip="Sola sürükle" x:Name="pp_M4" Style="{DynamicResource pp_moveWindowIcon}" Click="ppMoveActionOfset_Click" Uid="Left" />
-                        <Button Grid.Column="1" Tag="ArrowUpiOS"  ToolTip="Yukarı sürükle" x:Name="pp_M5" Style="{DynamicResource pp_moveWindowIcon}" Click="ppMoveActionOfset_Click"  Uid="Top" />
-                        <Button Grid.Column="2" Tag="ArrowDowniOS" ToolTip="Aşa sürükle" x:Name="pp_M6" Style="{DynamicResource pp_moveWindowIcon}" Click="ppMoveActionOfset_Click" Uid="Bottom" />
-                        <Button Grid.Column="3" Tag="ArrowForwardiOS" ToolTip="Sağ sürükle" x:Name="pp_M7" Style="{DynamicResource pp_moveWindowIcon}" Click="ppMoveActionOfset_Click" Uid="Right" />
-                    </Grid>
-                    <TextBlock x:Name="moveControlName" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Text="İletişim" TextAlignment="Center" FontFamily="{DynamicResource PoppinsMedium}" VerticalAlignment="Center" Foreground="#1C1E2F" FontSize="14" FontWeight="Bold" />
-                </Grid>
+                <popupc:MoveBarController x:Name="moveBarController" HeaderText=""/>
             </Border>
         </Popup>
 
@@ -233,7 +191,6 @@
                 </Grid>
             </Border>
         </Popup>
-
 
         <Popup x:Name="popup_SubjectDelete"  StaysOpen="true" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="380" Height="220" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
 

@@ -22,7 +22,16 @@
     <system:String x:Key="PRI-POL-18">a. Sedat çömlekçioğu, Sözleşme'nin herhangi bir zaman diliminde değiştirilebileceğini ve güncellenen Sözleşme'nin Program kullanıcılarına bildirileceğini kabul eder.</system:String>
     <system:String x:Key="PRI-POL-19">½Sözleşmenin Feshi</system:String>
     <system:String x:Key="PRI-POL-20">a. Bu Sözleşme, herhangi bir zamanda taraflardan herhangi biri tarafından sona erdirilebilir. Programı kullanmayı bıraktığınızda veya programı kaldırdığınız durumlarda sözleşme sona erecektir.</system:String>
-    <system:String x:Key="PRI-POL-21">½Progamı kullanarak bu sözleşmeyi kabul etmiş sayılırsınız.</system:String>
+    <system:String x:Key="PRI-POL-21">½Programı kullanarak bu sözleşmeyi kabul etmiş sayılırsınız.</system:String>
 
 
+    <system:String x:Key="PRI-POL-22">Kuransunnetullah</system:String>
+    <system:String x:Key="PRI-POL-23">Programın temel amacı ayetlere ulaşımı kolaylaştırmaktır.</system:String>
+    <system:String x:Key="PRI-POL-24">24.07.2023</system:String>
+    <system:String x:Key="PRI-POL-25">ozturklab / Furkan ÖZTÜRK</system:String>
+    <system:String x:Key="PRI-POL-26">www.furkanozturklab.com</system:String>
+    <system:String x:Key="PRI-POL-27">kuransunnetullah@outlook.com</system:String>
+    <system:String x:Key="PRI-POL-28">Sedat Çömertoğlu</system:String>
+    <system:String x:Key="PRI-POL-29">sedat06@me.com</system:String>
+    
 </ResourceDictionary>

@@ -1,4 +1,5 @@
 ﻿using KuranX.App.Core.Classes;
+using KuranX.App.Core.Classes.Helpers;
 using KuranX.App.Core.Classes.Tools;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -23,7 +24,7 @@ namespace KuranX.App.Core.Pages.VerseF
     /// <summary>
     /// Interaction logic for verseFrame.xaml
     /// </summary>
-    public partial class verseFrame : Page
+    public partial class verseFrame : Page, Movebar
     {
         private int sSureId, sRelativeVerseId, verseId, currentP, clearNav = 1, last = 0, starindex = 0, searchDt1, searchDt2, searchDt3, searchtotalpage, searchLastItem, searchNowPage = 1;
         public int[] feedPoint = new int[4];
@@ -32,7 +33,7 @@ namespace KuranX.App.Core.Pages.VerseF
         public bool searchBox = false, connectBox = false;
         private ArrayList findIndex = new ArrayList();
         private Task versetask, verseprocess;
-        private string readType = "tr";
+        private string pp_selected;
 
         private Verse selectedVerse;
 
@@ -55,6 +56,7 @@ namespace KuranX.App.Core.Pages.VerseF
         {
             try
             {
+              
                 Tools.errWrite($"[{DateTime.Now} PageCall ] -> verseFrame");
 
                 sSureId = sureId;
@@ -84,12 +86,15 @@ namespace KuranX.App.Core.Pages.VerseF
 
                 if (searchBox)
                 {
+                    PopupHelpers.load_drag(popup_search);
+
                     popup_search.IsOpen = true;
                     searchBox = false;
                 }
 
                 if (connectBox)
                 {
+                    PopupHelpers.load_drag(popup_Meaning);
                     popup_Meaning.IsOpen = true;
                     connectBox = false;
                 }
@@ -111,7 +116,11 @@ namespace KuranX.App.Core.Pages.VerseF
             {
                 Tools.errWrite($"[{DateTime.Now} loadVerseFunc ] -> verseFrame");
 
-                this.Dispatcher.Invoke(() => popup_descVersePopup.IsOpen = false);
+                this.Dispatcher.Invoke(() =>
+                {
+                    PopupHelpers.dispose_drag(popup_descVersePopup);
+                    popup_descVersePopup.IsOpen = false;
+                });
                 using (var entitydb = new AyetContext())
                 {
                     var dSure = entitydb.Sure.Where(p => p.sureId == sSureId).Select(p => new Sure { name = p.name, numberOfVerses = p.numberOfVerses, landingLocation = p.landingLocation, description = p.description, deskLanding = p.deskLanding, deskMushaf = p.deskMushaf }).First();
@@ -217,7 +226,8 @@ namespace KuranX.App.Core.Pages.VerseF
 
                     if (writer == "") writer = "Ömer Çelik";
                     var dInter = entitydb.Interpreter.Where(p => p.sureId == sSureId && p.verseId == verseId && p.interpreterWriter == writer).FirstOrDefault();
-                    selectedVerse = entitydb.Verse.Where(p => p.sureId == sSureId && p.verseId == verseId).FirstOrDefault();
+
+                    selectedVerse = entitydb.Verse.Where(p => p.sureId == sSureId && p.relativeDesk == sRelativeVerseId).FirstOrDefault()!;
 
                     if (dInter != null)
                     {
@@ -229,13 +239,14 @@ namespace KuranX.App.Core.Pages.VerseF
 
                     if (selectedVerse != null)
                     {
-                        switch (readType)
+                        switch (App.readType)
                         {
                             case "tr":
                                 this.Dispatcher.Invoke(() =>
                                 {
                                     loadDetail.Text = selectedVerse.verseTr;
                                     loadDetail.Style = (Style)FindResource("vrs_loadDetailTr");
+                                    backInterpreter.Visibility = Visibility.Visible;
                                 });
                                 break;
 
@@ -244,11 +255,16 @@ namespace KuranX.App.Core.Pages.VerseF
                                 {
                                     loadDetail.Text = selectedVerse.verseArabic;
                                     loadDetail.Style = (Style)FindResource("vrs_loadDetailArp");
+                                    backInterpreter.Visibility = Visibility.Visible;
                                 });
                                 break;
 
                             case "inter":
-                                loadDetail.Style = (Style)FindResource("vrs_loadDetailInterpreter");
+                                this.Dispatcher.Invoke(() =>
+                                {
+                                    loadDetail.Style = (Style)FindResource("vrs_loadDetailInterpreter");
+                                    backInterpreter.Visibility = Visibility.Collapsed;
+                                });
                                 break;
                         }
                     }
@@ -462,7 +478,7 @@ namespace KuranX.App.Core.Pages.VerseF
                     loadVerseTr.Text = dVerse.verseTr;
                     loadVerseArb.Text = dVerse.verseArabic;
 
-                    switch (readType)
+                    switch (App.readType)
                     {
                         case "tr":
                             loadDetail.Text = loadVerseTr.Text;
@@ -657,14 +673,14 @@ namespace KuranX.App.Core.Pages.VerseF
                         loadDetail.Text = loadVerseTr.Text;
                         loadDetail.Style = (Style)FindResource("vrs_loadDetailTr");
                         backInterpreter.Visibility = Visibility.Visible;
-                        readType = "tr";
+                        App.readType = "tr";
                         break;
 
                     case "arp":
                         loadDetail.Text = loadVerseArb.Text;
                         loadDetail.Style = (Style)FindResource("vrs_loadDetailArp");
                         backInterpreter.Visibility = Visibility.Visible;
-                        readType = "arp";
+                        App.readType = "arp";
                         break;
 
                     case "inter":
@@ -672,7 +688,7 @@ namespace KuranX.App.Core.Pages.VerseF
                         loadDetail.Text = tempLoadDetail.Text;
                         loadDetail.Style = (Style)FindResource("vrs_loadDetailInterpreter");
                         backInterpreter.Visibility = Visibility.Collapsed;
-                        readType = "inter";
+                        App.readType = "inter";
                         break;
                 }
 
@@ -750,7 +766,7 @@ namespace KuranX.App.Core.Pages.VerseF
                 {
                     var desktype = App.navSurePage.deskingCombobox.SelectedItem as ComboBoxItem;
 
-                    if ((string)desktype.Tag == "DeskLanding")
+                    if ((string)desktype!.Tag == "DeskLanding")
                     {
                         int xc = 0;
                         using (var entitydb = new AyetContext())
@@ -767,7 +783,7 @@ namespace KuranX.App.Core.Pages.VerseF
                             headerBorder.Visibility = Visibility.Hidden;
 
                             App.mainScreen.homescreengrid.IsEnabled = false;
-                            App.mainframe.Content = App.navVersePage.PageCall((int)listxc.sureId, (int)listxc.numberOfVerses, "Verse");
+                            App.mainframe!.Content = App.navVersePage.PageCall((int)listxc!.sureId, (int)listxc.numberOfVerses, "Verse");
 
                             listx = null;
                             listxc = null;
@@ -783,7 +799,7 @@ namespace KuranX.App.Core.Pages.VerseF
 
                             headerBorder.Visibility = Visibility.Hidden;
                             App.mainScreen.homescreengrid.IsEnabled = false;
-                            App.mainframe.Content = App.navVersePage.PageCall(--sSureId, (int)BeforeD.numberOfVerses, "Verse");
+                            App.mainframe!.Content = App.navVersePage.PageCall(--sSureId, (int)BeforeD!.numberOfVerses, "Verse");
 
                             BeforeD = null;
                         }
@@ -822,7 +838,7 @@ namespace KuranX.App.Core.Pages.VerseF
                 {
                     var desktype = App.navSurePage.deskingCombobox.SelectedItem as ComboBoxItem;
 
-                    if ((string)desktype.Tag == "DeskLanding")
+                    if ((string)desktype!.Tag == "DeskLanding")
                     {
                         using (var entitydb = new AyetContext())
                         {
@@ -837,7 +853,7 @@ namespace KuranX.App.Core.Pages.VerseF
                             var listxc = entitydb.Sure.OrderBy(p => p.deskLanding).Where(p => p.deskLanding == xc).First();
                             headerBorder.Visibility = Visibility.Hidden;
                             App.mainScreen.homescreengrid.IsEnabled = false;
-                            App.mainframe.Content = App.navVersePage.PageCall((int)listxc.sureId, 1, "Verse");
+                            App.mainframe!.Content = App.navVersePage.PageCall((int)listxc.sureId, 1, "Verse");
 
                             listx = null;
                             listxc = null;
@@ -847,7 +863,7 @@ namespace KuranX.App.Core.Pages.VerseF
                     {
                         headerBorder.Visibility = Visibility.Hidden;
                         App.mainScreen.homescreengrid.IsEnabled = false;
-                        App.mainframe.Content = App.navVersePage.PageCall(++sSureId, 1, "Verse");
+                        App.mainframe!.Content = App.navVersePage.PageCall(++sSureId, 1, "Verse");
                     }
                 }
             }
@@ -874,7 +890,7 @@ namespace KuranX.App.Core.Pages.VerseF
                     if (App.beforeFrameName == "Sure")
                     {
                         App.mainScreen.homescreengrid.IsEnabled = false;
-                        App.mainframe.Content = App.navSurePage.PageCall();
+                        App.mainframe!.Content = App.navSurePage.PageCall();
                     }
                     else
                     {
@@ -883,6 +899,7 @@ namespace KuranX.App.Core.Pages.VerseF
                 }
                 else
                 {
+                    PopupHelpers.load_drag(popup_fastExitConfirm);
                     popup_fastExitConfirm.IsOpen = true;
                 }
             }
@@ -901,7 +918,7 @@ namespace KuranX.App.Core.Pages.VerseF
                 if (App.beforeFrameName == "Sure")
                 {
                     App.mainScreen.homescreengrid.IsEnabled = false;
-                    App.mainframe.Content = App.navSurePage.PageCall();
+                    App.mainframe!.Content = App.navSurePage.PageCall();
                 }
                 else
                 {
@@ -920,6 +937,7 @@ namespace KuranX.App.Core.Pages.VerseF
             {
                 Tools.errWrite($"[{DateTime.Now} openNextSurePopup_Click ] -> verseFrame");
 
+                PopupHelpers.load_drag(popup_nextSure);
                 popup_nextSure.IsOpen = true;
             }
             catch (Exception ex)
@@ -941,12 +959,11 @@ namespace KuranX.App.Core.Pages.VerseF
                     var verseUpdate = entitydb.Verse.Where(p => p.verseId == int.Parse(chk.Uid)).FirstOrDefault();
                     var sureUpdate = entitydb.Sure.Where(p => p.sureId == sSureId).FirstOrDefault();
 
-                    if (chk.IsChecked.ToString() == "True")
+                    if (chk!.IsChecked.ToString() == "True")
                     {
-                 
-                        verseUpdate.verseCheck = true;
+                        verseUpdate!.verseCheck = true;
 
-                        sureUpdate.userCheckCount++;
+                        sureUpdate!.userCheckCount++;
 
                         if (sureUpdate.userCheckCount == sureUpdate.numberOfVerses)
                         {
@@ -957,8 +974,8 @@ namespace KuranX.App.Core.Pages.VerseF
                     }
                     else
                     {
-                        verseUpdate.verseCheck = false;
-                        sureUpdate.completed = false;
+                        verseUpdate!.verseCheck = false;
+                        sureUpdate!.completed = false;
 
                         if (verseUpdate.markCheck == true) sureUpdate.status = "#0D6EFD";
                         else sureUpdate.status = "#ADB5BD";
@@ -984,11 +1001,12 @@ namespace KuranX.App.Core.Pages.VerseF
             {
                 Tools.errWrite($"[{DateTime.Now} bellButton_Click ] -> verseFrame");
                 var btn = sender as CheckBox;
-                var control = btn.IsChecked.Value;
+                var control = btn!.IsChecked!.Value;
                 if (control == false)
                 {
                     btn.IsChecked = true;
 
+                    PopupHelpers.load_drag(popup_remiderControlPopup);
                     popup_remiderControlPopup.IsOpen = true;
 
                     using (var entitydb = new AyetContext())
@@ -1033,6 +1051,8 @@ namespace KuranX.App.Core.Pages.VerseF
                 else
                 {
                     btn.IsChecked = false;
+
+                    PopupHelpers.load_drag(popup_remiderAddPopup);
                     popup_remiderAddPopup.IsOpen = true;
                     remiderConnectVerse.Text = loadHeader.Text + " > " + sRelativeVerseId;
                 }
@@ -1068,7 +1088,7 @@ namespace KuranX.App.Core.Pages.VerseF
                         item.userLastRelativeVerse = 0;
                     }
 
-                    if (bchk.IsChecked.ToString() == "True")
+                    if (bchk!.IsChecked.ToString() == "True")
                     {
                         entitydb.Verse.Where(p => p.verseId == int.Parse(bchk.Uid)).First().markCheck = true;
                         entitydb.Sure.Where(p => p.sureId == sSureId).First().status = "#0D6EFD";
@@ -1106,13 +1126,13 @@ namespace KuranX.App.Core.Pages.VerseF
                     {
                         chk = ((CheckBox?)(item as FrameworkElement));
 
-                        chk.IsChecked = false;
+                        chk!.IsChecked = false;
                     }
                 }
 
                 chk = sender as CheckBox;
 
-                chk.IsChecked = true;
+                chk!.IsChecked = true;
 
                 subjectpreviewColor.Background = new BrushConverter().ConvertFromString((string)chk.Tag) as SolidColorBrush;
             }
@@ -1129,9 +1149,9 @@ namespace KuranX.App.Core.Pages.VerseF
                 Tools.errWrite($"[{DateTime.Now} popupClosed_Click ] -> verseFrame");
 
                 var btntemp = sender as Button;
-                var popuptemp = (Popup)FindName(btntemp.Uid);
-                popuptemp.IsOpen = false;
-                pp_moveBar.IsOpen = false;
+                Popup popuptemp = (Popup)FindName(btntemp!.Uid);
+                PopupHelpers.popupClosed(popuptemp, pp_moveBar);
+
                 popupRelativeId.Text = "";
 
                 meaningNameAddPopupHeaderError.Visibility = Visibility.Hidden;
@@ -1182,6 +1202,7 @@ namespace KuranX.App.Core.Pages.VerseF
             try
             {
                 Tools.errWrite($"[{DateTime.Now} openVerseNumberPopup_Click ] -> verseFrame");
+                PopupHelpers.load_drag(popup_VerseGoto);
                 popup_VerseGoto.IsOpen = true;
             }
             catch (Exception ex)
@@ -1195,6 +1216,9 @@ namespace KuranX.App.Core.Pages.VerseF
             try
             {
                 Tools.errWrite($"[{DateTime.Now} openVerseNumberPopup_Click ] -> verseFrame");
+
+                PopupHelpers.load_drag(popup_Note);
+
                 popup_Note.IsOpen = true;
                 versetask = Task.Run(noteConnect);
             }
@@ -1210,6 +1234,7 @@ namespace KuranX.App.Core.Pages.VerseF
             {
                 Tools.errWrite($"[{DateTime.Now} noteAddButton_Click ] -> verseFrame");
 
+                PopupHelpers.load_drag(popup_noteAddPopup);
                 popup_noteAddPopup.IsOpen = true;
                 noteConnectVerse.Text = loadHeader.Text + " > " + sRelativeVerseId;
                 noteType.Text = "Ayet Notu";
@@ -1225,7 +1250,10 @@ namespace KuranX.App.Core.Pages.VerseF
             try
             {
                 Tools.errWrite($"[{DateTime.Now} remiderDeleteButton_Click ] -> verseFrame");
+
                 popup_remiderControlPopup.IsOpen = false;
+                PopupHelpers.dispose_drag(popup_remiderControlPopup);
+                PopupHelpers.load_drag(popup_remiderDeleteConfirm);
                 popup_remiderDeleteConfirm.IsOpen = true;
             }
             catch (Exception ex)
@@ -1243,6 +1271,8 @@ namespace KuranX.App.Core.Pages.VerseF
                 var contentb = sender as Button;
                 textDesc.Text = contentb.Uid.ToString();
                 popupHeaderTextDesc.Text = loadHeader.Text + " Suresinin Ayetleri Arasındaki Konular";
+
+                PopupHelpers.load_drag(popup_descVersePopup);
                 popup_descVersePopup.IsOpen = true;
                 contentb = null;
             }
@@ -1258,6 +1288,7 @@ namespace KuranX.App.Core.Pages.VerseF
             {
                 Tools.errWrite($"[{DateTime.Now} feedbackButton_Click ] -> verseFrame");
 
+                PopupHelpers.load_drag(popup_feedbackOpenPopup);
                 popup_feedbackOpenPopup.IsOpen = true;
                 feedbackConnectVerse.Text = loadHeader.Text + " > " + sRelativeVerseId.ToString();
                 feedbackDetail.Focus();
@@ -1268,6 +1299,8 @@ namespace KuranX.App.Core.Pages.VerseF
             {
                 Tools.logWriter("Click", ex);
             }
+
+            // TEST BUTTON
         }
 
         private async void feedbackPopupButton_Click(object sender, RoutedEventArgs e)
@@ -1280,24 +1313,16 @@ namespace KuranX.App.Core.Pages.VerseF
                 {
                     feedbackPopupButton.IsEnabled = false;
                     feedbackPopupClose.IsEnabled = false;
-                    var messageBody = "<b>İsim Soyisim :</b> " + App.mainScreen.hmwd_profileName.Text + "<br/>" + "<b>İletişim Maili :</b> " + App.mainScreen.userEmail.Text + "<br/>" + "<b>Platform : </b> Bilgisayar" + "<br/>" + "<b>Seçili Ayet :</b>" + feedbackConnectVerse.Text + " <b>Mesaj : </b>" + "<br/> <p>" + feedbackDetail.Text + "</p>";
+                    var messageBody = "<b>İsim Soyisim :</b> " + App.mainScreen.hmwd_profileName.Text + "<br/>" + "<b>İletişim Maili :</b> " + App.mainScreen.userEmail.Text + "<br/>" + "<b>Platform : </b> Bilgisayar" + "<br/>" + "<b>Gönderme zamanı : </b> " + DateTime.Now + "<br/>" + "<b>Seçili Ayet :</b>" + feedbackConnectVerse.Text + " <b>Mesaj : </b>" + "<br/> <p>" + feedbackDetail.Text + "</p>";
 
-                    var returnBool = false;
-                    versetask = Task.Run(() => returnBool = Tools.sendMail("Kuransunettüllah Destek", messageBody));
+                    await Task.Run(async () => await Tools.sendMail("Kuransunettullah Verse Feedback", messageBody, "Verse Feedback"));
                     await versetask;
 
-                    if (returnBool)
-                    {
-                        popup_feedbackOpenPopup.IsOpen = false;
-                        feedbackPopupButton.IsEnabled = true;
-                        feedbackPopupClose.IsEnabled = true;
-                        feedbackDetail.Text = "";
-                    }
-                    else
-                    {
-                        feedbackPopupButton.IsEnabled = true;
-                        feedbackPopupClose.IsEnabled = true;
-                    }
+                    PopupHelpers.dispose_drag(popup_feedbackOpenPopup);
+                    popup_feedbackOpenPopup.IsOpen = false;
+                    feedbackPopupButton.IsEnabled = true;
+                    feedbackPopupClose.IsEnabled = true;
+                    feedbackDetail.Text = "";
                 }
                 else
                 {
@@ -1316,6 +1341,7 @@ namespace KuranX.App.Core.Pages.VerseF
             {
                 Tools.errWrite($"[{DateTime.Now} openAddSubjectPopup_Click ] -> verseFrame");
 
+                PopupHelpers.load_drag(popup_addSubjectPopup);
                 popup_addSubjectPopup.IsOpen = true;
                 selectedSubject.Text = loadHeader.Text + " > " + sRelativeVerseId.ToString();
                 versetask = Task.Run(() => subjectFolder());
@@ -1331,6 +1357,8 @@ namespace KuranX.App.Core.Pages.VerseF
             try
             {
                 Tools.errWrite($"[{DateTime.Now} newSubjectFolder_Click ] -> verseFrame");
+
+                PopupHelpers.load_drag(popup_FolderSubjectPopup);
                 popup_FolderSubjectPopup.IsOpen = true;
             }
             catch (Exception ex)
@@ -1344,6 +1372,8 @@ namespace KuranX.App.Core.Pages.VerseF
             try
             {
                 Tools.errWrite($"[{DateTime.Now} searchSubjectFolder_Click ] -> verseFrame");
+
+                PopupHelpers.load_drag(popup_FolderSubjectPopup);
                 popup_FolderSubjectPopup.IsOpen = true;
             }
             catch (Exception ex)
@@ -1358,6 +1388,7 @@ namespace KuranX.App.Core.Pages.VerseF
             {
                 Tools.errWrite($"[{DateTime.Now} openMeaningPopup_Click ] -> verseFrame");
 
+                PopupHelpers.load_drag(popup_Meaning);
                 popup_Meaning.IsOpen = true;
                 versetask = Task.Run(() => loadMeaning());
             }
@@ -1373,6 +1404,7 @@ namespace KuranX.App.Core.Pages.VerseF
             {
                 Tools.errWrite($"[{DateTime.Now} openMeaningAddPopup_Click ] -> verseFrame");
 
+                PopupHelpers.load_drag(popup_meaningAddPopup);
                 popup_meaningAddPopup.IsOpen = true;
                 popup_meaningAddPopup.Focus();
                 var item = meaningpopupNextSureId.SelectedItem as ComboBoxItem;
@@ -1394,6 +1426,8 @@ namespace KuranX.App.Core.Pages.VerseF
                 Tools.errWrite($"[{DateTime.Now} editMeaningButton_Click ] -> verseFrame");
 
                 meaningEditNote.Text = meaningOpenDetailText.Text;
+
+                PopupHelpers.load_drag(popup_meaningEditPopup);
                 popup_meaningEditPopup.IsOpen = true;
             }
             catch (Exception ex)
@@ -1408,6 +1442,7 @@ namespace KuranX.App.Core.Pages.VerseF
             {
                 Tools.errWrite($"[{DateTime.Now} deleteMeaningButton_Click ] -> verseFrame");
 
+                PopupHelpers.load_drag(popup_meaningDeleteConfirm);
                 popup_meaningDeleteConfirm.IsOpen = true;
             }
             catch (Exception ex)
@@ -1421,7 +1456,7 @@ namespace KuranX.App.Core.Pages.VerseF
             try
             {
                 Tools.errWrite($"[{DateTime.Now} meaningOpenDetailTextBack_Click ] -> verseFrame");
-
+                PopupHelpers.dispose_drag(popup_meainingConnectDetailText);
                 popup_meainingConnectDetailText.IsOpen = false;
             }
             catch (Exception ex)
@@ -1436,6 +1471,7 @@ namespace KuranX.App.Core.Pages.VerseF
             {
                 Tools.errWrite($"[{DateTime.Now} resetBtnSure_Click ] -> verseFrame");
 
+                PopupHelpers.load_drag(popup_resetVerseConfirm);
                 popup_resetVerseConfirm.IsOpen = true;
             }
             catch (Exception ex)
@@ -1458,7 +1494,7 @@ namespace KuranX.App.Core.Pages.VerseF
 
                     sRelativeVerseId = int.Parse(popupRelativeId.Text);
                     versetask = Task.Run(() => loadVerseFunc(sRelativeVerseId));
-
+                    PopupHelpers.dispose_drag(popup_VerseGoto);
                     popup_VerseGoto.IsOpen = false;
                     popupRelativeId.Text = "";
                 }
@@ -1485,9 +1521,11 @@ namespace KuranX.App.Core.Pages.VerseF
                 App.lastlocation = $"Verse-{sSureId}-{sRelativeVerseId}-Note";
 
                 App.secondFrame.Visibility = Visibility.Visible;
+
+                PopupHelpers.dispose_drag(popup_Note);
                 popup_Note.IsOpen = false;
 
-                App.secondFrame.Content = new KuranX.App.Core.Pages.NoteF.NoteItem().PageCall(int.Parse(tmpbutton.Uid), "VerseNoteOpen");
+                App.secondFrame.Content = new NoteF.NoteItem().PageCall(int.Parse(tmpbutton.Uid), "VerseNoteOpen");
 
                 tmpbutton = null;
             }
@@ -1530,6 +1568,8 @@ namespace KuranX.App.Core.Pages.VerseF
                                     noteName.Text = "";
                                     noteDetail.Text = "";
                                 }
+
+                                PopupHelpers.dispose_drag(popup_noteAddPopup);
                                 popup_noteAddPopup.IsOpen = false;
                             }
                             else
@@ -1571,7 +1611,7 @@ namespace KuranX.App.Core.Pages.VerseF
             try
             {
                 Tools.errWrite($"[{DateTime.Now} allShowNoteButton_Click ] -> verseFrame");
-
+                PopupHelpers.load_drag(popup_notesAllShowPopup);
                 popup_notesAllShowPopup.IsOpen = true;
                 using (var entitydb = new AyetContext())
                 {
@@ -1635,6 +1675,7 @@ namespace KuranX.App.Core.Pages.VerseF
                 App.mainScreen.homescreengrid.IsEnabled = false;
                 App.secondFrame.Content = App.navVerseStickPage.PageCall(int.Parse(item.Uid), int.Parse(popupNextVerseId.Text), loadHeader.Text, sRelativeVerseId, "Verse");
                 App.secondFrame.Visibility = Visibility.Visible;
+                PopupHelpers.dispose_drag(popup_nextSure);
                 popup_nextSure.IsOpen = false;
             }
             catch (Exception ex)
@@ -1652,6 +1693,7 @@ namespace KuranX.App.Core.Pages.VerseF
                 var tmpbutton = sender as Button;
                 App.mainScreen.homescreengrid.IsEnabled = false;
 
+                PopupHelpers.dispose_drag(popup_notesAllShowPopup);
                 popup_notesAllShowPopup.IsOpen = false;
                 App.navVersePage.popup_Note.IsOpen = false;
 
@@ -1688,6 +1730,7 @@ namespace KuranX.App.Core.Pages.VerseF
                                         if (dControl.Count > 0)
                                         {
                                             App.mainScreen.alertFunc("İşlem Başarısız", "Yeni hatırlatıcınız oluşturulamadı daha önceden oluşturulmuş olabilir.", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
+                                            PopupHelpers.dispose_drag(popup_remiderAddPopup);
                                             popup_remiderAddPopup.IsOpen = false;
                                             remiderName.Text = "";
                                             remiderDetail.Text = "";
@@ -1712,7 +1755,7 @@ namespace KuranX.App.Core.Pages.VerseF
                                             entitydb.Remider.Add(newRemider);
                                             entitydb.SaveChanges();
                                             App.mainScreen.succsessFunc("İşlem Başarılı", "Yeni hatırlatıcınız başarılı bir sekilde oluşturuldu", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
-
+                                            PopupHelpers.dispose_drag(popup_remiderAddPopup);
                                             popup_remiderAddPopup.IsOpen = false;
                                             remiderName.Text = "";
                                             remiderDetail.Text = "";
@@ -1746,6 +1789,7 @@ namespace KuranX.App.Core.Pages.VerseF
                                         if (dControl.Count > 0)
                                         {
                                             App.mainScreen.alertFunc("İşlem Başarısız", "Yeni hatırlatıcınız oluşturulamadı daha önceden oluşturulmuş olabilir.", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
+                                            PopupHelpers.dispose_drag(popup_remiderAddPopup);
                                             popup_remiderAddPopup.IsOpen = false;
                                             remiderName.Text = "";
                                             remiderDetail.Text = "";
@@ -1777,7 +1821,7 @@ namespace KuranX.App.Core.Pages.VerseF
                                             entitydb.Remider.Add(newRemider);
                                             entitydb.SaveChanges();
                                             App.mainScreen.succsessFunc("İşlem Başarılı", "Yeni hatırlatıcınız başarılı bir sekilde oluşturuldu", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
-
+                                            PopupHelpers.dispose_drag(popup_remiderAddPopup);
                                             popup_remiderAddPopup.IsOpen = false;
                                             remiderName.Text = "";
                                             remiderDetail.Text = "";
@@ -1836,6 +1880,9 @@ namespace KuranX.App.Core.Pages.VerseF
                     entitydb.Remider.RemoveRange(entitydb.Remider.Where(p => p.connectVerseId == sRelativeVerseId && p.connectSureId == sSureId));
                     entitydb.Verse.Where(p => p.relativeDesk == sRelativeVerseId && p.sureId == sSureId).FirstOrDefault().remiderCheck = false;
                     entitydb.SaveChanges();
+
+                    PopupHelpers.dispose_drag(popup_remiderDeleteConfirm);
+                    PopupHelpers.dispose_drag(popup_remiderControlPopup);
                     popup_remiderDeleteConfirm.IsOpen = false;
                     popup_remiderControlPopup.IsOpen = false;
                     verseprocess = Task.Run(() => singleItemsControl(sRelativeVerseId));
@@ -1871,6 +1918,7 @@ namespace KuranX.App.Core.Pages.VerseF
                             var dSubjectItem = new SubjectItems { subjectId = int.Parse(item.Uid), subjectNotesId = 0, sureId = sSureId, verseId = sRelativeVerseId, created = DateTime.Now, modify = DateTime.Now, subjectName = loadHeader.Text + " Suresinin " + sRelativeVerseId.ToString() + " Ayeti" };
                             entitydb.SubjectItems.Add(dSubjectItem);
                             entitydb.SaveChanges();
+                            PopupHelpers.dispose_drag(popup_addSubjectPopup);
                             popup_addSubjectPopup.IsOpen = false;
                             App.mainScreen.succsessFunc("İşlem Başarılı", "Seçmiş olduğunuz konuya ayet eklendi.", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
                             dSubjectItem = null;
@@ -1915,6 +1963,7 @@ namespace KuranX.App.Core.Pages.VerseF
 
                                 subjectpreviewName.Text = "";
                                 subjectFolderHeader.Text = "";
+                                PopupHelpers.dispose_drag(popup_FolderSubjectPopup);
                                 popup_FolderSubjectPopup.IsOpen = false;
                                 verseprocess = Task.Run(() => subjectFolder());
 
@@ -1969,7 +2018,7 @@ namespace KuranX.App.Core.Pages.VerseF
                     meaningDId.Text = dInteg.integrityId.ToString();
                     meaningOpenDetailTextConnect.Text = dSure.name + " Suresini " + dInteg.connectVerseId.ToString() + " Ayeti İçin " + dCSure.name + " " + dInteg.connectedVerseId + " Ayeti ile Eşleştirilmiş";
                 }
-
+                PopupHelpers.load_drag(popup_meainingConnectDetailText);
                 popup_meainingConnectDetailText.IsOpen = true;
 
                 tmpbutton = null;
@@ -1985,7 +2034,7 @@ namespace KuranX.App.Core.Pages.VerseF
             try
             {
                 Tools.errWrite($"[{DateTime.Now} allShowMeaningButton_Click ] -> verseFrame");
-
+                PopupHelpers.load_drag(popup_meainingAllShowPopup);
                 popup_meainingAllShowPopup.IsOpen = true;
 
                 using (var entitydb = new AyetContext())
@@ -2062,6 +2111,7 @@ namespace KuranX.App.Core.Pages.VerseF
                                             meaningConnectNote.Text = "";
                                             meaningpopupNextSureId.SelectedIndex = 0;
                                             meaningConnectVerse.Text = "";
+                                            PopupHelpers.dispose_drag(popup_meaningAddPopup);
                                             popup_meaningAddPopup.IsOpen = false;
                                         }
                                         else
@@ -2074,6 +2124,7 @@ namespace KuranX.App.Core.Pages.VerseF
                                             meaningConnectNote.Text = "";
                                             meaningpopupNextSureId.SelectedIndex = 0;
                                             meaningConnectVerse.Text = "";
+                                            PopupHelpers.dispose_drag(popup_meaningAddPopup);
                                             popup_meaningAddPopup.IsOpen = false;
                                             verseprocess = Task.Run(() => loadMeaning());
 
@@ -2136,6 +2187,9 @@ namespace KuranX.App.Core.Pages.VerseF
                 navControlStack.Visibility = Visibility.Hidden;
                 actionsControlGrid.Visibility = Visibility.Hidden;
 
+                PopupHelpers.dispose_drag(popup_Meaning);
+                PopupHelpers.dispose_drag(popup_meainingConnectDetailText);
+
                 popup_Meaning.IsOpen = false;
                 connectBox = true;
                 popup_meainingConnectDetailText.IsOpen = false;
@@ -2162,6 +2216,8 @@ namespace KuranX.App.Core.Pages.VerseF
                         entitydb.Integrity.Where(p => p.integrityId == int.Parse(meaningDId.Text)).First().integrityNote = meaningEditNote.Text;
                         meaningOpenDetailText.Text = meaningEditNote.Text;
                         App.mainScreen.succsessFunc("İşlem Başarılı", " Anlam bütünlüğü bağlantınızın notu düzeltildi...", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
+
+                        PopupHelpers.dispose_drag(popup_meaningEditPopup);
                         popup_meaningEditPopup.IsOpen = false;
                     }
                     else
@@ -2188,6 +2244,9 @@ namespace KuranX.App.Core.Pages.VerseF
                 {
                     entitydb.Integrity.RemoveRange(entitydb.Integrity.Where(p => p.integrityId == int.Parse(meaningDId.Text)));
                     entitydb.SaveChanges();
+
+                    PopupHelpers.dispose_drag(popup_meaningDeleteConfirm);
+                    PopupHelpers.dispose_drag(popup_meainingConnectDetailText);
                     popup_meaningDeleteConfirm.IsOpen = false;
                     popup_meainingConnectDetailText.IsOpen = false;
                     verseprocess = Task.Run(() => loadMeaning());
@@ -2232,6 +2291,8 @@ namespace KuranX.App.Core.Pages.VerseF
                     entitydb.SaveChanges();
 
                     App.mainScreen.succsessFunc("İşlem Başarılı", " Suredeki ilerlemeniz başarılı bir şekilde sıfırlandı...", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
+
+                    PopupHelpers.dispose_drag(popup_resetVerseConfirm);
                     popup_resetVerseConfirm.IsOpen = false;
 
                     navstackPanel.Visibility = Visibility.Hidden;
@@ -2262,6 +2323,8 @@ namespace KuranX.App.Core.Pages.VerseF
                         filterAyet.Tag = searchDt1.ToString();
                         filterDesc.Tag = searchDt2.ToString();
                         filterInter.Tag = searchDt3.ToString();
+
+                        PopupHelpers.load_drag(popup_search);
                         popup_search.IsOpen = true;
                     }
                     else
@@ -2403,14 +2466,18 @@ namespace KuranX.App.Core.Pages.VerseF
                                 searchDataContent.Text = searchContent.verseTr.Replace(Environment.NewLine, "");
                                 starindex = 0;
                                 findIndex.Clear();
+                                int x;
                                 while (true)
                                 {
                                     starindex = searchDataContent.Text.ToLower().IndexOf(SearchData.Text.ToLower(), ++starindex);
+                                    x = starindex;
                                     if (starindex == -1) break;
                                     findIndex.Add(starindex);
                                 }
+
                                 searchDataWrite(findIndex, entitydb.Sure.Where(p => p.sureId == searchContent.sureId).Select(p => new Sure { name = p.name }).First().name + " surenin " + searchContent.relativeDesk + ". ayetinde Türkçe Okunuşu", (int)searchContent.sureId, (int)searchContent.relativeDesk);
                             }
+                            var xs = "xasd";
                         }
 
                         break;
@@ -2582,9 +2649,12 @@ namespace KuranX.App.Core.Pages.VerseF
                 actionsControlGrid.Visibility = Visibility.Hidden;
 
                 searchBox = true;
+
+                PopupHelpers.dispose_drag(popup_search);
+
                 popup_search.IsOpen = false;
                 App.mainScreen.homescreengrid.IsEnabled = false;
-                App.secondFrame.Content = App.navVerseStickPage.PageCall(int.Parse((string)btn.ToolTip), int.Parse((string)btn.Uid), "Verse", sRelativeVerseId, "Search");
+                App.secondFrame.Content = App.navVerseStickPage.PageCall(int.Parse((string)btn.ToolTip), int.Parse((string)btn.Uid), "Verse", sRelativeVerseId, "Search", SearchData.Text);
 
                 App.secondFrame.Visibility = Visibility.Visible;
 
@@ -2629,6 +2699,7 @@ namespace KuranX.App.Core.Pages.VerseF
             {
                 Tools.errWrite($"[{DateTime.Now} wordText_Click ] -> verseFrame");
 
+                PopupHelpers.load_drag(popup_Words);
                 popup_Words.IsOpen = true;
 
                 using (var entitydb = new AyetContext())
@@ -3073,6 +3144,26 @@ namespace KuranX.App.Core.Pages.VerseF
                 Tools.errWrite($"[{DateTime.Now} allPopupClosed ] -> verseFrame");
                 this.Dispatcher.Invoke(() =>
                 {
+                    PopupHelpers.dispose_drag(popup_VerseGoto);
+                    PopupHelpers.dispose_drag(popup_Note);
+                    PopupHelpers.dispose_drag(popup_noteAddPopup);
+                    PopupHelpers.dispose_drag(popup_notesAllShowPopup);
+                    PopupHelpers.dispose_drag(popup_addSubjectPopup);
+                    PopupHelpers.dispose_drag(popup_FolderSubjectPopup);
+                    PopupHelpers.dispose_drag(popup_Meaning);
+                    PopupHelpers.dispose_drag(popup_meainingAllShowPopup);
+                    PopupHelpers.dispose_drag(popup_meaningAddPopup);
+                    PopupHelpers.dispose_drag(popup_meainingConnectDetailText);
+                    PopupHelpers.dispose_drag(popup_meaningEditPopup);
+                    PopupHelpers.dispose_drag(popup_meaningDeleteConfirm);
+                    PopupHelpers.dispose_drag(popup_remiderAddPopup);
+                    PopupHelpers.dispose_drag(popup_remiderControlPopup);
+                    PopupHelpers.dispose_drag(popup_remiderDeleteConfirm);
+                    PopupHelpers.dispose_drag(popup_descVersePopup);
+                    PopupHelpers.dispose_drag(popup_resetVerseConfirm);
+                    PopupHelpers.dispose_drag(popup_fastExitConfirm);
+                    PopupHelpers.dispose_drag(popup_Words);
+
                     popup_VerseGoto.IsOpen = false;
                     popup_Note.IsOpen = false;
                     popup_noteAddPopup.IsOpen = false;
@@ -3133,8 +3224,9 @@ namespace KuranX.App.Core.Pages.VerseF
             {
                 Tools.errWrite($"[{DateTime.Now} popuverMove_Click ] -> verseFrame");
                 var btn = sender as Button;
-                ppMoveConfing((string)btn.Uid);
-                moveControlName.Text = (string)btn.Content;
+                pp_selected = (string)btn.Uid;
+                moveBarController.HeaderText = btn.Content.ToString()!;
+
                 pp_moveBar.IsOpen = true;
             }
             catch (Exception ex)
@@ -3143,104 +3235,14 @@ namespace KuranX.App.Core.Pages.VerseF
             }
         }
 
-        public void ppMoveActionOfset_Click(object sender, RoutedEventArgs e)
+        public Popup getPopupMove()
         {
-            try
-            {
-                Tools.errWrite($"[{DateTime.Now} ppMoveActionOfset_Click ] -> verseFrame");
-
-                var btntemp = sender as Button;
-                var movePP = (Popup)FindName((string)btntemp.Content);
-
-                switch (btntemp.Uid.ToString())
-                {
-                    case "Left":
-                        movePP.HorizontalOffset -= 50;
-                        break;
-
-                    case "Top":
-                        movePP.VerticalOffset -= 50;
-                        break;
-
-                    case "Bottom":
-                        movePP.VerticalOffset += 50;
-                        break;
-
-                    case "Right":
-                        movePP.HorizontalOffset += 50;
-                        break;
-
-                    case "UpLeft":
-                        movePP.Placement = PlacementMode.Absolute;
-                        movePP.VerticalOffset = 0;
-                        movePP.HorizontalOffset = 0;
-                        break;
-
-                    case "Reset":
-                        movePP.Placement = PlacementMode.Center;
-                        movePP.VerticalOffset = 0;
-                        movePP.HorizontalOffset = 0;
-                        movePP.Child.Opacity = 1;
-                        movePP.Child.IsEnabled = true;
-                        break;
-
-                    case "Close":
-                        pp_moveBar.IsOpen = false;
-                        movePP.Child.Opacity = 1;
-                        movePP.Child.IsEnabled = true;
-                        break;
-                }
-            }
-            catch (Exception ex)
-            {
-                Tools.logWriter("Click", ex);
-            }
+            return pp_moveBar;
         }
 
-        public void ppMoveActionOpacity_Click(object sender, RoutedEventArgs e)
+        public Popup getPopupBase()
         {
-            try
-            {
-                Tools.errWrite($"[{DateTime.Now} ppMoveActionOpacity_Click ] -> verseFrame");
-
-                var btntemp = sender as Button;
-                var movePP = (Popup)FindName((string)btntemp.Content);
-
-                switch (btntemp.Uid.ToString())
-                {
-                    case "Up":
-                        movePP.Child.Opacity = 1;
-                        movePP.Child.IsEnabled = true;
-                        break;
-
-                    case "Down":
-                        movePP.Child.Opacity = 0.1;
-                        movePP.Child.IsEnabled = false;
-                        break;
-                }
-            }
-            catch (Exception ex)
-            {
-                Tools.logWriter("Click", ex);
-            }
-        }
-
-        public void ppMoveConfing(string ppmove)
-        {
-            try
-            {
-                Tools.errWrite($"[{DateTime.Now} ppMoveConfing ] -> verseFrame");
-
-                for (int i = 1; i < 10; i++)
-                {
-                    var btn = FindName("pp_M" + i) as Button;
-                    btn.Content = ppmove;
-                }
-            }
-            catch (Exception ex)
-            {
-                Tools.logWriter("Click", ex);
-            }
+            return (Popup)FindName(pp_selected);
         }
     }
 }

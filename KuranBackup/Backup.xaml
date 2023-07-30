@@ -67,11 +67,7 @@
             <Setter Property="Width" Value="64"/>
             <Setter Property="Height" Value="64"/>
             <Setter Property="Cursor" Value="Hand"/>
-            
             <Style.Triggers>
-                    
-               
-        
                 <EventTrigger RoutedEvent="MouseEnter">
                     <BeginStoryboard>
                         <Storyboard>
@@ -89,32 +85,20 @@
                 </EventTrigger>
             </Style.Triggers>
         </Style>
-
-
-
-
-
-
     </Window.Resources>
 
 
     <Grid>
-
         <Border Width="550" Height="260" Padding="10 5 10 5"  Style="{DynamicResource BackupBorder}">
             <StackPanel Orientation="Vertical" HorizontalAlignment="Center" UseLayoutRounding="True" SnapsToDevicePixels="True" VerticalAlignment="Center" Margin="10 20">
-
                 <StackPanel Orientation="Vertical" Margin="10 0">
                     <TextBlock Text="Kuransunnetullah" Style="{DynamicResource headerText}"/>
                     <TextBlock Text="Yedekleme sihirbazına hoş geldiniz. İsterseniz verilerinizi yedekleye bilir yada yedekden geri yükleye bilirsiniz. Yapmak istediğiniz işlemi seçiniz." Style="{DynamicResource subText}"/>
-
                 </StackPanel>
-                
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="20 10">
                     <Image Opacity="0.6" ToolTip="Yedekle" RenderOptions.BitmapScalingMode="HighQuality" x:Name="backup" Style="{DynamicResource ImageHoverStyle}" Source="/Resources/Images/download.png" MouseDown="backup_MouseDown" Margin="30,0,30,0"/>
                     <Image Opacity="0.6" ToolTip="Yedekten Geri Yükle" RenderOptions.BitmapScalingMode="HighQuality" x:Name="rebackup" Style="{DynamicResource ImageHoverStyle}" Source="/Resources/Images/upload.png" MouseDown="recover_MouseDown" Margin="30,0,30,0"/>
-
                 </StackPanel>
-                
             </StackPanel>
         </Border>
 

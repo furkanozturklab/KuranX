@@ -1,8 +1,9 @@
-﻿using Microsoft.Data.Sqlite;
+﻿
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.IO;
-using System.Windows;
+
 
 namespace KuranX.App.Core.Classes
 {
@@ -19,10 +20,8 @@ namespace KuranX.App.Core.Classes
         public DbSet<Subject> Subject { get; set; }
         public DbSet<SubjectItems> SubjectItems { get; set; }
         public DbSet<Words> Words { get; set; }
-
         public DbSet<Remider> Remider { get; set; }
         public DbSet<Tasks> Tasks { get; set; }
-   
         public DbSet<Userhelp> UserHelp { get; set; }
 
         public string DbPath { get; }
@@ -93,6 +92,9 @@ namespace KuranX.App.Core.Classes
             modelBuilder.Entity<Sure>()
                 .Property(u => u.completed)
                 .HasDefaultValue(false);
+          
+                
+                
 
             //   VERSE
             modelBuilder.Entity<Verse>()

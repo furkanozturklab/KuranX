@@ -14,6 +14,8 @@ using System.Windows.Xps.Packaging;
 using System.Windows.Xps;
 using System.Threading;
 using KuranX.App.Core.Classes.Tools;
+using KuranX.App.Core.Classes.Helpers;
+using System.Globalization;
 
 namespace KuranX.App.Core.Pages.NoteF
 {
@@ -26,6 +28,7 @@ namespace KuranX.App.Core.Pages.NoteF
         private bool tempCheck = false;
         private string gototype = "", getLocation;
         private Task noteframetask , secondtask;
+        private DraggablePopupHelper drag;
 
         public NoteItem()
         {
@@ -105,7 +108,7 @@ namespace KuranX.App.Core.Pages.NoteF
                     {
                         infoText.Text = "";
                         loadHeader.Text = dNote.noteHeader;
-                        loadCreate.Text = dNote.created.ToString("D");
+                        loadCreate.Text = dNote.created.ToString("D", new CultureInfo("tr-TR"));
                         loadLocation.Text = dNote.noteLocation;
                         loadNoteDetail.Text = dNote.noteDetail;
 
@@ -377,7 +380,8 @@ namespace KuranX.App.Core.Pages.NoteF
 
                 Tools.errWrite($"[{DateTime.Now} deleteButton_Click ] -> NoteItem");
 
-
+                // drag = new DraggablePopupHelper((Border)popup_DeleteConfirm.Child, popup_DeleteConfirm);
+                PopupHelpers.load_drag(popup_DeleteConfirm);
                 popup_DeleteConfirm.IsOpen = true;
             }
             catch (Exception ex)
@@ -433,6 +437,7 @@ namespace KuranX.App.Core.Pages.NoteF
              
 
                     entitydb.SaveChanges();
+                    PopupHelpers.dispose_drag(popup_DeleteConfirm);
                     popup_DeleteConfirm.IsOpen = false;
                     App.mainScreen.succsessFunc("İşlem Başarılı", "Notunuz başaralı bir sekilde silinmiştir. Bir önceki sayfaya yönlendiriliyorsunuz...", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
 
@@ -491,13 +496,11 @@ namespace KuranX.App.Core.Pages.NoteF
             try
             {
 
-                Tools.errWrite($"[{DateTime.Now} popupClosed_Click ] -> NoteItem");
-
+                Tools.errWrite($"[{DateTime.Now} popupClosed_Click] -> NoteFrame");
 
                 var btntemp = sender as Button;
-                Popup popuptemp = (Popup)FindName(btntemp.Uid);
-
-                popuptemp.IsOpen = false;
+                Popup popuptemp = (Popup)FindName(btntemp!.Uid);
+                PopupHelpers.popupClosed(popuptemp);
             }
             catch (Exception ex)
             {

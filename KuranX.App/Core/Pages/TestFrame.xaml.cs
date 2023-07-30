@@ -1,5 +1,4 @@
 ﻿using KuranX.App.Core.Classes.Helpers;
-using KuranX.App.Core.UI.Settings;
 using Org.BouncyCastle.Utilities;
 using System;
 using System.Collections;
@@ -27,10 +26,7 @@ namespace KuranX.App.Core.Pages
     public partial class TestFrame : Page
     {
 
-        private SystemUI systemUIController;
-        private RemiderUI remiderUIController;
-        private OtherUI otherUIController;
-        private AccessibilityUI accessibilityUIController;
+        
         private string SettingsSave;
 
         private DraggablePopupHelper drag;
@@ -53,9 +49,9 @@ namespace KuranX.App.Core.Pages
         {
             var btn = sender as Button;
             //selectedPopup = FindName(btn.Uid) as Popup;
-            draggablePopup.IsOpen = true;
+           
 
-            drag = new DraggablePopupHelper(draggablePopupBorder, draggablePopup);
+           
           
         
         }
@@ -65,7 +61,7 @@ namespace KuranX.App.Core.Pages
 
             drag.Dispose();
             drag = null;
-            draggablePopup.IsOpen = false;
+        
 
            
            

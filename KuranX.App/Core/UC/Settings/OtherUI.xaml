@@ -1,0 +1,239 @@
+﻿<UserControl x:Class="KuranX.App.Core.UC.Settings.OtherUI"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:KuranX.App.Core.UC.Settings"
+             mc:Ignorable="d" 
+     >
+    <Grid Margin="25 5">
+
+
+
+
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+
+
+        <Popup x:Name="popup_updateNotes" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="470" Height="520" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+            <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="450" Height="500">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="25" />
+                        <RowDefinition Height="50" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="Güncelleme Notları" TextWrapping="Wrap" FontFamily="{DynamicResource PoppinsMedium}" FontSize="16" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 5 0 5" />
+
+                    <ScrollViewer Grid.Row="1" Visibility="Visible" CanContentScroll="True"  HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Visible" VerticalAlignment="Top" Padding="10">
+                        <StackPanel x:Name="updateNoteStack" VerticalAlignment="Top" Orientation="Vertical">
+                        </StackPanel>
+                    </ScrollViewer>
+
+                    <TextBlock x:Name="updateInfo" Grid.Row="2" Text="" TextAlignment="Left" Padding="10 0 0 0" VerticalAlignment="Center" FontSize="12" FontFamily="{DynamicResource PoppinsMedium}" Foreground="#C9283E" />
+
+                    <Grid Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="0">
+                            <Button x:Name="exeStart" Style="{DynamicResource pp_DefaultButtonBstrp}" Tag="BoxArrowRight" Content="Programa Dön" Uid="popup_updateNotes" HorizontalAlignment="Center"  Width="250" Click="openExe_Click" />
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </Border>
+        </Popup>
+
+
+        <Popup x:Name="popup_privacyPolicy" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="470" Height="520" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+            <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="450" Height="500">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="50" />
+                    </Grid.RowDefinitions>
+
+
+                    <TextBlock Text="Program Kullanım Şartları" TextWrapping="Wrap" FontFamily="{DynamicResource PoppinsMedium}" FontSize="16" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 5 0 5" />
+
+                    <ScrollViewer Grid.Row="1" Visibility="Visible" CanContentScroll="True"  HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Visible" VerticalAlignment="Top" Padding="20">
+
+                        <StackPanel x:Name="pri_pol" Orientation="Vertical">
+
+                        </StackPanel>
+
+                    </ScrollViewer>
+
+                    <Grid Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="0">
+                            
+                            <Button x:Name="closePrivacy" Style="{DynamicResource pp_DefaultButtonBstrp}" Tag="XLg" Content="Kapat" Uid="popup_commentaryVersePopup" HorizontalAlignment="Center"  Width="100" Click="qrsClose_Click"  />
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </Border>
+        </Popup>
+
+
+        <Popup x:Name="popup_tag" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="580" Height="420" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+
+
+            <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="560" Height="400">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="50" />
+                    </Grid.RowDefinitions>
+
+
+                    <TextBlock Text="Kuransunnetullah" TextWrapping="Wrap" FontFamily="{DynamicResource PoppinsMedium}" FontSize="16" Foreground="#1C1E2F" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 5 0 5" />
+
+                    <ScrollViewer Grid.Row="1" Visibility="Visible" CanContentScroll="True"  HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Visible" VerticalAlignment="Top" Padding="20">
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Column="0" Orientation="Vertical" VerticalAlignment="Center">
+
+                                <Label Style="{DynamicResource tag_head}" Content="Uygulama Adı:"/>
+                                <Label Style="{DynamicResource tag_head}" Content="Sürüm Numarası:"/>
+                                <Label Style="{DynamicResource tag_head}" Content="Yayınlanma Tarihi:"/>
+                                <Label Style="{DynamicResource tag_head}" Content="İletişim:"/>
+                                <Label Style="{DynamicResource tag_head}" Content="Geliştirici:"/>
+                                <Label Style="{DynamicResource tag_head}" Content="Web Sitesi:"/>
+                                <Label Style="{DynamicResource tag_head}" Content="Yayınlayan:"/>
+                                <Label Style="{DynamicResource tag_head}" Content="Yayınlayan İletişim:"/>
+                                
+
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="1" x:Name="tag_pool" Orientation="Vertical" VerticalAlignment="Center">
+
+                                <Label x:Name="t1" Style="{DynamicResource tag_detail}" />
+                                <Label x:Name="t2" Style="{DynamicResource tag_detail}" />
+                                <Label x:Name="t3" Style="{DynamicResource tag_detail}" />
+                                <Label x:Name="t4" Style="{DynamicResource tag_detail}" />
+                                <Label x:Name="t5" Style="{DynamicResource tag_detail}" />
+                                <Label x:Name="t7" Style="{DynamicResource tag_detail}" />
+                                <Label x:Name="t6" Style="{DynamicResource tag_detail}" />
+                                <Label x:Name="t8" Style="{DynamicResource tag_detail}" />
+                                
+
+                            </StackPanel>
+
+                        </Grid>
+
+
+
+                    </ScrollViewer>
+
+                    <Grid Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="0">
+
+                            <Button Style="{DynamicResource pp_DefaultButtonBstrp}" Tag="XLg" Content="Kapat" Uid="popup_commentaryVersePopup" HorizontalAlignment="Center"  Width="100" Click="tagClose_Click"  />
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </Border>
+        </Popup>
+
+
+        <StackPanel Orientation="Vertical" VerticalAlignment="Center" Grid.Row="0"  Margin="10">
+            <TextBlock Text="Güncelleme"  Style="{DynamicResource pp_settingsHeader}" TextAlignment="Center" />
+            <Grid Margin="0 10 0 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="32" />
+                </Grid.RowDefinitions>
+
+                <Button x:Name="versionControl" Grid.Column="0" Grid.Row="0" Content="Güncelleme Kontrol" Tag="SynciOS" Style="{DynamicResource pp_DefaultButtonSend}" Click="versionNew_Click"/>
+                <Button x:Name="versionText" Grid.Column="1" Grid.Row="0" Content="Sürüm Notları" Tag="GitBranchiOS" Style="{DynamicResource pp_DefaultButtonSend}"  Click="versionText_Click"/>
+
+            </Grid>
+
+            <Label x:Name="settingsVersion" Content="0.2.1 Beta -> release date 05/12/2022" Style="{DynamicResource pp_settingsInfo}" Margin="0 10 0 0" />
+        </StackPanel>
+
+
+        <StackPanel Orientation="Vertical" VerticalAlignment="Center" Grid.Row="1"  Margin="10">
+            <TextBlock Text="Yedekleme"  Style="{DynamicResource pp_settingsHeader}" TextAlignment="Center" />
+            <Grid Margin="0 10 0 0">
+                <Grid.ColumnDefinitions>
+
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="32" />
+                </Grid.RowDefinitions>
+                <Button x:Name="backupDownBtn" Grid.Column="0" Grid.Row="0" Content="Yedekle" Tag="ArchiveMD" Style="{DynamicResource pp_DefaultButtonSend}" Click="backupDownBtn_Click"  />
+
+            </Grid>
+
+            <Label Content=" İlerlemenizi yedekleye bilir yada geri yükleye bilirsiniz " Style="{DynamicResource pp_settingsInfo}" Margin="0 10 0 0" />
+
+        </StackPanel>
+
+
+        <StackPanel Orientation="Vertical" VerticalAlignment="Center" Grid.Row="2"  Margin="10">
+            <TextBlock Text="Sıfırlama"  Style="{DynamicResource pp_settingsHeader}" TextAlignment="Center" />
+            <Grid Margin="0 10 0 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="32" />
+                </Grid.RowDefinitions>
+
+                <Button x:Name="deleteData" Grid.Column="0" Grid.Row="0" Content="Verileri Sıfırla" Tag="ArrowCounterclockwise" Style="{DynamicResource pp_DefaultButtonBstrp}" Click="deleteData_Click" />
+                <Button x:Name="deleteProfile"  Grid.Column="1" Grid.Row="0" Content="Hesabı Sil" Tag="TrashMD" Style="{DynamicResource pp_DefaultButtonSend}" Click="deleteProfile_Click" />
+            </Grid>
+
+            <Label Content="! Bu işlemler kalıcı olduğunu unutmayınız " Style="{DynamicResource pp_settingsInfo}" Margin="0 10 0 0" />
+        </StackPanel>
+
+        <StackPanel Orientation="Vertical" VerticalAlignment="Center" Grid.Row="3"  Margin="10">
+            <TextBlock Text="Lisans / Künye"  Style="{DynamicResource pp_settingsHeader}" TextAlignment="Center" />
+            <Grid Margin="0 10 0 0">
+                <Grid.ColumnDefinitions>
+
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="32" />
+                </Grid.RowDefinitions>
+                <Button x:Name="qrsOpen" Grid.Column="0" Grid.Row="0" Content="Kullanım Şartları" Tag="CheckboxMD" Style="{DynamicResource pp_DefaultButtonSend}" Click="qrsOpen_Click" />
+                <Button x:Name="tagOpen" Grid.Column="1" Grid.Row="0" Content="Uygulama Künyesi" Tag="PricetagiOS" Style="{DynamicResource pp_DefaultButtonSend}" Click="tagOpen_Click" />
+
+            </Grid>
+
+
+        </StackPanel>
+
+    </Grid>
+</UserControl>

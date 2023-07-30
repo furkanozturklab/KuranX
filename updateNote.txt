@@ -5,6 +5,36 @@
 🧪 [Test]
 
 
+v 1.0.0
+
+
+v 0.7.8
+
+♻️ Tarihler ingilizce gösteriyordu türkçe olarak güncellendi.
+⚠️ Popup kapanınca oluşan bir hatalar düzeltildi.
+⚠️ Günlük hatırlatıcılarda bulunan bir sorun giderildi.
+🆕 Kullanıcı yardımı eklendi."Veritabanı güncellmesi gerekli".
+
+v 0.7.7
+
+♻️ Mail sistemi yeniden düzenlendi.
+♻️ Hatalar artık klasölerde toplanıyor.
+⚠️ Aramaya gittikten sonra geri dönüşte arama yapısında bir hata düzeltildi.
+
+v 0.7.6
+
+⚠️ Popup sürükleme hataları düzeltildi.
+🆕 Kullanıcı sözleşmesi artık ayarlar kısmından okuna biliyor.
+🆕 Artık güncelleme kontrolu çalışıyor.
+🆕 Program kuneyesi eklendi.
+
+v 0.7.3-> v 0.7.4 -> v 0.7.5
+
+⚠️ Popup sürükleme hataları.
+⚠️ Sure değişince takip ettiğin okuma durumu değişmiyordur. Düzeltildi.
+♻️ Arka plan performans işlemleri.
+🆕 Artık popuplar mosuse(Fare) ile hareket ettirile biliyor.
+
 v 0.7.2
 
 ⚠️ Ayetlerde hangi gösterim secili ise onun stilleri hatalı geliyordu.Düzeltildi.

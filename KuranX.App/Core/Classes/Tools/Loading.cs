@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Drawing.Imaging;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
@@ -19,38 +18,46 @@ namespace KuranX.App.Core.Classes.Tools
 
         public static async Task<bool> loadSync()
         {
-            List<Uri> loadUriList = new List<Uri>();
-
-            string[] controlConfingValues = new string[18] { "app_version", "app_exe", "app_id", "api_adress", "api_token", "post_apiName", "user_rememberMe", "user_pin", "user_autoLogin", "app_animationSpeed", "app_remiderTime", "app_remiderWaitTime", "app_remiderCount", "app_warningShowTime", "app_arabicFont", "app_arabicFontSize", "app_arabicFontExSize", "app_langues" };
-            for (int i = 0; i < 18; i++)
+            try
             {
+                List<Uri> loadUriList = new List<Uri>();
 
-                if (!await configControl(controlConfingValues[i]))
+                string[] controlConfingValues = new string[19] { "app_version", "app_exe", "app_id", "api_adress", "api_token", "post_apiName", "user_rememberMe", "user_pin", "user_autoLogin", "app_animationSpeed", "app_remiderTime", "app_remiderWaitTime", "app_remiderCount", "app_warningShowTime", "app_arabicFont", "app_arabicFontSize", "app_arabicFontExSize", "app_langues" , "app_write" };
+                for (int i = 0; i < 19; i++)
                 {
-                    Application.Current.Shutdown();
-                    return false;
+
+                    if (!await configControl(controlConfingValues[i]))
+                    {
+                        Application.Current.Shutdown();
+                        return false;
+                    }
+
                 }
 
+                loadFont(App.config.AppSettings.Settings["app_arabicFont"].Value);
+
+
+                loadUriList.Add(await loadLangues(App.config.AppSettings.Settings["app_langues"].Value));
+                await loadResource(loadUriList);
+
+                ResourceHelper.ArabicFontSize = double.Parse(App.config.AppSettings.Settings["app_arabicFontSize"].Value);
+                ResourceHelper.ArabicFontSizeExtended = double.Parse(App.config.AppSettings.Settings["app_arabicFontExSize"].Value);
+                ResourceHelper.ReadPanelColorsBrush = (SolidColorBrush)(new BrushConverter().ConvertFrom(App.config.AppSettings.Settings["app_readBackColor"].Value)!);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
             }
 
-            loadFont(App.config.AppSettings.Settings["app_arabicFont"].Value);
-
-
-            loadUriList.Add(await loadLangues(App.config.AppSettings.Settings["app_langues"].Value));
-            await loadResource(loadUriList);
-
-            ResourceHelper.ArabicFontSize = double.Parse(App.config.AppSettings.Settings["app_arabicFontSize"].Value);
-            ResourceHelper.ArabicFontSizeExtended = double.Parse(App.config.AppSettings.Settings["app_arabicFontExSize"].Value);
-            ResourceHelper.ReadPanelColorsBrush = (SolidColorBrush)(new BrushConverter().ConvertFrom(App.config.AppSettings.Settings["app_readBackColor"].Value)!);
-
-            return true;
 
 
 
         }
 
 
-        public async static Task loadResource(List<Uri> resource , string type = "")
+        public async static Task loadResource(List<Uri> resource, string type = "")
         {
             if (resource != null)
             {
@@ -58,7 +65,7 @@ namespace KuranX.App.Core.Classes.Tools
                 {
                     ResourceDictionary dictionary = new ResourceDictionary();
                     dictionary.Source = item;
-                    if(item.ToString().Contains("Langues"))
+                    if (item.ToString().Contains("Langues"))
                     {
                         App.resourceLang = (ResourceDictionary)Application.LoadComponent(item);
                         Debug.WriteLine($"item : {item}");

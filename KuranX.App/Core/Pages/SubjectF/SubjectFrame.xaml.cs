@@ -1,19 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-
-using System.Windows.Input;
 using System.Windows.Media;
-
 using KuranX.App.Core.Classes;
 using KuranX.App.Core.Classes.Helpers;
 using KuranX.App.Core.Classes.Tools;
@@ -31,6 +25,7 @@ namespace KuranX.App.Core.Pages.SubjectF
         private List<Subject> dSub = new List<Subject>();
         private Decimal totalcount = 0;
         private Task subjectframe, subjectprocess;
+        private string pp_selected;
         public DraggablePopupHelper drag;
 
 
@@ -72,7 +67,7 @@ namespace KuranX.App.Core.Pages.SubjectF
                 Tools.logWriter("Loading", ex);
                 return this;
             }
-       
+
 
         }
 
@@ -138,7 +133,7 @@ namespace KuranX.App.Core.Pages.SubjectF
                             sName.Text = item.subjectName;
 
                             var sCreated = (TextBlock)FindName("sbCreated" + i);
-                            sCreated.Text = item.created.ToString("D");
+                            sCreated.Text = item.created.ToString("D", new CultureInfo("tr-TR"));
 
                             var sBtn = (Button)FindName("sbBtn" + i);
                             sBtn.Uid = item.subjectId.ToString();
@@ -253,11 +248,11 @@ namespace KuranX.App.Core.Pages.SubjectF
 
                 Tools.errWrite($"[{DateTime.Now} popupClosed_Click ] -> SubjectFrame");
 
-               
+
 
                 var btntemp = sender as Button;
-                var popuptemp = (Popup)FindName(btntemp.Uid);
-                PopupHelpers.popupClosed(drag, popuptemp);
+                Popup popuptemp = (Popup)FindName(btntemp!.Uid);
+                PopupHelpers.popupClosed(popuptemp);
                 btntemp = null;
 
 
@@ -268,9 +263,9 @@ namespace KuranX.App.Core.Pages.SubjectF
             }
         }
 
-        
 
-       
+
+
 
         private void nextpageButton_Click(object sender, RoutedEventArgs e)
         {
@@ -316,7 +311,7 @@ namespace KuranX.App.Core.Pages.SubjectF
             {
                 Tools.errWrite($"[{DateTime.Now} addSubjectButton_Click ] -> SubjectFrame");
 
-                drag = new DraggablePopupHelper(popup_FolderSubjectPopupBorder, popup_FolderSubjectPopup);
+                PopupHelpers.load_drag(popup_FolderSubjectPopup);
                 popup_FolderSubjectPopup.IsOpen = true;
             }
             catch (Exception ex)
@@ -364,9 +359,9 @@ namespace KuranX.App.Core.Pages.SubjectF
             }
         }
 
-      
 
-   
+
+
 
         /* ---------------- Changed Func ---------------- */
 
@@ -414,5 +409,8 @@ namespace KuranX.App.Core.Pages.SubjectF
         }
 
         // ------------ Animation Func ------------ //
+
+
+
     }
 }

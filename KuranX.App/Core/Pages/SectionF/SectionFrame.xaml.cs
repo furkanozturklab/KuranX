@@ -1,38 +1,38 @@
-﻿using Google.Protobuf.Collections;
+﻿
 using KuranX.App.Core.Classes;
+using KuranX.App.Core.Classes.Helpers;
 using KuranX.App.Core.Classes.Tools;
-using Org.BouncyCastle.Asn1;
+
 using System;
-using System.Collections.Generic;
+
 using System.Diagnostics;
 using System.Linq;
-using System.Runtime.Intrinsics.X86;
-using System.Text;
+
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using System.Windows.Data;
-using System.Windows.Documents;
+
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
+
 using System.Windows.Navigation;
-using System.Windows.Shapes;
+
 
 namespace KuranX.App.Core.Pages.SectionF
 {
     /// <summary>
     /// Interaction logic for SectionFrame.xaml
     /// </summary>
-    public partial class SectionFrame : Page
+    public partial class SectionFrame : Page,Movebar
     {
 
         public int selectedSure = 0, last = 0, selectedSection = 0, clearNav = 1, currentP = 0, totalSection = 0, s;
         public string getLocation;
         private Task sectionframe, sectionprocess;
+        private DraggablePopupHelper drag;
+        private string pp_selected;
         public SectionFrame()
         {
             Tools.errWrite($"[{DateTime.Now} InitializeComponent ] -> SectionFrame");
@@ -307,6 +307,7 @@ namespace KuranX.App.Core.Pages.SectionF
                 var contentb = sender as Button;
                 textDesc.Text = contentb.Uid.ToString();
                 popupHeaderTextDesc.Text = loadHeader.Text + " Suresinin " + selectedSection + " Bölümünün Açıklaması";
+                PopupHelpers.load_drag(popup_descSectionPopup);
                 popup_descSectionPopup.IsOpen = true;
                 contentb = null;
             }
@@ -633,9 +634,8 @@ namespace KuranX.App.Core.Pages.SectionF
 
 
                 var btntemp = sender as Button;
-                var popuptemp = (Popup)FindName(btntemp.Uid);
-                popuptemp.IsOpen = false;
-                pp_moveBar.IsOpen = false;
+                Popup popuptemp = (Popup)FindName(btntemp!.Uid);
+                PopupHelpers.popupClosed(popuptemp, pp_moveBar);
 
 
                 btntemp = null;
@@ -682,6 +682,7 @@ namespace KuranX.App.Core.Pages.SectionF
                     }
                     else
                     {
+                        PopupHelpers.load_drag(popup_fastExitConfirm);
                         popup_fastExitConfirm.IsOpen = true;
                     }
                 }
@@ -723,6 +724,7 @@ namespace KuranX.App.Core.Pages.SectionF
             {
 
                 Tools.errWrite($"[{DateTime.Now} noteButton_Click ] -> SectionFrame");
+                PopupHelpers.load_drag(popup_Note);
                 popup_Note.IsOpen = true;
                 sectionframe = Task.Run(noteConnect);
             }
@@ -767,6 +769,7 @@ namespace KuranX.App.Core.Pages.SectionF
                                     noteName.Text = "";
                                     noteDetail.Text = "";
                                 }
+                                PopupHelpers.dispose_drag(popup_noteAddPopup);
                                 popup_noteAddPopup.IsOpen = false;
                             }
                             else
@@ -862,6 +865,7 @@ namespace KuranX.App.Core.Pages.SectionF
                 Tools.errWrite($"[{DateTime.Now} noteDetailPopup_Click ] -> SectionFrame");
                 var tmpbutton = sender as Button;
 
+                PopupHelpers.dispose_drag(popup_Note);
                 popup_Note.IsOpen = false;
                 App.secondFrame.Visibility = Visibility.Visible;
                 App.secondFrame.Content = App.navNoteItem.PageCall(int.Parse(tmpbutton.Uid), "SectionNote");
@@ -881,7 +885,7 @@ namespace KuranX.App.Core.Pages.SectionF
 
                 Tools.errWrite($"[{DateTime.Now} notesDetailPopup_Click ] -> SectionFrame");
                 var tmpbutton = sender as Button;
-
+                PopupHelpers.dispose_drag(popup_Note);
                 popup_Note.IsOpen = false;
                 popup_notesAllShowPopup.IsOpen = false;
                 App.secondFrame.Visibility = Visibility.Visible;
@@ -901,6 +905,7 @@ namespace KuranX.App.Core.Pages.SectionF
             {
 
                 Tools.errWrite($"[{DateTime.Now} noteAddButton_Click ] -> SectionFrame");
+                PopupHelpers.load_drag(popup_noteAddPopup);
                 popup_noteAddPopup.IsOpen = true;
                 noteConnectVerse.Text = loadHeader.Text + " > " + selectedSection;
                 noteType.Text = "Bölüm Notu";
@@ -918,7 +923,7 @@ namespace KuranX.App.Core.Pages.SectionF
 
                 Tools.errWrite($"[{DateTime.Now} allShowNoteButton_Click ] -> SectionFrame");
 
-
+                PopupHelpers.load_drag(popup_notesAllShowPopup);
                 popup_notesAllShowPopup.IsOpen = true;
                 using (var entitydb = new AyetContext())
                 {
@@ -1010,95 +1015,25 @@ namespace KuranX.App.Core.Pages.SectionF
         public void popuverMove_Click(object sender, RoutedEventArgs e)
         {
 
-            Tools.errWrite($"[{DateTime.Now} popuverMove_Click ] -> SectionFrame");
+            Tools.errWrite($"[{DateTime.Now} popuverMove_Click] -> NoteFrame");
             var btn = sender as Button;
-            ppMoveConfing((string)btn.Uid);
-            moveControlName.Text = (string)btn.Content;
+            pp_selected = (string)btn.Uid;
+            moveBarController.HeaderText = btn.Content.ToString()!;
             pp_moveBar.IsOpen = true;
+
         }
 
-        public void ppMoveActionOfset_Click(object sender, RoutedEventArgs e)
+        public Popup getPopupMove()
+        {
+            return pp_moveBar;
+        }
+
+        public Popup getPopupBase()
         {
 
-            Tools.errWrite($"[{DateTime.Now} ppMoveActionOfset_Click ] -> SectionFrame");
-
-
-            var btntemp = sender as Button;
-            var movePP = (Popup)FindName((string)btntemp.Content);
-
-            switch (btntemp.Uid.ToString())
-            {
-                case "Left":
-                    movePP.HorizontalOffset -= 50;
-                    break;
-
-                case "Top":
-                    movePP.VerticalOffset -= 50;
-                    break;
-
-                case "Bottom":
-                    movePP.VerticalOffset += 50;
-                    break;
-
-                case "Right":
-                    movePP.HorizontalOffset += 50;
-                    break;
-
-                case "UpLeft":
-                    movePP.Placement = PlacementMode.Absolute;
-                    movePP.VerticalOffset = 0;
-                    movePP.HorizontalOffset = 0;
-                    break;
-
-                case "Reset":
-                    movePP.Placement = PlacementMode.Center;
-                    movePP.VerticalOffset = 0;
-                    movePP.HorizontalOffset = 0;
-                    movePP.Child.Opacity = 1;
-                    movePP.Child.IsEnabled = true;
-                    break;
-
-                case "Close":
-                    pp_moveBar.IsOpen = false;
-                    movePP.Child.Opacity = 1;
-                    movePP.Child.IsEnabled = true;
-                    break;
-            }
+            return (Popup)FindName(pp_selected);
         }
 
-        public void ppMoveActionOpacity_Click(object sender, RoutedEventArgs e)
-        {
 
-            Tools.errWrite($"[{DateTime.Now} ppMoveActionOpacity_Click ] -> SectionFrame");
-
-
-            var btntemp = sender as Button;
-            var movePP = (Popup)FindName((string)btntemp.Content);
-
-            switch (btntemp.Uid.ToString())
-            {
-                case "Up":
-                    movePP.Child.Opacity = 1;
-                    movePP.Child.IsEnabled = true;
-                    break;
-
-                case "Down":
-                    movePP.Child.Opacity = 0.1;
-                    movePP.Child.IsEnabled = false;
-                    break;
-            }
-        }
-
-        public void ppMoveConfing(string ppmove)
-        {
-
-            Tools.errWrite($"[{DateTime.Now} ppMoveConfing ] -> SectionFrame");
-
-            for (int i = 1; i < 10; i++)
-            {
-                var btn = FindName("pp_M" + i) as Button;
-                btn.Content = ppmove;
-            }
-        }
     }
 }

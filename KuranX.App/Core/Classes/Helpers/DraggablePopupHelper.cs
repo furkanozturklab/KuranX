@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Controls.Primitives;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows;
-using System.Diagnostics;
+
 
 namespace KuranX.App.Core.Classes.Helpers
 {
@@ -19,19 +15,20 @@ namespace KuranX.App.Core.Classes.Helpers
         private Point lastMousePosition;
         private Popup actionPopup;
         private Border border;
-
+  
       
 
       
-        public DraggablePopupHelper(Border selectBorder, Popup selectPopup)
+        public DraggablePopupHelper( Popup selectPopup)
         {
-            border = selectBorder;
+            border = (Border)selectPopup.Child;
             border.MouseLeftButtonDown += Border_MouseLeftButtonDown;
             border.MouseLeftButtonUp += Border_MouseLeftButtonUp;
-            border.MouseMove += Border_MouseMove;
+            border.MouseMove += Border_MouseMove;   
             actionPopup = selectPopup;
+            actionPopup.Opacity = 1;
 
-            Debug.WriteLine("inizilazie draggble popup");
+            
         }
 
 
@@ -40,17 +37,23 @@ namespace KuranX.App.Core.Classes.Helpers
             border.MouseLeftButtonDown -= Border_MouseLeftButtonDown;
             border.MouseLeftButtonUp -= Border_MouseLeftButtonUp;
             border.MouseMove -= Border_MouseMove;
-            actionPopup.HorizontalOffset = 0;
-            actionPopup.VerticalOffset = 0;
+            //actionPopup.Opacity = 0;
+            //actionPopup.HorizontalOffset = 0;
+            //actionPopup.VerticalOffset = 0;
    
 
         }
 
+        public Popup getPopup()
+        {
+            if (actionPopup != null) return actionPopup;
+            else return null;
+        }
 
 
         private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            Debug.WriteLine("down button");
+
             isDragging = true;
             var border = sender as Border;
             lastMousePosition = e.GetPosition(border);

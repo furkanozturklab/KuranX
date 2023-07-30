@@ -1,36 +1,35 @@
 ﻿using KuranX.App.Core.Classes;
+using KuranX.App.Core.Classes.Helpers;
 using KuranX.App.Core.Classes.Tools;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
-using System.Security.Cryptography.Pkcs;
-using System.Text;
+
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using System.Windows.Data;
-using System.Windows.Documents;
+
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
+
 using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Windows.Threading;
+
 
 namespace KuranX.App.Core.Pages.SubjectF
 {
     /// <summary>
     /// Interaction logic for SubjectItem.xaml
     /// </summary>
-    public partial class SubjectItem : Page
+    public partial class SubjectItem : Page, Movebar
     {
         public int sSureId, sverseId, verseId, subId, subItemsId;
         private string intelWriter = "";
         private Task subjectitem, subjectprocess;
+        private string pp_selected;
+        public DraggablePopupHelper drag;
         public SubjectItem()
         {
             try
@@ -106,7 +105,7 @@ namespace KuranX.App.Core.Pages.SubjectF
                     {
                         loadBgColor.Background = new BrushConverter().ConvertFrom(dSub.subjectColor) as SolidColorBrush;
                         loadHeader.Text = dSub.subjectName;
-                        loadCreated.Text = dSub.created.ToString("D");
+                        loadCreated.Text = dSub.created.ToString("D", new CultureInfo("tr-TR"));
                         loadBackHeader.Text = $"{dSure.name} Suresinin {VerseId} Ayeti";
 
                         App.mainScreen.navigationWriter("subject", loadHeader.Text + "," + loadBackHeader.Text);
@@ -321,7 +320,7 @@ namespace KuranX.App.Core.Pages.SubjectF
             {
                 Tools.errWrite($"[{DateTime.Now} wordText_Click ] -> SubjectItem");
 
-
+                PopupHelpers.load_drag(popup_Words);
                 popup_Words.IsOpen = true;
 
                 using (var entitydb = new AyetContext())
@@ -371,11 +370,14 @@ namespace KuranX.App.Core.Pages.SubjectF
                 Tools.errWrite($"[{DateTime.Now} popupClosed_Click ] -> SubjectItem");
 
 
-                var btntemp = sender as Button;
-                var popuptemp = (Popup)FindName(btntemp.Uid);
-                popuptemp.IsOpen = false;
+            
 
+                var btntemp = sender as Button;
+                Popup popuptemp = (Popup)FindName(btntemp!.Uid);
+                PopupHelpers.popupClosed(popuptemp, pp_moveBar);
                 btntemp = null;
+
+                
             }
             catch (Exception ex)
             {
@@ -404,7 +406,7 @@ namespace KuranX.App.Core.Pages.SubjectF
             {
                 Tools.errWrite($"[{DateTime.Now} noteButton_Click ] -> SubjectItem");
 
-
+                PopupHelpers.load_drag(popup_Note);
                 popup_Note.IsOpen = true;
                 subjectitem = Task.Run(() => noteConnect());
             }
@@ -421,7 +423,7 @@ namespace KuranX.App.Core.Pages.SubjectF
 
                 Tools.errWrite($"[{DateTime.Now} noteAddButton_Click ] -> SubjectItem");
 
-
+                PopupHelpers.load_drag(popup_noteAddPopup);
                 popup_noteAddPopup.IsOpen = true;
                 noteConnectVerse.Text = loadBackHeader.Text;
                 noteType.Text = "Konu Notu";
@@ -443,6 +445,7 @@ namespace KuranX.App.Core.Pages.SubjectF
 
 
                 App.secondFrame.Visibility = Visibility.Visible;
+                PopupHelpers.dispose_drag(popup_Note);
                 popup_Note.IsOpen = false;
                 App.secondFrame.Content = App.navNoteItem.PageCall(int.Parse(tmpbutton.Uid), "subjectDetail");
                 tmpbutton = null;
@@ -513,6 +516,7 @@ namespace KuranX.App.Core.Pages.SubjectF
                                     noteName.Text = "";
                                     noteDetail.Text = "";
                                 }
+                                PopupHelpers.dispose_drag(popup_noteAddPopup);
                                 popup_noteAddPopup.IsOpen = false;
                             }
                         }
@@ -532,10 +536,10 @@ namespace KuranX.App.Core.Pages.SubjectF
                 Tools.errWrite($"[{DateTime.Now} allShowNoteButton_Click ] -> SubjectItem");
 
 
-
+                PopupHelpers.load_drag(popup_notesAllShowPopup);
                 popup_notesAllShowPopup.IsOpen = true;
 
-             
+
 
                 using (var entitydb = new AyetContext())
                 {
@@ -725,65 +729,22 @@ namespace KuranX.App.Core.Pages.SubjectF
 
 
             var btn = sender as Button;
-            ppMoveConfing((string)btn.Uid);
-            moveControlName.Text = (string)btn.Content;
+            pp_selected = (string)btn.Uid;
+            moveBarController.HeaderText = btn.Content.ToString()!;
             pp_moveBar.IsOpen = true;
         }
 
-        public void ppMoveActionOfset_Click(object sender, RoutedEventArgs e)
+        public Popup getPopupMove()
         {
-
-            Tools.errWrite($"[{DateTime.Now} ppMoveActionOfset_Click ] -> SubjectItem");
-
-            var btntemp = sender as Button;
-            var movePP = (Popup)FindName((string)btntemp.Content);
-
-            switch (btntemp.Uid.ToString())
-            {
-                case "Left":
-                    movePP.HorizontalOffset -= 50;
-                    break;
-
-                case "Top":
-                    movePP.VerticalOffset -= 50;
-                    break;
-
-                case "Bottom":
-                    movePP.VerticalOffset += 50;
-                    break;
-
-                case "Right":
-                    movePP.HorizontalOffset += 50;
-                    break;
-
-                case "UpLeft":
-                    movePP.Placement = PlacementMode.Absolute;
-                    movePP.VerticalOffset = 0;
-                    movePP.HorizontalOffset = 0;
-                    break;
-
-                case "Reset":
-                    movePP.Placement = PlacementMode.Center;
-                    movePP.VerticalOffset = 0;
-                    movePP.HorizontalOffset = 0;
-                    break;
-
-                case "Close":
-                    pp_moveBar.IsOpen = false;
-                    break;
-            }
+            return pp_moveBar;
         }
 
-        public void ppMoveConfing(string ppmove)
+        public Popup getPopupBase()
         {
 
-            Tools.errWrite($"[{DateTime.Now} ppMoveConfing ] -> SubjectItem");
-
-            for (int i = 1; i < 8; i++)
-            {
-                var btn = FindName("pp_M" + i) as Button;
-                btn.Content = ppmove;
-            }
+            return (Popup)FindName(pp_selected);
         }
+
+
     }
 }

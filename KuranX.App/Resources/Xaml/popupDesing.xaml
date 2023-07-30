@@ -229,6 +229,28 @@
         </Style.Triggers>
     </Style>
 
+    <Style x:Key="tag_head" TargetType="Label">
+
+        <Setter Property="FontFamily" Value="{DynamicResource PoppinsSemiBold}" />
+        <Setter Property="Foreground" Value="#1C1E2F" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="HorizontalAlignment" Value="Right"/>
+        <Setter Property="Height" Value="30"/>
+
+    </Style>
+
+    <Style x:Key="tag_detail" TargetType="Label">
+
+        <Setter Property="FontFamily" Value="{DynamicResource PoppinsMedium}" />
+        <Setter Property="Foreground" Value="#383C41" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+        <Setter Property="Height" Value="30"/>
+
+    </Style>
+
     <!-- Label -->
 
     <!-- Button -->

@@ -1,10 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using KuranX.App.Core.Classes;
+using KuranX.App.Core.Classes.Helpers;
+using KuranX.App.Core.Classes.Tools;
+using KuranX.App.Core.Pages;
+using KuranX.App.Core.UC.Settings;
+using System;
+
 using System.Configuration;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,18 +17,15 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Navigation;
-using KuranX.App.Core.Classes;
-using KuranX.App.Core.Classes.Tools;
-using KuranX.App.Core.Pages;
-using KuranX.App.Core.Pages.SectionF;
-using KuranX.App.Core.UI.Settings;
+
+//using KuranX.App.Core.UC.Settings;
 
 namespace KuranX.App.Core.Windows
 {
     /// <summary>
     /// Interaction logic for homeScreen.xaml
     /// </summary>
-    public partial class homeScreen : Window
+    public partial class homeScreen : Window, Movebar
     {
         private CheckBox? navCheckBox;
         private SystemUI systemUIController;
@@ -35,17 +35,18 @@ namespace KuranX.App.Core.Windows
         public ChangeButton? changeButton;
         private string SettingsSave;
         private bool taskstatus = true;
+        private string pp_selected;
 
         public homeScreen()
         {
             try
             {
                 InitializeComponent();
+                if (App.config.AppSettings.Settings["app_write"].Value == "onH3n03o.58!982adsa") adminPanelOpen.Visibility = Visibility.Visible; 
+                else adminPanelOpen.Visibility = Visibility.Collapsed;
                 App.mainframe = (Frame)this.FindName("homeFrame");
                 App.secondFrame = (Frame)this.FindName("secondFrame");
                 AppVersion.Text = "Version " + App.config.AppSettings.Settings["app_version"].Value;
-
-
             }
             catch (Exception ex)
             {
@@ -59,23 +60,15 @@ namespace KuranX.App.Core.Windows
         {
             try
             {
-
                 if (SystemParameters.WorkArea.Width <= 1366)
                 {
-
-
-
                     if (MessageBox.Show("Ekran Boyutunuz programı tüm fonksiyonları ile kullanmak için cok düşük lütfen programı kullanmaya devam ederken full ekranda çalışınız. Büyütmek istesermisiniz.",
                     "Configuration",
                     MessageBoxButton.YesNo,
                     MessageBoxImage.Question) == MessageBoxResult.Yes)
                     {
-
-
                         fullscreenbutton.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
                     }
-
-
                 }
 
                 // BAŞARILI CALIŞAN
@@ -87,14 +80,12 @@ namespace KuranX.App.Core.Windows
 
                 App.mainTask.Wait();
 
-
                 Tools.errWrite($"[Session Stard - {DateTime.Now}]");
 
                 if (taskstatus) App.mainTask = Task.Run(() => tasksCycler_Func());
                 App.mainframe.Content = App.navHomeFrame.PageCall();
 
                 homescreengrid.IsEnabled = true;
-
             }
             catch (Exception ex)
             {
@@ -104,7 +95,6 @@ namespace KuranX.App.Core.Windows
 
         private void homeFrame_Navigated(object sender, NavigationEventArgs e)
         {
-
         }
 
         // ------------ Load Func  ------------ //
@@ -153,9 +143,6 @@ namespace KuranX.App.Core.Windows
                                 break;
 
                             case "Gün":
-
-
-
 
                                 if (item.lastAction.AddDays(1) <= DateTime.Now)
                                 {
@@ -237,8 +224,6 @@ namespace KuranX.App.Core.Windows
 
                         foreach (var item in TasksLoad)
                         {
-
-
                             // 5sn sonra sıradaki göreve geç
                             var sleepTime = int.Parse(App.config.AppSettings.Settings["app_remiderWaitTime"].Value) * 1000;
                             Thread.Sleep(sleepTime); // 5 sn // 10 sn // 30 sn // 60 sn // 120 sn // 240 sn // Sırdaki göreve gecme süresi
@@ -355,8 +340,6 @@ namespace KuranX.App.Core.Windows
                             baseNavigation.Tag = "/resources/images/icon/subject_r.png";
                             break;
 
-
-
                         case "notes":
                             baseNavigation.Tag = "/resources/images/icon/notes_r.png";
                             break;
@@ -407,8 +390,6 @@ namespace KuranX.App.Core.Windows
         {
             try
             {
-
-
                 if (this.Dispatcher.Invoke(() => App.mainframe.Content.ToString().Split('.').Last() == "verseFrame"))
                 {
                     // eğer verseFrame veya sectionFrame de isem çalış
@@ -459,7 +440,6 @@ namespace KuranX.App.Core.Windows
                                 });
                                 break;
 
-
                             case "Notlar":
                                 this.Dispatcher.Invoke(() =>
                                 {
@@ -477,7 +457,6 @@ namespace KuranX.App.Core.Windows
                                     App.mainframe.Content = App.navRemiderPage.PageCall();
                                 });
                                 break;
-
 
                             case "Kullanıcı Yardımı":
                                 this.Dispatcher.Invoke(() =>
@@ -500,7 +479,11 @@ namespace KuranX.App.Core.Windows
                     }
                     else
                     {
-                        this.Dispatcher.Invoke(() => popup_fastExitConfirm.IsOpen = true);
+                        this.Dispatcher.Invoke(() =>
+                        {
+                            PopupHelpers.load_drag(popup_fastExitConfirm);
+                            popup_fastExitConfirm.IsOpen = true;
+                        });
                     }
 
                     // Eğer işaretlenmemiş ise popup aç
@@ -555,7 +538,6 @@ namespace KuranX.App.Core.Windows
                                 });
                                 break;
 
-
                             case "Notlar":
                                 this.Dispatcher.Invoke(() =>
                                 {
@@ -573,7 +555,6 @@ namespace KuranX.App.Core.Windows
                                     App.mainframe.Content = App.navRemiderPage.PageCall();
                                 });
                                 break;
-
 
                             case "Kullanıcı Yardımı":
                                 this.Dispatcher.Invoke(() =>
@@ -596,7 +577,7 @@ namespace KuranX.App.Core.Windows
                     }
                     else
                     {
-                        this.Dispatcher.Invoke(() => popup_fastExitConfirm.IsOpen = true);
+                        this.Dispatcher.Invoke(() => { PopupHelpers.load_drag(popup_fastExitConfirm); popup_fastExitConfirm.IsOpen = true; });
                     }
 
                     // Eğer işaretlenmemiş ise popup aç
@@ -635,7 +616,6 @@ namespace KuranX.App.Core.Windows
                             });
                             break;
 
-
                         case "Notlar":
                             this.Dispatcher.Invoke(() =>
                             {
@@ -653,7 +633,6 @@ namespace KuranX.App.Core.Windows
                                 App.mainframe.Content = App.navRemiderPage.PageCall();
                             });
                             break;
-
 
                         case "Kullanıcı Yardımı":
                             this.Dispatcher.Invoke(() =>
@@ -676,18 +655,15 @@ namespace KuranX.App.Core.Windows
                     Thread.Sleep(int.Parse(App.config.AppSettings.Settings["app_animationSpeed"].Value));
                 }
 
-
                 Thread.Sleep(200);
 
                 this.Dispatcher.Invoke(() =>
                 {
                     loadinGifContent.Visibility = Visibility.Hidden;
                     rightPanel.Visibility = Visibility.Visible;
-
                 });
 
                 GC.Collect();
-
             }
             catch (Exception ex)
             {
@@ -784,8 +760,6 @@ namespace KuranX.App.Core.Windows
 
                 App.loadTask = Task.Run(() => menuTask(navCheckBox));
                 Tools.errWrite($"[{DateTime.Now} Menu Click] -> {navCheckBox.Content}");
-
-
             }
             catch (Exception ex)
             {
@@ -799,8 +773,6 @@ namespace KuranX.App.Core.Windows
             {
                 App.mainframe.Content = new TestFrame();
                 // Tools.errWrite($"[{DateTime.Now} Menu Click] -> {navCheckBox.Content}");
-
-
             }
             catch (Exception ex)
             {
@@ -938,9 +910,8 @@ namespace KuranX.App.Core.Windows
         {
             try
             {
+                PopupHelpers.dispose_drag(popup_fastExitConfirm);
                 popup_fastExitConfirm.IsOpen = false;
-
-
 
                 switch (navCheckBox.Content)
                 {
@@ -975,7 +946,6 @@ namespace KuranX.App.Core.Windows
                         });
                         break;
 
-
                     case "Notlar":
                         this.Dispatcher.Invoke(() =>
                         {
@@ -995,7 +965,6 @@ namespace KuranX.App.Core.Windows
                             App.mainframe.Content = App.navRemiderPage.PageCall();
                         });
                         break;
-
 
                     case "Kullanıcı Yardımı":
                         this.Dispatcher.Invoke(() =>
@@ -1036,12 +1005,12 @@ namespace KuranX.App.Core.Windows
             try
             {
                 var btntemp = sender as Button;
-                var popuptemp = (Popup)FindName(btntemp.Uid);
-                popuptemp.IsOpen = false;
-                pp_moveBar.IsOpen = false;
+                Popup popuptemp = (Popup)FindName(btntemp!.Uid);
+                PopupHelpers.popupClosed(popuptemp, pp_moveBar);
+                btntemp = null;
                 errDetail.Text = "";
                 homescreengrid.IsEnabled = true;
-                btntemp = null;
+
             }
             catch (Exception ex)
             {
@@ -1056,6 +1025,7 @@ namespace KuranX.App.Core.Windows
                 this.Dispatcher.Invoke(() =>
                 {
                     App.loadTask = Task.Run(() => loadProfile());
+                    PopupHelpers.load_drag(popup_profileMain);
                     popup_profileMain.IsOpen = true;
                 });
             }
@@ -1065,19 +1035,14 @@ namespace KuranX.App.Core.Windows
             }
         }
 
-
-
-
         // ------------ Click Func  ------------  //
 
         public void alertFunc(string header, string detail, int timespan)
         {
             try
             {
-
                 this.Dispatcher.Invoke(() =>
                 {
-
                     alertPopupHeader.Text = header;
                     alertPopupDetail.Text = detail;
                     alph.IsOpen = true;
@@ -1089,7 +1054,6 @@ namespace KuranX.App.Core.Windows
                 {
                     alph.IsOpen = false;
                     App.timeSpan.Stop();
-
                 };
             }
             catch (Exception ex)
@@ -1104,7 +1068,6 @@ namespace KuranX.App.Core.Windows
             {
                 this.Dispatcher.Invoke(() =>
                 {
-
                     successPopupHeader.Text = header;
                     successPopupDetail.Text = detail;
                     scph.IsOpen = true;
@@ -1115,7 +1078,6 @@ namespace KuranX.App.Core.Windows
                 {
                     scph.IsOpen = false;
                     App.timeSpan.Stop();
-
                 };
             }
             catch (Exception ex)
@@ -1130,7 +1092,6 @@ namespace KuranX.App.Core.Windows
             {
                 this.Dispatcher.Invoke(() =>
                 {
-
                     infoPopupHeader.Text = header;
                     infoPopupDetail.Text = detail;
                     inph.IsOpen = true;
@@ -1141,7 +1102,6 @@ namespace KuranX.App.Core.Windows
                 {
                     inph.IsOpen = false;
                     App.timeSpan.Stop();
-
                 };
             }
             catch (Exception ex)
@@ -1310,7 +1270,6 @@ namespace KuranX.App.Core.Windows
         {
             try
             {
-
                 Tools.errWrite($"[{DateTime.Now} SaveProfile] -> Profil saved");
                 if (IsValidEmail(this.Dispatcher.Invoke(() => userEmail.Text)))
                 {
@@ -1440,6 +1399,7 @@ namespace KuranX.App.Core.Windows
                         pp_profileImageBrush.ImageSource = (ImageSource)FindResource(btntemp.Tag);
                         App.mainScreen.hmwd_profileImageBrush.ImageSource = (ImageSource)FindResource(btntemp.Tag);
                         App.mainScreen.succsessFunc("İşlem Başarılı", "Profil resminiz başarılı bir sekilde güncellenmiştir.", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
+                        PopupHelpers.dispose_drag(popup_ErrOpenPopup);
                         popup_editImage.IsOpen = false;
                     });
                 }
@@ -1467,6 +1427,7 @@ namespace KuranX.App.Core.Windows
         {
             try
             {
+                PopupHelpers.load_drag(popup_editImage);
                 popup_editImage.IsOpen = true;
             }
             catch (Exception ex)
@@ -1487,16 +1448,19 @@ namespace KuranX.App.Core.Windows
                     SettingsSave = newContent;
                     loadUserControll.Children.Add(systemUIController);
                     break;
+
                 case "Accessibility":
                     accessibilityUIController = new AccessibilityUI();
                     SettingsSave = newContent;
                     loadUserControll.Children.Add(accessibilityUIController);
                     break;
+
                 case "Bell":
                     remiderUIController = new RemiderUI();
                     SettingsSave = newContent;
                     loadUserControll.Children.Add(remiderUIController);
                     break;
+
                 case "Repeat":
                     otherUIController = new OtherUI();
                     SettingsSave = newContent;
@@ -1507,25 +1471,24 @@ namespace KuranX.App.Core.Windows
 
         private void save_settings(object sender, RoutedEventArgs e)
         {
-
             switch (SettingsSave)
             {
                 case "SettingsAlt":
                     if (systemUIController.saveAction()) App.mainScreen.succsessFunc("İşlem Başarılı", "Sistem ayarlarınız güncellendi", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
                     else App.mainScreen.alertFunc("İşlem Başarısız", "Sistem ayarlarınız güncellenemedi", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
                     break;
+
                 case "Accessibility":
                     if (accessibilityUIController.saveAction()) App.mainScreen.succsessFunc("İşlem Başarılı", "Erişebilirlik ayarlarınız güncellendi", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
                     else App.mainScreen.alertFunc("İşlem Başarısız", "Erişebilirlik ayarlarınız güncellenemedi", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
                     break;
+
                 case "Bell":
                     if (remiderUIController.saveAction()) App.mainScreen.succsessFunc("İşlem Başarılı", "Hatırlatıcı ayarlarınız güncellendi", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
                     else App.mainScreen.alertFunc("İşlem Başarısız", "Hatırlatıcı ayarların güncellenemedi", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
                     break;
             }
-
         }
-
 
         private void settings_Click(object sender, RoutedEventArgs e)
         {
@@ -1540,6 +1503,7 @@ namespace KuranX.App.Core.Windows
                 ch.chk3.IsChecked = false;
                 ch.chk4.IsChecked = false;
 
+                PopupHelpers.load_drag(popup_settingsPage);
                 popup_settingsPage.IsOpen = true;
                 // Settings açma paneli
             }
@@ -1549,14 +1513,13 @@ namespace KuranX.App.Core.Windows
             }
         }
 
-
-
         // ------------ Contact ----------------- //
 
         private void contact_Click(object sender, RoutedEventArgs e)
         {
             try
             {
+                PopupHelpers.load_drag(popup_ErrOpenPopup);
                 popup_Contact.IsOpen = true;
                 email.Text = userEmail.Text;
                 firstName.Text = userName.Text + " " + userLastName.Text;
@@ -1617,24 +1580,15 @@ namespace KuranX.App.Core.Windows
                             {
                                 sendContact.IsEnabled = false;
                                 closeContact.IsEnabled = false;
-                                var messageBody = "<b>İsim Soyisim :</b> " + firstName.Text + "<br/>" + "<b>İletişim Maili :</b> " + email.Text + "<br/>" + "<b>Platform : </b> Bilgisayar" + "<br/>" + " <b>Mesaj : </b>" + "<br/> <p>" + note.Text + "</p>";
+                                var messageBody = "<b>İsim Soyisim :</b> " + firstName.Text + "<br/>" + "<b>İletişim Maili :</b> " + email.Text + "<br/>" + "<b>Platform : </b> Bilgisayar" + "<br/>"+ "<b>Gönderme zamanı : </b>"+ DateTime.Now + "<br/>" + " <b>Mesaj : </b>" + "<br/> <p>" + note.Text + "</p>";
                                 sendContact.IsEnabled = false;
-                                var returnBool = false;
-                                App.loadTask = Task.Run(() => returnBool = Tools.sendMail("Kuransunettüllah Destek", messageBody));
-                                await App.loadTask;
-
-                                if (returnBool)
-                                {
-                                    popup_Contact.IsOpen = false;
-                                    sendContact.IsEnabled = true;
-                                    closeContact.IsEnabled = true;
-                                    note.Text = "";
-                                }
-                                else
-                                {
-                                    sendContact.IsEnabled = true;
-                                    closeContact.IsEnabled = true;
-                                }
+                           
+                                await Task.Run(async () => await Tools.sendMail("Kuransunettullah Contact", messageBody,"Contact"));
+                                PopupHelpers.dispose_drag(popup_ErrOpenPopup);
+                                popup_Contact.IsOpen = false;
+                                sendContact.IsEnabled = true;
+                                closeContact.IsEnabled = true;
+                                note.Text = "";
                             }
                             else
                             {
@@ -1668,163 +1622,56 @@ namespace KuranX.App.Core.Windows
 
         public void popuverMove_Click(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                var btn = sender as Button;
-                ppMoveConfing((string)btn.Uid);
-                moveControlName.Text = (string)btn.Content;
-                pp_moveBar.IsOpen = true;
-            }
-            catch (Exception ex)
-            {
-                Tools.logWriter("Other", ex);
-            }
+            Tools.errWrite($"[{DateTime.Now} popuverMove_Click]");
+            var btn = sender as Button;
+            pp_selected = (string)btn.Uid;
+            moveBarController.HeaderText = btn.Content.ToString()!;
+            pp_moveBar.IsOpen = true;
         }
 
-        public void ppMoveActionOfset_Click(object sender, RoutedEventArgs e)
+        public Popup getPopupMove()
         {
-            try
-            {
-                var btntemp = sender as Button;
-                var movePP = (Popup)FindName((string)btntemp.Content);
-
-                switch (btntemp.Uid.ToString())
-                {
-                    case "Left":
-                        movePP.HorizontalOffset -= 50;
-                        break;
-
-                    case "Top":
-                        movePP.VerticalOffset -= 50;
-                        break;
-
-                    case "Bottom":
-                        movePP.VerticalOffset += 50;
-                        break;
-
-                    case "Right":
-                        movePP.HorizontalOffset += 50;
-                        break;
-
-                    case "UpLeft":
-                        movePP.Placement = PlacementMode.Absolute;
-                        movePP.VerticalOffset = 0;
-                        movePP.HorizontalOffset = 0;
-                        break;
-
-                    case "Reset":
-                        movePP.Placement = PlacementMode.Center;
-                        movePP.VerticalOffset = 0;
-                        movePP.HorizontalOffset = 0;
-                        movePP.Child.Opacity = 1;
-                        movePP.Child.IsEnabled = true;
-                        break;
-
-                    case "Close":
-                        pp_moveBar.IsOpen = false;
-                        movePP.Child.Opacity = 1;
-                        movePP.Child.IsEnabled = true;
-                        break;
-                }
-            }
-            catch (Exception ex)
-            {
-                Tools.logWriter("Other", ex);
-            }
+            return pp_moveBar;
         }
 
-        public void ppMoveActionOpacity_Click(object sender, RoutedEventArgs e)
+        public Popup getPopupBase()
         {
-            var btntemp = sender as Button;
-            var movePP = (Popup)FindName((string)btntemp.Content);
-
-            switch (btntemp.Uid.ToString())
-            {
-                case "Up":
-                    movePP.Child.Opacity = 1;
-                    movePP.Child.IsEnabled = true;
-                    break;
-
-                case "Down":
-                    movePP.Child.Opacity = 0.1;
-                    movePP.Child.IsEnabled = false;
-                    break;
-            }
-        }
-
-        public void ppMoveConfing(string ppmove)
-        {
-            try
-            {
-                for (int i = 1; i < 10; i++)
-                {
-                    var btn = FindName("pp_M" + i) as Button;
-                    btn.Content = ppmove;
-                }
-            }
-            catch (Exception ex)
-            {
-                Tools.logWriter("Other", ex);
-            }
+            return (Popup)FindName(pp_selected);
         }
 
         private void appErr_Click(object sender, RoutedEventArgs e)
         {
-
-
             errCode.Text = DateTime.Now.ToString().Replace(".", "").Replace(" ", "_").Replace(":", "").Replace("/", "") + "_" + userName.Text + userLastName.Text;
             popup_ErrOpenPopup.IsOpen = true;
-
         }
-
 
         private async void appErrSend_Click(object sender, RoutedEventArgs e)
         {
-
             try
             {
                 if (errDetail.Text.Length >= 3)
                 {
-
-
-
-                    var postingdata = new Dictionary<string, string>
-                    {
-                            { App.config.AppSettings.Settings["api_tokenName"].Value, App.config.AppSettings.Settings["api_token"].Value},
-                            { "post_projectid", App.config.AppSettings.Settings["application_id"].Value },
-                            { "post_action", "POST" },
-                            { "post_type", "AddErr" },
-                            { "post_fileName",errCode.Text },
-                            { "post_projectId", "3" },
-                            { "post_date", DateTime.Now.ToString() },
-                            { "post_errDetail", errDetail.Text },
-                            { "post_code",   errCode.Text },
-                            { "post_location",   string.Format("{0}/{1}", "ftp://furkanozturklab.com/projects/kuranx/err", "kuranx_" + errCode.Text + ".txt") }
-
-                    };
-
-                    // App.loadTask = Task.Run(() => App.apiPostRun(postingdata, "AddError"));
-                    await App.loadTask;
-
-
-
-                    var messageBody = $"[{DateTime.Now}] -> Error Code : {errCode.Text} <br/> Hata Açıklaması : {errDetail.Text}";
-                    App.loadTask = Task.Run(() => Tools.sendMailErr("Kuransunettüllah Destek", messageBody));
-
+                    var messageBody = $"<b>[{DateTime.Now}] -> Error Code :</b> {errCode.Text} <br/>  <b> Hata Açıklaması :</b> {errDetail.Text}";
+                    feedbackPopupButton.IsEnabled = false;
+                    feedbackPopupClose.IsEnabled = false;
+                    feedbackPopupButton.Tag ="CloudUploadMD";
+                    await Task.Run(() => Tools.sendMail("Kuransunettullah Error", messageBody, "Error" , this.Dispatcher.Invoke(() => errCode.Text)));
+                    PopupHelpers.dispose_drag(popup_ErrOpenPopup);
                     popup_ErrOpenPopup.IsOpen = false;
+                    feedbackPopupButton.Tag = "SendiOS";
+                    feedbackPopupButton.IsEnabled = true;
+                    feedbackPopupClose.IsEnabled = true;
+                    errDetail.Text = ""; 
+                }
+                else
+                {
 
-                    errDetail.Text = "";
                 }
             }
             catch (Exception ex)
             {
-
-                Tools.logWriter("FTP", ex);
+                Tools.logWriter("Err Send", ex);
             }
-
-
         }
-
-
     }
 }

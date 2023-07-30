@@ -1,19 +1,13 @@
 ﻿<Page x:Class="KuranX.App.Core.Pages.SectionF.SectionFrame"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
-      xmlns:sys="clr-namespace:System;assembly=mscorlib"
-      xmlns:local="clr-namespace:KuranX.App.Core.Pages"
-      xmlns:gif="http://wpfanimatedgif.codeplex.com"
-       xmlns:extension="clr-namespace:KuranX.App.Core.Classes"
-
+      xmlns:extension="clr-namespace:KuranX.App.Core.Classes"
+      xmlns:popupc="clr-namespace:KuranX.App.Core.UC.PopupC"
       mc:Ignorable="d"
       d:DesignHeight="708" d:DesignWidth="1115" d:MaxHeight="708" d:MaxWidth="1270" d:MinWidth="1115"
       Title="SectionFrame" Background="#FAFAFA">
-
-
 
     <Grid>
 
@@ -25,11 +19,9 @@
             <RowDefinition Height="30" />
         </Grid.RowDefinitions>
 
-
         <!-- Popup  -->
 
-
-        <Popup StaysOpen="true"  x:Name="popup_fastExitConfirm" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="380" Height="220" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
+        <Popup StaysOpen="true" x:Name="popup_fastExitConfirm" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="380" Height="220" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
 
             <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="360" Height="200">
                 <Grid>
@@ -63,58 +55,11 @@
             </Border>
         </Popup>
 
-
-        <Popup  StaysOpen="true" x:Name="pp_moveBar" IsOpen="False" Placement="RelativePoint" AllowsTransparency="True" Width="470" Height="115" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade" HorizontalOffset="322" VerticalOffset="-20">
+        <Popup x:Name="pp_moveBar" StaysOpen="true" IsOpen="False" Placement="RelativePoint" AllowsTransparency="True" Width="470" Height="115" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade" HorizontalOffset="322" VerticalOffset="-20">
             <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="450" Height="95">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="25" />
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="150" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <Grid Margin="5" Grid.Row="0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
-                        <Button Grid.Column="0" Tag="CellularMD" ToolTip="Sol üste taşı" x:Name="pp_M1" Style="{DynamicResource pp_moveWindowIcon}" Click="ppMoveActionOfset_Click" Uid="UpLeft" RenderTransformOrigin="0.5,0.5">
-                            <Button.RenderTransform>
-                                <TransformGroup>
-                                    <ScaleTransform />
-                                    <SkewTransform />
-                                    <RotateTransform Angle="180" />
-                                    <TranslateTransform />
-                                </TransformGroup>
-                            </Button.RenderTransform>
-                        </Button>
-                        <Button Grid.Column="1" Tag="RefreshMD" ToolTip="Orjinal Posizyonuna getir" x:Name="pp_M2" Style="{DynamicResource pp_moveWindowIcon}" Click="ppMoveActionOfset_Click" Uid="Reset" />
-                        <Button Grid.Column="2" Tag="CloseMD" ToolTip="Kontrolcüyü kapat" x:Name="pp_M3" Style="{DynamicResource pp_moveWindowIcon}" Click="ppMoveActionOfset_Click" Uid="Close" />
-                    </Grid>
-                    <Grid Grid.Column="1" Margin="10 15" Grid.Row="0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
-                        <Button Grid.Column="0" Tag="ArrowBackiOS" ToolTip="Sola sürükle" x:Name="pp_M4" Style="{DynamicResource pp_moveWindowIcon}" Click="ppMoveActionOfset_Click" Uid="Left" />
-                        <Button Grid.Column="1" Tag="ArrowUpiOS"  ToolTip="Yukarı sürükle" x:Name="pp_M5" Style="{DynamicResource pp_moveWindowIcon}" Click="ppMoveActionOfset_Click"  Uid="Top" />
-                        <Button Grid.Column="2" Tag="ArrowDowniOS" ToolTip="Aşa sürükle" x:Name="pp_M6" Style="{DynamicResource pp_moveWindowIcon}" Click="ppMoveActionOfset_Click" Uid="Bottom" />
-                        <Button Grid.Column="3" Tag="ArrowForwardiOS" ToolTip="Sağ sürükle" x:Name="pp_M7" Style="{DynamicResource pp_moveWindowIcon}" Click="ppMoveActionOfset_Click" Uid="Right" />
-                        <Button Grid.Column="4" Tag="EyePlusOutline" ToolTip="Görünümü Artır" x:Name="pp_M8" Style="{DynamicResource pp_moveWindowIconEye}" Click="ppMoveActionOpacity_Click" Uid="Up" />
-                        <Button Grid.Column="5" Tag="EyeMinusOutline" ToolTip="Görünümü Kıs" x:Name="pp_M9" Style="{DynamicResource pp_moveWindowIconEye}" Click="ppMoveActionOpacity_Click" Uid="Down" />
-                    </Grid>
-                    <TextBlock x:Name="moveControlName" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Text="İletişim" TextAlignment="Center" FontFamily="{DynamicResource PoppinsMedium}" VerticalAlignment="Center" Foreground="#1C1E2F" FontSize="14" FontWeight="Bold" />
-                </Grid>
+                <popupc:MoveBarController x:Name="moveBarController" HeaderText="" />
             </Border>
         </Popup>
-
 
         <Popup StaysOpen="true"  x:Name="popup_descSectionPopup" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="800" Height="520" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
             <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="780" Height="500">
@@ -157,7 +102,6 @@
                 </Grid>
             </Border>
         </Popup>
-
 
         <!-- Note  -->
 
@@ -315,13 +259,7 @@
 
         <!-- Note  -->
 
-
-
-
         <!-- Popup  -->
-
-
-
 
         <!-- Header  -->
 
@@ -372,12 +310,9 @@
             </Border>
         </StackPanel>
 
-
         <!-- Header  -->
 
-
         <!-- Controlpanel  -->
-
 
         <StackPanel x:Name="controlPanel" Grid.Row="1" VerticalAlignment="Center" Style="{DynamicResource aniEffectFadeStack}" Visibility="Hidden">
             <Border VerticalAlignment="Center"  SnapsToDevicePixels="True" UseLayoutRounding="True" Padding="0 0 0 0">
@@ -390,17 +325,14 @@
                     </Grid.ColumnDefinitions>
 
                     <Button   x:Name="backButton" ToolTip="Geri Dönün" Grid.Column="0" Content="Geri Dön" Tag="ArrowLeftShort" Style="{DynamicResource vrs_ActionMainTabButtonNote}" Click="backVersesFrame_Click" />
-                    <CheckBox x:Name="markButton" ToolTip="Kaldığınız Yeri İşaretler" Grid.Column="1" Content="İşaretle" Tag="Bookmarks" Style="{DynamicResource vrs_ActionMainTabButtonMark}" Click="markButton_Click"/>
-                    <Button   x:Name="noteButton" ToolTip="Not Al Veya Oku" Grid.Column="2" Content="Not Al" Tag="JournalBookmarkFill" Style="{DynamicResource vrs_ActionMainTabButtonNote}" Click="noteButton_Click"/>
-                    <Button   x:Name="descButton" ToolTip="Ayet Anlamını Göster" Grid.Column="3" Content="Bölüm Açıklması" Tag="Info"  Style="{DynamicResource vrs_ActionMainTabButtonDesc}" Click="descButton_Click"/>
+                    <CheckBox x:Name="markButton" ToolTip="Kaldığınız Yeri İşaretler" Grid.Column="1" Content="İşaretle" Tag="Bookmarks" Style="{DynamicResource vrs_ActionMainTabButtonMark}" Click="markButton_Click" />
+                    <Button   x:Name="noteButton" ToolTip="Not Al Veya Oku" Grid.Column="2" Content="Not Al" Tag="JournalBookmarkFill" Style="{DynamicResource vrs_ActionMainTabButtonNote}" Click="noteButton_Click" />
+                    <Button   x:Name="descButton" ToolTip="Ayet Anlamını Göster" Grid.Column="3" Content="Bölüm Açıklması" Tag="Info"  Style="{DynamicResource vrs_ActionMainTabButtonDesc}" Click="descButton_Click" />
                 </Grid>
             </Border>
         </StackPanel>
 
-
         <!-- Controlpanel  -->
-
-
 
         <!-- Main Container  -->
 
@@ -430,30 +362,18 @@
 
                                 <StackPanel Orientation="Vertical" Margin="20" x:Name="selectionDetailStack">
 
-                                    <TextBlock x:Name="sectionDetailBlock" Style="{DynamicResource sectionDetail}"/>
-
+                                    <TextBlock x:Name="sectionDetailBlock" Style="{DynamicResource sectionDetail}" />
                                 </StackPanel>
-
-
-
-
-
                             </ScrollViewer>
-
                         </Grid>
                     </Border>
-
-
                 </Grid>
             </Border>
         </Grid>
 
-
         <!-- Main Container  -->
 
-
         <!-- Nav Container  -->
-
 
         <StackPanel Grid.Row="3" Style="{DynamicResource aniEffectFadeStack}" x:Name="navControlStack" Orientation="Horizontal" Visibility="Hidden" HorizontalAlignment="Center" UseLayoutRounding="True" SnapsToDevicePixels="True">
 
@@ -466,26 +386,18 @@
 
                 <Button Grid.Column="0" x:Name="NavUpdatePrevSingle" Style="{DynamicResource vrs_NavButton}" Tag="AngleLeft" Height="30" IsEnabled="True" Click="NavUpdatePrevSingle_Click" />
                 <StackPanel x:Name="navstackPanel" Style="{DynamicResource aniEffectFadeStack}" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
-                    <CheckBox x:Name="vb1" extension:Extensions.DataStorage="0" IsEnabled="false" Style="{DynamicResource vrs_NavButtonS}"  Click="activeVerseSelected_Click"  />
+                    <CheckBox x:Name="vb1" extension:Extensions.DataStorage="0" IsEnabled="false" Style="{DynamicResource vrs_NavButtonS}"  Click="activeVerseSelected_Click" />
                     <CheckBox x:Name="vb2" extension:Extensions.DataStorage="0" Style="{DynamicResource vrs_NavButtonS}" Click="activeVerseSelected_Click" />
                     <CheckBox x:Name="vb3" extension:Extensions.DataStorage="0" Style="{DynamicResource vrs_NavButtonS}" Click="activeVerseSelected_Click" />
                     <CheckBox x:Name="vb4" extension:Extensions.DataStorage="0" Style="{DynamicResource vrs_NavButtonS}" Click="activeVerseSelected_Click" />
                     <CheckBox x:Name="vb5" extension:Extensions.DataStorage="0" Style="{DynamicResource vrs_NavButtonS}" Click="activeVerseSelected_Click" />
                     <CheckBox x:Name="vb6" extension:Extensions.DataStorage="0" Style="{DynamicResource vrs_NavButtonS}" Click="activeVerseSelected_Click" />
                     <CheckBox x:Name="vb7" extension:Extensions.DataStorage="0" Style="{DynamicResource vrs_NavButtonS}" Click="activeVerseSelected_Click" />
-
                 </StackPanel>
                 <Button Grid.Column="2" x:Name="NavUpdateNextSingle" Style="{DynamicResource vrs_NavButton}" Tag="AngleRight" Height="30" IsEnabled="True" Click="NavUpdateNextSingle_Click" />
             </Grid>
         </StackPanel>
 
-
         <!-- Nav Container  -->
-
-
     </Grid>
-
-
-
-
 </Page>

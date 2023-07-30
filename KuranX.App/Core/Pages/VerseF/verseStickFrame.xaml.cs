@@ -1,25 +1,21 @@
 ﻿using KuranX.App.Core.Classes;
+using KuranX.App.Core.Classes.Helpers;
 using KuranX.App.Core.Classes.Tools;
-using KuranX.App.Core.Pages.NoteF;
-using KuranX.App.Core.Pages.ReminderF;
+
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
+
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using System.Windows.Data;
-using System.Windows.Documents;
+
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+
 
 namespace KuranX.App.Core.Pages.VerseF
 {
@@ -28,9 +24,9 @@ namespace KuranX.App.Core.Pages.VerseF
     /// </summary>
     public partial class verseStickFrame : Page
     {
-        private string intelWriter = App.InterpreterWriter, getSure = "", sLocation = "";
+        private string intelWriter = App.InterpreterWriter, getSure = "", sLocation = "", searchT = "";
         private int sSureId, sRelativeVerseId, getVerse, verseId, clearNav = 1, last = 0, currentP;
-
+        private Verse selectedVerse;
         public verseStickFrame()
         {
             try
@@ -46,13 +42,13 @@ namespace KuranX.App.Core.Pages.VerseF
             }
         }
 
-        public Page PageCall(int sId, int vId, string getS, int gerR, string location = "default")
+        public Page PageCall(int sId, int vId, string getS, int gerR, string location = "default", string searchText = "")
         {
             try
             {
 
                 Debug.WriteLine("PageCall Verse Stick");
-                Debug.WriteLine("sdı -> "+sId);
+                Debug.WriteLine("sdı -> " + sId);
                 Debug.WriteLine("vId -> " + vId);
                 Debug.WriteLine("getS -> " + getS);
                 Debug.WriteLine("gerR -> " + gerR);
@@ -65,6 +61,7 @@ namespace KuranX.App.Core.Pages.VerseF
                 sSureId = sId;
                 sRelativeVerseId = vId;
                 sLocation = location;
+                searchT = searchText;
 
                 getSure = getS;
                 getVerse = gerR;
@@ -147,13 +144,30 @@ namespace KuranX.App.Core.Pages.VerseF
             // items Load Func
             try
             {
-                Tools.errWrite($"[{DateTime.Now} loadItemsContent ] -> verseStickFrame");
-
+                Tools.errWrite($"[{DateTime.Now} loadItemsContent ] -> verseFrame");
 
                 this.Dispatcher.Invoke(() =>
                 {
                     loadVerseTr.Text = dVerse.verseTr;
                     loadVerseArb.Text = dVerse.verseArabic;
+
+                    switch (App.readType)
+                    {
+                        case "tr":
+                            loadDetail.Text = loadVerseTr.Text;
+                            loadDetail.Style = (Style)FindResource("vrs_loadDetailTr");
+                            break;
+
+                        case "arp":
+                            loadDetail.Text = loadVerseArb.Text;
+                            loadDetail.Style = (Style)FindResource("vrs_loadDetailArp");
+                            break;
+
+                        case "inter":
+                            loadDetail.Text = tempLoadDetail.Text;
+                            loadDetail.Style = (Style)FindResource("vrs_loadDetailInterpreter");
+                            break;
+                    }
                 });
             }
             catch (Exception ex)
@@ -396,8 +410,10 @@ namespace KuranX.App.Core.Pages.VerseF
                     this.Dispatcher.Invoke(() => loadDetail.Text = "");
                     this.Dispatcher.Invoke(() => tempLoadDetail.Text = "");
 
-                    if (writer == "") writer = "Yorumcu 1";
+                    if (writer == "") writer = "Ömer Çelik";
                     var dInter = entitydb.Interpreter.Where(p => p.sureId == sSureId && p.verseId == verseId && p.interpreterWriter == writer).FirstOrDefault();
+
+                    selectedVerse = entitydb.Verse.Where(p => p.sureId == sSureId && p.relativeDesk == sRelativeVerseId).FirstOrDefault()!;
 
                     if (dInter != null)
                     {
@@ -406,6 +422,38 @@ namespace KuranX.App.Core.Pages.VerseF
                     }
 
                     dInter = null;
+
+                    if (selectedVerse != null)
+                    {
+                        switch (App.readType)
+                        {
+                            case "tr":
+                                this.Dispatcher.Invoke(() =>
+                                {
+                                    loadDetail.Text = selectedVerse.verseTr;
+                                    loadDetail.Style = (Style)FindResource("vrs_loadDetailTr");
+                                    backInterpreter.Visibility = Visibility.Visible;
+                                });
+                                break;
+
+                            case "arp":
+                                this.Dispatcher.Invoke(() =>
+                                {
+                                    loadDetail.Text = selectedVerse.verseArabic;
+                                    loadDetail.Style = (Style)FindResource("vrs_loadDetailArp");
+                                    backInterpreter.Visibility = Visibility.Visible;
+                                });
+                                break;
+
+                            case "inter":
+                                this.Dispatcher.Invoke(() =>
+                                {
+                                    loadDetail.Style = (Style)FindResource("vrs_loadDetailInterpreter");
+                                    backInterpreter.Visibility = Visibility.Collapsed;
+                                });
+                                break;
+                        }
+                    }
                 }
             }
             catch (Exception ex)
@@ -446,10 +494,8 @@ namespace KuranX.App.Core.Pages.VerseF
 
 
                 var btntemp = sender as Button;
-                var popuptemp = (Popup)FindName(btntemp.Uid);
-                popuptemp.IsOpen = false;
-
-                btntemp = null;
+                Popup popuptemp = (Popup)FindName(btntemp!.Uid);
+                PopupHelpers.popupClosed(popuptemp);
             }
             catch (Exception ex)
             {
@@ -468,24 +514,28 @@ namespace KuranX.App.Core.Pages.VerseF
 
 
                 var btn = sender as Button;
-                switch ((string)btn.Uid)
+                switch (btn.Uid.ToString())
                 {
                     case "tr":
                         loadDetail.Text = loadVerseTr.Text;
                         loadDetail.Style = (Style)FindResource("vrs_loadDetailTr");
                         backInterpreter.Visibility = Visibility.Visible;
+                        App.readType = "tr";
                         break;
 
                     case "arp":
                         loadDetail.Text = loadVerseArb.Text;
                         loadDetail.Style = (Style)FindResource("vrs_loadDetailArp");
                         backInterpreter.Visibility = Visibility.Visible;
+                        App.readType = "arp";
                         break;
 
                     case "inter":
+
                         loadDetail.Text = tempLoadDetail.Text;
                         loadDetail.Style = (Style)FindResource("vrs_loadDetailInterpreter");
                         backInterpreter.Visibility = Visibility.Collapsed;
+                        App.readType = "inter";
                         break;
                 }
 
@@ -632,6 +682,7 @@ namespace KuranX.App.Core.Pages.VerseF
                         App.navVersePage.mainContent.Visibility = Visibility.Visible;
                         App.navVersePage.navControlStack.Visibility = Visibility.Visible;
                         App.navVersePage.actionsControlGrid.Visibility = Visibility.Visible;
+                        App.navVersePage.SearchData.Text = searchT;
                         if (App.navVersePage.searchBox) App.navVersePage.popup_search.IsOpen = true;
                         break;
 
@@ -663,7 +714,7 @@ namespace KuranX.App.Core.Pages.VerseF
             {
                 Tools.errWrite($"[{DateTime.Now} wordText_Click ] -> verseStickFrame");
 
-
+                PopupHelpers.load_drag(popup_Words);
                 popup_Words.IsOpen = true;
 
                 using (var entitydb = new AyetContext())
@@ -713,7 +764,7 @@ namespace KuranX.App.Core.Pages.VerseF
                 Tools.errWrite($"[{DateTime.Now} openVerseNumberPopup_Click ] -> verseStickFrame");
 
 
-
+                PopupHelpers.load_drag(popup_VerseGoto);
                 popup_VerseGoto.IsOpen = true;
             }
             catch (Exception ex)
@@ -736,7 +787,7 @@ namespace KuranX.App.Core.Pages.VerseF
 
                     sRelativeVerseId = int.Parse(popupRelativeId.Text);
                     App.loadTask = Task.Run(() => loadVerseFunc(sRelativeVerseId));
-
+                    PopupHelpers.dispose_drag(popup_VerseGoto);
                     popup_VerseGoto.IsOpen = false;
                     popupRelativeId.Text = "";
                 }
@@ -837,6 +888,7 @@ namespace KuranX.App.Core.Pages.VerseF
 
                 this.Dispatcher.Invoke(() =>
                 {
+                    PopupHelpers.dispose_drag(popup_Words);
                     popup_Words.IsOpen = false;
                 });
             }

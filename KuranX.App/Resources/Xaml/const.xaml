@@ -3,8 +3,8 @@
     xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
                      xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
-    
-    
+
+
     <SolidColorBrush x:Key="Base.Background.Default" Color="#FFFFFFFF" />
     <SolidColorBrush x:Key="Base.Panel.Left" Color="#FFFFFFFF" />
     <SolidColorBrush x:Key="Base.BorderBrush.Default" Color="#FFE1E3E6" />
@@ -30,6 +30,29 @@
     <BitmapImage x:Key="profile_5" UriSource="/resources/images/Profile/profile_5.jpg" />
 
 
+    <BitmapImage x:Key="program_1" UriSource="/resources/images/helps/program_1.png" />
+    <BitmapImage x:Key="program_2" UriSource="/resources/images/helps/program_2.png" />
+    <BitmapImage x:Key="program_3" UriSource="/resources/images/helps/program_3.png" />
+    <BitmapImage x:Key="program_4" UriSource="/resources/images/helps/program_4.png" />
+    <BitmapImage x:Key="program_5" UriSource="/resources/images/helps/program_5.png" />
+    <BitmapImage x:Key="verse_1" UriSource="/resources/images/helps/verse_1.png" />
+    <BitmapImage x:Key="verse_2" UriSource="/resources/images/helps/verse_2.png" />
+    <BitmapImage x:Key="verse_3" UriSource="/resources/images/helps/verse_3.png" />
+    <BitmapImage x:Key="verse_4" UriSource="/resources/images/helps/verse_4.png" />
+    <BitmapImage x:Key="verse_5" UriSource="/resources/images/helps/verse_5.png" />
+    <BitmapImage x:Key="konu_1" UriSource="/resources/images/helps/konu_1.png" />
+    <BitmapImage x:Key="konu_2" UriSource="/resources/images/helps/konu_2.png" />
+    <BitmapImage x:Key="konu_3" UriSource="/resources/images/helps/konu_3.png" />
+    <BitmapImage x:Key="konu_4" UriSource="/resources/images/helps/konu_4.png" />
+    <BitmapImage x:Key="note_1" UriSource="/resources/images/helps/note_1.png" />
+    <BitmapImage x:Key="note_2" UriSource="/resources/images/helps/note_2.png" />
+    <BitmapImage x:Key="note_3" UriSource="/resources/images/helps/note_3.png" />
+    <BitmapImage x:Key="remider_1" UriSource="/resources/images/helps/remider_1.png" />
+    <BitmapImage x:Key="remider_2" UriSource="/resources/images/helps/remider_2.png" />
+    <BitmapImage x:Key="remider_3" UriSource="/resources/images/helps/remider_3.png" />
+
+
+
     <sys:Double x:Key="arabicFontSize">24</sys:Double>
     <sys:Double x:Key="arabicFontSizeExtended">36</sys:Double>
     <sys:Double x:Key="fn-sm">24</sys:Double>
@@ -38,6 +61,8 @@
 
 
     <FontFamily x:Key="arabicFont">pack://application:,,,/Resource/Fonts/Arabic/XBZar/#XB Zar</FontFamily>
+
+
 
 
 </ResourceDictionary>

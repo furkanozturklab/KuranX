@@ -3,7 +3,6 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      xmlns:settingsUI="clr-namespace:KuranX.App.Core.UI.Settings"
       xmlns:helpers="clr-namespace:KuranX.App.Core.Classes.Helpers"
       mc:Ignorable="d"
       d:DesignHeight="708" d:DesignWidth="1115" d:MaxHeight="708" d:MaxWidth="1270" d:MinWidth="1115"
@@ -21,23 +20,14 @@
             <Button Grid.Column="2" Uid="popup_Note" Content="Note" Click="ShowPopupButton_Click" Width="100" Height="50"/>
 
         </Grid>
-    
-        
 
 
-        <Popup x:Name="draggablePopup" AllowsTransparency="True" PopupAnimation="Slide">
-            <Border x:Name="draggablePopupBorder" Background="LightGray" BorderBrush="Black" BorderThickness="1" CornerRadius="5"  >
-                <StackPanel>
-                    <TextBlock Padding="10" Text="Drag me!"/>
-                    <Button Click="kapat" Content="kapat"/>
-                </StackPanel>
-            </Border>
-        </Popup>
 
 
-        <settingsUI:ChangeButton></settingsUI:ChangeButton>
 
-        
+        <!--<settingsUI:ChangeButton></settingsUI:ChangeButton>-->
+
+
 
 
         <!--<Popup x:Name="draggablePopup1" AllowsTransparency="True" PopupAnimation="Slide" StaysOpen="True" Placement="Mouse">

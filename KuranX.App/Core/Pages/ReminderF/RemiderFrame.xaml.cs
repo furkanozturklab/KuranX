@@ -1,8 +1,10 @@
 ﻿using KuranX.App.Core.Classes;
+using KuranX.App.Core.Classes.Helpers;
 using KuranX.App.Core.Classes.Tools;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -18,13 +20,15 @@ namespace KuranX.App.Core.Pages.ReminderF
     /// <summary>
     /// Interaction logic for RemiderFrame.xaml
     /// </summary>
-    public partial class RemiderFrame : Page
+    public partial class RemiderFrame : Page, Movebar
     {
         private bool filter, remiderType = false;
         private string filterText = "";
         private int lastPage = 0, NowPage = 1, selectedId;
         private List<Remider> dRemider = new List<Remider>();
         private Task remiderTask, remiderProcess;
+        private string pp_selected;
+        public DraggablePopupHelper drag;
         public RemiderFrame()
         {
             try
@@ -138,7 +142,7 @@ namespace KuranX.App.Core.Pages.ReminderF
                                 case "Default":
                                     sColor.Background = new BrushConverter().ConvertFrom("#ffc107") as SolidColorBrush;
                                     sColor2.Background = new BrushConverter().ConvertFrom("#ffc107") as SolidColorBrush;
-                                    sBtnStat.Text = item.remiderDate.ToString("d") + " Tarihin de Hatırlatılacak";
+                                    sBtnStat.Text = item.remiderDate.ToString("D", new CultureInfo("tr-TR")) + " Tarihin de Hatırlatılacak";
                                     break;
 
                                 case "Gün":
@@ -227,6 +231,9 @@ namespace KuranX.App.Core.Pages.ReminderF
             try
             {
                 Tools.errWrite($"[{DateTime.Now} newRemider_Click ] -> RemiderFrame");
+
+                
+                PopupHelpers.load_drag(popup_remiderAddPopup);
                 popup_remiderAddPopup.IsOpen = true;
             }
             catch (Exception ex)
@@ -240,6 +247,8 @@ namespace KuranX.App.Core.Pages.ReminderF
             try
             {
                 Tools.errWrite($"[{DateTime.Now} remiderVerseAddButton_Click ] -> RemiderFrame");
+         
+                PopupHelpers.load_drag(popup_VerseSelect);
                 popup_VerseSelect.IsOpen = true;
             }
             catch (Exception ex)
@@ -397,6 +406,7 @@ namespace KuranX.App.Core.Pages.ReminderF
 
                                         App.mainScreen.succsessFunc("İşlem Başarılı", "Yeni bir hatırlatıcınız oluşturuldu", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
 
+                                        PopupHelpers.dispose_drag(popup_remiderAddPopup);
                                         popup_remiderAddPopup.IsOpen = false;
                                         remiderName.Text = "";
                                         remiderDetail.Text = "";
@@ -478,6 +488,7 @@ namespace KuranX.App.Core.Pages.ReminderF
 
                                         App.mainScreen.succsessFunc("İşlem Başarılı", "Yeni hatırlatıcınız oluşturuldu", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
 
+                                        PopupHelpers.dispose_drag(popup_remiderAddPopup);
                                         popup_remiderAddPopup.IsOpen = false;
                                         remiderName.Text = "";
                                         remiderDetail.Text = "";
@@ -534,6 +545,9 @@ namespace KuranX.App.Core.Pages.ReminderF
 
                 var btn = sender as Button;
                 selectedId = int.Parse(btn.Uid);
+
+               
+                PopupHelpers.load_drag(popup_DeleteConfirm);
                 popup_DeleteConfirm.IsOpen = true;
             }
             catch (Exception ex)
@@ -579,6 +593,7 @@ namespace KuranX.App.Core.Pages.ReminderF
                     entitydb.Remider.RemoveRange(entitydb.Remider.Where(p => p.remiderId == selectedId));
                     entitydb.Tasks.RemoveRange(entitydb.Tasks.Where(p => p.missonsId == selectedId));
                     entitydb.SaveChanges();
+                    PopupHelpers.dispose_drag(popup_DeleteConfirm);
                     popup_DeleteConfirm.IsOpen = false;
                     App.mainScreen.succsessFunc("İşlem Başarılı", "Hatırlatıcı başaralı bir sekilde silinmiştir.", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
                     remiderProcess = Task.Run(() => loadItem());
@@ -612,7 +627,7 @@ namespace KuranX.App.Core.Pages.ReminderF
                         sId.Text = (string)item.Uid;
                         vId.Text = popupRelativeId.Text;
                         remiderConnectVerse.Text = (string)item.Content + " suresini " + popupRelativeId.Text + " ayeti"; ;
-
+                        PopupHelpers.dispose_drag(popup_VerseSelect);
                         popup_VerseSelect.IsOpen = false;
                         popupNextSureId.SelectedIndex = 0;
                         popupRelativeId.Text = "1";
@@ -633,9 +648,8 @@ namespace KuranX.App.Core.Pages.ReminderF
 
 
                 var btntemp = sender as Button;
-                var popuptemp = (Popup)FindName(btntemp.Uid);
-                popuptemp.IsOpen = false;
-                pp_moveBar.IsOpen = false;
+                Popup popuptemp = (Popup)FindName(btntemp!.Uid);
+                PopupHelpers.popupClosed(popuptemp, pp_moveBar);
 
                 remiderName.Text = "";
                 popupNextSureId.SelectedIndex = 0;
@@ -829,66 +843,26 @@ namespace KuranX.App.Core.Pages.ReminderF
         public void popuverMove_Click(object sender, RoutedEventArgs e)
         {
 
-            Tools.errWrite($"[{DateTime.Now} popuverMove_Click ] -> RemiderFrame");
-
+            Tools.errWrite($"[{DateTime.Now} popuverMove_Click] -> NoteFrame");
             var btn = sender as Button;
-            ppMoveConfing((string)btn.Uid);
-            moveControlName.Text = (string)btn.Content;
+            pp_selected = (string)btn.Uid;
+            moveBarController.HeaderText = btn.Content.ToString()!;
             pp_moveBar.IsOpen = true;
+
         }
 
-        public void ppMoveActionOfset_Click(object sender, RoutedEventArgs e)
+
+
+        public Popup getPopupMove()
+        {
+            return pp_moveBar;
+        }
+
+        public Popup getPopupBase()
         {
 
-            Tools.errWrite($"[{DateTime.Now} ppMoveActionOfset_Click ] -> RemiderFrame");
-            var btntemp = sender as Button;
-            var movePP = (Popup)FindName((string)btntemp.Content);
-
-            switch (btntemp.Uid.ToString())
-            {
-                case "Left":
-                    movePP.HorizontalOffset -= 50;
-                    break;
-
-                case "Top":
-                    movePP.VerticalOffset -= 50;
-                    break;
-
-                case "Bottom":
-                    movePP.VerticalOffset += 50;
-                    break;
-
-                case "Right":
-                    movePP.HorizontalOffset += 50;
-                    break;
-
-                case "UpLeft":
-                    movePP.Placement = PlacementMode.Absolute;
-                    movePP.VerticalOffset = 0;
-                    movePP.HorizontalOffset = 0;
-                    break;
-
-                case "Reset":
-                    movePP.Placement = PlacementMode.Center;
-                    movePP.VerticalOffset = 0;
-                    movePP.HorizontalOffset = 0;
-                    break;
-
-                case "Close":
-                    pp_moveBar.IsOpen = false;
-                    break;
-            }
+            return (Popup)FindName(pp_selected);
         }
 
-        public void ppMoveConfing(string ppmove)
-        {
-
-            Tools.errWrite($"[{DateTime.Now} ppMoveConfing ] -> RemiderFrame");
-            for (int i = 1; i < 8; i++)
-            {
-                var btn = FindName("pp_M" + i) as Button;
-                btn.Content = ppmove;
-            }
-        }
     }
 }

@@ -1,20 +1,11 @@
 ﻿using KuranX.App.Core.Classes;
 using KuranX.App.Core.Classes.Tools;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+
 
 namespace KuranX.App.Core.Pages.NoteF
 {
@@ -44,7 +35,7 @@ namespace KuranX.App.Core.Pages.NoteF
                     var dNotes = entitydb.Notes.Where(p => p.notesId == id).FirstOrDefault();
 
                     header.Text = dNotes.noteHeader;
-                    create.Text = dNotes.created.ToString("D");
+                    create.Text = dNotes.created.ToString("D", new CultureInfo("tr-TR"));
                     location.Text = dNotes.noteLocation;
                     loadNoteDetail.Text = dNotes.noteDetail;
 

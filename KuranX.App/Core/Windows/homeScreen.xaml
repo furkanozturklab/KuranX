@@ -6,7 +6,8 @@
         xmlns:gif="http://wpfanimatedgif.codeplex.com"
         xmlns:extension="clr-namespace:KuranX.App.Core.Classes"
         xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
-        xmlns:settingsUI="clr-namespace:KuranX.App.Core.UI.Settings"
+        xmlns:settingsUI="clr-namespace:KuranX.App.Core.UC.Settings"
+        xmlns:popupc="clr-namespace:KuranX.App.Core.UC.PopupC"
         mc:Ignorable="d"
         Title="homeScreen" Height="768" MinWidth="1366" WindowStartupLocation="CenterScreen"  WindowStyle="None" AllowsTransparency="True" Loaded="Window_Loaded">
 
@@ -16,14 +17,6 @@
             <ColumnDefinition Width="*" x:Name="rightcol" />
         </Grid.ColumnDefinitions>
 
-        <!-- POPUP -->
-
-
-      
-
-
-
-        <!-- POPUP -->
 
         <Border x:Name="leftgg" Grid.Column="0" BorderThickness="0 0 1 0 " BorderBrush="{DynamicResource Base.BorderBrush.Default}" Background="{DynamicResource Base.Panel.Left}">
             <Grid>
@@ -134,7 +127,7 @@
                         <StackPanel Grid.Row="0" Orientation="Horizontal"  VerticalAlignment="Center" HorizontalAlignment="Center">
                             <Button Style="{DynamicResource hmwnd_leftSetting}" Click="settings_Click" ToolTip="Ayarlar Menüsü" />
                             <Button Style="{DynamicResource hmwnd_leftFeed}" ToolTip="Geri Bildirim" Click="contact_Click" />
-                            <Button Style="{DynamicResource hmwnd_leftAdmin}" Click="adminOpen_Click" Visibility="Visible" />
+                            <Button x:Name="adminPanelOpen"  Style="{DynamicResource hmwnd_leftAdmin}" Click="adminOpen_Click" Visibility="Collapsed" />
                             <Button Style="{DynamicResource hmwnd_leftExit}" Click="userExit_Click" Visibility="Visible" />
                         </StackPanel>
 
@@ -150,52 +143,7 @@
 
             <Popup x:Name="pp_moveBar" IsOpen="False" Placement="RelativePoint" AllowsTransparency="True" Width="470" Height="115" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade" HorizontalOffset="322" VerticalOffset="20">
                 <Border Style="{DynamicResource defaultBorderShadowEffect}" Width="450" Height="95">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="25" />
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="150" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <Grid Margin="5" Grid.Row="0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition />
-                                <ColumnDefinition />
-                                <ColumnDefinition />
-                            </Grid.ColumnDefinitions>
-                            <Button Grid.Column="0" Tag="CellularMD" ToolTip="Sol üste taşı" x:Name="pp_M1" Style="{DynamicResource pp_moveWindowIcon}" Click="ppMoveActionOfset_Click" Uid="UpLeft" RenderTransformOrigin="0.5,0.5">
-                                <Button.RenderTransform>
-                                    <TransformGroup>
-                                        <ScaleTransform />
-                                        <SkewTransform />
-                                        <RotateTransform Angle="180" />
-                                        <TranslateTransform />
-                                    </TransformGroup>
-                                </Button.RenderTransform>
-                            </Button>
-                            <Button Grid.Column="1" Tag="RefreshMD" ToolTip="Orjinal Posizyonuna getir" x:Name="pp_M2" Style="{DynamicResource pp_moveWindowIcon}" Click="ppMoveActionOfset_Click" Uid="Reset" />
-                            <Button Grid.Column="2" Tag="CloseMD" ToolTip="Kontrolcüyü kapat" x:Name="pp_M3" Style="{DynamicResource pp_moveWindowIcon}" Click="ppMoveActionOfset_Click" Uid="Close" />
-                        </Grid>
-                        <Grid Grid.Column="1" Margin="10 15" Grid.Row="0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition />
-                                <ColumnDefinition />
-                                <ColumnDefinition />
-                                <ColumnDefinition />
-                                <ColumnDefinition />
-                                <ColumnDefinition />
-                            </Grid.ColumnDefinitions>
-                            <Button Grid.Column="0" Tag="ArrowBackiOS" ToolTip="Sola sürükle" x:Name="pp_M4" Style="{DynamicResource pp_moveWindowIcon}" Click="ppMoveActionOfset_Click" Uid="Left" />
-                            <Button Grid.Column="1" Tag="ArrowUpiOS"  ToolTip="Yukarı sürükle" x:Name="pp_M5" Style="{DynamicResource pp_moveWindowIcon}" Click="ppMoveActionOfset_Click"  Uid="Top" />
-                            <Button Grid.Column="2" Tag="ArrowDowniOS" ToolTip="Aşa sürükle" x:Name="pp_M6" Style="{DynamicResource pp_moveWindowIcon}" Click="ppMoveActionOfset_Click" Uid="Bottom" />
-                            <Button Grid.Column="3" Tag="ArrowForwardiOS" ToolTip="Sağ sürükle" x:Name="pp_M7" Style="{DynamicResource pp_moveWindowIcon}" Click="ppMoveActionOfset_Click" Uid="Right" />
-                            <Button Grid.Column="4" Tag="EyePlusOutline" ToolTip="Görünümü Artır" x:Name="pp_M8" Style="{DynamicResource pp_moveWindowIconEye}" Click="ppMoveActionOpacity_Click" Uid="Up" />
-                            <Button Grid.Column="5" Tag="EyeMinusOutline" ToolTip="Görünümü Kıs" x:Name="pp_M9" Style="{DynamicResource pp_moveWindowIconEye}" Click="ppMoveActionOpacity_Click" Uid="Down" />
-                        </Grid>
-                        <TextBlock x:Name="moveControlName" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Text="İletişim" TextAlignment="Center" FontFamily="{DynamicResource PoppinsMedium}" VerticalAlignment="Center" Foreground="#1C1E2F" FontSize="14" FontWeight="Bold" />
-                    </Grid>
+                    <popupc:MoveBarController x:Name="moveBarController"/>
                 </Border>
             </Popup>
 
@@ -524,7 +472,7 @@
                 </Border>
             </Popup>
 
-  
+
             <Popup x:Name="alph" IsOpen="False" Placement="Center" AllowsTransparency="True" Width="460" Height="200" VerticalAlignment="Center" HorizontalAlignment="Center" PopupAnimation="Fade">
                 <Border  Style="{DynamicResource defaultBorderShadowEffect}" Width="440" Height="180">
                     <Grid>

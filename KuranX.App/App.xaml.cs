@@ -11,11 +11,11 @@ using KuranX.App.Services;
 using System;
 using System.Configuration;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Net;
-using System.Net.Mail;
 using System.Net.NetworkInformation;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -28,9 +28,10 @@ namespace KuranX.App
     /// </summary>
     public partial class App : Application
     {
-        public static string lastversion, lastlocation;
+        public static string lastversion = "", lastlocation = "", readType = "inter";
         public static string errPath = AppDomain.CurrentDomain.BaseDirectory + "usingTree.txt";
         public static ResourceDictionary? resourceLang;
+        public static DateTime lastSend = DateTime.Now;
 
         public static Frame? mainframe;
         public static Frame? secondFrame;
@@ -41,7 +42,7 @@ namespace KuranX.App
         public static Task? mainTask;
 
         public static Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-        public static string applicationPath = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location);
+        public static string applicationPath = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly()!.Location)!;
 
         // Main PANEL
 
@@ -123,6 +124,11 @@ namespace KuranX.App
         {
             try
             {
+
+                CultureInfo turkishCulture = new CultureInfo("tr-TR");
+                Thread.CurrentThread.CurrentCulture = turkishCulture;
+                Thread.CurrentThread.CurrentUICulture = turkishCulture;
+
                 if (await Loading.loadSync())
                 {
                     if (File.Exists(errPath)) File.Delete(errPath);
@@ -145,7 +151,7 @@ namespace KuranX.App
                             if (updateNote[0].update_detail != null)
                             {
 
-                               
+
                                 updateNotes = updateNote[0].update_detail!;
                             }
                             else
@@ -182,7 +188,7 @@ namespace KuranX.App
                 }
                 else
                 {
-
+                    MessageBox.Show("Uygulama başlatılırken bir hata meydana geldi. Lütfen destek ile iletişime geçiniz.");
                     Current.Shutdown();
                 }
 

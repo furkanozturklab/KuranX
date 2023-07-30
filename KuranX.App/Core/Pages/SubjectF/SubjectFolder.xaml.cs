@@ -1,22 +1,21 @@
 ﻿using KuranX.App.Core.Classes;
+using KuranX.App.Core.Classes.Helpers;
 using KuranX.App.Core.Classes.Tools;
-using Org.BouncyCastle.Tls.Crypto;
+
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
-using System.Text;
+
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using System.Windows.Data;
-using System.Windows.Documents;
+
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
+
 using System.Windows.Navigation;
 
 namespace KuranX.App.Core.Pages.SubjectF
@@ -24,10 +23,13 @@ namespace KuranX.App.Core.Pages.SubjectF
     /// <summary>
     /// Interaction logic for SubjectFolder.xaml
     /// </summary>
-    public partial class SubjectFolder : Page
+    public partial class SubjectFolder : Page, Movebar
     {
         private int subFolderId = 1, lastPage = 0, NowPage = 1;
         private Task subjectfoldertask, subjectprocess;
+        private string pp_selected;
+        public DraggablePopupHelper drag;
+
         public SubjectFolder()
         {
             try
@@ -111,7 +113,7 @@ namespace KuranX.App.Core.Pages.SubjectF
                     this.Dispatcher.Invoke(() =>
                     {
                         loadHeader.Text = dSubject.subjectName;
-                        loadCreated.Text = dSubject.created.ToString("D");
+                        loadCreated.Text = dSubject.created.ToString("D", new CultureInfo("tr-TR"));
                         loadHeaderColor.Background = new BrushConverter().ConvertFrom(dSubject.subjectColor) as SolidColorBrush;
                         subjectItemsDeleteBtn.Uid = dSubject.subjectId.ToString();
                     });
@@ -137,7 +139,7 @@ namespace KuranX.App.Core.Pages.SubjectF
                             sName.Text = item.subjectName;
 
                             var sCreated = (TextBlock)FindName("sbCreate" + i);
-                            sCreated.Text = item.created.ToString("D");
+                            sCreated.Text = item.created.ToString("D", new CultureInfo("tr-TR"));
 
                             var sBtn = (Button)FindName("sbBtn" + i);
                             sBtn.Uid = item.subjectId.ToString();
@@ -200,7 +202,7 @@ namespace KuranX.App.Core.Pages.SubjectF
 
                 var btn = sender as Button;
 
-              
+
                 App.mainframe.Content = App.navSubjectItem.PageCall(int.Parse(btn.Uid), int.Parse((string)btn.Content), int.Parse((string)btn.Tag));
             }
             catch (Exception ex)
@@ -220,7 +222,7 @@ namespace KuranX.App.Core.Pages.SubjectF
                 var item = popupNextSureId.SelectedItem as ComboBoxItem;
 
                 popupaddnewversecountErrortxt.Content = item.Content + " Süresini " + item.Tag + " Ayeti Mevcut";
-
+                PopupHelpers.load_drag(popup_addConnect);
                 popup_addConnect.IsOpen = true;
             }
             catch (Exception ex)
@@ -229,7 +231,7 @@ namespace KuranX.App.Core.Pages.SubjectF
             }
         }
 
-      
+
 
         private void popupClosed_Click(object sender, RoutedEventArgs e)
         {
@@ -238,13 +240,13 @@ namespace KuranX.App.Core.Pages.SubjectF
                 Tools.errWrite($"[{DateTime.Now} popupClosed_Click ] -> SubjectFolder");
 
                 var btntemp = sender as Button;
-                Popup popuptemp = (Popup)FindName(btntemp.Uid);
-                pp_moveBar.IsOpen = false;
+                Popup popuptemp = (Popup)FindName(btntemp!.Uid);
+                PopupHelpers.popupClosed(popuptemp, pp_moveBar);
+
                 popupNextSureId.SelectedIndex = 0;
                 popupNextVerseId.Text = "1";
                 popupNewName.Text = "";
 
-                popuptemp.IsOpen = false;
             }
             catch (Exception ex)
             {
@@ -267,9 +269,12 @@ namespace KuranX.App.Core.Pages.SubjectF
                     {
                         var dControl = entitydb.SubjectItems.Where(p => p.sureId == int.Parse(item.Uid)).Where(p => p.verseId == int.Parse(popupNextVerseId.Text)).Where(p => p.subjectId == subFolderId).ToList();
 
+                        
                         if (dControl.Count != 0)
                         {
                             App.mainScreen.alertFunc("İşlem Başarısız", "Bu ayet daha önceden eklenmiş yeniden ekleme işlemleri yapılamaz.", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
+
+                            PopupHelpers.dispose_drag(popup_addConnect);
                             popup_addConnect.IsOpen = false;
                             popupNextVerseId.Text = "1";
                         }
@@ -280,6 +285,7 @@ namespace KuranX.App.Core.Pages.SubjectF
                             entitydb.SaveChanges();
                             App.mainScreen.succsessFunc("İşlem Başarılı", "Seçmiş olduğunuz konuya ayet eklendi.", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
 
+                            PopupHelpers.dispose_drag(popup_addConnect);
                             popup_addConnect.IsOpen = false;
                             popupNextVerseId.Text = "1";
                             subjectprocess = Task.Run(() => loadItem(subFolderId));
@@ -349,7 +355,7 @@ namespace KuranX.App.Core.Pages.SubjectF
             }
         }
 
-       
+
 
         private void deleteSubjectPopupBtn_Click(object sender, RoutedEventArgs e)
         {
@@ -364,12 +370,12 @@ namespace KuranX.App.Core.Pages.SubjectF
                     entitydb.Notes.RemoveRange(entitydb.Notes.Where(p => p.subjectId == subFolderId));
                     entitydb.Subject.RemoveRange(entitydb.Subject.Where(p => p.subjectId == subFolderId));
 
-  
 
-         
+
+
 
                     entitydb.SaveChanges();
-
+                    PopupHelpers.dispose_drag(popup_SubjectDelete);
                     popup_SubjectDelete.IsOpen = false;
                     App.mainScreen.succsessFunc("İşlem Başarılı", "Konuya ait tüm notlar ve eklenen ayetlerle birlikte silindi. Bir önceki sayfaya yönlendiriliyorsunuz bekleyin...", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
                     App.mainframe.Content = App.navSubjectFrame.PageCall();
@@ -396,6 +402,7 @@ namespace KuranX.App.Core.Pages.SubjectF
                         loadHeader.Text = popupNewName.Text;
                         entitydb.SaveChanges();
                         App.mainScreen.succsessFunc("İşlem Başarılı", "Konu başlığınız başarılı bir sekilde değiştirilmiştir.", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
+                        PopupHelpers.dispose_drag(popup_newName);
                         popup_newName.IsOpen = false;
                     }
                     else
@@ -417,7 +424,7 @@ namespace KuranX.App.Core.Pages.SubjectF
             {
                 Tools.errWrite($"[{DateTime.Now} subjectItemsDeleteBtn_Click ] -> SubjectFolder");
 
-
+                PopupHelpers.load_drag(popup_SubjectDelete);
                 popup_SubjectDelete.IsOpen = true;
             }
             catch (Exception ex)
@@ -434,6 +441,7 @@ namespace KuranX.App.Core.Pages.SubjectF
                 Tools.errWrite($"[{DateTime.Now} subjectItemsRenameBtn_Click ] -> SubjectFolder");
 
                 popupNewName.Text = loadHeader.Text;
+                PopupHelpers.load_drag(popup_newName);
                 popup_newName.IsOpen = true;
             }
             catch (Exception ex)
@@ -536,40 +544,6 @@ namespace KuranX.App.Core.Pages.SubjectF
         }
 
         // ---------- SelectionChanced FUNC ---------- //
-
-        // ---------- TimeSpan FUNC ---------- //
-
-        private void voidgobacktimer()
-        {
-            try
-            {
-
-                Tools.errWrite($"[{DateTime.Now} voidgobacktimer ] -> SubjectFolder");
-
-
-                backPage.IsEnabled = false;
-                newConnect.IsEnabled = false;
-                previusPageButton.IsEnabled = false;
-                nextpageButton.IsEnabled = false;
-                
-
-                App.timeSpan.Interval = TimeSpan.FromSeconds(3);
-                App.timeSpan.Start();
-                App.mainScreen.succsessFunc("İşlem Başarılı", "Konuya ait tüm notlar ve eklenen ayetlerle birlikte silindi. Konularıma yönlendiriliyorsunuz...", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
-                App.timeSpan.Tick += delegate
-                {
-                    App.timeSpan.Stop();
-                    App.mainframe.Content = App.navSubjectFrame.PageCall();
-                };
-            }
-            catch (Exception ex)
-            {
-                Tools.logWriter("TimeSpan", ex);
-            }
-        }
-
-        // ---------- TimeSpan FUNC ---------- //
-
         // ------------ Animation Func ------------ //
 
         public void loadAni()
@@ -584,7 +558,7 @@ namespace KuranX.App.Core.Pages.SubjectF
                 {
                     subjectItemsDeleteBtn.IsEnabled = false;
                     backPage.IsEnabled = false;
-               
+
                     newConnect.IsEnabled = false;
                 });
             }
@@ -608,7 +582,7 @@ namespace KuranX.App.Core.Pages.SubjectF
                     loadStack.Visibility = Visibility.Visible;
                     subjectItemsDeleteBtn.IsEnabled = true;
                     backPage.IsEnabled = true;
-                   
+
                     newConnect.IsEnabled = true;
                 });
             }
@@ -626,67 +600,24 @@ namespace KuranX.App.Core.Pages.SubjectF
         {
             Tools.errWrite($"[{DateTime.Now} popuverMove_Click ] -> SubjectFolder");
 
+
             var btn = sender as Button;
-            ppMoveConfing((string)btn.Uid);
-            moveControlName.Text = (string)btn.Content;
+            pp_selected = (string)btn.Uid;
+            moveBarController.HeaderText = btn.Content.ToString()!;
             pp_moveBar.IsOpen = true;
         }
 
-        public void ppMoveActionOfset_Click(object sender, RoutedEventArgs e)
+        public Popup getPopupMove()
         {
-
-            Tools.errWrite($"[{DateTime.Now} ppMoveActionOfset_Click ] -> SubjectFolder");
-
-
-            var btntemp = sender as Button;
-            var movePP = (Popup)FindName((string)btntemp.Content);
-
-            switch (btntemp.Uid.ToString())
-            {
-                case "Left":
-                    movePP.HorizontalOffset -= 50;
-                    break;
-
-                case "Top":
-                    movePP.VerticalOffset -= 50;
-                    break;
-
-                case "Bottom":
-                    movePP.VerticalOffset += 50;
-                    break;
-
-                case "Right":
-                    movePP.HorizontalOffset += 50;
-                    break;
-
-                case "UpLeft":
-                    movePP.Placement = PlacementMode.Absolute;
-                    movePP.VerticalOffset = 0;
-                    movePP.HorizontalOffset = 0;
-                    break;
-
-                case "Reset":
-                    movePP.Placement = PlacementMode.Center;
-                    movePP.VerticalOffset = 0;
-                    movePP.HorizontalOffset = 0;
-                    break;
-
-                case "Close":
-                    pp_moveBar.IsOpen = false;
-                    break;
-            }
+            return pp_moveBar;
         }
 
-        public void ppMoveConfing(string ppmove)
+        public Popup getPopupBase()
         {
-            Tools.errWrite($"[{DateTime.Now} ppMoveConfing ] -> SubjectFolder");
 
-
-            for (int i = 1; i < 8; i++)
-            {
-                var btn = FindName("pp_M" + i) as Button;
-                btn.Content = ppmove;
-            }
+            return (Popup)FindName(pp_selected);
         }
+
+
     }
 }

@@ -29,16 +29,15 @@
                         <ColumnDefinition />
                         <ColumnDefinition />
                         <ColumnDefinition />
-                        <ColumnDefinition />
+
 
                     </Grid.ColumnDefinitions>
 
                     <Button Grid.Column="0" Style="{DynamicResource helpButton}" Tag="/resources/images/icon/dashboard_rb.png" Uid="/resources/images/icon/dashboard_r.png" Content="Program" Click="helpsMain_Click" />
-                    <Button Grid.Column="1" Style="{DynamicResource helpButton}" Tag="/resources/images/icon/verse_rb.png" Uid="/resources/images/icon/verse_r.png" Content="Ayteler" Click="helpsMain_Click" />
-                    <Button Grid.Column="2" Style="{DynamicResource helpButton}" Tag="/resources/images/icon/verse_rb.png" Uid="/resources/images/icon/verse_r.png" Content="Bölümler" Click="helpsMain_Click" />
-                    <Button Grid.Column="3" Style="{DynamicResource helpButton}" Tag="/resources/images/icon/subject_rb.png" Uid="/resources/images/icon/subject_r.png" Content="Konular" Click="helpsMain_Click" />
-                    <Button Grid.Column="4" Style="{DynamicResource helpButton}" Tag="/resources/images/icon/notes_rb.png" Uid="/resources/images/icon/notes_r.png" Content="Notlar" Click="helpsMain_Click" />
-                    <Button Grid.Column="5" Style="{DynamicResource helpButton}" Tag="/resources/images/icon/remider_rb.png" Uid="/resources/images/icon/remider_r.png" Content="Hatırlatıcılar" Click="helpsMain_Click" />
+                    <Button Grid.Column="1" Style="{DynamicResource helpButton}" Tag="/resources/images/icon/verse_rb.png" Uid="/resources/images/icon/verse_r.png" Content="Ayeteler" Click="helpsMain_Click" />
+                    <Button Grid.Column="2" Style="{DynamicResource helpButton}" Tag="/resources/images/icon/subject_rb.png" Uid="/resources/images/icon/subject_r.png" Content="Konular" Click="helpsMain_Click" />
+                    <Button Grid.Column="3" Style="{DynamicResource helpButton}" Tag="/resources/images/icon/notes_rb.png" Uid="/resources/images/icon/notes_r.png" Content="Notlar" Click="helpsMain_Click" />
+                    <Button Grid.Column="4" Style="{DynamicResource helpButton}" Tag="/resources/images/icon/remider_rb.png" Uid="/resources/images/icon/remider_r.png" Content="Hatırlatıcılar" Click="helpsMain_Click" />
                 </Grid>
                 <StackPanel Grid.Row="1" VerticalAlignment="Top">
                     <Separator Background="#E1E3E6" Height="2" Margin="0,4,0,4" />
@@ -58,18 +57,19 @@
                 </StackPanel>
             </ScrollViewer>
 
-            <Grid Grid.Column="1">
+            <Grid Grid.Column="1" >
 
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
-                    <RowDefinition Height="130" />
                 </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
 
-                <Image x:Name="helpImage" Stretch="UniformToFill" Margin="10" Style="{DynamicResource helpImage}" />
+                <Border Padding="20" Grid.Column="0" Grid.Row="0">
+                    <Image x:Name="helpImage" Margin="10" Style="{DynamicResource helpImage}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                </Border>
 
-                <ScrollViewer Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-                    <TextBlock x:Name="helpsDesc" Text="" Style="{DynamicResource helpDescText}" />
-                </ScrollViewer>
             </Grid>
         </Grid>
     </Grid>

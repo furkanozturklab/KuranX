@@ -1,20 +1,8 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using KuranX.App.Core.Classes;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 using System.IO;
 using KuranX.App.Core.Pages.AdminF;
 
@@ -125,6 +113,11 @@ namespace KuranX.App.Core.Windows
         private void btnWmpEdit_Click(object sender, RoutedEventArgs e)
         {
             adminFrame.Content = new dataTransferPage().PageCall();
+        }
+
+        private void export_Click(object sender, RoutedEventArgs e)
+        {
+            adminFrame.Content = new exportDataPage();
         }
     }
 }

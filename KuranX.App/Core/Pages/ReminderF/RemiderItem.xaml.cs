@@ -1,23 +1,20 @@
 ﻿using KuranX.App.Core.Classes;
+using KuranX.App.Core.Classes.Helpers;
 using KuranX.App.Core.Classes.Tools;
 using System;
-using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
-using System.Runtime.ConstrainedExecution;
-using System.Text;
+
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
+
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
+
 using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Windows.Threading;
+
 
 namespace KuranX.App.Core.Pages.ReminderF
 {
@@ -29,6 +26,7 @@ namespace KuranX.App.Core.Pages.ReminderF
         private int cV, cS, remiderId;
         private bool tempCheck = false;
         private Task remiderItem;
+        private DraggablePopupHelper drag;
 
         public RemiderItem()
         {
@@ -95,12 +93,12 @@ namespace KuranX.App.Core.Pages.ReminderF
                         cV = dRemider.connectVerseId;
                         cS = dRemider.connectSureId;
 
-                        if (dRemider.loopType == "False") App.mainScreen.navigationWriter("remider", "Tarih Bazlı Hatırlartıcı");
+                        if (dRemider.loopType == "Default") App.mainScreen.navigationWriter("remider", "Tarih Bazlı Hatırlartıcı");
                         else App.mainScreen.navigationWriter("remider", $"{dRemider.loopType} Bazlı Hatırlartıcı");
 
                         switch (dRemider.loopType)
                         {
-                            case "False":
+                            case "Default":
                                 this.Dispatcher.Invoke(() =>
                                 {
                                     remiderType.Background = new BrushConverter().ConvertFrom("#ffc107") as SolidColorBrush;
@@ -151,7 +149,7 @@ namespace KuranX.App.Core.Pages.ReminderF
                         {
                             header.Text = dRemider.remiderName;
                             remiderDetail.Text = dRemider.remiderDetail;
-                            create.Text = dRemider.create.ToString("d") + " tarihinde oluşturulmuş.";
+                            create.Text = dRemider.create.ToString("d",new CultureInfo("tr-TR")) + " tarihinde oluşturulmuş.";
                         });
                     }
 
@@ -197,6 +195,7 @@ namespace KuranX.App.Core.Pages.ReminderF
             try
             {
                 Tools.errWrite($"[{DateTime.Now} deleteButton_Click ] -> RemiderItem");
+                PopupHelpers.load_drag(popup_DeleteConfirm);
                 popup_DeleteConfirm.IsOpen = true;
             }
             catch (Exception ex)
@@ -215,7 +214,7 @@ namespace KuranX.App.Core.Pages.ReminderF
                 controlBar.Visibility = Visibility.Hidden;
                 remiderDetail.Visibility = Visibility.Hidden;
 
-            
+
                 App.secondFrame.Content = App.navVerseStickPage.PageCall(cS, cV, "", 0, "Remider");
                 App.secondFrame.Visibility = Visibility.Visible;
             }
@@ -249,6 +248,7 @@ namespace KuranX.App.Core.Pages.ReminderF
                     entitydb.Remider.RemoveRange(entitydb.Remider.Where(p => p.remiderId == remiderId));
                     entitydb.Tasks.RemoveRange(entitydb.Tasks.Where(p => p.missonsId == remiderId));
                     entitydb.SaveChanges();
+                    PopupHelpers.dispose_drag(popup_DeleteConfirm);
                     popup_DeleteConfirm.IsOpen = false;
                     App.mainScreen.succsessFunc("İşlem Başarılı", "Hatırlatıcı başaralı bir sekilde silinmiştir. Bir önceki sayfaya yönlendiriliyorsunuz bekleyin...", int.Parse(App.config.AppSettings.Settings["app_warningShowTime"].Value));
                     App.mainframe.Content = App.navRemiderPage.PageCall();
@@ -268,9 +268,8 @@ namespace KuranX.App.Core.Pages.ReminderF
                 Tools.errWrite($"[{DateTime.Now} popupClosed_Click ] -> RemiderItem");
 
                 var btntemp = sender as Button;
-                var popuptemp = (Popup)FindName(btntemp.Uid);
-
-                popuptemp.IsOpen = false;
+                Popup popuptemp = (Popup)FindName(btntemp!.Uid);
+                PopupHelpers.popupClosed(popuptemp);
             }
             catch (Exception ex)
             {

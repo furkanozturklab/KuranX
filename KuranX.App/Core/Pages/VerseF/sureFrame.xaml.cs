@@ -1,23 +1,21 @@
 ﻿using KuranX.App.Core.Classes;
+using KuranX.App.Core.Classes.Helpers;
 using KuranX.App.Core.Classes.Tools;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
+
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using System.Windows.Data;
-using System.Windows.Documents;
+
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+
 
 namespace KuranX.App.Core.Pages.VerseF
 {
@@ -32,6 +30,7 @@ namespace KuranX.App.Core.Pages.VerseF
         private string readType = "All";
         private Decimal totalcount = 0;
         private Task sureframetask, sureprocess;
+        private DraggablePopupHelper drag;
         public sureFrame()
         {
             try
@@ -56,7 +55,7 @@ namespace KuranX.App.Core.Pages.VerseF
                 Tools.errWrite($"[{DateTime.Now} Page_Loaded ] -> sureFrame");
                 loadContent.Visibility = Visibility.Visible;
                 //App.loadTask = Task.Run(() => loadItem());
-            
+
             }
             catch (Exception ex)
             {
@@ -78,7 +77,7 @@ namespace KuranX.App.Core.Pages.VerseF
                 sureframetask = Task.Run(() => loadItem());
 
                 Debug.WriteLine("working");
-        
+
                 App.lastlocation = "sureFrame";
 
                 return this;
@@ -503,6 +502,7 @@ namespace KuranX.App.Core.Pages.VerseF
                 popupRelativeId.Text = "1";
                 fastopenVerseError.Text = "Gitmek İstenilen Ayet Sırasını Giriniz";
                 fastopenVerseInfo.Text = $"{btn.Content} Süresinin {btn.Uid} Adet Ayeti Mevcut";
+                PopupHelpers.load_drag(popup_fastopenVerse);
                 popup_fastopenVerse.IsOpen = true;
 
 
@@ -522,7 +522,7 @@ namespace KuranX.App.Core.Pages.VerseF
 
                 var btn = sender as Button;
 
-      
+
                 App.mainframe.Content = App.navSectionPage.PageCall(int.Parse((string)btn.Tag));
 
             }
@@ -546,7 +546,7 @@ namespace KuranX.App.Core.Pages.VerseF
                 loadContent.Visibility = Visibility.Hidden;
                 App.beforeFrameName = "Sure";
 
-      
+
                 App.mainframe.Content = App.navVersePage.PageCall(int.Parse((string)btn.Tag), 1, "Sure");
             }
             catch (Exception ex)
@@ -607,7 +607,7 @@ namespace KuranX.App.Core.Pages.VerseF
                 loadContent.Visibility = Visibility.Hidden;
                 App.beforeFrameName = "Sure";
 
-           
+
                 App.mainframe.Content = App.navVersePage.PageCall(int.Parse(popupSureId.Text), int.Parse(popupRelativeId.Text), "Verse");
             }
             catch (Exception ex)
@@ -623,9 +623,8 @@ namespace KuranX.App.Core.Pages.VerseF
                 Tools.errWrite($"[{DateTime.Now} popupClosed_Click ] -> sureFrame");
 
                 var btntemp = sender as Button;
-                var popuptemp = (Popup)FindName(btntemp.Uid);
-
-                popuptemp.IsOpen = false;
+                Popup popuptemp = (Popup)FindName(btntemp!.Uid);
+                PopupHelpers.popupClosed(popuptemp);
             }
             catch (Exception ex)
             {
@@ -650,7 +649,7 @@ namespace KuranX.App.Core.Pages.VerseF
                     {
                         App.beforeFrameName = "Sure";
 
-               
+
                         App.mainframe.Content = App.navVersePage.PageCall((int)selectedS.sureId, (int)selectedS.userLastRelativeVerse, "Verse");
                     }
                     else
@@ -681,7 +680,7 @@ namespace KuranX.App.Core.Pages.VerseF
                     {
                         App.beforeFrameName = "Sure";
 
-                    
+
                         App.mainframe.Content = App.navSectionPage.PageCall(selectedS.SureId, selectedS.SectionNumber);
                     }
                     else

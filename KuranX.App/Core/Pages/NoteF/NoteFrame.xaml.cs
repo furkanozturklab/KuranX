@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -31,13 +32,14 @@ namespace KuranX.App.Core.Pages.NoteF
         public string? Fr { get; set; }
     }
 
-    public partial class NoteFrame : Page
+    public partial class NoteFrame : Page, Movebar
     {
         private string searchText = "", filterText = "";
         private int lastPage = 0, NowPage = 1, selectedId;
         private bool filter;
         private List<Notes> dNotes = new List<Notes>();
         private Task noteframetask, noteprocess;
+        private string pp_selected;
         public DraggablePopupHelper drag;
 
         public NoteFrame()
@@ -51,6 +53,7 @@ namespace KuranX.App.Core.Pages.NoteF
                 Tools.logWriter("InitializeComponent", ex);
             }
         }
+
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
@@ -207,7 +210,7 @@ namespace KuranX.App.Core.Pages.NoteF
                             sName.Text = item.noteHeader;
 
                             var sCreated = (TextBlock)FindName("ntCreate" + i);
-                            sCreated.Text = item.created.ToString("D");
+                            sCreated.Text = item.created.ToString("D", new CultureInfo("tr-TR"));
 
                             var sBtnGo = (Button)FindName("ntBtnGo" + i);
                             sBtnGo.Uid = item.notesId.ToString();
@@ -351,10 +354,12 @@ namespace KuranX.App.Core.Pages.NoteF
 
                 if (hoverPopup.IsOpen)
                 {
+                    PopupHelpers.dispose_drag(hoverPopup);
                     hoverPopup.IsOpen = false;
                 }
                 else
                 {
+                    PopupHelpers.load_drag(hoverPopup);
                     hoverPopup.IsOpen = true;
                 }
             }
@@ -371,7 +376,9 @@ namespace KuranX.App.Core.Pages.NoteF
                 Tools.errWrite($"[{DateTime.Now} addNewNote_Click] -> NoteFrame");
 
 
-                drag = new DraggablePopupHelper(popup_noteAddPopupBorder, popup_noteAddPopup);
+               
+
+                PopupHelpers.load_drag(popup_noteAddPopup);
                 popup_noteAddPopup.IsOpen = true;
                 noteType.Text = "Kullanıcı Notu";
 
@@ -409,6 +416,7 @@ namespace KuranX.App.Core.Pages.NoteF
                     stackBorder.Visibility = Visibility.Visible;
                 }
 
+                PopupHelpers.dispose_drag(hoverPopup);
                 hoverPopup.IsOpen = false;
             }
             catch (Exception ex)
@@ -479,6 +487,7 @@ namespace KuranX.App.Core.Pages.NoteF
                                     noteName.Text = "";
                                     noteDetail.Text = "";
                                 }
+                                PopupHelpers.dispose_drag(popup_noteAddPopup);
                                 popup_noteAddPopup.IsOpen = false;
                             }
                         }
@@ -539,8 +548,8 @@ namespace KuranX.App.Core.Pages.NoteF
                 Tools.errWrite($"[{DateTime.Now} popupClosed_Click] -> NoteFrame");
 
                 var btntemp = sender as Button;
-                Popup popuptemp = (Popup)FindName(btntemp.Uid);
-                PopupHelpers.popupClosed(drag, popuptemp, pp_moveBar);
+                Popup popuptemp = (Popup)FindName(btntemp!.Uid);
+                PopupHelpers.popupClosed(popuptemp, pp_moveBar);
 
             }
             catch (Exception ex)
@@ -574,6 +583,7 @@ namespace KuranX.App.Core.Pages.NoteF
                 Tools.errWrite($"[{DateTime.Now} deleteNotes_Click] -> NoteFrame");
 
                 var btn = sender as Button;
+                PopupHelpers.load_drag(popup_deleteNote);
                 popup_deleteNote.IsOpen = true;
                 selectedId = int.Parse(btn.Uid);
 
@@ -597,6 +607,8 @@ namespace KuranX.App.Core.Pages.NoteF
 
                     entitydb.SaveChanges();
 
+
+                    PopupHelpers.dispose_drag(popup_deleteNote);
                     popup_deleteNote.IsOpen = false;
                     noteprocess = Task.Run(loadItem);
 
@@ -701,6 +713,8 @@ namespace KuranX.App.Core.Pages.NoteF
             }
         }
 
+       
+
         public void loadAniComplated()
         {
             try
@@ -736,66 +750,29 @@ namespace KuranX.App.Core.Pages.NoteF
 
             Tools.errWrite($"[{DateTime.Now} popuverMove_Click] -> NoteFrame");
             var btn = sender as Button;
-            ppMoveConfing((string)btn.Uid);
-            moveControlName.Text = (string)btn.Content;
+            pp_selected = (string)btn.Uid;
+            moveBarController.HeaderText = btn.Content.ToString()!;
+           
             pp_moveBar.IsOpen = true;
+
         }
 
-        public void ppMoveActionOfset_Click(object sender, RoutedEventArgs e)
+
+
+        public Popup getPopupMove()
+        {
+            return pp_moveBar;
+        }
+
+        public Popup getPopupBase()
         {
 
-            Tools.errWrite($"[{DateTime.Now} ppMoveActionOfset_Click] -> NoteFrame");
-
-            var btntemp = sender as Button;
-            var movePP = (Popup)FindName((string)btntemp.Content);
-
-            switch (btntemp.Uid.ToString())
-            {
-                case "Left":
-                    movePP.HorizontalOffset -= 50;
-                    break;
-
-                case "Top":
-                    movePP.VerticalOffset -= 50;
-                    break;
-
-                case "Bottom":
-                    movePP.VerticalOffset += 50;
-                    break;
-
-                case "Right":
-                    movePP.HorizontalOffset += 50;
-                    break;
-
-                case "UpLeft":
-                    movePP.Placement = PlacementMode.Absolute;
-                    movePP.VerticalOffset = 0;
-                    movePP.HorizontalOffset = 0;
-                    break;
-
-                case "Reset":
-                    movePP.Placement = PlacementMode.Center;
-                    movePP.VerticalOffset = 0;
-                    movePP.HorizontalOffset = 0;
-                    break;
-
-                case "Close":
-                    pp_moveBar.IsOpen = false;
-                    break;
-            }
+            return (Popup)FindName(pp_selected);
         }
 
-        public void ppMoveConfing(string ppmove)
-        {
 
-            Tools.errWrite($"[{DateTime.Now} ppMoveConfing] -> NoteFrame");
+      
 
 
-            for (int i = 1; i < 8; i++)
-            {
-                var btn = FindName("pp_M" + i) as Button;
-                btn.Content = ppmove;
-            }
-        }
     }
 }
